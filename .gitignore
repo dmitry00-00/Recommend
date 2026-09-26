@@ -1,0 +1,21 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.env.local
+.cache/
+deploy/bothost/
+deploy/preview/
+seeds/
+
+# профили Chrome от проверок через CDP: куки, история, сессии — наружу нельзя
+prof-*/
+# локальное состояние wrangler (D1, R2 в разработке)
+.wrangler/
+# питон для сборки таблицы разметки
+.venv/
+__pycache__/
+# архивы в deploy/ — не исходники: _src.tgz несёт .env.local со всеми ключами,
+# _tgcache.tgz — state.json и peers.json Telegram, tm-bothost.zip — собранная выкладка
+deploy/*.tgz
+deploy/*.zip

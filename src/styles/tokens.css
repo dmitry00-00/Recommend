@@ -1,0 +1,152 @@
+/* Сгенерировано из project/tokens.json дизайн-системы. Руками не править:
+   поменялся токен — перегенерируйте этот файл. */
+@font-face { font-family: 'Oswald'; src: url('../fonts/Oswald-var.woff2') format('woff2'); font-weight: 400 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../fonts/IBMPlexSans-var.woff2') format('woff2'); font-weight: 400 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../fonts/IBMPlexSans-Italic-var.woff2') format('woff2'); font-weight: 400 500; font-style: italic; font-display: swap; }
+:root, [data-theme="dark"] {
+  --tm-color-surface-100: #141416;
+  --tm-color-surface-card: #1e1f22;
+  --tm-color-surface-200: #26282c;
+  --tm-color-surface-contrast: #f3f0e9;
+  --tm-color-on-contrast: #141416;
+  --tm-color-ink: #f3f0e9;
+  --tm-color-ink-muted: #b6b3ab;
+  --tm-color-ink-faint: #97958e;
+  --tm-color-line: #34363b;
+  --tm-color-line-strong: #6e7178;
+  --tm-color-accent: #e4a13c;
+  --tm-color-on-accent: #141416;
+  --tm-color-accent-ink: #e4a13c;
+  --tm-color-accent-wash: #3a2a12;
+  --tm-color-mark: #7faecb;
+  --tm-color-mark-wash: #17262e;
+  --tm-color-focus: #f3f0e9;
+  --tm-color-signal-ok: #46a98a;
+  --tm-color-signal-ok-wash: #10241f;
+  --tm-color-signal-wait: #9aa0a8;
+  --tm-color-signal-wait-wash: #24262a;
+  --tm-color-signal-stop: #d9705a;
+  --tm-color-signal-stop-wash: #2e1713;
+  --tm-op-pattern_recognition: #866610;
+  --tm-op-pattern_recognition-ink: #a98430;
+  --tm-op-pattern_recognition-wash: #2e2000;
+  --tm-op-causal_reasoning: #a75237;
+  --tm-op-causal_reasoning-ink: #c5735a;
+  --tm-op-causal_reasoning-wash: #39180e;
+  --tm-op-perspective_taking: #137778;
+  --tm-op-perspective_taking-ink: #1c9b9c;
+  --tm-op-perspective_taking-wash: #00292a;
+  --tm-op-analogical_thinking: #8b569b;
+  --tm-op-analogical_thinking-ink: #a977b8;
+  --tm-op-analogical_thinking-wash: #2e1a34;
+  --tm-op-synthesis: #6063b1;
+  --tm-op-synthesis-ink: #7e83cc;
+  --tm-op-synthesis-wash: #1e1f3d;
+  --tm-op-abstraction: #1f7a42;
+  --tm-op-abstraction-ink: #4f9b66;
+  --tm-op-abstraction-wash: #092a15;
+  --tm-op-metacognition: #a34e72;
+  --tm-op-metacognition-ink: #c16f90;
+  --tm-op-metacognition-wash: #371624;
+  --tm-op-critical_analysis: #1a6fa9;
+  --tm-op-critical_analysis-ink: #4a90c8;
+  --tm-op-critical_analysis-wash: #07253b;
+}
+[data-theme="light"] {
+  --tm-color-surface-100: #eceae4;
+  --tm-color-surface-card: #ffffff;
+  --tm-color-surface-200: #d8d4cb;
+  --tm-color-surface-contrast: #141416;
+  --tm-color-on-contrast: #f3f0e9;
+  --tm-color-ink: #141416;
+  --tm-color-ink-muted: #4a4842;
+  --tm-color-ink-faint: #5f5c55;
+  --tm-color-line: #d8d4cb;
+  --tm-color-line-strong: #75706a;
+  --tm-color-accent: #9a6a12;
+  --tm-color-on-accent: #fff9ef;
+  --tm-color-accent-ink: #734e07;
+  --tm-color-accent-wash: #f5e8cd;
+  --tm-color-mark: #2e5f7a;
+  --tm-color-mark-wash: #e2edf3;
+  --tm-color-focus: #141416;
+  --tm-color-signal-ok: #175c46;
+  --tm-color-signal-ok-wash: #dff0e9;
+  --tm-color-signal-wait: #4f545b;
+  --tm-color-signal-wait-wash: #e2e4e8;
+  --tm-color-signal-stop: #963625;
+  --tm-color-signal-stop-wash: #f8e3de;
+  --tm-op-pattern_recognition: #a77f17;
+  --tm-op-pattern_recognition-ink: #856410;
+  --tm-op-pattern_recognition-wash: #faebcd;
+  --tm-op-causal_reasoning: #cf6747;
+  --tm-op-causal_reasoning-ink: #a65036;
+  --tm-op-causal_reasoning-wash: #fae8e3;
+  --tm-op-perspective_taking: #1a9495;
+  --tm-op-perspective_taking-ink: #127576;
+  --tm-op-perspective_taking-wash: #cbf7f7;
+  --tm-op-analogical_thinking: #ac6cc0;
+  --tm-op-analogical_thinking-ink: #89549a;
+  --tm-op-analogical_thinking-wash: #f6e7fa;
+  --tm-op-synthesis: #797cda;
+  --tm-op-synthesis-ink: #5f61af;
+  --tm-op-synthesis-wash: #eaecfa;
+  --tm-op-abstraction: #2a9754;
+  --tm-op-abstraction-ink: #1e7841;
+  --tm-op-abstraction-wash: #d8f6de;
+  --tm-op-metacognition: #cb638f;
+  --tm-op-metacognition-ink: #a24d71;
+  --tm-op-metacognition-wash: #fae7ed;
+  --tm-op-critical_analysis: #268bd3;
+  --tm-op-critical_analysis-ink: #186da8;
+  --tm-op-critical_analysis-wash: #e2effa;
+}
+:root {
+  --tm-space-0: 2px;
+  --tm-space-1: 4px;
+  --tm-space-2: 8px;
+  --tm-space-3: 12px;
+  --tm-space-4: 16px;
+  --tm-space-5: 20px;
+  --tm-space-6: 24px;
+  --tm-space-7: 32px;
+  --tm-space-8: 40px;
+  --tm-space-9: 48px;
+  --tm-space-10: 64px;
+  --tm-space-11: 96px;
+  --tm-radius-mark: 0;
+  --tm-radius-control: 0;
+  --tm-radius-card: 0;
+  --tm-radius-surface: 0;
+  --tm-radius-full: 999px;
+  --tm-motion-quick: 120ms;
+  --tm-motion-base: 200ms;
+  --tm-motion-slow: 340ms;
+  --tm-motion-reveal: 1400ms;
+  --tm-motion-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --tm-motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --tm-motion-cut: steps(1, end);
+  --font-display: "Oswald", "Arial Narrow", system-ui, sans-serif;
+  --font-text: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+}
+.tm-display { font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.01em; }
+.tm-title-1 { font-family: var(--font-display); font-size: 30px; line-height: 34px; font-weight: 700; }
+.tm-title-2 { font-family: var(--font-display); font-size: 23px; line-height: 28px; font-weight: 600; }
+.tm-title-3 { font-family: var(--font-display); font-size: 18px; line-height: 23px; font-weight: 600; }
+.tm-work-hero { font-family: var(--font-display); font-size: 34px; line-height: 38px; font-weight: 700; }
+.tm-work-lg { font-family: var(--font-display); font-size: 26px; line-height: 30px; font-weight: 700; }
+.tm-work-md { font-family: var(--font-display); font-size: 20px; line-height: 24px; font-weight: 600; }
+.tm-work-sm { font-family: var(--font-display); font-size: 16px; line-height: 20px; font-weight: 600; }
+.tm-work-original { font-family: var(--font-text); font-size: 14px; line-height: 20px; font-weight: 400; font-style: italic; }
+.tm-label { font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; }
+.tm-micro { font-family: var(--font-display); font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.1em; }
+.tm-nav { font-family: var(--font-display); font-size: 14px; line-height: 18px; font-weight: 600; letter-spacing: 0.02em; }
+.tm-button { font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: 0.01em; }
+.tm-prose-lg { font-family: var(--font-text); font-size: 17px; line-height: 27px; font-weight: 400; }
+.tm-prose { font-family: var(--font-text); font-size: 16px; line-height: 25px; font-weight: 400; }
+.tm-prose-sm { font-family: var(--font-text); font-size: 14px; line-height: 21px; font-weight: 400; }
+.tm-body { font-family: var(--font-text); font-size: 15px; line-height: 22px; font-weight: 400; }
+.tm-body-sm { font-family: var(--font-text); font-size: 13px; line-height: 19px; font-weight: 400; }
+.tm-body-xs { font-family: var(--font-text); font-size: 12px; line-height: 17px; font-weight: 400; }
+.tm-caption { font-family: var(--font-text); font-size: 12px; line-height: 16px; font-weight: 400; }
+.tm-data { font-family: var(--font-text); font-size: 13px; line-height: 18px; font-weight: 500; }

@@ -1,0 +1,588 @@
+/* Раскладка приложения поверх стилей системы. В components.css .tm-shell--mobile —
+   превью-рамка дизайн-системы (420px, рамка, min-height 440px); в живом приложении
+   оболочка занимает весь экран. Правки здесь, а не в components.css: тот копируется
+   из bundle.css и будет перезаписан. */
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font-family: var(--font-text); }
+
+/* Оболочка в высоту экрана; листается экран, а не документ — так нижняя навигация
+   всегда на месте, а в Telegram свайп по ленте не сворачивает окно. Ширина — телефонная
+   (420px системы): на широком экране рамка стоит по центру, на телефоне занимает всё.
+   Без бордюра и с тонкой прозрачной полосой прокрутки — иначе по краям полосы (21.09). */
+.tm-shell--app { height: 100%; min-height: 0; width: 100%; margin: 0 auto; border: 0; }
+.tm-shell--app .tm-shell__main { overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--tm-color-line-strong) transparent; }
+.tm-shell--app .tm-shell__main::-webkit-scrollbar { width: 6px; }
+.tm-shell--app .tm-shell__main::-webkit-scrollbar-track { background: transparent; }
+.tm-shell--app .tm-shell__main::-webkit-scrollbar-thumb { background: var(--tm-color-line-strong); border-radius: var(--tm-radius-full); }
+.tm-shell--app .tm-nav--mobile { flex: none; }
+
+/* Telegram: рамки нет, высота — стабильная высота вьюпорта мессенджера, зоны — из
+   событий (см. lib/telegram.ts); без них остаётся env() из components.css. */
+/* Высота — по самому окну WebView, а не по viewportStableHeight: на Android Telegram отдаёт
+   её до раскрытия окна (≈100 px), и приложение сжималось в полоску над нижним меню (23.09). */
+/* …и не по процентам: во WebView Android высота html/body бывает нулевой, пока окно
+   раскрывается, и оболочка сжималась до одной навигации (23.09). Фиксированная оболочка во
+   весь экран от этого не зависит. */
+.tm-shell--telegram { position: fixed; inset: 0; max-width: none; height: auto; }
+.tm-shell--telegram .tm-shell__main { padding-top: calc(var(--tm-space-4) + var(--tm-safe-top)); }
+
+/* Ссылка, которая выглядит как текст вокруг: заголовок кадра ведёт на страницу произведения. */
+.tm-link--plain { color: inherit; text-decoration: none; }
+.tm-link--plain:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+.tm-link--plain:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+
+/* Экран «Произведение»: раскладка разделов. Типографика — только классы системы
+   (tm-title-3, tm-label, tm-work-sm, tm-body-sm, tm-caption), здесь одни отступы. */
+.tm-work__tags { margin-top: var(--tm-space-3); }
+.tm-work__actions { margin-top: var(--tm-space-4); }
+.tm-work__sections { display: flex; flex-direction: column; gap: var(--tm-space-7); margin-top: var(--tm-space-7); }
+.tm-work__section > .tm-title-3 { margin: 0 0 var(--tm-space-3); }
+.tm-work__does { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--tm-space-4); }
+.tm-work__does li { display: flex; flex-direction: column; align-items: flex-start; gap: var(--tm-space-2); }
+.tm-work__does p { margin: 0; color: var(--tm-color-ink-muted); max-width: 62ch; }
+.tm-work__list { list-style: none; margin: 0; padding: 0; }
+.tm-work__list li { padding: var(--tm-space-3) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-work__rel { display: flex; gap: var(--tm-space-3); align-items: flex-start; }
+.tm-work__relbody { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tm-work__rellabel { color: var(--tm-color-ink-faint); text-transform: uppercase; }
+.tm-work__note { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
+.tm-work__credit { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-work__finished { margin: 0 0 var(--tm-space-4); color: var(--tm-color-signal-ok); }
+
+/* Экран «Карта»: одни отступы, типографика — классы системы. */
+.tm-mapscreen__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tm-space-3); flex-wrap: wrap; margin-bottom: var(--tm-space-4); }
+.tm-mapscreen__rough { margin: 0 0 var(--tm-space-4); color: var(--tm-color-ink-muted); max-width: 56ch; }
+.tm-mapscreen__field { display: flex; justify-content: center; }
+.tm-mapscreen__sections { display: flex; flex-direction: column; gap: var(--tm-space-7); margin-top: var(--tm-space-6); }
+.tm-mapscreen__section > .tm-title-3 { margin: 0 0 var(--tm-space-3); }
+.tm-mapscreen__hint { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-opdetail { padding: var(--tm-space-4); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-card); background: var(--tm-color-surface-card); display: flex; flex-direction: column; gap: var(--tm-space-3); }
+.tm-opdetail__line { margin: 0; color: var(--tm-color-ink-muted); }
+.tm-opdetail__facts { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-targets { list-style: none; margin: 0; padding: 0; }
+.tm-targets li { display: flex; justify-content: space-between; align-items: center; gap: var(--tm-space-3); flex-wrap: wrap; padding: var(--tm-space-3) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-targets__label { color: var(--tm-color-ink-faint); }
+.tm-mapscreen__history .tm-scrub { margin-top: 0; }
+.tm-mapscreen__history .tm-change { margin-top: var(--tm-space-4); }
+
+/* Ценностный заряд приёма (вторая ось к типу использования). В дизайн-системе этого знака
+   ещё нет — при появлении перенести в систему и убрать отсюда. Четвёртая позиция —
+   «негатив под маской позитива» — рисуется двойной рамкой цвета метки: не путать с
+   «обманом ожидания», который сыгран открыто. */
+.tm-trope__charge { color: var(--tm-color-ink-faint); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-mark); padding: 1px var(--tm-space-2);
+  font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.tm-trope__charge--contradictory { border-style: dashed; color: var(--tm-color-ink-muted); }
+.tm-trope__charge--negation_of_negation { color: var(--tm-color-mark); border: 3px double var(--tm-color-mark); padding-top: 0; padding-bottom: 0; }
+
+/* Желания персонажей на экране произведения */
+.tm-desires { list-style: none; margin: 0; padding: 0; }
+.tm-desires li { padding: var(--tm-space-3) 0; border-top: 1px solid var(--tm-color-line); display: grid; grid-template-columns: auto 1fr; gap: var(--tm-space-1) var(--tm-space-3); align-items: baseline; }
+.tm-desires__who { grid-column: 1 / -1; margin: 0; }
+.tm-desires__k { color: var(--tm-color-ink-faint); white-space: nowrap; }
+.tm-desires__v { margin: 0; color: var(--tm-color-ink-muted); }
+.tm-desires__v--suppressed { color: var(--tm-color-ink); }
+.tm-desires__vis { color: var(--tm-color-ink-faint); }
+.tm-desires__model { margin: 0; color: var(--tm-color-ink-muted); max-width: 56ch; }
+
+/* Экраны «Маршруты»: список компактных карточек-ссылок и действия под маршрутом. */
+.tm-trajlist { display: flex; flex-direction: column; gap: var(--tm-space-3); }
+.tm-trajlist__item { display: block; }
+.tm-trajlist__item:hover .tm-traj--compact { border-color: var(--tm-color-line-strong); }
+.tm-trajscreen__actions { margin-top: var(--tm-space-5); display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-trajscreen__build { margin-top: var(--tm-space-6); }
+.tm-trajscreen__cur { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); align-items: center; }
+.tm-trajscreen__curlabel { color: var(--tm-color-ink-faint); }
+
+/* Экраны дневника: список записей и хвост чек-ина (следующий кадр, переходы). */
+.tm-journal__list .tm-entry:last-child { border-bottom: 0; }
+.tm-journal__sections { display: flex; flex-direction: column; gap: var(--tm-space-6); margin-top: var(--tm-space-5); }
+.tm-journal__section > .tm-title-3 { margin: 0 0 var(--tm-space-3); }
+.tm-journal__qa { list-style: none; margin: 0; padding: 0; }
+.tm-journal__qa li { padding: var(--tm-space-3) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-journal__q { margin: 0 0 var(--tm-space-1); color: var(--tm-color-ink-faint); }
+.tm-journal__a { margin: 0; }
+.tm-journal__hint { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-checkinscreen__after { display: flex; flex-direction: column; gap: var(--tm-space-5); margin-top: var(--tm-space-6); }
+.tm-checkinscreen__after > .tm-title-3 { margin: 0 0 calc(-1 * var(--tm-space-3)); }
+
+/* Экраны входа: приветствие, выбор диагностики, задания, первая карта. Только отступы;
+   задания, прогресс и согласие — классы системы. */
+.tm-welcome__p { margin: 0 0 var(--tm-space-3); max-width: 60ch; }
+.tm-welcome__actions { margin: var(--tm-space-5) 0 var(--tm-space-7); }
+.tm-welcome__sample { margin-top: var(--tm-space-6); }
+.tm-welcome__caption { display: block; margin: 0 0 var(--tm-space-3); color: var(--tm-color-ink-faint); }
+.tm-welcome__covers { align-items: flex-start; }
+.tm-onboarding__lead { margin: 0 0 var(--tm-space-5); max-width: 60ch; color: var(--tm-color-ink-muted); }
+.tm-onboarding__modes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--tm-space-4); }
+.tm-onboarding__mode { padding: var(--tm-space-5); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-card); background: var(--tm-color-surface-card); }
+.tm-onboarding__modeTitle { margin: 0 0 var(--tm-space-2); }
+.tm-onboarding__modeText { margin: 0 0 var(--tm-space-4); max-width: 52ch; color: var(--tm-color-ink-muted); }
+.tm-assessment__lead { margin: 0 0 var(--tm-space-5); max-width: 60ch; color: var(--tm-color-ink-muted); }
+.tm-assessment__actions { margin-top: var(--tm-space-6); }
+.tm-assessment__map { margin-top: var(--tm-space-5); }
+.tm-firstmap__lead { margin: 0 0 var(--tm-space-5); max-width: 60ch; color: var(--tm-color-ink-muted); }
+.tm-firstmap__map { max-width: 420px; }
+.tm-firstmap__rough { margin: var(--tm-space-4) 0 0; max-width: 56ch; color: var(--tm-color-ink-muted); }
+.tm-firstmap__focus { margin-top: var(--tm-space-5); }
+.tm-firstmap__focus > .tm-label { display: block; margin-bottom: var(--tm-space-2); color: var(--tm-color-ink-faint); }
+.tm-firstmap__actions { margin-top: var(--tm-space-6); }
+
+/* Системное поверх экрана: подложка, диалог по центру, шторка снизу, тосты над навигацией.
+   Карточки диалога и шторки — классы системы; здесь только положение на экране. */
+.tm-overlay { position: fixed; inset: 0; z-index: 40; background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); }
+.tm-overlay__dialog { position: fixed; z-index: 41; left: 50%; top: 50%; transform: translate(-50%, -50%); width: calc(100% - 2 * var(--tm-space-5)); border-radius: var(--tm-radius-card); }
+.tm-overlay__sheet { position: fixed; z-index: 41; left: 0; right: 0; bottom: 0; width: 100%; margin: 0 auto; max-height: calc(100% - var(--tm-space-8)); overflow-y: auto; padding-bottom: calc(var(--tm-space-6) + var(--tm-safe-bottom)); border-radius: var(--tm-radius-card) var(--tm-radius-card) 0 0; }
+.tm-overlay__dialog:focus, .tm-overlay__sheet:focus, .tm-worksheet:focus { outline: none; }
+/* Карточка произведения: во всю высоту телефонной рамки, баннер сверху, тело листается. */
+.tm-worksheet { position: fixed; z-index: 41; inset: 0; width: 100%; max-width: var(--tm-frame, 420px); margin: 0 auto; display: flex; flex-direction: column; background: var(--tm-color-surface-100); color: var(--tm-color-ink); }
+.tm-worksheet__top { position: relative; flex: none; padding-top: var(--tm-safe-top); background: var(--tm-color-surface-200); }
+/* кадр карточки не выше 40% окна: в широком окне (Telegram Desktop во весь экран) 16:9 съедал
+   всю высоту, и статичной странице «Обзоры» не оставалось места */
+.tm-worksheet__top .tm-banner { min-height: min(200px, 34vh); max-height: 40vh; }
+.tm-worksheet__close { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); right: var(--tm-space-3); width: 36px; height: 36px; padding: 0; border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); font: inherit; font-size: 24px; line-height: 36px; text-align: center; cursor: pointer; }
+.tm-worksheet__close:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-worksheet__top .tm-banner__tag { right: calc(var(--tm-space-3) + 44px); top: calc(var(--tm-space-3) + 10px); }
+.tm-worksheet__body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--tm-color-line-strong) transparent; padding-bottom: calc(var(--tm-space-6) + var(--tm-safe-bottom)); }
+.tm-worksheet__body::-webkit-scrollbar { width: 6px; }
+.tm-worksheet__body::-webkit-scrollbar-thumb { background: var(--tm-color-line-strong); border-radius: var(--tm-radius-full); }
+.tm-worksheet__body .tm-stream__panel { border-bottom: 0; background: transparent; }
+.tm-worksheet__credit { margin: 0 var(--tm-space-5); color: var(--tm-color-ink-faint); }
+.tm-settings__sources li { display: block; padding: var(--tm-space-1) 0; border-top: 0; color: var(--tm-color-ink-muted); }
+.tm-settings__tmdb { margin-top: var(--tm-space-3); color: var(--tm-color-ink-faint); }
+.tm-toastview { position: relative; z-index: 50; height: 0; overflow: visible; margin: 0; padding: 0; list-style: none; }
+.tm-toastview > .tm-toast { position: absolute; left: var(--tm-space-4); right: var(--tm-space-4); bottom: var(--tm-space-3); width: fit-content; max-width: calc(100% - 2 * var(--tm-space-4)); margin: 0 auto; }
+.tm-toastview > .tm-toast + .tm-toast { bottom: calc(var(--tm-space-3) + 52px); }
+.tm-toast[data-swipe='move'] { transform: translateY(var(--radix-toast-swipe-move-y)); }
+.tm-toast[data-swipe='end'] { transform: translateY(100%); opacity: 0; transition: transform 160ms, opacity 160ms; }
+
+/* Экраны «Профиль и настройки» и «Вход»: разделы и переключатель. */
+.tm-settings__section { padding: var(--tm-space-5) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-settings__section:first-of-type { border-top: 0; padding-top: 0; }
+.tm-settings__h { display: block; margin: 0 0 var(--tm-space-3); }
+.tm-settings__note { display: block; margin: 0 0 var(--tm-space-3); max-width: 56ch; color: var(--tm-color-ink-muted); }
+.tm-settings__switch { display: flex; align-items: flex-start; gap: var(--tm-space-3); cursor: pointer; }
+.tm-settings__switch input { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--tm-color-accent); }
+.tm-settings__switch .tm-settings__h { margin-bottom: var(--tm-space-1); }
+.tm-settings__list { list-style: none; margin: 0; padding: 0; }
+.tm-settings__list li { display: flex; justify-content: space-between; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-2) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-login__lead { margin: 0 0 var(--tm-space-5); max-width: 56ch; }
+.tm-login__error { margin-bottom: var(--tm-space-5); }
+.tm-today__error { margin-top: var(--tm-space-5); }
+/* Кураторская: десктопная оболочка системы (боковая навигация 200px) во всю ширину до 1280px,
+   экран листается сам. Таблицы плотные, ширина колонок — как в системе. */
+.tm-shell--desktop { flex-direction: row; max-width: 1280px; height: 100%; }
+.tm-shell--desktop .tm-nav--desktop { display: flex; flex-direction: column; overflow-y: auto; }
+.tm-shell--desktop .tm-nav__brand { font-family: var(--font-display); font-weight: 700; }
+.tm-curator__toapp { margin-top: auto; }
+.tm-curator__body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tm-curator__body > .tm-shell__main { padding: var(--tm-space-6) var(--tm-space-7); }
+.tm-curator__lead { margin: 0 0 var(--tm-space-5); max-width: 70ch; color: var(--tm-color-ink-muted); }
+.tm-curator__filters { display: flex; gap: var(--tm-space-4); flex-wrap: wrap; margin-bottom: var(--tm-space-4); }
+.tm-curator__filter { display: flex; flex-direction: column; gap: var(--tm-space-1); color: var(--tm-color-ink-faint); }
+.tm-curator__filter .tm-input { min-width: 180px; }
+.tm-curator__stack { display: flex; flex-direction: column; gap: var(--tm-space-5); }
+.tm-curator__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--tm-space-5); align-items: start; }
+.tm-curator__back { display: inline-block; margin-bottom: var(--tm-space-3); color: var(--tm-color-ink-muted); text-decoration: none; font-family: var(--font-display); font-weight: 600; }
+.tm-curator__head { display: flex; align-items: baseline; gap: var(--tm-space-4); flex-wrap: wrap; margin-bottom: var(--tm-space-2); }
+.tm-curator__head .tm-shell__title { margin: 0; }
+.tm-curator__facts { display: flex; gap: var(--tm-space-5); flex-wrap: wrap; margin: 0 0 var(--tm-space-5); color: var(--tm-color-ink-muted); }
+.tm-curator__facts dt { color: var(--tm-color-ink-faint); }
+.tm-curator__facts dd { margin: 2px 0 0; color: var(--tm-color-ink); }
+.tm-curator__actions { margin-top: var(--tm-space-5); }
+.tm-table__open { padding: 0; border: 0; background: none; color: var(--tm-color-ink); text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--tm-color-line-strong); text-underline-offset: 3px; }
+.tm-table__open:hover { text-decoration-color: var(--tm-color-accent); }
+.tm-table__open:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-tree__empty { margin: var(--tm-space-4) 0 0; color: var(--tm-color-ink-faint); }
+.tm-curator__file { display: none; }
+.tm-ceiling__mark--alt { top: 8px; }
+.tm-ceiling__mark--alt .tm-ceiling__marklabel { bottom: auto; top: 0; }
+@media (max-width: 900px) { .tm-curator__grid { grid-template-columns: 1fr; } }
+/* Кабинет участника: ссылка назад, подводка, счётчик задания, действия внизу. */
+.tm-contribute__back { display: inline-block; margin-bottom: var(--tm-space-3); color: var(--tm-color-ink-muted); text-decoration: none; font-family: var(--font-display); font-weight: 600; }
+.tm-contribute__lead { margin: 0 0 var(--tm-space-5); max-width: 56ch; color: var(--tm-color-ink-muted); }
+.tm-contribute__count { margin: 0 0 var(--tm-space-2); color: var(--tm-color-ink-faint); }
+.tm-contribute__none { margin: var(--tm-space-3) 0 0; color: var(--tm-color-ink-faint); }
+.tm-contribute__summary { margin-top: var(--tm-space-7); padding-top: var(--tm-space-5); border-top: 1px solid var(--tm-color-line); display: flex; flex-direction: column; gap: var(--tm-space-3); align-items: flex-start; }
+.tm-contribute__actions { margin-top: var(--tm-space-5); }
+.tm-contribute .tm-tropecheck .tm-usage + .tm-usage { margin-top: var(--tm-space-1); }
+/* Лента «Сегодня» (21.09): баннеры встык во всю ширину, карточка в модальном окне, архив над
+   лентой — спрятан прокруткой на свою высоту и вытягивается вверх, как в Telegram.
+   Классы tm-stream*, потому что tm-feed* в системе — лента заданий участника (TaskFeed). */
+/* Прокрутка по блокам: каждый фильм — своя остановка, как кадр. `always` не даёт
+   пролистнуть мимо на быстром взмахе, иначе лента снова превращается в сплошной свиток.
+   Архив над лентой — тоже остановка: без этого обязательная привязка тянула бы обратно
+   к первому фильму и открыть архив прокруткой было бы нельзя. */
+.tm-shell--app .tm-stream { padding: 0; scroll-snap-type: y mandatory; }
+.tm-stream__archive { scroll-snap-align: start; }
+.tm-stream__item { scroll-snap-align: start; scroll-snap-stop: always; }
+/* На «уменьшить движение» привязку отпускаем: рывок к следующему кадру — тоже движение. */
+@media (prefers-reduced-motion: reduce) {
+  .tm-shell--app .tm-stream { scroll-snap-type: none; }
+}
+.tm-stream__archive { display: flex; align-items: center; gap: var(--tm-space-3); width: 100%; height: 56px; padding: 0 var(--tm-space-5); border: 0; border-bottom: 1px solid var(--tm-color-line); background: var(--tm-color-surface-200); color: var(--tm-color-ink-muted); font: inherit; text-align: left; cursor: pointer; }
+.tm-stream__archiveicon { flex: none; width: 18px; height: 14px; border: 1.5px solid currentColor; border-radius: 2px; box-shadow: inset 0 3px 0 -1.5px currentColor; }
+.tm-stream__archivetext { flex: 1; font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; color: var(--tm-color-ink); }
+.tm-stream__archivecount { font-weight: 400; color: var(--tm-color-ink-faint); }
+.tm-stream__archivechevron { color: var(--tm-color-ink-faint); font-size: 22px; line-height: 1; }
+.tm-stream__body { min-height: calc(100% + 56px); }
+.tm-stream__item + .tm-stream__item { border-top: 2px solid var(--tm-color-surface-100); }
+.tm-stream__item--current .tm-banner::before { background: var(--tm-color-accent); }
+.tm-stream__pad { margin: var(--tm-space-5); }
+.tm-stream__panel { padding: var(--tm-space-4) var(--tm-space-5) var(--tm-space-5); background: var(--tm-color-surface-100); border-bottom: 1px solid var(--tm-color-line); }
+.tm-stream__what { margin: 0 0 var(--tm-space-2); }
+.tm-stream__why { margin: 0 0 var(--tm-space-4); color: var(--tm-color-ink-muted); max-width: 60ch; }
+.tm-stream__blurb { margin: 0 0 var(--tm-space-4); max-width: 60ch; }
+.tm-stream__group { display: flex; flex-direction: column; gap: var(--tm-space-2); margin-top: var(--tm-space-4); }
+.tm-stream__grouplabel { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-stream__actions { margin-top: var(--tm-space-5); }
+/* Архив (дневник как лента) */
+.tm-shell--app .tm-archive { padding: 0; }
+.tm-archive__head { display: flex; align-items: baseline; gap: var(--tm-space-3); padding: var(--tm-space-4) var(--tm-space-5) var(--tm-space-3); }
+.tm-archive__back { color: var(--tm-color-ink-muted); text-decoration: none; font-family: var(--font-display); font-weight: 600; }
+.tm-archive__title { margin: 0; }
+.tm-archive__lead { margin: 0 var(--tm-space-5) var(--tm-space-3); color: var(--tm-color-ink-muted); }
+.tm-archive__item + .tm-archive__item { border-top: 2px solid var(--tm-color-surface-100); }
+
+/* Кадр в рамке WorkCover: изображение под названием, снизу — подложка из поверхности, чтобы
+   название и год читались. В дизайн-системе варианта с изображением нет — перенести туда. */
+.tm-cover__still { position: absolute; inset: 3px 0 0; width: 100%; height: calc(100% - 3px); object-fit: cover; opacity: 0.55; filter: saturate(0.7); pointer-events: none; }
+.tm-cover--lg .tm-cover__still { right: 12px; width: auto; }
+.tm-cover__title, .tm-cover__foot { position: relative; }
+.tm-cover:has(.tm-cover__still) .tm-cover__title { text-shadow: 0 1px 0 var(--tm-color-surface-200), 0 0 8px var(--tm-color-surface-200); }
+.tm-cover:has(.tm-cover__still) .tm-cover__foot { text-shadow: 0 1px 0 var(--tm-color-surface-200); }
+
+
+/* Разборы и места разговора прямо на кадре: без механики это главный «голос» карточки. */
+.tm-rec__voices { display: flex; flex-direction: column; gap: var(--tm-space-3); margin: var(--tm-space-4) 0 0; padding-top: var(--tm-space-3); border-top: 1px solid var(--tm-color-line); }
+.tm-rec__voice { display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-rec__voicelabel { color: var(--tm-color-ink-faint); }
+.tm-rec__ops:empty { display: none; }
+
+/* Баннер фильма во всю ширину (21.09). Текст всегда на затемнении; без картинки — кромка
+   цвета главной операции слева, как у рамки кадра. */
+.tm-banner { position: relative; display: block; width: 100%; padding: 0; margin: 0; border: 0; border-radius: 0; background: var(--tm-color-surface-200); color: var(--tm-color-ink); text-align: left; overflow: hidden; cursor: default; font: inherit; }
+button.tm-banner { cursor: pointer; }
+.tm-banner--md { aspect-ratio: 16 / 9; min-height: 168px; }
+.tm-banner--sm { aspect-ratio: 16 / 5; min-height: 96px; }
+.tm-banner::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--banner-line); z-index: 2; }
+.tm-banner--image::before { display: none; }
+.tm-banner__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tm-banner__scrim { position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in srgb, var(--tm-color-surface-100) 94%, transparent) 0%, color-mix(in srgb, var(--tm-color-surface-100) 55%, transparent) 45%, transparent 75%); }
+.tm-banner--sm .tm-banner__scrim { background: linear-gradient(to right, color-mix(in srgb, var(--tm-color-surface-100) 92%, transparent) 0%, color-mix(in srgb, var(--tm-color-surface-100) 50%, transparent) 60%, transparent 100%); }
+.tm-banner__text { position: absolute; left: var(--tm-space-5); right: var(--tm-space-5); bottom: var(--tm-space-4); display: flex; flex-direction: column; gap: 2px; text-shadow: 0 1px 2px var(--tm-color-surface-100); }
+.tm-banner--sm .tm-banner__text { bottom: auto; top: 50%; transform: translateY(-50%); }
+.tm-banner__title { font-family: var(--font-display); font-size: 24px; line-height: 28px; font-weight: 700; color: var(--tm-color-ink); }
+.tm-banner--sm .tm-banner__title { font-size: 18px; line-height: 22px; font-weight: 600; }
+.tm-banner__meta { font-family: var(--font-text); font-size: 13px; line-height: 18px; color: var(--tm-color-ink-muted); }
+.tm-banner__tag { position: absolute; right: var(--tm-space-4); top: var(--tm-space-3); font-family: var(--font-display); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tm-color-accent); text-shadow: 0 1px 2px var(--tm-color-surface-100); }
+.tm-banner:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: -2px; }
+.tm-banner--open { box-shadow: inset 0 -2px 0 var(--tm-color-accent); }
+
+/* Разбор с превью (22.09, по замечанию владельца: стопка одинаковых блоков читается как
+   заглушка). Кадр ролика — сверху во всю ширину карточки, под ним название и автор.
+   Закрытый спойлерами разбор остаётся на месте, но кадр под штриховкой: видно, что материал
+   есть, и не видно, о чём он. В дизайн-системе `ExternalAnalysisLink` превью не знает — это
+   расширение, его надо завести в систему (PORTING.md). */
+.tm-extlink--preview { padding: 0; overflow: hidden; }
+.tm-extlink--preview .tm-extlink__title { padding: var(--tm-space-3) var(--tm-space-3) 0; }
+.tm-extlink--preview .tm-meta { padding: 0 var(--tm-space-3) var(--tm-space-3); }
+.tm-extlink--preview .tm-extlink__lock { padding: 0 var(--tm-space-3) var(--tm-space-3); margin-top: 0; }
+.tm-extlink__thumb { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--tm-color-surface-200); }
+.tm-extlink__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tm-extlink__hatch {
+  position: absolute; inset: 0; backdrop-filter: blur(10px);
+  background-image: repeating-linear-gradient(45deg, color-mix(in srgb, var(--tm-color-surface-100) 80%, transparent) 0 2px, transparent 2px 7px);
+}
+
+/* Поиск по каналам — одной строкой под разборами: запасной ход, а не материал. */
+.tm-stream__search { margin: var(--tm-space-3) 0 0; color: var(--tm-color-ink-faint); }
+.tm-stream__search a { color: var(--tm-color-ink-muted); }
+/* Подзаголовок внутри секции разборов: «нашлось по названию — не проверено». */
+.tm-work__sublabel { margin: var(--tm-space-4) 0 var(--tm-space-2); color: var(--tm-color-ink-faint); }
+
+/* Шторка импорта истории (22.09). Компоненты в системе нет: собрана на `Sheet`, поле
+   списка — класс заметки (`tm-refl__area`), отчёт — простой список. Отдельного дизайна
+   не придумывали: шторка вторична, всё внимание отчёту «что мы поняли». */
+.tm-import__lead { margin: 0 0 var(--tm-space-2); }
+.tm-import__privacy { margin: 0 0 var(--tm-space-4); color: var(--tm-color-ink-faint); }
+.tm-import__file, .tm-import__paste { display: block; margin-bottom: var(--tm-space-4); }
+.tm-import__file .tm-label, .tm-import__paste .tm-label { display: block; margin-bottom: var(--tm-space-2); color: var(--tm-color-ink-muted); }
+.tm-import__file input[type="file"] { display: block; width: 100%; color: var(--tm-color-ink-muted); }
+.tm-import__file input[type="file"]::file-selector-button {
+  margin-right: var(--tm-space-3); padding: var(--tm-space-2) var(--tm-space-3);
+  border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-control);
+  background: var(--tm-color-surface-card); color: var(--tm-color-ink); font: inherit; cursor: pointer;
+}
+.tm-import__report { margin-bottom: var(--tm-space-4); padding: var(--tm-space-3); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-control); background: var(--tm-color-surface-card); }
+.tm-import__list { margin: var(--tm-space-2) 0 var(--tm-space-2) var(--tm-space-4); padding: 0; }
+.tm-import__list li { font-family: var(--font-text); font-size: 13px; line-height: 19px; }
+.tm-import__skip { color: var(--tm-color-ink-faint); }
+.tm-import__norm { margin-bottom: var(--tm-space-4); }
+.tm-import__normwhy { margin: var(--tm-space-1) 0 var(--tm-space-2); color: var(--tm-color-ink-faint); max-width: 48ch; }
+.tm-import__done { margin: 0 0 var(--tm-space-3); color: var(--tm-color-accent-ink); }
+.tm-import__actions { margin-top: var(--tm-space-2); }
+
+/* Поиск фильмов и отметка просмотренного */
+.tm-search { padding: 0 0 var(--tm-space-5); }
+.tm-search__bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); background: var(--tm-color-surface-100); border-bottom: 1px solid var(--tm-color-line); }
+.tm-search__input { flex: 1; min-width: 0; height: 40px; padding: 0 var(--tm-space-3); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-sm); background: var(--tm-color-surface-200); color: var(--tm-color-ink); font: inherit; }
+.tm-search__input::placeholder { color: var(--tm-color-ink-faint); }
+.tm-search__input:focus-visible { outline: 2px solid var(--tm-color-accent); outline-offset: 1px; }
+.tm-search__hint { margin: var(--tm-space-3) var(--tm-space-5) var(--tm-space-2); color: var(--tm-color-ink-faint); max-width: 56ch; }
+.tm-search__list { list-style: none; margin: 0; padding: 0; }
+.tm-search__item { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-3) var(--tm-space-5); border-top: 1px solid var(--tm-color-line); }
+.tm-search__acts { flex: none; display: flex; flex-direction: column; align-items: stretch; gap: var(--tm-space-1); }
+.tm-search__acts .tm-btn { justify-content: center; white-space: nowrap; }
+.tm-search__open { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--tm-space-3); padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.tm-search__thumb { position: relative; flex: none; width: 56px; height: 74px; overflow: hidden; background: var(--tm-color-surface-200); border-left: 3px solid var(--thumb-line, var(--tm-color-line-strong)); }
+.tm-search__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tm-search__text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tm-search__name { font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; }
+.tm-search__meta { color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; }
+.tm-search__orig { color: var(--tm-color-ink-faint); font-size: 13px; line-height: 18px; }
+
+/* Разборы по авторам (23.09, по замечанию владельца: два превью подряд закрывают весь экран
+   под баннером). Строка авторов сверху, под ней — один материал выбранного. Шаблон нарочно
+   статичный: у строки постоянная высота, кадр живёт в боксе 16:9, название занимает ровно две
+   строки, мета и выходы — по одной. Переключение автора меняет пиксели внутри коробок, но
+   ничего не двигает. Компонент в дизайн-системе отсутствует — завести (PORTING.md). */
+.tm-voice__strip { display: flex; gap: var(--tm-space-3); overflow-x: auto; scroll-snap-type: x proximity; height: 86px; margin: 0 calc(-1 * var(--tm-space-4)) var(--tm-space-3); padding: 0 var(--tm-space-4); scrollbar-width: none; }
+.tm-voice__strip::-webkit-scrollbar { display: none; }
+.tm-voice__tab { flex: 0 0 auto; width: 68px; height: 78px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; cursor: pointer; scroll-snap-align: start; }
+.tm-voice__tab--on { color: var(--tm-color-ink); }
+.tm-voice__tab:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; border-radius: var(--tm-radius-2); }
+.tm-voice__short { max-width: 100%; font-size: 11px; line-height: 14px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-voice__avatar { display: grid; place-items: center; overflow: hidden; border-radius: 999px; background: var(--tm-color-surface-200); color: var(--tm-color-ink); font-family: var(--font-display); font-weight: 600; }
+.tm-voice__avatar--lg { width: 48px; height: 48px; font-size: 18px; box-shadow: 0 0 0 2px transparent; }
+.tm-voice__avatar--sm { width: 28px; height: 28px; font-size: 12px; flex: none; }
+.tm-voice__tab--on .tm-voice__avatar--lg { box-shadow: 0 0 0 2px var(--tm-color-accent); }
+.tm-voice__img { width: 100%; height: 100%; object-fit: cover; }
+
+.tm-voice__material { border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-3); overflow: hidden; background: var(--tm-color-surface-200); }
+.tm-voice__frame { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--tm-color-surface-300, var(--tm-color-surface-200)); }
+.tm-voice__shot { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tm-voice__play { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 999px; background: color-mix(in srgb, var(--tm-color-surface-100) 70%, transparent); }
+.tm-voice__play::after { content: ''; position: absolute; left: 20px; top: 16px; border-style: solid; border-width: 10px 0 10px 16px; border-color: transparent transparent transparent var(--tm-color-ink); }
+.tm-voice__hatch { position: absolute; inset: 0; backdrop-filter: blur(10px); background-image: repeating-linear-gradient(45deg, color-mix(in srgb, var(--tm-color-surface-100) 80%, transparent) 0 2px, transparent 2px 7px); }
+.tm-voice__time { position: absolute; right: var(--tm-space-2); bottom: var(--tm-space-2); padding: 1px 6px; border-radius: var(--tm-radius-1); background: color-mix(in srgb, var(--tm-color-surface-100) 80%, transparent); font-size: 12px; line-height: 16px; }
+/* текст под кадром материала и действия с фильмом в его правом углу — столбиком, одна
+   кнопка над другой (24.09): так они умещаются рядом с названием, не удлиняя карточку */
+.tm-voice__text { display: flex; align-items: flex-end; gap: var(--tm-space-2); }
+.tm-voice__textmain { flex: 1 1 auto; min-width: 0; }
+.tm-voice__corner { flex: none; display: flex; flex-direction: column; align-items: stretch; gap: var(--tm-space-2); padding: 0 var(--tm-space-3) var(--tm-space-2) 0; }
+.tm-voice__corner .tm-btn { justify-content: center; white-space: nowrap; }
+.tm-voice__none--corner, .tm-film__pane--reviews > .tm-stream__group.tm-voice__none--corner { display: flex; flex-direction: row; align-items: flex-start; gap: var(--tm-space-3); }
+.tm-voice__none--corner .tm-voice__corner { padding: 0; }
+.tm-voice__name { height: 40px; margin: var(--tm-space-3) var(--tm-space-3) 0; font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tm-voice__meta { height: 18px; margin: 2px var(--tm-space-3) 0; color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-voice__outlets { display: flex; align-items: center; gap: var(--tm-space-2); height: 36px; margin: 0 var(--tm-space-3); overflow: hidden; }
+.tm-voice__chip { flex: none; padding: 3px 10px; border: 1px solid var(--tm-color-line); border-radius: 999px; background: none; color: var(--tm-color-ink-muted); font: inherit; font-size: 12px; line-height: 16px; text-decoration: none; cursor: pointer; }
+.tm-voice__chip--quiet { border-style: dashed; }
+.tm-voice__chip--flat { border-color: transparent; color: var(--tm-color-ink-faint); }
+
+.tm-voice__post { padding: var(--tm-space-3) 0; border-bottom: 1px solid var(--tm-color-line); }
+.tm-voice__post:last-child { border-bottom: 0; }
+.tm-voice__postlink { display: flex; gap: var(--tm-space-3); text-decoration: none; color: inherit; }
+.tm-voice__postbody { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tm-voice__postwho { font-family: var(--font-display); font-size: 14px; line-height: 18px; font-weight: 600; }
+.tm-voice__postdate { font-family: var(--font-body, inherit); font-weight: 400; color: var(--tm-color-ink-faint); }
+.tm-voice__posttext { height: 36px; color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tm-voice__post .tm-voice__outlets { margin: var(--tm-space-2) 0 0 40px; height: 28px; }
+
+/* Преамбула карточки в три строки (23.09, по замечанию: текст съедал экран, материал уезжал
+   вниз). Обрезаем по высоте с растворением края, а не многоточием: у нас три абзаца, а не
+   одна строка. Кнопка появляется, только если текст правда не поместился. */
+.tm-lead__body { position: relative; max-height: 4.5em; overflow: hidden; }
+.tm-lead__body::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5em; background: linear-gradient(transparent, var(--tm-color-surface-100)); }
+.tm-lead__body--open { max-height: none; }
+.tm-lead__body--open::after { display: none; }
+.tm-lead__more { margin: var(--tm-space-2) 0 0; padding: 0; border: 0; background: none; color: var(--tm-color-accent); font: inherit; font-size: 13px; line-height: 18px; cursor: pointer; }
+.tm-lead__more:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+
+/* Чек-ин в один тап прямо в ленте: через карточку до него два шага, и он не случается. */
+.tm-stream__quick { display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-4) var(--tm-space-3); background: var(--tm-color-surface-200); }
+.tm-stream__quicklabel { flex: 1; color: var(--tm-color-ink-muted); }
+/* три ответа «посмотрели?» — подпись над ними, кнопки в ряд (24.09) */
+.tm-stream__quick { flex-wrap: wrap; }
+.tm-stream__quick .tm-stream__quicklabel { flex-basis: 100%; }
+.tm-stream__quickbtns { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); }
+
+/* «Из авторов никто не говорил»: после решения 23.09 площадки в разборы не идут, и у части
+   фильмов не осталось ничего. Пустое место молчит, строка — объясняет. */
+.tm-voice__none { color: var(--tm-color-ink-muted); }
+.tm-voice__nonehint { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
+.tm-voice__chip--own { border-color: var(--tm-color-accent); color: var(--tm-color-accent); }
+.tm-voice__chip--on { border-color: var(--tm-color-accent); color: var(--tm-color-ink); background: color-mix(in srgb, var(--tm-color-accent) 18%, transparent); }
+
+/* Страница автора (/voice/:id): всё, что он разбирал из того, что мы знаем. */
+.tm-voicepage { padding: var(--tm-space-4); }
+.tm-voicepage__back { margin: 0 0 var(--tm-space-3); padding: 0; border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; cursor: pointer; }
+.tm-voicepage__head { display: flex; align-items: center; gap: var(--tm-space-3); }
+.tm-voice__avatar--page { width: 64px; height: 64px; font-size: 24px; flex: none; }
+.tm-voicepage__who { min-width: 0; }
+.tm-voicepage__who p { margin: 2px 0 0; color: var(--tm-color-ink-faint); }
+.tm-voicepage__outlets { margin: var(--tm-space-3) 0; height: auto; flex-wrap: wrap; }
+.tm-voicepage__item .tm-search__orig { color: var(--tm-color-ink-muted); }
+
+/* Шкала формы: линейка с меткой, а не оценка — поэтому подписаны оба края. */
+.tm-form__scale { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: var(--tm-space-2) var(--tm-space-3); margin: var(--tm-space-2) 0; }
+.tm-form__scalelabel { color: var(--tm-color-ink-muted); }
+.tm-form__track { position: relative; height: 6px; border-radius: 999px; background: var(--tm-color-surface-300, var(--tm-color-surface-200)); }
+.tm-form__mark { position: absolute; top: 50%; left: var(--at); width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 999px; background: var(--tm-color-accent); }
+.tm-form__ends { grid-column: 2; display: flex; justify-content: space-between; color: var(--tm-color-ink-faint); font-size: 12px; line-height: 16px; }
+
+/* Мой список: фильтры по регистрам считаются по отмеченному, а не по каталогу. */
+.tm-search__filters { display: flex; gap: var(--tm-space-2); overflow-x: auto; padding: 0 var(--tm-space-4) var(--tm-space-2); scrollbar-width: none; }
+.tm-search__filters::-webkit-scrollbar { display: none; }
+.tm-search__count { color: var(--tm-color-ink-faint); }
+.tm-search__link { padding: 0; border: 0; background: none; color: var(--tm-color-accent); font: inherit; cursor: pointer; }
+
+/* заявка «нет фильма / нет автора» (SuggestSheet): поля в столбик, кнопка под ними */
+.tm-suggest__field { display: block; margin-top: var(--tm-space-3); }
+.tm-suggest__field .tm-label { display: block; margin-bottom: var(--tm-space-1); }
+.tm-suggest__field .tm-search__input { width: 100%; }
+.tm-suggest__acts { display: flex; justify-content: flex-end; margin-top: var(--tm-space-3); }
+
+/* Первые оценки (/rate): строка фильма — как в поиске, под ней шкала из пяти слов.
+   Шкала словами, а не звёздами: «Хорошо» и «Отлично» читаются одинаково у всех, а три
+   звезды из пяти у каждого свои. */
+.tm-rate__head { position: sticky; top: 0; z-index: 3; padding: var(--tm-space-4) var(--tm-space-5) var(--tm-space-3); background: var(--tm-color-surface-100); border-bottom: 1px solid var(--tm-color-line); }
+.tm-rate__title { margin: 0; }
+.tm-rate__lead { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-muted); max-width: 56ch; }
+.tm-rate__bar { display: flex; align-items: center; gap: var(--tm-space-3); margin-top: var(--tm-space-3); }
+.tm-rate__meter { flex: 1; min-width: 40px; height: 4px; background: var(--tm-color-line); overflow: hidden; }
+.tm-rate__fill { display: block; height: 100%; background: var(--tm-color-accent); transition: width 0.2s ease; }
+.tm-rate__count { flex: none; color: var(--tm-color-ink-muted); }
+.tm-rate__bar .tm-btn { flex: none; white-space: nowrap; }
+.tm-rate__item { display: flex; flex-direction: column; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); border-top: 1px solid var(--tm-color-line); }
+.tm-rate__item--off .tm-search__open { opacity: 0.45; }
+/* свайп оценки: строка едет за пальцем, из-под неё — оценка, которая встанет, если отпустить */
+.tm-rate__item { position: relative; overflow: hidden; touch-action: pan-y; }
+.tm-rate__item > .tm-search__open, .tm-rate__item > .tm-rate__scale { transform: translateX(var(--swipe-x, 0px)); transition: transform 0.18s ease-out; }
+.tm-rate__item--drag > .tm-search__open, .tm-rate__item--drag > .tm-rate__scale { transition: none; }
+.tm-rate__swipe { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; padding: 0 var(--tm-space-5); color: var(--tm-color-ink-faint); font-family: var(--font-display); font-size: 14px; font-weight: 600; pointer-events: none; }
+.tm-rate__swipe--left { left: 0; }
+.tm-rate__swipe--right { right: 0; }
+.tm-rate__swipe--on { color: var(--tm-color-accent-ink); }
+.tm-rate__gesture { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
+@media (pointer: fine) { .tm-rate__gesture { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-rate__item > .tm-search__open, .tm-rate__item > .tm-rate__scale { transition: none; } }
+.tm-rate__scale { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tm-space-1); }
+.tm-rate__score { flex: 1 1 auto; min-height: 34px; padding: 0 var(--tm-space-1); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-control); background: none; color: var(--tm-color-ink-muted); font: inherit; font-size: 12px; line-height: 16px; cursor: pointer; white-space: nowrap; }
+.tm-rate__score--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash); color: var(--tm-color-accent-ink); }
+.tm-rate__score:focus-visible, .tm-rate__skip:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 1px; }
+.tm-rate__skip { flex-basis: 100%; padding: var(--tm-space-1) 0 0; border: 0; background: none; color: var(--tm-color-ink-faint); font: inherit; font-size: 12px; line-height: 16px; text-align: left; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .tm-rate__fill { transition: none; } }
+
+/* Карточка фильма (FilmTabs): страница «Обзоры» или «Смотреть» и нижняя панель — лента выбора
+   (авторы или онлайн-кинотеатры, одной вёрсткой) и переключатель страниц. Панель липнет к
+   низу карточки; карточка тянется хотя бы на высоту окна, чтобы панель стояла внизу и тогда,
+   когда на странице мало содержимого. */
+.tm-worksheet__body:has(.tm-film) { display: flex; flex-direction: column; padding-bottom: 0; }
+.tm-stream__panel--tabs { flex: 1 0 auto; display: flex; flex-direction: column; padding-bottom: 0; }
+.tm-film { flex: 1 0 auto; display: flex; flex-direction: column; }
+.tm-film__pane { flex: 1 0 auto; padding-bottom: var(--tm-space-5); touch-action: pan-y; transition: transform 0.18s ease-out; }
+@media (prefers-reduced-motion: reduce) { .tm-film__pane { transition: none; } }
+.tm-film__pane > .tm-stream__group:first-child { margin-top: 0; }
+.tm-film__dock { position: sticky; bottom: 0; z-index: 2; margin: 0 calc(-1 * var(--tm-space-5)); padding: 0 var(--tm-space-5) calc(var(--tm-space-3) + var(--tm-safe-bottom, 0px)); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
+.tm-film__dock .tm-voice__strip { height: 82px; margin: var(--tm-space-3) calc(-1 * var(--tm-space-5)) 0; padding: 0 var(--tm-space-5); }
+.tm-film__toggle { display: flex; gap: 2px; margin-top: var(--tm-space-3); padding: 2px; border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-control); background: var(--tm-color-surface-200); }
+.tm-film__switch { flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: var(--tm-space-2); min-height: 36px; padding: 0 var(--tm-space-3); border: 0; border-radius: var(--tm-radius-control); background: none; color: var(--tm-color-ink-muted); font: inherit; font-family: var(--font-display); font-size: 14px; font-weight: 600; cursor: pointer; }
+.tm-film__switch--on { background: var(--tm-color-accent); color: var(--tm-color-on-accent); }
+.tm-film__switch:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 1px; }
+.tm-film__count { font-size: 11px; font-weight: 400; opacity: 0.75; }
+.tm-film__cinema { align-items: center; text-align: center; padding: var(--tm-space-5) 0 var(--tm-space-2); }
+.tm-film__cinemaname { margin: var(--tm-space-2) 0 var(--tm-space-2); }
+.tm-film__hint { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
+.tm-film__logo { background: var(--tm-color-surface-200); }
+/* «Обзоры» — статичная страница без прокрутки (24.09): карточка занимает ровно окно, а если
+   места мало, сжимается кадр материала (обрезается по высоте), а не появляется прокрутка.
+   Название, мета, выходы, кнопки и панель внизу — постоянной высоты. «Обсуждения» и «Смотреть»
+   по-прежнему листаются: там список произвольной длины. */
+.tm-worksheet__body:has(.tm-film__pane--reviews) { overflow: hidden; }
+.tm-worksheet__body:has(.tm-film__pane--reviews) > .tm-stream__panel--tabs,
+.tm-stream__panel--tabs:has(.tm-film__pane--reviews) > .tm-film { flex: 1 1 auto; min-height: 0; }
+.tm-film__pane--reviews { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.tm-film__pane--reviews > * { flex: none; }
+.tm-film__pane--reviews > .tm-stream__group { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.tm-film__pane--reviews .tm-voice__material { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.tm-film__pane--reviews .tm-voice__material > * { flex: none; }
+.tm-film__pane--reviews .tm-voice__frame { flex: 0 1 auto; min-height: 0; }
+
+/* Архив листается так же, как лента: по одному баннеру за жест */
+.tm-shell--app .tm-archive { scroll-snap-type: y mandatory; }
+.tm-archive__head { scroll-snap-align: start; }
+.tm-archive__item { scroll-snap-align: start; scroll-snap-stop: always; }
+@media (prefers-reduced-motion: reduce) {
+  .tm-shell--app .tm-archive { scroll-snap-type: none; }
+}
+
+/* Выходы автора — значками (24.09) */
+.tm-voice__chip--icon { display: inline-grid; place-items: center; width: 30px; height: 26px; padding: 0; }
+.tm-voice__chip--icon:hover { color: var(--tm-color-ink); border-color: var(--tm-color-line-strong); }
+/* три страницы в переключателе — подписи мельче, чтобы «Обсуждения» с числом влезали на 360 px */
+.tm-film__switch { gap: var(--tm-space-1); padding: 0 var(--tm-space-2); font-size: 13px; }
+
+/* Петля прогноза (/loop) */
+.tm-loop__note { padding: var(--tm-space-3) var(--tm-space-4); border-left: 3px solid var(--tm-color-line-strong); background: var(--tm-color-surface-200); }
+.tm-loop__note--wait { border-left-color: var(--tm-color-signal-wait); }
+.tm-loop__note--ok { border-left-color: var(--tm-color-signal-ok); }
+.tm-loop__note p { margin: 0 0 var(--tm-space-1); }
+.tm-loop__table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 18px; font-variant-numeric: tabular-nums; margin-top: var(--tm-space-2); }
+.tm-loop__table caption { text-align: left; padding: var(--tm-space-2) 0 var(--tm-space-1); color: var(--tm-color-ink-muted); font-family: var(--font-display); font-weight: 600; }
+.tm-loop__table th, .tm-loop__table td { padding: 6px var(--tm-space-2); border-bottom: 1px solid var(--tm-color-line); text-align: right; }
+.tm-loop__table th[scope=row], .tm-loop__table thead th:first-child { text-align: left; font-weight: 400; color: var(--tm-color-ink-muted); }
+.tm-loop__table thead th { font-weight: 600; color: var(--tm-color-ink-faint); }
+.tm-loop__row--main th, .tm-loop__row--main td { color: var(--tm-color-ink); font-weight: 600; }
+.tm-loop__hit { color: var(--tm-color-accent-ink); font-weight: 600; }
+.tm-loop__facts { display: grid; grid-template-columns: 1fr auto; gap: 6px var(--tm-space-3); margin: var(--tm-space-2) 0 0; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tm-loop__facts dt { color: var(--tm-color-ink-muted); }
+.tm-loop__facts dd { margin: 0; text-align: right; }
+
+/* Свайп по кадру ленты (24.09): влево — «не сейчас», вправо — «в планы». Та же механика, что
+   у оценки на /rate и у страниц карточки, поэтому и вид тот же: кадр идёт за пальцем, из-под
+   него выступает подпись операции, а на пороге она загорается. Вертикальную прокрутку ленты
+   жест не трогает — ось выбирает `useSwipe`, а `touch-action: pan-y` оставляет её браузеру. */
+.tm-stream__item { position: relative; touch-action: pan-y; }
+.tm-stream__drag { transform: translateX(var(--swipe-x, 0)); transition: transform 180ms ease; }
+.tm-stream__item--drag .tm-stream__drag { transition: none; }
+/* кадр уехал — на его месте спрашивают причину; высоту держит сам кадр, поэтому лента не прыгает.
+   visibility в конце уезда убирает его и с клавиатуры: невидимое, но достижимое табом — ловушка */
+.tm-stream__item--asking .tm-stream__drag { transform: translateX(-100%); opacity: 0; pointer-events: none;
+  visibility: hidden; transition: transform 180ms ease, opacity 180ms ease, visibility 0s linear 180ms; }
+/* заливка во всю карточку: нарастает с длиной свайпа, на ней же подпись или звёзды */
+.tm-stream__hint { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center;
+  padding: 0 var(--tm-space-5); opacity: var(--fill, 0); color: var(--tm-color-ink-muted);
+  font-family: var(--font-display); font-size: 14px; font-weight: 600; pointer-events: none;
+  transition: opacity 180ms ease; }
+.tm-stream__item--drag .tm-stream__hint { transition: none; }
+.tm-stream__hint--save { justify-content: flex-start; padding-left: var(--tm-space-3); background: var(--tm-color-accent-wash); }
+.tm-stream__hint--dismiss { justify-content: flex-end; background: var(--tm-color-signal-stop-wash); }
+.tm-stream__hint--on { color: var(--tm-color-ink); }
+/* причины поверх освободившегося места: кнопки крупные — палец только что ушёл с экрана */
+.tm-stream__ask { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center; gap: var(--tm-space-3);
+  padding: var(--tm-space-4) var(--tm-space-5); background: var(--tm-color-signal-stop-wash); }
+.tm-stream__ask .tm-reasons { margin-top: 0; padding-top: 0; border-top: 0; }
+.tm-stream__ask .tm-reasons__title { color: var(--tm-color-ink); }
+.tm-stream__ask .tm-reasons__opt { padding: var(--tm-space-2) var(--tm-space-4);
+  border-color: var(--tm-color-line-strong); background: var(--tm-color-surface-card); color: var(--tm-color-ink); }
+.tm-stream__ask .tm-reasons__opt--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash);
+  color: var(--tm-color-accent-ink); }
+/* ряд звёзд: горят только набранные, цифра рядом, цвет — по краям шкалы */
+/* подсказка про свайп над лентой — один раз */
+.tm-stream__swipehint { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-2) var(--tm-space-5);
+  background: var(--tm-color-surface-200); border-bottom: 1px solid var(--tm-color-line); color: var(--tm-color-ink-muted); }
+.tm-stream__swipehint .tm-caption { flex: 1; }
+.tm-stream__swipehint .tm-btn { flex: none; }
+.tm-stars { display: inline-flex; flex-direction: column; gap: 2px; }
+.tm-stars__line { display: inline-flex; align-items: baseline; gap: var(--tm-space-2); }
+.tm-stars__row { font-size: 15px; letter-spacing: 1px; }
+.tm-stars__num { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+.tm-stars__cap { color: var(--tm-color-ink-faint); font-family: var(--font-text); font-size: 11px; font-weight: 400; }
+.tm-stars--1, .tm-stars--2 { color: var(--tm-color-signal-wait); }
+.tm-stars--3 { color: var(--tm-color-mark); }
+.tm-stars--4, .tm-stars--5 { color: var(--tm-color-accent); }
+@media (prefers-reduced-motion: reduce) {
+  .tm-stream__drag, .tm-stream__hint { transition: none; }
+}

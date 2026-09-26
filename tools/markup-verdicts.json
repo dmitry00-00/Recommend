@@ -1,0 +1,5 @@
+{
+ "//": "Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx, читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса её не сотрёт. Править руками можно, ключ — id ролика на YouTube.",
+ "updated": null,
+ "videos": {}
+}
