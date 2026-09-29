@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type { JourneyEntryData } from '@/types/tmdf';
 import { getJourney, startWork, unplanWork } from '@/api';
-import { Button, EmptyState, ErrorState, FilmTabs, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
+import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
 import { tap } from '@/lib/telegram';
 import { formatDate } from '@/lib/format';
 import ru from '@/i18n/ru';
@@ -79,13 +79,14 @@ export function JournalScreen() {
         </div>
       ) : null}
 
-      {entries?.map((e) => (
+      {entries?.length ? <div className="tm-filmstrip">{entries.map((e, i) => (
         <div key={e.id} className="tm-archive__item">
+          <FilmEdge work={e.work} no={i + 1} short />
           <WorkBanner work={e.work} size="sm" meta={meta(e)}
                       tag={e.status === 'in_progress' || e.status === 'planned' ? ru.journeyStatus[e.status] : undefined}
                       onClick={() => setOpen(e.id)} />
         </div>
-      ))}
+      ))}</div> : null}
 
       <WorkSheet work={openEntry?.work ?? null} open={openEntry != null} onOpenChange={(o) => !o && close()}
                  meta={openEntry ? [openEntry.work.year, openEntry.work.creators[0],

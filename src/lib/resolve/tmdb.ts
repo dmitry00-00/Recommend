@@ -8,7 +8,7 @@ export const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endor
 const API = 'https://api.themoviedb.org/3';
 const IMG = 'https://image.tmdb.org/t/p';
 
-interface FindResult { movie_results: { id: number }[] }
+interface FindResult { movie_results: { id: number }[]; tv_results?: { id: number }[] }
 interface Movie {
   id: number; title: string; original_title: string; overview?: string; release_date?: string; runtime?: number;
   poster_path?: string | null; backdrop_path?: string | null;
@@ -28,6 +28,8 @@ interface Provider { provider_name: string; logo_path?: string; display_priority
 
 export interface TmdbClient {
   findByImdb(imdb: string): Promise<number | undefined>;
+  /** сериал по IMDb ID: Wikidata отдаёт сериалам IMDb, а не номер TMDb */
+  findTvByImdb(imdb: string): Promise<number | undefined>;
   /** поиск по оригинальному названию и году — для кандидатов без внешних ID; вместе с IMDb ID */
   search(title: string, year?: number): Promise<{ id: number; imdb?: string } | undefined>;
   movie(id: number): Promise<Partial<ResolvedWork> | undefined>;
@@ -52,6 +54,10 @@ export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, langua
     async findByImdb(imdb) {
       const r = await get<FindResult>(`/find/${imdb}`, { external_source: 'imdb_id' });
       return r?.movie_results[0]?.id;
+    },
+    async findTvByImdb(imdb) {
+      const r = await get<FindResult>(`/find/${imdb}`, { external_source: 'imdb_id' });
+      return r?.tv_results?.[0]?.id;
     },
     async search(title, year) {
       const r = await get<{ results: { id: number }[] }>('/search/movie', { query: title, ...(year ? { year: String(year) } : {}) });

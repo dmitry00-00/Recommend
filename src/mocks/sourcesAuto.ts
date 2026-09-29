@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-09-25): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-09-28): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -10,7 +10,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Цветок для подопытного Кролика",
     "handle": "transgressivesamourai",
     "url": "https://t.me/transgressivesamourai",
-    "mentions": 83,
+    "mentions": 84,
     "reposts": 27,
     "by": [
       "Tanya in Horrorland",
@@ -29,17 +29,18 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Кинопоиск | Новости",
     "handle": "kinopoisk_soon",
     "url": "https://t.me/kinopoisk_soon",
-    "mentions": 833,
-    "reposts": 337,
+    "mentions": 834,
+    "reposts": 338,
     "by": [
       "Cinemaholics",
       "Terminatarkovsky",
       "Заскриптованный",
       "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-24",
-    "sample": "Осенью: «Девятая планета» и «Битва моторов» с Юрой Борисовым"
+    "lastAt": "2026-09-27",
+    "sample": "Хоррор «Алтарь», американский дебют режиссера «Спутника» Егора Абраменко, наконец-то под…"
   },
   {
     "id": "srcc-exponentafilm",
@@ -200,6 +201,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Знакомьтесь, это люмен!"
   },
   {
+    "id": "srcc-booksyandex",
+    "title": "Яндекс Книги",
+    "handle": "booksyandex",
+    "url": "https://t.me/booksyandex",
+    "mentions": 7,
+    "reposts": 57,
+    "by": [
+      "Terminatarkovsky",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро"
+    ],
+    "lastAt": "2026-09-25",
+    "sample": "Объявляем Московскую книжную неделю: самый масштабный фестиваль книжной культуры пройдет…"
+  },
+  {
     "id": "srcc-maysaltburn",
     "title": "На майские едем в Солтбёрн",
     "handle": "maysaltburn",
@@ -238,20 +254,6 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "7 июня на Beat Film Fest посмотрим и поговорим о том, как Фрэнсис Форд Кополла снял кино…"
   },
   {
-    "id": "srcc-booksyandex",
-    "title": "Яндекс Книги",
-    "handle": "booksyandex",
-    "url": "https://t.me/booksyandex",
-    "mentions": 6,
-    "reposts": 57,
-    "by": [
-      "Terminatarkovsky",
-      "Кинопоиск | Фильмы и сериалы"
-    ],
-    "lastAt": "2026-09-24",
-    "sample": "Объявляем Московскую книжную неделю: самый масштабный фестиваль книжной культуры пройдет…"
-  },
-  {
     "id": "srcc-chacun_son_cinema",
     "title": "Chacun son cinema",
     "handle": "chacun_son_cinema",
@@ -275,7 +277,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Satan Talk",
     "handle": "satanlairtatt",
     "url": "https://t.me/satanlairtatt",
-    "mentions": 31,
+    "mentions": 32,
     "reposts": 5,
     "by": [
       "Abramacabre!",
@@ -311,7 +313,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "AHK",
     "handle": "alyashorror",
     "url": "https://t.me/alyashorror",
-    "mentions": 83,
+    "mentions": 84,
     "reposts": 4,
     "by": [
       "Tanya in Horrorland",
@@ -329,13 +331,13 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
-    "reposts": 75,
+    "reposts": 101,
     "by": [
       "Cut The Chat",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-25",
-    "sample": "Сегодня отмечается День комиксов."
+    "lastAt": "2026-09-27",
+    "sample": "Рейчел Вайс на съёмках новой части «Мумии»"
   },
   {
     "id": "srcc-kinotv",
@@ -378,7 +380,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "крысота по-американски",
     "handle": "krysota",
     "url": "https://t.me/krysota",
-    "mentions": 20,
+    "mentions": 21,
     "reposts": 1,
     "by": [
       "Abramacabre!",
@@ -511,12 +513,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 32,
+    "reposts": 33,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-09-22",
-    "sample": "Поднять щиты за дону Окану 🖤"
+    "lastAt": "2026-09-26",
+    "sample": "Жена хочет прогнать подозрительного гостя 🔥"
   },
   {
     "id": "srcc-nemakarov",
@@ -1072,6 +1074,24 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Про трех белых коней наврали, слышали? Скачет ведь никто иная, как красная лошадь, а по…"
   },
   {
+    "id": "srcc-inoekino",
+    "title": "@inoekino",
+    "handle": "inoekino",
+    "url": "https://t.me/inoekino",
+    "mentions": 8,
+    "reposts": 0,
+    "by": [
+      "Cinemaholics",
+      "Дзига-аппаратчик",
+      "Кинопоиск | Фильмы и сериалы",
+      "Кинотеатр «Художественный»",
+      "ШишКИНО",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-09-26",
+    "sample": "Иноекино"
+  },
+  {
     "id": "srcc-запасаемся попкорном",
     "title": "Запасаемся попкорном",
     "mentions": 0,
@@ -1311,16 +1331,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2025-11-12",
     "sample": "GOOD LUCK, HAVE FUN, DON'T DIE | Teaser Trailer | February 13 - Only in Theaters"
-  },
-  {
-    "id": "srcc-horrorzone.ru 🔞 новости хоррора",
-    "title": "HorrorZone.Ru 🔞 Новости хоррора",
-    "mentions": 0,
-    "reposts": 17,
-    "by": [
-      "Сеанс в 23:30 📽"
-    ],
-    "lastAt": "2026-05-19",
-    "sample": "Поговорим о принятии жестокости в современном обществе... или просто покажем бестолковый…"
   }
 ];

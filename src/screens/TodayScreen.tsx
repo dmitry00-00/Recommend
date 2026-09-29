@@ -1,14 +1,16 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type {
-  DiscussionPlace, DismissReason, Eagerness, JourneyEntryData, Recommendation, RecommendationSlate,
+  DiscussionPlace, DismissReason, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
 import { OfflineError, getJourney, getSettings, getSlate, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork } from '@/api';
 import {
-  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ReasonPicker, Skeleton, StarScale,
-  WorkBanner, WorkSheet, useToast,
+  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ReasonPicker, Skeleton,
+  FilmEdge, WorkBanner, WorkSheet, useToast,
 } from '@/components';
+import { Avatar, VoiceStrip } from '@/components/WorkVoices';
+import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
 import { useMechanics } from '@/lib/settingsStore';
 import { onExternalClick, tap } from '@/lib/telegram';
@@ -46,24 +48,33 @@ export function WatchOptions({ options }: { options?: WatchOption[] }) {
 /** Две строки внизу карточки: поиск по каналам авторов (способ найти разбор) и места, где
  *  о кино говорят вообще (список владельца, 22.09). Ни то, ни другое не разбор, поэтому
  *  строками, а не блоками. Экран «Произведение» показывает их же под местами разговора. */
+/** сколько каналов в строке видно сразу: тридцать названий через точку не читают (28.09) */
+const SEARCH_SHOWN = 6;
+
 export function SearchLine({ places }: { places: DiscussionPlace[] }) {
+  const [all, setAll] = useState(false);
   const groups: { label: string; items: DiscussionPlace[] }[] = [
     { label: ru.discussion.searchLine, items: places.filter((d) => d.kind !== 'telegram_chat') },
     { label: ru.discussion.chatsLine, items: places.filter((d) => d.kind === 'telegram_chat') },
   ];
   return (
     <>
-      {groups.filter((g) => g.items.length).map((g) => (
-        <p key={g.label} className="tm-caption tm-stream__search">
-          {g.label}
-          {g.items.map((d, i) => (
-            <span key={d.id}>
-              {i ? ' · ' : ' '}
-              <a href={d.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(d.url)}>{d.title}</a>
-            </span>
-          ))}
-        </p>
-      ))}
+      {groups.filter((g) => g.items.length).map((g) => {
+        const shown = all ? g.items : g.items.slice(0, SEARCH_SHOWN);
+        const hidden = g.items.length - shown.length;
+        return (
+          <p key={g.label} className="tm-caption tm-stream__search">
+            {g.label}
+            {shown.map((d, i) => (
+              <span key={d.id}>
+                {i ? ' · ' : ' '}
+                <a href={d.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(d.url)}>{d.title}</a>
+              </span>
+            ))}
+            {hidden > 0 ? <>{' · '}<button type="button" className="tm-search__link" onClick={() => { tap(); setAll(true); }}>{ru.feed.more(hidden)}</button></> : null}
+          </p>
+        );
+      })}
     </>
   );
 }
@@ -71,8 +82,8 @@ export function SearchLine({ places }: { places: DiscussionPlace[] }) {
 /** Тело карточки: описание словами, разборы конкретными роликами и постами, места разговора,
  *  строка поиска по каналам, где посмотреть, действия. Всё — из данных рекомендации; экран
  *  только раскладывает. */
-function Panel({ r, spoilerLevel, finished, onSave, onDismiss, onWatch }: {
-  r: Recommendation; spoilerLevel: SpoilerLevel; finished: boolean;
+function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch }: {
+  r: Recommendation; spoilerLevel: SpoilerLevel; finished: boolean; voiceId?: string;
   onSave: () => void; onDismiss: (reason: DismissReason) => void; onWatch: () => void;
 }) {
   const [reasons, setReasons] = useState(false);
@@ -86,7 +97,8 @@ function Panel({ r, spoilerLevel, finished, onSave, onDismiss, onWatch }: {
   return (
     <div className="tm-stream__panel tm-stream__panel--tabs">
       <FilmTabs
-        key={r.id}
+        key={`${r.id}:${voiceId ?? ''}`}
+        voiceId={voiceId}
         analyses={r.analyses ?? []}
         spoilerLevel={allowed}
         watch={r.work.watch}
@@ -124,20 +136,20 @@ function Panel({ r, spoilerLevel, finished, onSave, onDismiss, onWatch }: {
  *  Причина необязательна: через ASK_MS уезжает `other`, то есть ровно то, что было раньше.
  *  Спрашиваем, но не держим — иначе люди просто перестанут отказываться.
  *
- *  Вправо — «в планы», и длина свайпа говорит, насколько хочется: звезда за каждые WANT_STEP
- *  после WANT_BASE. Вся шкала в одну сторону (вторая занята отказом), поэтому ступеней пять,
- *  а не две, и считать их не нужно — рядом цифра. Ряд растёт вместе с открывающейся полосой
- *  и всегда в неё умещается.
+ *  Вправо — кто разбирал (28.09, решение владельца: шкала «хочется» звёздами в формат
+ *  приложения не легла). Под пальцем выступают логотипы каналов, у которых есть материал об
+ *  этом фильме; дотянул до порога — кадр встаёт открытым, и логотипы становятся кнопками.
+ *  Тап ведёт не в сам ролик, а в карточку на материале этого автора: в карточке работает
+ *  штриховка спойлеров, а фильм человек ещё не видел. «В планы» осталось кнопкой в карточке.
  *
  *  Пороги намеренно большие: лента прокручивается вертикально, случайный сдвиг вбок ничего
  *  делать не должен. */
 const SWIPE = 96;
-// пороги подобраны под ширину открывающейся полосы: кадр уходит на DRAG от длины свайпа, и ряд
-// звёзд должен умещаться в освободившееся место целиком — иначе подпись обрезается кадром
+// кадр уходит на DRAG от длины свайпа: в освободившуюся полосу должны влезать логотипы внахлёст
 const DRAG = 0.8;
-const WANT_BASE = 72;
-const WANT_STEP = 30;
 const ASK_MS = 8000;
+/** сколько логотипов показывать под пальцем; остальные — числом «+N» */
+const PILE = 4;
 
 /** Подсказка про свайп — один раз, пока человек не свайпнул сам или не сказал «понятно».
  *  Только на сенсорных экранах: мышью лента не свайпается. Хранилище может быть недоступно
@@ -157,28 +169,30 @@ const FRESH_MS = 2 * 3600e3;
 const STALE_MS = 7 * 86400e3;
 const age = (e: JourneyEntryData) => (e.startedAt ? Date.now() - Date.parse(e.startedAt) : 0);
 
-const wantAt = (dx: number): Eagerness | null =>
-  dx < WANT_BASE ? null : (Math.min(5, Math.floor((dx - WANT_BASE) / WANT_STEP) + 1) as Eagerness);
-
-function FeedCard({ r, meta, tag, onOpen, onSave, onDismiss }: {
+function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
+  /** номер кадра на плёнке — в надпечатке по кромке */
+  no: number;
   r: Recommendation; meta?: string; tag?: string;
-  onOpen: () => void; onSave: (eagerness: Eagerness) => void; onDismiss: (reason: DismissReason) => void;
+  onOpen: () => void; onVoice: (voiceId: string) => void; onDismiss: (reason: DismissReason) => void;
 }) {
   const [dx, setDx] = useState(0);
-  const [asking, setAsking] = useState(false);
-  const want = wantAt(dx);
+  const [side, setSide] = useState<'none' | 'ask' | 'voices'>('none');
+  const asking = side === 'ask';
+  // те же авторы и в том же порядке, что в карточке: сначала подтверждённые, потом у кого больше
+  const voices = useMemo(() => groupByVoice(r.analyses ?? []), [r.analyses]);
   const dropping = dx <= -SWIPE;
+  const showing = dx >= SWIPE && voices.length > 0;
   const swipe = useSwipe({
-    enabled: !asking,
+    enabled: side === 'none',
     onMove(next) {
-      if (wantAt(next) !== want || (next <= -SWIPE) !== dropping) tap();
+      if ((next <= -SWIPE) !== dropping || (next >= SWIPE && voices.length > 0) !== showing) tap();
       setDx(next);
     },
     onEnd(end) {
       setDx(0);
-      const n = wantAt(end);
-      if (end <= -SWIPE) { tap('medium'); setAsking(true); }
-      else if (n) onSave(n);
+      if (end <= -SWIPE) { tap('medium'); setSide('ask'); }
+      // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
+      else if (end >= SWIPE && voices.length) { tap('medium'); setSide('voices'); }
     },
   });
 
@@ -193,24 +207,39 @@ function FeedCard({ r, meta, tag, onOpen, onSave, onDismiss }: {
   }, [asking]);
 
   const right = dx > 0;
-  const fill = Math.min(1, Math.abs(dx) / (right ? WANT_BASE : SWIPE));
+  const fill = Math.min(1, Math.abs(dx) / SWIPE);
+  const rest = voices.length - PILE;
   return (
-    <article className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', asking && 'tm-stream__item--asking')}
+    <article className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', asking && 'tm-stream__item--asking',
+                           side === 'voices' && 'tm-stream__item--voices')}
              {...swipe}>
       {asking ? (
         <div className="tm-stream__ask" data-noswipe>
           <ReasonPicker variant="dismiss" onPick={onDismiss} />
-          <Button variant="quiet" size="sm" onClick={() => { tap(); setAsking(false); }}>{ru.feed.keep}</Button>
+          <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ru.feed.keep}</Button>
+        </div>
+      ) : side === 'voices' ? (
+        <div className="tm-stream__voices" data-noswipe>
+          <p className="tm-label tm-stream__voicestitle">{ru.feed.voicesTitle(r.work.title)}</p>
+          <VoiceStrip groups={voices} onPick={(id) => { tap(); setSide('none'); onVoice(id); }} />
+          <div className="tm-stream__voicesfoot">
+            <span className="tm-caption">{ru.feed.voicesHint}</span>
+            <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ru.feed.voicesBack}</Button>
+          </div>
         </div>
       ) : (
-        <span className={cx('tm-stream__hint', right ? 'tm-stream__hint--save' : 'tm-stream__hint--dismiss',
-                            (want != null || dropping) && 'tm-stream__hint--on')}
+        <span className={cx('tm-stream__hint', right ? 'tm-stream__hint--voices' : 'tm-stream__hint--dismiss',
+                            (showing || dropping) && 'tm-stream__hint--on')}
               style={{ '--fill': fill } as CSSProperties} aria-hidden="true">
-          {right
-            ? (want != null ? <StarScale value={want} caption={ru.feed.want} /> : ru.actions.save)
-            : ru.actions.dismiss}
+          {!right ? ru.actions.dismiss : voices.length ? (
+            <span className="tm-stream__pile">
+              {voices.slice(0, PILE).map((g) => <Avatar key={g.voice.id} voice={g.voice} size="sm" />)}
+              {rest > 0 ? <span className="tm-stream__pilemore">+{rest}</span> : null}
+            </span>
+          ) : ru.feed.noVoices}
         </span>
       )}
+      <FilmEdge work={r.work} no={no} />
       <div className="tm-stream__drag" style={dx ? ({ '--swipe-x': `${Math.round(dx * DRAG)}px` } as CSSProperties) : undefined}>
         <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} />
       </div>
@@ -233,6 +262,8 @@ export function TodayScreen() {
   const [archived, setArchived] = useState(0);
   const [current, setCurrent] = useState<JourneyEntryData[]>([]);
   const [open, setOpen] = useState<string | null>(null);
+  // автор, на чьём материале открыть карточку: приходит из ленты тапом по логотипу канала
+  const [openVoice, setOpenVoice] = useState<string | undefined>();
   const [failed, setFailed] = useState<false | 'offline' | 'error'>(false);
   const [attempt, setAttempt] = useState(0);
   const [hint, setHint] = useState(hintWanted);
@@ -267,18 +298,18 @@ export function TodayScreen() {
   // «В планы» — как «не сейчас»: кадр уходит из ленты (иначе после свайпа он возвращается на
   // место, и непонятно, сработало ли), а сам фильм ложится в архив записью «в планах».
   // Отмена в тосте возвращает кадр и убирает запись.
-  const save = (r: Recommendation, eagerness?: Eagerness) => {
+  const save = (r: Recommendation) => {
     if (!slate) return;
     tap();
     const before = slate;
     setSlate({ ...slate, items: slate.items.filter((i) => i.id !== r.id) });
     setOpen(null);
-    sendRecommendationFeedback(r.id, { action: 'save', eagerness }).catch(() => undefined);
-    planWork(r.work.id, eagerness)
+    sendRecommendationFeedback(r.id, { action: 'save' }).catch(() => undefined);
+    planWork(r.work.id)
       .then((entryId) => {
         setArchived((n) => n + 1);
         toast({
-          text: eagerness ? ru.toast.savedEager(eagerness) : ru.toast.savedPlain,
+          text: ru.toast.savedPlain,
           action: ru.actions.undo,
           onAction: () => {
             setSlate(before);
@@ -287,7 +318,7 @@ export function TodayScreen() {
           },
         });
       })
-      .catch(() => { setSlate(before); toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => save(r, eagerness) }); });
+      .catch(() => { setSlate(before); toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => save(r) }); });
   };
   const dismiss = (r: Recommendation, reason: DismissReason) => {
     if (!slate) return;
@@ -310,7 +341,7 @@ export function TodayScreen() {
       .then(() => { setRestart(true); toast({ text: ru.toast.watchInferred }); })
       .catch(() => undefined);
   };
-  const closeSheet = () => { setOpen(null); if (restart) { setRestart(false); setAttempt((a) => a + 1); } };
+  const closeSheet = () => { setOpen(null); setOpenVoice(undefined); if (restart) { setRestart(false); setAttempt((a) => a + 1); } };
   const notYet = (e: JourneyEntryData) => {
     tap();
     notWatched(e.id)
@@ -376,9 +407,17 @@ export function TodayScreen() {
             <EmptyState title={ru.today.empty} text={ru.today.emptyText} action={ru.actions.retry} onAction={() => setAttempt(attempt + 1)} />
           </div>
         ) : null}
+        {hint && items.length ? (
+          <div className="tm-stream__swipehint" role="note">
+            <span className="tm-caption">{ru.feed.swipeHint}</span>
+            <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ru.feed.swipeHintOk}</Button>
+          </div>
+        ) : null}
+        {current.length || items.length ? <div className="tm-filmstrip">
         {/* Что смотрите сейчас — первым: чек-ин после просмотра кормит подбор, прятать его в архив нельзя */}
-        {current.map((e) => (
+        {current.map((e, i) => (
           <article key={e.id} className={cx('tm-stream__item', 'tm-stream__item--current')}>
+            <FilmEdge work={e.work} no={i + 1} short />
             <WorkBanner work={e.work} size="sm" tag={ru.feed.watching} meta={entryMeta(e)} onClick={() => setOpen(e.id)} />
             {/* сверка в один тап прямо из ленты: «посмотрели?». «Ещё не смотрел» — нормальный
                 ответ: переход в кинотеатр ещё не просмотр, человека могли отвлечь */}
@@ -388,17 +427,13 @@ export function TodayScreen() {
             </div>
           </article>
         ))}
-        {hint && items.length ? (
-          <div className="tm-stream__swipehint" role="note">
-            <span className="tm-caption">{ru.feed.swipeHint}</span>
-            <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ru.feed.swipeHintOk}</Button>
-          </div>
-        ) : null}
-        {items.map((r) => (
-          <FeedCard key={r.id} r={r} meta={recMeta(r)} tag={mechanics ? ru.slot[r.slot].label : undefined}
-                    onOpen={() => setOpen(r.id)} onSave={(n) => { learned(); save(r, n); }}
+        {items.map((r, i) => (
+          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics ? ru.slot[r.slot].label : undefined}
+                    onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
+                    onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
         ))}
+        </div> : null}
       </div>
 
       {/* Карточка того, что смотрите сейчас: описание и чек-ин */}
@@ -415,7 +450,7 @@ export function TodayScreen() {
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
                  tag={mechanics && openRec ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}>
         {openRec ? (
-          <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)}
+          <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />
         ) : null}
       </WorkSheet>

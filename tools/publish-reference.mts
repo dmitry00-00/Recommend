@@ -8,7 +8,12 @@ import { loadEnvFile } from './env-file.mts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { sourceCandidates } from '../src/mocks/sourcesAuto.ts';
-import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
+import { filmBaseWiki as wiki } from '../src/mocks/filmBaseWiki.ts';
+import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
+
+// вписанное людьми в таблицу разметки едет на сервер тем же справочником: клиенту всё равно,
+// откуда карточка — из каналов или из таблицы
+const filmBaseWiki = [...wiki, ...filmBaseMarkup];
 import { comentions } from '../src/mocks/comentions.ts';
 
 loadEnvFile();

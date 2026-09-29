@@ -63,6 +63,8 @@ export interface OwnerSeed {
 export interface UserSeed {
   /** меняется с каждой новой версией списка: по ней понятно, что уже разложено */
   version: string;
-  watched: { workId: string; work: unknown; tmdb?: number; imdb?: string }[];
+  /** from — откуда запись: 'kinopoisk' — tools/import-kinopoisk.mts; без него — присланный
+   *  список (tools/resolve-seed.mts). Воркеру не нужен, нужен сборщикам, чтобы не затирать друг друга */
+  watched: { workId: string; work: unknown; tmdb?: number; imdb?: string; from?: 'kinopoisk' }[];
   ratings?: { workId: string; rating: number; raw?: number; work?: unknown }[];
 }

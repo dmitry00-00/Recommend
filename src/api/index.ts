@@ -97,11 +97,11 @@ const loadCatalog = (): Promise<void> => catalog();
 function catalog(): Promise<void> {
   catalogLoad ??= Promise.all([
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
-    import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'),
+    import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'),
-  ]).then(([uh, ur, uw, fb, fw, freshWiki]) => {
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki]) => {
     userWorks = uh.userWorks; userJournal = uh.userJournal; userRatings = ur.userRatings;
-    watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? fw.filmBaseWiki;
+    watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup];
   });
   return catalogLoad;
 }

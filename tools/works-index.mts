@@ -12,6 +12,7 @@ import { candidateSeeds, seedToCard } from '../src/mocks/candidates.ts';
 import { candidateMedia } from '../src/mocks/candidateMedia.ts';
 import { filmBase } from '../src/mocks/filmBase.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
+import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
 export interface IndexedWork {
@@ -24,6 +25,8 @@ export interface IndexedWork {
 
 export function analysisKey(work: WorkCard): string | undefined {
   const ids = work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id];
+  // сериал — по IMDb: номера TMDb у фильмов и сериалов пересекаются (28.09)
+  if (work.format === 'series') return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
   if (ids?.tmdb != null) return `tmdb:${ids.tmdb}`;
   if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
   return undefined;
@@ -32,7 +35,11 @@ export function analysisKey(work: WorkCard): string | undefined {
 /** Все известные произведения без повторов: кто попал в список раньше, тот и остаётся.
  *  Справочник фильмов идёт последним — если фильм уже есть в истории или каталоге,
  *  побеждает он (у него есть разметка, у справочника её нет). */
-export function worksIndex(): IndexedWork[] {
+export function worksIndex({ all: unnamed = false }: {
+  /** и те, у кого нет названия, годного для поиска в тексте («Фарго», «Душа»): им нужен ключ
+   *  для ручной привязки и место в справочнике таблицы, а в чужом тексте их не ищут (`names` пуст) */
+  all?: boolean;
+} = {}): IndexedWork[] {
   const all: WorkCard[] = [
     ...Object.values(catalogWorks).map((w) => ({ ...w, externalIds: w.externalIds ?? catalogMedia[w.id]?.externalIds ?? externalIds[w.id] })),
     ...userWorks, ...watchedWorks,
@@ -40,6 +47,8 @@ export function worksIndex(): IndexedWork[] {
     ...filmBase,
     // то, о чём говорят каналы: опознано в Wikidata, разметки нет (23.09)
     ...filmBaseWiki,
+    // вписано людьми в таблицу разметки и опознано в Wikidata (28.09)
+    ...filmBaseMarkup,
   ];
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
@@ -47,7 +56,7 @@ export function worksIndex(): IndexedWork[] {
     if (!key || out.has(key)) continue;
     const names = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
-    if (names.length) out.set(key, { key, work, names });
+    if (names.length || unnamed) out.set(key, { key, work, names });
   }
   return [...out.values()];
 }

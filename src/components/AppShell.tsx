@@ -85,11 +85,20 @@ export function AppShell({ variant, nav, children }: AppShellProps) {
               </NavLink>
             </li>
           ))}
+          {/* профиль — таким же пунктом с подписью (28.09): одна иконка без подписи справа
+              делала меню кривым — два пункта по краям и пустая середина */}
+          <li>
+            <NavLink to="/settings"
+                     className={({ isActive }) => cx('tm-nav__item', 'tm-nav__item--profile', isActive && 'tm-nav__item--on')}>
+              {({ isActive }) => (
+                <>
+                  <NavMark id="profile" active={isActive} />
+                  <span>{ru.nav.profile}</span>
+                </>
+              )}
+            </NavLink>
+          </li>
         </ul>
-        <NavLink to="/settings" aria-label={ru.nav.profile}
-                 className={({ isActive }) => cx('tm-nav__item', 'tm-nav__item--profile', isActive && 'tm-nav__item--on')}>
-          {({ isActive }) => <NavMark id="profile" active={isActive} />}
-        </NavLink>
       </nav>
     </div>
   );

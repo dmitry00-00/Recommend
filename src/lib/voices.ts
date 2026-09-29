@@ -43,6 +43,8 @@ const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt
 export function groupByVoice(items: ExternalAnalysis[]): WorkVoice[] {
   const groups = new Map<string, WorkVoice>();
   for (const a of items) {
+    // обзоры человеку не показываем (владелец, 29.09): они для подбора, не для чтения
+    if (a.tier === 'review') continue;
     const voice = voiceOf(a);
     if (voice.role !== 'author') continue;
     const group = groups.get(voice.id) ?? { voice, items: [] };

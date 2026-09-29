@@ -45,12 +45,30 @@ export const sources: VoiceSource[] = [
   { id: 'src-badcomedian', title: 'BadComedian', handle: 'thebadcomedian', platform: 'youtube', url: 'https://www.youtube.com/@thebadcomedian', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-denischuzhoy', title: 'Денис Чужой', handle: 'denis_chuzhoy', platform: 'youtube', url: 'https://www.youtube.com/@denis_chuzhoy', role: 'voice', kind: 'channel', tier: 'review', medium: 'book' },
   { id: 'src-terlk', title: 'TerlKabot', handle: 'terlk', platform: 'youtube', url: 'https://www.youtube.com/@terlk', role: 'voice', kind: 'channel', tier: 'review' },
+  // обзорщики кино — список владельца 28.09
+  { id: 'src-mirymkrana', title: 'Миры Экрана', handle: 'kalininfilmschool', platform: 'youtube', url: 'https://www.youtube.com/@kalininfilmschool', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-kubrik', title: 'Кубрик', handle: 'kubrik1985', platform: 'youtube', url: 'https://www.youtube.com/@kubrik1985', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-akr', title: 'Уголок Акра', handle: 'Akr815', platform: 'youtube', url: 'https://www.youtube.com/@Akr815', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-woodmark', title: 'Woodmark', handle: 'WoodmarkChannel', platform: 'youtube', url: 'https://www.youtube.com/@WoodmarkChannel', role: 'voice', kind: 'channel', tier: 'review' },
+  // второй список владельца 28.09; ярус — по роликам канала (кино на слуху → обзор, своё → эссе)
+  { id: 'src-kultas', title: 'Культас', handle: 'Kultas', platform: 'youtube', url: 'https://www.youtube.com/@Kultas', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-usachev', title: 'Павел Усачёв', handle: 'pavelusachoff', platform: 'youtube', url: 'https://www.youtube.com/@pavelusachoff', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-blackcabinet', title: 'Чёрный кабинет', handle: 'BlackCabinet', platform: 'youtube', url: 'https://www.youtube.com/@BlackCabinet', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-greengrass', title: 'GreenGrass', handle: 'greengrassreal', platform: 'youtube', url: 'https://www.youtube.com/@greengrassreal', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-plaguevision', title: 'Обзор во время чумы', handle: 'PlagueVision', platform: 'youtube', url: 'https://www.youtube.com/@PlagueVision', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-radiodolin', title: 'Радио Долин', handle: 'radiodolin', platform: 'youtube', url: 'https://www.youtube.com/@radiodolin', role: 'voice', kind: 'channel', tier: 'essay' },
+  { id: 'src-zharinov', title: 'Николай Жаринов', handle: 'NikolaiZharinov', platform: 'youtube', url: 'https://www.youtube.com/@NikolaiZharinov', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
+  { id: 'src-kirichenko', title: 'Кирилл Кириченко', handle: 'KIRILL_KIRICHENKO', platform: 'youtube', url: 'https://www.youtube.com/@KIRILL_KIRICHENKO', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
   { id: 'src-kinokritika', title: 'КИНОКРИТИКА', handle: 'kinokritika', platform: 'youtube', url: 'https://www.youtube.com/@kinokritika', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-sokoloff', title: 'SokoL[off] TV', handle: 'alexsokoloff', platform: 'youtube', url: 'https://www.youtube.com/@alexsokoloff', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-zhukov', title: 'Клим Жуков', handle: 'uzhukoffa', platform: 'youtube', url: 'https://www.youtube.com/@uzhukoffa', role: 'voice', kind: 'channel', tier: 'review' },
+  // Ярус — решение владельца (28.09): ЧБУ, Скрытый смысл и nevrotik — обзоры, не эссе, хоть и
+  // выглядят разбором. ЧБУ выдаёт фанатские теории за разбор по существу; Скрытый смысл толкует
+  // фильм в пределах увиденного, без интерпретации образов и проверки связей; nevrotik — только
+  // субъективная оценка, без экспертизы.
   { id: 'src-nerdface', title: 'ЧБУ', handle: 'nerdface', platform: 'youtube', url: 'https://www.youtube.com/@nerdface', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-skrsmysl', title: 'Скрытый смысл', handle: 'skrsmysl', platform: 'youtube', url: 'https://www.youtube.com/@skrsmysl', role: 'voice', kind: 'channel', tier: 'review' },
-  { id: 'src-nevrotik', title: 'nevrotik.', handle: 'nevrotik', platform: 'youtube', url: 'https://www.youtube.com/@nevrotik', role: 'voice', kind: 'channel', tier: 'essay' },
+  { id: 'src-nevrotik', title: 'nevrotik.', handle: 'nevrotik', platform: 'youtube', url: 'https://www.youtube.com/@nevrotik', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-redcynic', title: 'Red Cynic', handle: 'redcynicrc', platform: 'youtube', url: 'https://www.youtube.com/@redcynicrc', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-vslushivanie', title: 'Вслушивание', handle: 'Вслушивание', platform: 'youtube', url: 'https://www.youtube.com/@%D0%92%D1%81%D0%BB%D1%83%D1%88%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5', role: 'voice', kind: 'channel', tier: 'essay' },
   // Книги (список владельца, 22.09). «Филолог всея Руси» ведёт и канал, и ютуб — в карточке

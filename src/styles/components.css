@@ -199,7 +199,7 @@
 .tm-energy__opt {
   flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: var(--tm-space-2);
   min-height: 48px; padding: 0 var(--tm-space-3); border: 0; border-top: 3px solid transparent;
-  background: transparent; color: var(--tm-color-ink-faint); cursor: pointer; font-family: var(--font-display);
+  background: transparent; color: var(--tm-color-ink-faint); cursor: pointer; font-family: var(--font-text);
 }
 .tm-energy__opt + .tm-energy__opt { border-left: 1px solid var(--tm-color-line); }
 .tm-energy__opt:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: -2px; }
@@ -448,9 +448,13 @@
 
 .tm-achoice { display: flex; flex-direction: column; gap: var(--tm-space-2); max-width: 62ch; }
 .tm-achoice__opt { display: flex; align-items: center; gap: var(--tm-space-3); min-height: 48px; padding: var(--tm-space-2) var(--tm-space-4); text-align: left; border-radius: var(--tm-radius-control); border: 1px solid var(--tm-color-line-strong); background: var(--tm-color-surface-card); color: var(--tm-color-ink); cursor: pointer; font-family: var(--font-text); }
-.tm-achoice__mark { flex: none; width: 14px; height: 14px; border: 1.5px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-mark); }
+/* выбор одного из многих — круглая метка, как у радиокнопки (28.09): квадрат читался как «можно несколько»;
+   там, где правда можно несколько («Что рекомендовать»), метка остаётся квадратной */
+.tm-achoice__mark { flex: none; width: 16px; height: 16px; border: 1.5px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-mark); }
+[role="radio"] > .tm-achoice__mark { border-radius: 999px; }
 .tm-achoice__opt--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash); }
 .tm-achoice__opt--on .tm-achoice__mark { background: var(--tm-color-accent); border-color: var(--tm-color-accent); }
+.tm-achoice__opt--on[role="radio"] > .tm-achoice__mark { box-shadow: inset 0 0 0 3px var(--tm-color-accent-wash); }
 
 .tm-aorder { list-style: none; margin: 0; padding: 0; max-width: 56ch; }
 .tm-aorder__row { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-3); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-control); background: var(--tm-color-surface-card); }
@@ -478,12 +482,14 @@
 .tm-shell__main { flex: 1; padding: var(--tm-space-5); }
 .tm-shell__title { margin: 0 0 var(--tm-space-4); }
 .tm-nav { background: var(--tm-color-surface-card); }
-.tm-nav--mobile { display: flex; align-items: stretch; justify-content: space-between; gap: var(--tm-space-1); padding: 0 var(--tm-space-3); border-top: 1px solid var(--tm-color-line); }
+.tm-nav--mobile { display: flex; align-items: stretch; padding: 0; border-top: 1px solid var(--tm-color-line); }
 .tm-nav--desktop { width: 200px; flex: none; padding: var(--tm-space-5) var(--tm-space-4); border-right: 1px solid var(--tm-color-line); }
 .tm-nav__brand { margin: 0 0 var(--tm-space-6); font-family: var(--font-text); }
 .tm-nav__list { display: flex; gap: var(--tm-space-2); list-style: none; margin: 0; padding: 0; }
 .tm-nav--desktop .tm-nav__list { flex-direction: column; gap: var(--tm-space-1); }
-.tm-nav--mobile .tm-nav__list { flex: 1; justify-content: space-between; }
+.tm-nav--mobile .tm-nav__list { flex: 1; gap: 0; }
+.tm-nav--mobile .tm-nav__list > li { flex: 1 1 0; }
+.tm-nav--mobile .tm-nav__item { width: 100%; border-radius: 0; }
 .tm-nav__item { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 44px; padding: var(--tm-space-2); border-radius: var(--tm-radius-control); color: var(--tm-color-ink-muted); text-decoration: none; }
 .tm-nav--desktop .tm-nav__item { flex-direction: row; gap: var(--tm-space-3); justify-content: flex-start; }
 .tm-nav__item:hover { background: var(--tm-color-surface-200); }
@@ -725,9 +731,11 @@
 .tm-expl__more, .tm-preview, .tm-body, .tm-toast__text, .tm-feed__filter, .tm-consent__check, .tm-packet__layer, .tm-bvote__label, .tm-credit__label, .tm-spoiler__title, .tm-empty { font-family: var(--font-text); font-size: 15px; line-height: 22px; font-weight: 400; }
 .tm-chip__label, .tm-table th, .tm-table td, .tm-maplist th, .tm-maplist td, .tm-tree__row, .tm-dv__val, .tm-valid__msg, .tm-extlink, .tm-aorder__row { font-family: var(--font-text); font-size: 13px; line-height: 19px; font-weight: 400; }
 .tm-map__legend, .tm-contrib__no, .tm-feed__stop, .tm-checkin__note, .tm-unc__note, .tm-trope__path, .tm-dv__ev, .tm-ready__path, .tm-run__errors { font-family: var(--font-text); font-size: 12px; line-height: 17px; font-weight: 400; }
-.tm-btn, .tm-toast__action, .tm-aorder__btn { font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: 0.01em; }
-.tm-nav__item { font-family: var(--font-display); font-size: 14px; line-height: 18px; font-weight: 600; letter-spacing: 0.02em; }
-.tm-rec__slotlabel, .tm-stretchcaps, .tm-expl__t, .tm-energy__opt, .tm-diff__opt, .tm-reasons__opt, .tm-refl__opt, .tm-usage__opt, .tm-tropecheck__v, .tm-bvote__opt, .tm-agrid__lvl, .tm-credit__opt, .tm-pair__side, .tm-table thead th, .tm-barrier, .tm-input, .tm-trope__usage, .tm-step__peak, .tm-entry__status, .tm-status, .tm-verdict, .tm-packet__field, .tm-ascale__ends, .tm-credit__sub { font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; }
+.tm-btn, .tm-toast__action, .tm-aorder__btn { font-family: var(--font-text); font-size: 14px; line-height: 20px; font-weight: 600; }
+.tm-nav__item { font-family: var(--font-text); font-size: 12px; line-height: 16px; font-weight: 600; }
+.tm-rec__slotlabel, .tm-stretchcaps, .tm-expl__t, .tm-tropecheck__v, .tm-agrid__lvl, .tm-pair__side, .tm-table thead th, .tm-barrier, .tm-trope__usage, .tm-step__peak, .tm-entry__status, .tm-status, .tm-verdict, .tm-packet__field, .tm-ascale__ends, .tm-credit__sub { font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; }
+.tm-energy__opt, .tm-diff__opt, .tm-reasons__opt, .tm-refl__opt, .tm-usage__opt, .tm-bvote__opt, .tm-credit__opt { font-family: var(--font-text); font-size: 13px; line-height: 16px; font-weight: 600; }
+.tm-input { font-family: var(--font-text); font-size: 15px; line-height: 20px; font-weight: 400; }
 .tm-meta, .tm-cover__foot, .tm-scrub__read, .tm-step__status, .tm-step__order, .tm-traj__cprog, .tm-traj__clabel, .tm-feed__kind, .tm-feed__est, .tm-chip__num, .tm-table__sub, .tm-table__gold, .tm-replan__title, .tm-stretch__label, .tm-ready, .tm-fconf__label, .tm-refl__count, .tm-aprog, .tm-spoiler__state, .tm-step__opkind, .tm-maplist__focus, .tm-credit__note, .tm-import__sum, .tm-preview__title, .tm-extlink__lock, .tm-disc__lock { font-family: var(--font-text); font-size: 12px; line-height: 16px; font-weight: 400; }
 .tm-disc__kind, .tm-rec__prevlabel, .tm-ceiling__caplabel, .tm-ceiling__marklabel, .tm-checkin__steps, .tm-pair__key, .tm-cover--sm .tm-cover__title, .tm-map__key { font-family: var(--font-display); font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.1em; }
 .tm-table__num, .tm-alpha, .tm-fconf__path, .tm-dv__path, .tm-valid__path, .tm-tree__count, .tm-contrib__n { font-family: var(--font-text); font-size: 13px; line-height: 18px; font-weight: 500; }

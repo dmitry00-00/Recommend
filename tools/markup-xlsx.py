@@ -66,6 +66,8 @@ def markup_sheet(name, rows, index):
         ws.cell(row=r, column=3, value=row['title'])
         ws.cell(row=r, column=4, value=row['channel'])
         ws.cell(row=r, column=5, value=row['date'])
+        if row.get('checked'):
+            ws.cell(row=r, column=6, value='да')      # решение человека — возвращаем как было
     last = len(rows) + 1 + EMPTY   # пустые строки снизу — с тем же выпадающим списком
 
     # Выпадающий список. Предупреждение, а не запрет: если человек знает фильм, которого нет в
@@ -103,6 +105,8 @@ for r, m in enumerate(missing, start=2):
     gaps.cell(row=r, column=1, value=m['label'])
     gaps.cell(row=r, column=2, value=m['year'] or None)
     gaps.cell(row=r, column=3, value=m['talk'] or None)
+    if m.get('link'):
+        gaps.cell(row=r, column=4, value=m['link'])
 for col, width in zip('ABCD', (46, 8, 18, 50)):
     gaps.column_dimensions[col].width = width
 gaps.freeze_panes = 'A2'
@@ -110,7 +114,7 @@ gaps.auto_filter.ref = 'A1:D%d' % (len(missing) + 1)
 
 # 4. Короткая памятка — в том же файле, чтобы не терялась
 how = wb.create_sheet('Как размечать')
-guessed = sum(1 for r in data['review'] + data['essay'] if r['film'])
+guessed = sum(1 for r in data['review'] + data['essay'] if r['film'] and not r.get('checked'))
 for line in [
     'Что это: %d видеороликов с каналов о кино. Надо сказать, о каком фильме ролик.'
     % (len(data['review']) + len(data['essay'])),

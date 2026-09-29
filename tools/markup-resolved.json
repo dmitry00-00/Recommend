@@ -1,0 +1,6846 @@
+{
+ "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
+ "updated": "2026-09-28",
+ "videos": {
+  "_3gNe43hFA0": {
+   "typed": "mr. robot",
+   "key": "imdb:tt4158110",
+   "label": "Мистер Робот (сериал, 2015)",
+   "sure": true
+  },
+  "_6b--t6bpn8": {
+   "typed": "Форсаж 9",
+   "key": "tmdb:385128",
+   "label": "Форсаж 9 (2021)",
+   "sure": true
+  },
+  "_e1mthCw74Q": {
+   "typed": "Звёздные войны 8: Последние джедаи",
+   "key": "tmdb:181808",
+   "label": "Звёздные войны: Эпизод 8 - Последние джедаи (2017)",
+   "sure": false
+  },
+  "_gSUPSf7zl8": {
+   "typed": "перестрелка 2016",
+   "key": "tmdb:334521",
+   "label": "Перестрелка (2016)",
+   "sure": true
+  },
+  "_IOcoVKC_tc": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "_ip6Z4R0S5g": {
+   "typed": "дрожь земли 6",
+   "key": "tmdb:496704",
+   "label": "Дрожь земли 6 (2018)",
+   "sure": true
+  },
+  "_IumfOmq8_U": {
+   "typed": "уланская баллада",
+   "key": "tmdb:150088",
+   "label": "1812: Уланская баллада (2012)",
+   "sure": true
+  },
+  "_Lu8XZAZwtA": {
+   "typed": "неудержимые 3",
+   "key": "tmdb:138103",
+   "label": "Неудержимые 3 (2014)",
+   "sure": true
+  },
+  "_mb3yMOhC78": {
+   "typed": "warcraft",
+   "key": "tmdb:68735",
+   "label": "Варкрафт (2016)",
+   "sure": true
+  },
+  "_nlwrNTWv-s": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "_p2kCAy5Mqw": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "_PSYiH-EWV0": {
+   "typed": "красное уведомление",
+   "key": "tmdb:512195",
+   "label": "Красное уведомление (2021)",
+   "sure": true
+  },
+  "_qtKgab9eM4": {
+   "typed": "бегущий в лабиринте",
+   "key": "tmdb:198663",
+   "label": "Бегущий в лабиринте (2014)",
+   "sure": true
+  },
+  "_Rl5dcLnk5k": {
+   "typed": "фантастические твари и где они обитают",
+   "key": "tmdb:259316",
+   "label": "Фантастические твари и где они обитают (2016)",
+   "sure": true
+  },
+  "_sfK0dqppMU": {
+   "typed": "звездный десант 2",
+   "key": "tmdb:10304",
+   "label": "Звёздный десант 2: Герой Федерации (2004)",
+   "sure": true
+  },
+  "_VYFudFf3QE": {
+   "typed": "защитники",
+   "key": "imdb:tt4230076",
+   "label": "Защитники (сериал, 2017)",
+   "sure": false
+  },
+  "_WJ79rKo44U": {
+   "typed": "страна чудес",
+   "key": "tmdb:375097",
+   "label": "Страна чудес (2016)",
+   "sure": true
+  },
+  "_Y7RPpNxSYc": {
+   "typed": "Люди Икс: Апокалипсис",
+   "key": "tmdb:246655",
+   "label": "Люди Икс: Апокалипсис (2016)",
+   "sure": true
+  },
+  "_YFGmLFfvBE": {
+   "typed": "дэдпул и росомаха",
+   "key": "tmdb:533535",
+   "label": "Дэдпул и Росомаха (2024)",
+   "sure": true
+  },
+  "_YpQAeTGhVM": {
+   "typed": "Рэмбо 3",
+   "key": "tmdb:1370",
+   "label": "Рэмбо III (1988)",
+   "sure": true
+  },
+  "_zjLw_oR35E": {
+   "typed": "Лего Бэтмен",
+   "key": "tmdb:324849",
+   "label": "Лего Фильм: Бэтмен (2017)",
+   "sure": false
+  },
+  "_ZNoQCanY5w": {
+   "typed": "ШАЗАМ",
+   "key": "tmdb:287947",
+   "label": "Шазам! (2019)",
+   "sure": true
+  },
+  "-_IdUiy_lzk": {
+   "typed": "КОРОЛЬ ЛЕВ 2019",
+   "key": "tmdb:420818",
+   "label": "Король Лев (2019)",
+   "sure": true
+  },
+  "--_-A3177Lw": {
+   "typed": "ранго",
+   "key": "tmdb:44896",
+   "label": "Ранго (2011)",
+   "sure": true
+  },
+  "-aqNAzkv-RI": {
+   "typed": "особь 2",
+   "key": "tmdb:10216",
+   "label": "Особь 2 (1998)",
+   "sure": true
+  },
+  "-bzAZXpd9R0": {
+   "typed": "Примадонна",
+   "key": "tmdb:527036",
+   "label": "Примадонна Мэри (1998)",
+   "sure": true
+  },
+  "-cbDMmipgOQ": {
+   "typed": "Люси",
+   "key": "tmdb:240832",
+   "label": "Люси (2014)",
+   "sure": true
+  },
+  "-f878bBiDaE": {
+   "typed": "Фобос клуб страха",
+   "key": "tmdb:63266",
+   "label": "Фобос (2010)",
+   "sure": true
+  },
+  "-IMToZD3jPY": {
+   "typed": "Тёмная башня",
+   "key": "tmdb:353491",
+   "label": "Тёмная башня (2017)",
+   "sure": true
+  },
+  "-MCGYafLc1c": {
+   "typed": "обитель зла проклятие",
+   "key": "tmdb:133121",
+   "label": "Обитель зла: Проклятие (2012)",
+   "sure": true
+  },
+  "-mN0cswlGYU": {
+   "typed": "Барби",
+   "key": "tmdb:346698",
+   "label": "Барби (2023)",
+   "sure": true
+  },
+  "-ODCGaAd9Xc": {
+   "typed": "бешеные псы",
+   "key": "tmdb:500",
+   "label": "Бешеные псы (1992)",
+   "sure": false
+  },
+  "-oh94xB7B5M": {
+   "typed": "ЗАЩИТНИКИ",
+   "key": "tmdb:354556",
+   "label": "Защитники (2017)",
+   "sure": true
+  },
+  "-q96pQlFjXU": {
+   "typed": "Фантастические твари 2: Преступления Грин-де-Вальда",
+   "key": "tmdb:338952",
+   "label": "Фантастические твари: Преступления Грин-де-Вальда (2018)",
+   "sure": false
+  },
+  "-RmNohcmNFA": {
+   "typed": "пингвин",
+   "key": "imdb:tt15435876",
+   "label": "Пингвин (сериал, 2024)",
+   "sure": true
+  },
+  "-SKjSOrWwm8": {
+   "typed": "сквозь снег",
+   "key": "tmdb:110415",
+   "label": "Сквозь снег (2013)",
+   "sure": true
+  },
+  "-vqpOAbvEBI": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "-w3xivu6CNo": {
+   "typed": "душа",
+   "key": "tmdb:508442",
+   "label": "Душа (2020)",
+   "sure": false
+  },
+  "-Y21_kuuZ8g": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": true
+  },
+  "-YhKibGqCiE": {
+   "typed": "Голодные игры: Сойка-пересмешница. Часть 1",
+   "key": "tmdb:131631",
+   "label": "Голодные игры: Сойка-пересмешница. Часть 1 (2014)",
+   "sure": true
+  },
+  "0-E2PqcLnxU": {
+   "typed": "юбилей прокурора",
+   "key": "tmdb:524505",
+   "label": "Юбилей прокурора",
+   "sure": true
+  },
+  "00EZW6rcsR4": {
+   "typed": "ГАДКИЙ Я 3",
+   "key": "tmdb:324852",
+   "label": "Гадкий я 3 (2017)",
+   "sure": true
+  },
+  "00l2IWZxy_8": {
+   "typed": "Скорый Москва-Россия",
+   "key": "tmdb:274388",
+   "label": "Скорый «Москва—Россия»",
+   "sure": true
+  },
+  "01Zlm7GDNS4": {
+   "typed": "рыцарь семи королевств",
+   "key": "imdb:tt27497448",
+   "label": "Рыцарь Семи Королевств (сериал, 2026)",
+   "sure": true
+  },
+  "0BYi2eRZOLg": {
+   "typed": "робокоп 1987",
+   "key": "tmdb:5548",
+   "label": "Робокоп (1987)",
+   "sure": true
+  },
+  "0D67xS9ji14": {
+   "typed": "неправильные копы",
+   "key": "tmdb:158990",
+   "label": "Неправильные копы (2013)",
+   "sure": true
+  },
+  "0DE-A32eh0g": {
+   "typed": "Игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "0dec50qhRTM": {
+   "typed": "Горничная",
+   "key": "tmdb:1368166",
+   "label": "Горничная (2026)",
+   "sure": false
+  },
+  "0EIqSZQGKfs": {
+   "typed": "восхождение юпитер",
+   "key": "tmdb:76757",
+   "label": "Восхождение Юпитер (2015)",
+   "sure": true
+  },
+  "0HVhta2yCDI": {
+   "typed": "Шан Чи и легенда десяти колец",
+   "key": "tmdb:566525",
+   "label": "Шан-Чи и легенда десяти колец (2021)",
+   "sure": true
+  },
+  "0mwrOHU8D_E": {
+   "typed": "поколение Ви",
+   "key": "imdb:tt13159924",
+   "label": "Поколение «Ви» (сериал, 2023)",
+   "sure": true
+  },
+  "0NXdMP1hmA0": {
+   "typed": "ЁЛКИ НОВЫЕ 2017",
+   "key": "tmdb:489648",
+   "label": "Ёлки новые (2017)",
+   "sure": true
+  },
+  "0O7gMLdlLpA": {
+   "typed": "ГЕОШТОРМ",
+   "key": "tmdb:274855",
+   "label": "Геошторм (2017)",
+   "sure": true
+  },
+  "0R-AQqseJYI": {
+   "typed": "ссд",
+   "key": "tmdb:60068",
+   "label": "С. С. Д. (2008)",
+   "sure": true
+  },
+  "0Ses_8ZFzLU": {
+   "typed": "Форсаж 9",
+   "key": "tmdb:385128",
+   "label": "Форсаж 9 (2021)",
+   "sure": true
+  },
+  "0SuMdOQjha8": {
+   "typed": "человек муравей и оса",
+   "key": "tmdb:363088",
+   "label": "Человек-муравей и Оса (2018)",
+   "sure": true
+  },
+  "0tjzoL0tGuc": {
+   "typed": "ЗВЕЗДНЫЕ ВОЙНЫ 7 ПРОБУЖДЕНИЕ СИЛЫ",
+   "key": "tmdb:140607",
+   "label": "Звёздные войны: Эпизод 7 - Пробуждение силы (2015)",
+   "sure": false
+  },
+  "0UEUXBU0MNQ": {
+   "typed": "ФОРМА ВОДЫ",
+   "key": "tmdb:399055",
+   "label": "Форма воды (2017)",
+   "sure": true
+  },
+  "0XZiNX_H9Z8": {
+   "typed": "Матильда 2017",
+   "key": "tmdb:376540",
+   "label": "Матильда (2017)",
+   "sure": true
+  },
+  "0Z80JPqizb4": {
+   "typed": "мулан 2020",
+   "key": "tmdb:337401",
+   "label": "Мулан (2020)",
+   "sure": true
+  },
+  "1_oqe59h4Gk": {
+   "typed": "летчик",
+   "key": "tmdb:597859",
+   "label": "Лётчик (2021)",
+   "sure": false
+  },
+  "13eK8o4H6cU": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "14eXHfLiepI": {
+   "typed": "СТАРТРЕК БЕСКОНЕЧНОСТЬ",
+   "key": "tmdb:188927",
+   "label": "Стартрек: Бесконечность (2016)",
+   "sure": true
+  },
+  "18f2yETt0Ko": {
+   "typed": "супербобровы",
+   "key": "tmdb:387938",
+   "label": "Супербобровы (2016)",
+   "sure": true
+  },
+  "1b-dW_k3kCU": {
+   "typed": "Геракл Начало легенды",
+   "key": "tmdb:188207",
+   "label": "Геракл: Начало легенды (2014)",
+   "sure": true
+  },
+  "1bikeoK0LEQ": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "1DXE6UDdPxI": {
+   "typed": "конец детства",
+   "key": "imdb:tt4146128",
+   "label": "Конец детства (сериал, 2015)",
+   "sure": true
+  },
+  "1F5WLJ7Ni9c": {
+   "typed": "танцы насмерть",
+   "key": "tmdb:428356",
+   "label": "Танцы насмерть (2017)",
+   "sure": true
+  },
+  "1G9TS1f8UY8": {
+   "typed": "Три девятки",
+   "key": "tmdb:146198",
+   "label": "Три девятки (2016)",
+   "sure": true
+  },
+  "1GZiaoHyp4g": {
+   "typed": "робот по имени чаппи",
+   "key": "tmdb:198184",
+   "label": "Робот по имени Чаппи (2015)",
+   "sure": true
+  },
+  "1Lmj8HW7A_Q": {
+   "typed": "ТОР: ЛЮБОВЬ И ГРОМ",
+   "key": "tmdb:616037",
+   "label": "Тор: Любовь и гром (2021)",
+   "sure": true
+  },
+  "1M33vBPrOT8": {
+   "typed": "Три билборда на границе Эббинга, Миссури",
+   "key": "tmdb:359940",
+   "label": "Три билборда на границе Эббинга, Миссури (2017)",
+   "sure": true
+  },
+  "1nX0kF2UwDc": {
+   "typed": "движение вверх",
+   "key": "tmdb:444218",
+   "label": "Движение вверх (2017)",
+   "sure": true
+  },
+  "1ovX_J45fqg": {
+   "typed": "Джокер 2: Безумие на двоих",
+   "key": "tmdb:889737",
+   "label": "Джокер: Безумие на двоих (2024)",
+   "sure": false
+  },
+  "1SOpE9d49cg": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "1tnZwQeWM10": {
+   "typed": "пляж",
+   "key": "tmdb:1907",
+   "label": "Пляж (2000)",
+   "sure": false
+  },
+  "1Y2xlW8bnWE": {
+   "typed": "догма",
+   "key": "tmdb:1832",
+   "label": "Догма (1999)",
+   "sure": true
+  },
+  "1z4AFUbd6dg": {
+   "typed": "законопослушный гражданин",
+   "key": "tmdb:22803",
+   "label": "Законопослушный гражданин (2009)",
+   "sure": true
+  },
+  "2_bWhf5SdtI": {
+   "typed": "викинг",
+   "key": "tmdb:369698",
+   "label": "Викинг (2016)",
+   "sure": false
+  },
+  "2A9Ig8bYeoE": {
+   "typed": "сталкер 1979",
+   "key": "tmdb:1398",
+   "label": "Сталкер (1979)",
+   "sure": true
+  },
+  "2fmcWD4jRzE": {
+   "typed": "Человек-муравей и Оса 3: Квантомания",
+   "key": "tmdb:640146",
+   "label": "Человек-муравей и Оса: Квантомания (2023)",
+   "sure": false
+  },
+  "2gAnaIXRNc0": {
+   "typed": "чернобыль",
+   "key": "tmdb:589761",
+   "label": "Чернобыль (2021)",
+   "sure": false
+  },
+  "2I8Idu2VQio": {
+   "typed": "однажды в Голливуде",
+   "key": "tmdb:466272",
+   "label": "Однажды в… Голливуде (2019)",
+   "sure": false
+  },
+  "2J97bdsqkM0": {
+   "typed": "свинка пеппа",
+   "key": "imdb:tt0426769",
+   "label": "Свинка Пеппа (сериал, 2004)",
+   "sure": true
+  },
+  "2r6FC17naWU": {
+   "typed": "оби Ван кеноби",
+   "key": "imdb:tt8466564",
+   "label": "Оби-Ван Кеноби (сериал, 2022)",
+   "sure": true
+  },
+  "2TGfliBPH0o": {
+   "typed": "Мстители эра Альтрона",
+   "key": "tmdb:99861",
+   "label": "Мстители: Эра Альтрона (2015)",
+   "sure": true
+  },
+  "2u1jBq3NkdM": {
+   "typed": "ЛЕДНИКОВЫЙ ПЕРИОД 5",
+   "key": "tmdb:278154",
+   "label": "Ледниковый период 5: Столкновение неизбежно (2016)",
+   "sure": true
+  },
+  "2vNuh7_wh4s": {
+   "typed": "Мстители эра Альтрона",
+   "key": "tmdb:99861",
+   "label": "Мстители: Эра Альтрона (2015)",
+   "sure": true
+  },
+  "2x9Rf_kKn-I": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "30uJgI1SwMA": {
+   "typed": "смешарики",
+   "key": "imdb:tt0853174",
+   "label": "Смешарики (сериал, 2004)",
+   "sure": true
+  },
+  "37DsmuoltDc": {
+   "typed": "ПОЛТОРА ШПИОНА",
+   "key": "tmdb:302699",
+   "label": "Полтора шпиона (2016)",
+   "sure": true
+  },
+  "39DWFZQBpnY": {
+   "typed": "человек паук 3 враг в отражении",
+   "key": "tmdb:559",
+   "label": "Человек-паук 3: Враг в отражении (2007)",
+   "sure": true
+  },
+  "3bkvCLtA_Cw": {
+   "typed": "планета ка пэкс",
+   "key": "tmdb:167",
+   "label": "Планета Ка-Пэкс (2001)",
+   "sure": true
+  },
+  "3C78ol0FtgI": {
+   "typed": "робокоп 2014",
+   "key": "tmdb:97020",
+   "label": "РобоКоп (2014)",
+   "sure": true
+  },
+  "3cooedG_-Bg": {
+   "typed": "обитель зла 5",
+   "key": "tmdb:71679",
+   "label": "Обитель зла: Возмездие (2012)",
+   "sure": true
+  },
+  "3dN2lmOdTeA": {
+   "typed": "Джуманджи зов джунглей",
+   "key": "tmdb:353486",
+   "label": "Джуманджи: Зов джунглей (2017)",
+   "sure": true
+  },
+  "3iCqoOFyWx4": {
+   "typed": "сказка странствий",
+   "key": "tmdb:167858",
+   "label": "Сказка странствий (1983)",
+   "sure": true
+  },
+  "3OCt7cPOcqk": {
+   "typed": "Суперсемейка",
+   "key": "tmdb:9806",
+   "label": "Суперсемейка (2004)",
+   "sure": true
+  },
+  "3oDy39Oiucw": {
+   "typed": "люди в черном 3",
+   "key": "tmdb:41154",
+   "label": "Люди в чёрном 3 (2012)",
+   "sure": true
+  },
+  "3TpQ1vcjgXg": {
+   "typed": "Сделано в Америке",
+   "key": "tmdb:337170",
+   "label": "Сделано в Америке (2017)",
+   "sure": false
+  },
+  "3vbNovKwmuA": {
+   "typed": "АЛАДДИН",
+   "key": "tmdb:420817",
+   "label": "Аладдин (2019)",
+   "sure": false
+  },
+  "3yCiKI8DlOI": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "41whD6_fJQM": {
+   "typed": "криминальное чтиво",
+   "key": "tmdb:680",
+   "label": "Криминальное чтиво (1994)",
+   "sure": true
+  },
+  "4akJFqoeMko": {
+   "typed": "Балерина",
+   "key": "tmdb:541671",
+   "label": "Балерина (2025)",
+   "sure": false
+  },
+  "4cmljGanD7Y": {
+   "typed": "голодные игры",
+   "key": "tmdb:70160",
+   "label": "Голодные игры (2012)",
+   "sure": true
+  },
+  "4COxR54GwJg": {
+   "typed": "бойцовский клуб",
+   "key": "tmdb:550",
+   "label": "Бойцовский клуб (1999)",
+   "sure": true
+  },
+  "4emrFZLGDhQ": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "4g2T87Q23pQ": {
+   "typed": "король Талсы",
+   "key": "imdb:tt16358384",
+   "label": "Король Талсы (сериал, 2022)",
+   "sure": true
+  },
+  "4h1hZBgrjPs": {
+   "typed": "ДВИЖЕНИЕ ВВЕРХ",
+   "key": "tmdb:444218",
+   "label": "Движение вверх (2017)",
+   "sure": true
+  },
+  "4iTJbeJMJKw": {
+   "typed": "самый лучший фильм",
+   "key": "tmdb:62737",
+   "label": "Самый лучший фильм (2008)",
+   "sure": true
+  },
+  "4Jfn_QqLZ_s": {
+   "typed": "человек в высоком замке",
+   "key": "imdb:tt1740299",
+   "label": "Человек в высоком замке (сериал, 2015)",
+   "sure": true
+  },
+  "4JNpQnwQuBo": {
+   "typed": "прибытие",
+   "key": "tmdb:329865",
+   "label": "Прибытие (2016)",
+   "sure": false
+  },
+  "4jSW4uLrBVk": {
+   "typed": "ИСТОРИЯ ИГРУШЕК 4",
+   "key": "tmdb:301528",
+   "label": "История игрушек 4 (2019)",
+   "sure": false
+  },
+  "4niWUZFQF0k": {
+   "typed": "Человек-паук: Возвращение домой",
+   "key": "tmdb:315635",
+   "label": "Человек-паук: Возвращение домой (2017)",
+   "sure": true
+  },
+  "4P5tu18ZMUw": {
+   "typed": "Монстры на каникулах 2",
+   "key": "tmdb:159824",
+   "label": "Монстры на каникулах 2 (2015)",
+   "sure": true
+  },
+  "4PU8J8p-0SE": {
+   "typed": "властелин колец возвращение короля",
+   "key": "tmdb:122",
+   "label": "Властелин колец: Возвращение короля (2003)",
+   "sure": true
+  },
+  "4Q-oFVDbHms": {
+   "typed": "СТРАЖИ ГАЛАКТИКИ 2",
+   "key": "tmdb:283995",
+   "label": "Стражи Галактики. Часть 2 (2017)",
+   "sure": true
+  },
+  "4QcWW1hrQto": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "4tV_3puq_E8": {
+   "typed": "Хоббит: Битва пяти воинств",
+   "key": "tmdb:122917",
+   "label": "Хоббит: Битва пяти воинств (2014)",
+   "sure": true
+  },
+  "4Uyjq5Q8jiE": {
+   "typed": "безумный Макс дорога ярости",
+   "key": "tmdb:76341",
+   "label": "Безумный Макс: Дорога Ярости (2015)",
+   "sure": true
+  },
+  "4vyFcF-dz-0": {
+   "typed": "Иван Царевич и Серый Волк 2",
+   "key": "tmdb:250895",
+   "label": "Иван Царевич и Серый волк 2 (2013)",
+   "sure": true
+  },
+  "4Z-hvSoj50k": {
+   "typed": "ДЕВУШКА В ПОЕЗДЕ",
+   "key": "tmdb:346685",
+   "label": "Девушка в поезде (2016)",
+   "sure": true
+  },
+  "4zbvdO05jOw": {
+   "typed": "пассажиры 2016",
+   "key": "tmdb:274870",
+   "label": "Пассажиры (2015)",
+   "sure": true
+  },
+  "5-u3vBLWGFw": {
+   "typed": "28 панфиловцев",
+   "key": "tmdb:427342",
+   "label": "Двадцать восемь панфиловцев (2016)",
+   "sure": true
+  },
+  "5-XWZcOEzLg": {
+   "typed": "как приручить дракона 2",
+   "key": "tmdb:82702",
+   "label": "Как приручить дракона 2 (2014)",
+   "sure": true
+  },
+  "51vSkO2t_Tg": {
+   "typed": "МИР ЮРСКОГО ПЕРИОДА: ГОСПОДСТВО",
+   "key": "tmdb:507086",
+   "label": "Мир юрского периода: Господство (2022)",
+   "sure": true
+  },
+  "54zK4lXQ528": {
+   "typed": "Мастер",
+   "key": "tmdb:1197306",
+   "label": "Мастер (2025)",
+   "sure": false
+  },
+  "56Lmin_aJZ4": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "58gygbFiO4U": {
+   "typed": "Падение Лондона",
+   "key": "tmdb:267860",
+   "label": "Падение Лондона (2016)",
+   "sure": true
+  },
+  "5c0bv_kvVSU": {
+   "typed": "Джанго освобожденный (2012)",
+   "key": "tmdb:68718",
+   "label": "Джанго освобождённый (2012)",
+   "sure": true
+  },
+  "5C3BPVJcuCs": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "5DdQwKHtJSc": {
+   "typed": "v for Vendetta",
+   "key": "tmdb:752",
+   "label": "«V» значит Вендетта (2006)",
+   "sure": true
+  },
+  "5DYCOy07WSc": {
+   "typed": "Последний богатырь: Корень зла",
+   "key": "tmdb:589754",
+   "label": "Последний богатырь: Корень зла (2020)",
+   "sure": true
+  },
+  "5EVvo6L3QPo": {
+   "typed": "Трансформеры последний рыцарь",
+   "key": "tmdb:335988",
+   "label": "Трансформеры 5: Последний Рыцарь (2017)",
+   "sure": true
+  },
+  "5JCQVRMXcKk": {
+   "typed": "шоу Трумана",
+   "key": "tmdb:37165",
+   "label": "Шоу Трумана (1998)",
+   "sure": true
+  },
+  "5JWrvlfQfjw": {
+   "typed": "омерзительная восьмерка",
+   "key": "tmdb:273248",
+   "label": "Омерзительная восьмёрка (2015)",
+   "sure": true
+  },
+  "5L59hiLxvn4": {
+   "typed": "Форсаж 7",
+   "key": "tmdb:168259",
+   "label": "Форсаж 7 (2015)",
+   "sure": true
+  },
+  "5mnHvuV2VhY": {
+   "typed": "Прометей",
+   "key": "tmdb:70981",
+   "label": "Прометей (2012)",
+   "sure": true
+  },
+  "5mTy9bz2zxc": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "5qg7SNwhFbI": {
+   "typed": "Борат 2",
+   "key": "tmdb:740985",
+   "label": "Борат 2 (2020)",
+   "sure": true
+  },
+  "5VfZJ2-Gi2A": {
+   "typed": "бегущий по лезвию 2049",
+   "key": "tmdb:335984",
+   "label": "Бегущий по лезвию 2049 (2017)",
+   "sure": true
+  },
+  "5x6hrLRB9BE": {
+   "typed": "поезд дальше не идет",
+   "key": "tmdb:24421",
+   "label": "Поезд дальше не идёт (2008)",
+   "sure": true
+  },
+  "5xFI_SUgmzo": {
+   "typed": "РАСПЛАТА",
+   "key": "tmdb:302946",
+   "label": "Расплата (2016)",
+   "sure": false
+  },
+  "5Y_lHPbgaKU": {
+   "typed": "ЧЕРНАЯ ПАНТЕРА: ВАКАНДА НАВЕКИ",
+   "key": "tmdb:505642",
+   "label": "Чёрная пантера: Ваканда навеки (2022)",
+   "sure": true
+  },
+  "5Yuqte8Tb2s": {
+   "typed": "человек паук возвращение домой",
+   "key": "tmdb:315635",
+   "label": "Человек-паук: Возвращение домой (2017)",
+   "sure": true
+  },
+  "5zbr8VE-XZo": {
+   "typed": "Мачо и ботан 2",
+   "key": "tmdb:187017",
+   "label": "Мачо и ботан 2 (2014)",
+   "sure": true
+  },
+  "6_cE6Ani-pM": {
+   "typed": "кошмар на улице вязов",
+   "key": "tmdb:377",
+   "label": "Кошмар на улице Вязов (1984)",
+   "sure": false
+  },
+  "62Sah3_Tcb8": {
+   "typed": "Матильда",
+   "key": "tmdb:10830",
+   "label": "Матильда (1996)",
+   "sure": true
+  },
+  "62XwH6kl9yE": {
+   "typed": "ЧУЖОЙ: ЗАВЕТ",
+   "key": "tmdb:126889",
+   "label": "Чужой: Завет (2017)",
+   "sure": true
+  },
+  "6f1zvhJxfrQ": {
+   "typed": "Алеша Попович",
+   "key": "tmdb:33065",
+   "label": "Алёша Попович и Тугарин Змей (2004)",
+   "sure": true
+  },
+  "6ky7D9jjZIY": {
+   "typed": "разделение",
+   "key": "imdb:tt11280740",
+   "label": "Разделение (сериал, 2022)",
+   "sure": true
+  },
+  "6mEB6vPgUts": {
+   "typed": "Голодные игры: Сойка-пересмешница Часть 2",
+   "key": "tmdb:131634",
+   "label": "Голодные игры: Сойка-пересмешница. Часть 2 (2015)",
+   "sure": true
+  },
+  "6mnklPS2Qls": {
+   "typed": "человек паук: возвращение домой",
+   "key": "tmdb:315635",
+   "label": "Человек-паук: Возвращение домой (2017)",
+   "sure": true
+  },
+  "6Rgew1Fj1Xk": {
+   "typed": "Дюна 2",
+   "key": "tmdb:693134",
+   "label": "Дюна: Часть вторая (2024)",
+   "sure": true
+  },
+  "6S5n2cpMY6Q": {
+   "typed": "ПЛОХОЙ САНТА 2",
+   "key": "tmdb:338964",
+   "label": "Плохой Санта 2 (2016)",
+   "sure": true
+  },
+  "6sOoLZCfXwM": {
+   "typed": "черная вдова",
+   "key": "tmdb:497698",
+   "label": "Чёрная вдова (2021)",
+   "sure": false
+  },
+  "6VEH4AWJ8gg": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "72-I87SgE44": {
+   "typed": "Элизиум рай не на земле",
+   "key": "tmdb:68724",
+   "label": "Элизиум — рай не на Земле (2013)",
+   "sure": true
+  },
+  "73YLg7zHdfo": {
+   "typed": "отряд самоубийц",
+   "key": "tmdb:297761",
+   "label": "Отряд самоубийц (2016)",
+   "sure": true
+  },
+  "77bP_cwVD7s": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "7aVLbOhWJOY": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "7CrHASdr-0M": {
+   "typed": "ЭКИПАЖ",
+   "key": "tmdb:380111",
+   "label": "Экипаж (2016)",
+   "sure": false
+  },
+  "7EB69ksvsy8": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "7ERoMwEq78k": {
+   "typed": "ИГРА ПРЕСТОЛОВ",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "7eWZa4p9zPQ": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "7FCeP_lkc0s": {
+   "typed": "Падение Луны",
+   "key": "tmdb:406759",
+   "label": "Падение Луны (2022)",
+   "sure": true
+  },
+  "7fX-ny-vW8I": {
+   "typed": "мама 2017",
+   "key": "tmdb:381283",
+   "label": "Мама! (2017)",
+   "sure": true
+  },
+  "7h3zABq4sMs": {
+   "typed": "гадкий я 3",
+   "key": "tmdb:324852",
+   "label": "Гадкий я 3 (2017)",
+   "sure": true
+  },
+  "7IvgUM1uPu0": {
+   "typed": "человек муравей и оса",
+   "key": "tmdb:363088",
+   "label": "Человек-муравей и Оса (2018)",
+   "sure": true
+  },
+  "7PaOUjkBKNc": {
+   "typed": "куб",
+   "key": "tmdb:431",
+   "label": "Куб (1997)",
+   "sure": true
+  },
+  "7q113zHa13I": {
+   "typed": "Джиперс криперс",
+   "key": "tmdb:8922",
+   "label": "Джиперс Криперс (2001)",
+   "sure": false
+  },
+  "7r5n2NJJAYs": {
+   "typed": "поцелуй сквозь стену",
+   "key": "tmdb:57207",
+   "label": "Поцелуй сквозь стену (2011)",
+   "sure": true
+  },
+  "7Yq-4UPxLNs": {
+   "typed": "женщина халк",
+   "key": "imdb:tt10857160",
+   "label": "Женщина-Халк: Адвокат (сериал, 2022)",
+   "sure": true
+  },
+  "7z_DCdERIVU": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "8_dqabcarZc": {
+   "typed": "АКВАМЕН",
+   "key": "tmdb:297802",
+   "label": "Аквамен (2018)",
+   "sure": true
+  },
+  "8-rH8T46grs": {
+   "typed": "разлом Сан-Андреас",
+   "key": "tmdb:254128",
+   "label": "Разлом Сан-Андреас (2015)",
+   "sure": true
+  },
+  "8234XFTwHyI": {
+   "typed": "паразиты",
+   "key": "tmdb:496243",
+   "label": "Паразиты (2019)",
+   "sure": true
+  },
+  "83ocWWXinPE": {
+   "typed": "убить дракона",
+   "key": "tmdb:27942",
+   "label": "Убить дракона (1988)",
+   "sure": true
+  },
+  "84F32TEGYgE": {
+   "typed": "дэдпул",
+   "key": "tmdb:293660",
+   "label": "Дэдпул (2016)",
+   "sure": true
+  },
+  "84tB5PE5Qfs": {
+   "typed": "трон",
+   "key": "tmdb:97",
+   "label": "Трон (1982)",
+   "sure": true
+  },
+  "89PgM8pTEOI": {
+   "typed": "горько",
+   "key": "tmdb:229974",
+   "label": "Горько! (2013)",
+   "sure": false
+  },
+  "8A_NieJiWaI": {
+   "typed": "черный телефон 2",
+   "key": "tmdb:1197137",
+   "label": "Чёрный телефон 2 (2025)",
+   "sure": true
+  },
+  "8B-duWaKlWw": {
+   "typed": "Плохие парни до конца",
+   "key": "tmdb:573435",
+   "label": "Плохие парни до конца (2024)",
+   "sure": true
+  },
+  "8E6oW5ak444": {
+   "typed": "восхождение юпитер",
+   "key": "tmdb:76757",
+   "label": "Восхождение Юпитер (2015)",
+   "sure": true
+  },
+  "8f42zKuoWjY": {
+   "typed": "лифт",
+   "key": "tmdb:11417",
+   "label": "Лифт (1983)",
+   "sure": false
+  },
+  "8GJUTXkBlFg": {
+   "typed": "Иисус Христос суперзвезда",
+   "key": "tmdb:12545",
+   "label": "Иисус Христос — суперзвезда (1973)",
+   "sure": false
+  },
+  "8I_9rFIjAsw": {
+   "typed": "Приключения в тридесятом царстве",
+   "key": "tmdb:71342",
+   "label": "Приключения в Тридесятом царстве (2010)",
+   "sure": true
+  },
+  "8nkibUynE2w": {
+   "typed": "женщины против мужчин",
+   "key": "tmdb:338227",
+   "label": "Женщины против мужчин (2015)",
+   "sure": false
+  },
+  "8rr8i-Zk7cs": {
+   "typed": "облачный атлас",
+   "key": "tmdb:83542",
+   "label": "Облачный атлас (2012)",
+   "sure": true
+  },
+  "8uapb5ibER4": {
+   "typed": "атомный лес",
+   "key": "imdb:tt3413036",
+   "label": "Атомный лес (сериал, 2012)",
+   "sure": true
+  },
+  "8UveSbWYLwk": {
+   "typed": "человек паук высокое напряжение",
+   "key": "tmdb:102382",
+   "label": "Новый Человек-паук. Высокое напряжение (2014)",
+   "sure": false
+  },
+  "8WEJZs6T5uc": {
+   "typed": "помни",
+   "key": "tmdb:77",
+   "label": "Помни (2000)",
+   "sure": false
+  },
+  "8zaGzNf8U3s": {
+   "typed": "люди икс апокалипсис",
+   "key": "tmdb:246655",
+   "label": "Люди Икс: Апокалипсис (2016)",
+   "sure": true
+  },
+  "91w2Iz-XDys": {
+   "typed": "ЗВЕРОПОЙ",
+   "key": "tmdb:335797",
+   "label": "Зверопой (2016)",
+   "sure": true
+  },
+  "93ydZrdXrgM": {
+   "typed": "ДОКТОР СТРЭНДЖ",
+   "key": "tmdb:284052",
+   "label": "Доктор Стрэндж (2016)",
+   "sure": false
+  },
+  "96g5n66MOkU": {
+   "typed": "Грязные деньги",
+   "key": "tmdb:1122573",
+   "label": "Грязные деньги (2026)",
+   "sure": false
+  },
+  "974uiCenZOw": {
+   "typed": "терминатор генезис",
+   "key": "tmdb:87101",
+   "label": "Терминатор: Генезис (2015)",
+   "sure": true
+  },
+  "9A_-EudPCVg": {
+   "typed": "бесконечная история",
+   "key": "tmdb:34584",
+   "label": "Бесконечная история (1984)",
+   "sure": true
+  },
+  "9AVZV0AUdKg": {
+   "typed": "Джонни мнемоник",
+   "key": "tmdb:9886",
+   "label": "Джонни-мнемоник (1995)",
+   "sure": true
+  },
+  "9EdCPlzd7eM": {
+   "typed": "бойцовский клуб",
+   "key": "tmdb:550",
+   "label": "Бойцовский клуб (1999)",
+   "sure": true
+  },
+  "9gT_UJn6mBE": {
+   "typed": "Форсаж 10",
+   "key": "tmdb:385687",
+   "label": "Форсаж 10 (2023)",
+   "sure": true
+  },
+  "9j5OLVTg1ok": {
+   "typed": "терминатор",
+   "key": "tmdb:218",
+   "label": "Терминатор (1984)",
+   "sure": true
+  },
+  "9LKaH7r5llw": {
+   "typed": "нечто",
+   "key": "tmdb:1091",
+   "label": "Нечто (1982)",
+   "sure": false
+  },
+  "9wIZcFFFL4M": {
+   "typed": "Спартак",
+   "key": "tmdb:967",
+   "label": "Спартак (1960)",
+   "sure": false
+  },
+  "a-JaGMfSDqU": {
+   "typed": "бойцовский клуб",
+   "key": "tmdb:550",
+   "label": "Бойцовский клуб (1999)",
+   "sure": true
+  },
+  "A1CD7iq6mv8": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "a2BEZnDOGTg": {
+   "typed": "ЛЕГО ФИЛЬМ: БЭТМЕН",
+   "key": "tmdb:324849",
+   "label": "Лего Фильм: Бэтмен (2017)",
+   "sure": true
+  },
+  "a2n1knG_9SY": {
+   "typed": "ДЭДПУЛ 2",
+   "key": "tmdb:383498",
+   "label": "Дэдпул 2 (2018)",
+   "sure": true
+  },
+  "a4sLz2_c0Vk": {
+   "typed": "голый пистолет 2026",
+   "key": "tmdb:1035259",
+   "label": "Голый пистолет (2025)",
+   "sure": true
+  },
+  "a5-pvYPB59M": {
+   "typed": "особь 3",
+   "key": "tmdb:9711",
+   "label": "Особь 3 (2004)",
+   "sure": true
+  },
+  "a6BO707UmUQ": {
+   "typed": "бегущий по лезвию 2049",
+   "key": "tmdb:335984",
+   "label": "Бегущий по лезвию 2049 (2017)",
+   "sure": true
+  },
+  "a6pz3K2jiq4": {
+   "typed": "призрак в доспехах 2017",
+   "key": "tmdb:315837",
+   "label": "Призрак в доспехах (2017)",
+   "sure": true
+  },
+  "a8LQkIgv2-s": {
+   "typed": "Терминатор: Темные судьбы",
+   "key": "tmdb:290859",
+   "label": "Терминатор: Тёмные судьбы (2019)",
+   "sure": true
+  },
+  "a90W-D-HVFI": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "aCGC7mYyBbU": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "acH1mfXjFuc": {
+   "typed": "Крым",
+   "key": "tmdb:469114",
+   "label": "Крым (2017)",
+   "sure": true
+  },
+  "aCMyJEfs3LY": {
+   "typed": "черное зеркало",
+   "key": "imdb:tt2085059",
+   "label": "Чёрное зеркало (сериал, 2011)",
+   "sure": true
+  },
+  "ADrz5l_2eRo": {
+   "typed": "Гравитация",
+   "key": "tmdb:49047",
+   "label": "Гравитация (2013)",
+   "sure": false
+  },
+  "AIbHWcko0Mg": {
+   "typed": "Приключения в тридесятом царстве",
+   "key": "tmdb:71342",
+   "label": "Приключения в Тридесятом царстве (2010)",
+   "sure": true
+  },
+  "aiev1WyVf78": {
+   "typed": "танцы насмерть",
+   "key": "tmdb:428356",
+   "label": "Танцы насмерть (2017)",
+   "sure": true
+  },
+  "akG4SgQfExQ": {
+   "typed": "изгой один",
+   "key": "tmdb:330459",
+   "label": "Изгой-один: Звёздные войны. Истории (2016)",
+   "sure": true
+  },
+  "aknN1GwPyhQ": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "aly8a9s4PYo": {
+   "typed": "Матрица 4",
+   "key": "tmdb:624860",
+   "label": "Матрица: Воскрешение (2021)",
+   "sure": true
+  },
+  "AMHvDfe48Go": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "AMk6hdGp2oo": {
+   "typed": "ТАКСИ 5",
+   "key": "tmdb:434355",
+   "label": "Такси 5 (2018)",
+   "sure": true
+  },
+  "amlr0TNWWN4": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "aMZF0tY8hAI": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "AOb0o3ESBw8": {
+   "typed": "БОЛЬШОЙ И ДОБРЫЙ ВЕЛИКАН",
+   "key": "tmdb:267935",
+   "label": "Большой и добрый великан (2016)",
+   "sure": true
+  },
+  "aOKgdLC980k": {
+   "typed": "В поисках Дори",
+   "key": "tmdb:127380",
+   "label": "В поисках Дори (2015)",
+   "sure": true
+  },
+  "ApdDiCJgsMM": {
+   "typed": "Супергерл",
+   "key": "tmdb:1081003",
+   "label": "Супергёрл (2026)",
+   "sure": false
+  },
+  "AqVnKTGN0Is": {
+   "typed": "темная башня 2017",
+   "key": "tmdb:353491",
+   "label": "Тёмная башня (2017)",
+   "sure": true
+  },
+  "Ar5_zumVckI": {
+   "typed": "Прометей",
+   "key": "tmdb:70981",
+   "label": "Прометей (2012)",
+   "sure": true
+  },
+  "aRWbN8nN5hs": {
+   "typed": "Мортал Комбат",
+   "key": "tmdb:460465",
+   "label": "Мортал Комбат (2021)",
+   "sure": true
+  },
+  "As64lVKIFp0": {
+   "typed": "Доктор Сон",
+   "key": "tmdb:501170",
+   "label": "Доктор Сон (2019)",
+   "sure": true
+  },
+  "aSh_cTrIFDM": {
+   "typed": "Головоломка",
+   "key": "tmdb:150540",
+   "label": "Головоломка (2015)",
+   "sure": true
+  },
+  "asWw6HvlnvI": {
+   "typed": "субстанция",
+   "key": "tmdb:933260",
+   "label": "Субстанция (2024)",
+   "sure": true
+  },
+  "AVqd1OR0Ewo": {
+   "typed": "Полицейский с Рублевки. Новогодний беспредел 2",
+   "key": "tmdb:600442",
+   "label": "Полицейский с Рублёвки. Новогодний беспредел 2 (2019)",
+   "sure": true
+  },
+  "axeZTktNb-Y": {
+   "typed": "Черная месса",
+   "key": "tmdb:261023",
+   "label": "Чёрная месса (2015)",
+   "sure": true
+  },
+  "AXjg9WLfb8U": {
+   "typed": "Кольца Власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "aZgLjiD692c": {
+   "typed": "Гнев человеческий",
+   "key": "tmdb:637649",
+   "label": "Гнев человеческий (2021)",
+   "sure": true
+  },
+  "aznXJUdgsgU": {
+   "typed": "Иван Грозный",
+   "key": "tmdb:9797",
+   "label": "Иван Грозный. Первая серия (1944)",
+   "sure": false
+  },
+  "aZryBvNv-zo": {
+   "typed": "КРАСНЫЙ ВОРОБЕЙ",
+   "key": "tmdb:401981",
+   "label": "Красный воробей (2018)",
+   "sure": true
+  },
+  "b-SbROXvrdk": {
+   "typed": "Бегущий в лабиринте 3: Лекарство от смерти",
+   "key": "tmdb:336843",
+   "label": "Бегущий в лабиринте: Лекарство от смерти (2018)",
+   "sure": false
+  },
+  "b0dIeuvxPdE": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "b10xoDnguLk": {
+   "typed": "берсерк 1997",
+   "key": "imdb:tt0318871",
+   "label": "Берсерк (сериал, 1997)",
+   "sure": true
+  },
+  "b2Kgtjmwwuo": {
+   "typed": "Винни пух",
+   "key": "tmdb:51162",
+   "label": "Медвежонок Винни и его друзья (2011)",
+   "sure": false
+  },
+  "Ba00crDgJ40": {
+   "typed": "малефисента",
+   "key": "tmdb:102651",
+   "label": "Малефисента (2014)",
+   "sure": true
+  },
+  "bBH16aqFduQ": {
+   "typed": "РЕПРОДУКЦИЯ",
+   "key": "tmdb:300681",
+   "label": "Репродукция (2018)",
+   "sure": true
+  },
+  "BDxVEjOMAfo": {
+   "typed": "гладиатор 2",
+   "key": "tmdb:558449",
+   "label": "Гладиатор 2 (2024)",
+   "sure": true
+  },
+  "bEmVYCaddJ8": {
+   "typed": "МСТИТЕЛИ: ФИНАЛ",
+   "key": "tmdb:299534",
+   "label": "Мстители: Финал (2019)",
+   "sure": true
+  },
+  "bFcOr1jkFhQ": {
+   "typed": "Мстители: Война бесконечности",
+   "key": "tmdb:299536",
+   "label": "Мстители: Война бесконечности (2018)",
+   "sure": true
+  },
+  "bFx4gKZ4Ff8": {
+   "typed": "джентльмены удачи",
+   "key": "tmdb:20871",
+   "label": "Джентльмены удачи (1971)",
+   "sure": false
+  },
+  "bh2saAkGJ7c": {
+   "typed": "Стражи галактики 3",
+   "key": "tmdb:447365",
+   "label": "Стражи Галактики. Часть 3 (2023)",
+   "sure": true
+  },
+  "bIHyarg5CxE": {
+   "typed": "Чужой: Ромул",
+   "key": "tmdb:945961",
+   "label": "Чужой: Ромул (2024)",
+   "sure": true
+  },
+  "biplGScyVa8": {
+   "typed": "хищник",
+   "key": "tmdb:106",
+   "label": "Хищник (1987)",
+   "sure": false
+  },
+  "bIuOkBRg8AU": {
+   "typed": "Форсаж: Хоббс и Шоу",
+   "key": "tmdb:384018",
+   "label": "Форсаж: Хоббс и Шоу (2019)",
+   "sure": true
+  },
+  "BivevMU3-Hw": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "bJ5n0PisylY": {
+   "typed": "5 дней в августе",
+   "key": "tmdb:50601",
+   "label": "5 дней в августе (2011)",
+   "sure": true
+  },
+  "bl2dBTJnw8k": {
+   "typed": "Афоня",
+   "key": "tmdb:20870",
+   "label": "Афоня (1975)",
+   "sure": true
+  },
+  "BNXLRy3L_5E": {
+   "typed": "Друзья друзей",
+   "key": "tmdb:252180",
+   "label": "Друзья друзей (2013)",
+   "sure": true
+  },
+  "bo65y9pSIlg": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "BOH0n66dzcw": {
+   "typed": "Бразилия",
+   "key": "tmdb:68",
+   "label": "Бразилия (1985)",
+   "sure": false
+  },
+  "boV14v9HrUo": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "BpguRvPG8_s": {
+   "typed": "Шазам 2: Ярость богов",
+   "key": "tmdb:594767",
+   "label": "Шазам! Ярость богов (2023)",
+   "sure": false
+  },
+  "bS6eQSh3gUE": {
+   "typed": "черный телефон",
+   "key": "tmdb:756999",
+   "label": "Чёрный телефон (2021)",
+   "sure": true
+  },
+  "bsjGbt9nhA8": {
+   "typed": "обитель зла 3",
+   "key": "tmdb:7737",
+   "label": "Обитель зла 3 (2007)",
+   "sure": true
+  },
+  "BsWv7ABPeB4": {
+   "typed": "пределы контроля",
+   "key": "tmdb:8284",
+   "label": "Предел контроля (2009)",
+   "sure": true
+  },
+  "btLZwPtYAE4": {
+   "typed": "дети против волшебников",
+   "key": "tmdb:458049",
+   "label": "Дети против волшебников (2016)",
+   "sure": true
+  },
+  "BW_2Gyi7j8Y": {
+   "typed": "Трансформеры эпоха истребления",
+   "key": "tmdb:91314",
+   "label": "Трансформеры: Эпоха истребления (2014)",
+   "sure": true
+  },
+  "BwNEjSqT2cg": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "bWuNQYylQqw": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "BxuP0dynDrw": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "c-tYIYMf8tw": {
+   "typed": "Пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "C0gk53grsVc": {
+   "typed": "веном 3",
+   "key": "tmdb:912649",
+   "label": "Веном: Последний танец (2024)",
+   "sure": true
+  },
+  "C1G_8pO1Hsk": {
+   "typed": "три тысячи лет желаний",
+   "key": "tmdb:556694",
+   "label": "Три тысячи лет желаний (2022)",
+   "sure": true
+  },
+  "C1halV3agBU": {
+   "typed": "Телохранитель киллера",
+   "key": "tmdb:390043",
+   "label": "Телохранитель киллера (2017)",
+   "sure": true
+  },
+  "c1lVGcDVdCk": {
+   "typed": "Матрица 4",
+   "key": "tmdb:624860",
+   "label": "Матрица: Воскрешение (2021)",
+   "sure": true
+  },
+  "c6V_PDN53YY": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "c7lXXb0eYgg": {
+   "typed": "Матильда",
+   "key": "tmdb:10830",
+   "label": "Матильда (1996)",
+   "sure": true
+  },
+  "C7uX5EfniMs": {
+   "typed": "Серый человек",
+   "key": "tmdb:725201",
+   "label": "Серый человек (2022)",
+   "sure": true
+  },
+  "C9h6o3jHlaI": {
+   "typed": "Новый Человек-паук: Высокое напряжение",
+   "key": "tmdb:102382",
+   "label": "Новый Человек-паук. Высокое напряжение (2014)",
+   "sure": true
+  },
+  "cAiI1Tu7Huo": {
+   "typed": "бандиты планеты гор",
+   "key": "tmdb:31131",
+   "label": "Бандиты с планеты Гор (1989)",
+   "sure": false
+  },
+  "CanhpVp7pzU": {
+   "typed": "дрожь земли 2",
+   "key": "tmdb:11069",
+   "label": "Дрожь земли 2: Повторный удар (1996)",
+   "sure": true
+  },
+  "Car0UvO5cCM": {
+   "typed": "Убийцы цветочной луны",
+   "key": "tmdb:466420",
+   "label": "Убийцы цветочной луны (2023)",
+   "sure": true
+  },
+  "cb19NkVNRyk": {
+   "typed": "ДУЭЛЯНТ",
+   "key": "tmdb:376565",
+   "label": "Дуэлянт (2016)",
+   "sure": false
+  },
+  "cbbfMuLvQGw": {
+   "typed": "Индиана Джонс В ПОИСКАХ УТРАЧЕННОГО КОВЧЕГА",
+   "key": "tmdb:85",
+   "label": "Индиана Джонс: В поисках утраченного ковчега (1981)",
+   "sure": true
+  },
+  "CbRJzSjrpvs": {
+   "typed": "аватар путь воды",
+   "key": "tmdb:76600",
+   "label": "Аватар: Путь воды (2022)",
+   "sure": true
+  },
+  "CbvuRx9pkfg": {
+   "typed": "hellboy",
+   "key": "tmdb:1487",
+   "label": "Хеллбой: Герой из пекла (2004)",
+   "sure": false
+  },
+  "cC3_gdAQXb8": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "cC49CpLDmQ8": {
+   "typed": "барби",
+   "key": "tmdb:346698",
+   "label": "Барби (2023)",
+   "sure": true
+  },
+  "cd7TcJD4hUk": {
+   "typed": "Рэмбо первая кровь 2",
+   "key": "tmdb:1369",
+   "label": "Рэмбо: Первая кровь 2 (1985)",
+   "sure": true
+  },
+  "cdl85_6jA-g": {
+   "typed": "черное зеркало",
+   "key": "imdb:tt2085059",
+   "label": "Чёрное зеркало (сериал, 2011)",
+   "sure": true
+  },
+  "cDV4bxz_0dg": {
+   "typed": "спутник",
+   "key": "tmdb:594718",
+   "label": "Спутник (2020)",
+   "sure": false
+  },
+  "cDVP4o_qM1s": {
+   "typed": "поворот не туда 3",
+   "key": "tmdb:23823",
+   "label": "Поворот не туда 3 (2009)",
+   "sure": true
+  },
+  "CfM8DRHTB4A": {
+   "typed": "Fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "CFzVaW7fZ9I": {
+   "typed": "властелин колец братство кольца",
+   "key": "tmdb:120",
+   "label": "Властелин колец: Братство Кольца (2001)",
+   "sure": true
+  },
+  "cGdTsw4Xirg": {
+   "typed": "кольца власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "CItNiN31qpw": {
+   "typed": "убийство в восточном экспрессе",
+   "key": "tmdb:392044",
+   "label": "Убийство в Восточном экспрессе (2017)",
+   "sure": true
+  },
+  "CKeckCWCur8": {
+   "typed": "бросок кобры 2",
+   "key": "tmdb:72559",
+   "label": "G.I. Joe: Бросок кобры 2 (2013)",
+   "sure": true
+  },
+  "cLYS76rJaVo": {
+   "typed": "храбрая сердцем",
+   "key": "tmdb:62177",
+   "label": "Храбрая сердцем (2012)",
+   "sure": true
+  },
+  "CM4ROfvYAOM": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "cMEA2usAZBc": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "cMeICk7CvKQ": {
+   "typed": "нападение на аркхэм",
+   "key": "tmdb:242643",
+   "label": "Бэтмен. Нападение на Аркхэм (2014)",
+   "sure": false
+  },
+  "coyIGwVnRWc": {
+   "typed": "фантастическая четверка",
+   "key": "tmdb:166424",
+   "label": "Фантастическая четвёрка (2015)",
+   "sure": false
+  },
+  "cpxRCIhDIHI": {
+   "typed": "Джон Уик 4",
+   "key": "tmdb:603692",
+   "label": "Джон Уик 4 (2023)",
+   "sure": true
+  },
+  "cqzJ62L-6sY": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "cuIHlxC3Voc": {
+   "typed": "большой Лебовски",
+   "key": "tmdb:115",
+   "label": "Большой Лебовски (1998)",
+   "sure": true
+  },
+  "cuJiAb7Y-YA": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "cvL5DuXVAwI": {
+   "typed": "ПЕРВОМУ ИГРОКУ ПРИГОТОВИТЬСЯ",
+   "key": "tmdb:333339",
+   "label": "Первому игроку приготовиться (2018)",
+   "sure": true
+  },
+  "Cw3MjT5UUfE": {
+   "typed": "КРАСАВИЦА И ЧУДОВИЩЕ",
+   "key": "tmdb:321612",
+   "label": "Красавица и Чудовище (2017)",
+   "sure": false
+  },
+  "cwbSP4Onzh8": {
+   "typed": "красный рассвет",
+   "key": "tmdb:60747",
+   "label": "Неуловимые (2012)",
+   "sure": false
+  },
+  "cX20vv5Tf8o": {
+   "typed": "King’s Man: Начало",
+   "key": "tmdb:476669",
+   "label": "King's Man: Начало (2021)",
+   "sure": true
+  },
+  "cXl4MIQ9cfM": {
+   "typed": "ворон",
+   "key": "tmdb:957452",
+   "label": "Ворон (2024)",
+   "sure": false
+  },
+  "CXx4lm7KBFo": {
+   "typed": "Том и Джерри 2021",
+   "key": "tmdb:587807",
+   "label": "Том и Джерри (2021)",
+   "sure": true
+  },
+  "CY_sxI03Ymc": {
+   "typed": "Планета обезьян: Революция",
+   "key": "tmdb:119450",
+   "label": "Планета обезьян: Революция (2014)",
+   "sure": true
+  },
+  "cyDBD_7udcM": {
+   "typed": "v for Vendetta",
+   "key": "tmdb:752",
+   "label": "«V» значит Вендетта (2006)",
+   "sure": true
+  },
+  "cYVglThv0vY": {
+   "typed": "Иллюзия обмана 2",
+   "key": "tmdb:291805",
+   "label": "Иллюзия обмана 2 (2016)",
+   "sure": true
+  },
+  "cZPqYbkvYrY": {
+   "typed": "Трон Арес",
+   "key": "tmdb:533533",
+   "label": "Трон: Арес (2025)",
+   "sure": true
+  },
+  "czU8Jf65a-U": {
+   "typed": "Звездные войны: Эпизод 6 - Возвращение Джедая",
+   "key": "tmdb:1892",
+   "label": "Звёздные войны. Эпизод VI: Возвращение джедая (1983)",
+   "sure": false
+  },
+  "d-CfKiRn7_A": {
+   "typed": "Джанго освобожденный (2012)",
+   "key": "tmdb:68718",
+   "label": "Джанго освобождённый (2012)",
+   "sure": true
+  },
+  "d0WknlEl1v8": {
+   "typed": "острые козырьки",
+   "key": "imdb:tt2442560",
+   "label": "Острые козырьки (сериал, 2013)",
+   "sure": true
+  },
+  "d3xKrqWrX68": {
+   "typed": "Лего фильм",
+   "key": "tmdb:137106",
+   "label": "Лего Фильм (2014)",
+   "sure": true
+  },
+  "D5jKkc_izwg": {
+   "typed": "невидимка 2",
+   "key": "tmdb:8997",
+   "label": "Невидимка 2 (2006)",
+   "sure": true
+  },
+  "d6oWOR5kQWQ": {
+   "typed": "доктор Стрейнджлав",
+   "key": "tmdb:935",
+   "label": "Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу (1964)",
+   "sure": true
+  },
+  "D6Z2KUJqhYs": {
+   "typed": "нечто",
+   "key": "tmdb:1091",
+   "label": "Нечто (1982)",
+   "sure": false
+  },
+  "d8kgPsgb6FM": {
+   "typed": "хищник",
+   "key": "tmdb:346910",
+   "label": "Хищник (2018)",
+   "sure": false
+  },
+  "D9unkmHrqrg": {
+   "typed": "омерзительная восьмерка",
+   "key": "tmdb:273248",
+   "label": "Омерзительная восьмёрка (2015)",
+   "sure": true
+  },
+  "dBHHvSx0rnk": {
+   "typed": "Кракен",
+   "key": "tmdb:1258151",
+   "label": "Кракен (2025)",
+   "sure": true
+  },
+  "DBoCjw68RFw": {
+   "typed": "Тор 4",
+   "key": "tmdb:616037",
+   "label": "Тор: Любовь и гром (2021)",
+   "sure": true
+  },
+  "dbXH13ijn2E": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "dE20OjIxTLo": {
+   "typed": "Легенда о Коловрате",
+   "key": "tmdb:415381",
+   "label": "Легенда о Коловрате (2017)",
+   "sure": true
+  },
+  "df-cVcQbLmM": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "dFTaJR8dOmQ": {
+   "typed": "смешарики",
+   "key": "imdb:tt0853174",
+   "label": "Смешарики (сериал, 2004)",
+   "sure": true
+  },
+  "DGLPsyF0ays": {
+   "typed": "цельнометаллическая оболочка",
+   "key": "tmdb:600",
+   "label": "Цельнометаллическая оболочка (1987)",
+   "sure": true
+  },
+  "DGTohKEVVos": {
+   "typed": "американский психопат",
+   "key": "tmdb:1359",
+   "label": "Американский психопат (2000)",
+   "sure": false
+  },
+  "DhFHO0Is63s": {
+   "typed": "кольца власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "dhy3AQg87L4": {
+   "typed": "Последняя дуэль",
+   "key": "tmdb:617653",
+   "label": "Последняя дуэль (2021)",
+   "sure": false
+  },
+  "dHZW30S4524": {
+   "typed": "the void",
+   "key": "tmdb:378018",
+   "label": "Пустота (2016)",
+   "sure": true
+  },
+  "dIcWRA7DJVM": {
+   "typed": "хищник 2018",
+   "key": "tmdb:346910",
+   "label": "Хищник (2018)",
+   "sure": true
+  },
+  "diZ2I4cF76k": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "djBV-nsaqBk": {
+   "typed": "ужасающий 2",
+   "key": "tmdb:663712",
+   "label": "Ужасающий 2 (2022)",
+   "sure": true
+  },
+  "djEDreamDdg": {
+   "typed": "однажды в Голливуде",
+   "key": "tmdb:466272",
+   "label": "Однажды в… Голливуде (2019)",
+   "sure": false
+  },
+  "dJS90_-RARY": {
+   "typed": "столыпин",
+   "key": "imdb:tt30989080",
+   "label": "Столыпин (сериал)",
+   "sure": true
+  },
+  "dKjFJbuLUDU": {
+   "typed": "СУПЕРСЕМЕЙКА 2",
+   "key": "tmdb:260513",
+   "label": "Суперсемейка 2 (2018)",
+   "sure": true
+  },
+  "dLownG2ZkvA": {
+   "typed": "НЕБОСКРЁБ",
+   "key": "tmdb:447200",
+   "label": "Небоскрёб (2018)",
+   "sure": true
+  },
+  "dmMDpw8OBH8": {
+   "typed": "ведьмак",
+   "key": "imdb:tt5180504",
+   "label": "Ведьмак (сериал, 2019)",
+   "sure": false
+  },
+  "DoAqlidjF1Q": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "dQgLrYFFzIo": {
+   "typed": "Охотники за привидениями: Наследники",
+   "key": "tmdb:425909",
+   "label": "Охотники за привидениями: Наследники (2021)",
+   "sure": true
+  },
+  "dreog7HDZm0": {
+   "typed": "Илья Муромец",
+   "key": "tmdb:118153",
+   "label": "Илья Муромец (1956)",
+   "sure": false
+  },
+  "DRqknpnzTyY": {
+   "typed": "отряд самоубийц",
+   "key": "tmdb:297761",
+   "label": "Отряд самоубийц (2016)",
+   "sure": true
+  },
+  "Dtn0f6pOm4k": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "DVaVPAD_WkM": {
+   "typed": "Тайна печати дракона",
+   "key": "tmdb:428045",
+   "label": "Тайна печати дракона (2017)",
+   "sure": true
+  },
+  "DVjc4EzD_hU": {
+   "typed": "притяжение",
+   "key": "tmdb:401513",
+   "label": "Притяжение (2017)",
+   "sure": true
+  },
+  "dW2HxbqyHLM": {
+   "typed": "Пиксели",
+   "key": "tmdb:257344",
+   "label": "Пиксели (2015)",
+   "sure": true
+  },
+  "dW5O5sBUdpE": {
+   "typed": "чужой против хищника",
+   "key": "tmdb:395",
+   "label": "Чужой против Хищника (2004)",
+   "sure": true
+  },
+  "dytToOlopiA": {
+   "typed": "Бэтмен против супермена",
+   "key": "tmdb:209112",
+   "label": "Бэтмен против Супермена: На заре справедливости (2016)",
+   "sure": true
+  },
+  "E0-pp98IFfA": {
+   "typed": "Мстители: Эра Альтрона",
+   "key": "tmdb:99861",
+   "label": "Мстители: Эра Альтрона (2015)",
+   "sure": true
+  },
+  "E0-yUoxGTqU": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "E1cy3tUZboo": {
+   "typed": "люди икс дни минувшего будущего",
+   "key": "tmdb:127585",
+   "label": "Люди Икс: Дни минувшего будущего (2014)",
+   "sure": true
+  },
+  "E2oLysWA1i0": {
+   "typed": "ёлки 5",
+   "key": "tmdb:430413",
+   "label": "Ёлки 5 (2016)",
+   "sure": true
+  },
+  "E4yqvsMCJ54": {
+   "typed": "Последний охотник на ведьм",
+   "key": "tmdb:274854",
+   "label": "Последний охотник на ведьм (2015)",
+   "sure": true
+  },
+  "E57hE9iBQCQ": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "e7c_ZEwr59E": {
+   "typed": "голодные игры",
+   "key": "tmdb:70160",
+   "label": "Голодные игры (2012)",
+   "sure": true
+  },
+  "e8lga1bALHU": {
+   "typed": "КОРОЛЬ ЛЕВ",
+   "key": "tmdb:420818",
+   "label": "Король Лев (2019)",
+   "sure": false
+  },
+  "E8oQ2J9tddo": {
+   "typed": "омерзительная восьмерка",
+   "key": "tmdb:273248",
+   "label": "Омерзительная восьмёрка (2015)",
+   "sure": true
+  },
+  "e9iV5PnVzWU": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "eB0AJduLUPA": {
+   "typed": "дюнкерк",
+   "key": "tmdb:374720",
+   "label": "Дюнкерк (2017)",
+   "sure": false
+  },
+  "eBeUVyq0oY4": {
+   "typed": "зловещие мертвецы пекло",
+   "key": "tmdb:1212763",
+   "label": "Зловещие мертвецы: Пекло (2026)",
+   "sure": true
+  },
+  "ec67a1Nzpm0": {
+   "typed": "в поисках Немо",
+   "key": "tmdb:12",
+   "label": "В поисках Немо (2003)",
+   "sure": true
+  },
+  "eef0HdGufG0": {
+   "typed": "притяжение",
+   "key": "tmdb:401513",
+   "label": "Притяжение (2017)",
+   "sure": true
+  },
+  "EeUHw6vcGJ4": {
+   "typed": "Пушки Акимбо",
+   "key": "tmdb:457335",
+   "label": "Пушки Акимбо (2019)",
+   "sure": true
+  },
+  "eevkB6aRqkA": {
+   "typed": "дюна",
+   "key": "tmdb:438631",
+   "label": "Дюна (2021)",
+   "sure": false
+  },
+  "EFO7HI6nUGY": {
+   "typed": "хищник 2",
+   "key": "tmdb:169",
+   "label": "Хищник 2 (1990)",
+   "sure": true
+  },
+  "EghVoOjeCrs": {
+   "typed": "бабушка легкого поведения",
+   "key": "tmdb:468987",
+   "label": "Бабушка лёгкого поведения (2017)",
+   "sure": true
+  },
+  "eGwnGV5WvcY": {
+   "typed": "Трансформеры 4",
+   "key": "tmdb:91314",
+   "label": "Трансформеры: Эпоха истребления (2014)",
+   "sure": true
+  },
+  "EI4bHf2fwA8": {
+   "typed": "дрожь земли 5",
+   "key": "tmdb:339530",
+   "label": "Дрожь земли 5: Кровное родство (2015)",
+   "sure": true
+  },
+  "ei4Zlht9PWk": {
+   "typed": "территория",
+   "key": "tmdb:335724",
+   "label": "Территория (2015)",
+   "sure": false
+  },
+  "EJwcK-OnP-Q": {
+   "typed": "перевозчик наследие",
+   "key": "tmdb:287948",
+   "label": "Перевозчик: Наследие (2015)",
+   "sure": true
+  },
+  "en_6A0u_SVQ": {
+   "typed": "Клуб миллиардеров",
+   "key": "tmdb:385360",
+   "label": "Клуб молодых миллиардеров (2018)",
+   "sure": true
+  },
+  "ENvmK1x0ZTc": {
+   "typed": "маршрут построен",
+   "key": "tmdb:397552",
+   "label": "Маршрут построен (2016)",
+   "sure": true
+  },
+  "ePVjWmat0j4": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "Eq79C2TXCEk": {
+   "typed": "ПИРАТы КАРИБСКОГО МОРЯ 5",
+   "key": "tmdb:166426",
+   "label": "Пираты Карибского моря: Мертвецы не рассказывают сказок (2017)",
+   "sure": true
+  },
+  "Eqh7wWwFuTQ": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "eqIAqjv6jbg": {
+   "typed": "ЛЮДИ В ЧЕРНОМ: ИНТЕРНЭШНЛ",
+   "key": "tmdb:479455",
+   "label": "Люди в чёрном: Интернэшнл (2019)",
+   "sure": true
+  },
+  "EQiUK8x3SUQ": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "erYxFoQLXSc": {
+   "typed": "престиж",
+   "key": "tmdb:1124",
+   "label": "Престиж (2006)",
+   "sure": true
+  },
+  "EsNr65hoNko": {
+   "typed": "мама 2017",
+   "key": "tmdb:381283",
+   "label": "Мама! (2017)",
+   "sure": true
+  },
+  "ESQeH89ejX0": {
+   "typed": "Черная Пантера 2: Ваканда навеки",
+   "key": "tmdb:505642",
+   "label": "Чёрная пантера: Ваканда навеки (2022)",
+   "sure": false
+  },
+  "esXbydboYRA": {
+   "typed": "история игрушек",
+   "key": "tmdb:862",
+   "label": "История игрушек (1995)",
+   "sure": true
+  },
+  "eT3kGh0RCuY": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "EuRIu1z9ev4": {
+   "typed": "Черная вдова",
+   "key": "tmdb:497698",
+   "label": "Чёрная вдова (2021)",
+   "sure": false
+  },
+  "evjT729TAuw": {
+   "typed": "девятаев",
+   "key": "tmdb:672475",
+   "label": "Девятаев (2021)",
+   "sure": true
+  },
+  "eVNLyJCDb8M": {
+   "typed": "Первый мститель: Противостояние",
+   "key": "tmdb:271110",
+   "label": "Первый мститель: Противостояние (2016)",
+   "sure": true
+  },
+  "EvZZurR886I": {
+   "typed": "ЗВЕЗДНЫЕ ВОЙНЫ 7 ПРОБУЖДЕНИЕ СИЛЫ",
+   "key": "tmdb:140607",
+   "label": "Звёздные войны: Эпизод 7 - Пробуждение силы (2015)",
+   "sure": false
+  },
+  "ex3n3yylJBM": {
+   "typed": "КРЕДО УБИЙЦЫ",
+   "key": "imdb:tt13363220",
+   "label": "Кредо убийцы (сериал)",
+   "sure": true
+  },
+  "eY8k2wWV4L4": {
+   "typed": "ярость",
+   "key": "tmdb:228150",
+   "label": "Ярость (2014)",
+   "sure": false
+  },
+  "EYLANDd6r2U": {
+   "typed": "дети кукурузы",
+   "key": "tmdb:10823",
+   "label": "Дети кукурузы (1984)",
+   "sure": false
+  },
+  "f_drAoX27H8": {
+   "typed": "процесс",
+   "key": "tmdb:3009",
+   "label": "Процесс (1962)",
+   "sure": false
+  },
+  "F-796rx-f2Y": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "f3DpE1Rter4": {
+   "typed": "ТРАНСФОРМЕРЫ 5",
+   "key": "tmdb:335988",
+   "label": "Трансформеры 5: Последний Рыцарь (2017)",
+   "sure": true
+  },
+  "f41ezcNm8KQ": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "F4zc-RMHI4U": {
+   "typed": "обитель зла",
+   "key": "tmdb:1576",
+   "label": "Обитель зла (2002)",
+   "sure": true
+  },
+  "f5LsQJUnCas": {
+   "typed": "Дом странных детей Мисс Перегрин",
+   "key": "tmdb:283366",
+   "label": "Дом странных детей мисс Перегрин (2016)",
+   "sure": true
+  },
+  "FbChx45SW-0": {
+   "typed": "защитники",
+   "key": "imdb:tt4230076",
+   "label": "Защитники (сериал, 2017)",
+   "sure": false
+  },
+  "FbrUZhX_haQ": {
+   "typed": "дизлайк",
+   "key": "tmdb:404812",
+   "label": "Дизлайк (2016)",
+   "sure": true
+  },
+  "feC3Vi2Y0PA": {
+   "typed": "бегущий человек",
+   "key": "tmdb:865",
+   "label": "Бегущий человек (1987)",
+   "sure": false
+  },
+  "FePy3vHR6Bo": {
+   "typed": "три богатыря",
+   "key": "tmdb:1550808",
+   "label": "Три героя (2023)",
+   "sure": true
+  },
+  "FExiruz9keI": {
+   "typed": "человек муравей",
+   "key": "tmdb:102899",
+   "label": "Человек-муравей (2015)",
+   "sure": true
+  },
+  "FGfpno_PbSo": {
+   "typed": "настоящий детектив",
+   "key": "imdb:tt2356777",
+   "label": "Настоящий детектив (сериал, 2014)",
+   "sure": true
+  },
+  "fGMh870RHzY": {
+   "typed": "ИГРА ПРЕСТОЛОВ",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "FHm5ettkZvc": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "FIDypu24zpw": {
+   "typed": "сибирское воспитание",
+   "key": "tmdb:171337",
+   "label": "Сибирское воспитание (2013)",
+   "sure": true
+  },
+  "FIfitdlBzjY": {
+   "typed": "обитель зла 4",
+   "key": "tmdb:35791",
+   "label": "Обитель зла 4: Жизнь после смерти (2010)",
+   "sure": true
+  },
+  "FiTKP94wo88": {
+   "typed": "рыцарь семи королевств",
+   "key": "imdb:tt27497448",
+   "label": "Рыцарь Семи Королевств (сериал, 2026)",
+   "sure": true
+  },
+  "fJm_ZMdSUm8": {
+   "typed": "корпоратив",
+   "key": "tmdb:293654",
+   "label": "Корпоратив (2014)",
+   "sure": true
+  },
+  "FjYBE8bjIsA": {
+   "typed": "хроники хищных городов",
+   "key": "tmdb:428078",
+   "label": "Хроники хищных городов (2018)",
+   "sure": true
+  },
+  "FkFdI2CL3cA": {
+   "typed": "престиж",
+   "key": "tmdb:1124",
+   "label": "Престиж (2006)",
+   "sure": true
+  },
+  "fkmPPmHq74I": {
+   "typed": "крепость Щитом и мечом",
+   "key": "tmdb:365544",
+   "label": "Крепость. Щитом и мечом (2015)",
+   "sure": true
+  },
+  "fKNfbpeNvvA": {
+   "typed": "побег из шоушенка",
+   "key": "tmdb:278",
+   "label": "Побег из Шоушенка (1994)",
+   "sure": true
+  },
+  "Fn6COsDCPjc": {
+   "typed": "марсианин",
+   "key": "tmdb:286217",
+   "label": "Марсианин (2015)",
+   "sure": true
+  },
+  "FODkuwpVjVs": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "fOE4xUZnuR4": {
+   "typed": "Миньоны",
+   "key": "tmdb:211672",
+   "label": "Миньоны (2015)",
+   "sure": true
+  },
+  "fPdXJevWOaE": {
+   "typed": "ЕЛКИ 5",
+   "key": "tmdb:430413",
+   "label": "Ёлки 5 (2016)",
+   "sure": true
+  },
+  "FRuvMgqblQ0": {
+   "typed": "барби",
+   "key": "tmdb:346698",
+   "label": "Барби (2023)",
+   "sure": true
+  },
+  "fSE3__MIrHE": {
+   "typed": "1917",
+   "key": "tmdb:530915",
+   "label": "1917 (2019)",
+   "sure": false
+  },
+  "fSel0n8pjuY": {
+   "typed": "ПРИБЫТИЕ",
+   "key": "tmdb:329865",
+   "label": "Прибытие (2016)",
+   "sure": false
+  },
+  "fsKTV3JWQPQ": {
+   "typed": "Фантастическая четверка",
+   "key": "tmdb:617126",
+   "label": "Фантастическая четвёрка: Первые шаги (2025)",
+   "sure": false
+  },
+  "fuLyM0NoIts": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "Fv7ocifd3-o": {
+   "typed": "взломать блогеров",
+   "key": "tmdb:437048",
+   "label": "Взломать блогеров (2016)",
+   "sure": true
+  },
+  "fwuPXNqVkMI": {
+   "typed": "Форсаж 8",
+   "key": "tmdb:337339",
+   "label": "Форсаж 8 (2017)",
+   "sure": true
+  },
+  "FXbUs6Jd1zA": {
+   "typed": "Меч короля Артура",
+   "key": "tmdb:274857",
+   "label": "Меч короля Артура (2017)",
+   "sure": false
+  },
+  "fXs9c1ICLTg": {
+   "typed": "реальная сказка",
+   "key": "tmdb:78184",
+   "label": "Реальная сказка (2011)",
+   "sure": true
+  },
+  "FYbSbCmGxxg": {
+   "typed": "sos дед мороз",
+   "key": "tmdb:371777",
+   "label": "SOS, Дед Мороз, или Всё сбудется! (2015)",
+   "sure": true
+  },
+  "fyqz09pF-TA": {
+   "typed": "кладбище домашних животных",
+   "key": "tmdb:157433",
+   "label": "Кладбище домашних животных (2019)",
+   "sure": false
+  },
+  "FZv5UqcVkN4": {
+   "typed": "леон",
+   "key": "tmdb:101",
+   "label": "Леон (1994)",
+   "sure": true
+  },
+  "G_GpbL9Y7fM": {
+   "typed": "Убийство в \"Восточном экспрессе\"",
+   "key": "tmdb:392044",
+   "label": "Убийство в Восточном экспрессе (2017)",
+   "sure": true
+  },
+  "G00GE2RT-pU": {
+   "typed": "кредо убийцы",
+   "key": "tmdb:121856",
+   "label": "Кредо убийцы (2016)",
+   "sure": true
+  },
+  "G07JAcM7f_8": {
+   "typed": "Охотники за привидениями 2016",
+   "key": "tmdb:43074",
+   "label": "Охотники за привидениями (2016)",
+   "sure": true
+  },
+  "G2FMM32-ZxY": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "G3LA_IcxkIo": {
+   "typed": "Матрица революция",
+   "key": "tmdb:605",
+   "label": "Матрица: Революция (2003)",
+   "sure": true
+  },
+  "g47eQA1HDrM": {
+   "typed": "капитан алатристе",
+   "key": "tmdb:13495",
+   "label": "Капитан Алатристе (2006)",
+   "sure": true
+  },
+  "g4Bgr_RL30w": {
+   "typed": "чужой ромул",
+   "key": "tmdb:945961",
+   "label": "Чужой: Ромул (2024)",
+   "sure": true
+  },
+  "g800-KkHHxU": {
+   "typed": "обитаемый остров",
+   "key": "tmdb:16911",
+   "label": "Обитаемый остров (2008)",
+   "sure": true
+  },
+  "g95tFuNadYU": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "Ga3rA4qro7M": {
+   "typed": "кунг-фу панда",
+   "key": "tmdb:9502",
+   "label": "Кунг-фу панда (2008)",
+   "sure": true
+  },
+  "gaPaHqAGK9g": {
+   "typed": "геошторм",
+   "key": "tmdb:274855",
+   "label": "Геошторм (2017)",
+   "sure": true
+  },
+  "gbi3yCxCFEM": {
+   "typed": "синевир",
+   "key": "tmdb:264485",
+   "label": "Синевир (2014)",
+   "sure": true
+  },
+  "gFlJG_87VBg": {
+   "typed": "бегущий в лабиринте испытание огнем",
+   "key": "tmdb:294254",
+   "label": "Бегущий в лабиринте: Испытание огнём (2015)",
+   "sure": true
+  },
+  "gGq_ejUjYc8": {
+   "typed": "АПГРЕЙД",
+   "key": "tmdb:500664",
+   "label": "Апгрейд (2018)",
+   "sure": true
+  },
+  "GgyYbf6D_J0": {
+   "typed": "отряд самоубийц",
+   "key": "tmdb:297761",
+   "label": "Отряд самоубийц (2016)",
+   "sure": true
+  },
+  "ghOolNp5xFY": {
+   "typed": "Изгой-один: Звездные войны",
+   "key": "tmdb:330459",
+   "label": "Изгой-один: Звёздные войны. Истории (2016)",
+   "sure": true
+  },
+  "gHtiIZ5BRS4": {
+   "typed": "Индиана Джонс и Храм Судьбы",
+   "key": "tmdb:87",
+   "label": "Индиана Джонс и храм судьбы (1984)",
+   "sure": true
+  },
+  "gJo7r48icvc": {
+   "typed": "призрак в доспехах",
+   "key": "tmdb:334376",
+   "label": "Призрак в доспехах (2015)",
+   "sure": false
+  },
+  "GKiDjHTfWxw": {
+   "typed": "гладиатор 2",
+   "key": "tmdb:558449",
+   "label": "Гладиатор 2 (2024)",
+   "sure": true
+  },
+  "GkkzHEaJ85Y": {
+   "typed": "мачо и ботан 2",
+   "key": "tmdb:187017",
+   "label": "Мачо и ботан 2 (2014)",
+   "sure": true
+  },
+  "gMcbUd5_8JM": {
+   "typed": "люси",
+   "key": "tmdb:240832",
+   "label": "Люси (2014)",
+   "sure": true
+  },
+  "gN7zdyaRmB8": {
+   "typed": "Фарго",
+   "key": "tmdb:275",
+   "label": "Фарго (1996)",
+   "sure": false
+  },
+  "gNXnUZXYt4s": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "gopyRM6EBpk": {
+   "typed": "Крид: Наследие Рокки",
+   "key": "tmdb:312221",
+   "label": "Крид: Наследие Рокки (2015)",
+   "sure": true
+  },
+  "GpEAsQ6AUbY": {
+   "typed": "субурбикон",
+   "key": "tmdb:395458",
+   "label": "Субурбикон (2017)",
+   "sure": true
+  },
+  "GPHaRPl1A6E": {
+   "typed": "Скорость: Автобус 657",
+   "key": "tmdb:336004",
+   "label": "Скорость: Автобус 657 (2015)",
+   "sure": true
+  },
+  "gQ9azqYeRgw": {
+   "typed": "Джиперс криперс",
+   "key": "tmdb:8922",
+   "label": "Джиперс Криперс (2001)",
+   "sure": false
+  },
+  "GRfWrlgBOSM": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "gs-2Audv_t0": {
+   "typed": "горько 2",
+   "key": "tmdb:298483",
+   "label": "Горько! 2 (2014)",
+   "sure": true
+  },
+  "GTHMau12ieU": {
+   "typed": "очень страшное кино",
+   "key": "tmdb:1273221",
+   "label": "Очень страшное кино (2026)",
+   "sure": false
+  },
+  "gTRHXhHvFas": {
+   "typed": "пингвин",
+   "key": "imdb:tt15435876",
+   "label": "Пингвин (сериал, 2024)",
+   "sure": true
+  },
+  "gU4yZOLORHY": {
+   "typed": "коллекционер",
+   "key": "tmdb:42740",
+   "label": "Коллекционер (1965)",
+   "sure": false
+  },
+  "GUe5uW1LOLE": {
+   "typed": "терминатор 6",
+   "key": "tmdb:290859",
+   "label": "Терминатор: Тёмные судьбы (2019)",
+   "sure": true
+  },
+  "GUTNZGR-kxY": {
+   "typed": "Пираты Карибского моря 5",
+   "key": "tmdb:166426",
+   "label": "Пираты Карибского моря: Мертвецы не рассказывают сказок (2017)",
+   "sure": true
+  },
+  "Gv7N_Mbzw7Y": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "Gw1-T-wlQIM": {
+   "typed": "Рик и морти",
+   "key": "imdb:tt2861424",
+   "label": "Рик и Морти (сериал, 2013)",
+   "sure": true
+  },
+  "gwHt9Es6XsE": {
+   "typed": "пожиратель душ",
+   "key": "tmdb:14147",
+   "label": "Пожиратель душ (2005)",
+   "sure": true
+  },
+  "GwKhd3UPm-o": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "GX5k-YQBYcw": {
+   "typed": "ЗЕЛЁНАЯ КНИГА",
+   "key": "tmdb:490132",
+   "label": "Зелёная книга (2018)",
+   "sure": true
+  },
+  "GXJiChnsy2g": {
+   "typed": "звёздные войны пробуждение силы",
+   "key": "tmdb:140607",
+   "label": "Звёздные войны: Эпизод 7 - Пробуждение силы (2015)",
+   "sure": true
+  },
+  "gznCmNfxgi0": {
+   "typed": "помни",
+   "key": "tmdb:77",
+   "label": "Помни (2000)",
+   "sure": false
+  },
+  "GzSemMI50bU": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "H_Ehio6_V2w": {
+   "typed": "О ЧЁМ ГОВОРЯТ МУЖЧИНЫ ПРОДОЛЖЕНИЕ",
+   "key": "tmdb:497726",
+   "label": "О чём говорят мужчины. Продолжение (2018)",
+   "sure": true
+  },
+  "H2XHCQ-CIR4": {
+   "typed": "достучаться до небес",
+   "key": "tmdb:158",
+   "label": "Достучаться до небес (1997)",
+   "sure": true
+  },
+  "H4nPbjlpB6k": {
+   "typed": "По соображениям совести",
+   "key": "tmdb:324786",
+   "label": "По соображениям совести (2016)",
+   "sure": true
+  },
+  "H6w8d1XnFr4": {
+   "typed": "LAST OF US",
+   "key": "imdb:tt3581920",
+   "label": "Одни из нас (сериал, 2023)",
+   "sure": true
+  },
+  "hbY80ojdGis": {
+   "typed": "брат",
+   "key": "tmdb:20992",
+   "label": "Брат (1997)",
+   "sure": false
+  },
+  "hCD2FOWIWhw": {
+   "typed": "Флэш",
+   "key": "tmdb:298618",
+   "label": "Флэш (2023)",
+   "sure": true
+  },
+  "hCDPLbsSI-k": {
+   "typed": "мир юрского периода",
+   "key": "tmdb:135397",
+   "label": "Мир юрского периода (2015)",
+   "sure": true
+  },
+  "hcNuWqWEO9c": {
+   "typed": "Мулан",
+   "key": "tmdb:337401",
+   "label": "Мулан (2020)",
+   "sure": false
+  },
+  "hcrXjY19i3s": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "hDwCMnBRuDk": {
+   "typed": "тачки",
+   "key": "tmdb:920",
+   "label": "Тачки (2006)",
+   "sure": true
+  },
+  "he835XO_omU": {
+   "typed": "джокер безумие на двоих",
+   "key": "tmdb:889737",
+   "label": "Джокер: Безумие на двоих (2024)",
+   "sure": true
+  },
+  "hGUoONXYqro": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "hiql0b_a_kQ": {
+   "typed": "нимфоманка",
+   "key": "tmdb:258216",
+   "label": "Нимфоманка (2013)",
+   "sure": true
+  },
+  "HKH0tAJn4Lc": {
+   "typed": "В сердце моря",
+   "key": "tmdb:205775",
+   "label": "В сердце моря (2015)",
+   "sure": true
+  },
+  "hKksgQyhVAo": {
+   "typed": "ирония судьбы",
+   "key": "tmdb:43430",
+   "label": "Ирония судьбы, или С лёгким паром! (1976)",
+   "sure": true
+  },
+  "hkqmvmISMAo": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "HLCBHB6_CWM": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "hlIlWKzGpFM": {
+   "typed": "мертвец",
+   "key": "tmdb:922",
+   "label": "Мертвец (1995)",
+   "sure": true
+  },
+  "HLR3KlJd9Pc": {
+   "typed": "бойцовский клуб",
+   "key": "tmdb:550",
+   "label": "Бойцовский клуб (1999)",
+   "sure": true
+  },
+  "HN10JErh9gg": {
+   "typed": "Трамбо",
+   "key": "tmdb:294016",
+   "label": "Трамбо (2015)",
+   "sure": true
+  },
+  "hNZH2HebltY": {
+   "typed": "Форсаж 9",
+   "key": "tmdb:385128",
+   "label": "Форсаж 9 (2021)",
+   "sure": true
+  },
+  "hovGGrYylvs": {
+   "typed": "РЭМПЕЙДЖ",
+   "key": "tmdb:427641",
+   "label": "Рэмпейдж (2018)",
+   "sure": true
+  },
+  "Hp2aCaS1nhE": {
+   "typed": "смешарики",
+   "key": "imdb:tt0853174",
+   "label": "Смешарики (сериал, 2004)",
+   "sure": true
+  },
+  "HpOsz76HyyM": {
+   "typed": "чужой завет",
+   "key": "tmdb:126889",
+   "label": "Чужой: Завет (2017)",
+   "sure": true
+  },
+  "hQVd8CIqTQk": {
+   "typed": "Tomb Raider: Лара Крофт",
+   "key": "tmdb:338970",
+   "label": "Tomb Raider: Лара Крофт (2018)",
+   "sure": true
+  },
+  "HRGPNMI_k4I": {
+   "typed": "американский психопат",
+   "key": "tmdb:1359",
+   "label": "Американский психопат (2000)",
+   "sure": false
+  },
+  "HsWSgm8HFKw": {
+   "typed": "кунг-фу панда 4",
+   "key": "tmdb:1011985",
+   "label": "Кунг-фу панда 4 (2024)",
+   "sure": true
+  },
+  "HtOmsLgSc_8": {
+   "typed": "аколит",
+   "key": "imdb:tt12262202",
+   "label": "Аколит (сериал, 2024)",
+   "sure": true
+  },
+  "hV245-V9sR0": {
+   "typed": "конец детства",
+   "key": "imdb:tt4146128",
+   "label": "Конец детства (сериал, 2015)",
+   "sure": true
+  },
+  "HvXQ37BpOTY": {
+   "typed": "зловещие мертвецы черная книга",
+   "key": "tmdb:109428",
+   "label": "Зловещие мертвецы: Чёрная книга (2013)",
+   "sure": true
+  },
+  "hwKVYmd8gLM": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "HXbId_6wUCw": {
+   "typed": "валл и",
+   "key": "tmdb:10681",
+   "label": "ВАЛЛ•И (2008)",
+   "sure": true
+  },
+  "hXbWUuCdAcU": {
+   "typed": "выживший",
+   "key": "tmdb:281957",
+   "label": "Выживший (2015)",
+   "sure": false
+  },
+  "hxCtN98HrLg": {
+   "typed": "ничего себе поездочка 3",
+   "key": "tmdb:259074",
+   "label": "Ничего себе поездочка 3 (2014)",
+   "sure": true
+  },
+  "HXydp44IwUs": {
+   "typed": "ИГРА ПРЕСТОЛОВ",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "hzlKLp3sE3U": {
+   "typed": "мой кровавый Валентин",
+   "key": "tmdb:14435",
+   "label": "Мой кровавый Валентин (2009)",
+   "sure": false
+  },
+  "I-FH_peTLRo": {
+   "typed": "Хищник Добыча",
+   "key": "tmdb:766507",
+   "label": "Добыча (2022)",
+   "sure": true
+  },
+  "i2BU8kMMZac": {
+   "typed": "пятьдесят оттенков серого",
+   "key": "tmdb:216015",
+   "label": "Пятьдесят оттенков серого (2015)",
+   "sure": true
+  },
+  "i5MzCuWNTl8": {
+   "typed": "Малефисента",
+   "key": "tmdb:102651",
+   "label": "Малефисента (2014)",
+   "sure": true
+  },
+  "i6jJ5avVZyA": {
+   "typed": "Конг остров черепа",
+   "key": "tmdb:293167",
+   "label": "Конг: Остров Черепа (2017)",
+   "sure": true
+  },
+  "i8QtcVk6TIU": {
+   "typed": "Стрельцов",
+   "key": "tmdb:579805",
+   "label": "Стрельцов (2020)",
+   "sure": true
+  },
+  "i8qZNBWbiNs": {
+   "typed": "хоббит",
+   "key": "tmdb:49051",
+   "label": "Хоббит: Нежданное путешествие (2012)",
+   "sure": false
+  },
+  "i9CkHxyADBA": {
+   "typed": "жара",
+   "key": "tmdb:4579",
+   "label": "Жара (1972)",
+   "sure": false
+  },
+  "IA9EY9i3Hlw": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "IaPRK237kZ0": {
+   "typed": "Сталинград",
+   "key": "tmdb:203793",
+   "label": "Сталинград (2013)",
+   "sure": false
+  },
+  "iCr0WNlJ8Zo": {
+   "typed": "ХЕЛЛБОЙ",
+   "key": "tmdb:456740",
+   "label": "Хеллбой (2019)",
+   "sure": false
+  },
+  "IdGcTuPygyo": {
+   "typed": "горец",
+   "key": "tmdb:8009",
+   "label": "Горец (1986)",
+   "sure": false
+  },
+  "IhfBr5TptkE": {
+   "typed": "гладиатор",
+   "key": "tmdb:98",
+   "label": "Гладиатор (2000)",
+   "sure": false
+  },
+  "ij9haeuYWVE": {
+   "typed": "смешарики",
+   "key": "imdb:tt0853174",
+   "label": "Смешарики (сериал, 2004)",
+   "sure": true
+  },
+  "IKAeyecBiBg": {
+   "typed": "добыча",
+   "key": "tmdb:766507",
+   "label": "Добыча (2022)",
+   "sure": false
+  },
+  "IKOjecnB_U8": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "iKStWWV4DRY": {
+   "typed": "холодное сердце",
+   "key": "tmdb:109445",
+   "label": "Холодное сердце (2013)",
+   "sure": true
+  },
+  "iKY0EhTRTSY": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "inKmExtWVn4": {
+   "typed": "бобры зомби",
+   "key": "tmdb:254474",
+   "label": "Бобры-зомби (2014)",
+   "sure": true
+  },
+  "ipjhOnY0H1k": {
+   "typed": "ОВЕРЛОРД",
+   "key": "tmdb:438799",
+   "label": "Оверлорд (2018)",
+   "sure": true
+  },
+  "IPzPqXFFQRQ": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "IQxBQIEEId0": {
+   "typed": "аура 2005",
+   "key": "tmdb:13653",
+   "label": "Аура (2005)",
+   "sure": true
+  },
+  "is5Z-r1rREE": {
+   "typed": "хищник добыча 2022",
+   "key": "tmdb:766507",
+   "label": "Добыча (2022)",
+   "sure": true
+  },
+  "isKnUeGJEkA": {
+   "typed": "ЛЮДИ ИКС: ПЕРВЫЙ КЛАСС",
+   "key": "tmdb:49538",
+   "label": "Люди Икс: Первый класс (2011)",
+   "sure": true
+  },
+  "iTfAzZb7dpg": {
+   "typed": "сквозь снег",
+   "key": "tmdb:110415",
+   "label": "Сквозь снег (2013)",
+   "sure": false
+  },
+  "itgK5-oPeRg": {
+   "typed": "Королевство викингов",
+   "key": "tmdb:100542",
+   "label": "Королевство викингов (2013)",
+   "sure": true
+  },
+  "IUV9LSgktxQ": {
+   "typed": "Мстители: Война бесконечности",
+   "key": "tmdb:299536",
+   "label": "Мстители: Война бесконечности (2018)",
+   "sure": true
+  },
+  "IuY-bClsAho": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "iXbuKqMs4XI": {
+   "typed": "криминальное чтиво",
+   "key": "tmdb:680",
+   "label": "Криминальное чтиво (1994)",
+   "sure": true
+  },
+  "iXik52G6BOU": {
+   "typed": "цельнометаллическая оболочка",
+   "key": "tmdb:600",
+   "label": "Цельнометаллическая оболочка (1987)",
+   "sure": true
+  },
+  "iY0-i57sx4E": {
+   "typed": "фарго",
+   "key": "imdb:tt2802850",
+   "label": "Фарго (сериал, 2014)",
+   "sure": true
+  },
+  "iya4JTwFQIo": {
+   "typed": "ДОКТОР СТРЭНДЖ",
+   "key": "tmdb:284052",
+   "label": "Доктор Стрэндж (2016)",
+   "sure": false
+  },
+  "IYzgiHRfcQQ": {
+   "typed": "КРЫМ",
+   "key": "tmdb:469114",
+   "label": "Крым (2017)",
+   "sure": true
+  },
+  "IzNY_e_856I": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "j-AVtsdimK0": {
+   "typed": "чужой",
+   "key": "tmdb:348",
+   "label": "Чужой (1979)",
+   "sure": false
+  },
+  "j2MCtdoPFxs": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "j2Tjcfj5-40": {
+   "typed": "веном",
+   "key": "tmdb:335983",
+   "label": "Веном (2018)",
+   "sure": true
+  },
+  "j4gFypPJFe4": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "J5C6cVYQB7I": {
+   "typed": "кредо убийцы",
+   "key": "tmdb:121856",
+   "label": "Кредо убийцы (2016)",
+   "sure": false
+  },
+  "j9_B_NZqy80": {
+   "typed": "мегамозг",
+   "key": "tmdb:38055",
+   "label": "Мегамозг (2010)",
+   "sure": true
+  },
+  "J9-4_re-HxA": {
+   "typed": "Французский вестник",
+   "key": "tmdb:542178",
+   "label": "Французский вестник. Приложение к газете «Либерти. Канзас ивнинг сан» (2021)",
+   "sure": true
+  },
+  "JaloihV9aaE": {
+   "typed": "красавица и чудовище",
+   "key": "tmdb:321612",
+   "label": "Красавица и Чудовище (2017)",
+   "sure": false
+  },
+  "Jatg_C6yh80": {
+   "typed": "иллюзия обмана 2",
+   "key": "tmdb:291805",
+   "label": "Иллюзия обмана 2 (2016)",
+   "sure": true
+  },
+  "jdIxnifTybs": {
+   "typed": "МСТИТЕЛИ 4",
+   "key": "tmdb:299534",
+   "label": "Мстители: Финал (2019)",
+   "sure": true
+  },
+  "jdxCqsgrfFA": {
+   "typed": "психо",
+   "key": "tmdb:539",
+   "label": "Психо (1960)",
+   "sure": false
+  },
+  "JELOmubOLDk": {
+   "typed": "снайпер",
+   "key": "tmdb:190859",
+   "label": "Американский снайпер (2014)",
+   "sure": false
+  },
+  "jEmEsLVKdjE": {
+   "typed": "поворот не туда 5",
+   "key": "tmdb:125509",
+   "label": "Поворот не туда 5 (2012)",
+   "sure": true
+  },
+  "JFGTA_3_DzM": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "JGD6udqp4ns": {
+   "typed": "Жертвуя пешкой",
+   "key": "tmdb:245698",
+   "label": "Жертвуя пешкой (2014)",
+   "sure": true
+  },
+  "JhUmKgKhnsA": {
+   "typed": "ведьмак",
+   "key": "tmdb:57278",
+   "label": "Ведьмак (2001)",
+   "sure": false
+  },
+  "JI8mvNCaifI": {
+   "typed": "хищник",
+   "key": "tmdb:106",
+   "label": "Хищник (1987)",
+   "sure": false
+  },
+  "JJda9DKB3JQ": {
+   "typed": "Гоголь начало",
+   "key": "tmdb:468988",
+   "label": "Гоголь. Начало (2017)",
+   "sure": true
+  },
+  "JJKk_lhEUD4": {
+   "typed": "Достать ножи 2: Стеклянная луковица",
+   "key": "tmdb:661374",
+   "label": "Достать ножи: Стеклянная луковица (2022)",
+   "sure": false
+  },
+  "Jl4bYozwoQo": {
+   "typed": "дети кукурузы 4",
+   "key": "tmdb:25750",
+   "label": "Дети кукурузы 4: Сбор урожая (1996)",
+   "sure": true
+  },
+  "JLzuXcXxsZQ": {
+   "typed": "чудо женщина 2017",
+   "key": "tmdb:297762",
+   "label": "Чудо-женщина (2017)",
+   "sure": true
+  },
+  "jmts9oAFhZs": {
+   "typed": "Кольца Власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "JMTTR6N-Cf4": {
+   "typed": "бойцовский клуб",
+   "key": "tmdb:550",
+   "label": "Бойцовский клуб (1999)",
+   "sure": true
+  },
+  "jmwe-5SlZgo": {
+   "typed": "оно 2017",
+   "key": "tmdb:346364",
+   "label": "Оно (2017)",
+   "sure": true
+  },
+  "JmZKJYtz22o": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "JOlOsWu3hfU": {
+   "typed": "правда или действие 3",
+   "key": "tmdb:460019",
+   "label": "Правда или действие (2018)",
+   "sure": false
+  },
+  "JoVM3ss1FFs": {
+   "typed": "Человек-паук: Возвращение домой",
+   "key": "tmdb:315635",
+   "label": "Человек-паук: Возвращение домой (2017)",
+   "sure": true
+  },
+  "JpN8FH5BpyQ": {
+   "typed": "мумия 2017",
+   "key": "tmdb:282035",
+   "label": "Мумия (2017)",
+   "sure": true
+  },
+  "jSsj5PRGxs0": {
+   "typed": "нечто особенное",
+   "key": "tmdb:46836",
+   "label": "Нечто особенное! (1986)",
+   "sure": true
+  },
+  "jTajv2H4zKA": {
+   "typed": "ЧЕЛОВЕК-ПАУК: ВДАЛИ ОТ ДОМА",
+   "key": "tmdb:429617",
+   "label": "Человек-паук: Вдали от дома (2019)",
+   "sure": true
+  },
+  "jtc-MC8fi00": {
+   "typed": "Малефисента: Владычица тьмы",
+   "key": "tmdb:420809",
+   "label": "Малефисента: Владычица тьмы (2019)",
+   "sure": true
+  },
+  "JV_LSH47CQE": {
+   "typed": "чужой ромул",
+   "key": "tmdb:945961",
+   "label": "Чужой: Ромул (2024)",
+   "sure": true
+  },
+  "jxIE6Y8O9sc": {
+   "typed": "рататуй",
+   "key": "tmdb:2062",
+   "label": "Рататуй (2007)",
+   "sure": true
+  },
+  "Jxn5IwHBPtE": {
+   "typed": "Славные парни",
+   "key": "tmdb:290250",
+   "label": "Славные парни (2016)",
+   "sure": false
+  },
+  "JYMBGFYOvFw": {
+   "typed": "с широко закрытыми глазами",
+   "key": "tmdb:345",
+   "label": "С широко закрытыми глазами (1999)",
+   "sure": true
+  },
+  "jyVE5IIRA84": {
+   "typed": "7 главных желаний",
+   "key": "tmdb:377227",
+   "label": "7 главных желаний",
+   "sure": true
+  },
+  "K0JkwSEX6fc": {
+   "typed": "Холоп",
+   "key": "tmdb:575828",
+   "label": "Холоп (2019)",
+   "sure": true
+  },
+  "K0lTTw8h5CA": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "k42IDix-daM": {
+   "typed": "Бегущий в лабиринте: Испытание огнем",
+   "key": "tmdb:294254",
+   "label": "Бегущий в лабиринте: Испытание огнём (2015)",
+   "sure": true
+  },
+  "k6ffM9XhMj0": {
+   "typed": "большая ржака",
+   "key": "tmdb:131953",
+   "label": "Большая ржака (2012)",
+   "sure": true
+  },
+  "k81yZTNAz0s": {
+   "typed": "Матрица революция",
+   "key": "tmdb:605",
+   "label": "Матрица: Революция (2003)",
+   "sure": true
+  },
+  "Kb5HvLqJqnc": {
+   "typed": "Море соблазна",
+   "key": "tmdb:452832",
+   "label": "Море соблазна (2019)",
+   "sure": true
+  },
+  "kbprGgApRk8": {
+   "typed": "atomic blonde",
+   "key": "tmdb:341013",
+   "label": "Взрывная блондинка (2017)",
+   "sure": true
+  },
+  "kd4WInhFa-4": {
+   "typed": "самурай джек",
+   "key": "imdb:tt0278238",
+   "label": "Самурай Джек (сериал, 2001)",
+   "sure": true
+  },
+  "kdLGZSupqAs": {
+   "typed": "Спартак",
+   "key": "tmdb:967",
+   "label": "Спартак (1960)",
+   "sure": false
+  },
+  "kEJ0ror4p3w": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "kG84MvYTHEg": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "kHeaT99w7P8": {
+   "typed": "Джуманджи 2: Новый уровень",
+   "key": "tmdb:512200",
+   "label": "Джуманджи: Новый уровень (2019)",
+   "sure": false
+  },
+  "Kicpg6QLh44": {
+   "typed": "Хороший динозавр",
+   "key": "tmdb:105864",
+   "label": "Хороший динозавр (2014)",
+   "sure": true
+  },
+  "KIwsRtBUKqs": {
+   "typed": "THE LAST OF US",
+   "key": "imdb:tt3581920",
+   "label": "Одни из нас (сериал, 2023)",
+   "sure": false
+  },
+  "KJCmyLjQbDw": {
+   "typed": "живое",
+   "key": "tmdb:395992",
+   "label": "Живое (2017)",
+   "sure": true
+  },
+  "kM6JtbnsXDc": {
+   "typed": "обитель зла вендетта",
+   "key": "tmdb:400136",
+   "label": "Обитель зла: Вендетта (2017)",
+   "sure": true
+  },
+  "kMc6YHKA6FY": {
+   "typed": "Подъем с глубины",
+   "key": "tmdb:9457",
+   "label": "Подъём с глубины (1998)",
+   "sure": true
+  },
+  "KNniT0Da8jc": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "knYMsCdiI-4": {
+   "typed": "ЖИВОЕ",
+   "key": "tmdb:395992",
+   "label": "Живое (2017)",
+   "sure": true
+  },
+  "kO7XoTjV0r4": {
+   "typed": "газгольдер",
+   "key": "tmdb:310098",
+   "label": "Газгольдер: Фильм (2014)",
+   "sure": true
+  },
+  "kPZ4uEVqPLo": {
+   "typed": "помни",
+   "key": "tmdb:77",
+   "label": "Помни (2000)",
+   "sure": false
+  },
+  "Ks9Jy3I1tZs": {
+   "typed": "Дед мороз битва магов",
+   "key": "tmdb:428398",
+   "label": "Дед Мороз. Битва Магов (2016)",
+   "sure": true
+  },
+  "KssqrdXphcg": {
+   "typed": "Красное уведомление",
+   "key": "tmdb:512195",
+   "label": "Красное уведомление (2021)",
+   "sure": true
+  },
+  "ku1b7duSWnA": {
+   "typed": "князь Владимир",
+   "key": "tmdb:39170",
+   "label": "Князь Владимир (2006)",
+   "sure": true
+  },
+  "kUwLuoj4Ilg": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "kvKUg88KUtA": {
+   "typed": "ПЛАНЕТА ОБЕЗЬЯН: ВОЙНА",
+   "key": "tmdb:281338",
+   "label": "Планета обезьян: Война (2017)",
+   "sure": true
+  },
+  "kVlWJKJ4VOk": {
+   "typed": "Пираты Карибского моря 2",
+   "key": "tmdb:58",
+   "label": "Пираты Карибского моря: Сундук мертвеца (2006)",
+   "sure": true
+  },
+  "kvT2eFjetEQ": {
+   "typed": "ВЕНОМ",
+   "key": "tmdb:335983",
+   "label": "Веном (2018)",
+   "sure": true
+  },
+  "KXAd_BhBRJA": {
+   "typed": "Форсаж 8",
+   "key": "tmdb:337339",
+   "label": "Форсаж 8 (2017)",
+   "sure": true
+  },
+  "kXIW4i-STs0": {
+   "typed": "груз 200",
+   "key": "tmdb:34869",
+   "label": "Груз 200 (2007)",
+   "sure": true
+  },
+  "kxKh4oFMFco": {
+   "typed": "ничего себе поездочка",
+   "key": "tmdb:10866",
+   "label": "Ничего себе поездочка (2001)",
+   "sure": true
+  },
+  "kxrbVtfriaI": {
+   "typed": "сегун",
+   "key": "imdb:tt2788316",
+   "label": "Сёгун (сериал, 2024)",
+   "sure": false
+  },
+  "kXSUA26G2_g": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "KYmHlvI19eU": {
+   "typed": "геошторм",
+   "key": "tmdb:274855",
+   "label": "Геошторм (2017)",
+   "sure": true
+  },
+  "Kys8CA7ThG4": {
+   "typed": "Валериан и город тысячи планет",
+   "key": "tmdb:339964",
+   "label": "Валериан и город тысячи планет (2017)",
+   "sure": true
+  },
+  "kz_vWUx7Ris": {
+   "typed": "Ультраамериканцы",
+   "key": "tmdb:261392",
+   "label": "Ультраамериканцы (2015)",
+   "sure": true
+  },
+  "kZhgRPIbUMM": {
+   "typed": "МАТИЛЬДА",
+   "key": "tmdb:10830",
+   "label": "Матильда (1996)",
+   "sure": true
+  },
+  "L3w2yB2gh_Y": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "L87TrsREYqc": {
+   "typed": "ДЭДПУЛ",
+   "key": "tmdb:293660",
+   "label": "Дэдпул (2016)",
+   "sure": true
+  },
+  "l8LjdlfqbAk": {
+   "typed": "Форсаж 10",
+   "key": "tmdb:385687",
+   "label": "Форсаж 10 (2023)",
+   "sure": true
+  },
+  "L9U9tpEc6ks": {
+   "typed": "тень и кость",
+   "key": "imdb:tt2403776",
+   "label": "Тень и кость (сериал, 2021)",
+   "sure": true
+  },
+  "L9vsWZNGI1c": {
+   "typed": "Доктор Стрэндж: В мультивселенной безумия",
+   "key": "tmdb:453395",
+   "label": "Доктор Стрэндж: В мультивселенной безумия (2021)",
+   "sure": true
+  },
+  "lAkO7JRMcWA": {
+   "typed": "Оппенгеймер",
+   "key": "tmdb:872585",
+   "label": "Оппенгеймер (2023)",
+   "sure": true
+  },
+  "LAwYdV5wS4I": {
+   "typed": "Гладиатор 2",
+   "key": "tmdb:558449",
+   "label": "Гладиатор 2 (2024)",
+   "sure": true
+  },
+  "laz2GdPU0w0": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "LB9j8XWxMOU": {
+   "typed": "ДАМБО",
+   "key": "tmdb:329996",
+   "label": "Дамбо (2019)",
+   "sure": false
+  },
+  "lbjD8eAXKKE": {
+   "typed": "веном",
+   "key": "tmdb:335983",
+   "label": "Веном (2018)",
+   "sure": true
+  },
+  "LbnftTsJyXc": {
+   "typed": "Белоснежка",
+   "key": "tmdb:447273",
+   "label": "Белоснежка (2025)",
+   "sure": false
+  },
+  "lBQazq3qX0o": {
+   "typed": "салют 7",
+   "key": "tmdb:438740",
+   "label": "Салют-7 (2017)",
+   "sure": true
+  },
+  "LCD3gbd0x-I": {
+   "typed": "Кольца Власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "Le3564euPGQ": {
+   "typed": "коллекционер 2",
+   "key": "tmdb:134597",
+   "label": "Коллекционер 2 (2012)",
+   "sure": true
+  },
+  "LelUQ5Y2zLo": {
+   "typed": "поворот не туда 6",
+   "key": "tmdb:259072",
+   "label": "Поворот не туда 6: Последний курорт (2014)",
+   "sure": true
+  },
+  "Lfi1vF4WXhs": {
+   "typed": "Москва 2017",
+   "key": "tmdb:112090",
+   "label": "Москва 2017 (2012)",
+   "sure": true
+  },
+  "LfP9CO2uwzI": {
+   "typed": "Пчеловод",
+   "key": "tmdb:866398",
+   "label": "Пчеловод (2024)",
+   "sure": false
+  },
+  "lHIl-27TpLw": {
+   "typed": "Терминатор",
+   "key": "tmdb:218",
+   "label": "Терминатор (1984)",
+   "sure": true
+  },
+  "lhvuUugPlBU": {
+   "typed": "чужой: завет",
+   "key": "tmdb:126889",
+   "label": "Чужой: Завет (2017)",
+   "sure": true
+  },
+  "LmRRAVK-014": {
+   "typed": "Чужой против хищника 2",
+   "key": "tmdb:440",
+   "label": "Чужие против Хищника: Реквием (2007)",
+   "sure": true
+  },
+  "lOZM9pI2w0Y": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "LPe9CvcqpH8": {
+   "typed": "помни",
+   "key": "tmdb:77",
+   "label": "Помни (2000)",
+   "sure": false
+  },
+  "LpQ4nf95Lto": {
+   "typed": "ВЛАСТЕЛИН КОЛЕЦ: КОЛЬЦА ВЛАСТИ",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": true
+  },
+  "LqNWAKavzl8": {
+   "typed": "Механик: Воскрешение",
+   "key": "tmdb:278924",
+   "label": "Механик: Воскрешение (2016)",
+   "sure": true
+  },
+  "lr2WxPW41jw": {
+   "typed": "лобстер",
+   "key": "tmdb:254320",
+   "label": "Лобстер (2015)",
+   "sure": true
+  },
+  "lrlKjOB0AJQ": {
+   "typed": "Бэтмен 1992",
+   "key": "imdb:tt0103359",
+   "label": "Бэтмен (сериал, 1992)",
+   "sure": true
+  },
+  "LtzwaeSmeEk": {
+   "typed": "робот по имени чаппи",
+   "key": "tmdb:198184",
+   "label": "Робот по имени Чаппи (2015)",
+   "sure": true
+  },
+  "LUJaYsZBM6E": {
+   "typed": "рикер",
+   "key": "tmdb:14457",
+   "label": "Рикер (2005)",
+   "sure": true
+  },
+  "LUXloQM3eA0": {
+   "typed": "сказка есть",
+   "key": "tmdb:136771",
+   "label": "Сказка. Есть (2011)",
+   "sure": true
+  },
+  "LwvB6yhtXXk": {
+   "typed": "Перевозчик: Наследие",
+   "key": "tmdb:287948",
+   "label": "Перевозчик: Наследие (2015)",
+   "sure": true
+  },
+  "LxTj7rpzCC4": {
+   "typed": "Бегущий по лезвию 2049",
+   "key": "tmdb:335984",
+   "label": "Бегущий по лезвию 2049 (2017)",
+   "sure": true
+  },
+  "ly9YjIakRgU": {
+   "typed": "МОАНА",
+   "key": "tmdb:277834",
+   "label": "Моана (2016)",
+   "sure": true
+  },
+  "lZ4eIWq4bsg": {
+   "typed": "Warcraft",
+   "key": "tmdb:68735",
+   "label": "Варкрафт (2016)",
+   "sure": true
+  },
+  "lZ8t86oLHrw": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "m-C48XyTpCY": {
+   "typed": "джокер 2019",
+   "key": "tmdb:475557",
+   "label": "Джокер (2019)",
+   "sure": true
+  },
+  "m4av16Z8GW0": {
+   "typed": "король лев",
+   "key": "tmdb:420818",
+   "label": "Король Лев (2019)",
+   "sure": false
+  },
+  "M5E9Bax3EL0": {
+   "typed": "аватар",
+   "key": "tmdb:19995",
+   "label": "Аватар (2009)",
+   "sure": false
+  },
+  "M6E1mJqmCeY": {
+   "typed": "пингвин",
+   "key": "imdb:tt15435876",
+   "label": "Пингвин (сериал, 2024)",
+   "sure": true
+  },
+  "m8380Vc4Ma0": {
+   "typed": "Человек-муравей",
+   "key": "tmdb:102899",
+   "label": "Человек-муравей (2015)",
+   "sure": true
+  },
+  "m9VW6L8_ow0": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "MhExPoz3frI": {
+   "typed": "рикер 2",
+   "key": "tmdb:18616",
+   "label": "Рикер 2 (2008)",
+   "sure": true
+  },
+  "mhvn8QRcLUc": {
+   "typed": "трасса 60",
+   "key": "tmdb:20312",
+   "label": "Трасса 60 (2002)",
+   "sure": true
+  },
+  "mIFX6FCyvKo": {
+   "typed": "флэш",
+   "key": "tmdb:298618",
+   "label": "Флэш (2023)",
+   "sure": false
+  },
+  "mJPeOg9BOCI": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "MJZpMR2JpQI": {
+   "typed": "Майор Гром: Чумной доктор",
+   "key": "tmdb:529106",
+   "label": "Майор Гром: Чумной Доктор (2021)",
+   "sure": true
+  },
+  "mKMdJSPVjKM": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "ML0KZehrwzg": {
+   "typed": "Angry Birds",
+   "key": "tmdb:153518",
+   "label": "Angry Birds в кино (2016)",
+   "sure": true
+  },
+  "ml6wqbz6Yuw": {
+   "typed": "Форсаж 7",
+   "key": "tmdb:168259",
+   "label": "Форсаж 7 (2015)",
+   "sure": true
+  },
+  "MLF20T4I6cI": {
+   "typed": "Форсаж 8",
+   "key": "tmdb:337339",
+   "label": "Форсаж 8 (2017)",
+   "sure": true
+  },
+  "MloliSOM-kU": {
+   "typed": "Человек-паук 2: Вдали от дома",
+   "key": "tmdb:429617",
+   "label": "Человек-паук: Вдали от дома (2019)",
+   "sure": false
+  },
+  "mmMsGUZdylI": {
+   "typed": "во имя короля 3",
+   "key": "tmdb:252360",
+   "label": "Во имя короля 3 (2014)",
+   "sure": true
+  },
+  "MmY0qDSp9pg": {
+   "typed": "Прометей",
+   "key": "tmdb:70981",
+   "label": "Прометей (2012)",
+   "sure": true
+  },
+  "mpGF7dG7U1E": {
+   "typed": "Круэлла",
+   "key": "tmdb:337404",
+   "label": "Круэлла (2021)",
+   "sure": true
+  },
+  "mpQuIADB0ZU": {
+   "typed": "аватар пламя и пепел",
+   "key": "tmdb:83533",
+   "label": "Аватар: Пламя и пепел (2025)",
+   "sure": true
+  },
+  "mqhszLdke38": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "MRq6BpYedY8": {
+   "typed": "темный рыцарь",
+   "key": "tmdb:155",
+   "label": "Тёмный рыцарь (2008)",
+   "sure": false
+  },
+  "MTLspwk7h0w": {
+   "typed": "не вижу зла 2",
+   "key": "tmdb:226140",
+   "label": "Не вижу зла 2 (2014)",
+   "sure": true
+  },
+  "MUx7z_Fn9p8": {
+   "typed": "peacemaker",
+   "key": "imdb:tt13146488",
+   "label": "Миротворец (сериал, 2022)",
+   "sure": true
+  },
+  "myYENtk7WJY": {
+   "typed": "ОХОТНИКИ ЗА ПРИВИДЕНИЯМИ: НАСЛЕДНИКИ",
+   "key": "tmdb:425909",
+   "label": "Охотники за привидениями: Наследники (2021)",
+   "sure": true
+  },
+  "n_AMJwPxXCY": {
+   "typed": "Гравитация",
+   "key": "tmdb:49047",
+   "label": "Гравитация (2013)",
+   "sure": false
+  },
+  "n2eymO4uVTg": {
+   "typed": "последний киногерой",
+   "key": "tmdb:9593",
+   "label": "Последний киногерой (1993)",
+   "sure": true
+  },
+  "n4Virf3u2l4": {
+   "typed": "12 обезьян",
+   "key": "tmdb:63",
+   "label": "12 обезьян (1995)",
+   "sure": true
+  },
+  "N59SEV3yiw4": {
+   "typed": "Чернобыль",
+   "key": "imdb:tt7366338",
+   "label": "Чернобыль (сериал, 2019)",
+   "sure": true
+  },
+  "N6-BRnBlDMc": {
+   "typed": "Гравитация",
+   "key": "tmdb:49047",
+   "label": "Гравитация (2013)",
+   "sure": false
+  },
+  "n61ftmt6NjQ": {
+   "typed": "криминальное чтиво",
+   "key": "tmdb:680",
+   "label": "Криминальное чтиво (1994)",
+   "sure": true
+  },
+  "N6VcDRQEVKA": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "n7Krbii6h40": {
+   "typed": "служу советскому союзу",
+   "key": "tmdb:133390",
+   "label": "Служу Советскому Союзу! (2012)",
+   "sure": true
+  },
+  "nAfzQc2cg30": {
+   "typed": "служебный роман",
+   "key": "tmdb:31139",
+   "label": "Служебный роман (1977)",
+   "sure": true
+  },
+  "nalmkYgyvzA": {
+   "typed": "Zомби каникулы 3D",
+   "key": "tmdb:220084",
+   "label": "Zомби каникулы 3D (2013)",
+   "sure": true
+  },
+  "namADgMX694": {
+   "typed": "Веном 2",
+   "key": "tmdb:580489",
+   "label": "Веном 2 (2021)",
+   "sure": true
+  },
+  "nCC9lg4OCNE": {
+   "typed": "кракен",
+   "key": "tmdb:1258151",
+   "label": "Кракен (2025)",
+   "sure": true
+  },
+  "nCUnMDPLbE8": {
+   "typed": "ирония судьбы",
+   "key": "tmdb:43430",
+   "label": "Ирония судьбы, или С лёгким паром! (1976)",
+   "sure": true
+  },
+  "ncyx8TvEFdA": {
+   "typed": "Левиафан (2014)",
+   "key": "tmdb:265180",
+   "label": "Левиафан (2014)",
+   "sure": true
+  },
+  "NDdJIYpgcMo": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "NDMQqR9bdsc": {
+   "typed": "звездный десант 3",
+   "key": "tmdb:11127",
+   "label": "Звёздный десант 3: Мародёр (2008)",
+   "sure": true
+  },
+  "NDtFpDfnrKI": {
+   "typed": "ПИРАТы КАРИБСКОГО МОРЯ 5",
+   "key": "tmdb:166426",
+   "label": "Пираты Карибского моря: Мертвецы не рассказывают сказок (2017)",
+   "sure": true
+  },
+  "NePa5UUfTew": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "nf983u84vsE": {
+   "typed": "тачки 3",
+   "key": "tmdb:260514",
+   "label": "Тачки 3 (2017)",
+   "sure": true
+  },
+  "NFCugaQfGZU": {
+   "typed": "невероятная жизнь Уолтера митти",
+   "key": "tmdb:116745",
+   "label": "Невероятная жизнь Уолтера Митти (2013)",
+   "sure": true
+  },
+  "nfYlnFyrhlU": {
+   "typed": "Мадагаскар",
+   "key": "tmdb:953",
+   "label": "Мадагаскар (2005)",
+   "sure": true
+  },
+  "nG2QVTHWXYs": {
+   "typed": "планета смерти",
+   "key": "tmdb:1242898",
+   "label": "Хищник: Планета смерти (2025)",
+   "sure": false
+  },
+  "NhB2tgwggbM": {
+   "typed": "СПЛИТ",
+   "key": "tmdb:381288",
+   "label": "Сплит (2017)",
+   "sure": true
+  },
+  "NhZRiOo-MqE": {
+   "typed": "красный воробей",
+   "key": "tmdb:401981",
+   "label": "Красный воробей (2018)",
+   "sure": true
+  },
+  "nIkH6C3_CX8": {
+   "typed": "зоя",
+   "key": "tmdb:189192",
+   "label": "Зоя (1944)",
+   "sure": false
+  },
+  "Nipiupf2UwE": {
+   "typed": "ПРИТЯЖЕНИЕ",
+   "key": "tmdb:401513",
+   "label": "Притяжение (2017)",
+   "sure": true
+  },
+  "NJxdpb0eH8s": {
+   "typed": "ТИХООКЕАНСКИЙ РУБЕЖ",
+   "key": "tmdb:68726",
+   "label": "Тихоокеанский рубеж (2013)",
+   "sure": true
+  },
+  "nKoxZLF_ih4": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "NKVZ8Lt9Q-Y": {
+   "typed": "Пираты Карибского моря 5",
+   "key": "tmdb:166426",
+   "label": "Пираты Карибского моря: Мертвецы не рассказывают сказок (2017)",
+   "sure": true
+  },
+  "nLjdN54KcpM": {
+   "typed": "Прометей",
+   "key": "tmdb:70981",
+   "label": "Прометей (2012)",
+   "sure": true
+  },
+  "nM9rCLXmz-g": {
+   "typed": "властелин колец две крепости",
+   "key": "tmdb:121",
+   "label": "Властелин колец: Две крепости (2002)",
+   "sure": true
+  },
+  "Nn8X0PldAVY": {
+   "typed": "warcraft",
+   "key": "tmdb:68735",
+   "label": "Варкрафт (2016)",
+   "sure": true
+  },
+  "nnjLMJqdfqE": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "nO5Z2k5XAxM": {
+   "typed": "Трансформеры эпоха истребления",
+   "key": "tmdb:91314",
+   "label": "Трансформеры: Эпоха истребления (2014)",
+   "sure": true
+  },
+  "NpYCXhSlmJI": {
+   "typed": "планета ка пэкс",
+   "key": "tmdb:167",
+   "label": "Планета Ка-Пэкс (2001)",
+   "sure": true
+  },
+  "nQvRXf4cXV4": {
+   "typed": "время первых 2018",
+   "key": "tmdb:440642",
+   "label": "Время первых (2017)",
+   "sure": true
+  },
+  "NSOYCRZMauQ": {
+   "typed": "ГОДЗИЛЛА 2: Король монстров",
+   "key": "tmdb:373571",
+   "label": "Годзилла 2: Король монстров (2019)",
+   "sure": true
+  },
+  "Ntra5iuD_80": {
+   "typed": "отряд самоубийц",
+   "key": "tmdb:297761",
+   "label": "Отряд самоубийц (2016)",
+   "sure": true
+  },
+  "ntWlGjkF7LA": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "NuxrezH5NJA": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "nVfO0RqwLm0": {
+   "typed": "Джейсон борн",
+   "key": "tmdb:324668",
+   "label": "Джейсон Борн (2016)",
+   "sure": true
+  },
+  "nWh_GELled8": {
+   "typed": "мегамозг",
+   "key": "tmdb:38055",
+   "label": "Мегамозг (2010)",
+   "sure": true
+  },
+  "NwHHRP5bbyI": {
+   "typed": "дэдпул 2",
+   "key": "tmdb:383498",
+   "label": "Дэдпул 2 (2018)",
+   "sure": true
+  },
+  "NXE9-zqKLsQ": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "NYGq6trMu-I": {
+   "typed": "batman beyond",
+   "key": "imdb:tt0147746",
+   "label": "Бэтмен будущего (сериал, 1999)",
+   "sure": true
+  },
+  "o_VJOldnH-w": {
+   "typed": "афоня",
+   "key": "tmdb:20870",
+   "label": "Афоня (1975)",
+   "sure": true
+  },
+  "O-uRWXuJOyI": {
+   "typed": "Мир Юрского периода 2",
+   "key": "tmdb:351286",
+   "label": "Мир юрского периода 2 (2018)",
+   "sure": true
+  },
+  "O06IbxibBpU": {
+   "typed": "обитель зла 6",
+   "key": "tmdb:173897",
+   "label": "Обитель зла: Последняя глава (2016)",
+   "sure": true
+  },
+  "o2H06Vd7F8o": {
+   "typed": "мама",
+   "key": "tmdb:502416",
+   "label": "Мама (2019)",
+   "sure": false
+  },
+  "o2pESbJ0o0M": {
+   "typed": "планета обезьян революция",
+   "key": "tmdb:119450",
+   "label": "Планета обезьян: Революция (2014)",
+   "sure": true
+  },
+  "o2y1qv4hpsY": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "o41nQIUmvrY": {
+   "typed": "Мстители",
+   "key": "tmdb:24428",
+   "label": "Мстители (2012)",
+   "sure": false
+  },
+  "O48yupIEhP8": {
+   "typed": "викинги",
+   "key": "tmdb:286873",
+   "label": "Викинги (2014)",
+   "sure": false
+  },
+  "O55EOT4SN0Q": {
+   "typed": "Бегущий человек",
+   "key": "tmdb:798645",
+   "label": "Бегущий человек (2025)",
+   "sure": false
+  },
+  "O5hWTp21Zew": {
+   "typed": "аквамен",
+   "key": "tmdb:297802",
+   "label": "Аквамен (2018)",
+   "sure": true
+  },
+  "o6MN7raq3KI": {
+   "typed": "ОБИТЕЛЬ ЗЛА 6: Последняя глава",
+   "key": "tmdb:173897",
+   "label": "Обитель зла: Последняя глава (2016)",
+   "sure": true
+  },
+  "O7g6WXsRZa8": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "o7IeCnPafi4": {
+   "typed": "ВИКИНГ",
+   "key": "tmdb:369698",
+   "label": "Викинг (2016)",
+   "sure": false
+  },
+  "O8XqmBwldbg": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "O9p8X5uSRfg": {
+   "typed": "мужской сезон",
+   "key": "tmdb:63930",
+   "label": "Мужской сезон: Бархатная революция (2005)",
+   "sure": true
+  },
+  "ObabpU7Fk2c": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "oBI8KzSVQlc": {
+   "typed": "бегущий по лезвию",
+   "key": "tmdb:78",
+   "label": "Бегущий по лезвию (1982)",
+   "sure": true
+  },
+  "od3ibASpxKM": {
+   "typed": "убийца 2023",
+   "key": "tmdb:800158",
+   "label": "Убийца (2023)",
+   "sure": true
+  },
+  "ODGaPZvG4jw": {
+   "typed": "терминатор 5",
+   "key": "tmdb:87101",
+   "label": "Терминатор: Генезис (2015)",
+   "sure": true
+  },
+  "ofptQW91CZQ": {
+   "typed": "фантастические твари и где они обитают",
+   "key": "tmdb:259316",
+   "label": "Фантастические твари и где они обитают (2016)",
+   "sure": true
+  },
+  "ogUViH-NA98": {
+   "typed": "Образцовый самец 2",
+   "key": "tmdb:329833",
+   "label": "Образцовый самец 2 (2016)",
+   "sure": true
+  },
+  "ojAIFph52G8": {
+   "typed": "бросок кобры",
+   "key": "tmdb:14869",
+   "label": "Бросок кобры (2009)",
+   "sure": true
+  },
+  "ojtW6OWDw54": {
+   "typed": "особенности национальной охоты",
+   "key": "tmdb:451928",
+   "label": "Особенности национальной охоты (1995)",
+   "sure": true
+  },
+  "ol8lWP8aMW0": {
+   "typed": "чужой",
+   "key": "tmdb:348",
+   "label": "Чужой (1979)",
+   "sure": false
+  },
+  "olnaIjaV6AY": {
+   "typed": "ведьмак",
+   "key": "imdb:tt5180504",
+   "label": "Ведьмак (сериал, 2019)",
+   "sure": false
+  },
+  "om-V1mgBmmM": {
+   "typed": "омерзительная восьмерка",
+   "key": "tmdb:273248",
+   "label": "Омерзительная восьмёрка (2015)",
+   "sure": true
+  },
+  "oMm9zgN60DY": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "OnhpSuAtf58": {
+   "typed": "Невыносимая тяжесть огромного таланта",
+   "key": "tmdb:648579",
+   "label": "Невыносимая тяжесть огромного таланта (2022)",
+   "sure": true
+  },
+  "OpLafkNhoCA": {
+   "typed": "Хитмэн: Агент 47",
+   "key": "tmdb:249070",
+   "label": "Хитмэн: Агент 47 (2015)",
+   "sure": true
+  },
+  "oPTHnv5gMss": {
+   "typed": "Мантикора",
+   "key": "tmdb:90840",
+   "label": "Мантикора (2005)",
+   "sure": false
+  },
+  "OqNx0PW-9pE": {
+   "typed": "3 дня на убийство",
+   "key": "tmdb:192102",
+   "label": "Три дня на убийство (2014)",
+   "sure": false
+  },
+  "OsfEADtsQgk": {
+   "typed": "средневековье 2022",
+   "key": "tmdb:551271",
+   "label": "Средневековье (2022)",
+   "sure": true
+  },
+  "otLoVycOalE": {
+   "typed": "Мир Юрского периода",
+   "key": "tmdb:135397",
+   "label": "Мир юрского периода (2015)",
+   "sure": true
+  },
+  "oujsyWn3HtE": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "OVbExYCjerY": {
+   "typed": "адский бункер",
+   "key": "tmdb:9017",
+   "label": "Адский бункер (2008)",
+   "sure": true
+  },
+  "oWqVdKZCumI": {
+   "typed": "ТРИ ИКСА: Мировое господство",
+   "key": "tmdb:47971",
+   "label": "Три икса: Мировое господство (2017)",
+   "sure": true
+  },
+  "oZ-rSvwEazE": {
+   "typed": "убить дракона",
+   "key": "tmdb:27942",
+   "label": "Убить дракона (1988)",
+   "sure": true
+  },
+  "oZsZzmji6Ck": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "oZupDOArfmI": {
+   "typed": "Дэдпул и Росомаха",
+   "key": "tmdb:533535",
+   "label": "Дэдпул и Росомаха (2024)",
+   "sure": true
+  },
+  "ozy8PHIQ_qY": {
+   "typed": "душа",
+   "key": "tmdb:508442",
+   "label": "Душа (2020)",
+   "sure": false
+  },
+  "p_wrvXU3xIo": {
+   "typed": "игра в имитацию",
+   "key": "tmdb:205596",
+   "label": "Игра в имитацию (2014)",
+   "sure": true
+  },
+  "p_yeBFbQyxA": {
+   "typed": "игра",
+   "key": "tmdb:2649",
+   "label": "Игра (1997)",
+   "sure": false
+  },
+  "P46Be3Ivo04": {
+   "typed": "Тор 4: Любовь и гром",
+   "key": "tmdb:616037",
+   "label": "Тор: Любовь и гром (2021)",
+   "sure": false
+  },
+  "P5JGQovQzZQ": {
+   "typed": "семь",
+   "key": "tmdb:807",
+   "label": "Семь (1995)",
+   "sure": true
+  },
+  "p8aX4MOO0I4": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "p99Nt4MtUR8": {
+   "typed": "Одиссея 2026",
+   "key": "tmdb:1368337",
+   "label": "Одиссея (2026)",
+   "sure": true
+  },
+  "PbakVdh65_I": {
+   "typed": "ХЭЛЛОУИН",
+   "key": "tmdb:424139",
+   "label": "Хэллоуин (2018)",
+   "sure": false
+  },
+  "PbyeIhky49Y": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "pconHWXO3Ss": {
+   "typed": "защитники",
+   "key": "imdb:tt4230076",
+   "label": "Защитники (сериал, 2017)",
+   "sure": false
+  },
+  "Pf1LcIMDTro": {
+   "typed": "ТРАНСФОРМЕРЫ: Эпоха истребления",
+   "key": "tmdb:91314",
+   "label": "Трансформеры: Эпоха истребления (2014)",
+   "sure": true
+  },
+  "pFcWTrlI5ow": {
+   "typed": "викинг",
+   "key": "tmdb:369698",
+   "label": "Викинг (2016)",
+   "sure": false
+  },
+  "PgTwt1zDEUc": {
+   "typed": "душа",
+   "key": "tmdb:508442",
+   "label": "Душа (2020)",
+   "sure": false
+  },
+  "Ph1OchvELLw": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "phDUFZmjHxA": {
+   "typed": "космический джем",
+   "key": "tmdb:2300",
+   "label": "Космический джэм (1996)",
+   "sure": true
+  },
+  "plcaCamvQQg": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "pM5KRdek-Yo": {
+   "typed": "дюна",
+   "key": "tmdb:841",
+   "label": "Дюна (1984)",
+   "sure": true
+  },
+  "pmwN27vUGo8": {
+   "typed": "о чем молчат девушки",
+   "key": "tmdb:187459",
+   "label": "О чем молчат девушки (2013)",
+   "sure": true
+  },
+  "poPSIZvjZ6E": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "POWVTOUcQck": {
+   "typed": "драйв",
+   "key": "tmdb:64690",
+   "label": "Драйв (2011)",
+   "sure": false
+  },
+  "ppn-LXhB4KQ": {
+   "typed": "замороженные солдаты",
+   "key": "tmdb:255692",
+   "label": "Замороженные солдаты (2013)",
+   "sure": true
+  },
+  "pPSmKE4vXjA": {
+   "typed": "День независимости 2: Возрождение",
+   "key": "tmdb:47933",
+   "label": "День независимости: Возрождение (2016)",
+   "sure": false
+  },
+  "pqM6QfpX58g": {
+   "typed": "Джон Уик 2",
+   "key": "tmdb:324552",
+   "label": "Джон Уик 2 (2017)",
+   "sure": true
+  },
+  "Pqo9lJOP2fs": {
+   "typed": "владение 18",
+   "key": "tmdb:264269",
+   "label": "Владение 18 (2012)",
+   "sure": true
+  },
+  "pqSLhAu-Qq0": {
+   "typed": "доктор стрэндж",
+   "key": "tmdb:284052",
+   "label": "Доктор Стрэндж (2016)",
+   "sure": false
+  },
+  "PToYS1sgbdE": {
+   "typed": "Багровый пик",
+   "key": "tmdb:201085",
+   "label": "Багровый пик (2015)",
+   "sure": true
+  },
+  "Pw_QahVwPiA": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "Px9bZ8fzCak": {
+   "typed": "особь",
+   "key": "tmdb:9348",
+   "label": "Особь (1995)",
+   "sure": true
+  },
+  "Py7oyuiWMag": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "q_WWjWnpB4M": {
+   "typed": "Годзилла против Конга",
+   "key": "tmdb:399566",
+   "label": "Годзилла против Конга (2021)",
+   "sure": true
+  },
+  "Q0p0mO1Y2ro": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "q2ZUwFEjeX4": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "Q6XxYM_1Anw": {
+   "typed": "последний поворот",
+   "key": "tmdb:62566",
+   "label": "Последний поворот (1939)",
+   "sure": true
+  },
+  "q6zXnPm4YRY": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "QAf1IEzM-DU": {
+   "typed": "джокер",
+   "key": "tmdb:475557",
+   "label": "Джокер (2019)",
+   "sure": false
+  },
+  "qb87b-DxM6Q": {
+   "typed": "страна хороших деточек",
+   "key": "tmdb:248229",
+   "label": "Страна хороших деточек (2013)",
+   "sure": true
+  },
+  "QByM4BQYFMM": {
+   "typed": "Черный Адам",
+   "key": "tmdb:436270",
+   "label": "Чёрный Адам (2022)",
+   "sure": true
+  },
+  "qDqncRyC7K0": {
+   "typed": "ДЖЕК РИЧЕР 2: Никогда не возвращайся",
+   "key": "tmdb:343611",
+   "label": "Джек Ричер 2: Никогда не возвращайся (2016)",
+   "sure": true
+  },
+  "qECx4hzWcnI": {
+   "typed": "28 лет спустя",
+   "key": "tmdb:1100988",
+   "label": "28 лет спустя (2025)",
+   "sure": true
+  },
+  "QEueyUYWqYE": {
+   "typed": "пипец 2",
+   "key": "tmdb:59859",
+   "label": "Пипец 2 (2013)",
+   "sure": true
+  },
+  "qfCdROT28_8": {
+   "typed": "человек швейцарский нож",
+   "key": "tmdb:347031",
+   "label": "Человек – швейцарский нож (2016)",
+   "sure": true
+  },
+  "qgD3ctTjf9k": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "QgFsTIXs-r4": {
+   "typed": "АЛИТА: БОЕВОЙ АНГЕЛ",
+   "key": "tmdb:399579",
+   "label": "Алита: Боевой ангел (2019)",
+   "sure": true
+  },
+  "qGKsyEkFFnk": {
+   "typed": "манк",
+   "key": "tmdb:614560",
+   "label": "Манк (2020)",
+   "sure": true
+  },
+  "QGYhBw6b7Qg": {
+   "typed": "темный рыцарь",
+   "key": "tmdb:155",
+   "label": "Тёмный рыцарь (2008)",
+   "sure": false
+  },
+  "qh5QdyFT5Pw": {
+   "typed": "Пираты Карибского моря 3",
+   "key": "tmdb:285",
+   "label": "Пираты Карибского моря: На краю света (2007)",
+   "sure": true
+  },
+  "qiEzKJLwuQA": {
+   "typed": "ХАРДКОР",
+   "key": "tmdb:325348",
+   "label": "Хардкор (2015)",
+   "sure": true
+  },
+  "qjWuXY-qbZg": {
+   "typed": "Утомлённые Солнцем 2: ЦИТАДЕЛЬ",
+   "key": "tmdb:65060",
+   "label": "Утомлённые солнцем 2: Цитадель (2011)",
+   "sure": true
+  },
+  "QK0dtnvi8aw": {
+   "typed": "ВЕНОМ",
+   "key": "tmdb:335983",
+   "label": "Веном (2018)",
+   "sure": true
+  },
+  "qLl1cDsaUfk": {
+   "typed": "Убийца",
+   "key": "tmdb:800158",
+   "label": "Убийца (2023)",
+   "sure": false
+  },
+  "QMIns2LJ288": {
+   "typed": "балканский рубеж",
+   "key": "tmdb:517093",
+   "label": "Балканский рубеж (2019)",
+   "sure": true
+  },
+  "qmRfPNMgfv8": {
+   "typed": "Ничего хорошего в отеле Эль рояль",
+   "key": "tmdb:446021",
+   "label": "Ничего хорошего в отеле «Эль Рояль» (2018)",
+   "sure": true
+  },
+  "QnjWhzxHNBU": {
+   "typed": "хоббит пустошь смауга",
+   "key": "tmdb:57158",
+   "label": "Хоббит: Пустошь Смауга (2013)",
+   "sure": true
+  },
+  "qO1aWxSbPNc": {
+   "typed": "ФОРСАЖ 8",
+   "key": "tmdb:337339",
+   "label": "Форсаж 8 (2017)",
+   "sure": true
+  },
+  "QO6GSkHcdEs": {
+   "typed": "общество мертвых поэтов",
+   "key": "tmdb:207",
+   "label": "Общество мёртвых поэтов (1989)",
+   "sure": true
+  },
+  "QP7s4omOAhs": {
+   "typed": "Иван Васильевич меняет профессию",
+   "key": "tmdb:20803",
+   "label": "Иван Васильевич меняет профессию (1973)",
+   "sure": true
+  },
+  "QPiAlb4Lqjs": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "QPYsGlkXoiw": {
+   "typed": "Утомлённые Солнцем 2: ЦИТАДЕЛЬ",
+   "key": "tmdb:65060",
+   "label": "Утомлённые солнцем 2: Цитадель (2011)",
+   "sure": true
+  },
+  "QRTOmtu9B8M": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "QS_4kb6GT24": {
+   "typed": "скорый Москва Россия",
+   "key": "tmdb:274388",
+   "label": "Скорый «Москва—Россия»",
+   "sure": true
+  },
+  "QTGF0q8DlKU": {
+   "typed": "Холодное сердце 2",
+   "key": "tmdb:330457",
+   "label": "Холодное сердце 2 (2019)",
+   "sure": true
+  },
+  "QtIFlopcFr8": {
+   "typed": "настоящий детектив",
+   "key": "imdb:tt2356777",
+   "label": "Настоящий детектив (сериал, 2014)",
+   "sure": true
+  },
+  "qTjSBJFw-ik": {
+   "typed": "господин никто",
+   "key": "tmdb:31011",
+   "label": "Господин Никто (2009)",
+   "sure": false
+  },
+  "Quxz6YYcjNE": {
+   "typed": "мумия",
+   "key": "tmdb:564",
+   "label": "Мумия (1999)",
+   "sure": false
+  },
+  "qX2Vtpq36rE": {
+   "typed": "оно 2017",
+   "key": "tmdb:346364",
+   "label": "Оно (2017)",
+   "sure": true
+  },
+  "QXfpRqNhmOw": {
+   "typed": "28 панфиловцев",
+   "key": "tmdb:427342",
+   "label": "Двадцать восемь панфиловцев (2016)",
+   "sure": true
+  },
+  "qXor7NVtQWg": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "qzmEyjgg40M": {
+   "typed": "Соник 2",
+   "key": "tmdb:675353",
+   "label": "Соник 2 в кино (2022)",
+   "sure": true
+  },
+  "R_Pl7dGjBZo": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "r0lpT9YRdu8": {
+   "typed": "kingsman 2",
+   "key": "tmdb:343668",
+   "label": "Kingsman: Золотое кольцо (2017)",
+   "sure": true
+  },
+  "R1hGXmEDaHE": {
+   "typed": "Человек-паук: Новый день",
+   "key": "tmdb:969681",
+   "label": "Человек-паук: Новый день (2026)",
+   "sure": true
+  },
+  "R2cq2NbAoCA": {
+   "typed": "настоящий детектив",
+   "key": "imdb:tt2356777",
+   "label": "Настоящий детектив (сериал, 2014)",
+   "sure": true
+  },
+  "R2sTTUx3U1Y": {
+   "typed": "Звездные войны 9: Скайуокер. Восход",
+   "key": "tmdb:181812",
+   "label": "Звёздные войны: Скайуокер. Восход (2019)",
+   "sure": false
+  },
+  "R31RDVbO5v0": {
+   "typed": "Аватар 3: Пламя и Пепел",
+   "key": "tmdb:83533",
+   "label": "Аватар: Пламя и пепел (2025)",
+   "sure": false
+  },
+  "r4YJe2wk-Fw": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "R55U_gnRntk": {
+   "typed": "Пэн: Путешествие в Нетландию",
+   "key": "tmdb:266647",
+   "label": "Пэн: Путешествие в Нетландию (2015)",
+   "sure": true
+  },
+  "R7tR7BghoWA": {
+   "typed": "монстры на каникулах 2",
+   "key": "tmdb:159824",
+   "label": "Монстры на каникулах 2 (2015)",
+   "sure": true
+  },
+  "r7x9qnB9djU": {
+   "typed": "терминатор",
+   "key": "tmdb:218",
+   "label": "Терминатор (1984)",
+   "sure": true
+  },
+  "RbD-Bh-uE1Q": {
+   "typed": "планета обезьян война",
+   "key": "tmdb:281338",
+   "label": "Планета обезьян: Война (2017)",
+   "sure": true
+  },
+  "RBICVrXOVL4": {
+   "typed": "Черная Вдова",
+   "key": "tmdb:497698",
+   "label": "Чёрная вдова (2021)",
+   "sure": false
+  },
+  "rdN4IlEND6M": {
+   "typed": "друзья",
+   "key": "imdb:tt0108778",
+   "label": "Друзья (сериал, 1994)",
+   "sure": false
+  },
+  "re1QCpNzDGo": {
+   "typed": "смешарики",
+   "key": "imdb:tt0853174",
+   "label": "Смешарики (сериал, 2004)",
+   "sure": true
+  },
+  "RFGhrNCvqcw": {
+   "typed": "дюнкерк",
+   "key": "tmdb:374720",
+   "label": "Дюнкерк (2017)",
+   "sure": false
+  },
+  "rFXMm-73IaQ": {
+   "typed": "Афоня",
+   "key": "tmdb:20870",
+   "label": "Афоня (1975)",
+   "sure": true
+  },
+  "RIAQ5paqe7c": {
+   "typed": "ТАРЗАН ЛЕГЕНДА",
+   "key": "tmdb:258489",
+   "label": "Тарзан. Легенда (2016)",
+   "sure": true
+  },
+  "RIS7iJq_Jwg": {
+   "typed": "эффект бабочки",
+   "key": "tmdb:1954",
+   "label": "Эффект бабочки (2004)",
+   "sure": true
+  },
+  "rJBcIB4DJVk": {
+   "typed": "нелюбовь",
+   "key": "tmdb:429174",
+   "label": "Нелюбовь (2017)",
+   "sure": false
+  },
+  "rjzwzQpWKyw": {
+   "typed": "ходячие мертвецы",
+   "key": "imdb:tt1520211",
+   "label": "Ходячие мертвецы (сериал, 2003)",
+   "sure": false
+  },
+  "rk9KPe26Kek": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "RMDXsdHx3gE": {
+   "typed": "мертвец",
+   "key": "tmdb:922",
+   "label": "Мертвец (1995)",
+   "sure": true
+  },
+  "rPEZDyqAjCg": {
+   "typed": "довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "rTjroE9dlSM": {
+   "typed": "ВЛАСТЕЛИН КОЛЕЦ: КОЛЬЦА ВЛАСТИ",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": true
+  },
+  "Ru__lld0ViM": {
+   "typed": "Мидуэй",
+   "key": "tmdb:522162",
+   "label": "Мидуэй (2019)",
+   "sure": true
+  },
+  "rVc29f9k6d0": {
+   "typed": "аквамен",
+   "key": "tmdb:297802",
+   "label": "Аквамен (2018)",
+   "sure": false
+  },
+  "rVmiT6IZl4Q": {
+   "typed": "призрак в доспехах 2017",
+   "key": "tmdb:315837",
+   "label": "Призрак в доспехах (2017)",
+   "sure": true
+  },
+  "rX4Pg_44ugs": {
+   "typed": "замок",
+   "key": "tmdb:26891",
+   "label": "Замок (1997)",
+   "sure": false
+  },
+  "rXzlYJpzk_g": {
+   "typed": "Бэтмен 2004",
+   "key": "imdb:tt0398417",
+   "label": "Бэтмен (сериал, 2004)",
+   "sure": true
+  },
+  "rYgVnnvI87s": {
+   "typed": "Скорая",
+   "key": "tmdb:763285",
+   "label": "Скорая (2022)",
+   "sure": true
+  },
+  "RzIs5Z55DtE": {
+   "typed": "загадочная история Бенджамина Баттона",
+   "key": "tmdb:4922",
+   "label": "Загадочная история Бенджамина Баттона (2008)",
+   "sure": true
+  },
+  "RzKJ1ONS5oQ": {
+   "typed": "Терминатор: Генезис",
+   "key": "tmdb:87101",
+   "label": "Терминатор: Генезис (2015)",
+   "sure": true
+  },
+  "s1Tvr3-4coY": {
+   "typed": "чужой завет",
+   "key": "tmdb:126889",
+   "label": "Чужой: Завет (2017)",
+   "sure": true
+  },
+  "S24h86YUwjY": {
+   "typed": "твин пикс",
+   "key": "imdb:tt4093826",
+   "label": "Твин Пикс (сериал, 2017)",
+   "sure": false
+  },
+  "s2aNqQNDIlE": {
+   "typed": "темный мир",
+   "key": "tmdb:51273",
+   "label": "Тёмный мир (2010)",
+   "sure": true
+  },
+  "s4j9_PwhH-E": {
+   "typed": "ФАНТАСТИЧЕСКИЕ ТВАРИ: ПРЕСТУПЛЕНИЯ ГРИН-ДЕ-ВАЛЬДА",
+   "key": "tmdb:338952",
+   "label": "Фантастические твари: Преступления Грин-де-Вальда (2018)",
+   "sure": true
+  },
+  "s6aGrhVXwGw": {
+   "typed": "бабадук",
+   "key": "tmdb:242224",
+   "label": "Бабадук (2014)",
+   "sure": true
+  },
+  "S6dH1TnuXJI": {
+   "typed": "неудержимые 3",
+   "key": "tmdb:138103",
+   "label": "Неудержимые 3 (2014)",
+   "sure": true
+  },
+  "s7LO5rLoJVs": {
+   "typed": "Джиперс Криперс 2",
+   "key": "tmdb:11351",
+   "label": "Джиперс Криперс 2 (2003)",
+   "sure": true
+  },
+  "S93c2zix5L4": {
+   "typed": "живое",
+   "key": "tmdb:395992",
+   "label": "Живое (2017)",
+   "sure": true
+  },
+  "s9NJOTwsbO8": {
+   "typed": "карлик нос",
+   "key": "tmdb:51349",
+   "label": "Карлик Нос (2003)",
+   "sure": false
+  },
+  "sByW87QhHec": {
+   "typed": "обитель зла остров смерти",
+   "key": "tmdb:1083862",
+   "label": "Обитель зла: Остров смерти (2023)",
+   "sure": true
+  },
+  "SdgAgHtjD6U": {
+   "typed": "Форрест гамп",
+   "key": "tmdb:13",
+   "label": "Форрест Гамп (1994)",
+   "sure": true
+  },
+  "SgP4xgaJZKY": {
+   "typed": "исчезнувшая",
+   "key": "tmdb:210577",
+   "label": "Исчезнувшая (2014)",
+   "sure": true
+  },
+  "sgQA5kb16mA": {
+   "typed": "призраки марса",
+   "key": "tmdb:10016",
+   "label": "Призраки Марса (2001)",
+   "sure": true
+  },
+  "SiKDSXI_bKY": {
+   "typed": "500 дней лета",
+   "key": "tmdb:19913",
+   "label": "500 дней лета (2009)",
+   "sure": true
+  },
+  "sJITY4wCHNM": {
+   "typed": "Кунг-фу Панда 3",
+   "key": "tmdb:140300",
+   "label": "Кунг-фу панда 3 (2016)",
+   "sure": true
+  },
+  "slFpmc-big8": {
+   "typed": "Константин",
+   "key": "tmdb:561",
+   "label": "Константин: Повелитель тьмы (2005)",
+   "sure": false
+  },
+  "sm60h1_jOfo": {
+   "typed": "начало",
+   "key": "tmdb:27205",
+   "label": "Начало (2010)",
+   "sure": false
+  },
+  "SMIZO52MGYc": {
+   "typed": "one piece",
+   "key": "imdb:tt11737520",
+   "label": "One Piece. Большой куш (сериал, 2023)",
+   "sure": false
+  },
+  "SP_JV7HVz-4": {
+   "typed": "дуэль",
+   "key": "tmdb:839",
+   "label": "Дуэль (1971)",
+   "sure": false
+  },
+  "SpWV4O1c864": {
+   "typed": "во все тяжкие",
+   "key": "imdb:tt0903747",
+   "label": "Во все тяжкие (сериал, 2008)",
+   "sure": true
+  },
+  "sqguYMu6H-8": {
+   "typed": "РОБИН ГУД: НАЧАЛО",
+   "key": "tmdb:375588",
+   "label": "Робин Гуд: Начало (2018)",
+   "sure": true
+  },
+  "ss3zwQsaWzU": {
+   "typed": "расплата",
+   "key": "tmdb:302946",
+   "label": "Расплата (2016)",
+   "sure": false
+  },
+  "sSHc3Qq2nOM": {
+   "typed": "убийство в Вегасе",
+   "key": "tmdb:24797",
+   "label": "Убийство в Вегасе (2010)",
+   "sure": true
+  },
+  "sSxkYYQGf2A": {
+   "typed": "Лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": true
+  },
+  "STfjzVa0kD4": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "sUchZd0JOao": {
+   "typed": "дом дракона",
+   "key": "imdb:tt11198330",
+   "label": "Дом Дракона (сериал, 2022)",
+   "sure": true
+  },
+  "sUqNaGVVP6M": {
+   "typed": "Аватар 2: Путь воды",
+   "key": "tmdb:76600",
+   "label": "Аватар: Путь воды (2022)",
+   "sure": false
+  },
+  "swMd9O2sH1Q": {
+   "typed": "Как приручить дракона 2",
+   "key": "tmdb:82702",
+   "label": "Как приручить дракона 2 (2014)",
+   "sure": true
+  },
+  "sWSAFSRKwts": {
+   "typed": "Иван Царевич и Серый Волк",
+   "key": "tmdb:83865",
+   "label": "Иван Царевич и Серый волк (2011)",
+   "sure": true
+  },
+  "sWUdMLRss7w": {
+   "typed": "кольца власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "Sy81Lo5fRN8": {
+   "typed": "Добрыня никитич",
+   "key": "tmdb:1123409",
+   "label": "Добрыня Никитич (1965)",
+   "sure": true
+  },
+  "syFYNBpE_cE": {
+   "typed": "Обитель зла",
+   "key": "imdb:tt9660182",
+   "label": "Обитель зла (сериал, 2022)",
+   "sure": false
+  },
+  "SyPYbB3tFec": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "sZHBmDY41Mw": {
+   "typed": "темный мир равновесие",
+   "key": "imdb:tt3338268",
+   "label": "Тёмный мир: Равновесие (сериал, 2013)",
+   "sure": true
+  },
+  "SztDQA4dQ5c": {
+   "typed": "фарго",
+   "key": "tmdb:275",
+   "label": "Фарго (1996)",
+   "sure": false
+  },
+  "t_tKz3E_WmE": {
+   "typed": "мама 2017",
+   "key": "tmdb:381283",
+   "label": "Мама! (2017)",
+   "sure": true
+  },
+  "t_WUIAfVAoQ": {
+   "typed": "Плохие парни навсегда",
+   "key": "tmdb:38700",
+   "label": "Плохие парни навсегда (2020)",
+   "sure": true
+  },
+  "t1BL2fEfxoo": {
+   "typed": "Топ Ган: Мэверик",
+   "key": "tmdb:361743",
+   "label": "Топ Ган: Мэверик (2022)",
+   "sure": true
+  },
+  "t5927fJgpww": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "T854Bh107dY": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "TdRQ3TMzMI8": {
+   "typed": "Тихое место 2",
+   "key": "tmdb:520763",
+   "label": "Тихое место 2 (2020)",
+   "sure": true
+  },
+  "tE-C5Him5R4": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "Te7n--b8z34": {
+   "typed": "псы воины",
+   "key": "tmdb:11880",
+   "label": "Псы-воины (2002)",
+   "sure": false
+  },
+  "TeduhSW_LjY": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "TFjOmJf8y0c": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "TFSeJxLR0LY": {
+   "typed": "ужасающий",
+   "key": "tmdb:420634",
+   "label": "Ужасающий (2016)",
+   "sure": true
+  },
+  "tfUt2-88LJQ": {
+   "typed": "дуэль",
+   "key": "tmdb:839",
+   "label": "Дуэль (1971)",
+   "sure": false
+  },
+  "Tg9ADfm5Fd4": {
+   "typed": "морбиус",
+   "key": "tmdb:526896",
+   "label": "Морбиус (2022)",
+   "sure": true
+  },
+  "TH3ngkyN-rw": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "ThIuN3q_jlg": {
+   "typed": "Кольца Власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "Ti2g4ehycW0": {
+   "typed": "с широко закрытыми глазами",
+   "key": "tmdb:345",
+   "label": "С широко закрытыми глазами (1999)",
+   "sure": true
+  },
+  "TJNS0oP1OBM": {
+   "typed": "Морбиус",
+   "key": "tmdb:526896",
+   "label": "Морбиус (2022)",
+   "sure": true
+  },
+  "TJZREXknuIQ": {
+   "typed": "белое солнце пустыни",
+   "key": "tmdb:20848",
+   "label": "Белое солнце пустыни (1969)",
+   "sure": true
+  },
+  "tk1jZRm1Kjk": {
+   "typed": "бумер",
+   "key": "tmdb:62276",
+   "label": "Бумер (2003)",
+   "sure": true
+  },
+  "TloA1AgB3Os": {
+   "typed": "Человек паук: Через вселенные",
+   "key": "tmdb:324857",
+   "label": "Человек-паук: Через вселенные (2018)",
+   "sure": true
+  },
+  "tMay7rYzMzQ": {
+   "typed": "звездный десант",
+   "key": "tmdb:563",
+   "label": "Звездный десант (1997)",
+   "sure": false
+  },
+  "TMTSiuMp-9M": {
+   "typed": "МИССИЯ НЕВЫПОЛНИМА 6: Последствия",
+   "key": "tmdb:353081",
+   "label": "Миссия невыполнима: Последствия (2018)",
+   "sure": false
+  },
+  "tnOS-pI4as0": {
+   "typed": "Робин Гуд начало",
+   "key": "tmdb:375588",
+   "label": "Робин Гуд: Начало (2018)",
+   "sure": true
+  },
+  "ts2r9uKhxcM": {
+   "typed": "брат 2",
+   "key": "tmdb:20993",
+   "label": "Брат 2 (2000)",
+   "sure": true
+  },
+  "Tuwi67A2_a8": {
+   "typed": "v for Vendetta",
+   "key": "tmdb:752",
+   "label": "«V» значит Вендетта (2006)",
+   "sure": true
+  },
+  "TUYX7ExMuGY": {
+   "typed": "джокер",
+   "key": "tmdb:475557",
+   "label": "Джокер (2019)",
+   "sure": false
+  },
+  "tUZx6b_LTgs": {
+   "typed": "5-я волна",
+   "key": "tmdb:299687",
+   "label": "Пятая волна (2016)",
+   "sure": true
+  },
+  "tvif4Djt_Qo": {
+   "typed": "Джон уик 3",
+   "key": "tmdb:458156",
+   "label": "Джон Уик 3 (2019)",
+   "sure": true
+  },
+  "TWefpHHG5LM": {
+   "typed": "Элизиум рай не земле",
+   "key": "tmdb:68724",
+   "label": "Элизиум — рай не на Земле (2013)",
+   "sure": false
+  },
+  "TWGXDpwJcy4": {
+   "typed": "ужасающий 3",
+   "key": "tmdb:1034541",
+   "label": "Ужасающий 3 (2024)",
+   "sure": true
+  },
+  "twkwM3yZwsI": {
+   "typed": "веном 2",
+   "key": "tmdb:580489",
+   "label": "Веном 2 (2021)",
+   "sure": true
+  },
+  "TYLFCSp6JB8": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": true
+  },
+  "TYN2pTjjhQ0": {
+   "typed": "Очень странные дела",
+   "key": "imdb:tt4574334",
+   "label": "Очень странные дела (сериал, 2016)",
+   "sure": true
+  },
+  "U_hQl-VW1ZY": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "U3_cuktYw5w": {
+   "typed": "брат 3",
+   "key": "tmdb:633819",
+   "label": "Брат 3 (2022)",
+   "sure": true
+  },
+  "u65qEKrQhmQ": {
+   "typed": "ведьмак",
+   "key": "imdb:tt5180504",
+   "label": "Ведьмак (сериал, 2019)",
+   "sure": false
+  },
+  "U695Yeq6MzA": {
+   "typed": "ЛОГАН",
+   "key": "tmdb:263115",
+   "label": "Логан (2017)",
+   "sure": true
+  },
+  "u9_tSvt0NQw": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "U9cysyDY2Hw": {
+   "typed": "мадам паутина",
+   "key": "tmdb:634492",
+   "label": "Мадам Паутина (2024)",
+   "sure": true
+  },
+  "uA4n2jeQWxs": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "UBUaEZ6oeTc": {
+   "typed": "темный рыцарь",
+   "key": "tmdb:155",
+   "label": "Тёмный рыцарь (2008)",
+   "sure": false
+  },
+  "uCAoVvXUaw8": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "uD3FSdKXJMg": {
+   "typed": "Белый лебедь",
+   "key": "tmdb:185497",
+   "label": "Белый лебедь (2013)",
+   "sure": true
+  },
+  "UDmeOAS5D-0": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "Uf6I1-0mAtI": {
+   "typed": "самый лучший день",
+   "key": "tmdb:373838",
+   "label": "Самый лучший день (2015)",
+   "sure": true
+  },
+  "UfMy9mc7j4A": {
+   "typed": "призрак в доспехах 1995",
+   "key": "tmdb:9323",
+   "label": "Призрак в доспехах (1995)",
+   "sure": true
+  },
+  "ufXxEk8-XbI": {
+   "typed": "красная жара",
+   "key": "tmdb:9604",
+   "label": "Красная жара (1988)",
+   "sure": false
+  },
+  "UG6JLazQsmk": {
+   "typed": "Главный герой",
+   "key": "tmdb:550988",
+   "label": "Главный герой (2021)",
+   "sure": true
+  },
+  "UhOcqRF3BU8": {
+   "typed": "стражи галактики 2",
+   "key": "tmdb:283995",
+   "label": "Стражи Галактики. Часть 2 (2017)",
+   "sure": true
+  },
+  "ukP5RkN_-K0": {
+   "typed": "Боги Египта",
+   "key": "tmdb:205584",
+   "label": "Боги Египта (2016)",
+   "sure": true
+  },
+  "uLr982fEbi8": {
+   "typed": "варяг 2022",
+   "key": "tmdb:639933",
+   "label": "Варяг (2022)",
+   "sure": true
+  },
+  "ULTwT-Su8f4": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "Un5f2v8ldvk": {
+   "typed": "fallout",
+   "key": "imdb:tt12637874",
+   "label": "Фоллаут (сериал, 2024)",
+   "sure": true
+  },
+  "UOAKXc3yeDk": {
+   "typed": "atomic blonde",
+   "key": "tmdb:341013",
+   "label": "Взрывная блондинка (2017)",
+   "sure": true
+  },
+  "UonFscmssbs": {
+   "typed": "Бен гур",
+   "key": "tmdb:665",
+   "label": "Бен-Гур (1959)",
+   "sure": false
+  },
+  "UP-Rf5kT5Tg": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "uPYIddQP3UQ": {
+   "typed": "ничего себе поездочка 2",
+   "key": "tmdb:16763",
+   "label": "Ничего себе поездочка 2: Смерть впереди (2008)",
+   "sure": true
+  },
+  "uSqGuOBMFhk": {
+   "typed": "рыцарь семи королевств",
+   "key": "imdb:tt27497448",
+   "label": "Рыцарь Семи Королевств (сериал, 2026)",
+   "sure": true
+  },
+  "UsZyt5MzU4Q": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "utJ6bkpdWfc": {
+   "typed": "Капитан Америка: Дивный новый мир",
+   "key": "tmdb:822119",
+   "label": "Капитан Америка: Новый мир (2025)",
+   "sure": true
+  },
+  "uVktaV79tXg": {
+   "typed": "ПОЛНЫЙ РАСКОЛБАС",
+   "key": "tmdb:223702",
+   "label": "Полный расколбас (2016)",
+   "sure": true
+  },
+  "uwidQllGPOE": {
+   "typed": "ДЭДПУЛ 2",
+   "key": "tmdb:383498",
+   "label": "Дэдпул 2 (2018)",
+   "sure": true
+  },
+  "UWwJjzjHGAY": {
+   "typed": "берсерк",
+   "key": "tmdb:42689",
+   "label": "Берсерк! (1967)",
+   "sure": false
+  },
+  "uX1YyX38n8M": {
+   "typed": "family guy",
+   "key": "imdb:tt0182576",
+   "label": "Гриффины (сериал, 1999)",
+   "sure": true
+  },
+  "Uz0sKqh9cgs": {
+   "typed": "служили два товарища",
+   "key": "tmdb:49580",
+   "label": "Служили два товарища (1968)",
+   "sure": true
+  },
+  "v_NEEtqOXYg": {
+   "typed": "дурак",
+   "key": "tmdb:285700",
+   "label": "Дурак (2014)",
+   "sure": true
+  },
+  "V2egbh80JMo": {
+   "typed": "игра в кальмара",
+   "key": "imdb:tt10919420",
+   "label": "Игра в кальмара (сериал, 2021)",
+   "sure": true
+  },
+  "v8wVuqaupuQ": {
+   "typed": "Барби",
+   "key": "tmdb:346698",
+   "label": "Барби (2023)",
+   "sure": true
+  },
+  "V9mxhYbdenM": {
+   "typed": "зелёный слоник",
+   "key": "tmdb:132030",
+   "label": "Зелёный слоник (1999)",
+   "sure": true
+  },
+  "vAq4dLZCWoo": {
+   "typed": "мастер и Маргарита 2024",
+   "key": "tmdb:586353",
+   "label": "Мастер и Маргарита (2024)",
+   "sure": true
+  },
+  "VbfYdAXBaZ8": {
+   "typed": "Человек с бульвара КапуциноК",
+   "key": "tmdb:51269",
+   "label": "Человек с бульвара Капуцинок (2009)",
+   "sure": true
+  },
+  "VBJauxtpMWM": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "VDwQYNOXCpw": {
+   "typed": "Трансформеры 5",
+   "key": "tmdb:335988",
+   "label": "Трансформеры 5: Последний Рыцарь (2017)",
+   "sure": true
+  },
+  "VFIkPiqYcCw": {
+   "typed": "премия",
+   "key": "tmdb:275054",
+   "label": "Премия (1975)",
+   "sure": true
+  },
+  "vFU1yozdTAw": {
+   "typed": "Шрек",
+   "key": "tmdb:808",
+   "label": "Шрек (2001)",
+   "sure": true
+  },
+  "vgkqQYQ9bMw": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "vHEZggmf5lM": {
+   "typed": "девять",
+   "key": "tmdb:12244",
+   "label": "9 (2009)",
+   "sure": false
+  },
+  "VJyKMP1D6iY": {
+   "typed": "слендермен",
+   "key": "tmdb:439015",
+   "label": "Слендермен (2018)",
+   "sure": true
+  },
+  "VlBsye_5eDc": {
+   "typed": "мегалополис",
+   "key": "tmdb:592831",
+   "label": "Мегалополис (2024)",
+   "sure": true
+  },
+  "vldw9i2Otrg": {
+   "typed": "сталкер 1979",
+   "key": "tmdb:1398",
+   "label": "Сталкер (1979)",
+   "sure": true
+  },
+  "VlvEAYd05HY": {
+   "typed": "Аватар: Легенда об Аанге",
+   "key": "imdb:tt0417299",
+   "label": "Аватар: Легенда об Аанге (сериал, 2005)",
+   "sure": true
+  },
+  "VN4XLCsMEpc": {
+   "typed": "дюна",
+   "key": "tmdb:438631",
+   "label": "Дюна (2021)",
+   "sure": false
+  },
+  "VNJeuEZ9-BU": {
+   "typed": "ЛА-ЛА ЛЕНД",
+   "key": "tmdb:313369",
+   "label": "Ла-Ла Ленд (2016)",
+   "sure": true
+  },
+  "vNqWCu_8nyQ": {
+   "typed": "Миссия невыполнима: Финальная расплата",
+   "key": "tmdb:575265",
+   "label": "Миссия невыполнима: Финальная расплата (2025)",
+   "sure": true
+  },
+  "vNWqYO61kYk": {
+   "typed": "дюна 2",
+   "key": "tmdb:693134",
+   "label": "Дюна: Часть вторая (2024)",
+   "sure": true
+  },
+  "VOibn-iRy8Q": {
+   "typed": "черный лебедь",
+   "key": "tmdb:44214",
+   "label": "Чёрный лебедь (2010)",
+   "sure": false
+  },
+  "VOxvdO3JZKE": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "VQvx9JKwO4s": {
+   "typed": "инсургент",
+   "key": "tmdb:262500",
+   "label": "Дивергент, глава 2: Инсургент (2015)",
+   "sure": true
+  },
+  "VQX4d7itzJc": {
+   "typed": "тихоокеанский рубеж",
+   "key": "tmdb:68726",
+   "label": "Тихоокеанский рубеж (2013)",
+   "sure": true
+  },
+  "vRXcvRwnh7o": {
+   "typed": "PEACEMAKER",
+   "key": "imdb:tt13146488",
+   "label": "Миротворец (сериал, 2022)",
+   "sure": true
+  },
+  "vs03mh0-LuY": {
+   "typed": "warcraft",
+   "key": "tmdb:68735",
+   "label": "Варкрафт (2016)",
+   "sure": true
+  },
+  "VSxcsY_deVQ": {
+   "typed": "Мир Юрского периода: Господство",
+   "key": "tmdb:507086",
+   "label": "Мир юрского периода: Господство (2022)",
+   "sure": true
+  },
+  "vtikXNj3e4I": {
+   "typed": "миньоны",
+   "key": "tmdb:211672",
+   "label": "Миньоны (2015)",
+   "sure": true
+  },
+  "VVdQ-Am1p1Y": {
+   "typed": "Форсаж 7",
+   "key": "tmdb:168259",
+   "label": "Форсаж 7 (2015)",
+   "sure": true
+  },
+  "VVIF9eq7AXs": {
+   "typed": "темная башня",
+   "key": "tmdb:353491",
+   "label": "Тёмная башня (2017)",
+   "sure": true
+  },
+  "VvKspAtPNYU": {
+   "typed": "ЧЁРНАЯ ПАНТЕРА",
+   "key": "tmdb:284054",
+   "label": "Чёрная Пантера (2018)",
+   "sure": false
+  },
+  "VY--3seIhtA": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "vYLT1Hne4Ak": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "Vz9L1SsF6io": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "W_-57pLfa8s": {
+   "typed": "джокер",
+   "key": "tmdb:475557",
+   "label": "Джокер (2019)",
+   "sure": false
+  },
+  "w_mYYPy_Qd0": {
+   "typed": "премия",
+   "key": "tmdb:275054",
+   "label": "Премия (1975)",
+   "sure": true
+  },
+  "w493rceMQ14": {
+   "typed": "Сталинград",
+   "key": "tmdb:203793",
+   "label": "Сталинград (2013)",
+   "sure": false
+  },
+  "W58tACO22Rc": {
+   "typed": "Хранители",
+   "key": "tmdb:13183",
+   "label": "Хранители (2009)",
+   "sure": false
+  },
+  "WB0HnK4OVcY": {
+   "typed": "призрак в доспехах",
+   "key": "tmdb:315837",
+   "label": "Призрак в доспехах (2017)",
+   "sure": false
+  },
+  "WBne1JaH0nI": {
+   "typed": "непосредственно Каха",
+   "key": "tmdb:679694",
+   "label": "Непосредственно Каха",
+   "sure": true
+  },
+  "wbzatBZr7j4": {
+   "typed": "цвет из иных миров",
+   "key": "tmdb:548473",
+   "label": "Цвет из иных миров (2019)",
+   "sure": true
+  },
+  "weooR_DAuOE": {
+   "typed": "Ярость",
+   "key": "tmdb:228150",
+   "label": "Ярость (2014)",
+   "sure": false
+  },
+  "wfpg7NYL9bo": {
+   "typed": "Изгой-Один. Звездные Войны: Истории",
+   "key": "tmdb:330459",
+   "label": "Изгой-один: Звёздные войны. Истории (2016)",
+   "sure": true
+  },
+  "wgg-ll9e2mQ": {
+   "typed": "крик",
+   "key": "tmdb:646385",
+   "label": "Крик (2022)",
+   "sure": false
+  },
+  "wHjsCqOP48Y": {
+   "typed": "5 дней в августе",
+   "key": "tmdb:50601",
+   "label": "5 дней в августе (2011)",
+   "sure": true
+  },
+  "WIdva02frxs": {
+   "typed": "меч короля Артура",
+   "key": "tmdb:274857",
+   "label": "Меч короля Артура (2017)",
+   "sure": false
+  },
+  "WjTvv-2YyQA": {
+   "typed": "Винни пух 2",
+   "key": "tmdb:1079485",
+   "label": "Винни-Пух: Кровь и мёд 2 (2024)",
+   "sure": true
+  },
+  "WKC-LT_7USw": {
+   "typed": "хищные птицы",
+   "key": "tmdb:495764",
+   "label": "Хищные птицы: Потрясающая история Харли Квинн (2020)",
+   "sure": false
+  },
+  "WMkDRSH1Wx0": {
+   "typed": "зулейха",
+   "key": "imdb:tt11012384",
+   "label": "Зулейха открывает глаза (сериал, 2020)",
+   "sure": true
+  },
+  "wMm5RA67YQw": {
+   "typed": "поворот не туда",
+   "key": "tmdb:9902",
+   "label": "Поворот не туда (2003)",
+   "sure": true
+  },
+  "wMvolhLdmI4": {
+   "typed": "last of us",
+   "key": "imdb:tt3581920",
+   "label": "Одни из нас (сериал, 2023)",
+   "sure": false
+  },
+  "wp7qgVOrM9c": {
+   "typed": "чужой ромул",
+   "key": "tmdb:945961",
+   "label": "Чужой: Ромул (2024)",
+   "sure": true
+  },
+  "wPGvDvZKWjw": {
+   "typed": "черновик",
+   "key": "tmdb:495601",
+   "label": "Черновик (фильм) (2018)",
+   "sure": true
+  },
+  "Wsdd7vqedgs": {
+   "typed": "дрожь земли 4",
+   "key": "tmdb:10891",
+   "label": "Дрожь земли 4: Легенда начинается (2003)",
+   "sure": true
+  },
+  "WStiqt3wLkI": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "WTo5JdkhEe4": {
+   "typed": "бегущий по лезвию 2049",
+   "key": "tmdb:335984",
+   "label": "Бегущий по лезвию 2049 (2017)",
+   "sure": true
+  },
+  "WVEJtx-b9qk": {
+   "typed": "от заката до рассвета",
+   "key": "tmdb:755",
+   "label": "От заката до рассвета (1996)",
+   "sure": true
+  },
+  "WYjozNUEkWI": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "wZdX2SHtY_k": {
+   "typed": "старикам здесь не место",
+   "key": "tmdb:6977",
+   "label": "Старикам тут не место (2007)",
+   "sure": true
+  },
+  "wzpV6jdSUQc": {
+   "typed": "тачки",
+   "key": "tmdb:920",
+   "label": "Тачки (2006)",
+   "sure": true
+  },
+  "x-MXJr7C_tg": {
+   "typed": "Довод",
+   "key": "tmdb:577922",
+   "label": "Довод (2020)",
+   "sure": true
+  },
+  "x11sWzZtDIA": {
+   "typed": "очень странные дела",
+   "key": "imdb:tt4574334",
+   "label": "Очень странные дела (сериал, 2016)",
+   "sure": true
+  },
+  "x1CdIXWQV1E": {
+   "typed": "враг",
+   "key": "tmdb:181886",
+   "label": "Враг (2013)",
+   "sure": false
+  },
+  "X23vCQiIxHQ": {
+   "typed": "охотники на троллей",
+   "key": "tmdb:46146",
+   "label": "Охотники на троллей (2010)",
+   "sure": true
+  },
+  "X2rRW4ae7gc": {
+   "typed": "Дом GUCCI",
+   "key": "tmdb:644495",
+   "label": "Дом Gucci (2021)",
+   "sure": true
+  },
+  "X3A_9cA8IQs": {
+   "typed": "люси",
+   "key": "tmdb:240832",
+   "label": "Люси (2014)",
+   "sure": true
+  },
+  "X3CBpIyTlqY": {
+   "typed": "Теория большого взрыва",
+   "key": "imdb:tt0898266",
+   "label": "Теория большого взрыва (сериал, 2007)",
+   "sure": true
+  },
+  "X3Gy8U1la-Q": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "x3YBQB0o4No": {
+   "typed": "бабушка легкого поведения",
+   "key": "tmdb:468987",
+   "label": "Бабушка лёгкого поведения (2017)",
+   "sure": true
+  },
+  "x44xJTL4LBY": {
+   "typed": "Отряд самоубийц",
+   "key": "tmdb:297761",
+   "label": "Отряд самоубийц (2016)",
+   "sure": true
+  },
+  "X6eirAoXIN4": {
+   "typed": "Интерстеллар",
+   "key": "tmdb:157336",
+   "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "x7EHTmK7x5Q": {
+   "typed": "сфера 2017",
+   "key": "tmdb:339988",
+   "label": "Сфера (2017)",
+   "sure": true
+  },
+  "XaHrT-xFRJY": {
+   "typed": "Кольца власти",
+   "key": "imdb:tt7631058",
+   "label": "Властелин колец: Кольца власти (сериал, 2022)",
+   "sure": false
+  },
+  "xcAhngVHOwE": {
+   "typed": "лопухи",
+   "key": "tmdb:84775",
+   "label": "ЛОпуХИ: Эпизод первый (2009)",
+   "sure": true
+  },
+  "XCTchNChd5k": {
+   "typed": "алита боевой ангел",
+   "key": "tmdb:399579",
+   "label": "Алита: Боевой ангел (2019)",
+   "sure": true
+  },
+  "XE2q_Mp68_E": {
+   "typed": "ЛЮДИ ИКС: ДНИ МИНУВШЕГО БУДУЩЕГО",
+   "key": "tmdb:127585",
+   "label": "Люди Икс: Дни минувшего будущего (2014)",
+   "sure": true
+  },
+  "Xiq1GpJ4T9U": {
+   "typed": "служебный роман",
+   "key": "tmdb:31139",
+   "label": "Служебный роман (1977)",
+   "sure": true
+  },
+  "xItm8eE4lok": {
+   "typed": "меч короля Артура 2017",
+   "key": "tmdb:274857",
+   "label": "Меч короля Артура (2017)",
+   "sure": true
+  },
+  "XjCgDprGEmA": {
+   "typed": "ВРЕМЯ ПЕРВЫХ",
+   "key": "tmdb:440642",
+   "label": "Время первых (2017)",
+   "sure": true
+  },
+  "XjI8IeauS10": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "xjIltFcO3CY": {
+   "typed": "гладиатор 2",
+   "key": "tmdb:558449",
+   "label": "Гладиатор 2 (2024)",
+   "sure": true
+  },
+  "Xl-0Qsi-KtU": {
+   "typed": "аватар путь воды",
+   "key": "tmdb:76600",
+   "label": "Аватар: Путь воды (2022)",
+   "sure": true
+  },
+  "XLVYzDMRyEw": {
+   "typed": "залетчики",
+   "key": "tmdb:264279",
+   "label": "Залётчики (2014)",
+   "sure": true
+  },
+  "XPw6JmYzSBI": {
+   "typed": "дрожь земли 3",
+   "key": "tmdb:10829",
+   "label": "Дрожь земли 3 (2001)",
+   "sure": true
+  },
+  "Xs0KFNXYfcA": {
+   "typed": "Дюна",
+   "key": "tmdb:438631",
+   "label": "Дюна (2021)",
+   "sure": false
+  },
+  "xsPUzcNYP0s": {
+   "typed": "Джуманджи 2: Зов джунглей",
+   "key": "tmdb:353486",
+   "label": "Джуманджи: Зов джунглей (2017)",
+   "sure": false
+  },
+  "Xv3GHOupSbA": {
+   "typed": "союз спасения",
+   "key": "tmdb:517034",
+   "label": "Союз спасения (2019)",
+   "sure": true
+  },
+  "xvKJgb9BdbI": {
+   "typed": "нечто",
+   "key": "tmdb:1091",
+   "label": "Нечто (1982)",
+   "sure": false
+  },
+  "xVrjHFsoKgA": {
+   "typed": "Джон Уик 3",
+   "key": "tmdb:458156",
+   "label": "Джон Уик 3 (2019)",
+   "sure": true
+  },
+  "xWkkKQpIk2I": {
+   "typed": "Индиана Джонс и Последний Крестовый Поход",
+   "key": "tmdb:89",
+   "label": "Индиана Джонс и последний крестовый поход (1989)",
+   "sure": true
+  },
+  "XxPAxob55yM": {
+   "typed": "власть огня",
+   "key": "tmdb:6278",
+   "label": "Власть огня (2002)",
+   "sure": true
+  },
+  "XY5Qbf_wXNw": {
+   "typed": "разделение",
+   "key": "imdb:tt11280740",
+   "label": "Разделение (сериал, 2022)",
+   "sure": true
+  },
+  "xyhjWY3X9dE": {
+   "typed": "начало",
+   "key": "tmdb:27205",
+   "label": "Начало (2010)",
+   "sure": false
+  },
+  "Y_gAls2yFb0": {
+   "typed": "охотники за разумом",
+   "key": "tmdb:16617",
+   "label": "Охотники за разумом (2004)",
+   "sure": true
+  },
+  "y14yaJdTf3A": {
+   "typed": "железный человек 3",
+   "key": "tmdb:68721",
+   "label": "Железный человек 3 (2013)",
+   "sure": true
+  },
+  "Y5D-foOwRiM": {
+   "typed": "операция мертвый снег",
+   "key": "tmdb:14451",
+   "label": "Операция «Мёртвый снег» (2009)",
+   "sure": true
+  },
+  "y5o3cZe9vyM": {
+   "typed": "драйв",
+   "key": "tmdb:64690",
+   "label": "Драйв (2011)",
+   "sure": false
+  },
+  "Y85T86uPWGs": {
+   "typed": "МСТИТЕЛИ 4",
+   "key": "tmdb:299534",
+   "label": "Мстители: Финал (2019)",
+   "sure": true
+  },
+  "Y8JsH8_D9yQ": {
+   "typed": "Бэтмен 2022",
+   "key": "tmdb:414906",
+   "label": "Бэтмен (2022)",
+   "sure": true
+  },
+  "y96Tpgy5uPQ": {
+   "typed": "бригада 2",
+   "key": "tmdb:149798",
+   "label": "Бригада: Наследник (2012)",
+   "sure": true
+  },
+  "Y9pNuqrFVl8": {
+   "typed": "ИГРА ПРЕСТОЛОВ",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "yaY3hyA29zM": {
+   "typed": "острые козырьки",
+   "key": "imdb:tt2442560",
+   "label": "Острые козырьки (сериал, 2013)",
+   "sure": true
+  },
+  "YC34KGiZYRE": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "yDaFef2gPIk": {
+   "typed": "фантастическая четверка",
+   "key": "tmdb:617126",
+   "label": "Фантастическая четвёрка: Первые шаги (2025)",
+   "sure": false
+  },
+  "YE_NQ4g4Qic": {
+   "typed": "ведьмак",
+   "key": "imdb:tt5180504",
+   "label": "Ведьмак (сериал, 2019)",
+   "sure": false
+  },
+  "yeqYNOFQDVU": {
+   "typed": "временные трудности",
+   "key": "tmdb:517360",
+   "label": "Временные трудности (2018)",
+   "sure": true
+  },
+  "Yf_BkPrfVLA": {
+   "typed": "pluribus",
+   "key": "imdb:tt22202452",
+   "label": "Одна из многих (сериал, 2025)",
+   "sure": true
+  },
+  "yf7wJLGXinA": {
+   "typed": "красавица и чудовище 2017",
+   "key": "tmdb:321612",
+   "label": "Красавица и Чудовище (2017)",
+   "sure": true
+  },
+  "yG7rlNtpTkQ": {
+   "typed": "петля времени",
+   "key": "tmdb:59967",
+   "label": "Петля времени (2012)",
+   "sure": true
+  },
+  "yHdFjrByKAk": {
+   "typed": "армагеддец",
+   "key": "tmdb:107985",
+   "label": "Армагеддец (2013)",
+   "sure": true
+  },
+  "yI5U_w7JZ6g": {
+   "typed": "дэдпул",
+   "key": "tmdb:293660",
+   "label": "Дэдпул (2016)",
+   "sure": true
+  },
+  "YIb36cr_9oE": {
+   "typed": "изгой",
+   "key": "tmdb:8358",
+   "label": "Изгой (2000)",
+   "sure": false
+  },
+  "ykEnetz1-D8": {
+   "typed": "дети кукурузы 3",
+   "key": "tmdb:25749",
+   "label": "Дети кукурузы 3: Городская жатва (1995)",
+   "sure": true
+  },
+  "yls3sLyafks": {
+   "typed": "обитель зла",
+   "key": "tmdb:1576",
+   "label": "Обитель зла (2002)",
+   "sure": true
+  },
+  "YLUZbPy1EEc": {
+   "typed": "пёс призрак путь самурая",
+   "key": "tmdb:4816",
+   "label": "Пёс-призрак: путь самурая (1999)",
+   "sure": true
+  },
+  "ym0o49jxcSI": {
+   "typed": "чужой завет",
+   "key": "tmdb:126889",
+   "label": "Чужой: Завет (2017)",
+   "sure": true
+  },
+  "YmryG35JLss": {
+   "typed": "в поисках дори",
+   "key": "tmdb:127380",
+   "label": "В поисках Дори (2015)",
+   "sure": true
+  },
+  "YmsnvFNU5Ok": {
+   "typed": "Непосредственно Каха",
+   "key": "tmdb:679694",
+   "label": "Непосредственно Каха",
+   "sure": true
+  },
+  "yOHRtIKr2sw": {
+   "typed": "КАПИТАН МАРВЕЛ",
+   "key": "tmdb:299537",
+   "label": "Капитан Марвел (2019)",
+   "sure": true
+  },
+  "yQLmSxvc8Gs": {
+   "typed": "пацаны",
+   "key": "imdb:tt1190634",
+   "label": "Пацаны (сериал, 2019)",
+   "sure": false
+  },
+  "Yrai2THG7KI": {
+   "typed": "ТАЧКИ 3",
+   "key": "tmdb:260514",
+   "label": "Тачки 3 (2017)",
+   "sure": true
+  },
+  "YSWF91QxmnA": {
+   "typed": "омерзительная восьмерка",
+   "key": "tmdb:273248",
+   "label": "Омерзительная восьмёрка (2015)",
+   "sure": true
+  },
+  "YTKl5HfQnro": {
+   "typed": "аватар",
+   "key": "tmdb:19995",
+   "label": "Аватар (2009)",
+   "sure": false
+  },
+  "yttfZfoV1gw": {
+   "typed": "моана",
+   "key": "tmdb:277834",
+   "label": "Моана (2016)",
+   "sure": true
+  },
+  "yUiaFIoCM_g": {
+   "typed": "ирония судьбы",
+   "key": "tmdb:43430",
+   "label": "Ирония судьбы, или С лёгким паром! (1976)",
+   "sure": true
+  },
+  "YW-IwozmYaU": {
+   "typed": "Матрица",
+   "key": "tmdb:603",
+   "label": "Матрица (1999)",
+   "sure": true
+  },
+  "YxLl1Dxd0uE": {
+   "typed": "Человек на луне",
+   "key": "tmdb:369972",
+   "label": "Человек на Луне (2018)",
+   "sure": false
+  },
+  "yyw33VnXhRI": {
+   "typed": "Тайна Коко",
+   "key": "tmdb:354912",
+   "label": "Тайна Коко (2017)",
+   "sure": true
+  },
+  "YZboaL1zslo": {
+   "typed": "у холмов есть глаза 2",
+   "key": "tmdb:9793",
+   "label": "У холмов есть глаза 2 (2007)",
+   "sure": false
+  },
+  "YzGVcLRwTH8": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "Z_a1-_JJ-PU": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "Z_CirjukMWk": {
+   "typed": "Пираты Карибского моря мертвецы не рассказывают сказки",
+   "key": "tmdb:166426",
+   "label": "Пираты Карибского моря: Мертвецы не рассказывают сказок (2017)",
+   "sure": true
+  },
+  "z0GjVRZP16U": {
+   "typed": "Робот по имени Чаппи",
+   "key": "tmdb:198184",
+   "label": "Робот по имени Чаппи (2015)",
+   "sure": true
+  },
+  "z0MxYvGNjBU": {
+   "typed": "железный человек 3",
+   "key": "tmdb:68721",
+   "label": "Железный человек 3 (2013)",
+   "sure": true
+  },
+  "z0QjKxYsR1w": {
+   "typed": "сало или 120 дней Содома",
+   "key": "tmdb:5336",
+   "label": "Сало, или 120 дней Содома (1975)",
+   "sure": true
+  },
+  "Z27-2eh3y40": {
+   "typed": "ОНО 2 2019",
+   "key": "tmdb:474350",
+   "label": "Оно 2 (2019)",
+   "sure": true
+  },
+  "Z2mghWxAOBE": {
+   "typed": "черная вдова",
+   "key": "tmdb:497698",
+   "label": "Чёрная вдова (2021)",
+   "sure": false
+  },
+  "Z3bnNXjEvtY": {
+   "typed": "дюна",
+   "key": "tmdb:438631",
+   "label": "Дюна (2021)",
+   "sure": false
+  },
+  "z3Dh08l5o7E": {
+   "typed": "БОГЕМСКАЯ РАПСОДИЯ",
+   "key": "tmdb:424694",
+   "label": "Богемская рапсодия (2018)",
+   "sure": true
+  },
+  "z3Q6TCd_3T0": {
+   "typed": "МСТИТЕЛИ: ВОЙНА БЕСКОНЕЧНОСТИ",
+   "key": "tmdb:299536",
+   "label": "Мстители: Война бесконечности (2018)",
+   "sure": true
+  },
+  "Z45MKLo79qw": {
+   "typed": "первому игроку приготовиться",
+   "key": "tmdb:333339",
+   "label": "Первому игроку приготовиться (2018)",
+   "sure": true
+  },
+  "z82L0EDmbms": {
+   "typed": "Крым",
+   "key": "tmdb:469114",
+   "label": "Крым (2017)",
+   "sure": true
+  },
+  "z8rsRAlirO8": {
+   "typed": "Смерть на Ниле",
+   "key": "tmdb:505026",
+   "label": "Смерть на Ниле (2022)",
+   "sure": false
+  },
+  "Z8XCoJ-iGjs": {
+   "typed": "повелители снов",
+   "key": "tmdb:414945",
+   "label": "Повелители снов (2015)",
+   "sure": true
+  },
+  "zaLNB6MmYbU": {
+   "typed": "Дивергент",
+   "key": "tmdb:157350",
+   "label": "Дивергент (2014)",
+   "sure": true
+  },
+  "zbj9N23zubk": {
+   "typed": "рыцарь семи королевств",
+   "key": "imdb:tt27497448",
+   "label": "Рыцарь Семи Королевств (сериал, 2026)",
+   "sure": true
+  },
+  "ZC46lCk6vx0": {
+   "typed": "игра престолов",
+   "key": "imdb:tt0944947",
+   "label": "Игра престолов (сериал, 2011)",
+   "sure": true
+  },
+  "Zc5WHALQN0Q": {
+   "typed": "WandaVision",
+   "key": "imdb:tt9140560",
+   "label": "Ванда/Вижн (сериал, 2021)",
+   "sure": true
+  },
+  "ZCwcso0yGH4": {
+   "typed": "МЭНДИ",
+   "key": "tmdb:460885",
+   "label": "Мэнди (2018)",
+   "sure": true
+  },
+  "zd5Y1aNU3IM": {
+   "typed": "война и мир",
+   "key": "tmdb:11706",
+   "label": "Война и мир (1956)",
+   "sure": false
+  },
+  "ZDqF1QPlXRk": {
+   "typed": "ведьма из блэр новая глава",
+   "key": "tmdb:351211",
+   "label": "Ведьма из Блэр: Новая глава (2016)",
+   "sure": true
+  },
+  "zdurOV6_R8U": {
+   "typed": "фарго",
+   "key": "imdb:tt2802850",
+   "label": "Фарго (сериал, 2014)",
+   "sure": true
+  },
+  "zF45z9i8I-E": {
+   "typed": "Девушка из Дании",
+   "key": "tmdb:306819",
+   "label": "Девушка из Дании (2015)",
+   "sure": true
+  },
+  "ZffFUGOIJoE": {
+   "typed": "оно 2",
+   "key": "tmdb:474350",
+   "label": "Оно 2 (2019)",
+   "sure": true
+  },
+  "zFTLY5FRdLs": {
+   "typed": "берсерк",
+   "key": "tmdb:42689",
+   "label": "Берсерк! (1967)",
+   "sure": false
+  },
+  "ZgeEQHYdDpo": {
+   "typed": "начало",
+   "key": "tmdb:712167",
+   "label": "Начало (2020)",
+   "sure": false
+  },
+  "zH7eXEvsCb8": {
+   "typed": "WEDNESDAY",
+   "key": "imdb:tt13443470",
+   "label": "Уэнздей (сериал, 2022)",
+   "sure": true
+  },
+  "ZHNqUP6uT3Y": {
+   "typed": "поколение Ви",
+   "key": "imdb:tt13159924",
+   "label": "Поколение «Ви» (сериал, 2023)",
+   "sure": true
+  },
+  "ZIH541KZGaQ": {
+   "typed": "МИЛЛИАРД",
+   "key": "tmdb:567801",
+   "label": "Миллиард (2019)",
+   "sure": true
+  },
+  "zITFKdL6d8E": {
+   "typed": "Матрица 4",
+   "key": "tmdb:624860",
+   "label": "Матрица: Воскрешение (2021)",
+   "sure": true
+  },
+  "ZJ1AC8WQuHE": {
+   "typed": "лига справедливости",
+   "key": "tmdb:141052",
+   "label": "Лига справедливости (2017)",
+   "sure": false
+  },
+  "ZJbu1bPYvzc": {
+   "typed": "Неудержимые 4",
+   "key": "tmdb:299054",
+   "label": "Неудержимые 4 (2023)",
+   "sure": true
+  },
+  "ZkT3k2oAYnQ": {
+   "typed": "сталкер 1979",
+   "key": "tmdb:1398",
+   "label": "Сталкер (1979)",
+   "sure": true
+  },
+  "ZlI_vYNuBqM": {
+   "typed": "бегущий по лезвию 2049",
+   "key": "tmdb:335984",
+   "label": "Бегущий по лезвию 2049 (2017)",
+   "sure": true
+  },
+  "ZmmmwAjLmLM": {
+   "typed": "форма воды",
+   "key": "tmdb:399055",
+   "label": "Форма воды (2017)",
+   "sure": true
+  },
+  "znHtcWS1pps": {
+   "typed": "поворот не туда 4",
+   "key": "tmdb:71672",
+   "label": "Поворот не туда 4 (2011)",
+   "sure": true
+  },
+  "Zp3ZNi_yv4M": {
+   "typed": "Рэмбо первая кровь",
+   "key": "tmdb:1368",
+   "label": "Рэмбо: Первая кровь (1982)",
+   "sure": true
+  },
+  "Zqr7ismdsqA": {
+   "typed": "ведьмак кошмар волка",
+   "key": "tmdb:666243",
+   "label": "Ведьмак: Кошмар волка (2021)",
+   "sure": true
+  },
+  "zrf9IbklrZw": {
+   "typed": "Матрица: Воскрешение",
+   "key": "tmdb:624860",
+   "label": "Матрица: Воскрешение (2021)",
+   "sure": true
+  },
+  "ZrXAZnwaYVk": {
+   "typed": "операция мертвый снег 2",
+   "key": "tmdb:241842",
+   "label": "Операция «Мёртвый снег» 2 (2014)",
+   "sure": true
+  },
+  "zSmSgHyoNYI": {
+   "typed": "коммандо",
+   "key": "tmdb:10999",
+   "label": "Коммандо (1985)",
+   "sure": false
+  },
+  "ZSyNHGAj8VI": {
+   "typed": "лучше звоните солу",
+   "key": "imdb:tt3032476",
+   "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "zTDylsJOIVk": {
+   "typed": "стражи галактики",
+   "key": "tmdb:118340",
+   "label": "Стражи Галактики (2014)",
+   "sure": true
+  },
+  "zTxJe2qKPDc": {
+   "typed": "Нюрнберг 2023",
+   "key": "tmdb:816844",
+   "label": "Нюрнберг (2023)",
+   "sure": true
+  },
+  "zUaC2am1ghU": {
+   "typed": "Душа",
+   "key": "tmdb:508442",
+   "label": "Душа (2020)",
+   "sure": false
+  },
+  "ZWGL228sHs0": {
+   "typed": "ТАЙНА ПЕЧАТИ ДРАКОНА",
+   "key": "tmdb:428045",
+   "label": "Тайна печати дракона (2017)",
+   "sure": true
+  },
+  "zWoXt3_FDDI": {
+   "typed": "мулан",
+   "key": "tmdb:337401",
+   "label": "Мулан (2020)",
+   "sure": false
+  },
+  "ZZiPq3pEkzU": {
+   "typed": "криминальное чтиво",
+   "key": "tmdb:680",
+   "label": "Криминальное чтиво (1994)",
+   "sure": true
+  }
+ }
+}

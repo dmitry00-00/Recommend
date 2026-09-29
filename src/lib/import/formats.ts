@@ -110,6 +110,44 @@ export function parseKinopoiskHtml(text: string): ImportedRecord[] {
   });
 }
 
+/** Страница «Оценки и просмотры» нового профиля Кинопоиска (`/user/<id>/votes/`,
+ *  категория `voted-watched`), сохранённая из браузера: по 20 карточек, у каждой ссылка
+ *  `/film/ID/` или `/series/ID/` с постером, под постером — оценка (если человек её ставил;
+ *  «просто просмотрено» — без неё), ниже подпись «Название» + «2014, фантастика». Оригинала
+ *  и даты на этой странице нет. Классы и `data-tid` там хэшированные и меняются от сборки к
+ *  сборке, поэтому разбор держится за структуру: ссылка с постером → ссылка-подпись с тем же
+ *  ID. Ник, ID профиля и токены страницы парсер не читает. */
+export function parseKinopoiskProfile(text: string): ImportedRecord[] {
+  const poster = /<a href="\/(film|series)\/(\d+)\/"[^>]*>\s*<img\b[^>]*?\balt="([^"]*)"/g;
+  const starts = Array.from(text.matchAll(poster));
+  return starts.flatMap((m, i) => {
+    const kind = m[1];
+    const kp = Number(m[2]);
+    const card = text.slice(m.index, starts[i + 1]?.index ?? m.index + 20000);
+    // подпись — вторая ссылка на тот же фильм, скрытая от чтения с экрана
+    const capAt = card.indexOf(`<a href="/${kind}/${kp}/"`, 1);
+    const head = capAt > 0 ? card.slice(0, capAt) : card;
+    const caption = capAt > 0 ? card.slice(capAt, card.indexOf('</a>', capAt)) : '';
+    const texts = Array.from(caption.matchAll(/>([^<>]+)</g), (t) => unescapeHtml(t[1])).filter(Boolean);
+    // запасной путь — alt постера: «Интерстеллар. 2014, фантастика»
+    const alt = unescapeHtml(m[3]).match(/^(.*)\.\s+(\d{4})\b/);
+    const title = texts[0] ?? alt?.[1] ?? '';
+    const year = num((texts[1] ?? '').match(/\d{4}/)?.[0]) ?? num(alt?.[2]);
+    // оценка — число 1–10 в плашке между постером и подписью; нет плашки — не оценивал
+    const vote = Array.from(head.slice(head.indexOf('</a>')).matchAll(/>(\d{1,2})</g), (v) => Number(v[1]))
+      .filter((v) => v >= 1 && v <= 10).pop();
+    return [{
+      source: 'kinopoisk',
+      type: kind === 'series' ? 'series' : 'film',
+      title,
+      year,
+      status: 'finished',
+      rating: vote,
+      externalIds: { kinopoisk: kp },
+    } satisfies ImportedRecord];
+  });
+}
+
 /** Текстовый список «не найдено» конвертера с Кинопоиска: блоки «## Название» и строки
  *  «Ключ: значение» по-русски. Год там обычно «—», зато есть ID Кинопоиска. */
 export function parseKinopoiskText(text: string): ImportedRecord[] {
@@ -217,6 +255,9 @@ function looksLikePlainList(text: string): boolean {
 export function parseExport(text: string): { source: ImportSource; records: ImportedRecord[] } | undefined {
   if (/<div class="profileFilmsList"|ur_data\.push\(/.test(text)) {
     return { source: 'kinopoisk', records: parseKinopoiskHtml(text).filter(usable) };
+  }
+  if (/userVotedWatchedMovies|"category":"voted-(?:watched|only)"/.test(text)) {
+    return { source: 'kinopoisk', records: parseKinopoiskProfile(text).filter(usable) };
   }
   if (/^##\s|Идентификатор на Кинопоиске:/m.test(text)) {
     return { source: 'kinopoisk', records: parseKinopoiskText(text).filter(usable) };

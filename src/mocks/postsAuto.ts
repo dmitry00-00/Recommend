@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-telegram-index.mts (2026-09-26) из экспорта
+// Сгенерировано tools/build-telegram-index.mts (2026-09-28) из экспорта
 // Telegram Desktop и свежей выемки по MTProto (tools/telegram-fetch.py), каналы — в
 // tools/telegram-channels.json. Привязка к произведениям — по названию, человеком не подтверждена
 // (см. задания «тот ли это фильм»). Не править руками — перегенерировать.
@@ -66,31 +66,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "streaming"
       ],
       "publishedAt": "2024-12-02"
-    }
-  ],
-  "tmdb:744": [
-    {
-      "id": "tg-episodesfilm-95",
-      "title": "ТОМ КРУЗ гей?! | скрытый смысл фильма \"TOP GUN\" | СПГС от Квентина Тарантино",
-      "author": "Александр Шебанов",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WbqWAN5veJM",
-      "previewUrl": "https://i.ytimg.com/vi/WbqWAN5veJM/hqdefault.jpg",
-      "publishedAt": "2021-09-09"
-    },
-    {
-      "id": "tg-episodesfilm-1190",
-      "title": "Позавчера мама позвала меня в кино на китайский блокбастер \"Король неба\". Она у меня учи…",
-      "author": "ЭПИЗОДЫ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "telegram",
-      "url": "https://t.me/episodesfilm/1190",
-      "publishedAt": "2023-06-25"
     }
   ],
   "tmdb:68734": [
@@ -221,42 +196,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-09-30"
     }
   ],
-  "tmdb:414906": [
-    {
-      "id": "tg-kinopoisk-16028",
-      "title": "HBO Max, по слухам, работает над продолжением мультсериала «Бэтмен». Об этом во время за…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/16028",
-      "publishedAt": "2021-01-19"
-    },
-    {
-      "id": "tg-episodesfilm-531",
-      "title": "БЭТМЕН | почему Голливуд так любит Брюса Уэйна?",
-      "author": "Александр Шебанов",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=4pOTA1BEYa8",
-      "previewUrl": "https://i.ytimg.com/vi/4pOTA1BEYa8/hqdefault.jpg",
-      "publishedAt": "2022-04-28"
-    },
-    {
-      "id": "tg-kinopoisk-29318",
-      "title": "Туманное будущее темнокожего Супермена и работа над сиквелом «Бэтмена» Мэтта Ривза: что…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/29318",
-      "publishedAt": "2022-10-19"
-    }
-  ],
   "tmdb:6977": [
     {
       "id": "tg-episodesfilm-273",
@@ -303,7 +242,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=SESCSiE5yY0",
       "previewUrl": "https://i.ytimg.com/vi/SESCSiE5yY0/hqdefault.jpg",
-      "publishedAt": "2021-12-04"
+      "publishedAt": "2021-12-03",
+      "durationMinutes": 50
     },
     {
       "id": "tg-kinopoisk-41926",
@@ -398,7 +338,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=uA4n2jeQWxs",
       "previewUrl": "https://i.ytimg.com/vi/uA4n2jeQWxs/hqdefault.jpg",
-      "publishedAt": "2021-12-12"
+      "publishedAt": "2020-02-13",
+      "durationMinutes": 32
     },
     {
       "id": "tg-kinopoisk-48626",
@@ -602,7 +543,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=d5zvBNyU-Rw",
       "previewUrl": "https://i.ytimg.com/vi/d5zvBNyU-Rw/hqdefault.jpg",
-      "publishedAt": "2020-04-15"
+      "publishedAt": "2020-04-15",
+      "durationMinutes": 14
     }
   ],
   "tmdb:637": [
@@ -678,6 +620,43 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/episodesfilm/513",
       "publishedAt": "2022-04-12"
+    }
+  ],
+  "tmdb:414906": [
+    {
+      "id": "tg-kinopoisk-16028",
+      "title": "HBO Max, по слухам, работает над продолжением мультсериала «Бэтмен». Об этом во время за…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16028",
+      "publishedAt": "2021-01-19"
+    },
+    {
+      "id": "tg-episodesfilm-531",
+      "title": "БЭТМЕН | почему Голливуд так любит Брюса Уэйна?",
+      "author": "Александр Шебанов",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4pOTA1BEYa8",
+      "previewUrl": "https://i.ytimg.com/vi/4pOTA1BEYa8/hqdefault.jpg",
+      "publishedAt": "2022-04-28",
+      "durationMinutes": 22
+    },
+    {
+      "id": "tg-kinopoisk-29318",
+      "title": "Туманное будущее темнокожего Супермена и работа над сиквелом «Бэтмена» Мэтта Ривза: что…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/29318",
+      "publishedAt": "2022-10-19"
     }
   ],
   "tmdb:20882": [
@@ -982,7 +961,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=NeuBEDBOGyM",
       "previewUrl": "https://i.ytimg.com/vi/NeuBEDBOGyM/hqdefault.jpg",
-      "publishedAt": "2022-09-05"
+      "publishedAt": "2022-09-02",
+      "durationMinutes": 54
     }
   ],
   "tmdb:68718": [
@@ -996,20 +976,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/episodesfilm/768",
       "publishedAt": "2022-09-09"
-    }
-  ],
-  "tmdb:615777": [
-    {
-      "id": "tg-episodesfilm-774",
-      "title": "BABYLON | Official Teaser Trailer (Uncensored) – Brad Pitt, Margot Robbie, Diego Calva",
-      "author": "Paramount Pictures",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=t7HT83wkVss",
-      "previewUrl": "https://i.ytimg.com/vi/t7HT83wkVss/hqdefault.jpg",
-      "publishedAt": "2022-09-13"
     }
   ],
   "tmdb:1124": [
@@ -1037,7 +1003,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=FkFdI2CL3cA",
       "previewUrl": "https://i.ytimg.com/vi/FkFdI2CL3cA/hqdefault.jpg",
-      "publishedAt": "2022-09-27"
+      "publishedAt": "2022-09-27",
+      "durationMinutes": 28
     },
     {
       "id": "tg-a_researcher-134",
@@ -1151,7 +1118,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=ep_DOUkw8FE",
       "previewUrl": "https://i.ytimg.com/vi/ep_DOUkw8FE/hqdefault.jpg",
-      "publishedAt": "2022-10-19"
+      "publishedAt": "2022-10-16",
+      "durationMinutes": 53
     }
   ],
   "tmdb:218": [
@@ -1176,7 +1144,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=gWvukx2vHZg",
       "previewUrl": "https://i.ytimg.com/vi/gWvukx2vHZg/hqdefault.jpg",
-      "publishedAt": "2023-01-20"
+      "publishedAt": "2023-01-20",
+      "durationMinutes": 5
     },
     {
       "id": "tg-kinopoisk-31301",
@@ -1231,6 +1200,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:141": [
     {
+      "id": "tg-episodesfilm-3768",
+      "title": "Розыгрыш билетов на специальный показ фильма \"Донни Дарко\" в \"ЧТИВО дом\"!",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/3768",
+      "publishedAt": "2026-09-27"
+    },
+    {
       "id": "tg-episodesfilm-872",
       "title": "История ДОННИ ДАРКО",
       "author": "Андрей Загудаев",
@@ -1240,7 +1220,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=XP1dKoPQrdQ",
       "previewUrl": "https://i.ytimg.com/vi/XP1dKoPQrdQ/hqdefault.jpg",
-      "publishedAt": "2022-11-08"
+      "publishedAt": "2022-11-07",
+      "durationMinutes": 53
     },
     {
       "id": "tg-kinopoisk-50260",
@@ -1252,17 +1233,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/50260",
       "publishedAt": "2026-01-19"
-    },
-    {
-      "id": "tg-kinopoisk-34087",
-      "title": "В чем смысл «Донни Дарко»: 15 вопросов о самом загадочном фильме XXI века — Статьи на Ки…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4008140",
-      "publishedAt": "2023-07-26"
     }
   ],
   "tmdb:95": [
@@ -1378,7 +1348,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=zKsIg_F38CU",
       "previewUrl": "https://i.ytimg.com/vi/zKsIg_F38CU/hqdefault.jpg",
-      "publishedAt": "2020-02-13"
+      "publishedAt": "2020-02-13",
+      "durationMinutes": 7
     },
     {
       "id": "tg-kinopoisk-7999",
@@ -1414,7 +1385,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Plp4B7_A0Y4",
       "previewUrl": "https://i.ytimg.com/vi/Plp4B7_A0Y4/hqdefault.jpg",
-      "publishedAt": "2022-06-28"
+      "publishedAt": "2022-06-28",
+      "durationMinutes": 17
     },
     {
       "id": "tg-kinopoisk-32289",
@@ -1461,7 +1433,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=oVQUZ0I5aYw",
       "previewUrl": "https://i.ytimg.com/vi/oVQUZ0I5aYw/hqdefault.jpg",
-      "publishedAt": "2022-03-24"
+      "publishedAt": "2022-03-24",
+      "durationMinutes": 14
     },
     {
       "id": "tg-episodesfilm-1144",
@@ -1509,6 +1482,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/episodesfilm/1391",
       "publishedAt": "2023-12-26"
+    }
+  ],
+  "tmdb:744": [
+    {
+      "id": "tg-episodesfilm-1190",
+      "title": "Позавчера мама позвала меня в кино на китайский блокбастер \"Король неба\". Она у меня учи…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/1190",
+      "publishedAt": "2023-06-25"
     }
   ],
   "tmdb:310307": [
@@ -1575,7 +1561,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=MUQ_YwX7zsQ",
       "previewUrl": "https://i.ytimg.com/vi/MUQ_YwX7zsQ/hqdefault.jpg",
-      "publishedAt": "2022-04-19"
+      "publishedAt": "2022-04-19",
+      "durationMinutes": 14
     }
   ],
   "tmdb:753342": [
@@ -1728,7 +1715,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Gq9CS8SAC_4",
       "previewUrl": "https://i.ytimg.com/vi/Gq9CS8SAC_4/hqdefault.jpg",
-      "publishedAt": "2025-10-31"
+      "publishedAt": "2025-10-31",
+      "durationMinutes": 20
     }
   ],
   "tmdb:293660": [
@@ -1953,7 +1941,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "кинопоисквидео"
       ],
-      "publishedAt": "2020-01-16"
+      "publishedAt": "2020-01-16",
+      "durationMinutes": 10
     }
   ],
   "tmdb:1955": [
@@ -2075,6 +2064,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/23531",
       "publishedAt": "2024-12-17"
+    }
+  ],
+  "tmdb:466272": [
+    {
+      "id": "tg-cinemaholicsofficial-2878",
+      "title": "«Однажды в Голливуде»: с трудом попали на нового Тарантино, очередь пришлось занимать за…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2878",
+      "publishedAt": "2019-05-22"
+    },
+    {
+      "id": "tg-kinopoisk-7195",
+      "title": "Объясняет Тарантино: что смотреть, чтобы понять «Однажды в… Голливуде» — Статьи на Киноп…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/3395657",
+      "publishedAt": "2019-07-29"
+    },
+    {
+      "id": "tg-kinopoisk-25384",
+      "title": "Феноменальное чтиво: каким получился роман Квентина Тарантино «Однажды в... Голливуде» —…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4004775",
+      "publishedAt": "2022-05-31"
     }
   ],
   "tmdb:974576": [
@@ -2830,7 +2854,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=4bol2vgJ7tA",
       "previewUrl": "https://i.ytimg.com/vi/4bol2vgJ7tA/hqdefault.jpg",
-      "publishedAt": "2018-04-27"
+      "publishedAt": "2018-04-27",
+      "durationMinutes": 48
     },
     {
       "id": "tg-episodesfilm-3387",
@@ -3074,7 +3099,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=7ZGoVsx6F38",
       "previewUrl": "https://i.ytimg.com/vi/7ZGoVsx6F38/hqdefault.jpg",
-      "publishedAt": "2026-05-25"
+      "publishedAt": "2026-05-25",
+      "durationMinutes": 15
     },
     {
       "id": "tg-kinopoisk-40307",
@@ -3158,7 +3184,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=4Z0S7-HT1iw",
       "previewUrl": "https://i.ytimg.com/vi/4Z0S7-HT1iw/hqdefault.jpg",
-      "publishedAt": "2023-07-29"
+      "publishedAt": "2023-07-29",
+      "durationMinutes": 12
     },
     {
       "id": "tg-kinopoisk-36077",
@@ -3208,7 +3235,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "кп_видео"
       ],
-      "publishedAt": "2024-07-31"
+      "publishedAt": "2024-07-31",
+      "durationMinutes": 25
     }
   ],
   "tmdb:180": [
@@ -3327,21 +3355,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=ku3DCFXDdSQ",
       "previewUrl": "https://i.ytimg.com/vi/ku3DCFXDdSQ/hqdefault.jpg",
-      "publishedAt": "2022-05-07"
-    }
-  ],
-  "tmdb:9529": [
-    {
-      "id": "tg-elcinemanew-17",
-      "title": "Candyman (1992) - Clip: Be My Victim (HD)",
-      "author": "ScreamFactoryTV",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=qOt3D01rCTY",
-      "previewUrl": "https://i.ytimg.com/vi/qOt3D01rCTY/hqdefault.jpg",
-      "publishedAt": "2024-02-25"
+      "publishedAt": "2022-05-07",
+      "durationMinutes": 18
     }
   ],
   "tmdb:132030": [
@@ -3355,7 +3370,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=4PG7P2rwgbw",
       "previewUrl": "https://i.ytimg.com/vi/4PG7P2rwgbw/hqdefault.jpg",
-      "publishedAt": "2025-07-08"
+      "publishedAt": "2024-09-22",
+      "durationMinutes": 59
     },
     {
       "id": "tg-kinopoisk-24883",
@@ -3682,7 +3698,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=6rcigP-hrqk",
       "previewUrl": "https://i.ytimg.com/vi/6rcigP-hrqk/hqdefault.jpg",
-      "publishedAt": "2023-06-14"
+      "publishedAt": "2023-06-14",
+      "durationMinutes": 126
     },
     {
       "id": "tg-cinemysterium-3070",
@@ -4467,7 +4484,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=DNTlYTLkw5c",
       "previewUrl": "https://i.ytimg.com/vi/DNTlYTLkw5c/hqdefault.jpg",
-      "publishedAt": "2024-01-02"
+      "publishedAt": "2023-06-08",
+      "durationMinutes": 15
     },
     {
       "id": "tg-kinopoisk-34572",
@@ -4552,20 +4570,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/3524",
       "publishedAt": "2019-10-23"
-    }
-  ],
-  "tmdb:10098": [
-    {
-      "id": "tg-cinemaholicsofficial-3556",
-      "title": "Clips from THE KID STAYS IN THE PICTURE",
-      "author": "Brad Baker",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WuVTyGzBo2c",
-      "previewUrl": "https://i.ytimg.com/vi/WuVTyGzBo2c/hqdefault.jpg",
-      "publishedAt": "2019-10-29"
     }
   ],
   "tmdb:359724": [
@@ -5179,45 +5183,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-07-06"
     }
   ],
-  "tmdb:591662": [
-    {
-      "id": "tg-kinopoisk-20628",
-      "title": "Еще один фильм о родителях-абьюзерах — «Оторви и выбрось» от режиссера «Папа, сдохни» Ки…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/20628",
-      "tags": [
-        "кинотавр2021"
-      ],
-      "publishedAt": "2021-09-19"
-    },
-    {
-      "id": "tg-cinemaholicsofficial-8708",
-      "title": "«Оторви и выбрось», фрагмент",
-      "author": "Meduza",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ZZL2RQLzaHY",
-      "previewUrl": "https://i.ytimg.com/vi/ZZL2RQLzaHY/hqdefault.jpg",
-      "publishedAt": "2021-09-20"
-    },
-    {
-      "id": "tg-kinopoisk-10523",
-      "title": "​​«Оторви и выбрось» — фильм-погоня, новый режиссерский проект Кирилла Соколова, постано…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/10523",
-      "publishedAt": "2020-04-23"
-    }
-  ],
   "tmdb:486947": [
     {
       "id": "tg-cinemaholicsofficial-8916",
@@ -5385,74 +5350,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/2329",
       "publishedAt": "2018-05-29"
-    }
-  ],
-  "tmdb:901563": [
-    {
-      "id": "tg-kinopoisk-25287",
-      "title": "«Это пальма!»: почему все Канны плачут над фильмом «Близко» Лукаса Донта",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/25287",
-      "tags": [
-        "канны2022"
-      ],
-      "publishedAt": "2022-05-27"
-    },
-    {
-      "id": "tg-cinemaholicsofficial-12998",
-      "title": "Close  (2022)  Clip Official | Director: Lukas Dhont | #CANNES2022",
-      "author": "avids | network",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=S7sw223zTuU",
-      "previewUrl": "https://i.ytimg.com/vi/S7sw223zTuU/hqdefault.jpg",
-      "publishedAt": "2022-10-08"
-    }
-  ],
-  "tmdb:674324": [
-    {
-      "id": "tg-a_researcher-575",
-      "title": "И наконец, пожалуй, самое главное кинополотно об ирландском контексте — фильм Макдоны мл…",
-      "author": "R⁴²",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/a_researcher/575",
-      "tags": [
-        "reкоммэндэйшн"
-      ],
-      "publishedAt": "2026-03-17"
-    },
-    {
-      "id": "tg-cinemaholicsofficial-13014",
-      "title": "THE BANSHEES OF INISHERIN | Official Trailer | Searchlight Pictures",
-      "author": "SearchlightPictures",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=uRu3zLOJN2c",
-      "previewUrl": "https://i.ytimg.com/vi/uRu3zLOJN2c/hqdefault.jpg",
-      "publishedAt": "2022-10-10"
-    },
-    {
-      "id": "tg-kinopoisk-30918",
-      "title": "Taylor Swift & Martin McDonagh | Directors on Directors",
-      "author": "Variety",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=x8zfsf4azLo",
-      "previewUrl": "https://i.ytimg.com/vi/x8zfsf4azLo/hqdefault.jpg",
-      "publishedAt": "2022-12-18"
     }
   ],
   "tmdb:310593": [
@@ -5628,7 +5525,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=kZXzxgmMW2A",
       "previewUrl": "https://i.ytimg.com/vi/kZXzxgmMW2A/hqdefault.jpg",
-      "publishedAt": "2023-11-15"
+      "publishedAt": "2023-11-14",
+      "durationMinutes": 86
     },
     {
       "id": "tg-kinopoisk-35895",
@@ -5901,7 +5799,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=b6qbSi711UU",
       "previewUrl": "https://i.ytimg.com/vi/b6qbSi711UU/hqdefault.jpg",
-      "publishedAt": "2025-07-19"
+      "publishedAt": "2025-07-19",
+      "durationMinutes": 16
     },
     {
       "id": "tg-cinemaholicsofficial-28718",
@@ -6073,7 +5972,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=jYbCaAf4CBg",
       "previewUrl": "https://i.ytimg.com/vi/jYbCaAf4CBg/hqdefault.jpg",
-      "publishedAt": "2026-05-29"
+      "publishedAt": "2026-05-29",
+      "durationMinutes": 32
     }
   ],
   "tmdb:42726": [
@@ -6235,7 +6135,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=8dHiASdIUPw",
       "previewUrl": "https://i.ytimg.com/vi/8dHiASdIUPw/hqdefault.jpg",
-      "publishedAt": "2026-08-18"
+      "publishedAt": "2026-08-18",
+      "durationMinutes": 14
     },
     {
       "id": "tg-kinopoisk-37925",
@@ -6401,7 +6302,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=DuLOwR0IRio",
       "previewUrl": "https://i.ytimg.com/vi/DuLOwR0IRio/hqdefault.jpg",
-      "publishedAt": "2024-01-01"
+      "publishedAt": "2022-12-27",
+      "durationMinutes": 16
     },
     {
       "id": "tg-kinopoisk-50839",
@@ -6491,7 +6393,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=l0VR01_8erA",
       "previewUrl": "https://i.ytimg.com/vi/l0VR01_8erA/hqdefault.jpg",
-      "publishedAt": "2018-10-08"
+      "publishedAt": "2017-11-20",
+      "durationMinutes": 12
     },
     {
       "id": "tg-kinopoisk-1017",
@@ -6546,7 +6449,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=NV2EWhns8r0",
       "previewUrl": "https://i.ytimg.com/vi/NV2EWhns8r0/hqdefault.jpg",
-      "publishedAt": "2020-05-09"
+      "publishedAt": "2017-10-13",
+      "durationMinutes": 10
     }
   ],
   "tmdb:948": [
@@ -6671,7 +6575,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=UXyerzIjtP8",
       "previewUrl": "https://i.ytimg.com/vi/UXyerzIjtP8/hqdefault.jpg",
-      "publishedAt": "2026-03-22"
+      "publishedAt": "2026-03-22",
+      "durationMinutes": 9
     },
     {
       "id": "tg-kinopoisk-51534",
@@ -7037,7 +6942,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=hUDwVCn2zDE",
       "previewUrl": "https://i.ytimg.com/vi/hUDwVCn2zDE/hqdefault.jpg",
-      "publishedAt": "2018-05-02"
+      "publishedAt": "2018-05-02",
+      "durationMinutes": 12
     },
     {
       "id": "tg-kinopoisk-2195",
@@ -7114,7 +7020,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=SYnzBr5mqT8",
       "previewUrl": "https://i.ytimg.com/vi/SYnzBr5mqT8/hqdefault.jpg",
-      "publishedAt": "2023-01-10"
+      "publishedAt": "2023-01-10",
+      "durationMinutes": 6
     },
     {
       "id": "tg-kinopoisk-31279",
@@ -7153,7 +7060,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "кинопоисквидео"
       ],
-      "publishedAt": "2020-01-17"
+      "publishedAt": "2018-06-05",
+      "durationMinutes": 12
     },
     {
       "id": "tg-ubobra-742",
@@ -7557,41 +7465,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-06-06"
     }
   ],
-  "tmdb:466272": [
-    {
-      "id": "tg-kinopoisk-7195",
-      "title": "Объясняет Тарантино: что смотреть, чтобы понять «Однажды в… Голливуде» — Статьи на Киноп…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/3395657",
-      "publishedAt": "2019-07-29"
-    },
-    {
-      "id": "tg-kinopoisk-18738",
-      "title": "Юная звезда «Однажды в… Голливуде» Джулия Баттерз сыграет сестру Стивена Спилберга.",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/18738",
-      "publishedAt": "2021-06-16"
-    },
-    {
-      "id": "tg-kinopoisk-6517",
-      "title": "Квентин Тарантино запретил сотовые телефоны на съемках «Однажды в… Голливуде» — Новости…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/6517",
-      "publishedAt": "2019-06-13"
-    }
-  ],
   "tmdb:576": [
     {
       "id": "tg-kinopoisk-6633",
@@ -7664,7 +7537,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=zWc0Bog4884",
       "previewUrl": "https://i.ytimg.com/vi/zWc0Bog4884/hqdefault.jpg",
-      "publishedAt": "2024-01-08"
+      "publishedAt": "2023-02-04",
+      "durationMinutes": 16
     },
     {
       "id": "tg-kinopoisk-7072",
@@ -7928,7 +7802,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=TSYQoO0vFL8",
       "previewUrl": "https://i.ytimg.com/vi/TSYQoO0vFL8/hqdefault.jpg",
-      "publishedAt": "2023-05-17"
+      "publishedAt": "2023-05-17",
+      "durationMinutes": 15
     }
   ],
   "tmdb:3083": [
@@ -8223,7 +8098,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=O3On85WyCTw",
       "previewUrl": "https://i.ytimg.com/vi/O3On85WyCTw/hqdefault.jpg",
-      "publishedAt": "2020-05-07"
+      "publishedAt": "2020-04-08",
+      "durationMinutes": 12
     },
     {
       "id": "tg-kinopoisk-27480",
@@ -8235,7 +8111,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=zE-dmXZp3nU",
       "previewUrl": "https://i.ytimg.com/vi/zE-dmXZp3nU/hqdefault.jpg",
-      "publishedAt": "2022-08-12"
+      "publishedAt": "2018-11-17",
+      "durationMinutes": 20
     }
   ],
   "tmdb:514684": [
@@ -8271,6 +8148,44 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/27773",
       "publishedAt": "2022-08-24"
+    }
+  ],
+  "tmdb:591662": [
+    {
+      "id": "tg-kinopoisk-20628",
+      "title": "Еще один фильм о родителях-абьюзерах — «Оторви и выбрось» от режиссера «Папа, сдохни» Ки…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/20628",
+      "tags": [
+        "кинотавр2021"
+      ],
+      "publishedAt": "2021-09-19"
+    },
+    {
+      "id": "tg-kinopoisk-10523",
+      "title": "​​«Оторви и выбрось» — фильм-погоня, новый режиссерский проект Кирилла Соколова, постано…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/10523",
+      "publishedAt": "2020-04-23"
+    },
+    {
+      "id": "tg-kinopoisk-11840",
+      "title": "Режиссер «Папа, сдохни» приступил к съемкам новой картины «Оторви и выбрось». В центре с…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11840",
+      "publishedAt": "2020-07-07"
     }
   ],
   "tmdb:19": [
@@ -8530,7 +8445,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=s9sbPTJTSVs",
       "previewUrl": "https://i.ytimg.com/vi/s9sbPTJTSVs/hqdefault.jpg",
-      "publishedAt": "2025-07-28"
+      "publishedAt": "2025-07-28",
+      "durationMinutes": 22
     },
     {
       "id": "tg-kinopoisk-41355",
@@ -9149,7 +9065,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=BI0DHhgeRBM",
       "previewUrl": "https://i.ytimg.com/vi/BI0DHhgeRBM/hqdefault.jpg",
-      "publishedAt": "2022-08-18"
+      "publishedAt": "2022-08-18",
+      "durationMinutes": 21
     },
     {
       "id": "tg-kinopoisk-24074",
@@ -10075,7 +9992,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Vp6zkfTsIXM",
       "previewUrl": "https://i.ytimg.com/vi/Vp6zkfTsIXM/hqdefault.jpg",
-      "publishedAt": "2021-12-25"
+      "publishedAt": "2021-12-25",
+      "durationMinutes": 18
     },
     {
       "id": "tg-kinopoisk-44327",
@@ -10231,18 +10149,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4005660",
       "publishedAt": "2022-01-28"
-    },
-    {
-      "id": "tg-kinopoisk-31637",
-      "title": "ENCANTO Song - \"We Don't Talk About Bruno\" (2022) Disney",
-      "author": "JoBlo Animation 4K",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xP991MbPZcg",
-      "previewUrl": "https://i.ytimg.com/vi/xP991MbPZcg/hqdefault.jpg",
-      "publishedAt": "2023-02-06"
     }
   ],
   "tmdb:257445": [
@@ -10434,7 +10340,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=ZokXZFZM32w",
       "previewUrl": "https://i.ytimg.com/vi/ZokXZFZM32w/hqdefault.jpg",
-      "publishedAt": "2022-04-02"
+      "publishedAt": "2022-04-02",
+      "durationMinutes": 10
     },
     {
       "id": "tg-kinopoisk-23999",
@@ -10462,20 +10369,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/24116",
       "publishedAt": "2022-04-01"
-    }
-  ],
-  "tmdb:639933": [
-    {
-      "id": "tg-kinopoisk-24174",
-      "title": "THE NORTHMAN - \"To Valholl\" Official Clip - Only in Theaters April 22",
-      "author": "Focus Features",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=MFpZNicfhyE",
-      "previewUrl": "https://i.ytimg.com/vi/MFpZNicfhyE/hqdefault.jpg",
-      "publishedAt": "2022-04-06"
     }
   ],
   "tmdb:505192": [
@@ -10629,6 +10522,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/25255",
       "publishedAt": "2022-05-26"
+    }
+  ],
+  "tmdb:901563": [
+    {
+      "id": "tg-kinopoisk-25287",
+      "title": "«Это пальма!»: почему все Канны плачут над фильмом «Близко» Лукаса Донта",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/25287",
+      "tags": [
+        "канны2022"
+      ],
+      "publishedAt": "2022-05-27"
     }
   ],
   "tmdb:497828": [
@@ -10914,7 +10823,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "кп_видео"
       ],
-      "publishedAt": "2024-05-11"
+      "publishedAt": "2024-05-11",
+      "durationMinutes": 17
     },
     {
       "id": "tg-kinopoisk-27320",
@@ -11007,7 +10917,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=VoR8N6AKjsI",
       "previewUrl": "https://i.ytimg.com/vi/VoR8N6AKjsI/hqdefault.jpg",
-      "publishedAt": "2022-09-01"
+      "publishedAt": "2022-09-01",
+      "durationMinutes": 14
     },
     {
       "id": "tg-kinopoisk-28889",
@@ -11035,6 +10946,46 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "венеция2022"
       ],
       "publishedAt": "2022-09-03"
+    }
+  ],
+  "tmdb:674324": [
+    {
+      "id": "tg-a_researcher-575",
+      "title": "И наконец, пожалуй, самое главное кинополотно об ирландском контексте — фильм Макдоны мл…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/575",
+      "tags": [
+        "reкоммэндэйшн"
+      ],
+      "publishedAt": "2026-03-17"
+    },
+    {
+      "id": "tg-kinopoisk-30918",
+      "title": "Taylor Swift & Martin McDonagh | Directors on Directors",
+      "author": "Variety",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=x8zfsf4azLo",
+      "previewUrl": "https://i.ytimg.com/vi/x8zfsf4azLo/hqdefault.jpg",
+      "publishedAt": "2022-12-12",
+      "durationMinutes": 46
+    },
+    {
+      "id": "tg-kinopoisk-31233",
+      "title": "Подошла к концу 80-я церемония «Золотой глобус». Лучшими фильмами стали «Банши Инишерина…",
+      "author": "Кинопоиск | Индустрия",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/31233",
+      "publishedAt": "2023-01-11"
     }
   ],
   "tmdb:804095": [
@@ -11305,7 +11256,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Jl6S8hQViBU",
       "previewUrl": "https://i.ytimg.com/vi/Jl6S8hQViBU/hqdefault.jpg",
-      "publishedAt": "2022-11-05"
+      "publishedAt": "2022-11-05",
+      "durationMinutes": 19
     },
     {
       "id": "tg-kinopoisk-48040",
@@ -11729,7 +11681,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=2FXt3Gfuet8",
       "previewUrl": "https://i.ytimg.com/vi/2FXt3Gfuet8/hqdefault.jpg",
-      "publishedAt": "2023-03-04"
+      "publishedAt": "2023-03-04",
+      "durationMinutes": 17
     },
     {
       "id": "tg-kinopoisk-33983",
@@ -11831,7 +11784,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=TsW7nJCwXoo",
       "previewUrl": "https://i.ytimg.com/vi/TsW7nJCwXoo/hqdefault.jpg",
-      "publishedAt": "2023-04-10"
+      "publishedAt": "2023-04-10",
+      "durationMinutes": 7
     }
   ],
   "tmdb:597915": [
@@ -12055,7 +12009,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=SjITg_4ojDk",
       "previewUrl": "https://i.ytimg.com/vi/SjITg_4ojDk/hqdefault.jpg",
-      "publishedAt": "2023-06-17"
+      "publishedAt": "2023-06-17",
+      "durationMinutes": 22
     },
     {
       "id": "tg-kinopoisk-45943",
@@ -12067,7 +12022,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=66XIXds-QIc",
       "previewUrl": "https://i.ytimg.com/vi/66XIXds-QIc/hqdefault.jpg",
-      "publishedAt": "2025-06-04"
+      "publishedAt": "2025-06-04",
+      "durationMinutes": 24
     }
   ],
   "tmdb:477018": [
@@ -12094,7 +12050,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=OEwvJDa7o7A",
       "previewUrl": "https://i.ytimg.com/vi/OEwvJDa7o7A/hqdefault.jpg",
-      "publishedAt": "2025-01-03"
+      "publishedAt": "2025-01-03",
+      "durationMinutes": 18
     },
     {
       "id": "tg-kinopoisk-38785",
@@ -12363,7 +12320,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=pmUymwm5rQI",
       "previewUrl": "https://i.ytimg.com/vi/pmUymwm5rQI/hqdefault.jpg",
-      "publishedAt": "2024-03-19"
+      "publishedAt": "2024-03-19",
+      "durationMinutes": 16
     },
     {
       "id": "tg-kinopoisk-37724",
@@ -12707,7 +12665,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=p9qRmqj8DHw",
       "previewUrl": "https://i.ytimg.com/vi/p9qRmqj8DHw/hqdefault.jpg",
-      "publishedAt": "2026-03-31"
+      "publishedAt": "2026-03-31",
+      "durationMinutes": 12
     }
   ],
   "tmdb:582": [
@@ -13590,7 +13549,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "кп_видео"
       ],
-      "publishedAt": "2024-07-13"
+      "publishedAt": "2024-07-13",
+      "durationMinutes": 24
     }
   ],
   "tmdb:1632": [
@@ -13661,7 +13621,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Zw5DMFCyA9c",
       "previewUrl": "https://i.ytimg.com/vi/Zw5DMFCyA9c/hqdefault.jpg",
-      "publishedAt": "2024-08-22"
+      "publishedAt": "2024-08-22",
+      "durationMinutes": 17
     }
   ],
   "tmdb:1491": [
@@ -13848,7 +13809,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=6taPp3gP19o",
       "previewUrl": "https://i.ytimg.com/vi/6taPp3gP19o/hqdefault.jpg",
-      "publishedAt": "2024-12-07"
+      "publishedAt": "2024-12-07",
+      "durationMinutes": 11
     },
     {
       "id": "tg-kinopoisk-42170",
@@ -13860,7 +13822,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=Zdvh2FXHywc",
       "previewUrl": "https://i.ytimg.com/vi/Zdvh2FXHywc/hqdefault.jpg",
-      "publishedAt": "2024-11-10"
+      "publishedAt": "2024-11-10",
+      "durationMinutes": 10
     }
   ],
   "tmdb:877817": [
@@ -14003,7 +13966,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=FU-Cgl6a_uo",
       "previewUrl": "https://i.ytimg.com/vi/FU-Cgl6a_uo/hqdefault.jpg",
-      "publishedAt": "2025-10-14"
+      "publishedAt": "2025-10-14",
+      "durationMinutes": 16
     },
     {
       "id": "tg-kinopoisk-41609",
@@ -14930,7 +14894,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "a24"
       ],
-      "publishedAt": "2025-08-18"
+      "publishedAt": "2025-08-13",
+      "durationMinutes": 10
     },
     {
       "id": "tg-logovofilologa-639",
@@ -15365,7 +15330,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=C_GrX7VRszg",
       "previewUrl": "https://i.ytimg.com/vi/C_GrX7VRszg/hqdefault.jpg",
-      "publishedAt": "2026-04-11"
+      "publishedAt": "2026-04-11",
+      "durationMinutes": 7
     },
     {
       "id": "tg-a_researcher-594",
@@ -15581,7 +15547,8 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "youtube",
       "url": "https://www.youtube.com/watch?v=JPzOZB_gtLg",
       "previewUrl": "https://i.ytimg.com/vi/JPzOZB_gtLg/hqdefault.jpg",
-      "publishedAt": "2026-08-30"
+      "publishedAt": "2026-08-30",
+      "durationMinutes": 8
     }
   ],
   "tmdb:1375441": [
@@ -15632,35 +15599,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/alarm_cassettes/79",
       "publishedAt": "2018-04-30"
-    }
-  ],
-  "tmdb:763165": [
-    {
-      "id": "tg-alarm_cassettes-1035",
-      "title": "THE BURIAL",
-      "author": "Brooke Blair - Topic",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Dt4QdaSRhos",
-      "previewUrl": "https://i.ytimg.com/vi/Dt4QdaSRhos/hqdefault.jpg",
-      "publishedAt": "2020-06-05"
-    },
-    {
-      "id": "tg-a_researcher-250",
-      "title": "Небольшая 'разрядка' постов упоминанием релиза Prime video — картины «Погребение» (или «…",
-      "author": "R⁴²",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "platform": "telegram",
-      "url": "https://t.me/a_researcher/250",
-      "tags": [
-        "био",
-        "streaming"
-      ],
-      "publishedAt": "2024-05-12"
     }
   ],
   "tmdb:882598": [
@@ -15895,6 +15833,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "streaming"
       ],
       "publishedAt": "2024-05-02"
+    }
+  ],
+  "tmdb:763165": [
+    {
+      "id": "tg-a_researcher-250",
+      "title": "Небольшая 'разрядка' постов упоминанием релиза Prime video — картины «Погребение» (или «…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/250",
+      "tags": [
+        "био",
+        "streaming"
+      ],
+      "publishedAt": "2024-05-12"
     }
   ],
   "tmdb:153518": [

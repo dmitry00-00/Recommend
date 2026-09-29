@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { WorkCard } from '@/types/tmdf';
 import { opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
+import ru from '@/i18n/ru';
 
 export interface WorkBannerProps {
   work: WorkCard;
@@ -36,5 +37,19 @@ export function WorkBanner({ work, meta, size = 'md', expanded, tag, onClick }: 
         <span className="tm-banner__meta">{meta ?? work.year}</span>
       </span>
     </Tag>
+  );
+}
+
+/** Надпечатка по кромке плёнки (28.09, вариант Б из сравнения «Лента на плёнке»): номер кадра,
+ *  тип, год, длина — одним форматом для всех медиа. Живёт в дорожке `.tm-filmstrip` слева от
+ *  кадра и при свайпе остаётся на месте — уезжает кадр, а не плёнка. Для экранного диктора
+ *  скрыта: всё это уже есть в строке под названием. `short` — для низких баннеров архива. */
+export function FilmEdge({ work, no, short }: { work: WorkCard; no: number; short?: boolean }) {
+  const kind = work.format === 'series' ? ru.edge.series : work.type === 'book' ? ru.edge.book : ru.edge.film;
+  const rest = short ? [work.year] : [kind, work.year, work.durationMinutes ? ru.edge.min(work.durationMinutes) : null];
+  return (
+    <span className="tm-edge" aria-hidden="true">
+      <span><span className="tm-edge__no">{ru.edge.no(no)}</span>{rest.filter(Boolean).map((x) => ` · ${x}`).join('')}</span>
+    </span>
   );
 }

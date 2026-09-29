@@ -26,6 +26,9 @@ const get = async <T>(path: string, params: Record<string, string>): Promise<T |
 const known = Object.values(essays).flat();
 const ids = known.map((a) => /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1]).filter((x): x is string => Boolean(x));
 const channels = new Map<string, string>();
+// ярус по названию канала, как оно приходит в ролике: обзорщиков помечаем в индексе, чтобы
+// приложение их не показывало, а подбор — видел. Канала нет в sources.ts — это автор эссе
+const reviewers = new Set<string>();
 for (let i = 0; i < ids.length; i += 50) {
   const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
     { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
@@ -37,6 +40,7 @@ for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === '
     { part: 'snippet', forHandle: `@${src.handle}` });
   const it = j?.items?.[0];
   if (it?.id) channels.set(it.id, it.snippet?.title ?? src.title);
+  if (it?.id && src.tier === 'review') reviewers.add(it.snippet?.title ?? src.title);
   else console.error(`  ? канал @${src.handle} не нашёлся`);
 }
 console.error(`каналы: ${[...channels.values()].join(', ')}`);
@@ -74,11 +78,12 @@ const ours = worksIndex();
 // Ручная разметка (tools/import-markup.py ← film_reviews.xlsx). Она сильнее догадки во всём:
 // привязывает то, чего регексп не увидел, снимает то, что он привязал зря, и не спрашивает
 // про длительность и улики — человек уже посмотрел. Файла нет — всё как раньше.
-interface Verdict { key: string | null; why?: string; film?: string }
+interface Verdict { key: string | null; why?: string; film?: string; guess?: boolean }
 const vFile = new URL('./markup-verdicts.json', import.meta.url);
 const human: Record<string, Verdict> = existsSync(vFile)
   ? (JSON.parse(readFileSync(vFile, 'utf8')).videos ?? {}) : {};
-const byKey = new Map(ours.map((w) => [w.key, w]));
+// ручная привязка может указать и на фильм с коротким названием, которого в `ours` нет
+const byKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
 
 // названия-ловушки (tools/build-ordinary.mts): в заголовке ролика им нужен капс, кавычки или
 // ярлык рядом — то же правило, что односложным, только список берётся из корпуса
@@ -131,7 +136,8 @@ for (const [videoId, { key, work }] of best) {
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   if (known.some((a) => a.url === url)) continue;
   const minutes = durations.get(videoId);
-  const said = Boolean(human[videoId]?.key);
+  // выбор опознавателя из тёзок (guess) — не слово человека: сторожа его проверяют, в карточке «не проверено»
+  const said = Boolean(human[videoId]?.key) && !human[videoId]?.guess;
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
   // к книге не привязываем разбор экранизации: это про фильм
   if (!said && key.startsWith('isbn:') && ADAPTATION.test(v.title)) { adaptations += 1; continue; }
@@ -143,6 +149,7 @@ for (const [videoId, { key, work }] of best) {
   (out[key] ??= []).push({
     id: `yta-${videoId}`, title: v.title, author: v.channel, platform: 'youtube', url,
     language: 'ru', spoilerLevel: 2, ...(verdict ? { evidence: verdict } : { unverified: true }),
+    ...(reviewers.has(v.channel) ? { tier: 'review' as const } : {}),
     previewUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     ...(minutes ? { durationMinutes: minutes } : {}),
     ...(v.publishedAt ? { publishedAt: v.publishedAt } : {}),

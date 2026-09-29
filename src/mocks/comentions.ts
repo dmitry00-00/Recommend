@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-comention-index.mts (2026-09-26): что называют
+// Сгенерировано tools/build-comention-index.mts (2026-09-28): что называют
 // вместе в одном посте. Это не рекомендация и не похожесть по смыслу — это то, как о кино
 // говорят. Вес — косинус: сырой счёт тянут на себя те, о ком пишут каждый день.
 // Не править руками — перегенерировать.
@@ -1345,148 +1345,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.121
     }
   ],
-  "tmdb:1398": [
-    {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 14,
-      "weight": 0.493
-    },
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 15,
-      "weight": 0.49
-    },
-    {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
-      "n": 3,
-      "weight": 0.222
-    },
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
-      "n": 4,
-      "weight": 0.196
-    }
-  ],
-  "tmdb:593": [
-    {
-      "key": "tmdb:1398",
-      "workId": "l-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 14,
-      "weight": 0.493
-    },
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 14,
-      "weight": 0.419
-    },
-    {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
-      "n": 3,
-      "weight": 0.204
-    },
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.199
-    },
-    {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
-      "n": 3,
-      "weight": 0.135
-    }
-  ],
-  "tmdb:1396": [
-    {
-      "key": "tmdb:1398",
-      "workId": "l-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 15,
-      "weight": 0.49
-    },
-    {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 14,
-      "weight": 0.419
-    },
-    {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
-      "n": 5,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:13515",
-      "workId": "f-wd1320806",
-      "title": "Зеркала",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.189
-    },
-    {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
-      "n": 3,
-      "weight": 0.189
-    },
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.185
-    },
-    {
-      "key": "tmdb:439",
-      "workId": "f-tmdb439",
-      "title": "Сладкая жизнь",
-      "year": 1960,
-      "n": 3,
-      "weight": 0.1
-    }
-  ],
   "tmdb:194662": [
     {
       "key": "tmdb:281957",
@@ -1545,6 +1403,148 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2013,
       "n": 3,
       "weight": 0.254
+    }
+  ],
+  "tmdb:1396": [
+    {
+      "key": "tmdb:1398",
+      "workId": "l-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 15,
+      "weight": 0.481
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 14,
+      "weight": 0.412
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 5,
+      "weight": 0.208
+    },
+    {
+      "key": "tmdb:13515",
+      "workId": "f-wd1320806",
+      "title": "Зеркала",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.185
+    },
+    {
+      "key": "tmdb:439",
+      "workId": "f-tmdb439",
+      "title": "Сладкая жизнь",
+      "year": 1960,
+      "n": 3,
+      "weight": 0.1
+    }
+  ],
+  "tmdb:1398": [
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 15,
+      "weight": 0.481
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 14,
+      "weight": 0.476
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.218
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 4,
+      "weight": 0.192
+    }
+  ],
+  "tmdb:593": [
+    {
+      "key": "tmdb:1398",
+      "workId": "l-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 14,
+      "weight": 0.476
+    },
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 14,
+      "weight": 0.412
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.2
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.196
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 3,
+      "weight": 0.133
     }
   ],
   "tmdb:1327819": [
@@ -2242,7 +2242,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сталкер",
       "year": 1979,
       "n": 4,
-      "weight": 0.218
+      "weight": 0.214
     },
     {
       "key": "tmdb:593",
@@ -2250,7 +2250,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солярис",
       "year": 1972,
       "n": 4,
-      "weight": 0.199
+      "weight": 0.196
     },
     {
       "key": "tmdb:1396",
@@ -2276,7 +2276,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сталкер",
       "year": 1979,
       "n": 3,
-      "weight": 0.222
+      "weight": 0.218
     },
     {
       "key": "tmdb:593",
@@ -2284,7 +2284,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солярис",
       "year": 1972,
       "n": 3,
-      "weight": 0.204
+      "weight": 0.2
     },
     {
       "key": "tmdb:1396",
@@ -5080,7 +5080,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 4,
-      "weight": 0.159
+      "weight": 0.158
     }
   ],
   "tmdb:804095": [
@@ -5106,7 +5106,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 9,
-      "weight": 0.175
+      "weight": 0.174
     },
     {
       "key": "tmdb:497828",
@@ -5422,7 +5422,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 3,
-      "weight": 0.115
+      "weight": 0.114
     }
   ],
   "tmdb:299536": [
@@ -5443,20 +5443,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.231
     },
     {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 7,
-      "weight": 0.124
-    },
-    {
       "key": "tmdb:284053",
       "workId": "f-tmdb284053",
       "title": "Тор: Рагнарёк",
       "year": 2017,
       "n": 3,
       "weight": 0.124
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 7,
+      "weight": 0.123
     },
     {
       "key": "tmdb:284054",
@@ -5614,7 +5614,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дюнкерк",
       "year": 2017,
       "n": 8,
-      "weight": 0.223
+      "weight": 0.22
     },
     {
       "key": "tmdb:98",
@@ -5622,7 +5622,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Гладиатор",
       "year": 2000,
       "n": 4,
-      "weight": 0.178
+      "weight": 0.175
     },
     {
       "key": "tmdb:27205",
@@ -5630,7 +5630,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Начало",
       "year": 2010,
       "n": 6,
-      "weight": 0.165
+      "weight": 0.163
     },
     {
       "key": "tmdb:686",
@@ -5638,7 +5638,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Контакт",
       "year": 1997,
       "n": 3,
-      "weight": 0.145
+      "weight": 0.143
     },
     {
       "key": "tmdb:155",
@@ -5646,7 +5646,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Тёмный рыцарь",
       "year": 2008,
       "n": 4,
-      "weight": 0.126
+      "weight": 0.124
     },
     {
       "key": "tmdb:419704",
@@ -5654,7 +5654,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "К звёздам",
       "year": 2019,
       "n": 3,
-      "weight": 0.091
+      "weight": 0.09
     }
   ],
   "tmdb:374720": [
@@ -5664,7 +5664,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 8,
-      "weight": 0.223
+      "weight": 0.22
     }
   ],
   "tmdb:974950": [
@@ -5724,7 +5724,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 4,
-      "weight": 0.126
+      "weight": 0.124
     },
     {
       "key": "tmdb:496243",
@@ -5888,7 +5888,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 9,
-      "weight": 0.129
+      "weight": 0.128
     },
     {
       "key": "tmdb:600583",
@@ -5922,7 +5922,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сталкер",
       "year": 1979,
       "n": 4,
-      "weight": 0.196
+      "weight": 0.192
     },
     {
       "key": "tmdb:593",
@@ -5930,7 +5930,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солярис",
       "year": 1972,
       "n": 3,
-      "weight": 0.135
+      "weight": 0.133
     }
   ],
   "tmdb:329": [
@@ -5994,7 +5994,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Оппенгеймер",
       "year": 2023,
       "n": 4,
-      "weight": 0.101
+      "weight": 0.1
     },
     {
       "key": "tmdb:666277",
@@ -6128,7 +6128,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 3,
-      "weight": 0.119
+      "weight": 0.118
     }
   ],
   "tmdb:361743": [
@@ -6276,7 +6276,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 12,
-      "weight": 0.178
+      "weight": 0.177
     },
     {
       "key": "tmdb:8321",
@@ -6452,7 +6452,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 3,
-      "weight": 0.091
+      "weight": 0.09
     },
     {
       "key": "tmdb:475557",
@@ -6635,6 +6635,26 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.094
     }
   ],
+  "tmdb:20994": [
+    {
+      "key": "tmdb:34869",
+      "workId": "f-wd2196619",
+      "title": "Груз 200",
+      "year": 2007,
+      "n": 3,
+      "weight": 0.177
+    }
+  ],
+  "tmdb:34869": [
+    {
+      "key": "tmdb:20994",
+      "workId": "f-wd4180811",
+      "title": "Жмурки",
+      "year": 2005,
+      "n": 3,
+      "weight": 0.177
+    }
+  ],
   "tmdb:545611": [
     {
       "key": "tmdb:674324",
@@ -6642,7 +6662,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Банши Инишерина",
       "year": 2022,
       "n": 12,
-      "weight": 0.178
+      "weight": 0.177
     },
     {
       "key": "tmdb:804095",
@@ -6650,7 +6670,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фабельманы",
       "year": 2022,
       "n": 9,
-      "weight": 0.175
+      "weight": 0.174
     },
     {
       "key": "tmdb:724495",
@@ -6658,7 +6678,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Королева-воин",
       "year": 2022,
       "n": 4,
-      "weight": 0.159
+      "weight": 0.158
     },
     {
       "key": "tmdb:660120",
@@ -6666,7 +6686,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Худший человек на свете",
       "year": 2021,
       "n": 9,
-      "weight": 0.129
+      "weight": 0.128
     },
     {
       "key": "tmdb:777245",
@@ -6674,7 +6694,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Говорят женщины",
       "year": 2022,
       "n": 3,
-      "weight": 0.119
+      "weight": 0.118
     },
     {
       "key": "tmdb:632617",
@@ -6708,27 +6728,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 4,
-      "weight": 0.178
-    }
-  ],
-  "tmdb:20994": [
-    {
-      "key": "tmdb:34869",
-      "workId": "f-wd2196619",
-      "title": "Груз 200",
-      "year": 2007,
-      "n": 3,
-      "weight": 0.177
-    }
-  ],
-  "tmdb:34869": [
-    {
-      "key": "tmdb:20994",
-      "workId": "f-wd4180811",
-      "title": "Жмурки",
-      "year": 2005,
-      "n": 3,
-      "weight": 0.177
+      "weight": 0.175
     }
   ],
   "tmdb:1109255": [
@@ -6824,7 +6824,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 6,
-      "weight": 0.165
+      "weight": 0.163
     },
     {
       "key": "tmdb:68718",
@@ -6966,7 +6966,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 5,
-      "weight": 0.06
+      "weight": 0.059
     }
   ],
   "tmdb:537116": [
@@ -7112,7 +7112,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Оппенгеймер",
       "year": 2023,
       "n": 4,
-      "weight": 0.076
+      "weight": 0.075
     },
     {
       "key": "tmdb:792307",
@@ -7437,16 +7437,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.145
     }
   ],
-  "tmdb:686": [
-    {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
-      "n": 3,
-      "weight": 0.145
-    }
-  ],
   "tmdb:722778": [
     {
       "key": "tmdb:600583",
@@ -7479,6 +7469,50 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 3,
       "weight": 0.097
+    }
+  ],
+  "tmdb:686": [
+    {
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.143
+    }
+  ],
+  "tmdb:515001": [
+    {
+      "key": "tmdb:398978",
+      "workId": "f-tmdb398978",
+      "title": "Ирландец",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.14
+    },
+    {
+      "key": "tmdb:475557",
+      "workId": "l-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 6,
+      "weight": 0.126
+    },
+    {
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.09
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.068
     }
   ],
   "tmdb:24428": [
@@ -7522,7 +7556,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Война бесконечности",
       "year": 2018,
       "n": 7,
-      "weight": 0.124
+      "weight": 0.123
     },
     {
       "key": "tmdb:1726",
@@ -7530,7 +7564,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Железный человек",
       "year": 2008,
       "n": 3,
-      "weight": 0.115
+      "weight": 0.114
     },
     {
       "key": "tmdb:100402",
@@ -7571,40 +7605,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2018,
       "n": 3,
       "weight": 0.053
-    }
-  ],
-  "tmdb:515001": [
-    {
-      "key": "tmdb:398978",
-      "workId": "f-tmdb398978",
-      "title": "Ирландец",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.14
-    },
-    {
-      "key": "tmdb:475557",
-      "workId": "l-tmdb475557",
-      "title": "Джокер",
-      "year": 2019,
-      "n": 6,
-      "weight": 0.126
-    },
-    {
-      "key": "tmdb:466272",
-      "workId": "f-tmdb466272",
-      "title": "Однажды в… Голливуде",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.068
     }
   ],
   "tmdb:1416281": [
@@ -8161,64 +8161,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.106
     }
   ],
-  "tmdb:872585": [
-    {
-      "key": "tmdb:792307",
-      "workId": "f-tmdb792307",
-      "title": "Бедные-несчастные",
-      "year": 2023,
-      "n": 6,
-      "weight": 0.106
-    },
-    {
-      "key": "tmdb:467244",
-      "workId": "f-tmdb467244",
-      "title": "Зона интересов",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.101
-    },
-    {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:840430",
-      "workId": "f-wd112114745",
-      "title": "Оставленные",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.094
-    },
-    {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.076
-    },
-    {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.07
-    },
-    {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.054
-    }
-  ],
   "tmdb:1164": [
     {
       "key": "tmdb:244786",
@@ -8235,6 +8177,64 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2016,
       "n": 4,
       "weight": 0.083
+    }
+  ],
+  "tmdb:872585": [
+    {
+      "key": "tmdb:792307",
+      "workId": "f-tmdb792307",
+      "title": "Бедные-несчастные",
+      "year": 2023,
+      "n": 6,
+      "weight": 0.105
+    },
+    {
+      "key": "tmdb:467244",
+      "workId": "f-tmdb467244",
+      "title": "Зона интересов",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.1
+    },
+    {
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.098
+    },
+    {
+      "key": "tmdb:840430",
+      "workId": "f-wd112114745",
+      "title": "Оставленные",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.093
+    },
+    {
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.075
+    },
+    {
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.07
+    },
+    {
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.054
     }
   ],
   "tmdb:19995": [
@@ -8386,7 +8386,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Оппенгеймер",
       "year": 2023,
       "n": 3,
-      "weight": 0.094
+      "weight": 0.093
     }
   ],
   "tmdb:11423": [
@@ -8539,16 +8539,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.079
     }
   ],
-  "tmdb:555604": [
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.078
-    }
-  ],
   "tmdb:324857": [
     {
       "key": "tmdb:557",
@@ -8556,6 +8546,16 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Человек-паук",
       "year": 2002,
       "n": 4,
+      "weight": 0.078
+    }
+  ],
+  "tmdb:555604": [
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
       "weight": 0.078
     }
   ],

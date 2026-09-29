@@ -176,9 +176,10 @@ export function SearchScreen() {
                   ? <span className="tm-search__orig">{hit.work.originalTitle}</span> : null}
               </span>
             </button>
-            {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного */}
+            {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного. «Убрать» у
+                просмотренного — тихая (28.09): белая рамка в каждой строке спорила с названиями */}
             <span className="tm-search__acts">
-              <Button size="sm" variant={hit.watched ? 'secondary' : 'primary'} disabled={busy.includes(hit.work.id)}
+              <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
                       onClick={() => apply(hit.work.id, !hit.watched)}>
                 {hit.watched ? ru.search.unmark : ru.search.mark}
               </Button>

@@ -91,12 +91,15 @@ export function Material({ group, spoilerLevel, corner }: { group: WorkVoice; sp
          onClick={blocked ? (e) => e.preventDefault() : onExternalClick(a.url)}>
         {a.previewUrl ? <img className="tm-voice__shot" src={a.previewUrl} alt="" loading="lazy" /> : null}
         {blocked ? <span className="tm-voice__hatch" aria-hidden="true" /> : <span className="tm-voice__play" aria-hidden="true" />}
+        {/* замок — на самом кадре (28.09): в заголовке он читался как главное сообщение карточки */}
+        {blocked ? <span className="tm-voice__lock">{ru.spoiler.lockedAnalysis}</span> : null}
         {a.durationMinutes ? <span className="tm-voice__time">{formatDuration(a.durationMinutes)}</span> : null}
       </a>
       {/* текст под кадром; справа в углу — действия с фильмом (24.09, по замечанию владельца) */}
       <div className="tm-voice__text">
       <div className="tm-voice__textmain">
-      <p className="tm-voice__name">{blocked ? ru.spoiler.lockedAnalysis : a.title}</p>
+      {/* название ролика само может выдать финал — вместо него автор */}
+      <p className="tm-voice__name">{blocked ? group.voice.title : a.title}</p>
       <p className="tm-voice__meta">
         {[
           credit,
@@ -150,11 +153,11 @@ export function Post({ group }: { group: WorkVoice }) {
 /** Авторы фильма: у кого есть материал (ролик, статья) и кто писал в Telegram, плюс выбранный
  *  автор. Вынесено, чтобы карточка в ленте могла поставить строку авторов в нижнюю панель,
  *  а материал — над ней (FilmTabs), не дублируя логику. */
-export function useVoices(analyses: ExternalAnalysis[]) {
+export function useVoices(analyses: ExternalAnalysis[], initial?: string) {
   const groups = useMemo(() => groupByVoice(analyses), [analyses]);
   const watch = groups.filter((g) => g.items.some((a) => a.platform !== 'telegram'));
   const talk = groups.filter((g) => g.items.some((a) => a.platform === 'telegram'));
-  const [pickedId, setPicked] = useState<string | null>(null);
+  const [pickedId, setPicked] = useState<string | null>(initial ?? null);
   const picked = watch.find((g) => g.voice.id === pickedId) ?? watch[0];
   return { watch, talk, picked, setPicked };
 }

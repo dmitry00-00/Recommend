@@ -71,10 +71,16 @@ for (const name of names) {
       console.error(`  ✗ ${line}: ${(err as Error).message}`);
     }
   }
-  const body = { watched };
+  // импорт с Кинопоиска (tools/import-kinopoisk.mts) в том же файле — его записи и оценки остаются
+  const prevPath = `${DIR}/${name}.json`;
+  const prev = existsSync(prevPath) ? JSON.parse(readFileSync(prevPath, 'utf8')) as UserSeed & { unmatchedKinopoisk?: string[] } : undefined;
+  const own = new Set(watched.map((w) => w.workId));
+  const fromKp = (prev?.watched ?? []).filter((w) => w.from === 'kinopoisk' && !own.has(w.workId));
+  const body = { watched: [...watched, ...fromKp], ...(prev?.ratings?.length ? { ratings: prev.ratings } : {}) };
   const version = createHash('sha1').update(JSON.stringify(body)).digest('hex').slice(0, 12);
   const seed: UserSeed & { username: string; unmatched: string[]; resolvedAt: string } = {
-    username: name, version, ...body, unmatched, resolvedAt: new Date().toISOString(),
+    username: name, version, ...body, unmatched,
+    ...(prev?.unmatchedKinopoisk ? { unmatchedKinopoisk: prev.unmatchedKinopoisk } : {}), resolvedAt: new Date().toISOString(),
   };
   writeFileSync(`${DIR}/${name}.json`, JSON.stringify(seed, null, 2));
   const films = watched.filter((w) => !(w.work as WorkCard).format).length;

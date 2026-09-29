@@ -24,6 +24,9 @@ export interface FilmTabsProps {
   /** переход в онлайн-кинотеатр — признак, что человек, вероятно, сейчас будет смотреть;
    *  экран отмечает это за него (вместо кнопки «Начать смотреть») и потом переспросит */
   onWatch?: (option: WatchOption) => void;
+  /** открыть сразу на материале этого автора — так приходят из ленты по логотипу канала.
+   *  Штриховка спойлеров при этом работает как обычно: ради неё и идём в карточку, а не в ролик */
+  voiceId?: string;
 }
 
 type Mode = 'reviews' | 'talk' | 'watch';
@@ -49,9 +52,11 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, spoilerLevel, watch = [], discussions, discussionsCount = 0, actions, corner, onWatch }: FilmTabsProps) {
-  const [mode, setMode] = useState<Mode>('reviews');
-  const voices = useVoices(analyses);
+export function FilmTabs({ analyses, spoilerLevel, watch = [], discussions, discussionsCount = 0, actions, corner, onWatch, voiceId }: FilmTabsProps) {
+  const voices = useVoices(analyses, voiceId);
+  // автор только с постами в Telegram — его материал на странице «Обсуждения», а не «Обзоры»
+  const [mode, setMode] = useState<Mode>(() =>
+    voiceId && !voices.watch.some((g) => g.voice.id === voiceId) && voices.talk.some((g) => g.voice.id === voiceId) ? 'talk' : 'reviews');
   const [cinemaAt, setCinemaAt] = useState(0);
   const cinema = watch[cinemaAt] ?? watch[0];
   const talkCount = voices.talk.length + discussionsCount;
