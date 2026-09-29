@@ -18,6 +18,9 @@ echo "== 2/6 забрать решения людей =="
 echo "== 3/6 опознать фильмы, вписанные без года (Wikidata), и применить =="
 npx tsx tools/resolve-markup-films.mts
 "$PY" tools/import-markup.py --in .cache/markup/google.xlsx --ref .cache/markup/pushed.json
+# каналы роликов, принесённых ссылками в «Без разбора», — в реестр блогеров обзорщиками
+# (src/mocks/sources.ts, via: 'links'); ярус потом меняется там руками
+npx tsx tools/register-link-channels.mts || echo "  (каналы не заведены — нет YT_API_KEY или сети; не мешает остальному)"
 echo "== 4/6 данные (ролики, фильмы, решения) =="
 npx tsx tools/markup-xlsx.mts
 echo "== 5/6 собрать xlsx =="

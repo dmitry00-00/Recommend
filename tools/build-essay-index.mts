@@ -8,7 +8,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { essays } from '../src/mocks/essays.ts';
 import { sources } from '../src/mocks/sources.ts';
-import { ADAPTATION, nameMatch } from './title-match.mts';
+import { ADAPTATION, isDigest, nameMatch } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
 import { evidenceFor } from './evidence.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
@@ -35,7 +35,7 @@ for (let i = 0; i < ids.length; i += 50) {
   for (const it of j?.items ?? []) if (it.snippet?.channelId) channels.set(it.snippet.channelId, it.snippet.channelTitle ?? '');
 }
 // и каналы из списка владельца (src/mocks/sources.ts) — те, чьих роликов у нас ещё нет
-for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice')) {
+for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && !x.via)) {
   const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels',
     { part: 'snippet', forHandle: `@${src.handle}` });
   const it = j?.items?.[0];
@@ -82,6 +82,24 @@ interface Verdict { key: string | null; why?: string; film?: string; guess?: boo
 const vFile = new URL('./markup-verdicts.json', import.meta.url);
 const human: Record<string, Verdict> = existsSync(vFile)
   ? (JSON.parse(readFileSync(vFile, 'utf8')).videos ?? {}) : {};
+// Ролики, которые человек принёс сам (лист «Без разбора»), чаще всего с чужих каналов: в
+// загрузках наших их нет, и без этого шага ручная привязка молча пропадала (29.09: 290 из
+// 293 присланных). Берём их по id — единица квоты на 50 роликов.
+const outside = Object.entries(human).filter(([id, v]) => v.key && !videos.some((x) => x.id === id)).map(([id]) => id);
+for (let i = 0; i < outside.length; i += 50) {
+  const j = await get<{ items?: { id: string; snippet?: { title?: string; description?: string; publishedAt?: string; channelTitle?: string } }[] }>(
+    'videos', { part: 'snippet', id: outside.slice(i, i + 50).join(',') });
+  for (const it of j?.items ?? []) {
+    if (!it.snippet?.title) continue;
+    const channel = it.snippet.channelTitle ?? '';
+    videos.push({ id: it.id, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel });
+    // ярус такого канала — из реестра (via: 'links', заводит tools/register-link-channels.mts);
+    // канала там ещё нет — обзорщик: так решил владелец для всех, кого он приносит ссылками (29.09)
+    const tier = sources.find((s) => s.platform === 'youtube' && s.title === channel)?.tier;
+    if ((tier ?? 'review') === 'review' && ![...channels.values()].includes(channel)) reviewers.add(channel);
+  }
+}
+if (outside.length) console.error(`ролики с других каналов из ручной разметки: ${outside.length}, нашлось в YouTube ${videos.filter((v) => outside.includes(v.id)).length}`);
 // ручная привязка может указать и на фильм с коротким названием, которого в `ours` нет
 const byKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
 
@@ -129,6 +147,7 @@ for (let i = 0; i < matched.length; i += 50) {
   }
 }
 let short = 0;
+let digests = 0;
 let adaptations = 0;
 let conflicts = 0;
 for (const [videoId, { key, work }] of best) {
@@ -139,6 +158,8 @@ for (const [videoId, { key, work }] of best) {
   // выбор опознавателя из тёзок (guess) — не слово человека: сторожа его проверяют, в карточке «не проверено»
   const said = Boolean(human[videoId]?.key) && !human[videoId]?.guess;
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
+  // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
+  if (!said && isDigest(v.title, byKey.get(key)?.names ?? [])) { digests += 1; continue; }
   // к книге не привязываем разбор экранизации: это про фильм
   if (!said && key.startsWith('isbn:') && ADAPTATION.test(v.title)) { adaptations += 1; continue; }
   // улика в названии и описании ролика (В3): год, оригинальное название, ссылка на страницу
@@ -156,7 +177,7 @@ for (const [videoId, { key, work }] of best) {
   });
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
-console.error(`коротких (меньше пяти минут) отброшено: ${short}, разборов экранизаций под книгой: ${adaptations}, снято противоречием года: ${conflicts}`);
+console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations}, снято противоречием года: ${conflicts}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные

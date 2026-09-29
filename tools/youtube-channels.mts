@@ -54,7 +54,8 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
       meta.set(it.snippet.channelId, { title, tier: 'essay', medium: 'film' });
     }
   }
-  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice')) {
+  // каналы, пришедшие ссылками (`via: 'links'`), не обходим — см. sources.ts
+  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && !x.via)) {
     const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', { part: 'snippet', forHandle: `@${src.handle}` });
     const it = j?.items?.[0];
     if (it?.id) {

@@ -37,7 +37,7 @@ REF = arg('ref', os.path.join(ROOT, '.cache/markup/film-reviews.json'))
 OUT = os.path.join(ROOT, 'tools/markup-verdicts.json')
 DRY = '--dry' in sys.argv
 NOT_A_FILM = '— не про фильм —'
-VIDEO = re.compile(r'(?:v=|youtu\.be/|/shorts/)([A-Za-z0-9_-]{11})')
+VIDEO = re.compile(r'(?:v=|youtu\.be/|/shorts/|/live/)([A-Za-z0-9_-]{11})')
 
 if URL:
     # из ссылки на док достаём id и берём выгрузку всей книги: скрытый «Справочник» с ключами
@@ -166,17 +166,24 @@ for name in SHEETS:
 
 # Лист «Без разбора» — та же разметка, но со стороны фильма: строка знает фильм, человек
 # приносит ссылку. Здесь подтверждать нечего, догадки машины в этом листе нет.
+# Ссылок бывает много: владелец кладёт их в ряд — D, E, F… (29.09: 298 ссылок к 37 фильмам,
+# до восьми на фильм), иногда по нескольку в одной ячейке. Ссылка на канал, а не на ролик,
+# разметкой не считается — такие собираются в отчёт.
+gap_channels = []
 if 'Без разбора' in wb.sheetnames:
-    for film, _year, _talk, link in wb['Без разбора'].iter_rows(min_row=2, max_col=4, values_only=True):
-        if not link or not film:
-            continue
-        m = VIDEO.search(str(link))
-        if not m:
+    for row in wb['Без разбора'].iter_rows(min_row=2, values_only=True):
+        film, links = (row[0] if row else None), [c for c in row[3:] if c]
+        if not links or not film:
             continue
         label = str(film).strip()
         if label not in keys:
             continue
-        put(m.group(1), {'key': keys[label], 'film': label, 'from': 'gap'}, 'со стороны фильма')
+        for cell in links:
+            found = VIDEO.findall(str(cell))
+            if not found and re.search(r'youtube\.com/(@|channel/|c/)', str(cell)):
+                gap_channels.append('%s: %s' % (label, str(cell).split('?')[0]))
+            for vid in found:
+                put(vid, {'key': keys[label], 'film': label, 'from': 'gap'}, 'со стороны фильма')
 
 body = {'//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
               ' читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса'
@@ -192,6 +199,8 @@ print('прочитано строк: %d (листы: %s)' % (rows_read, ', '.jo
 for k, n in stats.items():
     print('  %s: %d' % (k, n))
 print('решений всего в %s: %d%s' % (os.path.relpath(OUT, ROOT), len(verdicts), ' (--dry, файл не тронут)' if DRY else ''))
+if gap_channels:
+    print('в «Без разбора» ссылки на канал, а не на ролик (%d) — разметкой не считаю: %s' % (len(gap_channels), '; '.join(gap_channels)))
 unknown = [v['film'] for v in verdicts.values() if v.get('why') == 'нет у нас']
 if unknown:
     print('фильмов, которых у нас нет (%d): %s' % (len(unknown), ', '.join(sorted(set(unknown))[:10])))

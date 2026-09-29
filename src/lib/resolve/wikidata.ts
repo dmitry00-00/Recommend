@@ -39,12 +39,16 @@ async function api<T>(params: Record<string, string>, fetcher: typeof fetch): Pr
   }
 }
 
-/** Элемент по внешнему ID: CirrusSearch по `haswbstatement:P2603=…`. Нет — undefined. */
-async function findItem(prop: string, key: string, fetcher: typeof fetch): Promise<string | undefined> {
+/** Элементы по пачке внешних ID одним поиском: `haswbstatement:P2603=a|P2603=b|…` (ИЛИ).
+ *  Поиск по одному на сотнях ID Wikidata режет (429, Retry-After полминуты), пачкой — в
+ *  сорок раз меньше запросов. Какой элемент к какому ID — видно потом по его утверждениям. */
+const SEARCH_BATCH = 40;
+async function findItems(prop: string, keys: string[], fetcher: typeof fetch): Promise<string[]> {
   const r = await api<{ query?: { search: { title: string }[] } }>({
-    action: 'query', list: 'search', srsearch: `haswbstatement:${prop}=${key}`, srlimit: '1', srnamespace: '0',
+    action: 'query', list: 'search', srsearch: `haswbstatement:${keys.map((k) => `${prop}=${k}`).join('|')}`,
+    srlimit: String(Math.min(keys.length * 2, 500)), srnamespace: '0',
   }, fetcher);
-  return r.query?.search[0]?.title;
+  return r.query?.search.map((s) => s.title) ?? [];
 }
 
 async function entities(ids: string[], props: string, fetcher: typeof fetch): Promise<Record<string, Entity>> {
@@ -70,13 +74,19 @@ export async function lookupFilms(by: 'kinopoisk' | 'imdb', keys: string[], fetc
   const out = new Map<string, WikidataFilm>();
   const unique = Array.from(new Set(keys.filter(Boolean)));
   const prop = PROPS[by];
-  // поиск — по одному и по очереди: параллельные запросы упираются в лимит (429)
-  const found = new Map<string, string>();
-  for (const k of unique) {
-    try { const q = await findItem(prop, k, fetcher); if (q) found.set(k, q); } catch { /* пропускаем */ }
+  // поиск — пачками и по очереди: параллельные запросы упираются в лимит (429)
+  const items = new Set<string>();
+  for (let i = 0; i < unique.length; i += SEARCH_BATCH) {
+    try { (await findItems(prop, unique.slice(i, i + SEARCH_BATCH), fetcher)).forEach((q) => items.add(q)); } catch { /* пропускаем */ }
   }
-  if (!found.size) return out;
-  const films = await entities(Array.from(new Set(found.values())), 'labels|claims', fetcher);
+  if (!items.size) return out;
+  const films = await entities(Array.from(items), 'labels|claims', fetcher);
+  // ID → элемент — по утверждению самого элемента (у одного элемента их бывает несколько)
+  const wanted = new Set(unique);
+  const found = new Map<string, string>();
+  for (const e of Object.values(films)) {
+    for (const v of values(e, prop)) if (typeof v === 'string' && wanted.has(v) && !found.has(v)) found.set(v, e.id);
+  }
   // режиссёры и страны — отдельные элементы, нужны только их названия
   const related = new Set<string>();
   for (const e of Object.values(films)) for (const p of [PROPS.director, PROPS.country]) itemIds(e, p).forEach((id) => related.add(id));
