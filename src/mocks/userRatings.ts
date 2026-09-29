@@ -1,0 +1,358 @@
+// Сгенерировано tools/build-user-ratings.mts (2026-09-22): оценки участника
+// из его экспорта, приведённые к 1–5 (raw — шкала источника 0–10). Не показываются в
+// интерфейсе; сигнал для модели пользователя. Не править руками — перегенерировать.
+
+export const userRatings: Record<string, { rating: 1 | 2 | 3 | 4 | 5; raw: number }> = {
+  "u-kp493222": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp1179555": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp418762": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp568374": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp5457984": {
+    "rating": 2,
+    "raw": 4
+  },
+  "u-kp1055528": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp7471": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp588786": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp674295": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp679924": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp5234126": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp12198": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp3797": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp377": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp345": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp195334": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp692861": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp361": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp681849": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp5235968": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp983798": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp5119522": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp1233447": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp5080927": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp75871": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp5376030": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1007990": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp6268": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp5212124": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1239493": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp5942378": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp4382899": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp22936": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp1445972": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp694108": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp584175": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp5012": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1280691": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp607928": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp922179": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp526812": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp1762": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp502733": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp4853049": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp868982": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp1413552": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1348487": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp4499838": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1021046": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp522892": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp779602": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp4397602": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1011685": {
+    "rating": 2,
+    "raw": 4
+  },
+  "u-kp34465": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp888154": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp4542208": {
+    "rating": 3,
+    "raw": 5
+  },
+  "u-kp505851": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp309": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp470185": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp1009784": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp577488": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1178053": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1346175": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp984309": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp819846": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp893535": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1392550": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp1405778": {
+    "rating": 5,
+    "raw": 10
+  },
+  "u-kp1248786": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp403783": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp566311": {
+    "rating": 3,
+    "raw": 6
+  },
+  "u-kp1346533": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1309847": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp397667": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp811709": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp1318972": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp842493": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp252099": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp1143242": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp93377": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp944708": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp838043": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp1368294": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp1152188": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp958442": {
+    "rating": 4,
+    "raw": 7
+  },
+  "u-kp910353": {
+    "rating": 4,
+    "raw": 8
+  },
+  "u-kp276295": {
+    "rating": 5,
+    "raw": 9
+  },
+  "u-kp1122129": {
+    "rating": 5,
+    "raw": 10
+  }
+};

@@ -1,0 +1,591 @@
+// Сгенерировано tools/build-catalog-media.mts (2026-09-22): картинки,
+// описание и «где посмотреть» каталога моков. Не править руками — перегенерировать.
+import type { WorkCard } from '@/types/tmdf';
+
+export const catalogMedia: Record<string, Partial<WorkCard>> = {
+  "w01": {
+    "coverUrl": "https://image.tmdb.org/t/p/w342/uDFEvhvKrH61KuGWWozRtbw2Rjv.jpg",
+    "stillUrl": "https://image.tmdb.org/t/p/w780/qqHQsStV6exghCM7zbObuYBiYxw.jpg",
+    "imageSource": "tmdb",
+    "blurb": "Юношу обвиняют в убийстве собственного отца, ему грозит электрический стул. Двенадцать присяжных собираются чтобы вынести вердикт: виновен или нет.С начала заседания почти все склонились к тому, что виновен, и лишь только один из двенадцати позволил себе усомниться. Счет голосов присяжных по принципу «виновен — невиновен» был 11:1. К концу собрания мнения судей кардинально изменились…",
+    "watch": [],
+    "externalIds": {
+      "imdb": "tt0050083",
+      "tmdb": 389
+    }
+  },
+  "w02": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/388.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/1652588/2a0000018bce46a23f23cf3fa40577626bf7/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Одно преступление — четыре точки зрения. Абсолютный шедевр Акиры Куросавы",
+    "watch": [
+      {
+        "platform": "Wink",
+        "url": "https://wink.ru/media_items/142063669?utm_source=yandex&utm_medium=koldunschick&utm_content=name",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/54096cbe-cc3b-41c9-8e44-990ebbca8d61/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/rashomon?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "more.tv",
+        "url": "https://more.tv/rasemon?utm_source=yandex-snippet&utm_medium=snippet&utm_campaign=rasemon",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1648503/97e3cbbd-40ee-4298-888d-ed2d0f022a69/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Кино1ТВ",
+        "url": "https://kino.1tv.ru/serials/rasyomon?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/4e5f7a8e-d5ac-4904-9fc0-208753ccf520/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "МегаФон ТВ",
+        "url": "https://megafon.tv/movies/vods/Rasiomon_1950?utm_source=yandex&utm_medium=wizard&utm_campaign=Rasiomon_1950",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/74a3af87-2bfa-4cdc-bc16-32a21114665b/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/818576906?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/daeb142e-3ecc-4bb2-9bff-4827996643ab/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/21666?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Триколор Кино и ТВ",
+        "url": "https://kino.tricolor.tv/watch/rasemon-1950/",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/947e777c-2f73-4cbc-b09d-6bfa3966ba13/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "VK Видео",
+        "url": "https://vk.com/video-203654344_456240223",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/144e68b3-ba95-46ca-bf79-bf771516eea3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/626f20d503d9fafd47580dc4?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=626f20d503d9fafd47580dc4",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "viju",
+        "url": "https://viju.ru/movies/rasemon?utm_campaign=yandex_content_integration&utm_medium=affiliate&utm_source=yandex",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/224348/8b10c84b-e1bb-4493-9bc4-6ee56554403a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "НТВ-ПЛЮС Онлайн ТВ",
+        "url": "https://ntvplus.tv/watch/29130-rasemon?utm_source=kinopoisk",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/223007/c6b9b3d8-3258-4394-9cae-c86fdb56a0c6/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Большое ТВ",
+        "url": "https://bolshoe.tv/promo/lpy5/#/movie/39016?utm_medium=ya_feed_prem&utm_campaign=ya_feedprem_39016",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/17c7ebcf-41aa-48b6-9366-621a85f1307a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "24ТВ",
+        "url": "https://24h.tv/contents/1950-rashomon-570301329608540782",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/85e83b8d-1159-4781-bad5-ce0a809b3843/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0042876",
+      "tmdb": 548,
+      "kinopoisk": 388
+    }
+  },
+  "w03": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/335.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/1531675/2a000001843e1bb6d9104345dd77685072df/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Потеряв жену, Леонард пускается в одиссею по собственной памяти. Первый шедевр Кристофера Нолана",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/memento?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Wink",
+        "url": "https://wink.ru/media_items/77749504?utm_source=yandex&utm_medium=koldunschick&utm_content=name",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/54096cbe-cc3b-41c9-8e44-990ebbca8d61/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "24ТВ",
+        "url": "https://24h.tv/contents/2000-memento-546399501150061145",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/85e83b8d-1159-4781-bad5-ce0a809b3843/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/19817?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/5b42c65db2de77e6f824f3bd?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=Dec_082023",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Большое ТВ",
+        "url": "https://bolshoe.tv/promo/lpy5/#/movie/55480?utm_medium=ya_feed_prem&utm_campaign=ya_feedprem_55480",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/17c7ebcf-41aa-48b6-9366-621a85f1307a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "viju",
+        "url": "https://viju.ru/movies/pomni?utm_campaign=yandex_content_integration&utm_medium=affiliate&utm_source=yandex",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/224348/8b10c84b-e1bb-4493-9bc4-6ee56554403a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/1089309965?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1531675/b29bfe85-8e4b-47fb-974a-f752bbcf468f/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Иви",
+        "url": "https://ivi.ru/watch/99915?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0209144",
+      "tmdb": 77,
+      "kinopoisk": 335
+    }
+  },
+  "w04": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/718811.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/374297/2a0000017c2861e5dd1672f8a6f9cf68c82e/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Талантливая лингвистка изучает язык пришельцев, чтобы спасти Землю. Созерцательная фантастика Дени Вильнёва",
+    "watch": [
+      {
+        "platform": "Wink",
+        "url": "https://wink.ru/media_items/54755878?utm_source=yandex&utm_medium=koldunschick&utm_content=name",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/54096cbe-cc3b-41c9-8e44-990ebbca8d61/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/arrival?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Иви",
+        "url": "https://www.ivi.ru/watch/145098?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "START",
+        "url": "https://start.ru/watch/pribytie?utm_source=kinopoisk&utm_medium=feed_watch&utm_campaign=pribytie",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/1a632675-0d99-4268-bd5e-d5f3dd800174/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/112652906?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/daeb142e-3ecc-4bb2-9bff-4827996643ab/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "НТВ-ПЛЮС Онлайн ТВ",
+        "url": "https://ntvplus.tv/watch/25738-pribytie?utm_source=kinopoisk",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/223007/c6b9b3d8-3258-4394-9cae-c86fdb56a0c6/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "24ТВ",
+        "url": "https://24h.tv/contents/2016-arrival-546347441956324340",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/85e83b8d-1159-4781-bad5-ce0a809b3843/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "viju",
+        "url": "https://viju.ru/filmy/pribytie?utm_campaign=yandex_content_integration&utm_medium=affiliate&utm_source=yandex",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/224348/8b10c84b-e1bb-4493-9bc4-6ee56554403a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/5b224dbc21887f17428bc9fb?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=archive",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt2543164",
+      "tmdb": 329865,
+      "kinopoisk": 718811
+    }
+  },
+  "w05": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/42667.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/1672343/2a0000017c07275f5513b456c67d390e9293/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Потерявший семью мальчик идёт добровольцем в разведку. Дебют Андрея Тарковского о детстве, украденном войной",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/ivanovo-detstvo?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Иви",
+        "url": "https://www.ivi.ru/watch/54204?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/14679?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Триколор Кино и ТВ",
+        "url": "https://kino.tricolor.tv/watch/ivanovo-detstvo-1962/?utm_source=yandex&utm_medium=feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/947e777c-2f73-4cbc-b09d-6bfa3966ba13/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/5b7a1f84b2de7747e69a06ba?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=5b7a1f84b2de7747e69a06ba",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Большое ТВ",
+        "url": "https://bolshoe.tv/promo/lpy5/#/movie/56669?utm_medium=ya_feed_prem&utm_campaign=ya_feedprem_56669",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/17c7ebcf-41aa-48b6-9366-621a85f1307a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Wink",
+        "url": "https://wink.ru/movies/ivanovo-detstvo-year-1962?utm_source=yandex&utm_medium=koldunschick&utm_content=ivanovo-detstvo-year-1962",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/13051577/1f26b49c-98f2-46f5-a516-87147b7d257f/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/1500113997?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1531675/b29bfe85-8e4b-47fb-974a-f752bbcf468f/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0056111",
+      "kinopoisk": 42667
+    }
+  },
+  "w06": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/43911.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/374297/2a0000017c073709ab241157de40345c2553/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "На космической станции Крис встречает призрак умершей жены. Шедевр Тарковского об искушении и о сути любви",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/soljaris?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Иви",
+        "url": "https://www.ivi.ru/watch/solyaris?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/15671?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "24ТВ",
+        "url": "https://24h.tv/contents/1972-soljaris-546387902527963435",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/85e83b8d-1159-4781-bad5-ce0a809b3843/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Триколор Кино и ТВ",
+        "url": "https://kino.tricolor.tv/watch/solyaris-1972/",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/947e777c-2f73-4cbc-b09d-6bfa3966ba13/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/5ba84ecfb2de77ad00f19bdc?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=archive",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Wink",
+        "url": "https://wink.ru/movies/solyaris-year-1972?utm_source=yandex&utm_medium=koldunschick&utm_content=solyaris-year-1972",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/13051577/1f26b49c-98f2-46f5-a516-87147b7d257f/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0069293",
+      "tmdb": 593,
+      "kinopoisk": 43911
+    }
+  },
+  "w07": {
+    "coverUrl": "https://image.tmdb.org/t/p/w342/hLzhdirfOApuoXoS8SnGNotu1bf.jpg",
+    "stillUrl": "https://image.tmdb.org/t/p/w780/9UAcMhSCDJ2OCo5QdPpSERjhMA1.jpg",
+    "imageSource": "tmdb",
+    "blurb": "Герой картины мучительно боится потерять любовь и понимание близких людей: матери, любимой женщины, сына. И чувствует, что жизнь с каждым днём всё дальше уводит их друг от друга. Пытаясь сохранить семью, он обращается памятью к самым сильным впечатлениям своего детства, стараясь в том, детском, мировосприятии найти опору и оправдание своим сегодняшним переживаниям.",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://www.themoviedb.org/movie/1396/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/j5NFNAdVCTTRLL2fP2MvJcYZgKz.png",
+        "source": "tmdb"
+      },
+      {
+        "platform": "More TV",
+        "url": "https://www.themoviedb.org/movie/1396/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/wHcDyjaZErklrtARmzumQE8TqJp.png",
+        "source": "tmdb"
+      },
+      {
+        "platform": "Kinopoisk",
+        "url": "https://www.themoviedb.org/movie/1396/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/oroIyNGCu4ltli1lI4m7em1IYE5.png",
+        "source": "tmdb"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0072443",
+      "tmdb": 1396
+    }
+  },
+  "w08": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/447301.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/224348/2a0000017c0755f86f8385d57d3402151a0b/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Профессиональные воры внедряются в сон наследника огромной империи. Фантастический боевик Кристофера Нолана",
+    "watch": [
+      {
+        "platform": "Иви",
+        "url": "https://www.ivi.ru/watch/100129?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt1375666",
+      "tmdb": 27205,
+      "kinopoisk": 447301
+    }
+  },
+  "w09": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/1043758.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/1652588/2a0000018d6559804d3c25f0f77893826cea/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Семья бедняков обманом получает работу в доме богачей. Южнокорейская драмеди, которая взяла четыре «Оскара»",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/gisaengchung?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Иви",
+        "url": "https://www.ivi.ru/watch/255354?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2419418/0dfd1724-848f-4725-9160-abc571f41c11/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "START",
+        "url": "https://start.ru/watch/parazity?utm_source=kinopoisk&utm_medium=feed_watch&utm_campaign=parazity",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/1a632675-0d99-4268-bd5e-d5f3dd800174/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/423472471?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/daeb142e-3ecc-4bb2-9bff-4827996643ab/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/17545?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "more.tv",
+        "url": "https://more.tv/parazity?utm_source=yandex-snippet&utm_medium=snippet&utm_campaign=parazity",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1648503/97e3cbbd-40ee-4298-888d-ed2d0f022a69/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Триколор Кино и ТВ",
+        "url": "https://kino.tricolor.tv/watch/parazity-2019/?utm_source=yandex&utm_medium=feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/947e777c-2f73-4cbc-b09d-6bfa3966ba13/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Кино1ТВ",
+        "url": "https://kino.1tv.ru/serials/parazity?utm_source=yandex&utm_medium=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/4e5f7a8e-d5ac-4904-9fc0-208753ccf520/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "МегаФон ТВ",
+        "url": "https://megafon.tv/movies/vods/Parazity_2019?utm_source=yandex&utm_medium=wizard&utm_campaign=Parazity_2019",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/74a3af87-2bfa-4cdc-bc16-32a21114665b/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "viju",
+        "url": "https://viju.ru/filmy/parazity?utm_campaign=yandex_content_integration&utm_medium=affiliate&utm_source=yandex",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/224348/8b10c84b-e1bb-4493-9bc4-6ee56554403a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Большое ТВ",
+        "url": "https://bolshoe.tv/promo/web/movie/25357?segment=yandex_feed&group=peoples&utm_campaign=ya_feed&utm_medium=ya_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/17c7ebcf-41aa-48b6-9366-621a85f1307a/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Кинотеатр Wink",
+        "url": "https://wink.ru/media_items/99745310?utm_source=yandex&utm_medium=koldunschick&utm_content=name",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/54096cbe-cc3b-41c9-8e44-990ebbca8d61/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "НТВ-ПЛЮС Онлайн ТВ",
+        "url": "https://ntvplus.tv/watch/26488-parazity?utm_source=kinopoisk",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/223007/c6b9b3d8-3258-4394-9cae-c86fdb56a0c6/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "24ТВ",
+        "url": "https://24h.tv/contents/2019-gisaengchung-parasite-676303979509036274",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/2439731/85e83b8d-1159-4781-bad5-ce0a809b3843/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "nonfiction",
+        "url": "https://nonfiction.film/movie/Gisaengchung",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/200035/96e0bcdf-4069-4802-9dfa-9af1e9faebad/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "Смотрёшка",
+        "url": "https://smotreshka.tv/archive/5e7801e91f2d8e2ad4f51663?utm_source=yandex_search&utm_campaign=yandex_feed&utm_term=archive&utm_content=archive",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/c88e652e-2eb1-472d-b636-a266364dbf58/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "VK Видео",
+        "url": "https://vk.com/video-203654344_456239493?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/236744/144e68b3-ba95-46ca-bf79-bf771516eea3/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt6751668",
+      "tmdb": 496243,
+      "kinopoisk": 1043758
+    }
+  },
+  "w10": {
+    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/77177.jpg",
+    "stillUrl": "https://avatars.mds.yandex.net/get-ott/1534341/2a0000017c081c11654dfa1f0aeb236e906c/orig",
+    "imageSource": "kinopoisk_unofficial",
+    "blurb": "Творец в кризисе получает грант на постановку мечты. Драма-загадка — режиссерский дебют Чарли Кауфмана",
+    "watch": [
+      {
+        "platform": "Okko",
+        "url": "https://okko.tv/movie/synecdoche-new-york?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "KION",
+        "url": "https://kion.ru/video/movie/508590310?utm_source=yandex&utm_medium=organic&utm_campaign=wizard",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/daeb142e-3ecc-4bb2-9bff-4827996643ab/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "PREMIER",
+        "url": "https://premier.one/show/9072?utm_source=yandex&utm_medium=yandex_feed_search&utm_campaign=yandex_feed",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/0f86e907-9531-47e9-87bd-5101a08d4e30/orig",
+        "source": "kinopoisk_unofficial"
+      },
+      {
+        "platform": "МегаФон ТВ",
+        "url": "https://megafon.tv/movies/vods/Nyu_Jork_Nyu_Jork_2008?utm_source=yandex&utm_medium=wizard&utm_campaign=Nyu_Jork_Nyu_Jork_2008",
+        "logoUrl": "https://avatars.mds.yandex.net/get-ott/1672343/74a3af87-2bfa-4cdc-bc16-32a21114665b/orig",
+        "source": "kinopoisk_unofficial"
+      }
+    ],
+    "externalIds": {
+      "imdb": "tt0383028",
+      "kinopoisk": 77177
+    }
+  },
+  "w11": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/12727001-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w12": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/8598263-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w13": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/963147-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w14": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/8292212-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w15": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/419852-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w16": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/12947486-L.jpg",
+    "imageSource": "open_library"
+  },
+  "w17": {
+    "coverUrl": "https://covers.openlibrary.org/b/id/12313764-L.jpg",
+    "imageSource": "open_library"
+  }
+};

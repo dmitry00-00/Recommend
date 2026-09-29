@@ -1,0 +1,21 @@
+# API приложения. Статика (dist) раздаётся Pages, здесь — только запросы /api/*.
+#   локально:  npm run api          (миниатюрная D1 в .wrangler, вход демо-участником)
+#   боевое:    npx wrangler deploy  (нужен аккаунт Cloudflare и созданная база)
+name = "recomend-api"
+main = "worker/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "recomend"
+# id боевой базы подставляется после `wrangler d1 create recomend`
+database_id = "local-only"
+
+[vars]
+# демо-вход и кросс-доменные запросы — только для разработки; в боевом окружении
+# переменные задаются в панели и пусты
+ALLOW_DEMO = "1"
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4178,http://127.0.0.1:5173,http://127.0.0.1:4178"
+
+# BOT_TOKEN — секрет, не переменная: npx wrangler secret put BOT_TOKEN

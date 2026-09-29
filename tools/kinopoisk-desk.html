@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Импорт Кинопоиска</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e;
+    --bar: #d8d4cc; --drop: #eef2fc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80;
+      --bar: #3a3833; --drop: #1d2438; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 32px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+  .warn { color: var(--warn); } .bad { color: var(--bad); } .ok { color: var(--ok); } .muted { color: var(--muted); }
+  #drop { border: 2px dashed var(--line); border-radius: 12px; padding: 22px; text-align: center; background: var(--panel); transition: .15s; }
+  #drop.over { border-color: var(--accent); background: var(--drop); }
+  #drop p { margin: 4px 0; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary:disabled { background: transparent; border-color: var(--line); color: var(--muted); opacity: .7; }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 14px 0 0; }
+  .bar .spacer { flex: 1; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .label { font-weight: 600; font-size: 16px; }
+  .facts { color: var(--muted); font-size: 14px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  input.nick { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); width: 220px; }
+  input.nick.invalid { border-color: var(--bad); }
+  .status { font-size: 14px; }
+  .progress { height: 6px; background: var(--bar); border-radius: 3px; overflow: hidden; width: 220px; }
+  .progress > i { display: block; height: 100%; background: var(--accent); }
+  .dist { display: inline-flex; gap: 2px; align-items: flex-end; height: 28px; vertical-align: middle; margin: 0 6px; }
+  .dist i { width: 8px; background: var(--accent); border-radius: 2px 2px 0 0; min-height: 1px; opacity: .8; }
+  details { margin-top: 8px; font-size: 14px; }
+  details ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); max-height: 220px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow-x: auto; }
+  #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Импорт оценок с Кинопоиска</h1>
+  <p class="sub">Страницы профилей → профили участников на сервере. Файлы разбираются здесь, на этом компьютере, и никуда не уходят — на сервер попадает только список фильмов с оценками.</p>
+  <p id="env" class="warn"></p>
+
+  <div id="drop">
+    <p><b>Перетащите сюда страницы «Оценки и просмотры»</b> — файлы или целые папки, можно сразу от нескольких людей.</p>
+    <p class="muted">Кинопоиск → профиль → Оценки и просмотры → «Сохранить как» на каждой странице. Подойдут и старые страницы «Оценки», и CSV конвертера.</p>
+    <p><button id="pick">Выбрать файлы…</button> <input id="file" type="file" multiple accept=".html,.htm,.csv,.txt" hidden></p>
+  </div>
+
+  <div class="bar">
+    <b id="count"></b><span class="spacer"></span>
+    <button id="buildAll">Собрать все</button>
+    <button id="publishAll" class="primary">Отправить все собранные</button>
+  </div>
+  <div id="groups"></div>
+
+  <h2>Уже собрано (seeds/)</h2>
+  <div class="table-wrap"><table id="seeds"></table></div>
+</main>
+<div id="toast"></div>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const NICK = /^[A-Za-z0-9_]{3,40}$/;
+let state = { groups: [], seeds: [], env: {} };
+let lastJson = '';
+
+function toast(text) {
+  const t = $('#toast'); t.textContent = text; t.style.display = 'block';
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => { t.style.display = 'none'; }, 5000);
+}
+async function post(path, body = {}) {
+  const res = await fetch(path, { method: 'POST', headers: { 'content-type': 'application/json', 'x-desk': '1' }, body: JSON.stringify(body) });
+  const data = await res.json();
+  if (data.error) toast(data.error);
+  if (data.errors?.length) toast(data.errors.join(' · '));
+  if (data.state) apply(data.state);
+  return data;
+}
+async function refresh() {
+  try { apply(await (await fetch('/api/state')).json()); } catch { /* сервер закрыли — страница останется как есть */ }
+}
+function apply(s) {
+  state = s;
+  const json = JSON.stringify(s);
+  // пока вписывают ник, не перерисовываем — иначе курсор слетит
+  if (json === lastJson || document.activeElement?.matches('input.nick')) return;
+  lastJson = json;
+  render();
+}
+
+const when = (iso) => iso ? new Date(iso).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+const plural = (n, one, few, many) => `${n} ${n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many}`;
+
+function dist(d) {
+  const max = Math.max(...d, 1);
+  return `<span class="dist" title="оценки 1…10: ${d.join(' ')}">${d.map((v) => `<i style="height:${Math.round((v / max) * 100)}%"></i>`).join('')}</span>`;
+}
+
+function statusLine(g) {
+  const p = g.progress;
+  if (g.status === 'queued') return '<span class="muted">в очереди</span>';
+  if (g.status === 'running') {
+    if (!p) return '<span class="muted">начинаю…</span>';
+    const what = p.phase === 'wikidata' ? 'ищу ID в Wikidata' : 'собираю карточки TMDb';
+    return `<span class="muted">${what}: ${p.done} из ${p.total}</span> <span class="progress"><i style="width:${Math.round((p.done / Math.max(p.total, 1)) * 100)}%"></i></span>`;
+  }
+  if (g.status === 'publishing') return '<span class="muted">отправляю…</span>';
+  if (g.status === 'error') return `<span class="bad">✗ ${esc(g.message)}</span>`;
+  if (g.status === 'published') {
+    return `<span class="ok">✓ на сервере</span> <span class="muted">— ${g.published.known ? 'уже заходил, появится при следующем открытии приложения' : 'ещё не заходил, появится при первом входе'}</span>`;
+  }
+  if (g.status === 'built') return '<span class="ok">✓ собрано</span> <span class="muted">— можно отправлять</span>';
+  if (g.seed) return `<span class="muted">у @${esc(g.nick)} уже есть сид от ${when(g.seed.resolvedAt)}${g.seed.publishedAt ? `, отправлен ${when(g.seed.publishedAt)}` : ''} — «Собрать» заменит кинопоисковую часть</span>`;
+  return '';
+}
+
+function render() {
+  const gs = state.groups;
+  const env = [];
+  if (!state.env.tmdb) env.push('нет ключа TMDb (TMDB_API_KEY или VITE_TMDB_API_KEY в .env.local) — собирать нечем');
+  if (!state.env.admin) env.push('нет TM_ADMIN_TOKEN в .env.local — отправлять на сервер нечем');
+  $('#env').textContent = env.join(' · ');
+  $('#count').textContent = gs.length ? plural(gs.length, 'профиль', 'профиля', 'профилей') : '';
+  $('#buildAll').disabled = !gs.some((g) => g.status === 'new' || g.status === 'error');
+  $('#publishAll').disabled = !gs.some((g) => g.status === 'built') || !state.env.admin;
+
+  $('#groups').innerHTML = gs.map((g) => {
+    const r = g.report;
+    const pages = r ? `страниц ${r.pages} из ${r.max}` : plural(g.files, 'файл', 'файла', 'файлов');
+    const warn = [
+      r?.missing.length ? `<span class="bad">не хватает страниц: ${r.missing.join(', ')}</span>` : '',
+      r?.repeated.length ? `<span class="muted">повтор: ${r.repeated.join(', ')} (учтён один раз)</span>` : '',
+      r?.lastFull ? `<span class="warn">на последней, ${r.max}-й, все 20 записей — возможно, есть ещё страницы</span>` : '',
+    ].filter(Boolean).join(' · ');
+    const res = g.result;
+    const busy = g.status === 'queued' || g.status === 'running' || g.status === 'publishing';
+    const valid = NICK.test(g.nick);
+    return `<div class="card" data-id="${esc(g.id)}">
+      <div class="head">
+        <span class="label">${esc(g.label)}</span>
+        <span class="facts">${pages} · ${g.films} фильмов, ${g.series} сериалов · с оценкой ${g.rated}</span>
+      </div>
+      ${warn ? `<div class="facts" style="margin-top:4px">${warn}</div>` : ''}
+      <div class="row">
+        <input class="nick ${g.nick && !valid ? 'invalid' : ''}" placeholder="ник в Telegram" value="${esc(g.nick)}" ${busy ? 'disabled' : ''}>
+        <button data-act="build" ${busy || !valid || !state.env.tmdb ? 'disabled' : ''}>${res ? 'Собрать заново' : 'Собрать'}</button>
+        <button data-act="publish" class="primary" ${g.status !== 'built' && g.status !== 'published' || !state.env.admin ? 'disabled' : ''}>${g.status === 'published' ? 'Отправить ещё раз' : 'Отправить'}</button>
+        <button data-act="remove" ${g.status === 'running' ? 'disabled' : ''} title="убрать с пульта (seeds/ не трогает)">Убрать</button>
+        <span class="status">${statusLine(g)}</span>
+      </div>
+      ${res ? `<div class="row facts">
+        просмотрено ${res.watched}${res.kept ? ` (+${res.kept} из присланного списка)` : ''} · оценок ${res.ratings}
+        ${res.ratings ? `${dist(res.dist)} медиана ${res.median} — норму шкалы спросить у самого участника` : ''}
+      </div>
+      ${res.unmatched.length ? `<details><summary class="warn">не нашлось ${res.unmatched.length}</summary><ul>${res.unmatched.map((u) => `<li>${esc(u)}</li>`).join('')}</ul></details>` : ''}` : ''}
+    </div>`;
+  }).join('') || '';
+
+  $('#seeds').innerHTML = state.seeds.length
+    ? `<tr><th>Ник</th><th>Просмотрено</th><th>Оценок</th><th>Не нашлось</th><th>Собран</th><th>Отправлен</th><th></th></tr>`
+      + state.seeds.map((s) => `<tr>
+        <td>@${esc(s.nick)}</td><td class="num">${s.watched}</td><td class="num">${s.ratings}</td><td class="num">${s.unmatched}</td>
+        <td>${when(s.resolvedAt)}</td><td>${s.publishedAt ? when(s.publishedAt) : '<span class="muted">—</span>'}</td>
+        <td><button data-seed="${esc(s.nick)}" ${state.env.admin ? '' : 'disabled'}>Отправить</button></td></tr>`).join('')
+    : '<tr><td class="muted">пока пусто</td></tr>';
+}
+
+// ─── действия ────────────────────────────────────────────────────────────────
+$('#groups').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-act]');
+  if (!btn) return;
+  const id = btn.closest('.card').dataset.id;
+  if (btn.dataset.act === 'remove' && !confirm('Убрать этот профиль с пульта? Собранный seeds/ останется.')) return;
+  post(`/api/group/${encodeURIComponent(id)}/${btn.dataset.act}`);
+});
+$('#groups').addEventListener('change', (e) => {
+  if (!e.target.matches('input.nick')) return;
+  const id = e.target.closest('.card').dataset.id;
+  const nick = e.target.value.trim().replace(/^@/, '');
+  e.target.blur();
+  post(`/api/group/${encodeURIComponent(id)}/nick`, { nick });
+});
+$('#groups').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input.nick')) e.target.blur(); });
+$('#groups').addEventListener('focusout', (e) => { if (e.target.matches('input.nick')) setTimeout(() => { lastJson = ''; apply(state); }, 0); });
+$('#seeds').addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-seed]');
+  if (!btn || !confirm(`Отправить seeds/${btn.dataset.seed}.json на сервер?`)) return;
+  btn.disabled = true;
+  const r = await post(`/api/seed/${encodeURIComponent(btn.dataset.seed)}/publish`);
+  if (r.published) toast(`@${btn.dataset.seed}: на сервере`);
+});
+$('#buildAll').onclick = () => post('/api/build-all');
+$('#publishAll').onclick = () => {
+  const n = state.groups.filter((g) => g.status === 'built').length;
+  if (confirm(`Отправить на сервер ${plural(n, 'профиль', 'профиля', 'профилей')}?`)) post('/api/publish-all');
+};
+
+// ─── файлы: кнопка, перетаскивание, папки ─────────────────────────────────────
+const OK = /\.(html?|csv|txt)$/i;
+async function upload(files) {
+  const list = files.filter((f) => OK.test(f.name));
+  if (!list.length) return toast('Нет подходящих файлов (.html, .csv, .txt)');
+  toast(`Читаю ${plural(list.length, 'файл', 'файла', 'файлов')}…`);
+  // пачками, чтобы сотня страниц по 250 КБ не ушла одним запросом
+  let added = 0; const unknown = [];
+  for (let i = 0; i < list.length; i += 20) {
+    const batch = await Promise.all(list.slice(i, i + 20).map(async (f) => ({ name: f.name, text: await f.text() })));
+    const r = await post('/api/files', { files: batch });
+    added += r.added ?? 0; unknown.push(...(r.unrecognized ?? []));
+  }
+  toast(`Разобрано ${added}${unknown.length ? ` · не узнал: ${unknown.slice(0, 3).join(', ')}${unknown.length > 3 ? '…' : ''}` : ''}`);
+}
+async function walk(entry) {
+  if (entry.isFile) return [await new Promise((ok, fail) => entry.file(ok, fail))];
+  if (!entry.isDirectory) return [];
+  const reader = entry.createReader();
+  const out = [];
+  for (;;) {
+    const batch = await new Promise((ok, fail) => reader.readEntries(ok, fail));
+    if (!batch.length) break;
+    for (const e of batch) out.push(...await walk(e));
+  }
+  return out;
+}
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach((t) => window.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach((t) => window.addEventListener(t, (e) => { e.preventDefault(); if (t === 'drop' || !e.relatedTarget) drop.classList.remove('over'); }));
+window.addEventListener('drop', async (e) => {
+  const entries = [...e.dataTransfer.items].map((i) => i.webkitGetAsEntry?.()).filter(Boolean);
+  const files = entries.length ? (await Promise.all(entries.map(walk))).flat() : [...e.dataTransfer.files];
+  upload(files);
+});
+$('#pick').onclick = () => $('#file').click();
+$('#file').onchange = (e) => { upload([...e.target.files]); e.target.value = ''; };
+
+refresh();
+setInterval(refresh, 1000);
+</script>
+</body>
+</html>

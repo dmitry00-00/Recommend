@@ -1,0 +1,1993 @@
+/* @ds-bundle: {"format":4,"namespace":"TM","components":[{"name":"OperationGlyph"},{"name":"OperationChip"},{"name":"EnergySwitch"},{"name":"RecommendationCard"},{"name":"ExplanationBlock"},{"name":"StretchIndicator"},{"name":"ReadinessNotice"},{"name":"ReasonPicker"},{"name":"WorkCover"},{"name":"WorkHeader"},{"name":"BarrierTag"},{"name":"SpoilerGuard"},{"name":"TropeInsight"},{"name":"ExternalAnalysisLink"},{"name":"DiscussionLink"},{"name":"CognitiveMap"},{"name":"UncertaintyMark"},{"name":"StateChangeNote"},{"name":"TimeScrubber"},{"name":"TrajectoryPath"},{"name":"TrajectoryStep"},{"name":"ReplanNote"},{"name":"JourneyEntry"},{"name":"CheckInFlow"},{"name":"DifficultyPicker"},{"name":"ReflectionPrompt"},{"name":"AssessmentItem"},{"name":"AssessmentProgress"},{"name":"ConsentCard"},{"name":"AppShell"},{"name":"Button"},{"name":"EmptyState"},{"name":"ErrorState"},{"name":"Toast"},{"name":"Dialog"},{"name":"Sheet"},{"name":"TaskFeed"},{"name":"PairwiseCompare"},{"name":"TropeCheckList"},{"name":"TropeUsagePicker"},{"name":"BarrierVote"},{"name":"MechanismNote"},{"name":"ContributionSummary"},{"name":"CreditSettings"},{"name":"ReviewTable"},{"name":"DiffView"},{"name":"FieldConfidence"},{"name":"ValidationList"},{"name":"TropeTree"},{"name":"RunProgress"},{"name":"MetricsTable"},{"name":"PacketExport"},{"name":"PacketImportReport"},{"name":"BlindAnnotationToggle"},{"name":"AgreementCeiling"},{"name":"AgreementMatrix"},{"name":"MappingTable"},{"name":"ContributorTable"},{"name":"StatusTag"}]} */
+(function () {
+  'use strict';
+  var React = window.React;
+  var h = React.createElement;
+  var C = {};
+
+  function cx() {
+    var out = [];
+    for (var i = 0; i < arguments.length; i++) {
+      var a = arguments[i];
+      if (!a) continue;
+      if (typeof a === 'string') out.push(a);
+      else for (var k in a) if (a[k]) out.push(k);
+    }
+    return out.join(' ');
+  }
+
+  // ---------- восемь операций: имя, строка для пользователя, глиф ----------
+  var OPS = {
+    pattern_recognition: {
+      name: 'Видеть закономерности', short: 'Закономерности',
+      line: 'замечать повторы, рифмы и скрытую структуру',
+      paths: ['M3 12.5V7.5', 'M6.5 12.5V5', 'M10 12.5V8.5', 'M13.5 12.5V6'], dots: [[6.5, 2.4]]
+    },
+    causal_reasoning: {
+      name: 'Понимать причины', short: 'Причины',
+      line: 'прослеживать, что к чему привело и почему',
+      paths: ['M5.6 10.4 10.4 5.6'], rings: [[3.6, 12.4], [12.4, 3.6]]
+    },
+    perspective_taking: {
+      name: 'Смотреть чужими глазами', short: 'Чужие глаза',
+      line: 'удерживать несколько точек зрения на одно событие',
+      paths: ['M3.4 2.8 8 8.6', 'M12.6 2.8 8 8.6', 'M8 8.6V13.6'], dots: [[8, 8.6]]
+    },
+    analogical_thinking: {
+      name: 'Находить аналогии', short: 'Аналогии',
+      line: 'переносить устройство одной истории на другую ситуацию',
+      paths: ['M2.4 6.2h3.4v3.6H2.4z', 'M10.2 5.2h3.4v5.6h-3.4z', 'M5.8 8h4.4']
+    },
+    synthesis: {
+      name: 'Собирать целое', short: 'Целое',
+      line: 'связывать разрозненные фрагменты в общую картину',
+      paths: ['M12.4 4.2a5.4 5.4 0 1 0 1.1 4.3']
+    },
+    abstraction: {
+      name: 'Обобщать', short: 'Обобщение',
+      line: 'видеть за частным случаем общую модель',
+      paths: ['M2.6 12h10.8'], dots: [[4.6, 8.2], [8, 6.4], [11.4, 8.2]]
+    },
+    metacognition: {
+      name: 'Замечать своё мышление', short: 'Своё мышление',
+      line: 'ловить, как ты сам интерпретируешь и где ошибаешься',
+      paths: ['M11.8 4.6a2.8 2.8 0 0 0-2.8-2.4H7.6a2.9 2.9 0 0 0 0 5.8h1a2.9 2.9 0 0 1 0 5.8H7.4a2.8 2.8 0 0 1-2.8-2.4']
+    },
+    critical_analysis: {
+      name: 'Проверять и сомневаться', short: 'Проверка',
+      line: 'проверять допущения, аргументы и собственные выводы',
+      paths: ['M8 2.4v8.4', 'M4.2 13.6 8 8.2l3.8 5.4', 'M5.6 11.6h4.8']
+    }
+  };
+  var OP_KEYS = Object.keys(OPS);
+  C.OPS = OPS;
+  C.OP_KEYS = OP_KEYS;
+
+  function opVar(op, suffix) { return 'var(--tm-op-' + op + (suffix ? '-' + suffix : '') + ')'; }
+  C.opVar = opVar;
+
+  // ---------- OperationGlyph ----------
+  function OperationGlyph(p) {
+    var size = p.size || 16;
+    var op = OPS[p.op] || OPS.synthesis;
+    var sw = size <= 12 ? 1.9 : size <= 16 ? 1.7 : size <= 24 ? 1.5 : 1.15;
+    var kids = op.paths.map(function (d, i) {
+      return h('path', { key: 'p' + i, d: d, fill: 'none', stroke: 'currentColor', strokeWidth: sw, strokeLinecap: 'round', strokeLinejoin: 'round' });
+    });
+    (op.dots || []).forEach(function (c, i) {
+      kids.push(h('circle', { key: 'c' + i, cx: c[0], cy: c[1], r: sw * 0.78, fill: 'currentColor' }));
+    });
+    (op.rings || []).forEach(function (c, i) {
+      kids.push(h('circle', { key: 'r' + i, cx: c[0], cy: c[1], r: sw * 0.95, fill: 'none', stroke: 'currentColor', strokeWidth: sw * 0.8 }));
+    });
+    return h('svg', {
+      className: cx('tm-glyph', p.className), width: size, height: size, viewBox: '0 0 16 16',
+      role: p.title === false ? 'presentation' : 'img',
+      'aria-hidden': p.title === false ? 'true' : undefined,
+      'aria-label': p.title === false ? undefined : op.name,
+      style: Object.assign({ color: p.tone === 'inherit' ? 'inherit' : opVar(p.op) }, p.style || {})
+    }, kids);
+  }
+  C.OperationGlyph = OperationGlyph;
+
+  // ---------- OperationChip ----------
+  function OperationChip(p) {
+    var op = OPS[p.op];
+    if (!op) return null;
+    var size = p.size === 'sm' ? 12 : 14;
+    var body = [
+      h(OperationGlyph, { key: 'g', op: p.op, size: size, tone: 'inherit', title: false }),
+      p.label === false ? null : h('span', { key: 'l', className: 'tm-chip__label' }, p.short ? op.short : op.name),
+      p.intensity != null && p.showDetails ? h('span', { key: 'i', className: 'tm-chip__num' }, Math.round(p.intensity * 100) + '%') : null
+    ];
+    return h('span', {
+      className: cx('tm-chip', p.size === 'sm' && 'tm-chip--sm', p.tone === 'plain' && 'tm-chip--plain'),
+      style: { '--chip-ink': opVar(p.op, 'ink'), '--chip-wash': opVar(p.op, 'wash'), '--chip-mark': opVar(p.op) },
+      title: p.title || op.line
+    }, body);
+  }
+  C.OperationChip = OperationChip;
+
+  // ---------- Button ----------
+  function Button(p) {
+    var tag = p.href ? 'a' : 'button';
+    return h(tag, {
+      className: cx('tm-btn', 'tm-btn--' + (p.variant || 'secondary'), p.size === 'sm' && 'tm-btn--sm', p.block && 'tm-btn--block', p.className),
+      href: p.href, type: p.href ? undefined : (p.type || 'button'),
+      disabled: p.disabled, 'aria-pressed': p.pressed, onClick: p.onClick,
+      'aria-busy': p.loading ? 'true' : undefined
+    }, p.loading ? h('span', { className: 'tm-btn__wait', 'aria-hidden': 'true' }) : null, p.children);
+  }
+  C.Button = Button;
+
+  // ---------- вспомогательные примитивы разметки ----------
+  function Card(p) {
+    return h('div', {
+      className: cx('tm-card', p.level && 'tm-card--' + p.level, p.className),
+      style: p.style
+    }, p.children);
+  }
+  C.Card = Card;
+
+  function Meta(p) {
+    var parts = (p.items || []).filter(Boolean);
+    return h('p', { className: cx('tm-meta', p.className) }, parts.map(function (s, i) {
+      return h(React.Fragment, { key: i }, i ? h('span', { className: 'tm-meta__sep', 'aria-hidden': 'true' }, '·') : null, h('span', null, s));
+    }));
+  }
+  C.Meta = Meta;
+
+  // перфорация ленты: ряд отверстий по кромке кадра. Единственный
+  // декоративный приём системы, ставится один раз на кадр.
+  function TickStrip(p) {
+    var n = p.count || 8;
+    var kids = [];
+    for (var i = 0; i < n; i++) kids.push(h('span', { key: i, className: 'tm-perf__h' }));
+    return h('span', { className: cx('tm-perf', p.vertical && 'tm-perf--v', p.className), 'aria-hidden': 'true' }, kids);
+  }
+  C.TickStrip = TickStrip;
+
+  // ---------- Preview: обёртка превью, не компонент продукта ----------
+  function Preview(p) {
+    return h('div', {
+      className: cx('tm-preview', p.dense && 'tm-preview--dense', p.plain && 'tm-preview--plain'),
+      style: p.width ? { maxWidth: p.width } : null
+    }, p.title ? h('p', { className: 'tm-preview__title' }, p.title) : null, p.children);
+  }
+  C.Preview = Preview;
+
+  function Row(p) {
+    return h('div', { className: cx('tm-row', p.wrap && 'tm-row--wrap', p.gap && 'tm-row--gap-' + p.gap, p.className), style: p.style }, p.children);
+  }
+  C.Row = Row;
+
+  function Stack(p) {
+    return h('div', { className: cx('tm-stack', p.gap && 'tm-stack--gap-' + p.gap, p.className), style: p.style }, p.children);
+  }
+  C.Stack = Stack;
+
+  function fmtDuration(min) {
+    if (!min) return null;
+    return min + ' ' + (min % 10 === 1 && min % 100 !== 11 ? 'минута' : (min % 10 > 1 && min % 10 < 5 && (min % 100 < 10 || min % 100 > 20) ? 'минуты' : 'минут'));
+  }
+  C.fmtDuration = fmtDuration;
+
+  // порядок метаданных кадра: чем это является, кто снял или написал, сколько это длится
+  function workMeta(w) {
+    return [w.type === 'film' ? 'Фильм' : 'Книга', (w.creators || []).join(', '),
+      w.type === 'film' ? fmtDuration(w.durationMinutes) : (w.pages ? w.pages + ' страниц' : null)];
+  }
+  C.workMeta = workMeta;
+
+  // ============================================================
+  // Моки §15. Строго по типам §16. Аннотации демонстрационные,
+  // обложки — генеративные, реальных постеров нет.
+  // ============================================================
+  function w(id, type, title, original, year, creators, ops, complexity, extra) {
+    return Object.assign({
+      id: id, type: type, title: title, originalTitle: original, year: year, creators: creators,
+      countries: (extra && extra.countries) || [],
+      durationMinutes: extra && extra.durationMinutes, pages: extra && extra.pages,
+      primaryOperations: ops.map(function (o) { return { op: o[0], intensity: o[1] }; }),
+      complexityLevel: complexity,
+      warnings: (extra && extra.warnings) || [],
+      barriers: (extra && extra.barriers) || [],
+      isNicheMasterpiece: !!(extra && extra.peak)
+    });
+  }
+
+  var W = {
+    w01: w('w01', 'film', 'Двенадцать разгневанных мужчин', '12 Angry Men', 1957, ['Сидни Люмет'],
+      [['critical_analysis', 0.9], ['perspective_taking', 0.7]], 3, { countries: ['США'], durationMinutes: 96 }),
+    w02: w('w02', 'film', 'Расёмон', 'Rashômon', 1950, ['Акира Куросава'],
+      [['perspective_taking', 0.95], ['critical_analysis', 0.7], ['metacognition', 0.5]], 5,
+      { countries: ['Япония'], durationMinutes: 88, barriers: ['Условная актёрская манера'] }),
+    w03: w('w03', 'film', 'Помни', 'Memento', 2000, ['Кристофер Нолан'],
+      [['causal_reasoning', 0.9], ['pattern_recognition', 0.7], ['metacognition', 0.6]], 6,
+      { countries: ['США'], durationMinutes: 113, barriers: ['Нелинейное время'] }),
+    w04: w('w04', 'film', 'Прибытие', 'Arrival', 2016, ['Дени Вильнёв'],
+      [['perspective_taking', 0.8], ['analogical_thinking', 0.7], ['synthesis', 0.6]], 5,
+      { countries: ['США'], durationMinutes: 116 }),
+    w05: w('w05', 'film', 'Иваново детство', null, 1962, ['Андрей Тарковский'],
+      [['perspective_taking', 0.6], ['synthesis', 0.5]], 5,
+      { countries: ['СССР'], durationMinutes: 95, warnings: ['Сцены войны'] }),
+    w06: w('w06', 'film', 'Солярис', null, 1972, ['Андрей Тарковский'],
+      [['abstraction', 0.8], ['metacognition', 0.7]], 7,
+      { countries: ['СССР'], durationMinutes: 167, barriers: ['Медленный темп'] }),
+    w07: w('w07', 'film', 'Зеркало', null, 1975, ['Андрей Тарковский'],
+      [['synthesis', 0.95], ['abstraction', 0.8], ['metacognition', 0.7]], 9,
+      { countries: ['СССР'], durationMinutes: 108, barriers: ['Фрагментарная структура', 'Медленный темп'], peak: true }),
+    w08: w('w08', 'film', 'Начало', 'Inception', 2010, ['Кристофер Нолан'],
+      [['causal_reasoning', 0.7], ['pattern_recognition', 0.6], ['abstraction', 0.5]], 5,
+      { countries: ['США'], durationMinutes: 148 }),
+    w09: w('w09', 'film', 'Паразиты', '기생충', 2019, ['Пон Джун-хо'],
+      [['critical_analysis', 0.7], ['pattern_recognition', 0.6], ['analogical_thinking', 0.6]], 4,
+      { countries: ['Южная Корея'], durationMinutes: 132, warnings: ['Насилие'] }),
+    w10: w('w10', 'film', 'Синекдоха, Нью-Йорк', 'Synecdoche, New York', 2008, ['Чарли Кауфман'],
+      [['metacognition', 0.9], ['abstraction', 0.8]], 9,
+      { countries: ['США'], durationMinutes: 124, barriers: ['Размытая граница реальности'], peak: true }),
+    w11: w('w11', 'book', 'Бойня номер пять', 'Slaughterhouse-Five', 1969, ['Курт Воннегут'],
+      [['causal_reasoning', 0.7], ['perspective_taking', 0.6], ['metacognition', 0.5]], 5,
+      { countries: ['США'], pages: 224, barriers: ['Нелинейное время'], warnings: ['Сцены войны'] }),
+    w12: w('w12', 'book', 'Имя розы', 'Il nome della rosa', 1980, ['Умберто Эко'],
+      [['pattern_recognition', 0.8], ['critical_analysis', 0.8], ['synthesis', 0.6]], 7,
+      { countries: ['Италия'], pages: 640, barriers: ['Исторический контекст', 'Латинские вставки'] }),
+    w13: w('w13', 'book', 'Невидимые города', 'Le città invisibili', 1972, ['Итало Кальвино'],
+      [['abstraction', 0.9], ['analogical_thinking', 0.8]], 6,
+      { countries: ['Италия'], pages: 168, barriers: ['Без сюжета в привычном смысле'] }),
+    w14: w('w14', 'book', 'Шум и ярость', 'The Sound and the Fury', 1929, ['Уильям Фолкнер'],
+      [['perspective_taking', 0.95], ['synthesis', 0.9]], 9,
+      { countries: ['США'], pages: 336, barriers: ['Поток сознания', 'Смена рассказчиков без предупреждения'], peak: true }),
+    w15: w('w15', 'book', 'Бледный огонь', 'Pale Fire', 1962, ['Владимир Набоков'],
+      [['metacognition', 0.9], ['critical_analysis', 0.9], ['pattern_recognition', 0.8]], 9,
+      { countries: ['США'], pages: 288, barriers: ['Комментарий вместо сюжета'], peak: true }),
+    w16: w('w16', 'book', 'Мастер и Маргарита', null, 1967, ['Михаил Булгаков'],
+      [['synthesis', 0.6], ['analogical_thinking', 0.6]], 5, { countries: ['СССР'], pages: 480 }),
+    w17: w('w17', 'book', 'Солярис', 'Solaris', 1961, ['Станислав Лем'],
+      [['abstraction', 0.8], ['critical_analysis', 0.6]], 6, { countries: ['Польша'], pages: 204 })
+  };
+
+  var state = {
+    userId: 'u-aliya', asOf: '2026-09-17',
+    operations: [
+      { op: 'pattern_recognition', level: 6.2, range: [5.6, 6.8], confidence: 'medium', trend: 'flat' },
+      { op: 'causal_reasoning', level: 6.8, range: [6.3, 7.3], confidence: 'high', trend: 'up' },
+      { op: 'perspective_taking', level: 3.9, range: [2.8, 5.0], confidence: 'low', trend: 'up' },
+      { op: 'analogical_thinking', level: 5.0, range: [3.6, 6.4], confidence: 'low', trend: 'unknown' },
+      { op: 'synthesis', level: 4.6, range: [3.4, 5.8], confidence: 'low', trend: 'flat' },
+      { op: 'abstraction', level: 4.1, range: [2.6, 5.6], confidence: 'low', trend: 'unknown' },
+      { op: 'metacognition', level: 3.2, range: [1.6, 4.8], confidence: 'low', trend: 'unknown' },
+      { op: 'critical_analysis', level: 5.5, range: [4.7, 6.3], confidence: 'medium', trend: 'flat' }
+    ],
+    complexityComfort: 5.4, mediaLiteracy: 5.1, overallConfidence: 'low', source: 'assessment_quick'
+  };
+
+  var target = { id: 't1', operations: ['perspective_taking'], label: 'Смотреть чужими глазами', source: 'user', createdAt: '2026-08-27', active: true };
+
+  var cognitiveMap = {
+    state: state,
+    targets: [target],
+    suggestedTargets: [
+      { id: 't2', operations: ['synthesis'], label: 'Собирать целое', source: 'system_suggested', createdAt: '2026-09-17', active: false },
+      { id: 't3', operations: ['metacognition'], label: 'Замечать своё мышление', source: 'system_suggested', createdAt: '2026-09-17', active: false }
+    ],
+    history: [
+      { asOf: '2026-08-27', cause: { kind: 'assessment', label: 'Быстрый старт', changeType: 'refined_estimate' },
+        operations: state.operations.map(function (o) { return { op: o.op, level: o.level - 0.4, range: [o.range[0] - 1.1, o.range[1] + 1.1] }; }) },
+      { asOf: '2026-09-02', cause: { kind: 'work_finished', label: '«Иваново детство»', workId: 'w05', changeType: 'refined_estimate' },
+        operations: state.operations.map(function (o) { return { op: o.op, level: o.level - 0.2, range: [o.range[0] - 0.6, o.range[1] + 0.6] }; }) },
+      { asOf: '2026-09-09', cause: { kind: 'work_abandoned', label: '«Солярис» Тарковского отложен', workId: 'w06', changeType: 'refined_estimate' },
+        operations: state.operations.map(function (o) { return { op: o.op, level: o.level - 0.1, range: [o.range[0] - 0.3, o.range[1] + 0.3] }; }) },
+      { asOf: '2026-09-14', cause: { kind: 'work_finished', label: '«Мастер и Маргарита»', workId: 'w16', changeType: 'refined_estimate' },
+        operations: state.operations.map(function (o) { return { op: o.op, level: o.level, range: o.range }; }) }
+    ],
+    traces: [
+      { work: W.w05, finishedAt: '2026-09-02', operations: W.w05.primaryOperations },
+      { work: W.w01, finishedAt: '2026-08-30', operations: W.w01.primaryOperations },
+      { work: W.w08, finishedAt: '2026-09-06', operations: W.w08.primaryOperations },
+      { work: W.w09, finishedAt: '2026-09-11', operations: W.w09.primaryOperations },
+      { work: W.w16, finishedAt: '2026-09-14', operations: W.w16.primaryOperations }
+    ]
+  };
+
+  var explanations = {
+    w02: {
+      what: 'Одно преступление в пересказе четырёх свидетелей, и версии не сходятся.',
+      why: 'Вы уверенно выстраиваете причинно-следственные цепочки — здесь эта сила встретит событие, у которого нет одной правильной цепочки.',
+      whyNow: '«Двенадцать разгневанных мужчин» показали, как мнение меняется под новым углом. «Расёмон» делает следующий ход: угол зрения меняет сам факт.',
+      whatNext: '«Прибытие» — там перспектива затрагивает восприятие времени.'
+    },
+    w12: {
+      what: 'Детективная структура, в которой расследуется и сам способ толковать знаки.',
+      why: 'Вы хорошо замечаете повторы — роман даёт им объём: знак здесь может значить не то, чем кажется.',
+      whyNow: 'После «Расёмона» проверка версий перестаёт быть механикой сюжета и становится темой.',
+      whatNext: 'Отсюда открывается «Бледный огонь» — комментарий, который спорит со своим текстом.'
+    },
+    w13: {
+      what: 'Книга без привычного сюжета: пятьдесят пять городов, каждый — модель одной мысли.',
+      why: 'Вы ещё не встречали повествование, построенное как набор вариаций, — это не случайный выбор, а недостающая форма.',
+      whyNow: 'Короткие главы позволяют попробовать непривычное устройство без большого вложения времени.',
+      whatNext: 'Дальше — «Зеркало», где вариации собираются в одну жизнь.'
+    },
+    w03: {
+      what: 'Человек без короткой памяти восстанавливает события по запискам — а фильм идёт в обратном порядке.',
+      why: 'Опирается на вашу сильную сторону — причинные цепочки, но собранные наоборот.',
+      whyNow: 'Сегодня вы выбрали «полегче»: здесь усилие уходит в структуру, а не в темп.',
+      whatNext: 'Первый шаг к «Бледному огню»: рассказчик, которому нельзя верить.'
+    }
+  };
+
+  function rec(id, work, slot, stretch, ops, ready, extra) {
+    return Object.assign({
+      id: id, work: work, slot: slot, stretch: stretch, targetOperations: ops,
+      explanation: explanations[work.id],
+      readiness: ready, createdAt: '2026-09-17'
+    }, extra || {});
+  }
+
+  var slates = {
+    normal: {
+      id: 's-normal', generatedAt: '2026-09-17T18:10:00+03:00', energy: 'normal',
+      items: [
+        rec('r1', W.w02, 'next_step', 'productive', ['perspective_taking', 'critical_analysis'], { ready: true, missing: [] }, { trajectoryId: 'tr1' }),
+        rec('r2', W.w12, 'stretch', 'challenge', ['pattern_recognition', 'critical_analysis'], { ready: true, missing: [] }),
+        rec('r3', W.w13, 'side_step', 'productive', ['abstraction', 'analogical_thinking'], { ready: true, missing: [] })
+      ]
+    },
+    low: {
+      id: 's-low', generatedAt: '2026-09-17T18:10:00+03:00', energy: 'low',
+      items: [
+        rec('r1', W.w02, 'next_step', 'productive', ['perspective_taking'], { ready: true, missing: [] }, { trajectoryId: 'tr1' }),
+        rec('r4', W.w03, 'side_step', 'easy_entry', ['causal_reasoning'], { ready: true, missing: [] })
+      ]
+    },
+    high: {
+      id: 's-high', generatedAt: '2026-09-17T18:10:00+03:00', energy: 'high',
+      items: [
+        rec('r1', W.w02, 'next_step', 'productive', ['perspective_taking', 'critical_analysis'], { ready: true, missing: [] }, { trajectoryId: 'tr1' }),
+        rec('r2', W.w12, 'stretch', 'challenge', ['pattern_recognition', 'critical_analysis'], { ready: true, missing: [] }),
+        rec('r3', W.w13, 'side_step', 'productive', ['abstraction', 'analogical_thinking'], { ready: true, missing: [] }),
+        rec('r5', W.w03, 'preparation', 'productive', ['metacognition'],
+          { ready: false, missing: [{ kind: 'work', label: '«Бойня номер пять»', work: W.w11, necessity: 'helpful', met: false }] })
+      ]
+    }
+  };
+
+  function step(order, work, purpose, status, stretch, intro, reinforce) {
+    return { order: order, work: work, purpose: purpose, status: status, stretch: stretch,
+      operationsIntroduced: intro || [], operationsReinforced: reinforce || [] };
+  }
+
+  var trajectories = [
+    {
+      id: 'tr1', title: 'Смотреть чужими глазами', kind: 'development', target: target,
+      progress: 0.2, createdAt: '2026-08-27', replanHistory: [],
+      steps: [
+        step(1, W.w01, 'мнение меняется, когда меняется угол зрения', 'completed', 'easy_entry', ['perspective_taking'], ['critical_analysis']),
+        step(2, W.w02, 'угол зрения меняет сам факт', 'available', 'productive', ['metacognition'], ['perspective_taking']),
+        step(3, W.w04, 'перспектива меняет даже восприятие времени', 'locked', 'productive', ['analogical_thinking'], ['perspective_taking', 'synthesis']),
+        step(4, W.w11, 'одна жизнь, увиденная вне порядка событий', 'locked', 'productive', [], ['perspective_taking', 'causal_reasoning']),
+        step(5, W.w14, 'одна история в четырёх несовместимых сознаниях', 'locked', 'challenge', [], ['perspective_taking', 'synthesis'])
+      ]
+    },
+    {
+      id: 'tr2', title: 'Путь к «Зеркалу»', kind: 'peak_path', peakWork: W.w07,
+      target: { id: 't4', operations: ['synthesis', 'abstraction'], label: 'Собирать целое', source: 'system_suggested', createdAt: '2026-08-27', active: true },
+      progress: 0.375, createdAt: '2026-08-27',
+      replanHistory: [{ at: '2026-09-09', reason: 'Фильм «Солярис» отложен — темп оказался барьером. Добавлен роман Лема: та же история в более привычном ритме.' }],
+      steps: [
+        step(1, W.w05, 'язык Тарковского в понятной военной истории', 'completed', 'productive', ['synthesis'], ['perspective_taking']),
+        step(2, W.w17, 'та же история в привычном ритме романа', 'in_progress', 'productive', ['abstraction'], ['critical_analysis']),
+        step(3, W.w06, 'вторая попытка, уже зная сюжет', 'skipped', 'challenge', [], ['abstraction', 'metacognition']),
+        step(4, W.w07, 'вершина', 'locked', 'challenge', [], ['synthesis', 'abstraction', 'metacognition'])
+      ]
+    }
+  ];
+
+  var journal = [
+    { id: 'j7', work: W.w17, status: 'in_progress', progress: 0.4, startedAt: '2026-09-15', reflections: [], stateChanges: [] },
+    { id: 'j6', work: W.w16, status: 'finished', startedAt: '2026-09-10', finishedAt: '2026-09-14', perceivedDifficulty: 'just_right',
+      reflections: [{ promptId: 'p1', answer: 'Две линии сошлись не сюжетом, а рифмой сцен — я заметила это только к концу.' }],
+      stateChanges: [{ op: 'synthesis', delta: 0.3, changeType: 'refined_estimate' }] },
+    { id: 'j5', work: W.w06, status: 'abandoned', startedAt: '2026-09-07', finishedAt: '2026-09-09', abandonReason: 'not_engaging',
+      reflections: [], stateChanges: [] },
+    { id: 'j4', work: W.w09, status: 'finished', startedAt: '2026-09-10', finishedAt: '2026-09-11', perceivedDifficulty: 'just_right',
+      reflections: [], stateChanges: [{ op: 'critical_analysis', delta: 0.2, changeType: 'refined_estimate' }] },
+    { id: 'j3', work: W.w08, status: 'finished', startedAt: '2026-09-05', finishedAt: '2026-09-06', perceivedDifficulty: 'just_right',
+      reflections: [], stateChanges: [{ op: 'causal_reasoning', delta: 0.4, changeType: 'refined_estimate' }] },
+    { id: 'j2', work: W.w05, status: 'finished', startedAt: '2026-09-01', finishedAt: '2026-09-02', perceivedDifficulty: 'just_right',
+      reflections: [], stateChanges: [{ op: 'perspective_taking', delta: 0.3, changeType: 'refined_estimate' }] },
+    { id: 'j1', work: W.w01, status: 'finished', startedAt: '2026-08-29', finishedAt: '2026-08-30', perceivedDifficulty: 'too_easy',
+      reflections: [], stateChanges: [{ op: 'critical_analysis', delta: 0.5, changeType: 'refined_estimate' }] },
+    { id: 'j0', work: W.w04, status: 'planned', reflections: [], stateChanges: [] }
+  ];
+
+  var tropeInsights = [
+    { tropeId: 'tr-01', tropePath: ['Структура', 'Конфликт', 'Один против группы', 'Одиночка против большинства'],
+      name: 'Одиночка против большинства', usage: 'straight', operations: ['critical_analysis', 'perspective_taking'], spoilerLevel: 1,
+      plainExplanation: 'Один человек не соглашается с остальными — и фильму приходится показать, чем держится уверенность каждого из одиннадцати.' },
+    { tropeId: 'tr-02', tropePath: ['Персонажи', 'Состав', 'Срез общества', 'Присяжные как срез общества'],
+      name: 'Присяжные как срез общества', usage: 'straight', operations: ['analogical_thinking'], spoilerLevel: 1,
+      plainExplanation: 'Каждый заседатель несёт свою предвзятость, и спор о деле оказывается спором о том, кто как устроен.' },
+    { tropeId: 'tr-03', tropePath: ['Механизмы', 'Улики', 'Переоценка улики', 'Улика, которая перестаёт быть уликой'],
+      name: 'Улика, которая перестаёт быть уликой', usage: 'deconstruction', operations: ['pattern_recognition', 'critical_analysis'], spoilerLevel: 2,
+      plainExplanation: 'Деталь разбирают второй раз — и она разворачивается против того вывода, который держала.' }
+  ];
+
+  var externalAnalyses = [
+    { id: 'ea1', title: 'Комната, стол, одиннадцать против одного', author: 'Марк Лаврентьев', platform: 'youtube',
+      url: 'https://example.com/lavrentiev/12-men', language: 'ru', spoilerLevel: 1, operations: ['critical_analysis'] },
+    { id: 'ea2', title: 'Как монтаж делает сомнение видимым', author: 'Ника', platform: 'telegram',
+      url: 'https://example.com/nika/montage-doubt', language: 'ru', spoilerLevel: 2, operations: ['pattern_recognition'] },
+    { id: 'ea3', title: 'Four testimonies, one gate', author: 'J. Oram', platform: 'article',
+      url: 'https://example.com/oram/rashomon-gate', language: 'en', spoilerLevel: 0, operations: ['perspective_taking'] }
+  ];
+
+  // Места разговора вымышленные: ни реальных чатов, ни реальных людей.
+  var discussions = [
+    { id: 'd1', workId: 'w02', kind: 'telegram_channel', title: 'Разбор Марка Лаврентьева',
+      why: 'разбирает, почему четыре версии не складываются в одну — и почему это не приём, а тема',
+      url: 'https://example.com/t/lavrentiev/412', lastTalkedAt: '12 сентября', language: 'ru',
+      spoilers: true, curatedBy: 'Марка' },
+    { id: 'd2', workId: 'w02', kind: 'telegram_chat', title: 'Чат «Смотрим внимательно»',
+      why: 'спорят, чья версия правдива, и каждый раз приходят к разному',
+      url: 'https://example.com/t/watchclose/8891', lastTalkedAt: '3 сентября', language: 'ru',
+      spoilers: true },
+    { id: 'd3', workId: 'w02', kind: 'comments', title: 'Комментарии под видеоэссе Ники',
+      why: 'короткая ветка о том, что делает с фильмом финальная сцена у ворот',
+      url: 'https://example.com/t/nika/77', lastTalkedAt: '28 августа', language: 'ru', spoilers: true },
+    { id: 'd4', workId: 'w07', kind: 'telegram_chat', title: 'Чат «Тарковский по кадрам»',
+      why: 'идут по фильму сценами, есть отдельная ветка про сон с молоком',
+      url: 'https://example.com/t/tarkovsky/1204', lastTalkedAt: '9 сентября', language: 'ru',
+      spoilers: true }
+  ];
+
+  var debrief = {
+    summary: 'Фильм почти целиком в одной комнате, и напряжение строится не на событиях, а на том, как по одному рушатся уверенные выводы.',
+    tropeInsights: tropeInsights, externalAnalyses: externalAnalyses.slice(0, 2)
+  };
+
+  var reflectionPrompts = [
+    { id: 'p1', op: 'perspective_taking', question: 'Чья версия показалась самой убедительной и что именно убедило?', kind: 'free_text' },
+    { id: 'p2', op: 'metacognition', question: 'В какой момент вы поменяли мнение о том, что произошло?', kind: 'free_text' },
+    { id: 'p3', op: 'critical_analysis', question: 'Что фильм говорит о правде?', kind: 'choice',
+      options: ['её можно восстановить', 'нельзя восстановить', 'вопрос поставлен неверно', 'сложно сказать'] }
+  ];
+
+  var assessmentItems = [
+    { id: 'a1', kind: 'media_familiarity', prompt: 'Что из этого вы смотрели или читали?',
+      targetOperations: [], response: { type: 'familiarity_grid', works: [W.w01, W.w02, W.w08, W.w11, W.w16, W.w09],
+        levels: ['unknown', 'seen', 'remember_well', 'revisited', 'analyzed'] } },
+    { id: 'a2', kind: 'scenario', prompt: 'Какие объяснения совместимы с обеими версиями?',
+      body: 'Соседка уверена, что курьер оставил посылку у двери. Курьер говорит, что дверь не открыли и он увёз посылку. Камера в подъезде не работала.',
+      targetOperations: ['causal_reasoning', 'critical_analysis'],
+      response: { type: 'multi_choice', options: [
+        { id: 'o1', label: 'Посылку забрал кто-то другой до возвращения соседки' },
+        { id: 'o2', label: 'Курьер приходил к другой двери' },
+        { id: 'o3', label: 'Соседка помнит другой день' },
+        { id: 'o4', label: 'Кто-то из двоих говорит неправду' }] } },
+    { id: 'a3', kind: 'pattern', prompt: 'Расставьте события в том порядке, в каком они произошли',
+      targetOperations: ['pattern_recognition', 'causal_reasoning'],
+      response: { type: 'ordering', items: [
+        { id: 'i1', label: 'Письмо приходит второй раз' },
+        { id: 'i2', label: 'Героиня узнаёт почерк' },
+        { id: 'i3', label: 'Поезд отменяют' },
+        { id: 'i4', label: 'Она возвращается на станцию' },
+        { id: 'i5', label: 'Конверт остаётся нераспечатанным' }] } },
+    { id: 'a4', kind: 'self_report', prompt: 'Когда у фильма открытый финал, я скорее…',
+      targetOperations: ['metacognition'],
+      response: { type: 'scale', min: 1, max: 7, minLabel: 'раздражаюсь', maxLabel: 'получаю удовольствие от неясности' } },
+    { id: 'a5', kind: 'perspective', prompt: 'Что каждый из них не видит?',
+      body: 'Один и тот же вечер: он ушёл, не дождавшись ответа. Она весь вечер держала телефон в руках.',
+      targetOperations: ['perspective_taking'], response: { type: 'free_text', maxLength: 400 } }
+  ];
+
+  var curatorQueue = [
+    { annotationId: 'an-01', work: { id: 'w07', type: 'film', title: 'Зеркало', year: 1975, creators: ['Андрей Тарковский'] },
+      status: 'needs_review', tmdfVersion: '0.3.1', provider: 'local', model: 'qwen2.5-32b', modelTier: 'standard',
+      overallConfidence: 'low', lowConfidenceFields: ['cognitive_operations.synthesis.demand', 'tropes[3].usage'],
+      validationErrors: [], knowledgeSufficiency: 'partial',
+      usage: { inputTokens: 18420, outputTokens: 3110, durationMs: 41200, costUsd: 0 }, isGold: false, createdAt: '2026-09-16' },
+    { annotationId: 'an-02', work: { id: 'w15', type: 'book', title: 'Бледный огонь', year: 1962, creators: ['Владимир Набоков'] },
+      status: 'validation_failed', tmdfVersion: '0.3.1', provider: 'local', model: 'qwen2.5-32b', modelTier: 'standard',
+      overallConfidence: 'low', lowConfidenceFields: ['barriers[1].severity'],
+      validationErrors: [{ path: 'tropes[2].usage', message: 'Значение «ironic» вне перечня TropeUsageType' },
+        { path: 'prerequisites[0].necessity', message: 'Пустое поле при met = false' }],
+      knowledgeSufficiency: 'insufficient',
+      usage: { inputTokens: 21050, outputTokens: 2870, durationMs: 38900, costUsd: 0 }, isGold: false, createdAt: '2026-09-16' },
+    { annotationId: 'an-03', work: { id: 'w02', type: 'film', title: 'Расёмон', year: 1950, creators: ['Акира Куросава'] },
+      status: 'approved', tmdfVersion: '0.3.1', provider: 'human', model: 'куратор: Д.', modelTier: 'light',
+      overallConfidence: 'high', lowConfidenceFields: [], validationErrors: [], knowledgeSufficiency: 'sufficient',
+      usage: { inputTokens: 0, outputTokens: 0, durationMs: 2760000, costUsd: 0 }, isGold: true, createdAt: '2026-09-12' },
+    { annotationId: 'an-04', work: { id: 'w13', type: 'book', title: 'Невидимые города', year: 1972, creators: ['Итало Кальвино'] },
+      status: 'needs_review', tmdfVersion: '0.3.1', provider: 'packet', model: 'пакет 2026-09-14', modelTier: 'heavy',
+      overallConfidence: 'medium', lowConfidenceFields: ['cognitive_operations.abstraction.activation'],
+      validationErrors: [], knowledgeSufficiency: 'sufficient',
+      usage: { inputTokens: 14300, outputTokens: 2410, durationMs: 0, costUsd: 0 }, isGold: false, createdAt: '2026-09-15' },
+    { annotationId: 'an-05', work: { id: 'w09', type: 'film', title: 'Паразиты', year: 2019, creators: ['Пон Джун-хо'] },
+      status: 'published', tmdfVersion: '0.3.0', provider: 'packet', model: 'пакет 2026-09-02', modelTier: 'heavy',
+      overallConfidence: 'high', lowConfidenceFields: [], validationErrors: [], knowledgeSufficiency: 'sufficient',
+      usage: { inputTokens: 15980, outputTokens: 2650, durationMs: 0, costUsd: 0 }, isGold: false, createdAt: '2026-09-03' },
+    { annotationId: 'an-06', work: { id: 'w12', type: 'book', title: 'Имя розы', year: 1980, creators: ['Умберто Эко'] },
+      status: 'queued', tmdfVersion: '0.3.1', provider: 'local', model: 'qwen2.5-32b', modelTier: 'standard',
+      overallConfidence: 'medium', lowConfidenceFields: [], validationErrors: [], knowledgeSufficiency: 'partial',
+      usage: { inputTokens: 0, outputTokens: 0, durationMs: 0, costUsd: 0 }, isGold: false, createdAt: '2026-09-17' },
+    { annotationId: 'an-07', work: { id: 'w03', type: 'film', title: 'Помни', year: 2000, creators: ['Кристофер Нолан'] },
+      status: 'annotating', tmdfVersion: '0.3.1', provider: 'local', model: 'qwen2.5-32b', modelTier: 'standard',
+      overallConfidence: 'medium', lowConfidenceFields: [], validationErrors: [], knowledgeSufficiency: 'sufficient',
+      usage: { inputTokens: 9100, outputTokens: 1200, durationMs: 12400, costUsd: 0 }, isGold: false, createdAt: '2026-09-17' },
+    { annotationId: 'an-08', work: { id: 'w14', type: 'book', title: 'Шум и ярость', year: 1929, creators: ['Уильям Фолкнер'] },
+      status: 'rejected', tmdfVersion: '0.3.0', provider: 'tvtropes', model: 'отображение 2026-08-30', modelTier: 'light',
+      overallConfidence: 'low', lowConfidenceFields: ['tropes[0].name'],
+      validationErrors: [{ path: 'tropes[0].tropePath', message: 'Нет соответствия в таксономии TMDF' }],
+      knowledgeSufficiency: 'partial', usage: { inputTokens: 0, outputTokens: 0, durationMs: 0, costUsd: 0 },
+      isGold: false, createdAt: '2026-08-30' },
+    { annotationId: 'an-09', work: { id: 'w10', type: 'film', title: 'Синекдоха, Нью-Йорк', year: 2008, creators: ['Чарли Кауфман'] },
+      status: 'needs_review', tmdfVersion: '0.3.1', provider: 'expert_consensus', model: 'эксперты, 4 ответа', modelTier: 'light',
+      overallConfidence: 'medium', lowConfidenceFields: ['cognitive_operations.metacognition.demand'],
+      validationErrors: [], knowledgeSufficiency: 'sufficient',
+      usage: { inputTokens: 0, outputTokens: 0, durationMs: 0, costUsd: 0 }, isGold: false, createdAt: '2026-09-14' }
+  ];
+
+  var agreement = [
+    { field: 'tropes.category', raterGroup: 'experts', raters: 6, alpha: 0.81, status: 'reliable' },
+    { field: 'tropes.category', raterGroup: 'community', raters: 19, alpha: 0.74, status: 'reliable' },
+    { field: 'tropes.usage', raterGroup: 'experts', raters: 6, alpha: 0.68, status: 'tentative' },
+    { field: 'cognitive_operations.perspective_taking.demand', raterGroup: 'experts', raters: 5, alpha: 0.72, status: 'reliable' },
+    { field: 'cognitive_operations.perspective_taking.demand', raterGroup: 'community', raters: 17, alpha: 0.61, status: 'tentative' },
+    { field: 'cognitive_operations.metacognition.demand', raterGroup: 'experts', raters: 5, alpha: 0.44, status: 'unreliable' },
+    { field: 'cognitive_operations.metacognition.demand', raterGroup: 'community', raters: 14, alpha: 0.22, status: 'unreliable' },
+    { field: 'barriers.pace', raterGroup: 'all', raters: 23, alpha: 0.77, status: 'reliable' }
+  ];
+
+  var contributors = [
+    { id: 'c1', displayName: 'Марк Лаврентьев', role: 'expert', bio: 'Автор видеоэссе о кино',
+      links: [{ label: 'Канал', url: 'https://example.com/lavrentiev' }], creditConsent: 'public_name',
+      contribution: { tasksCompleted: 34, worksCovered: 9, scalesRefined: ['Смотреть чужими глазами', 'Барьеры: темп'] } },
+    { id: 'c2', displayName: 'Ника', role: 'community', links: [{ label: 'Телеграм', url: 'https://example.com/nika' }],
+      creditConsent: 'public_name', contribution: { tasksCompleted: 58, worksCovered: 21, scalesRefined: ['Тропы: способ использования'] } },
+    { id: 'c3', displayName: 'Участник без имени', role: 'community', links: [], creditConsent: 'anonymous',
+      contribution: { tasksCompleted: 12, worksCovered: 7, scalesRefined: ['Барьеры: нелинейное время'] } }
+  ];
+
+  var contributorTasks = [
+    { id: 'ct1', kind: 'pairwise', instructions: 'Сравните два произведения по одному умению.', estimatedSeconds: 25,
+      payload: { kind: 'pairwise', op: 'perspective_taking', dimension: 'demand',
+        question: 'Где сильнее приходится смотреть чужими глазами?', left: W.w02, right: W.w04 } },
+    { id: 'ct2', kind: 'trope_check', instructions: 'Отметьте, какие приёмы действительно есть в произведении.', estimatedSeconds: 50,
+      payload: { kind: 'trope_check', work: W.w03, candidates: [
+        { tropeId: 'tc1', name: 'Ненадёжный рассказчик', definition: 'Рассказчику нельзя верить, и произведение даёт это понять.' },
+        { tropeId: 'tc2', name: 'Обратная хронология', definition: 'События показаны в порядке, обратном произошедшему.' },
+        { tropeId: 'tc3', name: 'Память как улика', definition: 'Записи и предметы заменяют героям память.' },
+        { tropeId: 'tc4', name: 'Двойник', definition: 'Персонаж встречает свою зеркальную версию.' },
+        { tropeId: 'tc5', name: 'Кольцевая композиция', definition: 'Финал возвращает к начальной сцене.' }] } },
+    { id: 'ct3', kind: 'barrier_vote', instructions: 'Насколько заметны эти барьеры?', estimatedSeconds: 35,
+      payload: { kind: 'barrier_vote', work: W.w07, barriers: [
+        { kind: 'pace', label: 'Медленный темп' }, { kind: 'structure', label: 'Фрагментарная структура' },
+        { kind: 'context', label: 'Исторический контекст' }] } },
+    { id: 'ct4', kind: 'mechanism_note', instructions: 'Коротко: как это устроено?', estimatedSeconds: 60,
+      payload: { kind: 'mechanism_note', work: W.w15, op: 'metacognition',
+        prompt: 'Что именно в устройстве книги заставляет читателя следить за собственным чтением?' } }
+  ];
+
+  var packetReport = {
+    packetId: 'pk-2026-09-14', works: 5, layers: ['tropes', 'operations'], files: 10,
+    passed: 8, failed: 2,
+    rows: [
+      { file: 'w02.tropes.json', status: 'ok', note: 'в ревью' },
+      { file: 'w02.operations.json', status: 'ok', note: 'в ревью' },
+      { file: 'w13.tropes.json', status: 'ok', note: 'в ревью' },
+      { file: 'w13.operations.json', status: 'fail', note: 'operations: сумма activation вне 0..1' },
+      { file: 'w09.tropes.json', status: 'ok', note: 'опубликовано' },
+      { file: 'w09.operations.json', status: 'ok', note: 'опубликовано' },
+      { file: 'w12.tropes.json', status: 'fail', note: 'tropePath: уровень Atomic не найден' },
+      { file: 'w12.operations.json', status: 'ok', note: 'в ревью' },
+      { file: 'w03.tropes.json', status: 'ok', note: 'в ревью' },
+      { file: 'w03.operations.json', status: 'ok', note: 'в ревью' }
+    ]
+  };
+
+  var settings = { language: 'ru', mediaTypes: ['film', 'book'], spoilerLevel: 0, excludedWarnings: [], showDetails: false, researchConsent: true, theme: 'system' };
+
+  C.mocks = {
+    works: W, state: state, map: cognitiveMap, slates: slates, trajectories: trajectories,
+    journal: journal, tropeInsights: tropeInsights, externalAnalyses: externalAnalyses, debrief: debrief,
+    discussions: discussions, reflectionPrompts: reflectionPrompts, assessmentItems: assessmentItems, curatorQueue: curatorQueue,
+    agreement: agreement, contributors: contributors, contributorTasks: contributorTasks,
+    packetReport: packetReport, settings: settings, explanations: explanations
+  };
+
+  // ============================================================
+  // Произведение: обложка, шапка, устройство, барьеры, разборы
+  // ============================================================
+  function seedOf(s) {
+    var n = 0;
+    for (var i = 0; i < s.length; i++) n = (n * 31 + s.charCodeAt(i)) % 100000;
+    return n;
+  }
+
+  // WorkCover — генеративная типографская обложка. Реальные постеры не
+  // используются: изолинии строятся из названия, полоса кромки — из типа медиа.
+  function WorkCover(p) {
+    var work = p.work;
+    var size = p.size || 'md';
+    var seed = seedOf(work.title + work.year);
+    var op = (work.primaryOperations && work.primaryOperations[0] && work.primaryOperations[0].op) || 'synthesis';
+    var W0 = size === 'lg' ? 196 : size === 'sm' ? 84 : 124;
+    var H0 = Math.round(W0 * (size === 'sm' ? 1.26 : 1.3));
+    var holes = [];
+    if (size === 'lg') for (var k = 0; k < 9; k++) holes.push(h('span', { key: k, className: 'tm-cover__hole' }));
+    return h('div', {
+      className: cx('tm-cover', 'tm-cover--' + size, 'tm-cover--' + work.type, p.className),
+      style: { width: W0, height: H0, '--cover-line': opVar(op) },
+      role: 'img', 'aria-label': work.title + ', ' + work.year
+    },
+      size === 'lg' ? h('span', { className: 'tm-cover__edge', 'aria-hidden': 'true' }, holes) : null,
+      h('span', { className: 'tm-cover__title' }, work.title),
+      h('span', { className: 'tm-cover__foot' },
+        h('span', null, work.year),
+        size !== 'sm' ? h('span', { className: 'tm-cover__frameno' }, (seed % 90 + 10) + ((seed % 3) ? 'A' : 'B')) : null)
+    );
+  }
+  C.WorkCover = WorkCover;
+
+  function WorkHeader(p) {
+    var work = p.work;
+    return h('header', { className: cx('tm-workhead', p.compact && 'tm-workhead--compact') },
+      p.cover === false ? null : h(WorkCover, { work: work, size: p.compact ? 'md' : 'lg' }),
+      h('div', { className: 'tm-workhead__body' },
+        h('h1', { className: 'tm-workhead__title' }, work.title),
+        work.originalTitle ? h('p', { className: 'tm-workhead__original' }, work.originalTitle) : null,
+        h(Meta, { items: workMeta(work).concat((work.countries || []).join(', ')) }),
+        h(Row, { wrap: true, gap: '1', className: 'tm-workhead__ops' },
+          work.primaryOperations.slice(0, 3).map(function (o) {
+            return h(OperationChip, { key: o.op, op: o.op, intensity: o.intensity, showDetails: p.showDetails, short: true });
+          })),
+        p.children)
+    );
+  }
+  C.WorkHeader = WorkHeader;
+
+  function BarrierTag(p) {
+    return h('span', { className: cx('tm-barrier', p.kind === 'warning' && 'tm-barrier--warning') },
+      h('span', { className: 'tm-barrier__mark', 'aria-hidden': 'true' }), p.label);
+  }
+  C.BarrierTag = BarrierTag;
+
+  var USAGE_LABEL = {
+    straight: 'Напрямую', deconstruction: 'Деконструкция', subversion: 'Обман ожидания',
+    reconstruction: 'Реконструкция', meta: 'Осмысление приёма'
+  };
+  C.USAGE_LABEL = USAGE_LABEL;
+
+  function TropeInsight(p) {
+    var t = p.insight;
+    return h('article', { className: 'tm-trope' },
+      h('div', { className: 'tm-trope__head' },
+        h('h4', { className: 'tm-trope__name' }, t.name),
+        h('span', { className: 'tm-trope__usage' }, USAGE_LABEL[t.usage])),
+      h('p', { className: 'tm-trope__text' }, t.plainExplanation),
+      h(Row, { gap: '1', wrap: true }, (t.operations || []).map(function (op) {
+        return h(OperationChip, { key: op, op: op, size: 'sm', short: true });
+      })),
+      p.showPath && t.tropePath ? h('p', { className: 'tm-trope__path' }, t.tropePath.join(' → ')) : null
+    );
+  }
+  C.TropeInsight = TropeInsight;
+
+  function SpoilerGuard(p) {
+    var st = React.useState(!!p.defaultOpen), open = st[0], setOpen = st[1];
+    if (open) {
+      return h('div', { className: 'tm-spoiler tm-spoiler--open' },
+        h('div', { className: 'tm-spoiler__bar' },
+          h('span', { className: 'tm-spoiler__state' }, 'Открыто'),
+          h(Button, { size: 'sm', variant: 'quiet', onClick: function () { setOpen(false); } }, 'Скрыть')),
+        p.children);
+    }
+    return h('div', { className: 'tm-spoiler' },
+      h('span', { className: 'tm-spoiler__hatch', 'aria-hidden': 'true' }),
+      h('p', { className: 'tm-spoiler__title' }, p.title || 'Откроется в разборе после просмотра'),
+      h('p', { className: 'tm-spoiler__note' }, p.note || 'Здесь устройство сюжета: как сделано и зачем.'),
+      h(Button, { size: 'sm', onClick: function () { setOpen(true); } }, 'Открыть сейчас')
+    );
+  }
+  C.SpoilerGuard = SpoilerGuard;
+
+  var PLATFORM_LABEL = { youtube: 'видео', vk: 'видео', telegram: 'канал', article: 'статья', podcast: 'подкаст', other: 'разбор' };
+
+  function ExternalAnalysisLink(p) {
+    var a = p.analysis;
+    var blocked = p.spoilerLevel != null && a.spoilerLevel > p.spoilerLevel;
+    return h('a', {
+      className: cx('tm-extlink', blocked && 'tm-extlink--blocked'),
+      href: blocked ? undefined : a.url, rel: 'noreferrer noopener', target: '_blank',
+      'aria-disabled': blocked ? 'true' : undefined
+    },
+      h('span', { className: 'tm-extlink__title' }, a.title),
+      h(Meta, { items: [a.author, PLATFORM_LABEL[a.platform], a.language === 'ru' ? 'рус.' : 'англ.', a.spoilerLevel > 0 ? 'со спойлерами' : 'без спойлеров'] }),
+      blocked ? h('span', { className: 'tm-extlink__lock' }, 'Откроется после того, как вы закончите') : null
+    );
+  }
+  C.ExternalAnalysisLink = ExternalAnalysisLink;
+
+  var DISCUSSION_KIND = {
+    telegram_chat: 'Чат', telegram_channel: 'Канал', comments: 'Комментарии',
+    forum: 'Форум', other: 'Место'
+  };
+  C.DISCUSSION_KIND = DISCUSSION_KIND;
+
+  // DiscussionLink — маршрут в живой разговор: ссылка ведёт в конкретное место,
+  // рядом стоит строка «зачем идти» и дата, когда там об этом говорили.
+  // В живом разговоре спойлеры неизбежны, поэтому до завершения ссылка закрыта.
+  function DiscussionLink(p) {
+    var d = p.discussion;
+    var locked = !!p.locked;
+    var body = [
+      h('span', { key: 'k', className: 'tm-disc__kind' }, DISCUSSION_KIND[d.kind] || DISCUSSION_KIND.other),
+      h('span', { key: 't', className: 'tm-disc__title' }, d.title),
+      h('p', { key: 'w', className: 'tm-disc__why' }, d.why),
+      h(Meta, { key: 'm', items: [
+        d.lastTalkedAt ? 'говорили ' + d.lastTalkedAt : null,
+        d.language === 'ru' ? 'рус.' : 'англ.',
+        d.spoilers ? 'со спойлерами' : 'без спойлеров',
+        d.curatedBy ? 'принёс(ла) ' + d.curatedBy : null
+      ] })
+    ];
+    if (locked) {
+      return h('div', { className: 'tm-disc tm-disc--locked' },
+        h('span', { className: 'tm-disc__hatch', 'aria-hidden': 'true' }), body,
+        h('p', { className: 'tm-disc__lock' }, 'Откроется после того, как вы закончите: там говорят о финале.'));
+    }
+    return h('a', { className: 'tm-disc', href: d.url, target: '_blank', rel: 'noreferrer noopener' },
+      body, h('span', { className: 'tm-disc__out', 'aria-hidden': 'true' }),
+      h('span', { className: 'tm-sr' }, 'внешняя ссылка, откроется в новой вкладке'));
+  }
+  C.DiscussionLink = DiscussionLink;
+
+  // ---------- усилие, готовность, неопределённость, изменение состояния ----------
+  var STRETCH = {
+    easy_entry: { label: 'Легко войти', n: 1, note: 'опирается на то, что вы уже умеете' },
+    productive: { label: 'Продуктивное усилие', n: 2, note: 'потребует внимания, но по силам' },
+    challenge: { label: 'Вызов', n: 3, note: 'будет тяжело — и это честно сказано заранее' }
+  };
+  C.STRETCH = STRETCH;
+
+  function StretchIndicator(p) {
+    var s = STRETCH[p.level] || STRETCH.productive;
+    if (p.variant === 'caps') {
+      return h('span', { className: cx('tm-stretchcaps', 'tm-stretchcaps--' + p.level), title: s.note },
+        s.label, h('span', { className: 'tm-sr' }, ' — ' + s.note));
+    }
+    var bars = [0, 1, 2].map(function (i) {
+      return h('span', { key: i, className: cx('tm-stretch__b', i < s.n && 'tm-stretch__b--on'), style: { height: 5 + i * 4 } });
+    });
+    return h('span', { className: cx('tm-stretch', p.size === 'sm' && 'tm-stretch--sm'), title: s.note },
+      h('span', { className: 'tm-stretch__bars', 'aria-hidden': 'true' }, bars),
+      p.label === false ? null : h('span', { className: 'tm-stretch__label' }, s.label),
+      h('span', { className: 'tm-sr' }, 'уровень усилия: ' + s.label + ', ' + s.note));
+  }
+  C.StretchIndicator = StretchIndicator;
+
+  function ReadinessNotice(p) {
+    var r = p.readiness || { ready: true, missing: [] };
+    if (r.ready) {
+      return h('p', { className: 'tm-ready tm-ready--ok' },
+        h('span', { className: 'tm-ready__mark', 'aria-hidden': 'true' }), 'Можно начинать сейчас');
+    }
+    var labels = (r.missing || []).map(function (m) { return m.label; });
+    return h('div', { className: 'tm-ready tm-ready--wait' },
+      h('p', { className: 'tm-ready__line' },
+        h('span', { className: 'tm-ready__mark', 'aria-hidden': 'true' }),
+        'Вам будет проще после ' + labels.join(', ')),
+      (r.preparationPath || []).length ? h('ol', { className: 'tm-ready__path' },
+        r.preparationPath.map(function (s2) { return h('li', { key: s2.order }, s2.work.title); })) : null
+    );
+  }
+  C.ReadinessNotice = ReadinessNotice;
+
+  // UncertaintyMark — честная форма неопределённости: диапазон со штриховкой,
+  // засечка оценки и подпись, когда данных мало.
+  function UncertaintyMark(p) {
+    var max = p.max || 10;
+    var lo = Math.max(0, p.range[0]) / max * 100, hi = Math.min(max, p.range[1]) / max * 100;
+    var lvl = p.level / max * 100;
+    var low = p.confidence === 'low';
+    return h('div', { className: cx('tm-unc', low && 'tm-unc--low', p.className) },
+      h('div', { className: 'tm-unc__track' },
+        h('div', { className: 'tm-unc__band', style: { left: lo + '%', width: Math.max(1, hi - lo) + '%', '--band-ink': p.op ? opVar(p.op) : 'var(--tm-color-line-strong)' } }),
+        h('div', { className: 'tm-unc__stake', style: { left: lvl + '%', '--stake-ink': p.op ? opVar(p.op) : 'var(--tm-color-ink)' } })),
+      p.note === false ? null : h('p', { className: 'tm-unc__note' },
+        low ? 'пока мало данных' : (p.showDetails ? p.level.toFixed(1) + ' из ' + max + ' · диапазон ' + p.range[0].toFixed(1) + '–' + p.range[1].toFixed(1) : 'оценка уточняется')),
+      h('span', { className: 'tm-sr' }, 'диапазон от ' + p.range[0].toFixed(1) + ' до ' + p.range[1].toFixed(1) + ' из ' + max + (low ? ', данных пока мало' : ''))
+    );
+  }
+  C.UncertaintyMark = UncertaintyMark;
+
+  // StateChangeNote — «карта уточнилась» и «заметный сдвиг» не должны быть
+  // похожи: разные форма, вес и слова.
+  function StateChangeNote(p) {
+    var growth = p.changeType === 'observed_growth';
+    return h('div', { className: cx('tm-change', growth ? 'tm-change--growth' : 'tm-change--refined') },
+      h('span', { className: 'tm-change__mark', 'aria-hidden': 'true' }),
+      h('div', null,
+        h('p', { className: 'tm-change__title' }, growth ? 'Заметный сдвиг' : 'Карта уточнилась'),
+        h('p', { className: 'tm-change__text' }, p.text ||
+          (growth ? 'Контрольная точка показала изменение, которое не объясняется уточнением оценки.'
+            : 'Появились новые данные — границы оценки сузились. Это не рост, а более точная картина.')),
+        (p.operations || []).length ? h(Row, { gap: '1', wrap: true },
+          p.operations.map(function (op) { return h(OperationChip, { key: op, op: op, size: 'sm', short: true }); })) : null)
+    );
+  }
+  C.StateChangeNote = StateChangeNote;
+
+  // ============================================================
+  // Сегодня: силы, слейт, объяснение, отказ
+  // ============================================================
+  var ENERGY = [
+    { id: 'low', label: 'Полегче', note: 'слейт без вызова' },
+    { id: 'normal', label: 'Как обычно', note: 'обычный набор' },
+    { id: 'high', label: 'Готов к сложному', note: 'добавится подготовка к вершине' }
+  ];
+  C.ENERGY = ENERGY;
+
+  function EnergySwitch(p) {
+    return h('div', { className: 'tm-energy', role: 'radiogroup', 'aria-label': 'Сколько сегодня сил' },
+      ENERGY.map(function (e) {
+        var on = e.id === p.value;
+        return h('button', {
+          key: e.id, type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
+          className: cx('tm-energy__opt', on && 'tm-energy__opt--on'),
+          onClick: function () { p.onChange && p.onChange(e.id); }, title: e.note
+        }, h('span', { className: 'tm-energy__tick', 'aria-hidden': 'true' }), e.label);
+      }));
+  }
+  C.EnergySwitch = EnergySwitch;
+
+  var SLOT = {
+    next_step: { label: 'Следующий кадр', note: 'следующий кадр вашего маршрута' },
+    stretch: { label: 'С усилием', note: 'сложнее обычного — помечено честно' },
+    side_step: { label: 'Шаг в сторону', note: 'непривычная форма, выбрана не случайно' },
+    preparation: { label: 'Подготовка', note: 'ведёт к вершине' }
+  };
+  C.SLOT = SLOT;
+
+  function ExplanationBlock(p) {
+    var e = p.explanation;
+    var st = React.useState(!!p.defaultOpen), open = st[0], setOpen = st[1];
+    function block(title, text, key) {
+      return h('div', { className: 'tm-expl__b', key: key },
+        h('h4', { className: 'tm-expl__t' }, title),
+        h('p', { className: 'tm-expl__p' }, text));
+    }
+    var hidden = [];
+    if (open || p.always) {
+      if (!p.omitWhyNow) hidden.push(block('Зачем сейчас', e.whyNow, 'now'));
+      hidden.push(block('Что дальше', e.whatNext, 'next'));
+    }
+    return h('div', { className: 'tm-expl' },
+      block('Что это', e.what, 'what'),
+      block('Почему вам', e.why, 'why'),
+      hidden,
+      p.always ? null : h('button', {
+        type: 'button', className: 'tm-expl__more', 'aria-expanded': open ? 'true' : 'false',
+        onClick: function () { setOpen(!open); }
+      }, h('span', null, open ? 'Свернуть' : 'Что дальше'),
+         h('span', { className: 'tm-expl__sign', 'aria-hidden': 'true' }, open ? '−' : '+'))
+    );
+  }
+  C.ExplanationBlock = ExplanationBlock;
+
+  var DISMISS = [
+    { id: 'too_heavy_now', label: 'Слишком тяжело сегодня' },
+    { id: 'not_interested', label: 'Не моё' },
+    { id: 'already_know', label: 'Уже знаю' },
+    { id: 'unavailable', label: 'Недоступно' },
+    { id: 'other', label: 'Другое' }
+  ];
+  var ABANDON = [
+    { id: 'too_hard', label: 'Слишком сложно' },
+    { id: 'not_engaging', label: 'Не зацепило' },
+    { id: 'no_time', label: 'Нет времени' },
+    { id: 'other', label: 'Другое' }
+  ];
+  C.DISMISS = DISMISS; C.ABANDON = ABANDON;
+
+  function ReasonPicker(p) {
+    var list = p.variant === 'abandon' ? ABANDON : DISMISS;
+    var st = React.useState(p.value || null), val = st[0], setVal = st[1];
+    return h('div', { className: 'tm-reasons' },
+      h('p', { className: 'tm-reasons__title' }, p.title ||
+        (p.variant === 'abandon' ? 'Что не пошло? Это данные, а не провал.' : 'Почему не сейчас?')),
+      h(Row, { wrap: true, gap: '1' }, list.map(function (r) {
+        var on = val === r.id;
+        return h('button', {
+          key: r.id, type: 'button', className: cx('tm-reasons__opt', on && 'tm-reasons__opt--on'),
+          'aria-pressed': on ? 'true' : 'false',
+          onClick: function () { setVal(r.id); p.onPick && p.onPick(r.id); }
+        }, r.label);
+      })));
+  }
+  C.ReasonPicker = ReasonPicker;
+
+  function RecommendationCard(p) {
+    var r = p.recommendation, work = r.work, slot = SLOT[r.slot] || SLOT.next_step;
+    var hero = r.slot === 'next_step' && p.variant !== 'compact';
+    var prev = p.previous;
+    var st = React.useState(false), reasons = st[0], setReasons = st[1];
+    return h('article', {
+      className: cx('tm-rec', 'tm-rec--' + r.slot, hero && 'tm-rec--hero'),
+      'aria-label': slot.label + ': ' + work.title
+    },
+      prev ? h('div', { className: 'tm-rec__prev' },
+        h('p', { className: 'tm-rec__prevlabel' }, 'Предыдущий кадр · пройдено'),
+        h('h4', { className: 'tm-rec__prevtitle' }, prev.work.title),
+        prev.purpose ? h('p', { className: 'tm-rec__prevpurpose' }, prev.purpose) : null) : null,
+      prev ? h('div', { className: 'tm-rec__splice' },
+        h('span', { className: 'tm-rec__splicemark', 'aria-hidden': 'true' }, '+'),
+        h('p', { className: 'tm-rec__splicetext' }, 'Здесь склейка: ' + r.explanation.whyNow)) : null,
+      h('div', { className: 'tm-rec__slot' },
+        h('span', { className: 'tm-rec__slotlabel', title: slot.note }, slot.label),
+        h(StretchIndicator, { level: r.stretch, variant: 'caps' })),
+      h('div', { className: 'tm-rec__main' },
+        h(WorkCover, { work: work, size: hero ? 'md' : 'sm' }),
+        h('div', { className: 'tm-rec__body' },
+          h('h3', { className: cx('tm-rec__title', hero && 'tm-rec__title--hero') }, work.title),
+          h(Meta, { items: workMeta(work) }),
+          h(Row, { wrap: true, gap: '1', className: 'tm-rec__ops' },
+            work.primaryOperations.slice(0, hero ? 3 : 2).map(function (o) {
+              return h(OperationChip, { key: o.op, op: o.op, size: 'sm', short: !hero, intensity: o.intensity, showDetails: p.showDetails });
+            })))),
+      h(ExplanationBlock, { explanation: r.explanation, defaultOpen: !!p.expanded, omitWhyNow: !!prev }),
+      r.readiness && !r.readiness.ready ? h(ReadinessNotice, { readiness: r.readiness }) : null,
+      h('div', { className: 'tm-rec__actions' },
+        h(Button, { variant: 'primary', size: hero ? 'md' : 'sm' }, work.type === 'film' ? 'Начать смотреть' : 'Начать читать'),
+        h(Button, { size: hero ? 'md' : 'sm' }, 'В планы'),
+        h(Button, { variant: 'quiet', size: hero ? 'md' : 'sm', onClick: function () { setReasons(!reasons); }, pressed: reasons }, 'Не сейчас')),
+      reasons ? h(ReasonPicker, { variant: 'dismiss' }) : null
+    );
+  }
+  C.RecommendationCard = RecommendationCard;
+
+  // ============================================================
+  // Карта: поле изолиний с диапазоном неопределённости + режим «списком»
+  // ============================================================
+  function polar(cx0, cy0, r, i, n) {
+    var a = (-90 + i * (360 / n)) * Math.PI / 180;
+    return [cx0 + r * Math.cos(a), cy0 + r * Math.sin(a)];
+  }
+  function ring(cx0, cy0, r, n) {
+    var pts = [];
+    for (var i = 0; i < n; i++) pts.push(polar(cx0, cy0, r, i, n).map(function (v) { return Math.round(v * 10) / 10; }).join(','));
+    return pts.join(' ');
+  }
+
+  function CognitiveMap(p) {
+    var map = p.map, ops = map.state.operations;
+    var mode = p.mode || 'field';
+    var size = p.size || (p.compact ? 232 : 420);
+    var targets = (map.targets || []).reduce(function (acc, t) { (t.operations || []).forEach(function (o) { acc[o] = t; }); return acc; }, {});
+    var traceCount = {};
+    (map.traces || []).forEach(function (t) {
+      (t.operations || []).forEach(function (o) { traceCount[o.op] = (traceCount[o.op] || 0) + 1; });
+    });
+
+    var table = h('table', { className: cx('tm-maplist', mode === 'field' && 'tm-sr') },
+      h('caption', null, 'Карта мышления: уровень и диапазон по восьми операциям'),
+      h('thead', null, h('tr', null,
+        h('th', { scope: 'col' }, 'Операция'), h('th', { scope: 'col' }, 'Уровень'),
+        h('th', { scope: 'col' }, 'Диапазон'), h('th', { scope: 'col' }, 'Данных'))),
+      h('tbody', null, ops.map(function (o) {
+        var meta = OPS[o.op];
+        return h('tr', { key: o.op, className: targets[o.op] ? 'tm-maplist__row--target' : null },
+          h('th', { scope: 'row' },
+            h(Row, { gap: '1' }, h(OperationGlyph, { op: o.op, size: 16, title: false }), meta.name,
+              targets[o.op] ? h('span', { className: 'tm-maplist__focus' }, 'фокус') : null)),
+          h('td', null, p.showDetails ? o.level.toFixed(1) : ['совсем немного', 'немного', 'средне', 'уверенно', 'очень уверенно'][Math.min(4, Math.floor(o.level / 2.5))]),
+          h('td', null, h(UncertaintyMark, { level: o.level, range: o.range, confidence: o.confidence, op: o.op, note: false })),
+          h('td', null, o.confidence === 'low' ? 'пока мало' : o.confidence === 'medium' ? 'достаточно' : 'много'));
+      })));
+
+    if (mode === 'list') return h('div', { className: 'tm-map tm-map--list' }, table);
+
+    var S = size, c0 = S / 2, R = S / 2 - (p.compact ? 18 : 34), n = 8;
+    var grid = [2, 4, 6, 8, 10].map(function (lv) {
+      return h('polygon', { key: lv, className: cx('tm-map__grid', lv === 10 && 'tm-map__grid--edge'), points: ring(c0, c0, R * lv / 10, n) });
+    });
+    var outer = [], inner = [], line = [], stakes = [], labels = [], guides = [], traces = [];
+    ops.forEach(function (o, i) {
+      var pt = polar(c0, c0, R * o.level / 10, i, n);
+      var pl = polar(c0, c0, R * Math.max(0, o.range[0]) / 10, i, n);
+      var ph = polar(c0, c0, R * Math.min(10, o.range[1]) / 10, i, n);
+      var edge = polar(c0, c0, R, i, n);
+      outer.push(ph.join(',')); inner.push(pl.join(','));
+      line.push({ pt: pt, op: o.op, low: o.confidence === 'low' });
+      // ось съёмки
+      guides.push(h('line', { key: 'ax' + o.op, x1: c0, y1: c0, x2: edge[0], y2: edge[1],
+        className: cx('tm-map__axis', targets[o.op] && 'tm-map__axis--target') }));
+      // следы: каждое пройденное произведение — короткая засечка поперёк оси
+      (map.traces || []).forEach(function (tr, k) {
+        (tr.operations || []).forEach(function (oi) {
+          if (oi.op !== o.op) return;
+          var r0 = R * Math.max(0.12, oi.intensity) * 0.96;
+          var a = polar(c0, c0, r0, i, n), b = polar(c0, c0, r0, i, n);
+          var dx = (a[0] - c0), dy = (a[1] - c0), len = Math.sqrt(dx * dx + dy * dy) || 1;
+          var nx = -dy / len * 4.5, ny = dx / len * 4.5;
+          traces.push(h('line', { key: 'tr' + o.op + k, x1: a[0] + nx, y1: b[1] + ny, x2: a[0] - nx, y2: b[1] - ny,
+            className: 'tm-map__trace' }));
+        });
+      });
+      stakes.push(h('g', { key: 's' + o.op },
+        h('circle', { cx: pt[0], cy: pt[1], r: targets[o.op] ? 5 : 3.4, className: 'tm-map__stake', style: { fill: opVar(o.op) } }),
+        targets[o.op] ? h('circle', { cx: pt[0], cy: pt[1], r: 8.5, className: 'tm-map__stakering' }) : null));
+      var lp = polar(c0, c0, R + (p.compact ? 11 : 18), i, n);
+      labels.push(h('g', { key: 'l' + o.op, className: cx('tm-map__label', targets[o.op] && 'tm-map__label--target'),
+        onClick: p.onSelect ? function () { p.onSelect(o.op); } : undefined,
+        style: { color: opVar(o.op, 'ink'), cursor: p.onSelect ? 'pointer' : 'default' } },
+        targets[o.op] ? h('circle', { cx: lp[0], cy: lp[1], r: 12, className: 'tm-map__labelring' }) : null,
+        h('g', { transform: 'translate(' + (lp[0] - 8) + ',' + (lp[1] - 8) + ')' },
+          h(OperationGlyph, { op: o.op, size: 16, tone: 'inherit', title: false }))));
+    });
+
+    var segs = line.map(function (a, i) {
+      var b = line[(i + 1) % n];
+      return h('line', {
+        key: 'sg' + i, x1: a.pt[0], y1: a.pt[1], x2: b.pt[0], y2: b.pt[1],
+        className: cx('tm-map__contour', (a.low || b.low) && 'tm-map__contour--soft')
+      });
+    });
+
+    var legend = h('ul', { className: 'tm-map__key' }, ops.map(function (o) {
+      return h('li', { key: o.op, className: cx('tm-map__keyitem', targets[o.op] && 'tm-map__keyitem--target') },
+        h(OperationGlyph, { op: o.op, size: 14 }),
+        h('span', null, OPS[o.op].short),
+        targets[o.op] ? h('span', { className: 'tm-map__keyfocus' }, 'фокус') : null);
+    }));
+
+    return h('div', { className: cx('tm-map', p.compact && 'tm-map--compact') },
+      h('svg', { className: 'tm-map__svg', width: S, height: S, viewBox: '0 0 ' + S + ' ' + S, role: 'img',
+        'aria-label': 'Карта мышления. Текстовая версия — в таблице ниже.' },
+        h('defs', null, h('pattern', { id: 'tm-hatch', width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' },
+          h('line', { x1: 0, y1: 0, x2: 0, y2: 5, className: 'tm-map__hatchline' }))),
+        grid, guides,
+        h('path', { className: 'tm-map__band', fillRule: 'evenodd',
+          d: 'M' + outer.join('L') + 'Z M' + inner.join('L') + 'Z' }),
+        h('polygon', { className: 'tm-map__bandedge', points: outer.join(' ') }),
+        h('polygon', { className: 'tm-map__bandedge', points: inner.join(' ') }),
+        traces, segs, stakes, labels),
+      p.compact ? null : legend,
+      p.compact ? null : h('p', { className: 'tm-map__legend' },
+        map.state.overallConfidence === 'low'
+          ? 'Сплошная линия — текущая оценка, штриховка вокруг неё — её диапазон: чем он шире, тем меньше данных. Короткие засечки на осях — пройденные произведения. Карта грубая и уточнится дальше.'
+          : 'Сплошная линия — оценка, штриховка — её диапазон. Короткие засечки на осях — пройденные произведения.'),
+      table);
+  }
+  C.CognitiveMap = CognitiveMap;
+
+  function TimeScrubber(p) {
+    var pts = p.history || [];
+    var st = React.useState(pts.length - 1), idx = st[0], setIdx = st[1];
+    var value = p.value != null ? p.value : idx;
+    function set(i) { setIdx(i); p.onChange && p.onChange(i); }
+    return h('div', { className: 'tm-scrub' },
+      h('div', { className: 'tm-scrub__track' },
+        h('span', { className: 'tm-scrub__axis', 'aria-hidden': 'true' }),
+        pts.map(function (pt, i) {
+          var growth = pt.cause.changeType === 'observed_growth';
+          var on = i === value;
+          return h('button', {
+            key: i, type: 'button', className: cx('tm-scrub__tick', growth && 'tm-scrub__tick--growth', on && 'tm-scrub__tick--on'),
+            style: { left: (pts.length === 1 ? 50 : i / (pts.length - 1) * 100) + '%' },
+            'aria-label': pt.asOf + ': ' + pt.cause.label + (growth ? ' — заметный сдвиг' : ' — карта уточнилась'),
+            'aria-current': on ? 'true' : undefined, onClick: function () { set(i); }
+          }, h('span', { className: 'tm-scrub__mark', 'aria-hidden': 'true' }));
+        })),
+      h('div', { className: 'tm-scrub__read' },
+        h('span', { className: 'tm-scrub__date' }, pts[value] ? pts[value].asOf : ''),
+        h('span', { className: 'tm-scrub__cause' }, pts[value] ? pts[value].cause.label : ''),
+        h('span', { className: cx('tm-scrub__kind', pts[value] && pts[value].cause.changeType === 'observed_growth' && 'tm-scrub__kind--growth') },
+          pts[value] && pts[value].cause.changeType === 'observed_growth' ? 'заметный сдвиг' : 'карта уточнилась'))
+    );
+  }
+  C.TimeScrubber = TimeScrubber;
+
+  // ============================================================
+  // Маршруты: ход съёмки от станции к станции
+  // ============================================================
+  var STEP_STATUS = {
+    locked: { label: 'Закрыт', note: 'откроется после предыдущего шага' },
+    available: { label: 'Доступен', note: 'можно начинать' },
+    in_progress: { label: 'В процессе', note: 'вы здесь' },
+    completed: { label: 'Пройден', note: '' },
+    skipped: { label: 'Пропущен', note: 'отложен — это не провал' }
+  };
+  C.STEP_STATUS = STEP_STATUS;
+
+  function TrajectoryStep(p) {
+    var s = p.step, st = STEP_STATUS[s.status] || STEP_STATUS.locked;
+    var peak = p.peak;
+    return h('li', { className: cx('tm-step', 'tm-step--' + s.status, peak && 'tm-step--peak') },
+      h('div', { className: 'tm-step__rail', 'aria-hidden': 'true' },
+        h('span', { className: 'tm-step__station' }),
+        h('span', { className: 'tm-step__line' })),
+      h('div', { className: 'tm-step__body' },
+        h('div', { className: 'tm-step__head' },
+          h('span', { className: 'tm-step__order' }, s.order),
+          h('h4', { className: 'tm-step__title' }, s.work.title),
+          peak ? h('span', { className: 'tm-step__peak' }, 'Вершина') : null,
+          h('span', { className: cx('tm-step__status', 'tm-step__status--' + s.status) }, st.label)),
+        h('p', { className: 'tm-step__purpose' }, s.purpose),
+        h('div', { className: 'tm-step__ops' },
+          h(StretchIndicator, { level: s.stretch, size: 'sm' }),
+          (s.operationsIntroduced || []).length ? h('span', { className: 'tm-step__op' },
+            h('span', { className: 'tm-step__opkind' }, 'вводит'),
+            s.operationsIntroduced.map(function (op) {
+              return h(OperationChip, { key: 'i' + op, op: op, size: 'sm', short: true });
+            })) : null,
+          (s.operationsReinforced || []).length ? h('span', { className: 'tm-step__op' },
+            h('span', { className: 'tm-step__opkind' }, 'закрепляет'),
+            s.operationsReinforced.map(function (op) {
+              return h(OperationChip, { key: 'r' + op, op: op, size: 'sm', short: true, tone: 'plain' });
+            })) : null)));
+  }
+  C.TrajectoryStep = TrajectoryStep;
+
+  function ReplanNote(p) {
+    return h('div', { className: 'tm-replan' },
+      h('span', { className: 'tm-replan__mark', 'aria-hidden': 'true' }),
+      h('div', null,
+        h('p', { className: 'tm-replan__title' }, 'Маршрут перестроен · ' + (p.at || '')),
+        h('p', { className: 'tm-replan__text' }, p.reason)));
+  }
+  C.ReplanNote = ReplanNote;
+
+  function TrajectoryPath(p) {
+    var t = p.trajectory;
+    var done = t.steps.filter(function (s) { return s.status === 'completed'; }).length;
+    var current = t.steps.filter(function (s) { return s.status === 'in_progress'; })[0]
+      || t.steps.filter(function (s) { return s.status === 'available'; })[0];
+    var next = t.steps.filter(function (s) { return s.status === 'locked' || s.status === 'available'; })[0];
+
+    if (p.variant === 'compact') {
+      return h('div', { className: 'tm-traj tm-traj--compact' },
+        h('div', { className: 'tm-traj__chead' },
+          h('h4', { className: 'tm-traj__ctitle' }, t.title),
+          h('span', { className: 'tm-traj__cprog' }, 'шаг ' + (done + 1) + ' из ' + t.steps.length)),
+        h('ol', { className: 'tm-traj__dots' }, t.steps.map(function (s) {
+          return h('li', { key: s.order, className: cx('tm-traj__dot', 'tm-traj__dot--' + s.status,
+            t.kind === 'peak_path' && s.order === t.steps.length && 'tm-traj__dot--peak') },
+            h('span', { className: 'tm-sr' }, s.order + '. ' + s.work.title + ' — ' + STEP_STATUS[s.status].label));
+        })),
+        current ? h('p', { className: 'tm-traj__cnow' },
+          h('span', { className: 'tm-traj__clabel' }, current.status === 'in_progress' ? 'Сейчас' : 'Следующее'),
+          current.work.title) : null);
+    }
+
+    return h('section', { className: cx('tm-traj', t.kind === 'peak_path' && 'tm-traj--peak') },
+      h('header', { className: 'tm-traj__head' },
+        h('h3', { className: 'tm-traj__title' }, t.title),
+        h(Meta, { items: [t.kind === 'peak_path' ? 'путь к вершине' : 'маршрут развития',
+          'шаг ' + (done + 1) + ' из ' + t.steps.length, t.target ? 'фокус: ' + t.target.label : null] }),
+        t.kind === 'peak_path' && t.peakWork ? h('p', { className: 'tm-traj__peaknote' },
+          'До «' + t.peakWork.title + '» — ещё ' + (t.steps.length - done - 1) + ' шага') : null),
+      h('ol', { className: 'tm-traj__steps' }, t.steps.map(function (s) {
+        return h(TrajectoryStep, { key: s.order, step: s, peak: t.kind === 'peak_path' && s.order === t.steps.length });
+      })),
+      (t.replanHistory || []).map(function (r, i) { return h(ReplanNote, { key: i, at: r.at, reason: r.reason }); }),
+      h('span', { className: 'tm-sr' }, next ? 'Следующее произведение: ' + next.work.title : 'Маршрут пройден'));
+  }
+  C.TrajectoryPath = TrajectoryPath;
+
+  // ============================================================
+  // Дневник и после просмотра
+  // ============================================================
+  var JOURNEY_STATUS = {
+    planned: { label: 'В планах' }, in_progress: { label: 'В процессе' },
+    finished: { label: 'Завершено' }, abandoned: { label: 'Отложено' }
+  };
+  var DIFFICULTY = [
+    { id: 'too_easy', label: 'Легко' },
+    { id: 'just_right', label: 'В самый раз' },
+    { id: 'too_hard', label: 'Тяжело' }
+  ];
+  C.JOURNEY_STATUS = JOURNEY_STATUS; C.DIFFICULTY = DIFFICULTY;
+
+  function DifficultyPicker(p) {
+    var st = React.useState(p.value || null), val = st[0], setVal = st[1];
+    return h('div', { className: 'tm-diff', role: 'radiogroup', 'aria-label': p.label || 'Как было по сложности' },
+      h('p', { className: 'tm-diff__q' }, p.label || 'Как было по сложности?'),
+      h(Row, { gap: '2' }, DIFFICULTY.map(function (d, i) {
+        var on = val === d.id;
+        return h('button', {
+          key: d.id, type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
+          className: cx('tm-diff__opt', on && 'tm-diff__opt--on'),
+          onClick: function () { setVal(d.id); p.onPick && p.onPick(d.id); }
+        }, h('span', { className: 'tm-diff__slope', 'aria-hidden': 'true' },
+          [0, 1, 2].map(function (k) { return h('span', { key: k, className: cx('tm-diff__b', k <= i && 'tm-diff__b--on') }); })),
+          d.label);
+      })));
+  }
+  C.DifficultyPicker = DifficultyPicker;
+
+  function ReflectionPrompt(p) {
+    var pr = p.prompt;
+    var st = React.useState(''), val = st[0], setVal = st[1];
+    return h('div', { className: 'tm-refl' },
+      h(Row, { gap: '1', className: 'tm-refl__head' },
+        h(OperationGlyph, { op: pr.op, size: 16 }),
+        h('label', { className: 'tm-refl__q', htmlFor: 'refl-' + pr.id }, pr.question)),
+      pr.kind === 'choice'
+        ? h(Row, { wrap: true, gap: '1' }, (pr.options || []).map(function (o) {
+            return h('button', { key: o, type: 'button', className: cx('tm-refl__opt', val === o && 'tm-refl__opt--on'),
+              'aria-pressed': val === o ? 'true' : 'false', onClick: function () { setVal(o); p.onAnswer && p.onAnswer(o); } }, o);
+          }))
+        : h('div', null,
+            h('textarea', { id: 'refl-' + pr.id, className: 'tm-refl__area', rows: 3, maxLength: p.maxLength || 600,
+              placeholder: 'Можно одним предложением. Можно пропустить.',
+              value: val, onChange: function (e) { setVal(e.target.value); } }),
+            h('p', { className: 'tm-refl__count' }, val.length + ' / ' + (p.maxLength || 600))),
+      h(Button, { variant: 'quiet', size: 'sm' }, 'Пропустить'));
+  }
+  C.ReflectionPrompt = ReflectionPrompt;
+
+  function JourneyEntry(p) {
+    var e = p.entry, s = JOURNEY_STATUS[e.status];
+    return h('article', { className: cx('tm-entry', 'tm-entry--' + e.status) },
+      h(WorkCover, { work: e.work, size: 'sm' }),
+      h('div', { className: 'tm-entry__body' },
+        h(Row, { gap: '2', className: 'tm-entry__head' },
+          h('h4', { className: 'tm-entry__title' }, e.work.title),
+          h('span', { className: cx('tm-entry__status', 'tm-entry__status--' + e.status) }, s.label)),
+        h(Meta, { items: [e.finishedAt || e.startedAt,
+          e.perceivedDifficulty ? DIFFICULTY.filter(function (d) { return d.id === e.perceivedDifficulty; })[0].label.toLowerCase() : null,
+          e.status === 'in_progress' && e.progress != null ? Math.round(e.progress * 100) + '%' : null] }),
+        e.status === 'abandoned' && e.abandonReason ? h('p', { className: 'tm-entry__reason' },
+          'Отложено: ' + (ABANDON.filter(function (a) { return a.id === e.abandonReason; })[0] || { label: 'другое' }).label.toLowerCase()) : null,
+        (e.reflections || []).length ? h('blockquote', { className: 'tm-entry__quote' }, e.reflections[0].answer) : null,
+        (e.stateChanges || []).length ? h('p', { className: 'tm-entry__change' },
+          h('span', { className: cx('tm-entry__changemark',
+            e.stateChanges[0].changeType === 'observed_growth' && 'tm-entry__changemark--growth'), 'aria-hidden': 'true' }),
+          e.stateChanges[0].changeType === 'observed_growth' ? 'Заметный сдвиг' : 'Карта уточнилась',
+          h('span', { className: 'tm-entry__changeops' },
+            e.stateChanges.map(function (ch) { return h(OperationChip, { key: ch.op, op: ch.op, size: 'sm', short: true }); }))) : null,
+        e.status === 'in_progress' && e.progress != null ? h('div', { className: 'tm-frames', 'aria-hidden': 'true' },
+          [0,1,2,3,4,5,6,7,8,9].map(function (i) {
+            return h('span', { key: i, className: cx('tm-frames__f', i < Math.round(e.progress * 10) && 'tm-frames__f--on') });
+          })) : null,
+        e.status === 'in_progress' ? h(Row, { gap: '2', className: 'tm-entry__actions' },
+          h(Button, { size: 'sm', variant: 'primary' }, e.work.type === 'film' ? 'Закончил(а)' : 'Дочитал(а)'),
+          h(Button, { size: 'sm', variant: 'quiet' }, 'Бросаю')) : null));
+  }
+  C.JourneyEntry = JourneyEntry;
+
+  // CheckInFlow — короткий поток после просмотра: 1–2 минуты, всё пропускаемо.
+  function CheckInFlow(p) {
+    var st = React.useState(p.step || 0), step = st[0], setStep = st[1];
+    var work = p.work, prompts = p.prompts || [], debrief = p.debrief;
+    var steps = ['Итог', 'Сложность', 'Пара вопросов', 'Разбор'];
+    function head() {
+      return h('div', { className: 'tm-checkin__head' },
+        h('ol', { className: 'tm-checkin__steps' }, steps.map(function (s, i) {
+          return h('li', { key: s, className: cx('tm-checkin__stepmark', i === step && 'tm-checkin__stepmark--on', i < step && 'tm-checkin__stepmark--done') },
+            h('span', { className: 'tm-sr' }, s), h('span', { 'aria-hidden': 'true' }, s));
+        })),
+        h('p', { className: 'tm-checkin__note' }, 'Полторы минуты. Любой шаг можно пропустить.'));
+    }
+    var body;
+    if (step === 0) {
+      body = h('div', null,
+        h('p', { className: 'tm-checkin__q' }, work.type === 'film' ? 'Досмотрели или бросили?' : 'Дочитали или бросили?'),
+        h(Row, { gap: '2' },
+          h(Button, { variant: 'primary', onClick: function () { setStep(1); } }, work.type === 'film' ? 'Досмотрел(а)' : 'Дочитал(а)'),
+          h(Button, { onClick: function () { setStep(9); } }, 'Бросаю')));
+    } else if (step === 1) {
+      body = h('div', null, h(DifficultyPicker, { onPick: function () { setStep(2); } }),
+        h(Button, { variant: 'quiet', size: 'sm', onClick: function () { setStep(2); } }, 'Пропустить'));
+    } else if (step === 2) {
+      body = h('div', null, prompts.slice(0, 2).map(function (pr) { return h(ReflectionPrompt, { key: pr.id, prompt: pr }); }),
+        h(Button, { variant: 'primary', onClick: function () { setStep(3); } }, 'Дальше'));
+    } else if (step === 9) {
+      body = h('div', null, h(ReasonPicker, { variant: 'abandon', onPick: function () { setStep(3); } }));
+    } else {
+      body = h('div', { className: 'tm-checkin__debrief' },
+        h('h3', { className: 'tm-checkin__dtitle' }, 'Разбор'),
+        h('p', { className: 'tm-prose' }, debrief ? debrief.summary : ''),
+        (debrief && debrief.tropeInsights || []).slice(0, 2).map(function (t) {
+          return h(TropeInsight, { key: t.tropeId, insight: t });
+        }),
+        h(StateChangeNote, { changeType: 'refined_estimate', operations: p.changedOperations || [] }),
+        (debrief && debrief.externalAnalyses || []).length ? h('div', { className: 'tm-checkin__ext' },
+          h('h4', { className: 'tm-checkin__exttitle' }, 'Разборы авторов'),
+          debrief.externalAnalyses.map(function (a) { return h(ExternalAnalysisLink, { key: a.id, analysis: a }); })) : null,
+        (p.discussions || []).length ? h('div', { className: 'tm-checkin__ext' },
+          h('h4', { className: 'tm-checkin__exttitle' }, 'Где об этом говорили'),
+          p.discussions.map(function (d) { return h(DiscussionLink, { key: d.id, discussion: d }); }),
+          h('p', { className: 'tm-checkin__note' },
+            'Это места, где разговор уже идёт, а не наши чаты. Ссылка ведёт в конкретное сообщение.')) : null);
+    }
+    return h('section', { className: 'tm-checkin' }, head(), body);
+  }
+  C.CheckInFlow = CheckInFlow;
+
+  // ============================================================
+  // Диагностика: одно задание — один экран
+  // ============================================================
+  var FAMILIARITY = [
+    { id: 'unknown', label: 'Не знаю' }, { id: 'seen', label: 'Видел(а)' },
+    { id: 'remember_well', label: 'Помню хорошо' }, { id: 'revisited', label: 'Возвращался(ась)' },
+    { id: 'analyzed', label: 'Разбирал(а)' }
+  ];
+  C.FAMILIARITY = FAMILIARITY;
+
+  function AssessmentProgress(p) {
+    var m = p.minutesLeft != null ? p.minutesLeft : 6;
+    return h('div', { className: 'tm-aprog' },
+      h('span', { className: 'tm-aprog__ticks', 'aria-hidden': 'true' },
+        [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) {
+          return h('span', { key: i, className: cx('tm-aprog__t', i < Math.round((p.answered || 0) / Math.max(1, p.estimatedTotal || 8) * 8) && 'tm-aprog__t--on') });
+        })),
+      h('span', { className: 'tm-aprog__text' }, 'примерно ' + m + ' ' + (m === 1 ? 'минута' : m < 5 ? 'минуты' : 'минут')),
+      h(Row, { gap: '2' },
+        h(Button, { variant: 'quiet', size: 'sm' }, 'Пауза'),
+        h(Button, { variant: 'quiet', size: 'sm' }, 'Пропустить')));
+  }
+  C.AssessmentProgress = AssessmentProgress;
+
+  function AssessmentItem(p) {
+    var item = p.item, r = item.response;
+    var st = React.useState(r.type === 'ordering' ? r.items.slice() : (r.type === 'multi_choice' ? [] : null));
+    var val = st[0], setVal = st[1];
+    var grid = React.useState({}), fam = grid[0], setFam = grid[1];
+
+    function move(i, dir) {
+      var next = val.slice(), j = i + dir;
+      if (j < 0 || j >= next.length) return;
+      var tmp = next[i]; next[i] = next[j]; next[j] = tmp;
+      setVal(next);
+    }
+
+    var body;
+    if (r.type === 'familiarity_grid') {
+      body = h('div', { className: 'tm-agrid' }, r.works.map(function (w2) {
+        return h('div', { key: w2.id, className: 'tm-agrid__cell' },
+          h(WorkCover, { work: w2, size: 'sm' }),
+          h('p', { className: 'tm-agrid__title' }, w2.title),
+          h('div', { className: 'tm-agrid__levels', role: 'radiogroup', 'aria-label': w2.title },
+            FAMILIARITY.map(function (f) {
+              var on = fam[w2.id] === f.id;
+              return h('button', { key: f.id, type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
+                className: cx('tm-agrid__lvl', on && 'tm-agrid__lvl--on'),
+                onClick: function () { var n = Object.assign({}, fam); n[w2.id] = f.id; setFam(n); } }, f.label);
+            })));
+      }));
+    } else if (r.type === 'single_choice' || r.type === 'multi_choice') {
+      var multi = r.type === 'multi_choice';
+      body = h('div', { className: 'tm-achoice' }, r.options.map(function (o) {
+        var on = multi ? (val || []).indexOf(o.id) >= 0 : val === o.id;
+        return h('button', { key: o.id, type: 'button', className: cx('tm-achoice__opt', on && 'tm-achoice__opt--on'),
+          'aria-pressed': on ? 'true' : 'false',
+          onClick: function () {
+            if (!multi) return setVal(o.id);
+            var n = (val || []).slice(), i = n.indexOf(o.id);
+            if (i >= 0) n.splice(i, 1); else n.push(o.id);
+            setVal(n);
+          } },
+          h('span', { className: 'tm-achoice__mark', 'aria-hidden': 'true' }), o.label);
+      }));
+    } else if (r.type === 'ordering') {
+      body = h('ol', { className: 'tm-aorder' }, val.map(function (it, i) {
+        return h('li', { key: it.id, className: 'tm-aorder__row' },
+          h('span', { className: 'tm-aorder__n' }, i + 1),
+          h('span', { className: 'tm-aorder__label' }, it.label),
+          h('span', { className: 'tm-aorder__btns' },
+            h('button', { type: 'button', className: 'tm-aorder__btn', 'aria-label': 'Выше: ' + it.label,
+              disabled: i === 0, onClick: function () { move(i, -1); } }, '↑'),
+            h('button', { type: 'button', className: 'tm-aorder__btn', 'aria-label': 'Ниже: ' + it.label,
+              disabled: i === val.length - 1, onClick: function () { move(i, 1); } }, '↓')));
+      }));
+    } else if (r.type === 'scale') {
+      var steps = [];
+      for (var i = r.min; i <= r.max; i++) {
+        (function (v) {
+          steps.push(h('button', { key: v, type: 'button', role: 'radio', 'aria-checked': val === v ? 'true' : 'false',
+            'aria-label': 'позиция ' + v + ' из ' + r.max,
+            className: cx('tm-ascale__p', val === v && 'tm-ascale__p--on'), onClick: function () { setVal(v); } }));
+        })(i);
+      }
+      body = h('div', { className: 'tm-ascale' },
+        h('div', { className: 'tm-ascale__row', role: 'radiogroup', 'aria-label': item.prompt }, steps),
+        h(Row, { className: 'tm-ascale__ends' },
+          h('span', null, r.minLabel), h('span', null, r.maxLabel)));
+    } else {
+      body = h('div', null,
+        h('textarea', { className: 'tm-refl__area', rows: 4, maxLength: r.maxLength,
+          placeholder: 'Пара предложений. Можно пропустить.', value: val || '',
+          onChange: function (e) { setVal(e.target.value); } }),
+        h('p', { className: 'tm-refl__count' }, (val || '').length + ' / ' + r.maxLength));
+    }
+
+    return h('section', { className: 'tm-aitem' },
+      p.progress !== false ? h(AssessmentProgress, p.progress || { answered: 3, estimatedTotal: 8, minutesLeft: 6 }) : null,
+      h('h2', { className: 'tm-aitem__prompt' }, item.prompt),
+      item.body ? h('p', { className: 'tm-aitem__body' }, item.body) : null,
+      body);
+  }
+  C.AssessmentItem = AssessmentItem;
+
+  function ConsentCard(p) {
+    var st = React.useState(false), on = st[0], setOn = st[1];
+    return h('section', { className: 'tm-consent' },
+      h('h3', { className: 'tm-consent__title' }, p.title || 'Участие в исследовании'),
+      h('div', { className: 'tm-consent__body' },
+        (p.points || [
+          'Что измеряем: как меняются ответы на задания за несколько месяцев.',
+          'Зачем: проверить, работает ли подбор произведений. Без этого мы не узнаем.',
+          'Как хранится: отдельно от аккаунта, без имени и почты.',
+          'Как отказаться: в любой момент в профиле — данные удалим.'
+        ]).map(function (t, i) { return h('p', { key: i, className: 'tm-consent__p' }, t); })),
+      h('label', { className: 'tm-consent__check' },
+        h('input', { type: 'checkbox', checked: on, onChange: function (e) { setOn(e.target.checked); } }),
+        h('span', null, p.checkLabel || 'Согласен(на) участвовать')),
+      h(Row, { gap: '2' },
+        h(Button, { variant: 'primary', disabled: !on }, 'Продолжить'),
+        h(Button, { variant: 'quiet' }, 'Не сейчас')));
+  }
+  C.ConsentCard = ConsentCard;
+
+  // ============================================================
+  // Оболочка и системные состояния
+  // ============================================================
+  var NAV = [
+    { id: 'today', label: 'Сегодня' }, { id: 'trajectories', label: 'Маршруты' },
+    { id: 'map', label: 'Карта' }, { id: 'journal', label: 'Дневник' }
+  ];
+  C.NAV = NAV;
+
+  function navMark(id, active) {
+    var d = {
+      today: ['M4 6.8h12v8.7h-12z', 'M6.2 4.4h9.6', 'M7 10.4h6'],
+      trajectories: ['M3.5 14.5 8 8 12 11 16.5 4'],
+      map: ['M10 3.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z', 'M10 6.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8z'],
+      journal: ['M4.5 3.5h11v13h-11z', 'M7.5 7h5', 'M7.5 10h5', 'M7.5 13h3'],
+      profile: ['M10 4.5a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z', 'M4.5 16c1.2-2.8 3.2-4.2 5.5-4.2s4.3 1.4 5.5 4.2']
+    }[id] || [];
+    return h('svg', { className: 'tm-nav__glyph', width: 20, height: 20, viewBox: '0 0 20 20', 'aria-hidden': 'true' },
+      d.map(function (p2, i) {
+        return h('path', { key: i, d: p2, fill: 'none', stroke: 'currentColor', strokeWidth: active ? 1.8 : 1.4, strokeLinecap: 'round', strokeLinejoin: 'round' });
+      }));
+  }
+
+  function AppShell(p) {
+    var variant = p.variant || 'mobile';
+    // В Telegram Mini App шапку рисует сам Telegram: своей у приложения нет,
+    // иначе на экране два заголовка. Нижняя навигация поднимается над
+    // домашним индикатором через безопасную зону.
+    var tg = variant === 'telegram';
+    if (tg) variant = 'mobile';
+    var items = (p.items || NAV);
+    var nav = h('nav', { className: cx('tm-nav', 'tm-nav--' + variant), 'aria-label': 'Основная навигация' },
+      variant === 'desktop' ? h('p', { className: 'tm-nav__brand' }, 'Transformative Media') : null,
+      h('ul', { className: 'tm-nav__list' }, items.concat(variant === 'desktop' ? [{ id: 'profile', label: 'Профиль' }] : []).map(function (it) {
+        var on = it.id === p.active;
+        return h('li', { key: it.id },
+          h('a', { className: cx('tm-nav__item', on && 'tm-nav__item--on'), href: '#' + it.id, 'aria-current': on ? 'page' : undefined },
+            navMark(it.id, on), h('span', null, it.label)));
+      })),
+      variant === 'mobile' ? h('a', { className: 'tm-nav__item tm-nav__item--profile', href: '#profile', 'aria-label': 'Профиль' }, navMark('profile', false)) : null);
+
+    return h('div', { className: cx('tm-shell', 'tm-shell--' + variant, tg && 'tm-shell--telegram') },
+      variant === 'desktop' ? nav : null,
+      h('main', { className: 'tm-shell__main' },
+        p.title && !tg ? h('h1', { className: 'tm-shell__title' }, p.title) : null, p.children),
+      variant === 'mobile' ? nav : null);
+  }
+  C.AppShell = AppShell;
+
+  function EmptyState(p) {
+    return h('div', { className: 'tm-empty' },
+      h('span', { className: 'tm-empty__field', 'aria-hidden': 'true' },
+        h('svg', { viewBox: '0 0 168 52', width: 168, height: 52 },
+          [0, 1, 2].map(function (i) {
+            return h('g', { key: i },
+              h('rect', { x: 6 + i * 54, y: 10, width: 46, height: 32, fill: 'none', stroke: 'currentColor', strokeWidth: 1,
+                strokeDasharray: i === 2 ? '3 4' : null }),
+              h('rect', { x: 10 + i * 54, y: 3, width: 6, height: 4, fill: 'currentColor' }),
+              h('rect', { x: 42 + i * 54, y: 3, width: 6, height: 4, fill: 'currentColor' }),
+              h('rect', { x: 10 + i * 54, y: 45, width: 6, height: 4, fill: 'currentColor' }),
+              h('rect', { x: 42 + i * 54, y: 45, width: 6, height: 4, fill: 'currentColor' }));
+          }))),
+      h('p', { className: 'tm-empty__title' }, p.title),
+      p.text ? h('p', { className: 'tm-empty__text' }, p.text) : null,
+      p.action ? h(Button, { variant: 'primary' }, p.action) : null);
+  }
+  C.EmptyState = EmptyState;
+
+  function ErrorState(p) {
+    return h('div', { className: 'tm-error', role: 'alert' },
+      h('span', { className: 'tm-error__mark', 'aria-hidden': 'true' }),
+      h('div', null,
+        h('p', { className: 'tm-error__title' }, p.title || 'Не удалось загрузить рекомендации'),
+        h('p', { className: 'tm-error__text' }, p.text || 'Соединение прервалось. Показываем последнее сохранённое.'),
+        h(Row, { gap: '2' },
+          h(Button, { size: 'sm', variant: 'primary' }, p.action || 'Повторить'),
+          p.secondary ? h(Button, { size: 'sm', variant: 'quiet' }, p.secondary) : null)));
+  }
+  C.ErrorState = ErrorState;
+
+  function Toast(p) {
+    return h('div', { className: cx('tm-toast', p.tone && 'tm-toast--' + p.tone), role: 'status' },
+      h('span', { className: 'tm-toast__text' }, p.text),
+      p.action ? h('button', { type: 'button', className: 'tm-toast__action' }, p.action) : null);
+  }
+  C.Toast = Toast;
+
+  function Dialog(p) {
+    return h('div', { className: 'tm-dialogwrap' },
+      h('div', { className: 'tm-dialog', role: 'dialog', 'aria-modal': 'true', 'aria-label': p.title },
+        h('h3', { className: 'tm-dialog__title' }, p.title),
+        h('div', { className: 'tm-dialog__body' }, p.children),
+        h(Row, { gap: '2', className: 'tm-dialog__actions' },
+          h(Button, { variant: p.destructive ? 'danger' : 'primary' }, p.confirm || 'Продолжить'),
+          h(Button, { variant: 'quiet' }, p.cancel || 'Отмена'))));
+  }
+  C.Dialog = Dialog;
+
+  function Sheet(p) {
+    return h('div', { className: 'tm-sheetwrap' },
+      h('section', { className: 'tm-sheet', role: 'dialog', 'aria-label': p.title },
+        h('span', { className: 'tm-sheet__grip', 'aria-hidden': 'true' }),
+        h('header', { className: 'tm-sheet__head' },
+          h('h3', { className: 'tm-sheet__title' }, p.title),
+          h(Button, { variant: 'quiet', size: 'sm' }, 'Закрыть')),
+        h('div', { className: 'tm-sheet__body' }, p.children)));
+  }
+  C.Sheet = Sheet;
+
+  // ============================================================
+  // Кабинет участника: коллега коллеге. Без очков, рейтингов и чужих ответов.
+  // ============================================================
+  var TASK_KIND = {
+    pairwise: 'Сравнение', trope_check: 'Проверка приёмов',
+    barrier_vote: 'Барьеры', mechanism_note: 'Заметка о механизме'
+  };
+  C.TASK_KIND = TASK_KIND;
+
+  function TaskFeed(p) {
+    return h('div', { className: 'tm-feed' },
+      h('div', { className: 'tm-feed__head' },
+        h('h3', { className: 'tm-feed__title' }, p.title || 'Задания'),
+        h('label', { className: 'tm-feed__filter' },
+          h('input', { type: 'checkbox', defaultChecked: !!p.onlyMine }),
+          h('span', null, 'Только то, что я разбирал(а)'))),
+      h('ul', { className: 'tm-feed__list' }, (p.tasks || []).map(function (t) {
+        var wk = t.payload.work || t.payload.left;
+        return h('li', { key: t.id, className: 'tm-feed__item' },
+          h('div', null,
+            h('p', { className: 'tm-feed__kind' }, TASK_KIND[t.kind]),
+            h('p', { className: 'tm-feed__work' }, t.payload.kind === 'pairwise'
+              ? t.payload.left.title + ' / ' + t.payload.right.title : wk.title),
+            h('p', { className: 'tm-feed__est' }, '≈ ' + t.estimatedSeconds + ' секунд')),
+          h(Button, { size: 'sm' }, 'Открыть'));
+      })),
+      h('p', { className: 'tm-feed__stop' }, 'Можно остановиться в любой момент — ответы сохраняются по одному.'));
+  }
+  C.TaskFeed = TaskFeed;
+
+  function PairwiseCompare(p) {
+    var t = p.task.payload;
+    var st = React.useState(null), val = st[0], setVal = st[1];
+    var meta = OPS[t.op];
+    var side = function (w2, key, hint) {
+      var on = val === key;
+      return h('button', { type: 'button', className: cx('tm-pair__side', on && 'tm-pair__side--on'),
+        'aria-pressed': on ? 'true' : 'false', onClick: function () { setVal(key); p.onAnswer && p.onAnswer(key); } },
+        h(WorkCover, { work: w2, size: 'md' }),
+        h('span', { className: 'tm-pair__title' }, w2.title),
+        h('span', { className: 'tm-pair__key' }, hint));
+    };
+    return h('section', { className: 'tm-pair' },
+      h('h3', { className: 'tm-pair__q' }, t.question),
+      h('details', { className: 'tm-pair__def' },
+        h('summary', null, 'Что считается «' + meta.name.toLowerCase() + '»'),
+        h('p', null, meta.line + '.')),
+      h('div', { className: 'tm-pair__sides' }, side(t.left, 'left', '←'), side(t.right, 'right', '→')),
+      h(Row, { gap: '2', wrap: true, className: 'tm-pair__rest' },
+        h(Button, { size: 'sm', variant: val === 'equal' ? 'primary' : 'secondary', onClick: function () { setVal('equal'); } }, 'Одинаково  ='),
+        h(Button, { size: 'sm', variant: val === 'cant_judge' ? 'primary' : 'secondary', onClick: function () { setVal('cant_judge'); } }, 'Не могу судить'),
+        h(Button, { size: 'sm', variant: 'quiet' }, 'Пропустить')),
+      h('p', { className: 'tm-pair__note' }, 'Ответы модели и других участников не показываются — иначе сравнение перестаёт быть независимым.'));
+  }
+  C.PairwiseCompare = PairwiseCompare;
+
+  var USAGE_OPTS = [
+    { id: 'straight', label: 'Напрямую', note: 'приём работает как обычно' },
+    { id: 'deconstruction', label: 'Деконструкция', note: 'приём разбирают на части' },
+    { id: 'subversion', label: 'Обман ожидания', note: 'приём заявлен и опрокинут' },
+    { id: 'reconstruction', label: 'Реконструкция', note: 'приём собирают заново после слома' },
+    { id: 'meta', label: 'Осмысление приёма', note: 'произведение говорит о самом приёме' }
+  ];
+
+  function TropeUsagePicker(p) {
+    var st = React.useState(p.value || null), val = st[0], setVal = st[1];
+    return h(Row, { wrap: true, gap: '1', className: 'tm-usage' }, USAGE_OPTS.map(function (u) {
+      var on = val === u.id;
+      return h('button', { key: u.id, type: 'button', title: u.note,
+        className: cx('tm-usage__opt', on && 'tm-usage__opt--on'), 'aria-pressed': on ? 'true' : 'false',
+        onClick: function () { setVal(u.id); p.onPick && p.onPick(u.id); } }, u.label);
+    }));
+  }
+  C.TropeUsagePicker = TropeUsagePicker;
+
+  function TropeCheckList(p) {
+    var t = p.task.payload;
+    var st = React.useState({}), val = st[0], setVal = st[1];
+    function set(id, v) { var n = Object.assign({}, val); n[id] = v; setVal(n); }
+    return h('section', { className: 'tm-tropecheck' },
+      h('h3', { className: 'tm-tropecheck__title' }, 'Какие приёмы есть в «' + t.work.title + '»?'),
+      h('ul', { className: 'tm-tropecheck__list' }, t.candidates.map(function (c2) {
+        return h('li', { key: c2.tropeId, className: 'tm-tropecheck__row' },
+          h('p', { className: 'tm-tropecheck__name' }, c2.name),
+          h('p', { className: 'tm-tropecheck__def' }, c2.definition),
+          h(Row, { gap: '1', wrap: true },
+            ['present', 'absent', 'unsure'].map(function (v) {
+              var label = { present: 'Есть', absent: 'Нет', unsure: 'Не уверен(а)' }[v];
+              return h('button', { key: v, type: 'button', className: cx('tm-tropecheck__v', val[c2.tropeId] === v && 'tm-tropecheck__v--on'),
+                'aria-pressed': val[c2.tropeId] === v ? 'true' : 'false', onClick: function () { set(c2.tropeId, v); } }, label);
+            })),
+          val[c2.tropeId] === 'present' ? h(TropeUsagePicker, null) : null);
+      })),
+      h(Button, { variant: 'quiet', size: 'sm' }, 'Добавить недостающий приём'));
+  }
+  C.TropeCheckList = TropeCheckList;
+
+  var SEVERITY = [{ v: 0, label: 'Нет' }, { v: 1, label: 'Слабый' }, { v: 2, label: 'Заметный' }, { v: 3, label: 'Сильный' }, { v: null, label: 'Не могу судить' }];
+
+  function BarrierVote(p) {
+    var t = p.task.payload;
+    var st = React.useState({}), val = st[0], setVal = st[1];
+    return h('section', { className: 'tm-bvote' },
+      h('h3', { className: 'tm-bvote__title' }, 'Насколько заметны барьеры в «' + t.work.title + '»?'),
+      t.barriers.map(function (b) {
+        return h('div', { key: b.kind, className: 'tm-bvote__row' },
+          h('p', { className: 'tm-bvote__label' }, b.label),
+          h(Row, { gap: '1', wrap: true }, SEVERITY.map(function (s) {
+            var on = val[b.kind] === s.v;
+            return h('button', { key: String(s.v), type: 'button', className: cx('tm-bvote__opt', on && 'tm-bvote__opt--on', s.v === null && 'tm-bvote__opt--none'),
+              'aria-pressed': on ? 'true' : 'false',
+              onClick: function () { var n = Object.assign({}, val); n[b.kind] = s.v; setVal(n); } }, s.label);
+          })));
+      }));
+  }
+  C.BarrierVote = BarrierVote;
+
+  function MechanismNote(p) {
+    var t = p.task.payload;
+    var st = React.useState(''), val = st[0], setVal = st[1];
+    return h('section', { className: 'tm-mnote' },
+      h(Row, { gap: '1', className: 'tm-mnote__head' },
+        h(OperationGlyph, { op: t.op, size: 16 }),
+        h('h3', { className: 'tm-mnote__title' }, '«' + t.work.title + '» · ' + OPS[t.op].name)),
+      h('p', { className: 'tm-mnote__prompt' }, t.prompt),
+      h('textarea', { className: 'tm-refl__area', rows: 4, maxLength: 800, value: val,
+        placeholder: 'Два-три предложения о механизме. Терминология не обязательна.',
+        onChange: function (e) { setVal(e.target.value); } }),
+      h('label', { className: 'tm-mnote__link' },
+        h('span', null, 'Ссылка на ваш разбор, если он есть'),
+        h('input', { type: 'url', className: 'tm-input', placeholder: 'https://' })),
+      h(Row, { gap: '2' }, h(Button, { variant: 'primary', size: 'sm' }, 'Отправить'), h(Button, { variant: 'quiet', size: 'sm' }, 'Пропустить')));
+  }
+  C.MechanismNote = MechanismNote;
+
+  function ContributionSummary(p) {
+    var c2 = p.contributor;
+    return h('section', { className: 'tm-contrib' },
+      h('h3', { className: 'tm-contrib__title' }, 'Ваш вклад'),
+      h('ul', { className: 'tm-contrib__list' },
+        h('li', null, h('span', { className: 'tm-contrib__n' }, c2.contribution.worksCovered), ' произведений затронуто'),
+        h('li', null, h('span', { className: 'tm-contrib__n' }, c2.contribution.tasksCompleted), ' ответов'),
+        h('li', null, 'уточнены шкалы: ' + c2.contribution.scalesRefined.join(', '))),
+      h('p', { className: 'tm-contrib__credit' }, c2.creditConsent === 'public_name'
+        ? 'Имя появляется на страницах этих произведений: «Экспертная разметка при участии ' + c2.displayName + '».'
+        : 'Вклад учитывается анонимно — имя нигде не показывается.'),
+      h('p', { className: 'tm-contrib__no' }, 'Ни очков, ни рейтингов, ни уровней здесь нет и не будет.'));
+  }
+  C.ContributionSummary = ContributionSummary;
+
+  function CreditSettings(p) {
+    var c2 = p.contributor;
+    var st = React.useState(c2.creditConsent), val = st[0], setVal = st[1];
+    return h('section', { className: 'tm-credit' },
+      h('h3', { className: 'tm-credit__title' }, 'Как подписывать вклад'),
+      h('div', { className: 'tm-credit__opts', role: 'radiogroup', 'aria-label': 'Подпись вклада' },
+        [{ id: 'public_name', label: 'Именем', note: c2.displayName }, { id: 'anonymous', label: 'Анонимно', note: 'без упоминания' }].map(function (o) {
+          var on = val === o.id;
+          return h('button', { key: o.id, type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
+            className: cx('tm-credit__opt', on && 'tm-credit__opt--on'), onClick: function () { setVal(o.id); } },
+            h('span', { className: 'tm-credit__label' }, o.label), h('span', { className: 'tm-credit__note' }, o.note));
+        })),
+      h('div', { className: 'tm-credit__links' },
+        h('p', { className: 'tm-credit__sub' }, 'Ссылки на ваши разборы'),
+        (c2.links || []).map(function (l, i) {
+          return h(Row, { key: i, gap: '2' }, h('input', { className: 'tm-input', defaultValue: l.label }), h('input', { className: 'tm-input', defaultValue: l.url }));
+        }),
+        h(Button, { variant: 'quiet', size: 'sm' }, 'Добавить ссылку')));
+  }
+  C.CreditSettings = CreditSettings;
+
+  // ============================================================
+  // Кураторская: утилитарно, плотно, на тех же токенах. Только десктоп.
+  // ============================================================
+  var ANN_STATUS = {
+    queued: { label: 'В очереди', tone: 'wait' }, annotating: { label: 'Размечается', tone: 'wait' },
+    validation_failed: { label: 'Валидация не прошла', tone: 'stop' }, needs_review: { label: 'На ревью', tone: 'wait' },
+    approved: { label: 'Утверждено', tone: 'ok' }, published: { label: 'Опубликовано', tone: 'ok' },
+    rejected: { label: 'Отклонено', tone: 'stop' }
+  };
+  var PROVIDER = { local: 'локальная модель', packet: 'пакет', anthropic_api: 'API', human: 'человек', expert_consensus: 'эксперты', tvtropes: 'TV Tropes' };
+  var CONF = { low: 'низкая', medium: 'средняя', high: 'высокая' };
+  C.ANN_STATUS = ANN_STATUS; C.PROVIDER = PROVIDER;
+
+  function StatusTag(p) {
+    var s = ANN_STATUS[p.status] || { label: p.status, tone: 'wait' };
+    return h('span', { className: cx('tm-status', 'tm-status--' + s.tone) },
+      h('span', { className: 'tm-status__mark', 'aria-hidden': 'true' }), s.label);
+  }
+  C.StatusTag = StatusTag;
+
+  function FieldConfidence(p) {
+    var level = p.confidence || 'medium';
+    return h('span', { className: cx('tm-fconf', 'tm-fconf--' + level), title: 'Уверенность модели: ' + CONF[level] },
+      h('span', { className: 'tm-fconf__bars', 'aria-hidden': 'true' },
+        [0, 1, 2].map(function (i) {
+          return h('span', { key: i, className: cx('tm-fconf__b', i < ({ low: 1, medium: 2, high: 3 })[level] && 'tm-fconf__b--on') });
+        })),
+      p.label !== false ? h('span', { className: 'tm-fconf__label' }, CONF[level]) : null,
+      p.path ? h('code', { className: 'tm-fconf__path' }, p.path) : null);
+  }
+  C.FieldConfidence = FieldConfidence;
+
+  function ReviewTable(p) {
+    return h('div', { className: 'tm-table__wrap' },
+      h('table', { className: 'tm-table' },
+        h('caption', null, p.caption || 'Очередь аннотаций — самое неуверенное сначала'),
+        h('thead', null, h('tr', null,
+          ['Произведение', 'Статус', 'Источник', 'Уверенность', 'Ошибки', 'Знания модели', 'Токены / время'].map(function (t) {
+            return h('th', { key: t, scope: 'col' }, t);
+          }))),
+        h('tbody', null, (p.items || []).map(function (it) {
+          return h('tr', { key: it.annotationId, className: cx(it.isGold && 'tm-table__row--gold') },
+            h('th', { scope: 'row' },
+              h('span', { className: 'tm-table__work' }, it.work.title),
+              h('span', { className: 'tm-table__sub' }, it.work.year + ' · ' + it.work.creators.join(', ')),
+              it.isGold ? h('span', { className: 'tm-table__gold' }, 'эталон') : null),
+            h('td', null, h(StatusTag, { status: it.status })),
+            h('td', null, PROVIDER[it.provider], h('span', { className: 'tm-table__sub' }, it.model)),
+            h('td', null, h(FieldConfidence, { confidence: it.overallConfidence })),
+            h('td', null, it.validationErrors.length
+              ? h('span', { className: 'tm-table__err' }, it.validationErrors.length + ' ошибки')
+              : (it.lowConfidenceFields.length ? h('span', { className: 'tm-table__sub' }, it.lowConfidenceFields.length + ' поля неуверенны') : '—')),
+            h('td', null, { sufficient: 'достаточно', partial: 'частично', insufficient: 'недостаточно' }[it.knowledgeSufficiency]),
+            h('td', { className: 'tm-table__num' },
+              (it.usage.inputTokens + it.usage.outputTokens) ? (it.usage.inputTokens + it.usage.outputTokens).toLocaleString('ru') : '—',
+              h('span', { className: 'tm-table__sub' }, it.usage.durationMs ? Math.round(it.usage.durationMs / 1000) + ' с' : '—')));
+        }))));
+  }
+  C.ReviewTable = ReviewTable;
+
+  function DiffView(p) {
+    return h('div', { className: 'tm-dv' },
+      h('div', { className: 'tm-dv__col' },
+        h('h4', { className: 'tm-dv__title' }, 'Черновик модели'),
+        (p.rows || []).map(function (r, i) {
+          return h('div', { key: i, className: cx('tm-dv__row', r.changed && 'tm-dv__row--changed') },
+            h('code', { className: 'tm-dv__path' }, r.path),
+            h('p', { className: 'tm-dv__val' }, r.draft),
+            r.confidence ? h(FieldConfidence, { confidence: r.confidence, label: false }) : null,
+            r.evidence ? h('p', { className: 'tm-dv__ev' }, 'основание: ' + r.evidence) : null);
+        })),
+      h('div', { className: 'tm-dv__col tm-dv__col--current' },
+        h('h4', { className: 'tm-dv__title' }, 'Опубликованная версия'),
+        (p.rows || []).map(function (r, i) {
+          return h('div', { key: i, className: cx('tm-dv__row', r.changed && 'tm-dv__row--changed') },
+            h('code', { className: 'tm-dv__path' }, r.path),
+            h('p', { className: 'tm-dv__val' }, r.current == null ? '—' : r.current));
+        })));
+  }
+  C.DiffView = DiffView;
+
+  function ValidationList(p) {
+    return h('div', { className: 'tm-valid' },
+      h('h4', { className: 'tm-valid__title' }, 'Ошибки валидации'),
+      (p.errors || []).length ? h('ul', { className: 'tm-valid__list' }, p.errors.map(function (e, i) {
+        return h('li', { key: i },
+          h('a', { className: 'tm-valid__path', href: '#' + e.path }, e.path),
+          h('span', { className: 'tm-valid__msg' }, e.message));
+      })) : h('p', { className: 'tm-valid__ok' }, 'Ошибок нет'));
+  }
+  C.ValidationList = ValidationList;
+
+  function TropeTree(p) {
+    function node(n, depth) {
+      return h('li', { key: n.name, className: 'tm-tree__node', style: { '--depth': depth } },
+        h('div', { className: 'tm-tree__row' },
+          h('span', { className: cx('tm-tree__name', depth === 0 && 'tm-tree__name--axis') }, n.name),
+          n.count != null ? h('span', { className: 'tm-tree__count' }, n.count) : null,
+          (n.operations || []).map(function (o) { return h(OperationGlyph, { key: o, op: o, size: 12 }); })),
+        (n.children || []).length ? h('ul', { className: 'tm-tree__list' }, n.children.map(function (c2) { return node(c2, depth + 1); })) : null);
+    }
+    return h('div', { className: 'tm-tree' },
+      h('input', { className: 'tm-input', type: 'search', placeholder: 'Поиск по таксономии' }),
+      h('ul', { className: 'tm-tree__list' }, (p.tree || []).map(function (n) { return node(n, 0); })));
+  }
+  C.TropeTree = TropeTree;
+
+  function RunProgress(p) {
+    var r = p.run;
+    return h('div', { className: 'tm-run' },
+      h(Row, { gap: '2', className: 'tm-run__head' },
+        h('h4', { className: 'tm-run__title' }, r.title),
+        h(StatusTag, { status: r.status })),
+      h('div', { className: 'tm-run__bar' },
+        h('span', { className: 'tm-run__fill', style: { width: Math.round(r.done / r.total * 100) + '%' } })),
+      h(Meta, { items: [r.done + ' из ' + r.total, PROVIDER[r.provider], r.tokens ? r.tokens.toLocaleString('ru') + ' токенов' : null,
+        r.seconds ? r.seconds + ' с' : null, r.costUsd ? '$' + r.costUsd.toFixed(2) : null] }),
+      (r.errors || []).length ? h('ul', { className: 'tm-run__errors' }, r.errors.map(function (e, i) {
+        return h('li', { key: i }, e);
+      })) : null);
+  }
+  C.RunProgress = RunProgress;
+
+  function MetricsTable(p) {
+    return h('div', { className: 'tm-table__wrap' },
+      h('table', { className: 'tm-table tm-table--metrics' },
+        h('caption', null, p.caption || 'Качество по слоям и источникам разметки, против эталона'),
+        h('thead', null, h('tr', null,
+          ['Слой', 'Источник', 'Согласие с эталоном', 'Потолок человека', 'Вывод'].map(function (t) { return h('th', { key: t, scope: 'col' }, t); }))),
+        h('tbody', null, (p.rows || []).map(function (r, i) {
+          return h('tr', { key: i },
+            h('th', { scope: 'row' }, r.layer),
+            h('td', null, PROVIDER[r.provider] || r.provider),
+            h('td', { className: 'tm-table__num' }, r.alpha.toFixed(2)),
+            h('td', { className: 'tm-table__num' }, r.ceiling.toFixed(2)),
+            h('td', null, h('span', { className: cx('tm-verdict', r.fit ? 'tm-verdict--ok' : 'tm-verdict--stop') },
+              r.fit ? 'пригоден' : 'не пригоден')));
+        }))));
+  }
+  C.MetricsTable = MetricsTable;
+
+  function PacketExport(p) {
+    return h('section', { className: 'tm-packet' },
+      h('h4', { className: 'tm-packet__title' }, 'Выгрузить пакет на разметку'),
+      h('div', { className: 'tm-packet__grid' },
+        h('label', { className: 'tm-packet__field' }, h('span', null, 'Произведения'),
+          h('select', { className: 'tm-input', defaultValue: 'needs' },
+            h('option', { value: 'needs' }, 'Без разметки (24)'),
+            h('option', { value: 'low' }, 'Неуверенные (11)'),
+            h('option', { value: 'gold' }, 'Эталонный набор (12)'))),
+        h('label', { className: 'tm-packet__field' }, h('span', null, 'Слои'),
+          h('div', { className: 'tm-packet__layers' }, ['структура', 'механизмы', 'тропы', 'операции', 'сложность', 'барьеры'].map(function (l) {
+            return h('label', { key: l, className: 'tm-packet__layer' }, h('input', { type: 'checkbox', defaultChecked: l === 'тропы' || l === 'операции' }), l);
+          }))),
+        h('label', { className: 'tm-packet__field' }, h('span', null, 'Формат'),
+          h('select', { className: 'tm-input' }, h('option', null, 'JSON по файлу на слой'), h('option', null, 'Один JSONL')))),
+      h(Row, { gap: '2' }, h(Button, { variant: 'primary', size: 'sm' }, 'Выгрузить'), h(Button, { variant: 'quiet', size: 'sm' }, 'Предпросмотр')));
+  }
+  C.PacketExport = PacketExport;
+
+  function PacketImportReport(p) {
+    var r = p.report;
+    return h('section', { className: 'tm-import' },
+      h(Row, { gap: '2', className: 'tm-import__head' },
+        h('h4', { className: 'tm-import__title' }, 'Пакет ' + r.packetId),
+        h('span', { className: 'tm-import__sum' }, r.passed + ' из ' + r.files + ' файлов прошли')),
+      h('div', { className: 'tm-table__wrap' },
+        h('table', { className: 'tm-table' },
+          h('thead', null, h('tr', null, ['Файл', 'Результат', 'Что дальше'].map(function (t) { return h('th', { key: t, scope: 'col' }, t); }))),
+          h('tbody', null, r.rows.map(function (row) {
+            return h('tr', { key: row.file },
+              h('th', { scope: 'row' }, h('code', null, row.file)),
+              h('td', null, h('span', { className: cx('tm-verdict', row.status === 'ok' ? 'tm-verdict--ok' : 'tm-verdict--stop') },
+                row.status === 'ok' ? 'принят' : 'отклонён')),
+              h('td', null, row.note));
+          })))));
+  }
+  C.PacketImportReport = PacketImportReport;
+
+  function BlindAnnotationToggle(p) {
+    var st = React.useState(p.blind !== false), blind = st[0], setBlind = st[1];
+    return h('div', { className: cx('tm-blind', blind && 'tm-blind--on') },
+      h('div', null,
+        h('p', { className: 'tm-blind__title' }, blind ? 'Слепая разметка включена' : 'Черновик модели виден'),
+        h('p', { className: 'tm-blind__note' }, blind
+          ? 'Черновик модели скрыт, пока вы не сохраните свою версию. Так эталон остаётся независимым.'
+          : 'Ваша версия уже сохранена — сравнение доступно.')),
+      h(Button, { size: 'sm', pressed: blind, onClick: function () { setBlind(!blind); } }, blind ? 'Показать после сохранения' : 'Включить слепой режим'));
+  }
+  C.BlindAnnotationToggle = BlindAnnotationToggle;
+
+  function AgreementCeiling(p) {
+    var v = p.selfAgreement, ceil = p.ceiling != null ? p.ceiling : v;
+    return h('div', { className: 'tm-ceiling' },
+      h('h4', { className: 'tm-ceiling__title' }, 'Потолок согласованности'),
+      h('p', { className: 'tm-ceiling__text' },
+        'Повторная разметка эталона через ' + (p.weeks || 3) + ' недели дала α ' + v.toFixed(2) +
+        '. Выше этого значения ни модель, ни участники подняться не могут — это предел самого измерения.'),
+      h('div', { className: 'tm-ceiling__scale' },
+        h('span', { className: 'tm-ceiling__cap', style: { left: ceil * 100 + '%' } },
+          h('span', { className: 'tm-ceiling__caplabel' }, 'потолок ' + ceil.toFixed(2))),
+        (p.marks || []).map(function (m) {
+          return h('span', { key: m.label, className: 'tm-ceiling__mark', style: { left: m.alpha * 100 + '%' } },
+            h('span', { className: 'tm-ceiling__marklabel' }, m.label + ' ' + m.alpha.toFixed(2)));
+        })));
+  }
+  C.AgreementCeiling = AgreementCeiling;
+
+  var AGREE = { reliable: { label: 'надёжно', tone: 'ok' }, tentative: { label: 'предварительно', tone: 'wait' }, unreliable: { label: 'расходятся', tone: 'stop' } };
+
+  function AgreementMatrix(p) {
+    var fields = [];
+    (p.rows || []).forEach(function (r) { if (fields.indexOf(r.field) < 0) fields.push(r.field); });
+    var groups = ['experts', 'community', 'all'];
+    var GL = { experts: 'Эксперты', community: 'Сообщество', all: 'Все' };
+    return h('div', { className: 'tm-table__wrap' },
+      h('table', { className: 'tm-table tm-table--matrix' },
+        h('caption', null, p.caption || 'Согласованность по полям, α Криппендорфа'),
+        h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Поле'),
+          groups.map(function (g) { return h('th', { key: g, scope: 'col' }, GL[g]); }))),
+        h('tbody', null, fields.map(function (f) {
+          return h('tr', { key: f },
+            h('th', { scope: 'row' }, h('code', null, f)),
+            groups.map(function (g) {
+              var cell = (p.rows || []).filter(function (r) { return r.field === f && r.raterGroup === g; })[0];
+              if (!cell) return h('td', { key: g, className: 'tm-table__num' }, '—');
+              var a = AGREE[cell.status];
+              return h('td', { key: g, className: 'tm-table__num' },
+                h('span', { className: cx('tm-alpha', 'tm-alpha--' + a.tone) }, cell.alpha.toFixed(2)),
+                h('span', { className: 'tm-table__sub' }, a.label + ' · ' + cell.raters));
+            }));
+        }))),
+      p.example ? h('p', { className: 'tm-matrix__example' }, p.example) : null);
+  }
+  C.AgreementMatrix = AgreementMatrix;
+
+  function MappingTable(p) {
+    return h('div', { className: 'tm-table__wrap' },
+      h('table', { className: 'tm-table' },
+        h('caption', null, 'Отображение TV Tropes → TMDF'),
+        h('thead', null, h('tr', null, ['Троп TV Tropes', 'Троп TMDF', 'Способ использования', 'Статус', 'Источник'].map(function (t) {
+          return h('th', { key: t, scope: 'col' }, t);
+        }))),
+        h('tbody', null, (p.rows || []).map(function (r, i) {
+          return h('tr', { key: i },
+            h('th', { scope: 'row' }, r.source),
+            h('td', null, r.target || h('span', { className: 'tm-table__sub' }, 'нет соответствия')),
+            h('td', null, r.usage ? USAGE_LABEL[r.usage] : '—'),
+            h('td', null, h(StatusTag, { status: r.status })),
+            h('td', null, h('span', { className: 'tm-table__sub' }, r.attribution)));
+        }))));
+  }
+  C.MappingTable = MappingTable;
+
+  function ContributorTable(p) {
+    return h('div', { className: 'tm-table__wrap' },
+      h('table', { className: 'tm-table' },
+        h('caption', null, 'Участники: роли, согласия, объём вклада'),
+        h('thead', null, h('tr', null, ['Участник', 'Роль', 'Атрибуция', 'Ответов', 'Произведений', 'Надёжность'].map(function (t) {
+          return h('th', { key: t, scope: 'col' }, t);
+        }))),
+        h('tbody', null, (p.contributors || []).map(function (c2) {
+          return h('tr', { key: c2.id },
+            h('th', { scope: 'row' }, c2.displayName, c2.bio ? h('span', { className: 'tm-table__sub' }, c2.bio) : null),
+            h('td', null, c2.role === 'expert' ? 'эксперт' : 'сообщество'),
+            h('td', null, c2.creditConsent === 'public_name' ? 'именем' : 'анонимно'),
+            h('td', { className: 'tm-table__num' }, c2.contribution.tasksCompleted),
+            h('td', { className: 'tm-table__num' }, c2.contribution.worksCovered),
+            h('td', { className: 'tm-table__num' },
+              h('span', { className: 'tm-table__private' }, (p.reliability && p.reliability[c2.id]) || '—'),
+              h('span', { className: 'tm-table__sub' }, 'видно только куратору')));
+        }))));
+  }
+  C.ContributorTable = ContributorTable;
+
+  window.TM = C;
+})();
+

@@ -1,0 +1,39 @@
+{
+  "name": "transformative-media-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "build:standalone": "vite build --mode standalone && node tools/inline-dist.cjs",
+    "typecheck": "tsc --noEmit",
+    "api": "wrangler dev --local --port 8787",
+    "api:init": "wrangler d1 execute recomend --local --file worker/schema.sql",
+    "typecheck:worker": "tsc -p tsconfig.worker.json",
+    "build:bothost": "node tools/build-bothost.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.23",
+    "@radix-ui/react-toast": "^1.2.23",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.2.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "sql.js": "^1.14.2",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.6.0",
+    "vite": "^6.0.0",
+    "wrangler": "^4.137.0"
+  }
+}
