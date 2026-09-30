@@ -1,5 +1,6 @@
 import type { WorkCard } from '@/types/tmdf';
 import { isSeries } from '@/lib/media';
+import { leadCredits } from '@/lib/credits';
 
 export function formatDuration(minutes?: number): string | undefined {
   if (!minutes) return undefined;
@@ -25,7 +26,7 @@ function seriesLength(work: WorkCard): string | undefined {
 export function workMeta(work: WorkCard): (string | undefined)[] {
   return [
     isSeries(work) ? 'Сериал' : work.type === 'book' ? 'Книга' : 'Фильм',
-    work.creators.join(', '),
+    leadCredits(work).map((c) => c.name).join(', '),
     isSeries(work) ? seriesLength(work)
       : work.type !== 'book' ? formatDuration(work.durationMinutes) : work.pages ? `${work.pages} страниц` : undefined,
   ];

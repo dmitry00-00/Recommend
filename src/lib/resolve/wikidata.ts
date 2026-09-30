@@ -1,3 +1,4 @@
+import type { Credit } from '@/types/tmdf';
 import type { ResolvedWork } from './types';
 
 /** Wikidata как хаб идентификаторов и базовых полей. CC0, без ключа, CORS открыт (`origin=*`).
@@ -19,6 +20,8 @@ export interface WikidataFilm {
   originalTitle?: string;
   year?: number;
   creators: string[];
+  /** режиссёры с элементами Wikidata (Д1); в старом кэше `.cache/kinopoisk-wikidata.json` их нет */
+  credits?: Credit[];
   countries: string[];
   durationMinutes?: number;
 }
@@ -110,6 +113,10 @@ export async function lookupFilms(by: 'kinopoisk' | 'imdb', keys: string[], fetc
       originalTitle: orig?.text,
       year: years.length ? Math.min(...years) : undefined,
       creators: itemIds(e, PROPS.director).map((id) => label(names[id])).filter((n): n is string => Boolean(n)),
+      credits: itemIds(e, PROPS.director).flatMap((id): Credit[] => {
+        const name = label(names[id]);
+        return name ? [{ personId: id, role: 'director', name }] : [];
+      }),
       countries: itemIds(e, PROPS.country).map((id) => label(names[id])).filter((n): n is string => Boolean(n)),
       durationMinutes: dur ? Math.round(Number(dur.amount)) || undefined : undefined,
     });
@@ -123,6 +130,7 @@ export function fromWikidata(film: WikidataFilm): Partial<ResolvedWork> {
     originalTitle: film.originalTitle,
     year: film.year,
     creators: film.creators,
+    ...(film.credits?.length ? { credits: film.credits } : {}),
     countries: film.countries,
     durationMinutes: film.durationMinutes,
     externalIds: { wikidata: film.wikidata, imdb: film.imdb, tmdb: film.tmdb, kinopoisk: film.kinopoisk },

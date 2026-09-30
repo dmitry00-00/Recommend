@@ -22,7 +22,6 @@
 
 | # | ID | Задача | Размер | Зависит от |
 |---|---|---|---|---|
-| 7 | Д1 | Контракт `Person` и `credits` (director, writer, creator, author) | M | — |
 | 9 | Е5 | Импорт: сериалы из выгрузок перестают откладываться | S | Е1 |
 | 10 | Д2 | Резолв авторов: Wikidata P57, P58, P170, P50; TMDb `created_by` | M | Д1 |
 | 11 | Е2 | Разметка сериалов: единица — сериал, у антологии — сезон; черновик 115 сериалов | M | Е1, Г1 |
@@ -90,3 +89,4 @@ flowchart LR
 | 30.09 | OPS-6 | Вопрос о норме шкалы над лентой для присланных историй (≥10 оценок, нормы нет) |
 | 30.09 | HYG-3 | `build-essay-index` на `bestByTitle` из `match-videos.mts`: результат тот же, в 20 раз быстрее |
 | 30.09 | Е1 | Сериал — свой вид: `MediaType` += `'series'`, `series?: SeriesInfo` (сезоны, серии, минут в серии, идёт/закончен, антология), `format` устарел и приводится `normalizeWork` при загрузке; проверки через `src/lib/media.ts`; 62 карточки перенесены; см. HANDOFF «Сериал — свой вид» |
+| 30.09 | Д1 | Контракт авторов: `Person` (ключ — элемент Wikidata), `Credit {personId, role, name}`, роли director/writer/creator/author, `WorkCard.credits`; `src/lib/credits.ts` (`creditsOf`, `leadCredits`, `defaultRole`, `peopleIn`), пустой справочник `src/mocks/people.ts`; резолвер Wikidata пишет режиссёров в `credits`; см. HANDOFF «Авторы: контракт» |

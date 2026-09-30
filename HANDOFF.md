@@ -2533,3 +2533,23 @@ Pixar, «Брат 2», «Иван Васильевич» вместо части
 - Проверено: `tsc` приложения и воркера чистые; инструменты — отдельным tsc по изменённым файлам
   (остались только старые ошибки: `year` в `add-shelf-films`, `WikidataFilm` в `kinopoisk-seed`).
 
+## Авторы: контракт (Д1, 30.09)
+
+- `src/types/tmdf.ts`: `Person {id, name, originalName?}`, где `id` — элемент Wikidata («Q25191»):
+  у тёзок он разный, у одного человека в кино и в книгах один. `CreditRole` — `director`,
+  `writer`, `creator` (создатель сериала), `author` (книга). `Credit {personId, role, name}`:
+  имя — снимок на момент резолва, чтобы карточка с сервера читалась без справочника; справочник,
+  когда есть, главнее. У `WorkCard` — необязательное `credits`; строковое `creators` осталось.
+- `src/lib/credits.ts` — единственный способ читать авторов: `creditsOf(work, people?)` (с
+  `credits` или из `creators` с ролью по виду: фильм → режиссёр, сериал → создатель, книга →
+  автор), `leadCredits` (главные — для строки под названием; `workMeta` уже через неё),
+  `creatorsFrom`, `hasPerson`, `peopleIn`, `isPersonId`.
+- `src/mocks/people.ts` — справочник людей, пока пуст: его соберёт Д2.
+- Резолвер Wikidata (`lookupFilms`) уже знает элементы режиссёров (P57) — теперь кладёт их в
+  `credits`; `merge` и `toWorkCard` их проносят. Старый кэш `.cache/kinopoisk-wikidata.json`
+  без `credits` — поле необязательное.
+- Генераторы карточек (`resolve-markup-films`, `expand-film-base` уже видят QID режиссёра),
+  сценаристы P58, создатели P170, авторы книг P50 и `created_by` TMDb — это Д2.
+- Проверено: `tsc` приложения и воркера; `credits.ts` — прогоном на Node (роли по виду, справочник
+  главнее снимка, сценаристы не попадают в главные).
+

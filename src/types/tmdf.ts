@@ -9,6 +9,28 @@ export type ISODate = string;
  *  её ещё можно встретить в старых данных, читать через `isSeries` (src/lib/media.ts). */
 export type MediaType = 'film' | 'series' | 'book';
 
+/** Человек-автор: режиссёр, сценарист, создатель сериала, писатель (трек Д). Ключ — элемент
+ *  Wikidata («Q25191» — Кристофер Нолан): у тёзок он разный, у одного человека в кино и в
+ *  книгах — один. Актёров и студии не заводим: они не объясняют выбор (ROADMAP §8, принцип 3). */
+export type PersonId = string;
+export interface Person {
+  id: PersonId;
+  /** как пишут у нас — по-русски, если есть */
+  name: string;
+  /** в оригинале, если отличается: «Christopher Nolan» */
+  originalName?: string;
+}
+/** director — режиссёр, writer — сценарист, creator — создатель сериала (шоураннер),
+ *  author — автор книги */
+export type CreditRole = 'director' | 'writer' | 'creator' | 'author';
+/** Кто и в какой роли. Имя — снимок на момент резолва: карточка читается и без справочника
+ *  людей (`src/mocks/people.ts`), а справочник, когда есть, главнее */
+export interface Credit {
+  personId: PersonId;
+  role: CreditRole;
+  name: string;
+}
+
 export type CognitiveOperation =
   | 'pattern_recognition' | 'causal_reasoning' | 'perspective_taking' | 'analogical_thinking'
   | 'synthesis' | 'abstraction' | 'metacognition' | 'critical_analysis';
@@ -71,7 +93,12 @@ export interface WorkCard {
   title: string;
   originalTitle?: string;
   year: number;
+  /** имена авторов строкой, как было до Д1: их показывают экраны и по ним ищут. Остаётся для
+   *  совместимости; кто именно и в какой роли — в `credits` */
   creators: string[];
+  /** авторы с ролью и элементом Wikidata (Д1, 30.09). Заполняет резолвер (Д2); у карточки без
+   *  них авторы — только строки `creators`, см. `creditsOf` в `src/lib/credits.ts` */
+  credits?: Credit[];
   countries?: string[];
   /** постер или обложка */
   coverUrl?: string;
