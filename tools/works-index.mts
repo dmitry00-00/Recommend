@@ -15,6 +15,7 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
+import { bookBase } from '../src/mocks/bookBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
 import { primaryKey, withBookWork, workKeys } from '../src/lib/keys.ts';
@@ -74,7 +75,11 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     // сериалы с черновой разметкой из присланных профилей (Е2, 30.09); с одним словом в названии
     // ищутся только в разговоре о сериале (Е6): «Офис», «Счастье», «Начало» — обычные слова и тёзки фильмов
     ...seriesBase,
+    // книги через мост с кино (З2) — только с ключом: в чужом тексте их не ищем («Платформа», «Память»,
+    // «Солярис» — тёзки фильмов и обычные слова); книжные каналы — З6
+    ...bookBase,
   ];
+  const bookOnly = new Set(bookBase.map((w) => w.id));
   const fromProfiles = new Set(seriesBase.map((w) => w.id));
   // названия, которые чаще значат другое: группа, роман, другая экранизация того же романа
   // (замер 30.09 по дампу роликов: песни «Короля и Шута», разборы романа Достоевского и сериала
@@ -84,7 +89,7 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   for (const work of all) {
     const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
     if (!key || out.has(key)) continue;
-    const names = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
+    const names = bookOnly.has(work.id) ? [] : [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
     const needsSeriesTalk = fromProfiles.has(work.id)
       && (work.title.trim().split(/\s+/).length === 1 || ALSO_ELSEWHERE.has(work.title.trim().toLowerCase()));

@@ -120,8 +120,8 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw]) => {
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb]) => {
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
     for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
@@ -144,6 +144,10 @@ function catalog(): Promise<void> {
     // карточки черновик некуда показать ни на странице, ни в кураторской
     for (const w of [...fc.filmBaseCurated, ...filmBaseWiki]) seen.add(w.id);
     filmBaseWiki = [...filmBaseWiki, ...sb.seriesBase.filter((w) => !seen.has(w.id))];
+    // книги через мост с кино (З2, tools/build-book-base.mts): поиск, страницы, связи «экранизация
+    // книги» ведут на карточку; в подбор без разметки не идут (З4)
+    for (const w of sb.seriesBase) seen.add(w.id);
+    filmBaseWiki = [...filmBaseWiki, ...bb.bookBase.filter((w) => !seen.has(w.id))];
     // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
     const media = bm.baseMedia;
@@ -186,7 +190,9 @@ function relationsFor(work: WorkCard): WorkRelationView[] {
   const view = (kind: RelationKind, direction: 'out' | 'in', other: string): WorkRelationView | undefined => {
     const n = relationNodes[other];
     if (!n) return undefined;
-    const card = n.key ? byKey.get(n.key) : undefined;
+    // книга из каталога через мост с кино (З2) подписана своим элементом — `wd:<Q>`, даже если
+    // связи собирались раньше, чем она попала в справочник
+    const card = byKey.get(n.key ?? `wd:${other}`);
     return { kind, direction, qid: other, title: n.t, ...(n.y ? { year: n.y } : {}), nodeKind: n.k, ...(card ? { workId: card.id } : {}) };
   };
   const out: WorkRelationView[] = [];
@@ -276,7 +282,7 @@ export async function getUniverse(id: string): Promise<UniversePage | undefined>
   const member = (q: string): UniverseMember | undefined => {
     const n = relationNodes[q];
     if (!n) return undefined;
-    const raw = n.key ? byKey.get(n.key) : undefined;
+    const raw = byKey.get(n.key ?? `wd:${q}`);
     const work = raw && (isSeries(raw) ? withSeriesDraft(raw) : annotated(raw));
     return { qid: q, title: n.t, ...(n.y ? { year: n.y } : {}), kind: n.k, ...(work ? { work } : {}),
       seen: Boolean(work && (seenIds.has(work.id) || seen(work, keys))) };
