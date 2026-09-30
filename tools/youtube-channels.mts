@@ -28,7 +28,12 @@ export function cachedVideos(): ChannelVideo[] | undefined {
   try { return JSON.parse(readFileSync(CACHE, 'utf8')) as ChannelVideo[]; } catch { return undefined; }
 }
 
-export async function fetchChannelVideos(key: string, log: (s: string) => void = console.error): Promise<ChannelVideo[]> {
+/** `links` — обходить и каналы, пришедшие ссылками владельца (`via: 'links'` в sources.ts, 224 на
+ *  29.09): их ролики нужны таблице разметки film_reviews (решение владельца 30.09). Индекс
+ *  разборов (build-essay-index) их по-прежнему не обходит. Квота с ними — порядка нескольких
+ *  тысяч единиц за выгрузку из 10 000 суточных, поэтому выгрузку не ставим в ночной сбор. */
+export async function fetchChannelVideos(key: string, log: (s: string) => void = console.error,
+  { links = true }: { links?: boolean } = {}): Promise<ChannelVideo[]> {
   const get = async <T,>(path: string, params: Record<string, string>): Promise<T | undefined> => {
     const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`).catch(() => undefined);
     if (!r?.ok) { log(`  ${path} ${r?.status ?? 'нет сети'}`); return undefined; }
@@ -42,7 +47,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
   // ярус канала (эссеист / обзорщик) задаётся в sources.ts по handle, а у ролика есть только
   // channelId — связь между ними знает лишь этот перебор, поэтому её и сохраняем. Название
   // канала для этого не годится: на YouTube он «TerlKabot channel», в списке «TerlKabot»
-  const meta = new Map<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book' }>();
+  const meta = new Map<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links' }>();
   for (let i = 0; i < ids.length; i += 50) {
     const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
       { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
@@ -54,16 +59,35 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
       meta.set(it.snippet.channelId, { title, tier: 'essay', medium: 'film' });
     }
   }
-  // каналы, пришедшие ссылками (`via: 'links'`), не обходим — см. sources.ts
-  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && !x.via)) {
+  // каналы, пришедшие ссылками (`via: 'links'`), — только с `links`; их ярус по умолчанию «обзор»
+  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || (links && x.via === 'links')))) {
     const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', { part: 'snippet', forHandle: `@${src.handle}` });
     const it = j?.items?.[0];
     if (it?.id) {
       channels.set(it.id, it.snippet?.title ?? src.title);
-      meta.set(it.id, { handle: src.handle, title: it.snippet?.title ?? src.title, tier: src.tier ?? 'essay', medium: src.medium ?? 'film' });
+      meta.set(it.id, { handle: src.handle, title: it.snippet?.title ?? src.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}) });
     } else log(`  ? канал @${src.handle} не нашёлся`);
   }
-  writeFileSync(new URL('../.cache/youtube/channels.json', import.meta.url), JSON.stringify(Object.fromEntries(meta), null, 1));
+  // Канал из списка, который сейчас не нашёлся (сбой сети, квота), берём из прежнего
+  // channels.json — по id он обходится и без поиска по handle. Не нашлось ни одного — сети нет
+  // вовсе: выгрузку не трогаем, иначе таблица разметки собралась бы пустой
+  const chFile = new URL('../.cache/youtube/channels.json', import.meta.url);
+  const wanted = new Set(sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || links))
+    .map((x) => x.handle.toLowerCase()));
+  const oldMeta: Record<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links' }> =
+    existsSync(chFile) ? JSON.parse(readFileSync(chFile, 'utf8')) : {};
+  if (!meta.size) {
+    log('ни один канал не ответил — выгрузку не трогаю, остаётся прежняя');
+    return cachedVideos() ?? [];
+  }
+  const resolved = new Set([...meta.values()].map((m) => m.handle?.toLowerCase()).filter(Boolean));
+  for (const [id, m] of Object.entries(oldMeta)) {
+    if (meta.has(id) || !m.handle || resolved.has(m.handle.toLowerCase()) || !wanted.has(m.handle.toLowerCase())) continue;
+    meta.set(id, m);
+    channels.set(id, m.title);
+    log(`  канал @${m.handle} взят из прежнего списка`);
+  }
+  writeFileSync(chFile, JSON.stringify(Object.fromEntries(meta), null, 1));
   log(`каналы: ${[...channels.values()].join(', ')}`);
   log(`  из них обзорщиков ${[...meta.values()].filter((m) => m.tier === 'review').length}, эссеистов ${[...meta.values()].filter((m) => m.tier === 'essay').length}, про книги ${[...meta.values()].filter((m) => m.medium === 'book').length}`);
 
@@ -103,6 +127,18 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
       if (m) v.minutes = m;
     }
   }
+  // Сбой сети или квоты на одном канале не должен стирать его ролики из выгрузки: таблица
+  // разметки строится из неё, и пропавшие строки выглядели бы как потерянная разметка. Ролики
+  // прежней выгрузки, которых нет в новой, остаются — если их канал по-прежнему в обходе
+  // (канал, убранный из списка, уходит вместе с роликами).
+  const before = cachedVideos() ?? [];
+  let kept = 0;
+  for (const v of before) {
+    if (byId.has(v.id) || !v.channelId || !channels.has(v.channelId)) continue;
+    byId.set(v.id, v);
+    kept += 1;
+  }
+  if (kept) log(`  из прежней выгрузки сохранено ${kept} роликов (канал не ответил или ролик пропал из плейлиста)`);
   const out = [...byId.values()];
   mkdirSync('.cache/youtube', { recursive: true });
   writeFileSync(CACHE, JSON.stringify(out));
