@@ -17,7 +17,12 @@ const key = process.env.YT_API_KEY;
 if (!key) { console.error('нужен YT_API_KEY'); process.exit(1); }
 const API = 'https://www.googleapis.com/youtube/v3';
 const get = async <T>(path: string, params: Record<string, string>): Promise<T | undefined> => {
-  const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`);
+  // YouTube не отвечает по сети — выходим, ничего не записав: вчерашний essaysAuto полнее
+  // любого частичного обхода, а шаг в сборщике необязательный (30.09)
+  const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`).catch((e: Error & { cause?: { code?: string } }) => {
+    console.error(`ВНИМАНИЕ: YouTube не отвечает (${e.cause?.code ?? e.message}) — индекс роликов не пересобран, остаётся прежний essaysAuto`);
+    process.exit(3);
+  });
   if (!r.ok) { console.error(`  ${path} ${r.status}`); return undefined; }
   return await r.json() as T;
 };

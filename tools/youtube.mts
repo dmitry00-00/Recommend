@@ -1,6 +1,8 @@
 // Данные о ролике YouTube для генераторов: название, канал, длительность, дата.
 // Два пути: YouTube Data API (`YT_API_KEY`, 50 роликов за запрос, 1 единица квоты) и
 // открытый oEmbed без ключа — там нет длительности. К самим каналам не обращаемся.
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+
 export interface VideoMeta { title: string; author: string; durationMinutes?: number; publishedAt?: string }
 
 export const videoId = (url: string): string | undefined =>
@@ -37,8 +39,42 @@ export async function oembed(id: string): Promise<VideoMeta | undefined> {
   return j.title ? { title: j.title, author: j.author_name ?? '' } : undefined;
 }
 
+/** Что YouTube уже отвечал про ролики — `.cache/youtube/meta.json`, дописывается после каждого
+ *  удачного запроса. Нужен в день, когда YouTube не отвечает: длительность ролика не меняется, а
+ *  без неё шортсы проходят в индекс, и название осталось бы подписью поста. Второй запасной
+ *  источник — дамп каналов разборщиков (`.cache/youtube/videos.json`, tools/youtube-dump.mts),
+ *  но роликов по ссылкам из постов в нём мало (30.09: 4 из 88), поэтому главный — кэш. */
+const CACHE = new URL('../.cache/youtube/meta.json', import.meta.url);
+const DUMP = new URL('../.cache/youtube/videos.json', import.meta.url);
+const readJson = <T,>(u: URL, fallback: T): T => {
+  try { return existsSync(u) ? JSON.parse(readFileSync(u, 'utf8')) as T : fallback; } catch { return fallback; }
+};
+
+function remember(found: Map<string, VideoMeta>): void {
+  if (!found.size) return;
+  const cache = readJson<Record<string, VideoMeta>>(CACHE, {});
+  for (const [id, m] of found) cache[id] = m;
+  // кэш — удобство, а не условие: не записался — сегодняшний прогон от этого не страдает
+  try { mkdirSync(new URL('.', CACHE), { recursive: true }); writeFileSync(CACHE, JSON.stringify(cache)); } catch { /* пусто */ }
+}
+
+/** Что знали про ролики раньше: кэш ответов API, потом дамп каналов. */
+export function recalled(ids: string[]): Map<string, VideoMeta> {
+  const out = new Map<string, VideoMeta>();
+  const cache = readJson<Record<string, VideoMeta>>(CACHE, {});
+  let dump: Map<string, { title: string; channel: string; minutes?: number; publishedAt?: string }> | undefined;
+  for (const id of ids) {
+    if (cache[id]) { out.set(id, cache[id]); continue; }
+    dump ??= new Map(readJson<{ id: string; title: string; channel: string; minutes?: number; publishedAt?: string }[]>(DUMP, [])
+      .map((v) => [v.id, v]));
+    const v = dump.get(id);
+    if (v) out.set(id, { title: v.title, author: v.channel, durationMinutes: v.minutes, publishedAt: v.publishedAt });
+  }
+  return out;
+}
+
 /** Данные роликов пачками по 50 — один запрос на пачку. Сетевой сбой: один повтор через 5 с,
- * потом отдаём то, что успели узнать, и отмечаем `youtubeNet.down` (см. выше). */
+ * потом отмечаем `youtubeNet.down` (см. выше) и добираем остальное из кэша и дампа (`recalled`). */
 export async function videosApi(ids: string[], key: string): Promise<Map<string, VideoMeta>> {
   const out = new Map<string, VideoMeta>();
   for (let i = 0; i < ids.length && !youtubeNet.down; i += 50) {
@@ -47,7 +83,7 @@ export async function videosApi(ids: string[], key: string): Promise<Map<string,
     const url = `https://www.googleapis.com/youtube/v3/videos?${qs}`;
     const r = await fetch(url)
       .catch(() => new Promise((ok) => setTimeout(ok, 5000)).then(() => fetch(url)))
-      .catch((e: NetError) => netDown(e, `${ids.length - i} роликов остаются без названия, канала и длительности`));
+      .catch((e: NetError) => netDown(e, `API не ответил про ${ids.length - i} роликов, добираем из кэша и дампа`));
     if (!r) break;
     if (!r.ok) { console.error(`  youtube ${r.status}`); continue; }
     const j = await r.json().catch(() => ({})) as { items?: { id: string; snippet?: { title?: string; channelTitle?: string; publishedAt?: string };
@@ -61,6 +97,13 @@ export async function videosApi(ids: string[], key: string): Promise<Map<string,
         publishedAt: it.snippet.publishedAt?.slice(0, 10),
       });
     }
+  }
+  remember(out);
+  if (youtubeNet.down) {
+    const missing = ids.filter((id) => !out.has(id));
+    const back = recalled(missing);
+    for (const [id, m] of back) out.set(id, m);
+    console.error(`  из кэша и дампа: ${back.size} из ${missing.length}`);
   }
   return out;
 }
