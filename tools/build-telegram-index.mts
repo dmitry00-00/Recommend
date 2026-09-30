@@ -19,6 +19,7 @@ import { isSeries } from '../src/lib/media.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isBookKey } from '../src/lib/keys.ts';
+import { bookChannelList, isBookHandle, judgeInBookChannel, namesFor, preferBooks, sourceIndex } from './book-channels.mts';
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -96,6 +97,10 @@ const PER_WORK = 3;
 
 // экранизации книг по связям Ж1 (Ж4)
 const adIndex = adaptationIndex(worksIndex({ all: true }));
+// книжные каналы (З6): книги ищем и по мосту с кино, фильм без разговора о кино — к книге
+const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
+const oursByKey = new Map(ours.map((w) => [w.key, w]));
+const bookStats = { lists: 0, toBook: 0, outside: 0, adaptation: 0 };
 const found: { key: string; analysis: ExternalAnalysis; row: string; weight: number }[] = [];
 const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0, early: 0, namesake: 0 };
 const evidenceStats: Record<Evidence, number> = { link: 0, year: 0, original: 0 };
@@ -108,6 +113,7 @@ for (const { username, path, role } of args) {
   // высокий порог стоил почти всего: у @ugolokhorror через него проходил один пост из 280
   // (замер 24.09), хотя фильмы он называет в каждом втором.
   const platform = role === 'platform';
+  const book = isBookHandle(username);
   const rub = rubrics(posts);
   const kinds = [...rub.values()].sort((a, b) => b.n - a.n);
   rubricReport.push(`${channel} (@${username}): постов ${posts.length}, рубрик ${rub.size}`
@@ -135,7 +141,9 @@ for (const { username, path, role } of args) {
     let headLen = 0;
     let heads: { work: typeof ours[number]['work']; key: string }[] = [];
     const series = talksSeries(p.text);
-    for (const { key, work, names, needsSeriesTalk } of ours) {
+    for (const w of ours) {
+      const { key, work, needsSeriesTalk } = w;
+      const names = namesFor(w, book);
       if (needsSeriesTalk && !series) continue;
       // только выделенное кавычками или капсом — иначе «Помните, я обещал…» уходит в «Помнить»
       const len = Math.max(0, ...names.map((n) => nameMatch(head, n, { marked: true, ordinary })));
@@ -144,6 +152,7 @@ for (const { username, path, role } of args) {
       heads.push({ work, key });
     }
     if (heads.length) {
+      if (book) heads = preferBooks(heads);
       const pick = pickNamesake(heads, p.text, p.date, links);
       if (!pick) { stats.early += 1; continue; }
       if (pick !== heads[0]) stats.namesake += 1;
@@ -159,7 +168,9 @@ for (const { username, path, role } of args) {
       // даёт ровно то, от чего уходили 22.09. У автора — наоборот, название часто во втором
       // абзаце. Поэтому по телу ищем только у авторов.
       const hits = new Map<string, { work: typeof ours[number]['work']; key: string; len: number; name: string }>();
-      for (const { key, work, names, needsSeriesTalk } of ours) {
+      for (const w of ours) {
+        const { key, work, needsSeriesTalk } = w;
+        const names = namesFor(w, book);
         if (needsSeriesTalk && !series) continue;
         let len = 0;
         let hit = '';
@@ -173,7 +184,7 @@ for (const { username, path, role } of args) {
       }
       const named = new Set([...hits.values()].map((h) => h.name.toLowerCase()));
       if (named.size !== 1) { if (named.size > 1) stats.crowded += 1; continue; }
-      const group = [...hits.values()];
+      const group = book ? preferBooks([...hits.values()]) : [...hits.values()];
       const only = pickNamesake(group, p.text, p.date, links);
       if (!only) { stats.early += 1; continue; }
       if (only !== group[0]) stats.namesake += 1;
@@ -185,8 +196,14 @@ for (const { username, path, role } of args) {
       fromBody = true;
     }
     if (!best) continue;
-    // к книге не привязываем разговор об экранизации (Ж4): по связям — к фильму, если он у нас есть
-    if (isBookKey(best.key)) {
+    if (book) {
+      // книжный канал (З6): сборник по первой строке — нет; фильм без разговора о кино — к книге
+      if (bookChannelList(head, { commas: false })) { bookStats.lists += 1; continue; }
+      const j = judgeInBookChannel(oursByKey.get(best.key)!, head, p.text.slice(0, 400), bookCtx, p.date);
+      if (j.action === 'drop') { if (j.why === 'outside') bookStats.outside += 1; else bookStats.adaptation += 1; continue; }
+      if (j.action === 'move') { best = { key: j.to!.key, work: j.to!.work, len: best.len }; if (j.why === 'to_book') bookStats.toBook += 1; }
+    } else if (isBookKey(best.key)) {
+      // к книге не привязываем разговор об экранизации (Ж4): по связям — к фильму, если он у нас есть
       const j = judgeBookMatch(adIndex, best.key, head, p.date);
       if (j.action === 'drop') continue;
       if (j.action === 'move') best = { key: j.to!.key, work: j.to!.work, len: best.len };
@@ -295,6 +312,7 @@ console.error(`отсеяно: рубрика-картинка ${stats.picture},
   + ` слишком коротко ${stats.thin}, названо несколько фильмов ${stats.crowded},`
   + ` названо мельком ${stats.passing}, ролик уже известен ${stats.seen}, раньше фильма ${stats.early}`);
 console.error(`тёзки: выбран не первый по справочнику — ${stats.namesake}`);
+console.error(`книжные каналы: сборников ${bookStats.lists}, фильм → книга ${bookStats.toBook}, мимо (книга вне каталога) ${bookStats.outside}, экранизаций ${bookStats.adaptation}`);
 console.error(`→ ${file.pathname}: ${rows.length} совпадений к ${Object.keys(out).length} произведениям (найдено ${stats.matched})`);
 const kept = Object.values(out).flat();
 console.error(`улики в индексе: ${kept.filter((a) => a.evidence).length} из ${kept.length}`

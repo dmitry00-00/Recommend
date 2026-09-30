@@ -31,6 +31,9 @@ export interface IndexedWork {
    *  слово слишком часто значит что-то другое, поэтому совпадение засчитывается, только если
    *  материал говорит о сериале (`talksSeries`, Е6) */
   needsSeriesTalk?: boolean;
+  /** названия для книжных каналов (З6), когда они шире `names`: книги каталога через мост с кино
+   *  в чужом тексте не ищутся, а в книжном канале — ищутся (tools/book-channels.mts) */
+  bookNames?: string[];
 }
 
 /** Внешние ключи карточки: свои, из медиа каталога или справочника; у книги — с мостом
@@ -76,7 +79,7 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     // ищутся только в разговоре о сериале (Е6): «Офис», «Счастье», «Начало» — обычные слова и тёзки фильмов
     ...seriesBase,
     // книги через мост с кино (З2) — только с ключом: в чужом тексте их не ищем («Платформа», «Память»,
-    // «Солярис» — тёзки фильмов и обычные слова); книжные каналы — З6
+    // «Солярис» — тёзки фильмов и обычные слова); в книжных каналах — ищем (`bookNames`, З6)
     ...bookBase,
   ];
   const bookOnly = new Set(bookBase.map((w) => w.id));
@@ -89,11 +92,13 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   for (const work of all) {
     const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
     if (!key || out.has(key)) continue;
-    const names = bookOnly.has(work.id) ? [] : [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
+    const searchable = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
+    const names = bookOnly.has(work.id) ? [] : searchable;
+    const bookNames = bookOnly.has(work.id) && searchable.length ? searchable : undefined;
     const needsSeriesTalk = fromProfiles.has(work.id)
       && (work.title.trim().split(/\s+/).length === 1 || ALSO_ELSEWHERE.has(work.title.trim().toLowerCase()));
-    if (names.length || unnamed) out.set(key, { key, work, names, ...(needsSeriesTalk ? { needsSeriesTalk } : {}) });
+    if (names.length || bookNames || unnamed) out.set(key, { key, work, names, ...(needsSeriesTalk ? { needsSeriesTalk } : {}), ...(bookNames ? { bookNames } : {}) });
   }
   return [...out.values()];
 }

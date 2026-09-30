@@ -17,6 +17,7 @@ import { isSeries } from '../src/lib/media.ts';
 import { bestByTitle } from './match-videos.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isBookKey } from '../src/lib/keys.ts';
+import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex } from './book-channels.mts';
 
 const key = process.env.YT_API_KEY;
 if (!key) { console.error('нужен YT_API_KEY'); process.exit(1); }
@@ -39,6 +40,8 @@ const channels = new Map<string, string>();
 // ярус по названию канала, как оно приходит в ролике: обзорщиков помечаем в индексе, чтобы
 // приложение их не показывало, а подбор — видел. Канала нет в sources.ts — это автор эссе
 const reviewers = new Set<string>();
+// книжные каналы (`medium: 'book'`, З6): в их роликах ищем книги, а не фильмы (tools/book-channels.mts)
+const bookChannels = new Set<string>();
 for (let i = 0; i < ids.length; i += 50) {
   const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
     { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
@@ -50,13 +53,14 @@ for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === '
     { part: 'snippet', forHandle: `@${src.handle}` });
   const it = j?.items?.[0];
   if (it?.id) channels.set(it.id, it.snippet?.title ?? src.title);
+  if (it?.id && src.medium === 'book') bookChannels.add(it.snippet?.title ?? src.title);
   if (it?.id && src.tier === 'review') reviewers.add(it.snippet?.title ?? src.title);
   else console.error(`  ? канал @${src.handle} не нашёлся`);
 }
 console.error(`каналы: ${[...channels.values()].join(', ')}`);
 
 // 2. Все загрузки каждого канала.
-interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string }
+interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean }
 const videos: Video[] = [];
 for (const [id, title] of channels) {
   const c = await get<{ items?: { contentDetails?: { relatedPlaylists?: { uploads?: string } } }[] }>('channels',
@@ -70,7 +74,7 @@ for (const [id, title] of channels) {
       'playlistItems', { part: 'snippet', playlistId: uploads, maxResults: '50', ...(page ? { pageToken: page } : {}) });
     for (const it of j?.items ?? []) {
       if (it.snippet?.title && it.snippet.resourceId?.videoId) {
-        videos.push({ id: it.snippet.resourceId.videoId, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title });
+        videos.push({ id: it.snippet.resourceId.videoId, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, ...(bookChannels.has(title) ? { book: true } : {}) });
       }
     }
     page = j?.nextPageToken;
@@ -157,8 +161,10 @@ let digests = 0;
 let adaptations = 0;
 let moved = 0;
 let conflicts = 0;
+let bookLists = 0, toBook = 0, outside = 0;
 // экранизации книг по связям Ж1 (Ж4): разбор фильма по книге переезжает к фильму, а не пропадает
 const adIndex = adaptationIndex(worksIndex({ all: true }));
+const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
 for (const [videoId, found] of best) {
   let { key, work } = found;
   const v = videos.find((x) => x.id === videoId)!;
@@ -169,9 +175,16 @@ for (const [videoId, found] of best) {
   const said = Boolean(human[videoId]?.key) && !human[videoId]?.guess;
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
   // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
-  if (!said && isDigest(v.title, byKey.get(key)?.names ?? [])) { digests += 1; continue; }
-  // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
-  if (!said && isBookKey(key)) {
+  if (!said && isDigest(v.title, byKey.get(key) ? namesFor(byKey.get(key)!, Boolean(v.book)) : [])) { digests += 1; continue; }
+  // книжный канал (З6): сборник («ПРОЧИТАНО», «N книг») — нет; фильм без разговора о кино — к книге
+  // по связям Ж1, а нет её у нас — мимо; книга — сторож экранизаций, как везде
+  if (!said && v.book) {
+    if (bookChannelList(v.title)) { bookLists += 1; continue; }
+    const j = judgeInBookChannel(byKey.get(key) ?? { key, work, names: [] }, v.title, v.title, bookCtx, v.publishedAt);
+    if (j.action === 'drop') { if (j.why === 'outside') outside += 1; else adaptations += 1; continue; }
+    if (j.action === 'move') { key = j.to!.key; work = j.to!.work; if (j.why === 'to_book') toBook += 1; else moved += 1; }
+  } else if (!said && isBookKey(key)) {
+    // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
     const j = judgeBookMatch(adIndex, key, v.title, v.publishedAt);
     if (j.action === 'drop') { adaptations += 1; continue; }
     if (j.action === 'move') { key = j.to!.key; work = j.to!.work; moved += 1; }
@@ -196,6 +209,7 @@ for (const [videoId, found] of best) {
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
+console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outside}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные
