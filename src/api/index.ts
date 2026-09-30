@@ -106,13 +106,18 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc]) => {
+    import('@/mocks/baseMedia'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm]) => {
     draftAnnotations = da.draftAnnotations;
     userWorks = uh.userWorks; userJournal = uh.userJournal; userRatings = ur.userRatings;
     watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup];
     // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
     const seen = new Set(filmBaseWiki.map((w) => w.id));
     filmBaseWiki = [...filmBaseWiki, ...fc.filmBaseCurated.filter((w) => !seen.has(w.id))];
+    // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
+    // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
+    const media = bm.baseMedia;
+    if (Object.keys(media).length) filmBaseWiki = filmBaseWiki.map((w) => (media[w.id] ? { ...w, ...media[w.id] } : w));
     // по ключам полок из всего справочника: «2046» уже был в нём до полки
     const onShelf = new Set(Object.values(fc.shelfKeys).flat());
     const shelfKey = (w: WorkCard) => (w.format === 'series' ? w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`

@@ -29,7 +29,8 @@ import { writeFileSync as writeDeck } from 'node:fs';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { ratingDeck } from '../src/mocks/ratingDeck.ts';
 import { massCanonList } from '../src/mocks/massCanon.ts';
-import { canonKeys } from '../src/mocks/filmBaseCurated.ts';
+import { canonKeys, filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
+import { baseMedia } from '../src/mocks/baseMedia.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
 // 300, а не 150 (30.09): с каноном верх списка шире, и Г1 размечает по нему с запасом
@@ -207,7 +208,12 @@ if (process.argv.includes('--deck')) {
     const r = rows.get(k);
     deck.push({ id, title: r?.title ?? id, level: r?.level ?? 0 });
   }
-  const noReg = deck.filter((d) => !workRegisters[d.id] && !d.id.startsWith('w') && !d.id.startsWith('c-')).map((d) => d.title);
+  // регистр карточки бывает в трёх местах: workRegisters (история, пул), своя карточка (полки,
+  // канон — filmBaseCurated) и baseMedia (справочник из Wikidata, tools/build-base-media.mts)
+  const ownReg = new Set(filmBaseCurated.filter((w) => w.registers?.length).map((w) => w.id));
+  const noReg = deck.filter((d) => !workRegisters[d.id] && !ownReg.has(d.id) && !baseMedia[d.id]?.registers?.length
+    && !d.id.startsWith('w') && !d.id.startsWith('c-')).map((d) => d.title);
+  const noCover = deck.filter((d) => /^f-wd/.test(d.id) && !baseMedia[d.id]?.coverUrl).map((d) => d.title);
   const body = `// Фильмы для первых оценок (холодный старт, экран /rate). Собирает tools/profile-deck.mts --deck
 // (${new Date().toISOString().slice(0, 10)}), не руками. Правило:
 //   · широко известные — чтобы новый человек набрал десять оценок за минуту, а не листал
@@ -224,5 +230,5 @@ ${deck.map((d) => `  ${JSON.stringify(d.id).replace(/"/g, "'")}, // ${d.title} �
 ];
 `;
   writeDeck(new URL('../src/mocks/ratingDeck.ts', import.meta.url), body);
-  console.error(`→ src/mocks/ratingDeck.ts: ${deck.length} фильмов; по уровням ${JSON.stringify(Object.fromEntries(Object.entries(deck.reduce((m, d) => { m[d.level] = (m[d.level] ?? 0) + 1; return m; }, {} as Record<number, number>))))}${noReg.length ? `; без регистра: ${noReg.join(', ')}` : ''}`);
+  console.error(`→ src/mocks/ratingDeck.ts: ${deck.length} фильмов; по уровням ${JSON.stringify(Object.fromEntries(Object.entries(deck.reduce((m, d) => { m[d.level] = (m[d.level] ?? 0) + 1; return m; }, {} as Record<number, number>))))}${noReg.length ? `; без регистра: ${noReg.join(', ')}` : ''}${noCover.length ? `; без обложки (npx tsx tools/build-base-media.mts): ${noCover.length}` : ''}`);
 }
