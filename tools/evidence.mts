@@ -16,32 +16,78 @@ import { latinContinues } from './title-match.mts';
 
 /** Слова с большой буквы после названия, которые не имя: «"Бессонница" Часть 2». */
 const NOT_NAME = new Set(['часть', 'серия', 'сезон', 'эпизод', 'глава', 'фильм', 'сериал', 'обзор', 'разбор',
-  'смысл', 'трейлер', 'тизер', 'рецензия', 'финал', 'новости', 'кино', 'выпуск', 'том', 'книга']);
+  'смысл', 'трейлер', 'тизер', 'рецензия', 'финал', 'новости', 'кино', 'выпуск', 'том', 'книга',
+  // студии и площадки в родительном — не режиссёр: «Ведьмак Нетфликса», «Мулан Диснея»
+  'нетфликса', 'диснея', 'пиксара', 'марвел', 'марвела', 'амазона', 'апла', 'кинопоиска', 'окко', 'иви']);
 const CYR_NAME = /[А-ЯЁа-яё]/;
 const stem4 = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
 
-/** Чужой режиссёр сразу после названия в кавычках: «Легенда» (18+) Брайана Хелгеленда — это не
- *  «Легенда» Ридли Скотта, «Дракула» Люка Бессона — не Копполы, «Начало» Деа Кулумбегашвили —
- *  не Нолана. Каналы подписывают фильм режиссёром в родительном падеже; сравниваем начала слов
- *  (Андерсон/Андерсона, Ассаяс/Ассайаса, Дэв…/Дэвид — хватает четырёх букв). Только когда
- *  создатели у нас записаны кириллицей: у латинских («Chazelle» против «Шазелла») без транслитерации сравнивать нечем, а ложная тревога
- *  здесь стоит привязки. Замер 30.09 на 2 870 автопривязках: с кириллическими создателями
- *  сторож сработал 14 раз — все 14 тёзки или ремейки. Актёр после названия дал бы ложную
- *  тревогу, поэтому год фильма рядом с названием (улика `year`) проверяется раньше. */
+/** Фамилия в общий «звуковой» вид, чтобы сравнить «Шазелла» с «Chazelle»: кириллица —
+ *  транслитом, латиница — с поправками на то, как её передают по-русски (c/q → k, w → v,
+ *  j → dzh, y → i, th → t, ph → f; диакритика снята, двойные буквы — одна). */
+const TRANSLIT: Record<string, string> = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z',
+  и: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h',
+  ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'iu', я: 'ia' };
+export const sound = (w: string): string => [...w.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '')]
+  .map((c) => TRANSLIT[c] ?? c).join('')
+  .replace(/ph/g, 'f').replace(/th/g, 't').replace(/ck/g, 'k').replace(/c(?!h)/g, 'k').replace(/q/g, 'k')
+  .replace(/w/g, 'v').replace(/x/g, 'ks').replace(/j/g, 'dzh').replace(/y/g, 'i')
+  .replace(/[^a-z]/g, '').replace(/(.)\1+/g, '$1');
+
+const levenshtein = (a: string, b: string): number => {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[b.length];
+};
+
+/** Чужой режиссёр сразу после названия: «Легенда» (18+) Брайана Хелгеленда — это не «Легенда»
+ *  Ридли Скотта, «Дракула» Люка Бессона — не Копполы, «Начало» Деа Кулумбегашвили — не Нолана.
+ *  Каналы подписывают фильм режиссёром в родительном падеже. Два вида подписи: название в
+ *  кавычках («Дракула» Люка Бессона) и название капсом без кавычек («ДРАКУЛА Бессона» — так
+ *  пишет «Я у мамы филолог»); капс нужен, чтобы «Дракула Брэма Стокера» в обычном тексте не
+ *  читалась как чужой режиссёр.
+ *  Создатели кириллицей — сравниваем начала слов (Андерсон/Андерсона, Ассаяс/Ассайаса,
+ *  Дэв…/Дэвид — хватает четырёх букв); замер 30.09 на 2 870 автопривязках: сторож сработал 14
+ *  раз — все 14 тёзки или ремейки. Создатели латиницей — сравниваем звучание (`sound`) и
+ *  противоречие ставим, только если имя далеко от всех создателей (расстояние больше 60%
+ *  длины): «Шазелла»/«Chazelle» и «Джармуша»/«Jarmusch» близки, «Шазелла»/«Iñárritu» — нет,
+ *  а сомнительная середина — ни то ни другое. Актёр после названия дал бы ложную тревогу,
+ *  поэтому год фильма рядом (улика `year`) проверяется раньше, а имя в именительном —
+ *  подлежащее следующей фразы — не считается. */
 export function foreignCreator(work: WorkCard, head: string): string | undefined {
-  const creators = (work.creators ?? []).filter((c) => CYR_NAME.test(c));
-  if (!creators.length || !work.title) return undefined;
+  const all = (work.creators ?? []).filter(Boolean);
+  if (!all.length || !work.title) return undefined;
   const esc = work.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ё/gi, '[её]');
-  const m = new RegExp(`[«"„]${esc}[»"“]\\s*(?:\\(\\d+\\+\\)\\s*)?((?:[А-ЯЁ][а-яё]+(?:[-\\s](?=[А-ЯЁ]))?){1,3})(?![а-яёА-ЯЁ])`, 'u').exec(head);
+  // имя — до трёх слов с большой буквы, между ними частицы: «Ларса фон Триера», «Гильермо дель Торо»
+  const NAME = '((?:[А-ЯЁ][а-яё]+(?:(?:\\s+(?:фон|де|ван|дер|дель|ди|ле|да|ла))?[-\\s](?=[А-ЯЁ]))?){1,3})(?![а-яёА-ЯЁ])';
+  const quoted = new RegExp(`[«"„]${esc}[»"“]\\s*(?:\\(\\d+\\+\\)\\s*)?${NAME}`, 'u').exec(head);
+  const capsTitle = work.title.toLocaleUpperCase('ru').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/Ё/g, '[ЕЁ]');
+  // без кавычек имя должно закрывать подпись: дальше тире, черта, скобка или конец —
+  // «ДРАКУЛА Бессона - (ПЕРЕ)СКАЗКА», а не «ГРОМОВЕРЖЦЫ* Звездочка имеет значение»
+  const bare = quoted ? undefined : new RegExp(`(?<![\\p{L}])${capsTitle}\\s+${NAME}(?=\\s*(?:$|[-–—|/(),.:!?]))`, 'u').exec(head);
+  const m = quoted ?? bare;
   if (!m) return undefined;
-  const words = m[1].split(/[\s-]+/).filter((w) => w && !NOT_NAME.has(w.toLowerCase()));
+  const words = m[1].split(/[\s-]+/).filter((w) => w && /^[А-ЯЁ]/.test(w) && !NOT_NAME.has(w.toLowerCase()));
   if (!words.length || /^\s*\d/.test(head.slice(m.index + m[0].length))) return undefined;
   // подпись режиссёром — в родительном: «Брайана», «Алексея», «Деа», «Дэнни». Имя в именительном
   // — подлежащее следующей фразы, чаще актёр: «…таланта» Николас Кейдж дал интервью (замер 30.09)
-  if (!/[аяиыоуеё]$/i.test(words[0])) return undefined;
-  const known = creators.flatMap((c) => c.split(/[\s-]+/)).map(stem4).filter((w) => w.length >= 3);
-  const same = (a: string, b: string) => { const n = Math.min(a.length, b.length, 4); return n >= 3 && a.slice(0, n) === b.slice(0, n); };
-  return words.some((w) => known.some((k) => same(stem4(w), k))) ? undefined : m[1];
+  // (-о, -е — чаще несклоняемое имя в именительном: «Леонардо ДиКаприо играет»)
+  if (!/[аяиы]$/i.test(words[0])) return undefined;
+  const cyr = all.filter((c) => CYR_NAME.test(c));
+  if (cyr.length) {
+    const known = cyr.flatMap((c) => c.split(/[\s-]+/)).map(stem4).filter((w) => w.length >= 3);
+    const same = (a: string, b: string) => { const n = Math.min(a.length, b.length, 4); return n >= 3 && a.slice(0, n) === b.slice(0, n); };
+    return words.some((w) => known.some((k) => same(stem4(w), k))) ? undefined : m[1];
+  }
+  const known = all.flatMap((c) => c.split(/[\s-]+/)).map(sound).filter((w) => w.length >= 3);
+  if (!known.length) return undefined;
+  const far = words.map(sound).filter((w) => w.length >= 3)
+    .every((w) => known.every((k) => levenshtein(w, k) > 0.6 * Math.max(w.length, k.length)));
+  return far ? m[1] : undefined;
 }
 
 export type Evidence = 'link' | 'year' | 'original';
