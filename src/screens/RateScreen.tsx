@@ -43,9 +43,10 @@ export function RateScreen() {
     if (!deck) return;
     pick();
     const before = deck;
-    const was = deck.items.find((i) => i.work.id === id)?.rating;
+    const was = [...deck.items, ...deck.series].find((i) => i.work.id === id)?.rating;
     // оценка применяется сразу; счётчик — по ответу api (он же считает и то, что оценено раньше)
-    setDeck({ ...deck, items: deck.items.map((i) => (i.work.id === id ? { ...i, rating: value ?? undefined } : i)) });
+    const set = (list: RatingDeck['items']) => list.map((i) => (i.work.id === id ? { ...i, rating: value ?? undefined } : i));
+    setDeck({ ...deck, items: set(deck.items), series: set(deck.series) });
     rateWork(id, value)
       .then(({ rated, needed }) => {
         setDeck((d) => (d ? { ...d, rated, needed } : d));
@@ -97,6 +98,20 @@ export function RateScreen() {
                    onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
         ))}
       </ul>
+      {/* сериалы — отдельным рядом (Е4): оценка сериала — про весь сериал, и путать его с фильмом незачем */}
+      {deck?.series.length ? (
+        <section className="tm-rate__series">
+          <h2 className="tm-title-3 tm-rate__title">{ru.rate.seriesTitle}</h2>
+          <p className="tm-body-sm tm-rate__lead">{ru.rate.seriesLead}</p>
+          <ul className="tm-search__list">
+            {deck.series.map(({ work, rating }) => (
+              <RateRow key={work.id} work={work} rating={rating as Score | undefined}
+                       off={skipped.has(work.id) && !rating}
+                       onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
       {deck ? <p className="tm-caption tm-search__hint">{ru.rate.hint}</p> : null}
     </main>
   );

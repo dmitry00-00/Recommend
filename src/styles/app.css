@@ -640,3 +640,4 @@ button.tm-banner { cursor: pointer; }
 .tm-serieswhere__label { min-width: 4.5em; }
 .tm-serieswhere__value { min-width: 2ch; text-align: center; margin: 0; }
 .tm-checkinscreen__season { margin: 0 0 var(--tm-space-3); }
+.tm-rate__series { margin-top: var(--tm-space-5); }

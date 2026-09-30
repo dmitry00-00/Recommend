@@ -24,7 +24,7 @@ import type {
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
   CreditRole, Person, PersonId, Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
-import { isFilm, isScreen, isSeries, normalizeWork } from '@/lib/media';
+import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
 
 
@@ -260,15 +260,16 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
   return map;
 };
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
-  if (isSeries(w)) return undefined;
+  // сериал (Е4): черновик сериала — и для модели: оценённый и досмотренный сериал теперь
+  // свидетельство вкуса, как фильм
+  if (isSeries(w)) return seriesDraftFor(w);
   const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
   if (tmdb == null) return undefined;
   // отклонённый куратором черновик (Г3) не используется: лучше без разметки, чем с неверной
   const draft = reviewMarks()[`draft:tmdb:${tmdb}`]?.status === 'rejected' ? undefined : draftAnnotations[`tmdb:${tmdb}`];
   return ownAnnotationByTmdb().get(tmdb) ?? draft;
 };
-/** Черновик сериала (Е2) — для страницы произведения и кураторской. В модель и подбор не идёт:
- *  подбор пока по фильмам (Е4), поэтому `draftFor` сериалы по-прежнему пропускает. */
+/** Черновик сериала (Е2): страница произведения, кураторская, а с Е4 — модель и подбор. */
 const seriesDraftFor = (w: WorkCard): SeriesDraft | undefined => {
   if (!isSeries(w)) return undefined;
   const key = workKey(w, w.externalIds ?? externalIds[w.id]);
@@ -440,9 +441,27 @@ function candidates(): Candidate[] {
  *  ставит такие черновики первыми. Неуверенные (low — в основном фильмы 2025–2026 по завязке) и
  *  отклонённые куратором в подбор не идут. */
 const draftCandidates = (): Candidate[] => draftSources(false)
-  // сериалы (Е2) в подбор пока не идут — только в кураторскую и на страницу произведения (Е4)
-  .filter((d) => !isSeries(d.work) && d.annotation.confidence !== 'low' && reviewMarks()[d.id]?.status !== 'rejected')
-  .map((d) => ({ work: annotated(d.work), what: d.annotation.what }));
+  .filter((d) => d.annotation.confidence !== 'low' && reviewMarks()[d.id]?.status !== 'rejected')
+  .map((d) => (isSeries(d.work) ? seriesCandidate(d) : { work: annotated(d.work), what: d.annotation.what }));
+
+/** Сериал кандидатом (Е4): у антологии — сезон со своей разметкой (первый по порядку, повторы
+ *  того же сериала отсекает `candidates`); длина, если известна, — первым барьером. */
+function seriesCandidate(d: DraftSource): Candidate {
+  const a = d.annotation;
+  const base = withRegisters(d.work);
+  const series = d.season ? { ...base.series, anthology: true } : base.series;
+  const card: WorkCard = { ...base, ...(series ? { series } : {}),
+    primaryOperations: a.ops.map(([op, intensity]) => ({ op, intensity })), complexityLevel: a.level,
+    barriers: [...timeBarrier({ ...base, ...(series ? { series } : {}) }), ...a.barriers], warnings: a.warnings, isNicheMasterpiece: a.niche };
+  return { work: card, what: a.what, ...(d.season ? { season: d.season } : {}) };
+}
+const timeBarrier = (w: WorkCard): string[] => {
+  const h = seriesHours(w);
+  return h != null && h > 10 ? [ru.seriesDiary.hours(h)] : [];
+};
+/** Новичок в сериалах: ни одного сериала в дневнике и в просмотренном — ему только короткое. */
+const seriesNovice = (): boolean =>
+  ![...history().map((e) => e.work), ...watchedNow()].some((w) => isSeries(w));
 /** размеченное с полки — кандидатами; без разметки (и сериалы, трек Е) в подбор не идут */
 const shelfCandidates = (works: WorkCard[]): Candidate[] => works.flatMap((w) => {
   const a = draftFor(w);
@@ -557,7 +576,7 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
   const state = ownState();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, candidates(), energy, 6, today()) }
+    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, candidates(), energy, 6, today(), { seriesNovice: seriesNovice() }) }
     : mocks.slates[energy];
   const keys = seenKeys();
   // отложенное в планы, начатое и брошенное — тоже не предлагаем: планы лежат в архиве,
@@ -604,7 +623,13 @@ async function focusPick(state: CognitiveState, energy: Energy, items: Recommend
 // ---------- первые оценки (холодный старт) ----------
 
 export interface RatingItem { work: WorkCard; rating?: 1 | 2 | 3 | 4 | 5 }
-export interface RatingDeck { items: RatingItem[]; rated: number; needed: number }
+export interface RatingDeck {
+  items: RatingItem[];
+  /** отдельный ряд сериалов (Е4): своё просмотренное, потом размеченные с разборами */
+  series: RatingItem[];
+  rated: number;
+  needed: number;
+}
 
 /** Карточка фильма из колоды: справочник истории, пул подбора или каталог — с разметкой,
  *  регистрами и кадром. */
@@ -624,16 +649,34 @@ export async function getRatingDeck(): Promise<RatingDeck> {
   await delay(160);
   await catalog();
   // Своё просмотренное — первым: если участник прислал список (или отметил виденное сам), ему
-  // проще и честнее оценить это, чем угадывать по общей колоде. Сериалы не оцениваем: подбор
-  // только по фильмам. Общая колода — следом, без того, что уже есть в своём списке.
+  // проще и честнее оценить это, чем угадывать по общей колоде. Общая колода — следом, без того,
+  // что уже есть в своём списке. Сериалы — отдельным рядом (Е4): их оценки тоже идут в модель.
   const own = watchedNow().filter(isFilm).map(annotated);
   const keys = new Set(own.flatMap((w) => [w.id, ...keyList(w)]));
   const common = ratingDeck
     .map((id) => deckCard(id))
     .filter((w): w is WorkCard => Boolean(w) && !keys.has(w!.id) && !keyList(w!).some((k) => keys.has(k)));
-  const items = [...own, ...common]
-    .map((work) => ({ work, ...(ratingOf(work.id) ? { rating: ratingOf(work.id)!.rating } : {}) }));
-  return { items, rated: ratedCount(), needed: MIN_RATED };
+  const withRating = (work: WorkCard) => ({ work, ...(ratingOf(work.id) ? { rating: ratingOf(work.id)!.rating } : {}) });
+  const items = [...own, ...common].map(withRating);
+  return { items, series: seriesDeck().map(withRating), rated: ratedCount(), needed: MIN_RATED };
+}
+
+/** Ряд сериалов в /rate (Е4): своё просмотренное первым, дальше размеченные (не low) с обложкой —
+ *  у кого больше разборов, тот и известнее. Двадцать с небольшим: это ряд, а не вторая колода. */
+function seriesDeck(): WorkCard[] {
+  const own = watchedNow().filter(isSeries).map(annotated);
+  const keys = new Set(own.flatMap((w) => [w.id, ...keyList(w)]));
+  const counted = new Map<ID, number>();
+  const count = (w: WorkCard) => counted.get(w.id) ?? (counted.set(w.id, analysesFor(w).length), counted.get(w.id)!);
+  const common = draftSources(false)
+    .filter((d) => isSeries(d.work) && !d.season && d.annotation.confidence !== 'low' && (d.work.coverUrl || d.work.stillUrl))
+    .map((d) => annotated(d.work))
+    // у антологии в очереди сезоны, а в колоде — сериал целиком
+    .concat(draftSources(false).filter((d) => d.season === 1 && (d.work.coverUrl || d.work.stillUrl)).map((d) => annotated(d.work)))
+    .filter((w) => !keys.has(w.id) && !keyList(w).some((k) => keys.has(k)))
+    .sort((a, b) => count(b) - count(a));
+  const seen = new Set<string>();
+  return [...own, ...common].filter((w) => (seen.has(w.id) ? false : (seen.add(w.id), true))).slice(0, 24);
 }
 
 /** Оценить виденное (1–5) или снять оценку. Оценка — вес для модели, наружу она не уходит. */
@@ -1016,7 +1059,7 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     if (state) {
       result.newState = state;
       // «что дальше» — из настоящего подбора, а не из сценария с книгой (найдено 24.09)
-      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today())[0];
+      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today(), { seriesNovice: seriesNovice() })[0];
       if (next) result.nextRecommendation = next;
     }
   }

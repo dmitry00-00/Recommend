@@ -66,7 +66,8 @@ export function RecommendationCard({
           <h3 className={cx('tm-rec__title', hero && 'tm-rec__title--hero')}>
             <Link to={`/works/${work.id}`} className="tm-link--plain">{work.title}</Link>
           </h3>
-          <Meta items={workMeta(work)} />
+          {/* антология (Е4): рекомендован сезон — он отдельная история */}
+          <Meta items={[...workMeta(work), r.season ? ru.seriesPart(r.season) : undefined]} />
           <div className="tm-row tm-row--wrap tm-row--gap-1 tm-rec__ops">
             {work.primaryOperations.slice(0, hero ? 3 : 2).map((o) => (
               <OperationChip key={o.op} op={o.op} size="sm" short={!hero}

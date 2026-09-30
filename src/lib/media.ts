@@ -21,3 +21,27 @@ export function normalizeWork<T extends WorkCard>(w: T): T {
   const { format: _format, ...rest } = w;
   return { ...rest, type: 'series' } as T;
 }
+
+type Timed = Kinded & Pick<WorkCard, 'series' | 'durationMinutes'>;
+
+/** Сколько часов смотреть (Е4): у антологии — один сезон (он и есть единица), у остального —
+ *  весь сериал. Нет числа серий или их длины — неизвестно. */
+export function seriesHours(w: Timed): number | undefined {
+  if (!isSeries(w)) return undefined;
+  const s = w.series;
+  const minutes = s?.episodeMinutes ?? w.durationMinutes;
+  if (!s?.episodes || !minutes) return undefined;
+  const episodes = s.anthology && s.seasons ? s.episodes / s.seasons : s.episodes;
+  return Math.round((episodes * minutes) / 60);
+}
+
+/** Короткий вход в сериалы: мини-сериал (один сезон и закончен) или сезон антологии, или
+ *  известно, что смотреть не больше десяти часов. С этого начинают те, кто сериалов у нас ещё не
+ *  отмечал (Е4). */
+export function isShortSeries(w: Timed): boolean {
+  if (!isSeries(w)) return false;
+  const s = w.series;
+  const hours = seriesHours(w);
+  if (hours != null) return hours <= 10;
+  return Boolean(s?.anthology || (s?.seasons === 1 && s.status === 'ended'));
+}

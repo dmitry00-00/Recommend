@@ -9,11 +9,28 @@ import type {
 import { operations } from '@/lib/operations';
 import { registers } from '@/lib/registers';
 import { opLoad } from './deriveState';
+import { isSeries, isShortSeries, seriesHours } from '@/lib/media';
 
 export interface Candidate {
   work: WorkCard;
   /** что произведение делает с восприятием — из разметки, одной строкой */
   what: string;
+  /** антология (Е4): кандидат — этот сезон */
+  season?: number;
+}
+
+/** Сериалы в подборе (Е4). Новичок в сериалах — тот, кто у нас их ещё не отмечал: ему только
+ *  короткое (мини-сериал, сезон антологии). В слейте сериалов не больше `maxSeries`: лента —
+ *  прежде всего вечер, а сериал — обязательство на недели. */
+export interface RecommendOptions { seriesNovice?: boolean; maxSeries?: number }
+
+/** Общее время — первый барьер сериала: чем дольше, тем ниже, а без сил — вдвое. Длина
+ *  неизвестна — чуть ниже: честнее считать, что это надолго. */
+export function timePenalty(work: WorkCard, energy: Energy): number {
+  if (!isSeries(work)) return 0;
+  const hours = seriesHours(work);
+  const base = hours == null ? (isShortSeries(work) ? 0 : 0.06) : hours <= 10 ? 0 : hours <= 20 ? 0.05 : hours <= 50 ? 0.12 : 0.25;
+  return energy === 'low' ? base * 2 : base;
 }
 
 const ENERGY_STEP: Record<Energy, number> = { low: -1.2, normal: 0.4, high: 1.4 };
@@ -86,7 +103,8 @@ export function scoreCandidate(state: CognitiveState, work: WorkCard, energy: En
   const lead = work.primaryOperations[0]?.op;
   const affinity = lead && strongOps(state).has(lead) ? 0.04 : 0;
   const sum = weights.level + weights.ops + weights.register;
-  return (weights.level * levelFit + weights.ops * ops + weights.register * registerFit(state, work)) / sum + niche + affinity;
+  return (weights.level * levelFit + weights.ops * ops + weights.register * registerFit(state, work)) / sum + niche + affinity
+    - timePenalty(work, energy);
 }
 
 /** Барьеры формы: не «сложнее», а «иначе» — такой кадр честно помечается шагом в сторону. */
@@ -159,44 +177,53 @@ const likesRegister = (state: CognitiveState, work: WorkCard): boolean =>
  *  когда вкус пошёл в оценку: без ограничения слейт схлопывался в один регистр (четыре
  *  детектива подряд), а это уже не подбор, а эхо. Поэтому не больше двух на регистр и хотя бы
  *  один кадр на другом языке, чем привычный, — шаг в сторону по вкусу, не по сложности. */
-export function recommend(state: CognitiveState, candidates: Candidate[], energy: Energy, limit = 6, createdAt = ''): Recommendation[] {
+export function recommend(state: CognitiveState, candidates: Candidate[], energy: Energy, limit = 6, createdAt = '', options: RecommendOptions = {}): Recommendation[] {
+  const maxSeries = options.maxSeries ?? 1;
   const scored = candidates
+    // новичку в сериалах — только короткий вход
+    .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
     .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];
   const seenLead = new Map<CognitiveOperation, number>();
   const seenRegister = new Map<Register, number>();
+  let series = 0;
   for (const x of scored) {
+    if (isSeries(x.c.work) && series >= maxSeries) continue;
     const lead = x.c.work.primaryOperations[0]?.op;
     if (lead && (seenLead.get(lead) ?? 0) >= 2) continue;
     const regs = x.c.work.registers ?? [];
     if (regs.length && regs.every((r) => (seenRegister.get(r) ?? 0) >= 2)) continue;
     picked.push(x);
+    if (isSeries(x.c.work)) series += 1;
     if (lead) seenLead.set(lead, (seenLead.get(lead) ?? 0) + 1);
     regs.forEach((r) => seenRegister.set(r, (seenRegister.get(r) ?? 0) + 1));
     if (picked.length >= limit) break;
   }
   // один кадр на непривычном языке: если вкус известен и весь слейт в любимых регистрах
   if (state.registerTaste?.length && picked.length >= 4 && picked.every((x) => likesRegister(state, x.c.work))) {
-    const other = scored.find((x) => !picked.includes(x) && !likesRegister(state, x.c.work));
+    const other = scored.find((x) => !picked.includes(x) && !likesRegister(state, x.c.work) && !isSeries(x.c.work));
     if (other) picked.splice(picked.length - 1, 1, other);
   }
   return picked.map(({ c }, i) => {
     const { slot, stretch } = slotFor(state, c.work, energy);
     const ops = targetOps(state, c.work);
     const reg = leadRegister(state, c.work);
+    const base = reg
+      ? `${why(state, c.work, ops)} ${reg.familiar ? `И это ${registers[reg.register].line}.` : `Язык другой, чем обычно: ${registers[reg.register].line}.`}`
+      : why(state, c.work, ops);
+    const time = seriesLine(c);
     return {
       id: `rec-${energy}-${c.work.id}`,
       work: c.work,
       slot: i === 0 && slot === 'next_step' ? 'next_step' : slot,
       stretch,
       targetOperations: ops,
+      ...(c.season ? { season: c.season } : {}),
       explanation: {
         what: c.what,
-        why: reg
-          ? `${why(state, c.work, ops)} ${reg.familiar ? `И это ${registers[reg.register].line}.` : `Язык другой, чем обычно: ${registers[reg.register].line}.`}`
-          : why(state, c.work, ops),
+        why: time ? `${base} ${time}` : base,
         whyNow: WHY_NOW[energy],
         whatNext: '',
       },
@@ -204,4 +231,14 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
       createdAt,
     };
   });
+}
+
+/** Строка о времени сериала в объяснении (Е4): сколько это часов и почему именно так. */
+function seriesLine(c: Candidate): string | undefined {
+  if (!isSeries(c.work)) return undefined;
+  const hours = seriesHours(c.work);
+  const about = hours ? `около ${hours} ч` : undefined;
+  if (c.season) return `Антология: ${c.season} сезон — отдельная история${about ? `, ${about}` : ''}; остальные можно не смотреть.`;
+  if (c.work.series?.seasons === 1 && c.work.series.status === 'ended') return `Мини-сериал${about ? `: ${about}` : ''} — один сезон и конец.`;
+  return about ? `Сериал: ${about} всего — это не на вечер.` : 'Сериал — это не на вечер: решайте, есть ли на него недели.';
 }

@@ -379,6 +379,8 @@ export interface Recommendation {
   readiness: Readiness;
   trajectoryId?: ID;
   createdAt: ISODate;
+  /** сериал-антология (Е4): рекомендован сезон — он отдельная история */
+  season?: number;
   /** разборы авторов и места разговора прямо на кадре — то, что видно и без механики (21.09) */
   analyses?: ExternalAnalysis[];
   discussions?: DiscussionPlace[];
