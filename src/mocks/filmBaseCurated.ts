@@ -370,8 +370,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv204541",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Задача трёх тел",
     "originalTitle": "三体",
     "year": 2023,
@@ -400,8 +399,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv155441",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Начало",
     "originalTitle": "开端",
     "year": 2022,
@@ -429,8 +427,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv123542",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Агенты времени",
     "originalTitle": "时光代理人",
     "year": 2021,
@@ -460,8 +457,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv91097",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Клетка духа: Воплощение",
     "originalTitle": "灵笼",
     "year": 2019,
@@ -489,8 +485,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv95717",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Хочу увидеть тебя",
     "originalTitle": "想見你",
     "year": 2019,
@@ -519,8 +514,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv237918",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Сошедшая с рельсов",
     "originalTitle": "脱轨",
     "year": 2023,
@@ -546,8 +540,7 @@ export const filmBaseCurated: WorkCard[] = [
   },
   {
     "id": "f-tmdbtv206489",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Основной закон гения",
     "originalTitle": "天才基本法",
     "year": 2022,

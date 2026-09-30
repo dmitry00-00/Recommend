@@ -9,6 +9,7 @@ import { cx } from '@/lib/cx';
 import { pick, tap } from '@/lib/telegram';
 import { opVar } from '@/lib/operations';
 import ru from '@/i18n/ru';
+import { isSeries } from '@/lib/media';
 
 const DEBOUNCE = 250;
 
@@ -183,7 +184,7 @@ export function SearchScreen() {
                       onClick={() => apply(hit.work.id, !hit.watched)}>
                 {hit.watched ? ru.search.unmark : ru.search.mark}
               </Button>
-              {!hit.watched && hit.work.format !== 'series' ? (
+              {!hit.watched && !isSeries(hit.work) ? (
                 <Button size="sm" variant="quiet" pressed={hit.watching} disabled={hit.watching || busy.includes(hit.work.id)}
                         onClick={() => watchingNow(hit.work.id)}>
                   {hit.work.type === 'book'

@@ -11,6 +11,7 @@ import type { SpoilerLevel, TropeMention } from '../src/types/tmdf.ts';
 import { eachRow, normTrope, wikiUrl } from './tvtropes.mts';
 import { tropeDictionary } from './trope-dictionary.ts';
 import { worksIndex } from './works-index.mts';
+import { isScreen } from '../src/lib/media.ts';
 
 const PER_FILM = 5;
 const file = process.argv[2];
@@ -21,7 +22,7 @@ const cacheFile = new URL('../.cache/imdb-by-tmdb.json', import.meta.url);
 const imdbByTmdb: Record<string, string | null> = existsSync(cacheFile) ? JSON.parse(readFileSync(cacheFile, 'utf8')) : {};
 const ours = new Map<string, { key: string; title: string }>();
 for (const { key, work } of worksIndex()) {
-  if (work.type !== 'film') continue;
+  if (!isScreen(work)) continue;
   const imdb = work.externalIds?.imdb ?? (work.externalIds?.tmdb != null ? imdbByTmdb[String(work.externalIds.tmdb)] : null);
   if (imdb && !ours.has(imdb)) ours.set(imdb, { key, title: work.title });
 }

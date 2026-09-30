@@ -5,6 +5,7 @@ import { getTrajectory, startWork } from '@/api';
 import { Button, EmptyState, ErrorState, PredictionSheet, Skeleton, TrajectoryPath } from '@/components';
 import { currentStep } from '@/components/TrajectoryPath';
 import ru from '@/i18n/ru';
+import { isScreen } from '@/lib/media';
 
 /** Экран «Маршрут» (/trajectories/:id): полный путь и действие для текущей станции. */
 export function TrajectoryScreen() {
@@ -82,7 +83,7 @@ export function TrajectoryScreen() {
           </p>
           <div className="tm-row tm-row--gap-2 tm-row--wrap">
             <Button variant="primary" loading={starting} onClick={() => setAsking(true)}>
-              {current.work.type === 'film' ? ru.actions.startFilm : ru.actions.startBook}
+              {isScreen(current.work) ? ru.actions.startFilm : ru.actions.startBook}
             </Button>
             <Link to={`/works/${current.work.id}`} className="tm-btn tm-btn--secondary">{ru.trajectories.toWork}</Link>
           </div>

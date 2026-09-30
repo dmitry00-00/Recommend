@@ -33,6 +33,7 @@ import { canonKeys, filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isFilm, isSeries } from '../src/lib/media.ts';
 
 // 300, а не 150 (30.09): с каноном верх списка шире, и Г1 размечает по нему с запасом
 const TOP = Number(process.argv[process.argv.indexOf('--top') + 1]) || 300;
@@ -50,7 +51,7 @@ const isAnnotated = (w: WorkCard) => (w.complexityLevel > 0 && w.primaryOperatio
 
 // кандидаты — вся база фильмов; сериалы в колоду не идут
 for (const { key, work } of worksIndex({ all: true })) {
-  if (work.type !== 'film' || work.format === 'series' || !key.startsWith('tmdb:')) continue;
+  if (!isFilm(work) || !key.startsWith('tmdb:')) continue;
   row(key, work, true);
 }
 // разметка: карточка одного фильма бывает в нескольких источниках — хватит любой размеченной
@@ -75,7 +76,7 @@ if (existsSync('seeds')) {
     const seed = JSON.parse(readFileSync(`seeds/${f}`, 'utf8')) as { watched: { tmdb?: number; work: WorkCard }[] };
     const keys = new Set<string>();
     for (const w of seed.watched) {
-      if (w.tmdb == null || w.work.format === 'series') continue;
+      if (w.tmdb == null || isSeries(w.work)) continue;
       const key = `tmdb:${w.tmdb}`;
       keys.add(key);
       row(key, w.work, false); // фильма нет в базе — всё равно в список: кандидат в базу

@@ -23,6 +23,7 @@ import type {
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
   Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
+import { isFilm, isScreen, isSeries, normalizeWork } from '@/lib/media';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -111,18 +112,21 @@ function catalog(): Promise<void> {
     import('@/mocks/baseMedia'),
   ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm]) => {
     draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
-    userWorks = uh.userWorks; userJournal = uh.userJournal; userRatings = ur.userRatings;
-    watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup];
+    // сериал — свой вид (Е1): старые карточки с format:'series' (сервер, выгрузки) приводятся здесь
+    const norm = (ws: readonly WorkCard[]) => ws.map(normalizeWork);
+    userWorks = norm(uh.userWorks); userJournal = uh.userJournal; userRatings = ur.userRatings;
+    watchedWorks = norm(uw.watchedWorks); filmBase = norm(fb.filmBase);
+    filmBaseWiki = norm(freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup]);
     // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
     const seen = new Set(filmBaseWiki.map((w) => w.id));
-    filmBaseWiki = [...filmBaseWiki, ...fc.filmBaseCurated.filter((w) => !seen.has(w.id))];
+    filmBaseWiki = [...filmBaseWiki, ...norm(fc.filmBaseCurated).filter((w) => !seen.has(w.id))];
     // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
     const media = bm.baseMedia;
     if (Object.keys(media).length) filmBaseWiki = filmBaseWiki.map((w) => (media[w.id] ? { ...w, ...media[w.id] } : w));
     // по ключам полок из всего справочника: «2046» уже был в нём до полки
     const onShelf = new Set(Object.values(fc.shelfKeys).flat());
-    const shelfKey = (w: WorkCard) => (w.format === 'series' ? w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`
+    const shelfKey = (w: WorkCard) => (isSeries(w) ? w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`
       : w.externalIds?.tmdb != null && `tmdb:${w.externalIds.tmdb}`);
     shelfWorks = new Map();
     for (const w of [...fc.filmBaseCurated, ...filmBase, ...filmBaseWiki]) {
@@ -229,7 +233,7 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
   return map;
 };
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
-  if (w.format === 'series') return undefined;
+  if (isSeries(w)) return undefined;
   const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
   if (tmdb == null) return undefined;
   // отклонённый куратором черновик (Г3) не используется: лучше без разметки, чем с неверной
@@ -580,7 +584,7 @@ export async function getRatingDeck(): Promise<RatingDeck> {
   // Своё просмотренное — первым: если участник прислал список (или отметил виденное сам), ему
   // проще и честнее оценить это, чем угадывать по общей колоде. Сериалы не оцениваем: подбор
   // только по фильмам. Общая колода — следом, без того, что уже есть в своём списке.
-  const own = watchedNow().filter((w) => w.type === 'film' && w.format !== 'series').map(annotated);
+  const own = watchedNow().filter(isFilm).map(annotated);
   const keys = new Set(own.flatMap((w) => [w.id, ...keyList(w)]));
   const common = ratingDeck
     .map((id) => deckCard(id))
@@ -730,7 +734,7 @@ function hydrate(state: StoredState | undefined): void {
       watchedRemoved.delete(row.workId);
       if (!declared) {
         const work = knownWorks().find((w) => w.id === row.workId) ?? (row.work ? asCard(row.work) : undefined);
-        if (work) watchedAdded.set(row.workId, work);
+        if (work) watchedAdded.set(row.workId, normalizeWork(work));
       }
     } else {
       watchedAdded.delete(row.workId);
@@ -756,7 +760,7 @@ export async function setWatched(workId: ID, watched: boolean): Promise<{ ok: tr
     watchedRemoved.delete(workId);
     if (!declared && !watchedAdded.has(workId)) {
       const work = knownWorks().find((w) => w.id === workId);
-      if (work) watchedAdded.set(workId, work);
+      if (work) watchedAdded.set(workId, normalizeWork(work));
     }
   } else {
     watchedAdded.delete(workId);
@@ -1090,7 +1094,7 @@ function draftSources(ordered = true): DraftSource[] {
   const cards = new Map<string, WorkCard>();
   for (const w of [...userWorks, ...filmBase, ...filmBaseWiki, ...watchedWorks]) {
     const t = (w.externalIds ?? externalIds[w.id])?.tmdb;
-    if (t != null && w.format !== 'series' && !cards.has(`tmdb:${t}`)) cards.set(`tmdb:${t}`, w);
+    if (t != null && !isSeries(w) && !cards.has(`tmdb:${t}`)) cards.set(`tmdb:${t}`, w);
   }
   const deckOrder = new Map<string, number>();
   if (ordered) ratingDeck.forEach((id, i) => {
@@ -1375,7 +1379,7 @@ function nearbyFor(work: WorkCard): CoMention[] {
 /** Темп речи и тишины: замер по субтитрам, ключ тот же, что у разборов. Есть только у
  *  фильмов и только у тех, что нашлись в корпусе (889 из 1030). */
 function formFor(work: WorkCard): FilmForm | undefined {
-  if (work.type !== 'film') return undefined;
+  if (!isFilm(work)) return undefined;
   const tmdb = (work.externalIds ?? externalIds[work.id])?.tmdb;
   return tmdb != null ? filmForm[`tmdb:${tmdb}`] : undefined;
 }
@@ -1383,7 +1387,7 @@ function formFor(work: WorkCard): FilmForm | undefined {
 /** Кому приписывают те же теги. Себя из списка убираем на всякий случай — ключ у карточки
  *  и у соседа один и тот же формат. */
 function tagsFor(work: WorkCard): TagNeighbour[] {
-  if (work.type !== 'film') return [];
+  if (!isFilm(work)) return [];
   const tmdb = (work.externalIds ?? externalIds[work.id])?.tmdb;
   if (tmdb == null) return [];
   const key = `tmdb:${tmdb}`;
@@ -1394,7 +1398,7 @@ function tagsFor(work: WorkCard): TagNeighbour[] {
  *  руками в `tropeInsights`, из списка убираем — иначе один приём стоит в карточке дважды,
  *  и во второй раз без объяснения, как он тут работает. */
 function tropesFor(work: WorkCard): TropeMention[] {
-  if (work.type !== 'film') return [];
+  if (!isFilm(work)) return [];
   const tmdb = (work.externalIds ?? externalIds[work.id])?.tmdb;
   if (tmdb == null) return [];
   const already = new Set((workDetail(work.id)?.tropeInsights ?? []).map((t) => t.name.toLowerCase()));

@@ -9,6 +9,7 @@ import { createReadStream, existsSync, mkdirSync, readFileSync, writeFileSync } 
 import { createInterface } from 'node:readline';
 import { zipIndex, zipSave } from './remote-zip.mts';
 import { worksIndex } from './works-index.mts';
+import { isScreen } from '../src/lib/media.ts';
 
 const ARCHIVE = 'https://files.grouplens.org/datasets/tag-genome-2021/genome_2021.zip';
 const dir = new URL('../.cache/taggenome/', import.meta.url);
@@ -28,7 +29,7 @@ if (process.argv.includes('--fetch')) {
 const imdbByTmdb: Record<string, string | null> = JSON.parse(readFileSync(new URL('../.cache/imdb-by-tmdb.json', import.meta.url), 'utf8'));
 const ours = new Map<string, { key: string; title: string; year: number }>();
 for (const { key, work } of worksIndex()) {
-  if (work.type !== 'film') continue;
+  if (!isScreen(work)) continue;
   const imdb = work.externalIds?.imdb ?? (work.externalIds?.tmdb != null ? imdbByTmdb[String(work.externalIds.tmdb)] : null);
   if (imdb && !ours.has(imdb)) ours.set(imdb, { key, title: work.title, year: work.year });
 }

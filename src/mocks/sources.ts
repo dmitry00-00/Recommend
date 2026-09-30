@@ -1,5 +1,6 @@
 import type { DiscussionPlace, WorkCard } from '@/types/tmdf';
 import ru from '@/i18n/ru';
+import { isScreen } from '@/lib/media';
 
 /** Авторы и каналы, чьи разборы показываем (21.09, список от владельца продукта). К каналам
  *  не обращаемся: ссылка ведёт в поиск по каналу в публичном превью Telegram
@@ -343,7 +344,7 @@ function searchUrl(src: VoiceSource, query: string): string {
  *  Telegram, и YouTube, и строка «Nuke · Nuke» ничего не объясняет. Telegram предпочтительнее:
  *  ролики этих же авторов приходят в карточку отдельно, конкретными разборами. */
 export function searchLinks(work: WorkCard, role: VoiceSource['role'] = 'voice'): DiscussionPlace[] {
-  if (work.type !== 'film') return [];
+  if (!isScreen(work)) return [];
   const byAuthor = new Map<string, VoiceSource>();
   // обзорщиков (скетчи, шутки, просто впечатление) человеку не показываем — ни материалом, ни
   // поиском: показываем эссеистов, и их должно хватать (владелец, 29.09)

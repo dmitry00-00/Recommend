@@ -17,6 +17,7 @@ import { onExternalClick, tap } from '@/lib/telegram';
 import { formatDuration, pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
+import { isScreen } from '@/lib/media';
 
 const ARCHIVE_ROW = 56;
 
@@ -360,7 +361,7 @@ export function TodayScreen() {
   const answers = (e: JourneyEntryData, big = false) => (
     <>
       <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in`); }}>
-        {e.work.type === 'film' ? ru.actions.finishFilm : ru.actions.finishBook}
+        {isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
       </Button>
       <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?abandon=1`); }}>{ru.feed.gaveUp}</Button>
       <Button variant="quiet" size="sm" onClick={() => notYet(e)}>{ru.feed.notYet}</Button>

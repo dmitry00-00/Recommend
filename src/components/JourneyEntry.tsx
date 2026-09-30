@@ -8,6 +8,7 @@ import { WorkCover } from './WorkCover';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
 import { useMechanics } from '@/lib/settingsStore';
+import { isScreen } from '@/lib/media';
 
 export interface JourneyEntryProps {
   entry: JourneyEntryData;
@@ -66,7 +67,7 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
         {inProgress ? (
           <div className="tm-row tm-row--gap-2 tm-entry__actions">
             <Button size="sm" variant="primary" onClick={() => onFinish?.(e)}>
-              {e.work.type === 'film' ? ru.actions.finishFilm : ru.actions.finishBook}
+              {isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
             </Button>
             <Button size="sm" variant="quiet" onClick={() => onAbandon?.(e)}>{ru.actions.abandon}</Button>
           </div>

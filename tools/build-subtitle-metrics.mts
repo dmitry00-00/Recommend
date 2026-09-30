@@ -8,6 +8,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { OPUS_RU, parseCues, words, imdbOf } from './opus-subtitles.mts';
 import { zipIndex, zipRead, type ZipEntry } from './remote-zip.mts';
 import { worksIndex } from './works-index.mts';
+import { isScreen } from '../src/lib/media.ts';
 
 const limit = Number(process.argv.includes('--limit') ? process.argv[process.argv.indexOf('--limit') + 1] : 0) || 0;
 const cacheDir = new URL('../.cache/', import.meta.url);
@@ -16,7 +17,7 @@ const imdbByTmdb: Record<string, string | null> = JSON.parse(readFileSync(new UR
 
 const ours = new Map<string, { key: string; title: string; year?: number; minutes?: number; marked: boolean }>();
 for (const { key, work } of worksIndex()) {
-  if (work.type !== 'film') continue;
+  if (!isScreen(work)) continue;
   const imdb = work.externalIds?.imdb ?? (work.externalIds?.tmdb != null ? imdbByTmdb[String(work.externalIds.tmdb)] : null);
   if (!imdb || ours.has(imdb)) continue;
   ours.set(imdb, {

@@ -15,6 +15,7 @@ import { StateChangeNote } from './StateChangeNote';
 import { TropeInsight } from './TropeInsight';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
+import { isScreen } from '@/lib/media';
 
 export interface CheckInFlowProps {
   work: WorkCard;
@@ -62,10 +63,10 @@ export function CheckInFlow({
   if (step === 0) {
     body = (
       <div>
-        <p className="tm-checkin__q">{work.type === 'film' ? ru.checkin.qFilm : ru.checkin.qBook}</p>
+        <p className="tm-checkin__q">{isScreen(work) ? ru.checkin.qFilm : ru.checkin.qBook}</p>
         <div className="tm-row tm-row--gap-2">
           <Button variant="primary" onClick={() => setStep(1)}>
-            {work.type === 'film' ? ru.checkin.finishedFilm : ru.checkin.finishedBook}
+            {isScreen(work) ? ru.checkin.finishedFilm : ru.checkin.finishedBook}
           </Button>
           <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
         </div>

@@ -22,6 +22,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 const DRY = process.argv.includes('--dry');
 // правила Wikimedia: в подписи — как с нами связаться; анонимные запросы ограничены по частоте
@@ -206,7 +207,7 @@ function choose(c: Cand[], typed: { title: string; year?: number }, videoYear: n
 
 // ── круг ──────────────────────────────────────────────────────────────────────
 const known = new Map(worksIndex({ all: true }).map((w) => [w.key, w.work]));
-const prevCards = new Map(filmBaseMarkup.map((w) => [w.format === 'series' ? `imdb:${w.externalIds?.imdb}` : `tmdb:${w.externalIds?.tmdb}`, w]));
+const prevCards = new Map(filmBaseMarkup.map((w) => [isSeries(w) ? `imdb:${w.externalIds?.imdb}` : `tmdb:${w.externalIds?.tmdb}`, w]));
 const prev = existsSync(OUT) ? (JSON.parse(readFileSync(OUT, 'utf8')).videos ?? {}) as Record<string, unknown> : {};
 const result: Record<string, { typed: string; key: string; label: string; sure: boolean }> = { ...(prev as Record<string, never>) };
 const newCards = new Map<string, { card: WorkCard; director?: string }>();
@@ -245,7 +246,7 @@ for (const r of rows) {
     newCards.set(key, {
       director: pick.cand.director,
       card: {
-        id: `f-wd${pick.cand.qid.slice(1)}`, type: 'film', ...(pick.cand.series ? { format: 'series' as const } : {}),
+        id: `f-wd${pick.cand.qid.slice(1)}`, type: pick.cand.series ? 'series' : 'film',
         title, ...(pick.cand.en && pick.cand.en !== title ? { originalTitle: pick.cand.en } : {}),
         year, creators: [], primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [],
         isNicheMasterpiece: false, ...(pick.cand.minutes ? { durationMinutes: pick.cand.minutes } : {}),
@@ -278,7 +279,7 @@ const cards = [...filmBaseMarkup, ...[...newCards.values()].map(({ card, directo
   (director && dirName.get(director) ? { ...card, creators: [dirName.get(director)!] } : card))];
 
 console.error(`опознано строк: ${sure} уверенно, ${guessed} выбором из тёзок; не опознано: ${[...missed.values()].reduce((a, b) => a + b, 0)} (${missed.size} названий)`);
-console.error(`новых карточек: ${newCards.size} (сериалов ${[...newCards.values()].filter((x) => x.card.format === 'series').length})`);
+console.error(`новых карточек: ${newCards.size} (сериалов ${[...newCards.values()].filter((x) => isSeries(x.card)).length})`);
 if (missed.size) console.error(`не нашлось: ${[...missed.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30).map(([t, n]) => (n > 1 ? `${t} ×${n}` : t)).join(', ')}`);
 if (DRY) process.exit(0);
 

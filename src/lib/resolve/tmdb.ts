@@ -1,3 +1,4 @@
+import type { SeriesInfo } from '@/types/tmdf';
 import type { ResolvedWork } from './types';
 
 /** TMDb: постер, кадр (backdrop), название на русском, хронометраж, режиссёр. Нужен ключ v3;
@@ -21,6 +22,23 @@ interface Tv {
   id: number; name: string; original_name: string; overview?: string; first_air_date?: string; episode_run_time?: number[];
   poster_path?: string | null; backdrop_path?: string | null; origin_country?: string[];
   created_by?: { name: string }[];
+  number_of_seasons?: number; number_of_episodes?: number; status?: string; type?: string;
+  keywords?: { results?: { name: string }[] };
+}
+
+/** Сериал в цифрах из ответа TMDb /tv/{id} (Е1). Антология — по ключевому слову TMDb:
+ *  сезоны в ней — отдельные истории, и «начать с первого сезона» к ней не относится. */
+export function seriesInfo(t: Pick<Tv, 'number_of_seasons' | 'number_of_episodes' | 'episode_run_time' | 'status' | 'keywords'>): SeriesInfo {
+  const ended = t.status === 'Ended' || t.status === 'Canceled';
+  const running = t.status === 'Returning Series' || t.status === 'In Production';
+  const anthology = t.keywords?.results?.some((k) => /anthology/i.test(k.name));
+  return {
+    ...(t.number_of_seasons ? { seasons: t.number_of_seasons } : {}),
+    ...(t.number_of_episodes ? { episodes: t.number_of_episodes } : {}),
+    ...(t.episode_run_time?.[0] ? { episodeMinutes: t.episode_run_time[0] } : {}),
+    ...(ended ? { status: 'ended' as const } : running ? { status: 'running' as const } : {}),
+    ...(anthology ? { anthology: true } : {}),
+  };
 }
 
 interface Providers { results?: Record<string, { link?: string; flatrate?: Provider[]; rent?: Provider[]; buy?: Provider[]; free?: Provider[] }> }
@@ -93,7 +111,7 @@ export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, langua
       return { id, imdb: ext?.imdb_id ?? undefined };
     },
     async tv(id) {
-      const t = await get<Tv>(`/tv/${id}`);
+      const t = await get<Tv>(`/tv/${id}`, { append_to_response: 'keywords' });
       if (!t) return undefined;
       return {
         title: t.name || undefined,
@@ -106,6 +124,7 @@ export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, langua
         stillUrl: t.backdrop_path ? `${IMG}/w780${t.backdrop_path}` : undefined,
         imageSource: t.poster_path || t.backdrop_path ? 'tmdb' : undefined,
         blurb: t.overview || undefined,
+        series: seriesInfo(t),
       };
     },
     async watch(id, region = 'RU') {

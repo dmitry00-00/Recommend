@@ -13,6 +13,7 @@
 // и в репозиторий не попадают; наружу из них могут пойти признаки, но не пересказы.
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
+import { isScreen } from '../src/lib/media.ts';
 
 // заголовок обязан быть из ASCII: кириллица в User-Agent роняет fetch
 const UA = 'recomend-research/0.1 (local prototype; contact via project owner)';
@@ -27,7 +28,7 @@ const imdbByTmdb: Record<string, string | null> = existsSync(cacheFile) ? JSON.p
 const films: { key: string; title: string; year: number; imdb: string }[] = [];
 const seen = new Set<string>();
 for (const { key, work } of worksIndex()) {
-  if (work.type !== 'film') continue;
+  if (!isScreen(work)) continue;
   const imdb = work.externalIds?.imdb ?? (work.externalIds?.tmdb != null ? imdbByTmdb[String(work.externalIds.tmdb)] : null);
   if (!imdb || seen.has(imdb)) continue;
   seen.add(imdb);

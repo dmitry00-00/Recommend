@@ -8,6 +8,7 @@ import { externalIds } from '../src/mocks/externalIds.ts';
 import { works } from '../src/mocks/index.ts';
 import { kinopoiskFromEnv, lookupBook, tmdbFromEnv } from '../src/lib/resolve/index.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isScreen } from '../src/lib/media.ts';
 
 const kp = kinopoiskFromEnv(process.env.KP_API_KEY);
 const tmdb = tmdbFromEnv(process.env.TMDB_API_KEY);
@@ -21,7 +22,7 @@ for (const work of Object.values(works)) {
     if (work.type === 'book' && ids?.isbn?.[0]) {
       const b = await lookupBook(ids.isbn[0]);
       if (b?.coverUrl) media[work.id] = { coverUrl: b.coverUrl, imageSource: 'open_library' };
-    } else if (work.type === 'film' && ids?.imdb) {
+    } else if (isScreen(work) && ids?.imdb) {
       let m: Partial<WorkCard> = {};
       if (kp && !kpDown) {
         try {

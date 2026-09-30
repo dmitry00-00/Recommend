@@ -3,6 +3,7 @@ import type { WorkCard } from '@/types/tmdf';
 import { opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
+import { isSeries } from '@/lib/media';
 
 export interface WorkBannerProps {
   work: WorkCard;
@@ -45,7 +46,7 @@ export function WorkBanner({ work, meta, size = 'md', expanded, tag, onClick }: 
  *  кадра и при свайпе остаётся на месте — уезжает кадр, а не плёнка. Для экранного диктора
  *  скрыта: всё это уже есть в строке под названием. `short` — для низких баннеров архива. */
 export function FilmEdge({ work, no, short }: { work: WorkCard; no: number; short?: boolean }) {
-  const kind = work.format === 'series' ? ru.edge.series : work.type === 'book' ? ru.edge.book : ru.edge.film;
+  const kind = isSeries(work) ? ru.edge.series : work.type === 'book' ? ru.edge.book : ru.edge.film;
   const rest = short ? [work.year] : [kind, work.year, work.durationMinutes ? ru.edge.min(work.durationMinutes) : null];
   return (
     <span className="tm-edge" aria-hidden="true">

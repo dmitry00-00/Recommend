@@ -13,6 +13,7 @@
 // улики, остаётся в очереди «тот ли это фильм».
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { latinContinues } from './title-match.mts';
+import { isSeries } from '../src/lib/media.ts';
 
 /** Слова с большой буквы после названия, которые не имя: «"Бессонница" Часть 2». */
 const NOT_NAME = new Set(['часть', 'серия', 'сезон', 'эпизод', 'глава', 'фильм', 'сериал', 'обзор', 'разбор',
@@ -165,6 +166,6 @@ export function pickNamesake<T extends { work: WorkCard }>(cands: T[], text: str
   const clean = pool.filter((_, i) => verdicts[i] !== 'conflict');
   if (clean.length) pool = clean;
   const series = SERIES_TALK.test(text);
-  const typed = pool.filter((c) => (c.work.format === 'series') === series);
+  const typed = pool.filter((c) => isSeries(c.work) === series);
   return (typed.length ? typed : pool)[0];
 }

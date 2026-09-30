@@ -5,7 +5,9 @@
 
 export type ID = string;
 export type ISODate = string;
-export type MediaType = 'film' | 'book';
+/** 'series' — сериал (Е1, 30.09): до этого сериал был фильмом с пометкой `format: 'series'` —
+ *  её ещё можно встретить в старых данных, читать через `isSeries` (src/lib/media.ts). */
+export type MediaType = 'film' | 'series' | 'book';
 
 export type CognitiveOperation =
   | 'pattern_recognition' | 'causal_reasoning' | 'perspective_taking' | 'analogical_thinking'
@@ -59,9 +61,13 @@ export interface WatchOption {
 export interface WorkCard {
   id: ID;
   type: MediaType;
-  /** 'series' — сериал: его можно отметить виденным (это свидетельство вкуса), но в подбор и
-   *  в колоду оценок он не идёт — модель считает по фильмам */
+  /** @deprecated с 30.09 — сериал это `type: 'series'`. Пометка осталась в старых данных
+   *  (сиды, карточки в записях на сервере); проверять через `isSeries`, приводить `normalizeWork`.
+   *  Сериал можно отметить виденным (свидетельство вкуса), но в подбор и колоду оценок он пока не
+   *  идёт — модель считает по фильмам (трек Е, шаг Е4) */
   format?: 'series';
+  /** сериал: сезоны, серии, длина серии, идёт ли, антология (Е1) */
+  series?: SeriesInfo;
   title: string;
   originalTitle?: string;
   year: number;
@@ -88,6 +94,18 @@ export interface WorkCard {
   signals?: ExternalSignal[];
   /** тональный регистр — ось вкуса; пусто — не размечено */
   registers?: Register[];
+}
+
+/** Устройство сериала (Е1). Единица разметки — сериал целиком, у антологии — сезон (Е2). */
+export interface SeriesInfo {
+  seasons?: number;
+  episodes?: number;
+  /** типичная длина серии, минуты */
+  episodeMinutes?: number;
+  /** идёт (выходят новые сезоны) или закончен */
+  status?: 'running' | 'ended';
+  /** каждый сезон — отдельная история («Настоящий детектив», «Фарго», «Чёрное зеркало») */
+  anthology?: boolean;
 }
 
 /** Тональный регистр — «как произведение с вами разговаривает». Ось вкуса, а не сложности.

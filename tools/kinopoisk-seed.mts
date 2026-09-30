@@ -11,6 +11,7 @@ import { normalizeTitle, parseExport, type ImportedRecord } from '../src/lib/imp
 import { lookupFilms, tmdbFromEnv, type WikidataFilm } from '../src/lib/resolve/index.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import type { UserSeed } from '../worker/env.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 loadEnvFile();
 
@@ -113,7 +114,7 @@ async function resolve(r: ImportedRecord, tmdb: Tmdb): Promise<WorkCard | undefi
     const t = id != null ? await tmdb.tv(id) : undefined;
     if (id == null || !t || (!byId && !(near(t.year, r.year) && sameTitle(r, t)))) return undefined;
     return {
-      id: `l-tmdbtv${id}`, type: 'film', format: 'series',
+      id: `l-tmdbtv${id}`, type: 'series', ...(t.series ? { series: t.series } : {}),
       title: r.title || t.title || '', originalTitle: t.originalTitle, year: r.year ?? t.year ?? 0,
       creators: t.creators ?? [], countries: t.countries, coverUrl: t.coverUrl, stillUrl: t.stillUrl,
       imageSource: t.imageSource, blurb: t.blurb, durationMinutes: t.durationMinutes, ...blank,
@@ -219,7 +220,7 @@ export async function buildSeed(name: string, records: ImportedRecord[], o: Buil
     taken.add(work.id);
     watched.push({
       workId: work.id, work, from: 'kinopoisk',
-      ...(work.format !== 'series' && work.externalIds?.tmdb != null ? { tmdb: work.externalIds.tmdb } : {}),
+      ...(!isSeries(work) && work.externalIds?.tmdb != null ? { tmdb: work.externalIds.tmdb } : {}),
       ...(work.externalIds?.imdb ? { imdb: work.externalIds.imdb } : {}),
     });
     if (r.rating != null && r.rating > 0) {

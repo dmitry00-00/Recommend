@@ -17,6 +17,7 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 loadEnvFile();
 const key = process.env.TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY;
@@ -32,7 +33,7 @@ const { tags, save } = tagSource(key, '.cache/tmdb-tags.json');
 
 const targets = [...filmBaseWiki, ...filmBaseMarkup].filter((w) => {
   const k = analysisKey(w);
-  if (!k?.startsWith('tmdb:') || w.format === 'series') return false;
+  if (!k?.startsWith('tmdb:') || isSeries(w)) return false;
   if (before[w.id]?.coverUrl && before[w.id]?.registers) return false;
   if (w.coverUrl && w.registers?.length) return false;
   return ALL || Boolean(draftAnnotations[k]);

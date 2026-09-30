@@ -14,6 +14,7 @@ import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { voices, voiceKeys } from '../src/mocks/voices.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 const arg = (name: string, def: string): string => {
   const i = process.argv.indexOf(`--${name}`);
@@ -37,7 +38,7 @@ const channels = JSON.parse(readFileSync(new URL('.cache/youtube/channels.json',
 const seen = new Map<string, number>();
 const films = worksIndex({ all: true })
   .filter((w) => w.key.startsWith('tmdb:') || w.key.startsWith('imdb:'))
-  .map((w) => ({ key: w.key, title: w.work.title, year: w.work.year, series: w.work.format === 'series' }))
+  .map((w) => ({ key: w.key, title: w.work.title, year: w.work.year, series: isSeries(w.work) }))
   .sort((a, b) => a.title.localeCompare(b.title, 'ru') || (a.year ?? 0) - (b.year ?? 0))
   .map((f) => {
     // то же правило подписи — в tools/resolve-markup-films.mts

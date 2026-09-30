@@ -17,6 +17,9 @@ import { shelves } from '../src/mocks/shelves.ts';
 import { massCanonList } from '../src/mocks/massCanon.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
+import { seriesInfo } from '../src/lib/resolve/tmdb.ts';
+import type { SeriesInfo } from '../src/types/tmdf.ts';
 
 loadEnvFile();
 const key = process.env.TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY;
@@ -39,11 +42,12 @@ interface Movie {
 interface Tv {
   name: string; original_name: string; first_air_date?: string; episode_run_time?: number[];
   created_by?: Named[]; genres?: Named[]; keywords?: { results?: Named[] }; external_ids?: { imdb_id?: string };
+  number_of_seasons?: number; number_of_episodes?: number; status?: string;
 }
 
 const card = (id: string, title: string, original: string, date: string | undefined, creators: string[],
-  minutes: number | undefined, ids: WorkCard['externalIds'], genres: Named[] = [], keywords: Named[] = [], series = false): WorkCard => ({
-  id, type: 'film', ...(series ? { format: 'series' as const } : {}),
+  minutes: number | undefined, ids: WorkCard['externalIds'], genres: Named[] = [], keywords: Named[] = [], series?: SeriesInfo): WorkCard => ({
+  id, type: series ? 'series' : 'film', ...(series && Object.keys(series).length ? { series } : {}),
   title, ...(original && original !== title ? { originalTitle: original } : {}),
   ...(date ? { year: Number(date.slice(0, 4)) } : {}),
   creators, primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [], isNicheMasterpiece: false,
@@ -89,7 +93,7 @@ for (const [name, shelf] of Object.entries(shelves)) {
       shelfKeys[name].push(k);
       if (known.has(k)) continue;
       const c = fix(card(`f-tmdbtv${id}`, title ?? j.name, j.original_name, j.first_air_date, (j.created_by ?? []).map((p) => p.name),
-        j.episode_run_time?.[0], { imdb }, j.genres, j.keywords?.results, true));
+        j.episode_run_time?.[0], { imdb }, j.genres, j.keywords?.results, seriesInfo(j)));
       known.set(k, c); added.push(c);
     }
   }
@@ -140,7 +144,7 @@ for (const [i, c] of cards.entries()) {
     ...(watch.length ? { watch } : {}), ...(t?.countries ? { countries: t.countries } : {}), durationMinutes: c.durationMinutes ?? t?.durationMinutes };
 }
 
-for (const c of added) console.error(`+ ${c.format === 'series' ? 'сериал' : 'фильм '} ${c.title} (${c.year ?? '?'}) ${c.originalTitle ?? ''} [${c.registers?.join(', ') || 'без регистра'}]`);
+for (const c of added) console.error(`+ ${isSeries(c) ? 'сериал' : 'фильм '} ${c.title} (${c.year ?? '?'}) ${c.originalTitle ?? ''} [${c.registers?.join(', ') || 'без регистра'}]`);
 console.error(`полок: ${Object.keys(shelves).length}, новых карточек: ${added.length}, всего добавленных по полкам: ${filmBaseCurated.length + added.length}`);
 if (DRY) process.exit(0);
 

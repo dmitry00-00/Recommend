@@ -5,6 +5,7 @@ import { fromWikidata, lookupFilms } from './wikidata';
 import { createTmdb, type TmdbClient } from './tmdb';
 import { createKinopoisk, type KinopoiskClient } from './kinopoisk';
 import { lookupBook } from './openLibrary';
+import { isScreen, isSeries } from '@/lib/media';
 
 export { createTmdb, TMDB_ATTRIBUTION } from './tmdb';
 export { createKinopoisk } from './kinopoisk';
@@ -38,6 +39,7 @@ const merge = (base: ResolvedWork, add: Partial<ResolvedWork> | undefined, sourc
     countries: pick(base.countries, add.countries),
     durationMinutes: pick(base.durationMinutes, add.durationMinutes),
     pages: pick(base.pages, add.pages),
+    series: pick(base.series, add.series),
     coverUrl: pick(base.coverUrl, add.coverUrl),
     stillUrl: pick(base.stillUrl, add.stillUrl),
     imageSource: pick(base.imageSource, add.imageSource),
@@ -55,7 +57,7 @@ const merge = (base: ResolvedWork, add: Partial<ResolvedWork> | undefined, sourc
 export async function resolveRecords(records: ImportedRecord[], options: ResolveOptions = {}): Promise<ResolvedWork[]> {
   const fetcher = options.fetcher ?? fetch;
   const base: ResolvedWork[] = records.map((r) => ({
-    type: r.type === 'book' ? 'book' : 'film',
+    type: r.type === 'book' ? 'book' : r.type === 'series' ? 'series' : 'film',
     title: r.title || undefined,
     originalTitle: r.originalTitle,
     year: r.year,
@@ -63,8 +65,8 @@ export async function resolveRecords(records: ImportedRecord[], options: Resolve
     sources: [],
   }));
 
-  const kp = base.filter((w) => w.type === 'film' && w.externalIds.kinopoisk != null).map((w) => String(w.externalIds.kinopoisk));
-  const imdbOnly = base.filter((w) => w.type === 'film' && w.externalIds.kinopoisk == null && w.externalIds.imdb).map((w) => w.externalIds.imdb!);
+  const kp = base.filter((w) => w.type !== 'book' && w.externalIds.kinopoisk != null).map((w) => String(w.externalIds.kinopoisk));
+  const imdbOnly = base.filter((w) => w.type !== 'book' && w.externalIds.kinopoisk == null && w.externalIds.imdb).map((w) => w.externalIds.imdb!);
   const [byKp, byImdb] = await Promise.all([
     kp.length ? lookupFilms('kinopoisk', kp, fetcher) : new Map(),
     imdbOnly.length ? lookupFilms('imdb', imdbOnly, fetcher) : new Map(),
@@ -73,7 +75,7 @@ export async function resolveRecords(records: ImportedRecord[], options: Resolve
   const out: ResolvedWork[] = [];
   for (const w of base) {
     let cur = w;
-    if (cur.type === 'film') {
+    if (cur.type !== 'book') {
       const wd = (cur.externalIds.kinopoisk != null ? byKp.get(String(cur.externalIds.kinopoisk)) : undefined)
         ?? (cur.externalIds.imdb ? byImdb.get(cur.externalIds.imdb) : undefined);
       if (wd) cur = merge(cur, fromWikidata(wd), 'wikidata');
@@ -86,7 +88,11 @@ export async function resolveRecords(records: ImportedRecord[], options: Resolve
       }
       if (options.tmdb) {
         try {
-          const id = cur.externalIds.tmdb ?? (cur.externalIds.imdb ? await options.tmdb.findByImdb(cur.externalIds.imdb) : undefined);
+          // сериал: номера TMDb у сериалов свои, в externalIds.tmdb их нет — ищем по IMDb (Е1)
+          const tvId = cur.type === 'series' && cur.externalIds.imdb ? await options.tmdb.findTvByImdb(cur.externalIds.imdb) : undefined;
+          const id = tvId != null || cur.type === 'series' ? undefined
+            : cur.externalIds.tmdb ?? (cur.externalIds.imdb ? await options.tmdb.findByImdb(cur.externalIds.imdb) : undefined);
+          if (tvId != null) cur = merge(cur, await options.tmdb.tv(tvId), 'tmdb');
           if (id != null) {
             cur = merge(cur, await options.tmdb.movie(id), 'tmdb');
             if (!cur.watch?.length) cur = merge(cur, { watch: await options.tmdb.watch(id) }, 'tmdb');
@@ -121,6 +127,7 @@ export function toWorkCard(w: ResolvedWork, id: string): WorkCard {
     watch: w.watch,
     durationMinutes: w.durationMinutes,
     pages: w.pages,
+    ...(w.series ? { series: w.series } : {}),
     primaryOperations: [],
     complexityLevel: 0,
     warnings: [],
@@ -168,7 +175,7 @@ export async function withImages(cards: WorkCard[], tmdb?: TmdbClient, kp?: Kino
         if (card.type === 'book' && ids?.isbn?.[0]) {
           const b = await lookupBook(ids.isbn[0], fetcher);
           found = { coverUrl: b?.coverUrl, imageSource: b?.imageSource };
-        } else if (card.type === 'film') {
+        } else if (isScreen(card)) {
           if (kp) {
             const kpId = ids?.kinopoisk ?? (ids?.imdb ? await kp.findByImdb(ids.imdb) : undefined);
             if (kpId != null) {
@@ -179,18 +186,20 @@ export async function withImages(cards: WorkCard[], tmdb?: TmdbClient, kp?: Kino
             }
           }
           if ((!found.stillUrl || !found.watch?.length) && tmdb) {
-            const id = ids?.tmdb ?? (ids?.imdb ? await tmdb.findByImdb(ids.imdb) : undefined);
-            const m = id != null ? await tmdb.movie(id) : undefined;
+            const tvId = isSeries(card) && ids?.imdb ? await tmdb.findTvByImdb(ids.imdb) : undefined;
+            const id = isSeries(card) ? undefined : ids?.tmdb ?? (ids?.imdb ? await tmdb.findByImdb(ids.imdb) : undefined);
+            const m = tvId != null ? await tmdb.tv(tvId) : id != null ? await tmdb.movie(id) : undefined;
             const watch = id != null && !found.watch?.length ? await tmdb.watch(id).catch(() => undefined) : found.watch;
             found = { ...found, coverUrl: found.coverUrl ?? m?.coverUrl, stillUrl: found.stillUrl ?? m?.stillUrl,
-              imageSource: found.imageSource ?? m?.imageSource, blurb: found.blurb ?? m?.blurb, watch };
+              imageSource: found.imageSource ?? m?.imageSource, blurb: found.blurb ?? m?.blurb, watch,
+              ...(m?.series ? { series: m.series } : {}) };
           }
         }
       } catch { /* сеть или лимит — карточка как есть */ }
       remember(key, found);
     }
     const found = recall(key) ?? {};
-    return { ...card, ...found, coverUrl: card.coverUrl ?? found.coverUrl, stillUrl: card.stillUrl ?? found.stillUrl, blurb: card.blurb ?? found.blurb, watch: card.watch ?? found.watch };
+    return { ...card, ...found, series: card.series ?? found.series, coverUrl: card.coverUrl ?? found.coverUrl, stillUrl: card.stillUrl ?? found.stillUrl, blurb: card.blurb ?? found.blurb, watch: card.watch ?? found.watch };
   }));
 }
 

@@ -52,7 +52,8 @@ for (const name of names) {
       const work: WorkCard = {
         // у сериалов TMDb свои номера: в id и во внешних ключах их с фильмами не смешиваем
         id: section === 'series' ? `l-tmdbtv${hit.id}` : `l-tmdb${hit.id}`,
-        type: 'film', ...(section === 'series' ? { format: 'series' as const } : {}),
+        type: section === 'series' ? 'series' : 'film',
+        ...(section === 'series' && t.series ? { series: t.series } : {}),
         title: t.title, originalTitle: t.originalTitle, year: t.year ?? year ?? 0,
         creators: t.creators ?? [], countries: t.countries, coverUrl: t.coverUrl, stillUrl: t.stillUrl,
         imageSource: t.imageSource, blurb: t.blurb, durationMinutes: t.durationMinutes, ...blank,

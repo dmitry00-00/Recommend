@@ -15,6 +15,7 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 export interface IndexedWork {
   key: string;
@@ -27,7 +28,7 @@ export interface IndexedWork {
 export function analysisKey(work: WorkCard): string | undefined {
   const ids = work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id];
   // сериал — по IMDb: номера TMDb у фильмов и сериалов пересекаются (28.09)
-  if (work.format === 'series') return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
+  if (isSeries(work)) return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
   if (ids?.tmdb != null) return `tmdb:${ids.tmdb}`;
   if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
   return undefined;

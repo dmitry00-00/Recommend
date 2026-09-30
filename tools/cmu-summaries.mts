@@ -8,6 +8,7 @@
 import { createReadStream, existsSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { worksIndex } from './works-index.mts';
+import { isScreen } from '../src/lib/media.ts';
 
 const dir = process.argv[2] ?? new URL('../.cache/cmu/MovieSummaries', import.meta.url).pathname;
 if (!existsSync(`${dir}/movie.metadata.tsv`)) { console.error(`нет ${dir}/movie.metadata.tsv`); process.exit(1); }
@@ -35,7 +36,7 @@ for await (const line of plots) {
 }
 console.log(`в корпусе: ${byName.size} названий, ${summary.size} пересказов`);
 
-const ours = worksIndex().filter(({ work }) => work.type === 'film');
+const ours = worksIndex().filter(({ work }) => isScreen(work));
 const out: Record<string, { wikiId: string; title: string; year: number; matchedAs: string; chars: number; text: string }> = {};
 let old = 0;
 let oldHit = 0;

@@ -307,8 +307,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd113127312",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Фоллаут",
     "originalTitle": "Fallout",
     "year": 2024,
@@ -427,8 +426,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd87131973",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Одни из нас",
     "originalTitle": "The Last of Us",
     "year": 2023,
@@ -506,8 +504,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd48796994",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Пацаны",
     "year": 2019,
     "creators": [
@@ -525,8 +522,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd19798734",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Очень странные дела",
     "originalTitle": "Stranger Things",
     "year": 2016,
@@ -805,8 +801,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd106582931",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Игра в кальмара",
     "originalTitle": "Squid Game",
     "year": 2021,
@@ -1383,8 +1378,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd23572",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Игра престолов",
     "originalTitle": "Game of Thrones",
     "year": 2011,
@@ -2618,8 +2612,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd137558798",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Кредо убийцы",
     "originalTitle": "Assassin's Creed",
     "year": 0,
@@ -3617,8 +3610,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd8539",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Теория большого взрыва",
     "originalTitle": "The Big Bang Theory",
     "year": 2007,
@@ -3836,8 +3828,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd120277524",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Рыцарь Семи Королевств",
     "originalTitle": "A Knight of the Seven Kingdoms",
     "year": 2026,
@@ -3896,8 +3887,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd138746790",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Столыпин",
     "year": 0,
     "creators": [
@@ -3914,8 +3904,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd56276181",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Сёгун",
     "originalTitle": "Shōgun",
     "year": 2024,
@@ -4012,8 +4001,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd72930269",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Дом Дракона",
     "originalTitle": "House of the Dragon",
     "year": 2022,
@@ -4051,8 +4039,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd98769084",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Обитель зла",
     "originalTitle": "Resident Evil",
     "year": 2022,
@@ -4131,8 +4118,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd85800564",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Тень и кость",
     "originalTitle": "Shadow and Bone",
     "year": 2021,
@@ -4170,8 +4156,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd86675282",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Зулейха открывает глаза",
     "originalTitle": "Zuleikha Opens Her Eyes",
     "year": 2020,
@@ -4190,8 +4175,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd21480316",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Конец детства",
     "originalTitle": "Childhood's End",
     "year": 2015,
@@ -4208,8 +4192,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd20189",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Смешарики",
     "originalTitle": "KikoRiki",
     "year": 2004,
@@ -4546,8 +4529,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd22988401",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Защитники",
     "originalTitle": "The Defenders",
     "year": 2017,
@@ -4758,8 +4740,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd79784",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Друзья",
     "year": 1994,
     "creators": [],
@@ -5380,8 +5361,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd47500433",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Ведьмак",
     "originalTitle": "The Witcher",
     "year": 2019,
@@ -5419,8 +5399,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd48741246",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Чернобыль",
     "originalTitle": "Chernobyl",
     "year": 2019,
@@ -5578,8 +5557,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd18844750",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Человек в высоком замке",
     "originalTitle": "The Man in the High Castle",
     "year": 2015,
@@ -5696,8 +5674,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd101089777",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Миротворец",
     "originalTitle": "Peacemaker",
     "year": 2022,
@@ -5735,8 +5712,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd111189743",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Пингвин",
     "originalTitle": "The Penguin",
     "year": 2024,
@@ -5754,8 +5730,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd104161310",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Аколит",
     "originalTitle": "The Acolyte",
     "year": 2024,
@@ -5811,8 +5786,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd11572",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Аватар: Легенда об Аанге",
     "originalTitle": "Avatar: The Last Airbender",
     "year": 2005,
@@ -5829,8 +5803,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd109526557",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "One Piece. Большой куш",
     "originalTitle": "One Piece",
     "year": 2023,
@@ -5909,8 +5882,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd105553568",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Уэнздей",
     "originalTitle": "Wednesday",
     "year": 2022,
@@ -5929,8 +5901,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd59149852",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Властелин колец: Кольца власти",
     "originalTitle": "The Lord of the Rings: The Rings of Power",
     "year": 2022,
@@ -5949,8 +5920,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd84712806",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Женщина-Халк: Адвокат",
     "originalTitle": "She-Hulk: Attorney at Law",
     "year": 2022,
@@ -5968,8 +5938,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd104154217",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Оби-Ван Кеноби",
     "originalTitle": "Obi-Wan Kenobi",
     "year": 2022,
@@ -6048,8 +6017,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd65980217",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Ванда/Вижн",
     "originalTitle": "WandaVision",
     "year": 2021,
@@ -6268,8 +6236,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd15659308",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Рик и Морти",
     "originalTitle": "Rick and Morty",
     "year": 2013,
@@ -8064,8 +8031,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd14925221",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Лучше звоните Солу",
     "originalTitle": "Better Call Saul",
     "year": 2015,
@@ -8082,8 +8048,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd122155720",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Одна из многих",
     "originalTitle": "Pluribus",
     "year": 2025,
@@ -8099,8 +8064,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd1079",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Во все тяжкие",
     "originalTitle": "Breaking Bad",
     "year": 2008,
@@ -8118,8 +8082,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd101096725",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Разделение",
     "originalTitle": "Severance",
     "year": 2022,
@@ -8138,8 +8101,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd938985",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Свинка Пеппа",
     "originalTitle": "Peppa Pig",
     "year": 2004,
@@ -8156,8 +8118,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd558112",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Чёрное зеркало",
     "originalTitle": "Black Mirror",
     "year": 2011,
@@ -8176,8 +8137,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd232737",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Ходячие мертвецы",
     "originalTitle": "The Walking Dead",
     "year": 2003,
@@ -8194,8 +8154,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd7847400",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Настоящий детектив",
     "originalTitle": "True Detective",
     "year": 2014,
@@ -8234,8 +8193,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd112623392",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Поколение «Ви»",
     "originalTitle": "Gen V",
     "year": 2023,
@@ -8251,8 +8209,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd15931555",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Фарго",
     "originalTitle": "Fargo",
     "year": 2014,
@@ -8268,8 +8225,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd14944179",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Острые козырьки",
     "originalTitle": "Peaky Blinders",
     "year": 2013,
@@ -8288,8 +8244,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd111967146",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Король Талсы",
     "originalTitle": "Tulsa King",
     "year": 2022,
@@ -8467,8 +8422,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd18844729",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Мистер Робот",
     "originalTitle": "Mr. Robot",
     "year": 2015,
@@ -8546,8 +8500,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd23971551",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Твин Пикс",
     "originalTitle": "Twin Peaks",
     "year": 2017,
@@ -9223,8 +9176,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd3554370",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Атомный лес",
     "originalTitle": "Atomic Forest",
     "year": 2012,
@@ -9321,8 +9273,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd5930",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Гриффины",
     "originalTitle": "Family Guy",
     "year": 1999,
@@ -9516,8 +9467,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd694101",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Самурай Джек",
     "originalTitle": "Samurai Jack",
     "year": 2001,
@@ -9536,8 +9486,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd673517",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Бэтмен",
     "originalTitle": "Batman: The Animated Series",
     "year": 1992,
@@ -9554,8 +9503,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd635933",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Бэтмен",
     "originalTitle": "The Batman",
     "year": 2004,
@@ -9572,8 +9520,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd18559016",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Берсерк",
     "originalTitle": "Berserk",
     "year": 1997,
@@ -9591,8 +9538,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd1339570",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Бэтмен будущего",
     "originalTitle": "Batman Beyond",
     "year": 1999,
@@ -10227,8 +10173,7 @@ export const filmBaseMarkup: WorkCard[] = [
   },
   {
     "id": "f-wd15383029",
-    "type": "film",
-    "format": "series",
+    "type": "series",
     "title": "Тёмный мир: Равновесие",
     "originalTitle": "Dark World: Equilibrium",
     "year": 2013,

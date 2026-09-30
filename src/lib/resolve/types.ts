@@ -1,4 +1,4 @@
-import type { ExternalIds, ImageSource, MediaType, WatchOption } from '@/types/tmdf';
+import type { SeriesInfo, ExternalIds, ImageSource, MediaType, WatchOption } from '@/types/tmdf';
 
 /** Что резолвер знает о произведении: всё, из чего собирается `WorkCard` без разметки. */
 export interface ResolvedWork {
@@ -10,6 +10,8 @@ export interface ResolvedWork {
   countries?: string[];
   durationMinutes?: number;
   pages?: number;
+  /** сериал: сезоны, серии, идёт ли (Е1) */
+  series?: SeriesInfo;
   coverUrl?: string;
   stillUrl?: string;
   imageSource?: ImageSource;

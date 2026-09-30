@@ -1,4 +1,5 @@
 import type { WorkCard } from '@/types/tmdf';
+import { isSeries } from '@/lib/media';
 
 export function formatDuration(minutes?: number): string | undefined {
   if (!minutes) return undefined;
@@ -8,12 +9,25 @@ export function formatDuration(minutes?: number): string | undefined {
   return `${minutes} ${word}`;
 }
 
+/** Сериал: «3 сезона», «8 серий по 50 мин» — что известно (Е1). */
+function seriesLength(work: WorkCard): string | undefined {
+  const s = work.series;
+  // у старых карточек сериала вместо сведений — длина серии в durationMinutes
+  if (!s) return work.durationMinutes ? `серия ${formatDuration(work.durationMinutes)}` : undefined;
+  const plural = (n: number, one: string, few: string, many: string) =>
+    `${n} ${n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many}`;
+  if (s.seasons && s.seasons > 1) return plural(s.seasons, 'сезон', 'сезона', 'сезонов');
+  if (s.episodes) return `${plural(s.episodes, 'серия', 'серии', 'серий')}${s.episodeMinutes ? ` по ${s.episodeMinutes} мин` : ''}`;
+  return undefined;
+}
+
 /** Порядок метаданных кадра: что это · кто · сколько длится. Год живёт на обложке. */
 export function workMeta(work: WorkCard): (string | undefined)[] {
   return [
-    work.type === 'film' ? 'Фильм' : 'Книга',
+    isSeries(work) ? 'Сериал' : work.type === 'book' ? 'Книга' : 'Фильм',
     work.creators.join(', '),
-    work.type === 'film' ? formatDuration(work.durationMinutes) : work.pages ? `${work.pages} страниц` : undefined,
+    isSeries(work) ? seriesLength(work)
+      : work.type !== 'book' ? formatDuration(work.durationMinutes) : work.pages ? `${work.pages} страниц` : undefined,
   ];
 }
 

@@ -14,6 +14,7 @@ import { WorkCover } from './WorkCover';
 import { workMeta } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
+import { isScreen } from '@/lib/media';
 
 export interface RecommendationCardProps {
   recommendation: Recommendation;
@@ -94,7 +95,7 @@ export function RecommendationCard({
       ) : null}
       <div className="tm-rec__actions">
         <Button variant="primary" size={hero ? 'md' : 'sm'} onClick={() => onStart?.(r)}>
-          {work.type === 'film' ? ru.actions.startFilm : ru.actions.startBook}
+          {isScreen(work) ? ru.actions.startFilm : ru.actions.startBook}
         </Button>
         <Button size={hero ? 'md' : 'sm'} onClick={() => onSave?.(r)}>{ru.actions.save}</Button>
         <Button variant="quiet" size={hero ? 'md' : 'sm'} pressed={reasonsOpen}
