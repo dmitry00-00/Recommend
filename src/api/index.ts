@@ -1556,8 +1556,9 @@ export async function importHistory(files: string | string[]): Promise<(ImportOu
   const unmatched: ImportOutcome['unmatched'] = [];
   resolved.forEach((w, i) => {
     const r = outcome.unmatched[i];
+    // у сериала номер TMDb — из своего пространства: в ключе он с фильмом совпадать не должен
     const key = w.externalIds.kinopoisk != null ? `kp${w.externalIds.kinopoisk}` : w.externalIds.imdb
-      ?? (w.externalIds.tmdb != null ? `tmdb${w.externalIds.tmdb}` : w.externalIds.isbn?.[0]);
+      ?? (w.externalIds.tmdb != null ? `${w.type === 'series' ? 'tmdbtv' : 'tmdb'}${w.externalIds.tmdb}` : w.externalIds.isbn?.[0]);
     const card = key ? toWorkCard(w, `u-${key}`) : undefined;
     if (!card?.title) { unmatched.push(r); return; }
     outcome.entries.push({

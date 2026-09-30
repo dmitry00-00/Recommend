@@ -6,8 +6,9 @@ import type { ISODate, MediaType } from '@/types/tmdf';
  *  чаще всего, и у владельца именно так пришло 70% истории (22.09). Оценок и дат там нет. */
 export type ImportSource =
   | 'letterboxd' | 'letterboxd_import' | 'imdb' | 'goodreads' | 'storygraph' | 'kinopoisk' | 'plain_list';
-/** Сериалы в контракте пока нет — такие записи не сопоставляются, а откладываются. */
-export type ImportedMediaType = MediaType | 'series';
+/** Вид записи. С Е5 (30.09) сериал — полноправный вид (`MediaType` включает `'series'`):
+ *  сопоставляется и резолвится, как фильм. Псевдоним оставлен для чужого кода. */
+export type ImportedMediaType = MediaType;
 export type ImportStatus = 'finished' | 'in_progress' | 'planned';
 
 /** Одна строка чужого экспорта, приведённая к общему виду. Оценка — по шкале 0–10,

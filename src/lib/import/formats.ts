@@ -173,9 +173,11 @@ export function parseKinopoiskText(text: string): ImportedRecord[] {
 function imdb(t: CsvTable): ImportedRecord[] {
   const watchlist = t.header.includes('Position') && t.header.includes('Created');
   return t.rows
-    .filter((r) => /movie|tvMovie|video/i.test(r['Title Type'] ?? '') || !r['Title Type'])
+    // сериалы (tvSeries, tvMiniSeries, «TV Mini Series») — с Е5 свой вид; отдельные серии
+    // (tvEpisode) и прочее не берём: оценка серии — не оценка сериала
+    .filter((r) => /movie|video|tv\s*(mini\s*)?series/i.test(r['Title Type'] ?? '') || !r['Title Type'])
     .map((r) => ({
-      source: 'imdb', type: 'film',
+      source: 'imdb', type: /tv\s*(mini\s*)?series/i.test(r['Title Type'] ?? '') ? 'series' as const : 'film' as const,
       title: r['Title'], originalTitle: r['Original Title'] || undefined, year: num(r['Year']),
       status: watchlist && !r['Your Rating'] ? 'planned' : 'finished',
       rating: num(r['Your Rating']),

@@ -89,7 +89,7 @@ export function ImportHistorySheet({ open, onOpenChange, onImport }: ImportHisto
           <ul className="tm-import__list">
             {films ? <li>{ru.importSheet.films(films)}</li> : null}
             {books ? <li>{ru.importSheet.books(books)}</li> : null}
-            {series ? <li className="tm-import__skip">{ru.importSheet.series(series)}</li> : null}
+            {series ? <li>{ru.importSheet.series(series)}</li> : null}
             {rated.length ? <li>{ru.importSheet.rated(rated.length)}</li> : null}
             {preview.unrecognized ? <li className="tm-import__skip">{ru.importSheet.unrecognized(preview.unrecognized)}</li> : null}
           </ul>

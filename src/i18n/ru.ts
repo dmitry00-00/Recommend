@@ -1048,7 +1048,7 @@ export const ru = {
   "found": (n: number) => `Разобрали записей: ${n}`,
   "films": (n: number) => `фильмов — ${n}`,
   "books": (n: number) => `книг — ${n}`,
-  "series": (n: number) => `сериалов — ${n}, их пока откладываем: такого типа в контракте нет`,
+  "series": (n: number) => `сериалов — ${n}`,
   "rated": (n: number) => `с вашей оценкой — ${n}`,
   "unrecognized": (n: number) => `файлов не узнали — ${n}`,
   "sources": "Форматы: ",

@@ -3,7 +3,7 @@
 // Файлы: сохранённые страницы «Оценки» профиля Кинопоиска, CSV/список конвертера, экспорты
 // Letterboxd / IMDb / Goodreads / StoryGraph — любые вперемешку. Наружу уходят только записи
 // о произведениях: ни имени, ни токенов страницы. Wikidata — всегда; TMDb — если задан
-// TMDB_API_KEY (постер и кадр). Сериалы в контракте пока нет — откладываются.
+// TMDB_API_KEY (постер и кадр). Сериалы — свой вид с Е5 (30.09): резолвятся и идут в историю.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { parseExports } from '../src/lib/import/index.ts';
 import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv } from '../src/lib/resolve/index.ts';
@@ -13,7 +13,7 @@ const files = process.argv.slice(2);
 if (!files.length) { console.error('нужны файлы экспорта'); process.exit(1); }
 
 const parsed = parseExports(files.map((f) => readFileSync(f, 'utf8')));
-const usable = parsed.records.filter((r) => r.type === 'film' || r.type === 'book');
+const usable = parsed.records.filter((r) => r.type === 'film' || r.type === 'series' || r.type === 'book');
 const skipped = parsed.records.length - usable.length;
 console.error(`записей ${parsed.records.length} (${parsed.sources.join(', ')}), в работу ${usable.length}, отложено ${skipped}`);
 
@@ -39,9 +39,9 @@ let duplicates = 0;
 resolved.forEach((w, i) => {
   const r = usable[i];
   const key = w.externalIds.kinopoisk != null ? `kp${w.externalIds.kinopoisk}`
-    : w.externalIds.imdb ?? (w.externalIds.tmdb != null ? `tmdb${w.externalIds.tmdb}` : `n${i}`);
+    : w.externalIds.imdb ?? (w.externalIds.tmdb != null ? `${w.type === 'series' ? 'tmdbtv' : 'tmdb'}${w.externalIds.tmdb}` : `n${i}`);
   const idKeys = [w.externalIds.kinopoisk != null && `kp:${w.externalIds.kinopoisk}`, w.externalIds.imdb && `imdb:${w.externalIds.imdb}`,
-    w.externalIds.tmdb != null && `tmdb:${w.externalIds.tmdb}`].filter((k): k is string => Boolean(k));
+    w.externalIds.tmdb != null && `${w.type === 'series' ? 'tmdbtv' : 'tmdb'}:${w.externalIds.tmdb}`].filter((k): k is string => Boolean(k));
   if (idKeys.some((k) => seenIds.has(k))) { duplicates++; return; }
   idKeys.forEach((k) => seenIds.add(k));
   const card = toWorkCard(w, `u-${key}`);
