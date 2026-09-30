@@ -14,23 +14,43 @@ export const minutesOf = (iso: string): number | undefined => {
   return total || undefined;
 };
 
+/** YouTube не отвечает по сети — не HTTP-ошибка, а обрыв или таймаут соединения (так 29.09 в
+ * 06:30 упал весь ночной прогон: `videosApi` бросил исключение из `build-telegram-index`).
+ * Отмечается один раз, дальше ни API, ни oEmbed не спрашиваем — иначе каждый ролик ждал бы
+ * свои 10 с таймаута. Генератор доделывает работу без данных YouTube, а не падает. */
+export const youtubeNet = { down: false };
+
+type NetError = Error & { cause?: { code?: string } };
+const netDown = (e: NetError, what: string) => {
+  youtubeNet.down = true;
+  console.error(`  ВНИМАНИЕ: YouTube не отвечает (${e.cause?.code ?? e.message}) — ${what}`);
+  return undefined;
+};
+
 export async function oembed(id: string): Promise<VideoMeta | undefined> {
-  // без сети (прогон в песочнице) — просто не знаем, а не падаем
-  const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`).catch(() => undefined);
+  // без сети (прогон в песочнице, YouTube недоступен) — просто не знаем, а не падаем
+  if (youtubeNet.down) return undefined;
+  const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`)
+    .catch((e: NetError) => netDown(e, 'oEmbed больше не спрашиваем'));
   if (!r?.ok) return undefined;
-  const j = await r.json() as { title?: string; author_name?: string };
+  const j = await r.json().catch(() => ({})) as { title?: string; author_name?: string };
   return j.title ? { title: j.title, author: j.author_name ?? '' } : undefined;
 }
 
-/** Данные роликов пачками по 50 — один запрос на пачку. */
+/** Данные роликов пачками по 50 — один запрос на пачку. Сетевой сбой: один повтор через 5 с,
+ * потом отдаём то, что успели узнать, и отмечаем `youtubeNet.down` (см. выше). */
 export async function videosApi(ids: string[], key: string): Promise<Map<string, VideoMeta>> {
   const out = new Map<string, VideoMeta>();
-  for (let i = 0; i < ids.length; i += 50) {
+  for (let i = 0; i < ids.length && !youtubeNet.down; i += 50) {
     const chunk = ids.slice(i, i + 50);
     const qs = new URLSearchParams({ part: 'snippet,contentDetails', id: chunk.join(','), key });
-    const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?${qs}`);
+    const url = `https://www.googleapis.com/youtube/v3/videos?${qs}`;
+    const r = await fetch(url)
+      .catch(() => new Promise((ok) => setTimeout(ok, 5000)).then(() => fetch(url)))
+      .catch((e: NetError) => netDown(e, `${ids.length - i} роликов остаются без названия, канала и длительности`));
+    if (!r) break;
     if (!r.ok) { console.error(`  youtube ${r.status}`); continue; }
-    const j = await r.json() as { items?: { id: string; snippet?: { title?: string; channelTitle?: string; publishedAt?: string };
+    const j = await r.json().catch(() => ({})) as { items?: { id: string; snippet?: { title?: string; channelTitle?: string; publishedAt?: string };
       contentDetails?: { duration?: string } }[] };
     for (const it of j.items ?? []) {
       if (!it.snippet?.title) continue;
