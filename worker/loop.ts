@@ -55,6 +55,26 @@ export interface LoopReport {
    *  сколько потом начато и досмотрено. Если «хочется 5» доходят до просмотра не чаще «2»,
    *  шкала ничего не говорит и модели на неё опираться нельзя */
   plans: Record<string, { saved: number; started: number; finished: number }>;
+  /** Сигналы по фильму для кураторской (трек Г3, 30.09): где люди разошлись с разметкой.
+   *  Ключ — work_id, как его записал клиент. Черновик с высоким `score` проверяют первым. */
+  byWork: Record<string, WorkSignal>;
+}
+
+/** Что поведение людей говорит о разметке одного фильма. Уровень сложности проверяется прямо —
+ *  прогнозом модели против чек-ина; барьеры — бросками по самому фильму; «не сейчас: тяжело» —
+ *  слабый сигнал. Операции поведение почти не проверяет. */
+export interface WorkSignal {
+  /** чек-инов с оценкой трудности */
+  checks: number;
+  /** модель ошиблась с трудностью; `harder` — оказалось тяжелее прогноза (уровень занижен?),
+   *  `easier` — легче (завышен?) */
+  modelMiss: number; harder: number; easier: number;
+  /** брошено из-за самого фильма (слишком сложно, не зацепило) и всего */
+  abandonFit: number; abandon: number;
+  /** «не сейчас»: слишком тяжело сейчас / неинтересно */
+  dismissFit: number;
+  /** приоритет проверки: промах модели и бросок по фильму — по 2, «не сейчас» — 0.5 */
+  score: number;
 }
 
 const emptyMatrix = () => Object.fromEntries(DIFFICULTIES.map((a) => [a, Object.fromEntries(DIFFICULTIES.map((b) => [b, 0]))])) as Record<Difficulty, Record<Difficulty, number>>;
@@ -65,13 +85,13 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
   for (const c of [...rows.checkins].sort((a, b) => a.at.localeCompare(b.at))) lastCheck.set(`${c.user_id}|${c.entry_id}`, c);
   const started = new Map(rows.journal.map((j) => [`${j.user_id}|${j.entry_id}`, j.started_at]));
 
-  const obs: { human?: Difficulty; model?: Difficulty; modelOdds?: Odds; fact: Difficulty }[] = [];
+  const obs: { work: string; human?: Difficulty; model?: Difficulty; modelOdds?: Odds; fact: Difficulty }[] = [];
   for (const p of rows.predictions) {
     const c = lastCheck.get(`${p.user_id}|${p.entry_id}`);
     if (!c || !isDiff(c.perceived)) continue;
     let modelOdds: Odds | undefined;
     try { const o = p.model_p ? JSON.parse(p.model_p) : undefined; if (o && DIFFICULTIES.every((d) => typeof o[d] === 'number')) modelOdds = o; } catch { /* битая строка — без вероятностей */ }
-    obs.push({ human: isDiff(p.expected) ? p.expected : undefined, model: isDiff(p.model) ? p.model : undefined, modelOdds, fact: c.perceived });
+    obs.push({ work: p.work_id, human: isDiff(p.expected) ? p.expected : undefined, model: isDiff(p.model) ? p.model : undefined, modelOdds, fact: c.perceived });
   }
 
   const facts = Object.fromEntries(DIFFICULTIES.map((d) => [d, obs.filter((o) => o.fact === d).length])) as Record<Difficulty, number>;
@@ -127,6 +147,29 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
     if (done.has(key)) row.finished += 1;
   }
 
+  // по фильму: где модель промахнулась, где бросили, где отказались «тяжело»
+  const byWork: Record<string, WorkSignal> = {};
+  const sig = (w: string) => (byWork[w] ??= { checks: 0, modelMiss: 0, harder: 0, easier: 0, abandonFit: 0, abandon: 0, dismissFit: 0, score: 0 });
+  const rank = (d: Difficulty) => DIFFICULTIES.indexOf(d);
+  for (const o of obs) {
+    const s = sig(o.work);
+    s.checks += 1;
+    const point = o.modelOdds ? top(o.modelOdds) : o.model;
+    if (point && point !== o.fact) {
+      s.modelMiss += 1;
+      if (rank(o.fact) > rank(point)) s.harder += 1; else s.easier += 1;
+    }
+  }
+  for (const c of abandons) {
+    const s = sig(c.work_id);
+    s.abandon += 1;
+    if (c.reason === 'too_hard' || c.reason === 'not_engaging') s.abandonFit += 1;
+  }
+  for (const f of rows.feedback) {
+    if (f.action === 'dismiss' && f.work_id && (f.reason === 'too_heavy_now' || f.reason === 'not_interested')) sig(f.work_id).dismissFit += 1;
+  }
+  for (const s of Object.values(byWork)) s.score = 2 * s.modelMiss + 2 * s.abandonFit + 0.5 * s.dismissFit;
+
   const honest = obs.length >= HONEST_THRESHOLD;
   return {
     generatedAt: now.toISOString(),
@@ -164,6 +207,7 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
       acceptance: uniqueShown ? round(start / uniqueShown) : undefined,
     },
     plans,
+    byWork,
   };
 }
 

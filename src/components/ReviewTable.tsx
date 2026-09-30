@@ -47,11 +47,12 @@ export function ReviewTable({ items, caption, onOpen }: ReviewTableProps) {
                 </td>
                 <td>{ru.curator.knowledge[it.knowledgeSufficiency]}</td>
                 <td>
+                  {it.loop ? <span className="tm-table__err">{it.loop}</span> : null}
                   {it.signals?.length ? it.signals.map((s, i) => (
                     <span key={i} className="tm-table__sub" title={ru.curator.signalTitle(s.source, s.fetchedAt, s.license)}>
                       {`${ru.curator.signalKind[s.kind]} · ${s.source}`}
                     </span>
-                  )) : ru.curator.signalsNone}
+                  )) : it.loop ? null : ru.curator.signalsNone}
                 </td>
                 <td className="tm-table__num">
                   {tokens ? fmt(tokens) : '—'}

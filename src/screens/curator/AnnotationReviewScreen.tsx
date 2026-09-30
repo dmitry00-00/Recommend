@@ -85,6 +85,7 @@ export function AnnotationReviewScreen() {
           <dd>{tokens ? ru.curator.usage(tokens.toLocaleString('ru'), Math.round(item.usage.durationMs / 1000), `$${item.usage.costUsd.toFixed(2)}`) : '—'}</dd>
         </div>
         <div><dt className="tm-label">{ru.curator.created}</dt><dd>{formatDate(item.createdAt)}</dd></div>
+        <div><dt className="tm-label">{ru.curator.loopLabel}</dt><dd>{item.loop ?? ru.curator.loopNone}</dd></div>
         <div>
           <dt className="tm-label">{ru.curator.queueCols[6]}</dt>
           <dd>{item.signals?.length ? item.signals.map((s) => `${ru.curator.signalKind[s.kind]} · ${s.source} (${s.license})`).join(', ') : ru.curator.signalsNone}</dd>

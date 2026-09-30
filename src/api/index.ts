@@ -12,7 +12,7 @@ import { difficultyOdds, expectedDifficulty, recommend, type Candidate } from '@
 import { knownVoice, voiceOf } from '@/lib/voices';
 import { apiBase, fetchLoopReport, loadState, store, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
-import type { LoopReport as LoopReportCore } from '../../worker/loop';
+import type { LoopReport as LoopReportCore, WorkSignal } from '../../worker/loop';
 export type LoopReportData = LoopReportCore & { scope: 'all' | 'me' };
 import type {
   AgreementReport, AnnotationProvider, AnnotationReviewItem, AnnotationStatus, AssessmentAnswer, AssessmentMode,
@@ -367,8 +367,22 @@ function candidates(): Candidate[] {
   // полки по просьбам людей: размеченное оттуда — тоже кандидаты (сериалы ждут трека Е)
   const shelf = shelfCandidates([...shelfWorks.values()]);
   const inPool = new Set([...catalog, ...pool].flatMap((c) => keyList(c.work)));
-  return [...catalog, ...pool, ...shelf.filter((c) => !keyList(c.work).some((k) => inPool.has(k)))].filter((c) => !seen(c.work, keys));
+  const extra = [...shelf, ...draftCandidates()].filter((c) => {
+    const k = keyList(c.work);
+    if (k.some((x) => inPool.has(x))) return false;
+    for (const x of k) inPool.add(x);
+    return true;
+  });
+  return [...catalog, ...pool, ...extra].filter((c) => !seen(c.work, keys));
 }
+/** Черновая разметка (Г1) — тоже в подбор (решение 30.09): ~400 размеченных фильмов списка
+ *  первых оценок и истории владельца. Проверяем не вручную заранее, а по тому, как люди их
+ *  принимают: петля прогноза считает промахи по фильму (worker/loop.ts, `byWork`), кураторская
+ *  ставит такие черновики первыми. Неуверенные (low — в основном фильмы 2025–2026 по завязке) и
+ *  отклонённые куратором в подбор не идут. */
+const draftCandidates = (): Candidate[] => draftSources(false)
+  .filter((d) => d.annotation.confidence !== 'low' && reviewMarks()[d.id]?.status !== 'rejected')
+  .map((d) => ({ work: annotated(d.work), what: d.annotation.what }));
 /** размеченное с полки — кандидатами; без разметки (и сериалы, трек Е) в подбор не идут */
 const shelfCandidates = (works: WorkCard[]): Candidate[] => works.flatMap((w) => {
   const a = draftFor(w);
@@ -1025,16 +1039,47 @@ function markReview(id: ID, status: ReviewMark['status']): void {
 }
 const localDay = (iso: string): string => new Date(iso).toLocaleDateString('sv');   // ГГГГ-ММ-ДД по местному времени
 
+// Сигналы петли по черновику: work_id из отчёта → id аннотации через карточку и её TMDb.
+// Только владельцу и только с сервером; отчёт перечитывается не чаще раза в пять минут.
+let loopSignals: Map<ID, WorkSignal> | undefined;
+let loopSignalsAt = 0;
+async function loadLoopSignals(): Promise<void> {
+  if (!store.onServer || !profile?.owner || Date.now() - loopSignalsAt < 300e3) return;
+  loopSignalsAt = Date.now();
+  const report = await fetchLoopReport('all').catch(() => undefined) as LoopReportData | undefined;
+  if (!report?.byWork) return;
+  const cards = new Map(knownWorks().map((w) => [w.id, w]));
+  const map = new Map<ID, WorkSignal>();
+  for (const [workId, s] of Object.entries(report.byWork)) {
+    if (!s.score) continue;
+    const w = cards.get(workId);
+    const tmdb = w && (w.externalIds ?? externalIds[w.id])?.tmdb;
+    const id = userAnnotations[workId] ? `own:${workId}` : tmdb != null && draftAnnotations[`tmdb:${tmdb}`] ? `draft:tmdb:${tmdb}` : undefined;
+    if (!id) continue;
+    const prev = map.get(id);
+    map.set(id, prev ? Object.fromEntries(Object.keys(s).map((k) => [k, (prev as never)[k] + (s as never)[k]])) as unknown as WorkSignal : s);
+  }
+  loopSignals = map;
+}
+const loopText = (s: WorkSignal | undefined): string | undefined => {
+  if (!s?.score) return undefined;
+  const parts = [
+    s.harder ? ru.curator.loopHarder(s.harder) : '', s.easier ? ru.curator.loopEasier(s.easier) : '',
+    s.abandonFit ? ru.curator.loopAbandon(s.abandonFit) : '', s.dismissFit ? ru.curator.loopDismiss(s.dismissFit) : '',
+  ].filter(Boolean);
+  return `${parts.join(' · ')} (${ru.curator.loopChecks(s.checks)})`;
+};
+
 interface DraftSource { id: ID; key?: string; annotation: FirstPassAnnotation; work: WorkCard; own: boolean }
 /** Все черновики с карточками, в порядке проверки. */
-function draftSources(): DraftSource[] {
+function draftSources(ordered = true): DraftSource[] {
   const cards = new Map<string, WorkCard>();
   for (const w of [...userWorks, ...filmBase, ...filmBaseWiki, ...watchedWorks]) {
     const t = (w.externalIds ?? externalIds[w.id])?.tmdb;
     if (t != null && w.format !== 'series' && !cards.has(`tmdb:${t}`)) cards.set(`tmdb:${t}`, w);
   }
   const deckOrder = new Map<string, number>();
-  ratingDeck.forEach((id, i) => {
+  if (ordered) ratingDeck.forEach((id, i) => {
     const w = deckCard(id);
     const t = w && (w.externalIds ?? externalIds[w.id])?.tmdb;
     if (t != null && !deckOrder.has(`tmdb:${t}`)) deckOrder.set(`tmdb:${t}`, i);
@@ -1049,8 +1094,11 @@ function draftSources(): DraftSource[] {
     const annotation = userAnnotations[w.id];
     if (annotation) out.push({ id: `own:${w.id}`, annotation, work: w, own: true });
   }
+  if (!ordered) return out;
+  const signal = (d: DraftSource) => loopSignals?.get(d.id)?.score ?? 0;
   const rank = (d: DraftSource) => deckOrder.get(d.key ?? '') ?? deckOrder.get(`own:${d.work.id}`) ?? Number.POSITIVE_INFINITY;
-  return out.sort((a, b) => rank(a) - rank(b) || CONF_ORDER[a.annotation.confidence] - CONF_ORDER[b.annotation.confidence]
+  // сначала те, где люди разошлись с разметкой (петля, byWork), потом колода, потом неуверенное
+  return out.sort((a, b) => signal(b) - signal(a) || rank(a) - rank(b) || CONF_ORDER[a.annotation.confidence] - CONF_ORDER[b.annotation.confidence]
     || Number(a.own) - Number(b.own));
 }
 function draftItem(d: DraftSource): AnnotationReviewItem {
@@ -1070,6 +1118,7 @@ function draftItem(d: DraftSource): AnnotationReviewItem {
     usage: { inputTokens: 0, outputTokens: 0, durationMs: 0, costUsd: 0 },
     isGold: false,
     createdAt: draftMeta?.createdAt ?? today(),
+    ...(loopSignals?.get(d.id)?.score ? { loop: loopText(loopSignals.get(d.id)), loopScore: loopSignals.get(d.id)!.score } : {}),
   };
 }
 const allQueueItems = (): AnnotationReviewItem[] => [...draftSources().map(draftItem), ...mocks.curatorQueue.map(queueItem)];
@@ -1105,6 +1154,7 @@ export async function getCuratorQueue(filters?: { status?: AnnotationStatus; pro
   await delay(260);
   await catalog();
   await curatorRefs();
+  await loadLoopSignals();
   const items = allQueueItems()
     .filter((i) => (!filters?.status || i.status === filters.status) && (!filters?.provider || i.provider === filters.provider));
   // порядок черновиков — порядок проверки (колода, неуверенное); у старых моков — по уверенности
@@ -1121,6 +1171,7 @@ export async function getAnnotation(id: ID): Promise<AnnotationReviewItem | unde
   await delay(200);
   await catalog();
   await curatorRefs();
+  await loadLoopSignals();
   return allQueueItems().find((i) => i.annotationId === id);
 }
 
