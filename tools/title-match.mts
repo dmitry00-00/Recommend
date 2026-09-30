@@ -63,7 +63,8 @@ export const RIVALS: [RegExp, RegExp][] = [
   [/^джентльмены$/i, /удач/iu],
   [/^рас[её]мон$/i, /п[её]с[\s-]?призрак/iu],
   [/^на грани$/i, /джон\s+уик/iu],
-  [/^легенда$/i, /ламборгини|человек[\s-]легенда/iu],
+  // «Я — легенда» каналы пишут и через дефис, и без тире: «Я - ЛЕГЕНДА (сравнение книги и фильма)» (30.09)
+  [/^легенда$/i, /ламборгини|человек[\s-]легенда|(?<!\p{L})я\s*[-—–]?\s*легенд/iu],
   [/^убийца$/i, /цветочн|the killer|кодекс|прирожд[её]нн/iu],
   [/^посылка$/i, /изгой/iu],
 ];
@@ -110,6 +111,32 @@ export interface MatchOptions {
   ordinary?: ReadonlySet<string>;
 }
 
+/** Латинское название продолжается латиницей — значит, это чужое, более длинное название:
+ *  «Фильм по Legend of Zelda» — не «Legend» Ридли Скотта, «The Legend of Tarzan» — тоже нет.
+ *  Кириллице сторож продолжения давно есть (капс, двоеточие, «и»), латинице его не было, и
+ *  оригинальное название ловилось внутри чужого (замер 30.09: две экранизации «Зельды»
+ *  привязались к «Легенде» 1985-го, да ещё с уликой `original`). Слово латиницей перед
+ *  названием — то же самое: «The Legend», «Ridley Scott's Legend» уже не наше название. */
+export function latinContinues(hit: string, before: string, after: string): boolean {
+  if (/^\s+(?:of|the|and|in|on|at|to|from|for|with|a|an|vs\.?|&)(?![A-Za-z])/i.test(after)) return true;
+  // следующее слово в том же регистре, что и название: «Legend Of…» после «Legend», «I SEE YOU
+  // OFFICIAL» — продолжение; «I SEE YOU Official Trailer» — подпись ролика, а не название
+  const caps = /^[^a-z]*$/.test(hit);
+  if (!caps && /^\s*[:—–-]?\s*[A-Z][a-z]/.test(after)) return true;
+  if (caps && /^\s*[:—–-]?\s*[A-Z]{2,}(?![a-z])/.test(after)) return true;
+  if (/^['’]s(?![A-Za-z])/.test(after)) return true;
+  return /[A-Za-z][A-Za-z'’]*\s*$/.test(before);
+}
+
+/** Заголовок, набранный капсом целиком: капс в нём ничего не выделяет. Для повседневных
+ *  названий это решает дело — «БРЮС ЛИ - ВОИН, АКТЕР, ЛЕГЕНДА!» не про «Легенду» (30.09). */
+export const shouting = (text: string): boolean => {
+  const letters = text.match(/\p{L}/gu) ?? [];
+  if (letters.length < 12) return false;
+  const upper = letters.filter((c) => c !== c.toLocaleLowerCase('ru')).length;
+  return upper / letters.length >= 0.8;
+};
+
 /** Слова, которыми каналы подписывают ролик, а не продолжают название. Список короткий
  *  нарочно: каждое слово здесь — разрешение привязать ролик, и ошибаться в эту сторону
  *  дороже, чем потерять привязку. */
@@ -133,10 +160,12 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
     // новый день», «Мастер и Маргарита», «Добрыня Никитич». Наши собственные составные
     // названия от этого не страдают: они длиннее и побеждают как более длинное совпадение
     const after = videoTitle.slice(m.index + m[0].length - (m[4]?.length ?? 0));
-    if (/^\s*\d/.test(after) || /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
+    // «Легенда №17» — номер тоже продолжение, как «Джокер 2» (30.09)
+    if (/^\s*№?\s*\d/.test(after) || /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
     // «Бэтмен: Начало» — наше слово идёт частью чужого названия, а не своим
     const before = videoTitle.slice(0, m.index + m[1].length).trimEnd();
     if (/[А-ЯЁA-Z][^\s:]*:$/.test(before)) continue;
+    if (/^[A-Za-z]/.test(hit) && latinContinues(hit, videoTitle.slice(0, m.index + m[1].length), after)) continue;
     // название после ярлыка должно быть нашим, иначе разбирают другой фильм
     const labelled = LABELLED.exec(videoTitle)?.[1];
     if (labelled && !labelled.toLowerCase().includes(hit.toLowerCase())) continue;
@@ -154,7 +183,7 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
       const inside = end < 0 ? rest : rest.slice(0, end);
       // продолжение бывает не только через пробел: «Любовь, смерть и роботы» — сериал, а не
       // «Любовь» Ханеке, и запятая тут ровно такое же продолжение названия (замер 24.09)
-      if (/^[\s,:;—–-]+\p{L}/u.test(inside)) continue;
+      if (/^[\s,:;—–-]+[\p{L}\p{N}]|^\s*№/u.test(inside)) continue;
     }
     // Капс продолжается капсом — значит, название длиннее нашего: «ПРИЗРАК СВОБОДЫ»,
     // «ПРИЗРАК В ДОСПЕХАХ». Слова самих каналов («СПГС», «РАЗБОР», «#КИНОЛИКБЕЗ») — не
@@ -187,7 +216,8 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
     // односложное название — слово-ловушка: нужен капс, кавычки или ярлык рядом.
     // Повседневному названию из нескольких слов нужно то же самое
     if (!/\s/.test(name) || ordinary) {
-      const caps = hit === hit.toLocaleUpperCase('ru');
+      // у повседневного названия капс в заголовке, набранном капсом целиком, ничего не выделяет
+      const caps = hit === hit.toLocaleUpperCase('ru') && !(ordinary && shouting(videoTitle));
       const quoted = /["«]$/.test(m[1]);
       const labelled = LABEL.test(videoTitle.replace(hit, ' '));
       if (!caps && !quoted && !labelled) continue;
