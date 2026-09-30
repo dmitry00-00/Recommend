@@ -111,6 +111,8 @@ let draftAnnotations: Record<string, FirstPassAnnotation> = {};
 let seriesAnnotations: Record<string, SeriesDraft> = {};
 /** мост «ISBN → произведение» (З1, tools/resolve-book-works.mts) */
 let bookBridge: BookWorks = {};
+/** метаданные книг (З3, tools/build-book-media.mts): ключ произведения → поля карточки */
+let bookMedia: Record<string, Partial<WorkCard>> = {};
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
@@ -120,8 +122,9 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb]) => {
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd]) => {
+    bookMedia = bmd.bookMedia;
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
     for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
@@ -152,6 +155,12 @@ function catalog(): Promise<void> {
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
     const media = bm.baseMedia;
     if (Object.keys(media).length) filmBaseWiki = filmBaseWiki.map((w) => (media[w.id] ? { ...w, ...media[w.id] } : w));
+    // метаданные и обложки книг (З3) — там, где карточка сама их не принесла
+    if (Object.keys(bookMedia).length) {
+      const booked = (ws: WorkCard[]) => ws.map(withBookMedia);
+      userWorks = booked(userWorks); watchedWorks = booked(watchedWorks);
+      filmBase = booked(filmBase); filmBaseWiki = booked(filmBaseWiki);
+    }
     // авторы с элементами Wikidata (Д2) — там, где карточка сама их не принесла
     if (Object.keys(workCredits).length) {
       const credited = (ws: WorkCard[]) => ws.map(withCredits);
@@ -413,7 +422,27 @@ const kp = import.meta.env.VITE_KP_PROXY === '1' && typeof location !== 'undefin
 // Карточки из бандла не несут внешних ID — подкладываем их из externalIds.ts перед обогащением.
 // Обогащение не должно держать экран: не успело за 6 секунд — карточки уходят как есть,
 // а результат осядет в кэше к следующему разу.
-const withMedia = (c: WorkCard): WorkCard => ({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] });
+const withMedia = (c: WorkCard): WorkCard => withBookMedia({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] });
+/** Книге — метаданные Wikidata и Open Library (З3) по любому её ключу. Своё главнее: заполняем
+ *  пустое; название — русским, если у карточки оно не по-русски (из экспорта Goodreads приходит
+ *  английское), а прежнее уходит в оригинальное. */
+function withBookMedia(w: WorkCard): WorkCard {
+  if (w.type !== 'book') return w;
+  const m = workKeys(w, w.externalIds ?? externalIds[w.id]).map((k) => bookMedia[k]).find(Boolean);
+  if (!m) return w;
+  const cyr = (s?: string) => Boolean(s && /[а-яё]/i.test(s));
+  const retitle = m.title && !cyr(w.title) && cyr(m.title);
+  return {
+    ...w,
+    ...(retitle ? { title: m.title!, originalTitle: w.originalTitle ?? w.title } : {}),
+    ...(!w.originalTitle && !retitle && m.originalTitle && m.originalTitle !== w.title ? { originalTitle: m.originalTitle } : {}),
+    ...(!w.year && m.year ? { year: m.year } : {}),
+    ...(!w.creators.length && m.creators?.length ? { creators: m.creators } : {}),
+    ...(!w.pages && m.pages ? { pages: m.pages } : {}),
+    ...(!w.coverUrl && m.coverUrl ? { coverUrl: m.coverUrl, imageSource: m.imageSource } : {}),
+    ...(!w.registers?.length && m.registers?.length ? { registers: m.registers } : {}),
+  };
+}
 const pictured = (cards: WorkCard[]) => {
   const withIds = cards.map(withMedia);
   return Promise.race([
