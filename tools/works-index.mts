@@ -2,7 +2,7 @@
 // присланное им просмотренное, пул кандидатов и справочник фильмов.
 // Ключ разбора — не ID карточки, а внешний идентификатор произведения: одна и та же «Матрица»
 // в истории, каталоге и пуле имеет разные ID, а разбор у неё общий. У фильма ключ `tmdb:<id>`,
-// у книги — `isbn:<isbn>` (издания разные, разбор один; слой данных ищет по всем ISBN карточки).
+// у книги — произведение: `wd:`/`olw:`, а без моста — `isbn:<isbn>` (src/lib/keys.ts, З1).
 import { works as catalogWorks } from '../src/mocks/index.ts';
 import { externalIds } from '../src/mocks/externalIds.ts';
 import { catalogMedia } from '../src/mocks/catalogMedia.ts';
@@ -17,6 +17,8 @@ import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
+import { primaryKey, withBookWork, workKeys } from '../src/lib/keys.ts';
+import { bookWorks } from '../src/mocks/bookWorks.ts';
 
 export interface IndexedWork {
   key: string;
@@ -30,22 +32,33 @@ export interface IndexedWork {
   needsSeriesTalk?: boolean;
 }
 
+/** Внешние ключи карточки: свои, из медиа каталога или справочника; у книги — с мостом
+ *  «ISBN → произведение» (src/mocks/bookWorks.ts, З1). */
+export function idsOf(work: WorkCard): WorkCard['externalIds'] {
+  return withBookWork(work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id], bookWorks);
+}
+
+/** Главный ключ произведения (src/lib/keys.ts): фильм — TMDb, сериал — IMDb (номера TMDb у фильмов
+ *  и сериалов пересекаются, 28.09), книга — произведение (`wd:`, `olw:`), а без моста — ISBN. */
 export function analysisKey(work: WorkCard): string | undefined {
-  const ids = work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id];
-  // сериал — по IMDb: номера TMDb у фильмов и сериалов пересекаются (28.09)
-  if (isSeries(work)) return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
-  if (ids?.tmdb != null) return `tmdb:${ids.tmdb}`;
-  if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
-  return undefined;
+  return primaryKey(work, idsOf(work));
+}
+
+/** Все ключи произведения — главный и запасные (старые `isbn:` у книги). */
+export function analysisKeys(work: WorkCard): string[] {
+  return workKeys(work, idsOf(work));
 }
 
 /** Все известные произведения без повторов: кто попал в список раньше, тот и остаётся.
  *  Справочник фильмов идёт последним — если фильм уже есть в истории или каталоге,
  *  побеждает он (у него есть разметка, у справочника её нет). */
-export function worksIndex({ all: unnamed = false }: {
+export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   /** и те, у кого нет названия, годного для поиска в тексте («Фарго», «Душа»): им нужен ключ
    *  для ручной привязки и место в справочнике таблицы, а в чужом тексте их не ищут (`names` пуст) */
   all?: boolean;
+  /** книги — по ISBN, без моста к произведению: так видит справочник сам мост
+   *  (tools/resolve-book-works.mts), иначе ошибочный мост, склеивший две книги, прятал бы одну из них */
+  isbnKeys?: boolean;
 } = {}): IndexedWork[] {
   const all: WorkCard[] = [
     ...Object.values(catalogWorks).map((w) => ({ ...w, externalIds: w.externalIds ?? catalogMedia[w.id]?.externalIds ?? externalIds[w.id] })),
@@ -69,7 +82,7 @@ export function worksIndex({ all: unnamed = false }: {
   const ALSO_ELSEWHERE = new Set(['король и шут', 'преступление и наказание', 'граф монте-кристо']);
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
-    const key = analysisKey(work);
+    const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
     if (!key || out.has(key)) continue;
     const names = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);

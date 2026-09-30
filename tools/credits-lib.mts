@@ -57,7 +57,7 @@ export function workCreditsSource(entries: Record<string, CreditsEntry>, people:
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, c]) => `  ${JSON.stringify(key)}: ${JSON.stringify(c.map(([p, r]) => `${p}:${ROLE_CODE[r]}`).join(','))},`);
   return `// Сгенерировано tools/resolve-credits.mts (Д2) — руками не править.
-// Ключ произведения (как у разборов: tmdb:, imdb: у сериала, isbn:) → «элемент:роль» через запятую;
+// Ключ произведения (как у разборов: tmdb:, imdb: у сериала, у книги wd:/olw:/isbn:) → «элемент:роль» через запятую;
 // роли: d — режиссёр, w — сценарист, c — создатель сериала, a — автор книги. Имена — в people.ts.
 export const workCredits: Record<string, string> = {
 ${rows.join('\n')}

@@ -15,6 +15,7 @@ import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { voices, voiceKeys } from '../src/mocks/voices.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
+import { isBookKey } from '../src/lib/keys.ts';
 
 const arg = (name: string, def: string): string => {
   const i = process.argv.indexOf(`--${name}`);
@@ -69,7 +70,7 @@ const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
   const todo = videos.filter((v) => fromLinks(v) && (v.minutes ?? 0) >= MIN_MINUTES && !guess.has(v.id));
   const t = Date.now();
   // книги (isbn:) не предлагаем — таблица про киноролики, и ярлыка у них в списке нет
-  const found = matchVideos(todo, worksIndex().filter((w) => !w.key.startsWith('isbn:')), ordinary);
+  const found = matchVideos(todo, worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
   for (const [id, g] of found) guess.set(id, g.key);
   console.log(`каналы из ссылок: роликов ${todo.length}, угадан фильм у ${found.size} (${Math.round((Date.now() - t) / 1000)} с)`);
 }

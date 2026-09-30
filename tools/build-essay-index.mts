@@ -16,6 +16,7 @@ import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
 import { bestByTitle } from './match-videos.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
+import { isBookKey } from '../src/lib/keys.ts';
 
 const key = process.env.YT_API_KEY;
 if (!key) { console.error('нужен YT_API_KEY'); process.exit(1); }
@@ -170,7 +171,7 @@ for (const [videoId, found] of best) {
   // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
   if (!said && isDigest(v.title, byKey.get(key)?.names ?? [])) { digests += 1; continue; }
   // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
-  if (!said && key.startsWith('isbn:')) {
+  if (!said && isBookKey(key)) {
     const j = judgeBookMatch(adIndex, key, v.title, v.publishedAt);
     if (j.action === 'drop') { adaptations += 1; continue; }
     if (j.action === 'move') { key = j.to!.key; work = j.to!.work; moved += 1; }

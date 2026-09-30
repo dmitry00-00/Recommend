@@ -26,7 +26,7 @@ const pick = <T>(own: T | undefined, ext: T | undefined): T | undefined =>
 const merge = (base: ResolvedWork, add: Partial<ResolvedWork> | undefined, source: ResolvedWork['sources'][number]): ResolvedWork => {
   if (!add) return base;
   const ids: ExternalIds = { ...base.externalIds };
-  for (const k of ['imdb', 'tmdb', 'wikidata', 'kinopoisk'] as const) {
+  for (const k of ['imdb', 'tmdb', 'wikidata', 'kinopoisk', 'openLibrary'] as const) {
     if (ids[k] == null && add.externalIds?.[k] != null) (ids as Record<string, unknown>)[k] = add.externalIds[k];
   }
   if (!ids.isbn?.length && add.externalIds?.isbn?.length) ids.isbn = add.externalIds.isbn;

@@ -13,6 +13,7 @@ import { isDigest, nameMatch } from './title-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
 import type { IndexedWork } from './works-index.mts';
+import { isBookKey } from '../src/lib/keys.ts';
 
 export interface VideoLike { id: string; title: string; description?: string; publishedAt?: string }
 export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string }
@@ -70,7 +71,7 @@ export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?:
     const text = `${v.title}\n${v.description ?? ''}`;
     if (isDigest(v.title, pick.names)) continue;
     // разбор экранизации — к фильму по связям Ж1 (Ж4), без связей — прочь от книги
-    if (pick.key.startsWith('isbn:')) {
+    if (isBookKey(pick.key)) {
       const j = judgeBookMatch(adIndex, pick.key, v.title, v.publishedAt);
       if (j.action === 'drop') continue;
       if (j.action === 'move') pick = { key: j.to!.key, work: j.to!.work, names: j.to!.names };

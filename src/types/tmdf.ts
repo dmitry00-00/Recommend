@@ -204,6 +204,7 @@ export interface ExternalIds {
   tmdb?: number;
   kinopoisk?: number;
   isbn?: string[];
+  /** работа Open Library — «OL…W», произведение, а не издание (З1) */
   openLibrary?: string;
   fantlab?: number;
 }
@@ -724,7 +725,7 @@ export interface SourceCandidate {
  *  Это не похожесть по смыслу и не рекомендация — это то, как о кино говорят. Сигнал чужой:
  *  его делаем не мы, поэтому им можно проверять нашу собственную близость. */
 export interface CoMention {
-  /** ключ разбора того, кого называют рядом: «tmdb:<id>» или «isbn:<isbn>» */
+  /** ключ разбора того, кого называют рядом: «tmdb:<id>», «imdb:<id>» у сериала, у книги «wd:<Q>»/«olw:<OL…W>» или по-старому «isbn:<isbn>» (src/lib/keys.ts) */
   key: string;
   /** карточка, которой этот ключ достался в нашей базе: по ней открывается произведение */
   workId: ID;

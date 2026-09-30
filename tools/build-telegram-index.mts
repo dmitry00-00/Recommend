@@ -18,6 +18,7 @@ import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
+import { isBookKey } from '../src/lib/keys.ts';
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -185,7 +186,7 @@ for (const { username, path, role } of args) {
     }
     if (!best) continue;
     // к книге не привязываем разговор об экранизации (Ж4): по связям — к фильму, если он у нас есть
-    if (best.key.startsWith('isbn:')) {
+    if (isBookKey(best.key)) {
       const j = judgeBookMatch(adIndex, best.key, head, p.date);
       if (j.action === 'drop') continue;
       if (j.action === 'move') best = { key: j.to!.key, work: j.to!.work, len: best.len };

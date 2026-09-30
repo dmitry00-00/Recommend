@@ -1,5 +1,6 @@
 import type { Credit, CreditRole, Person, PersonId, WorkCard } from '@/types/tmdf';
 import { isSeries } from '@/lib/media';
+import { primaryKey } from '@/lib/keys';
 
 /** Авторы произведения (трек Д, Д1). Карточки бывают двух поколений: с `credits` (резолвер знает
  *  элемент Wikidata и роль) и только со строками `creators`. Экраны и подбор читают авторов
@@ -72,13 +73,10 @@ export function decodeCredits(row: string | undefined, people: Readonly<Record<P
   });
 }
 
-/** Ключ произведения — тот же, что у генераторов (`analysisKey` в tools/works-index.mts):
- *  сериал — по IMDb (номера TMDb у сериалов свои), фильм — по TMDb, книга — по первому ISBN. */
+/** Ключ произведения — тот же, что у генераторов (`analysisKey` в tools/works-index.mts): главный
+ *  из `workKeys` (src/lib/keys.ts) — фильм по TMDb, сериал по IMDb, книга по произведению. */
 export function workKey(w: Pick<WorkCard, 'type' | 'externalIds'> & { format?: 'series' }, ids = w.externalIds): string | undefined {
-  if (isSeries(w)) return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
-  if (ids?.tmdb != null) return `tmdb:${ids.tmdb}`;
-  if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
-  return undefined;
+  return primaryKey(w, ids);
 }
 
 /** Имя как ключ: регистр, диакритика, ё и пунктуация снимаются — «Андрей Тарковский» и

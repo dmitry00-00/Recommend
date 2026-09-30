@@ -22,10 +22,11 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  CreditRole, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CreditRole, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
+import { primaryKey, withBookWork, workKeys, type BookWorks } from '@/lib/keys';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -108,6 +109,8 @@ let shelfKeys: Record<string, string[]> = {};
 let draftAnnotations: Record<string, FirstPassAnnotation> = {};
 /** черновая разметка сериалов (Е2): ключ `imdb:`, у антологии — по сезонам */
 let seriesAnnotations: Record<string, SeriesDraft> = {};
+/** мост «ISBN → произведение» (З1, tools/resolve-book-works.mts) */
+let bookBridge: BookWorks = {};
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
@@ -117,13 +120,20 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb]) => {
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw]) => {
+    // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
+    bookBridge = bw.bookWorks;
+    for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
     seriesAnnotations = sa.seriesAnnotations;
     people = pp.people; workCredits = wc.workCredits;
     draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
     // сериал — свой вид (Е1): старые карточки с format:'series' (сервер, выгрузки) приводятся здесь
-    const norm = (ws: readonly WorkCard[]) => ws.map(normalizeWork);
+    const norm = (ws: readonly WorkCard[]) => ws.map((w) => {
+      const n = normalizeWork(w);
+      const ids = withBookWork(n.externalIds, bookBridge);
+      return ids === n.externalIds ? n : { ...n, externalIds: ids };
+    });
     userWorks = norm(uh.userWorks); userJournal = uh.userJournal; userRatings = ur.userRatings;
     watchedWorks = norm(uw.watchedWorks); filmBase = norm(fb.filmBase);
     filmBaseWiki = norm(freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup]);
@@ -663,6 +673,8 @@ function seenKeys(): Set<string> {
     if (ids?.tmdb != null) keys.add(`tmdb:${ids.tmdb}`);
     if (ids?.kinopoisk != null) keys.add(`kp:${ids.kinopoisk}`);
     ids?.isbn?.forEach((i) => keys.add(`isbn:${i}`));
+    // книга как произведение (З1): другое издание той же книги — тоже «уже читал»
+    if (w.type === 'book') workKeys(w, ids).forEach((k) => keys.add(k));
   }
   return keys;
 }
@@ -675,7 +687,8 @@ function keyList(work: WorkCard): string[] {
 function seen(work: WorkCard, keys: Set<string>): boolean {
   const ids = work.externalIds ?? externalIds[work.id];
   return Boolean(ids && ((ids.imdb && keys.has(`imdb:${ids.imdb}`)) || (ids.tmdb != null && keys.has(`tmdb:${ids.tmdb}`))
-    || (ids.kinopoisk != null && keys.has(`kp:${ids.kinopoisk}`)) || ids.isbn?.some((i) => keys.has(`isbn:${i}`))));
+    || (ids.kinopoisk != null && keys.has(`kp:${ids.kinopoisk}`)) || ids.isbn?.some((i) => keys.has(`isbn:${i}`))
+    || (work.type === 'book' && workKeys(work, ids).some((k) => keys.has(k)))));
 }
 
 const tvTropesMappings: TvTropesMapping[] = [
@@ -963,7 +976,7 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
   for (const work of knownWorks()) {
     const ids = work.externalIds ?? externalIds[work.id];
     // один и тот же фильм лежит и в каталоге, и в справочнике — показываем один раз
-    const key = ids?.tmdb != null ? `tmdb:${ids.tmdb}` : ids?.isbn?.length ? `isbn:${ids.isbn[0]}` : work.id;
+    const key = primaryKey(work, ids) ?? work.id;
     if (seenKey.has(key)) continue;
     const names = [work.title, work.originalTitle].filter(Boolean).map((t) => searchKey(t as string));
     // точное совпадение выше начала строки, начало — выше вхождения в середину
@@ -1724,11 +1737,8 @@ export async function submitContributorAnswer(taskId: ID, answer: ContributorAns
 /** Кого называют рядом: ключ тот же, что у разборов (у фильма TMDb, у книги ISBN).
  *  Себя из списка убираем — одна и та же карточка приходит и своим ключом, и чужим. */
 function nearbyFor(work: WorkCard): CoMention[] {
-  const ids = work.externalIds ?? externalIds[work.id];
-  const keys = [
-    ...(ids?.tmdb != null ? [`tmdb:${ids.tmdb}`] : []),
-    ...(ids?.isbn ?? []).map((isbn) => `isbn:${isbn}`),
-  ];
+  // все ключи: у книги — произведение и старые `isbn:` (З1)
+  const keys = workKeys(work, work.externalIds ?? externalIds[work.id]);
   const self = new Set(keys);
   return keys.flatMap((k) => comentions[k] ?? []).filter((c) => !self.has(c.key));
 }
@@ -1768,11 +1778,7 @@ function tropesFor(work: WorkCard): TropeMention[] {
 function analysesFor(work: WorkCard, detail?: ExternalAnalysis[]): ExternalAnalysis[] {
   // ключи разбора: у фильма — TMDb, у книги — ISBN. ISBN у книги не один (издания разные,
   // а разбор один), поэтому ищем по всем, какие у карточки есть
-  const ids = work.externalIds ?? externalIds[work.id];
-  const keys = [
-    ...(ids?.tmdb != null ? [`tmdb:${ids.tmdb}`] : []),
-    ...(ids?.isbn ?? []).map((isbn) => `isbn:${isbn}`),
-  ];
+  const keys = workKeys(work, work.externalIds ?? externalIds[work.id]);
   const pick = (src: Record<string, ExternalAnalysis[]>) => keys.flatMap((k) => src[k] ?? []);
   // сначала подтверждённое (прислано владельцем, размечено), потом найденное по названию;
   // на найденное накладывается вердикт участника: «про другое» — вон, «про это» — снимаем
@@ -1946,9 +1952,9 @@ function knownWorks(): WorkCard[] {
 function worksByAnalysisKey(): Map<string, WorkCard> {
   const out = new Map<string, WorkCard>();
   for (const w of knownWorks()) {
-    // ключ тот же, что у генераторов: фильм — по TMDb, сериал — по IMDb, книга — по ISBN
-    const key = workKey(w, w.externalIds ?? externalIds[w.id]);
-    if (key && !out.has(key)) out.set(key, w);
+    // ключи те же, что у генераторов: фильм — TMDb, сериал — IMDb, книга — произведение, а ещё
+    // старые `isbn:` — ими подписаны данные прежних прогонов (З1)
+    for (const key of workKeys(w, w.externalIds ?? externalIds[w.id])) if (!out.has(key)) out.set(key, w);
   }
   return out;
 }

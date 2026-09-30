@@ -16,6 +16,7 @@ import { talksSeries } from './evidence.mts';
 import { normalizeTitle } from '../src/lib/import/match.ts';
 import { relationEdges, relationNodes } from '../src/mocks/workRelations.ts';
 import type { IndexedWork } from './works-index.mts';
+import { isBookKey } from '../src/lib/keys.ts';
 
 export interface BookVerdict {
   action: 'keep' | 'drop' | 'move';
@@ -46,8 +47,9 @@ export function adaptationIndex(ours: IndexedWork[], nodes: Record<string, Node>
   for (const [a, kind, b] of edges) if (kind === 'adaptation_of') (adaptedFrom.get(b) ?? adaptedFrom.set(b, []).get(b)!).push(a);
   const out = new Map<string, { node: Node; work?: IndexedWork }[]>();
   for (const w of ours) {
-    if (!w.key.startsWith('isbn:')) continue;
-    const direct = qOfKey.get(w.key);
+    if (!isBookKey(w.key)) continue;
+    // книга с ключом `wd:` — сама элемент Wikidata; иначе — узел, подписанный её ключом
+    const direct = w.key.startsWith('wd:') ? w.key.slice(3) : qOfKey.get(w.key);
     const byTitle = [w.work.title, w.work.originalTitle].filter((t): t is string => Boolean(t))
       .flatMap((t) => bookNodesByTitle.get(normalizeTitle(t)) ?? [])
       .filter((q) => !w.work.year || !nodes[q].y || Math.abs(nodes[q].y! - w.work.year) <= 3);
