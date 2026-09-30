@@ -5,11 +5,11 @@ import type { ResolvedWork } from './types';
  *  Не SPARQL, а обычный API: поиск элемента по внешнему ID (`haswbstatement`) и выгрузка
  *  утверждений пачками — сервис запросов под нагрузкой отвечает по полминуты или 5xx,
  *  API отвечает стабильно. Свойства: P2603 — ID Кинопоиска, P345 — IMDb, P4947 — TMDb,
- *  P57 — режиссёр, P495 — страна, P2047 — хронометраж, P577 — дата выхода, P1476 —
+ *  P57 — режиссёр, P58 — сценарист, P495 — страна, P2047 — хронометраж, P577 — дата выхода, P1476 —
  *  оригинальное название. К самому Кинопоиску не обращаемся: только к его ID. */
 const API = 'https://www.wikidata.org/w/api.php';
 const BATCH = 50;
-const PROPS = { kinopoisk: 'P2603', imdb: 'P345', tmdb: 'P4947', director: 'P57', country: 'P495', duration: 'P2047', published: 'P577', original: 'P1476' } as const;
+const PROPS = { kinopoisk: 'P2603', imdb: 'P345', tmdb: 'P4947', director: 'P57', writer: 'P58', country: 'P495', duration: 'P2047', published: 'P577', original: 'P1476' } as const;
 
 export interface WikidataFilm {
   wikidata: string;
@@ -92,7 +92,7 @@ export async function lookupFilms(by: 'kinopoisk' | 'imdb', keys: string[], fetc
   }
   // режиссёры и страны — отдельные элементы, нужны только их названия
   const related = new Set<string>();
-  for (const e of Object.values(films)) for (const p of [PROPS.director, PROPS.country]) itemIds(e, p).forEach((id) => related.add(id));
+  for (const e of Object.values(films)) for (const p of [PROPS.director, PROPS.writer, PROPS.country]) itemIds(e, p).forEach((id) => related.add(id));
   const names = related.size ? await entities(Array.from(related), 'labels', fetcher) : {};
 
   for (const [key, q] of found) {
@@ -113,10 +113,13 @@ export async function lookupFilms(by: 'kinopoisk' | 'imdb', keys: string[], fetc
       originalTitle: orig?.text,
       year: years.length ? Math.min(...years) : undefined,
       creators: itemIds(e, PROPS.director).map((id) => label(names[id])).filter((n): n is string => Boolean(n)),
-      credits: itemIds(e, PROPS.director).flatMap((id): Credit[] => {
-        const name = label(names[id]);
-        return name ? [{ personId: id, role: 'director', name }] : [];
-      }),
+      // режиссёры и сценаристы (Д2); создателя сериала (P170) здесь не берём: у фильма это
+      // бывает студия, а вид элемента тут неизвестен — его добирает tools/resolve-credits.mts
+      credits: ([['director', PROPS.director], ['writer', PROPS.writer]] as const).flatMap(([role, prop]) =>
+        itemIds(e, prop).flatMap((id): Credit[] => {
+          const name = label(names[id]);
+          return name ? [{ personId: id, role, name }] : [];
+        })),
       countries: itemIds(e, PROPS.country).map((id) => label(names[id])).filter((n): n is string => Boolean(n)),
       durationMinutes: dur ? Math.round(Number(dur.amount)) || undefined : undefined,
     });

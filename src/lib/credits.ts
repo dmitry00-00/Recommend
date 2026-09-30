@@ -57,3 +57,26 @@ export function peopleIn(works: Iterable<Pick<WorkCard, 'credits'>>, known: Read
 
 /** Элемент Wikidata ли это: «Q» и цифры. */
 export const isPersonId = (id: string): id is PersonId => /^Q\d+$/.test(id);
+
+const ROLE_BY_CODE: Record<string, CreditRole> = { d: 'director', w: 'writer', c: 'creator', a: 'author' };
+
+/** Запись `src/mocks/workCredits.ts` («Q25191:d,Q25191:w») → `credits` карточки. Человека без
+ *  имени в справочнике пропускаем: показать его нечем. */
+export function decodeCredits(row: string | undefined, people: Readonly<Record<PersonId, Person>>): Credit[] {
+  if (!row) return [];
+  return row.split(',').flatMap((pair): Credit[] => {
+    const [personId, code] = pair.split(':');
+    const role = ROLE_BY_CODE[code];
+    const name = people[personId]?.name;
+    return role && name ? [{ personId, role, name }] : [];
+  });
+}
+
+/** Ключ произведения — тот же, что у генераторов (`analysisKey` в tools/works-index.mts):
+ *  сериал — по IMDb (номера TMDb у сериалов свои), фильм — по TMDb, книга — по первому ISBN. */
+export function workKey(w: Pick<WorkCard, 'type' | 'externalIds'> & { format?: 'series' }, ids = w.externalIds): string | undefined {
+  if (isSeries(w)) return ids?.imdb ? `imdb:${ids.imdb}` : undefined;
+  if (ids?.tmdb != null) return `tmdb:${ids.tmdb}`;
+  if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
+  return undefined;
+}

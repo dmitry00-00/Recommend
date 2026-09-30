@@ -22,7 +22,6 @@
 
 | # | ID | Задача | Размер | Зависит от |
 |---|---|---|---|---|
-| 10 | Д2 | Резолв авторов: Wikidata P57, P58, P170, P50; TMDb `created_by` | M | Д1 |
 | 11 | Е2 | Разметка сериалов: единица — сериал, у антологии — сезон; черновик 115 сериалов | M | Е1, Г1 |
 | 12 | Е6 | Индекс разборов: ролики о сезоне и серии → сериал | S | Е1 |
 | 13 | Д3 | Страница `/person/:id` | M | Д2 |
@@ -90,3 +89,4 @@ flowchart LR
 | 30.09 | Е1 | Сериал — свой вид: `MediaType` += `'series'`, `series?: SeriesInfo` (сезоны, серии, минут в серии, идёт/закончен, антология), `format` устарел и приводится `normalizeWork` при загрузке; проверки через `src/lib/media.ts`; 62 карточки перенесены; см. HANDOFF «Сериал — свой вид» |
 | 30.09 | Д1 | Контракт авторов: `Person` (ключ — элемент Wikidata), `Credit {personId, role, name}`, роли director/writer/creator/author, `WorkCard.credits`; `src/lib/credits.ts` (`creditsOf`, `leadCredits`, `defaultRole`, `peopleIn`), пустой справочник `src/mocks/people.ts`; резолвер Wikidata пишет режиссёров в `credits`; см. HANDOFF «Авторы: контракт» |
 | 30.09 | Е5 | Импорт: сериалы сопоставляются и резолвятся, а не откладываются; выгрузка IMDb отдаёт сериалы (tvSeries/tvMiniSeries, без отдельных серий); TMDb сверяется только внутри вида; шторка без «откладываем»; см. HANDOFF «Сериалы в импорте» |
+| 30.09 | Д2 | Резолв авторов: `tools/resolve-credits.mts` (Wikidata P57/P58/P170/P50, TMDb `created_by` → P4985) пишет `people.ts` и `workCredits.ts`, приложение подкладывает `credits` карточкам; рантайм-резолвер берёт и сценаристов. **Прогон — владелец на Маке** (`deploy/resolve-credits.command`): из VM сети до Wikidata нет; см. HANDOFF «Авторы: резолв» |

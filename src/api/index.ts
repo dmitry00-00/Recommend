@@ -21,9 +21,10 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  Person, PersonId, Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork } from '@/lib/media';
+import { decodeCredits, workKey } from '@/lib/credits';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -94,6 +95,10 @@ let userRatings: Record<string, { rating: 1 | 2 | 3 | 4 | 5; raw: number }> = {}
 let watchedWorks: WorkCard[] = [];
 let filmBase: WorkCard[] = [];
 let filmBaseWiki: WorkCard[] = [];
+/** авторы (Д2): справочник людей и «ключ произведения → кто и в какой роли» из
+ *  tools/resolve-credits.mts; карточке их подкладывает `withCredits` */
+let people: Record<PersonId, Person> = {};
+let workCredits: Record<string, string> = {};
 /** фильмы и сериалы с полок по просьбам людей (shelves.ts → filmBaseCurated.ts): ключ → карточка */
 let shelfWorks = new Map<string, WorkCard>();
 /** полка → ключи её произведений по порядку */
@@ -109,8 +114,9 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm]) => {
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc]) => {
+    people = pp.people; workCredits = wc.workCredits;
     draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
     // сериал — свой вид (Е1): старые карточки с format:'series' (сервер, выгрузки) приводятся здесь
     const norm = (ws: readonly WorkCard[]) => ws.map(normalizeWork);
@@ -124,6 +130,12 @@ function catalog(): Promise<void> {
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
     const media = bm.baseMedia;
     if (Object.keys(media).length) filmBaseWiki = filmBaseWiki.map((w) => (media[w.id] ? { ...w, ...media[w.id] } : w));
+    // авторы с элементами Wikidata (Д2) — там, где карточка сама их не принесла
+    if (Object.keys(workCredits).length) {
+      const credited = (ws: WorkCard[]) => ws.map(withCredits);
+      userWorks = credited(userWorks); watchedWorks = credited(watchedWorks);
+      filmBase = credited(filmBase); filmBaseWiki = credited(filmBaseWiki);
+    }
     // по ключам полок из всего справочника: «2046» уже был в нём до полки
     const onShelf = new Set(Object.values(fc.shelfKeys).flat());
     const shelfKey = (w: WorkCard) => (isSeries(w) ? w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`
@@ -136,6 +148,13 @@ function catalog(): Promise<void> {
     shelfKeys = fc.shelfKeys;
   });
   return catalogLoad;
+}
+
+/** Авторы карточки: свои `credits`, иначе запись резолва авторов по ключу произведения (Д2). */
+function withCredits<T extends WorkCard>(w: T): T {
+  if (w.credits?.length) return w;
+  const credits = decodeCredits(workCredits[workKey(w, w.externalIds ?? externalIds[w.id]) ?? ''], people);
+  return credits.length ? { ...w, credits } : w;
 }
 
 let filmForm: Record<string, FilmForm> = {};
@@ -572,10 +591,10 @@ function deckCard(id: ID): WorkCard | undefined {
   const candidate = candidateCard(id);
   if (candidate) return withRegisters(candidate);
   const catalog = (mocks.works as Record<string, WorkCard>)[id];
-  if (catalog) return withRegisters(withMedia(catalog));
+  if (catalog) return withCredits(withRegisters(withMedia(catalog)));
   // самые смотримые из справочника — с черновой разметкой (трек Г1)
   const base = filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id) ?? watchedWorks.find((w) => w.id === id);
-  return base ? annotated(base) : undefined;
+  return base ? withCredits(annotated(base)) : undefined;
 }
 
 export async function getRatingDeck(): Promise<RatingDeck> {
@@ -629,7 +648,8 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
     ?? watchedNow().find((w) => w.id === id) ?? filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id);
   const detail = workDetail(id) ?? (own ? bare(own) : undefined);
   if (!detail) return undefined;
-  const [card] = await pictured([{ ...detail, externalIds: detail.externalIds ?? externalIds[id] }]);
+  const [pic] = await pictured([{ ...detail, externalIds: detail.externalIds ?? externalIds[id] }]);
+  const card = withCredits(pic);
   const nearby = nearbyFor(card);
   const form = formFor(card);
   const similarByTags = tagsFor(card);
@@ -1503,9 +1523,8 @@ function knownWorks(): WorkCard[] {
 function worksByAnalysisKey(): Map<string, WorkCard> {
   const out = new Map<string, WorkCard>();
   for (const w of knownWorks()) {
-    const ids = w.externalIds ?? externalIds[w.id];
-    // ключ тот же, что у генераторов: фильм — по TMDb, книга — по ISBN
-    const key = ids?.tmdb != null ? `tmdb:${ids.tmdb}` : ids?.isbn?.length ? `isbn:${ids.isbn[0]}` : undefined;
+    // ключ тот же, что у генераторов: фильм — по TMDb, сериал — по IMDb, книга — по ISBN
+    const key = workKey(w, w.externalIds ?? externalIds[w.id]);
     if (key && !out.has(key)) out.set(key, w);
   }
   return out;
