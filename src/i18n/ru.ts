@@ -673,6 +673,24 @@ export const ru = {
     return ({ book: 'Экранизация книги', comic: 'Экранизация комикса', series: 'По сериалу', film: 'По фильму', game: 'По игре' } as Record<string, string>)[node] ?? 'По мотивам';
   }
 },
+  /* страница вселенной (Ж2) */
+  universe: {
+  "kind": { "franchise": "Франшиза", "cycle": "Цикл", "film": "Вселенная фильма", "series": "Вселенная сериала", "book": "Вселенная книги", "comic": "Вселенная комикса", "game": "Вселенная игры", "other": "Вселенная" } as Record<string, string>,
+  "group": { "film": "Фильмы", "series": "Сериалы", "book": "Книги", "comic": "Комиксы", "game": "Игры", "other": "Другое" } as Record<string, string>,
+  "one": { "film": "фильм", "series": "сериал", "book": "книга", "comic": "комикс", "game": "игра", "other": "произведение" } as Record<string, string>,
+  "count": (kind: string, n: number) => `${({ film: 'фильмов', series: 'сериалов', book: 'книг', comic: 'комиксов', game: 'игр' } as Record<string, string>)[kind] ?? 'другого'}: ${n}`,
+  "startFirst": "Первая часть — отсюда история начинается.",
+  "startNear": "Ближе всего к привычному для вас уровню — хороший вход, даже если не первая часть.",
+  "orderLabel": "Порядок",
+  "byRelease": "По выходу",
+  "byStory": "По сюжету",
+  "chain": (n: number, first: string) => `Цепочка ${n}: от «${first}»`,
+  "places": "Где об этом говорят",
+  "notOurs": "у нас нет",
+  "link": (title: string, n: number) => `Вселенная «${title}»: ${n} произведений`,
+  "unknown": "Такой вселенной нет",
+  "unknownText": "Связей у этого произведения у нас не нашлось — возможно, ссылка устарела."
+},
   /* страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель */
   person: {
   "role": { "director": "режиссёр", "writer": "сценарист", "creator": "автор сериала", "author": "писатель" } as Record<'director' | 'writer' | 'creator' | 'author', string>,

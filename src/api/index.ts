@@ -189,6 +189,132 @@ function relationsFor(work: WorkCard): WorkRelationView[] {
   return out.sort((x, y) => rank(x) - rank(y) || (x.year ?? 9999) - (y.year ?? 9999)).slice(0, 20);
 }
 
+/** Вселенные (Ж2): связные куски графа связей. Средоточие — франшиза, иначе цикл, иначе узел с
+ *  наибольшим числом связей (при равенстве — самый ранний): «Дюна» — франшиза, а у «Сталкера» без
+ *  франшизы средоточием станет повесть. Считается один раз на загрузку связей. */
+let universes: { hubOf: Map<string, string>; members: Map<string, string[]> } | undefined;
+function universeIndex(): NonNullable<typeof universes> {
+  if (universes) return universes;
+  const parent = new Map<string, string>();
+  const find = (x: string): string => { let r = x; while (parent.get(r) !== r) r = parent.get(r) ?? (parent.set(r, r), r); parent.set(x, r); return r; };
+  const degree = new Map<string, number>();
+  for (const [a, , b] of relationEdges) {
+    for (const x of [a, b]) { if (!parent.has(x)) parent.set(x, x); degree.set(x, (degree.get(x) ?? 0) + 1); }
+    parent.set(find(a), find(b));
+  }
+  const groups = new Map<string, string[]>();
+  for (const x of parent.keys()) (groups.get(find(x)) ?? groups.set(find(x), []).get(find(x))!).push(x);
+  const hubOf = new Map<string, string>();
+  const members = new Map<string, string[]>();
+  const weight = (q: string) => { const k = relationNodes[q]?.k; return k === 'franchise' ? 2 : k === 'cycle' ? 1 : 0; };
+  for (const list of groups.values()) {
+    if (list.length < 2) continue;
+    const hub = [...list].sort((a, b) => weight(b) - weight(a) || (degree.get(b) ?? 0) - (degree.get(a) ?? 0)
+      || (relationNodes[a]?.y ?? 9999) - (relationNodes[b]?.y ?? 9999))[0];
+    members.set(hub, list);
+    for (const q of list) hubOf.set(q, hub);
+  }
+  universes = { hubOf, members };
+  return universes;
+}
+
+/** Вселенная произведения — если в ней хотя бы три узла: пара «фильм — роман» уже видна в связях. */
+function universeFor(work: WorkCard): { id: string; title: string; size: number } | undefined {
+  const key = workKey(work, work.externalIds ?? externalIds[work.id]);
+  const q = (key && relationQid.get(key)) || work.externalIds?.wikidata;
+  if (!q) return undefined;
+  const { hubOf, members } = universeIndex();
+  const hub = hubOf.get(q);
+  const size = hub ? members.get(hub)!.length : 0;
+  return hub && size >= 3 ? { id: hub, title: relationNodes[hub]?.t ?? hub, size } : undefined;
+}
+
+export interface UniverseMember {
+  qid: string;
+  title: string;
+  year?: number;
+  kind: RelationNodeKind;
+  /** наша карточка, если произведение есть в справочнике */
+  work?: WorkCard;
+  seen: boolean;
+}
+export interface UniversePage {
+  id: string;
+  title: string;
+  kind: RelationNodeKind;
+  /** по видам — в порядке выхода; циклы и франшизы внутри вселенной не показываем как членов */
+  byKind: { kind: RelationNodeKind; members: UniverseMember[] }[];
+  /** порядок по сюжету: цепочки продолжений (P155/P156), от первой части к последней */
+  chains: UniverseMember[][];
+  startWith?: { member: UniverseMember; why: 'first' | 'near' };
+  /** места разговора: кураторские по её произведениям и поиск по каналам авторов по названию вселенной */
+  discussions: DiscussionPlace[];
+}
+
+export async function getUniverse(id: string): Promise<UniversePage | undefined> {
+  await delay(200);
+  await Promise.all([catalog(), workRefs()]);
+  const { members } = universeIndex();
+  const list = members.get(id);
+  const hub = relationNodes[id];
+  if (!list || !hub) return undefined;
+  const byKey = worksByAnalysisKey();
+  const seenIds = new Set([...history().filter((e) => e.status === 'finished').map((e) => e.work.id), ...watchedNow().map((w) => w.id)]);
+  const keys = seenKeys();
+  const member = (q: string): UniverseMember | undefined => {
+    const n = relationNodes[q];
+    if (!n) return undefined;
+    const raw = n.key ? byKey.get(n.key) : undefined;
+    const work = raw && (isSeries(raw) ? withSeriesDraft(raw) : annotated(raw));
+    return { qid: q, title: n.t, ...(n.y ? { year: n.y } : {}), kind: n.k, ...(work ? { work } : {}),
+      seen: Boolean(work && (seenIds.has(work.id) || seen(work, keys))) };
+  };
+  const all = list.filter((q) => q !== id).map(member).filter((m): m is UniverseMember => Boolean(m));
+  const byYear = (a: UniverseMember, b: UniverseMember) => (a.year ?? 9999) - (b.year ?? 9999) || a.title.localeCompare(b.title, 'ru');
+  const ORDER: RelationNodeKind[] = ['film', 'series', 'book', 'comic', 'game', 'other'];
+  const byKind = ORDER.map((kind) => ({ kind, members: all.filter((m) => m.kind === kind).sort(byYear) })).filter((g) => g.members.length);
+
+  // цепочки продолжений: A sequel_of B → B раньше A; начала — те, у кого нет «предыдущего»
+  const inside = new Set(list);
+  const next = new Map<string, string[]>();
+  const hasPrev = new Set<string>();
+  for (const [a, kind, b] of relationEdges) {
+    if (kind !== 'sequel_of' || !inside.has(a) || !inside.has(b)) continue;
+    (next.get(b) ?? next.set(b, []).get(b)!).push(a);
+    hasPrev.add(a);
+  }
+  const chains: UniverseMember[][] = [];
+  for (const start of [...next.keys()].filter((q) => !hasPrev.has(q))) {
+    const chain: string[] = [];
+    const walked = new Set<string>();
+    for (let q: string | undefined = start; q && !walked.has(q); q = (next.get(q) ?? []).sort((x, y) => (relationNodes[x]?.y ?? 9999) - (relationNodes[y]?.y ?? 9999))[0]) {
+      walked.add(q);
+      chain.push(q);
+    }
+    const ms = chain.map(member).filter((m): m is UniverseMember => Boolean(m));
+    if (ms.length >= 2) chains.push(ms);
+  }
+
+  // с чего начать: первая часть самой длинной цепочки, если она у нас и не видена; иначе — наше
+  // непросмотренное с уровнем ближе всего к «чуть выше привычного», иначе — самое раннее наше
+  const ours = all.filter((m) => m.work && !m.seen && (m.kind === 'film' || m.kind === 'series'));
+  const first = [...chains].sort((a, b) => b.length - a.length)[0]?.find((m) => m.work && !m.seen);
+  const comfort = ownState()?.complexityComfort;
+  const near = comfort != null
+    ? ours.filter((m) => m.work!.complexityLevel).sort((a, b) => Math.abs(a.work!.complexityLevel - comfort - 1) - Math.abs(b.work!.complexityLevel - comfort - 1))[0]
+    : undefined;
+  const startWith = first ? { member: first, why: 'first' as const } : near ? { member: near, why: 'near' as const }
+    : ours.sort(byYear)[0] ? { member: ours.sort(byYear)[0], why: 'first' as const } : undefined;
+
+  const curated = all.flatMap((m) => (m.work ? mocks.discussions.filter((d) => d.workId === m.work!.id) : []));
+  const probe = { id: `u-${id}`, type: 'film', title: hub.t, year: hub.y ?? 0, creators: [], primaryOperations: [], complexityLevel: 0,
+    warnings: [], barriers: [], isNicheMasterpiece: false } as WorkCard;
+  const seenUrl = new Set<string>();
+  const discussions = [...curated, ...searchLinks(probe), ...searchLinks(probe, 'place')]
+    .filter((d) => (seenUrl.has(d.url) ? false : (seenUrl.add(d.url), true))).slice(0, 12);
+  return { id, title: hub.t, kind: hub.k, byKind, chains, ...(startWith ? { startWith } : {}), discussions };
+}
+
 let filmForm: Record<string, FilmForm> = {};
 let tagNeighbours: Record<string, TagNeighbour[]> = {};
 let filmTropes: Record<string, TropeMention[]> = {};
@@ -207,6 +333,7 @@ function workRefs(): Promise<void> {
     filmForm = ff.filmForm; tagNeighbours = tn.tagNeighbours; filmTropes = ft.filmTropes; comentions = freshCo ?? cm.comentions;
     relationNodes = wr.relationNodes; relationEdges = wr.relationEdges;
     relationQid = new Map(Object.entries(relationNodes).flatMap(([q, n]) => (n.key ? [[n.key, q] as [string, string]] : [])));
+    universes = undefined;
   });
   return workRefsLoad;
 }
@@ -751,6 +878,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
   const form = formFor(card);
   const similarByTags = tagsFor(card);
   const relations = relationsFor(card);
+  const universe = universeFor(card);
   const tropeMentions = tropesFor(card);
   return {
     ...detail, ...card,
@@ -759,6 +887,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
     ...(form ? { form } : {}),
     ...(similarByTags.length ? { similarByTags } : {}),
     ...(relations.length ? { relations } : {}),
+    ...(universe ? { universe } : {}),
     ...(tropeMentions.length ? { tropeMentions } : {}),
   };
 }

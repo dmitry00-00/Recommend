@@ -190,11 +190,16 @@ export function WorkScreen() {
         </section>
 
         {/* откуда это и что из этого выросло (Ж1): роман, по которому снято, сиквел, ремейки, франшиза */}
-        {work.relations?.length ? (
+        {work.relations?.length || work.universe ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ru.relations.title}</h2>
+            {work.universe ? (
+              <p className="tm-voice__outlets tm-work__people">
+                <Link className="tm-voice__chip" to={`/universe/${work.universe.id}`}>{ru.universe.link(work.universe.title, work.universe.size)}</Link>
+              </p>
+            ) : null}
             <ul className="tm-relations">
-              {work.relations.map((r) => (
+              {(work.relations ?? []).map((r) => (
                 <li key={`${r.kind}-${r.direction}-${r.qid}`} className="tm-relations__item">
                   <span className="tm-label tm-relations__kind">{ru.relations.label(r.kind, r.direction, r.nodeKind)}</span>
                   {r.workId

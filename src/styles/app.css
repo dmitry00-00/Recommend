@@ -648,3 +648,9 @@ button.tm-banner { cursor: pointer; }
 .tm-relations__kind { color: var(--tm-color-ink-faint); min-width: 9em; }
 .tm-relations__title { font-weight: 500; }
 .tm-relations__year { color: var(--tm-color-ink-faint); }
+
+/* страница вселенной (Ж2) */
+.tm-universe__kind { margin: 0 0 var(--tm-space-1); color: var(--tm-color-ink-faint); }
+.tm-universe__order { margin-top: var(--tm-space-4); flex-wrap: wrap; }
+.tm-universe__chain { counter-reset: none; }
+.tm-universe__static { cursor: default; }

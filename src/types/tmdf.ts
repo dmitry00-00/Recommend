@@ -302,6 +302,8 @@ export interface WorkDetail extends WorkCard {
   tropeMentions?: TropeMention[];
   /** связи с другими произведениями (Ж1): экранизация чего, сиквел чего, ремейки, франшиза */
   relations?: WorkRelationView[];
+  /** вселенная (Ж2), если в ней хотя бы три произведения: франшиза, цикл или цепочка связей */
+  universe?: { id: string; title: string; size: number };
   contributorsCredit: string[];
   desireModel?: DesireModel;
   characters?: CharacterDesire[];
