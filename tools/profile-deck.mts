@@ -31,6 +31,7 @@ import { ratingDeck } from '../src/mocks/ratingDeck.ts';
 import { massCanonList } from '../src/mocks/massCanon.ts';
 import { canonKeys, filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';
+import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
 // 300, а не 150 (30.09): с каноном верх списка шире, и Г1 размечает по нему с запасом
@@ -59,7 +60,8 @@ for (const w of [...userWorks, ...watchedWorks]) {
 }
 for (const { key, work } of worksIndex({ all: true })) if (rows.has(key) && isAnnotated(work)) rows.get(key)!.annotated = true;
 // черновая разметка по фильму (трек Г1) и уровень — для разброса колоды
-for (const [key, d] of Object.entries(draftAnnotations)) if (rows.has(key)) { rows.get(key)!.annotated = true; rows.get(key)!.level = d.level; }
+// отклонённый куратором черновик (Г3) не в счёт — фильм снова ждёт разметки
+for (const [key, d] of Object.entries(draftAnnotations)) if (rows.has(key) && draftReview[`draft:${key}`]?.status !== 'rejected') { rows.get(key)!.annotated = true; rows.get(key)!.level = d.level; }
 for (const w of userWorks) {
   const k = analysisKey(w);
   if (k && rows.has(k) && userAnnotations[w.id]) rows.get(k)!.level ??= userAnnotations[w.id].level;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { AnnotationDiffRow, AnnotationReviewItem } from '@/types/tmdf';
-import { getAnnotation, getAnnotationDiff, reviewAnnotation } from '@/api';
+import { getAnnotation, getAnnotationDiff, nextInBatch, reviewAnnotation } from '@/api';
 import {
   BlindAnnotationToggle, Button, DiffView, EmptyState, ErrorState, FieldConfidence, Skeleton, StatusTag, ValidationList, useToast,
 } from '@/components';
@@ -40,7 +40,12 @@ export function AnnotationReviewScreen() {
     if (!item || busy) return;
     setBusy(true);
     reviewAnnotation(item.annotationId, decision)
-      .then(() => { toast({ text: decision === 'approve' ? ru.curator.approved : ru.curator.rejected }); navigate('/curator'); })
+      // поток (Г3): после решения — следующий черновик сегодняшней порции, а не возврат в таблицу
+      .then(() => nextInBatch())
+      .then((next) => {
+        toast({ text: decision === 'approve' ? ru.curator.approved : ru.curator.rejected });
+        navigate(next ? `/curator/annotations/${encodeURIComponent(next)}` : '/curator');
+      })
       .catch(() => toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => decide(decision) }))
       .finally(() => setBusy(false));
   };

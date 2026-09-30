@@ -6,6 +6,7 @@ import { parseExports, toJourneyEntries, type ImportOutcome, type ImportSource }
 import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv, withImages } from '@/lib/resolve';
 import { ratingDeck } from '@/mocks/ratingDeck';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
+import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, type Candidate } from '@/lib/model/recommend';
 import { knownVoice, voiceOf } from '@/lib/voices';
@@ -19,7 +20,7 @@ import type {
   AgreementCeilingData, AnnotationDiffRow, AnnotationRun, CoMention, Confidence, ContributorAnswer, ContributorProfile, ContributorTask,
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
-  DifficultyPrediction, Eagerness, PerceivedDifficulty,
+  DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
   Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 
@@ -98,6 +99,7 @@ let shelfWorks = new Map<string, WorkCard>();
 let shelfKeys: Record<string, string[]> = {};
 /** черновая разметка самых смотримых (трек Г1): ключ — фильм (`tmdb:<id>`), не карточка */
 let draftAnnotations: Record<string, FirstPassAnnotation> = {};
+let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
 /** Справочник фильмов и история владельца. Повторный вызов ждёт ту же загрузку. */
@@ -108,7 +110,7 @@ function catalog(): Promise<void> {
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
     import('@/mocks/baseMedia'),
   ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm]) => {
-    draftAnnotations = da.draftAnnotations;
+    draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
     userWorks = uh.userWorks; userJournal = uh.userJournal; userRatings = ur.userRatings;
     watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup];
     // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
@@ -221,7 +223,7 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
   const map = new Map<number, FirstPassAnnotation>();
   for (const w of userWorks) {
     const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
-    if (tmdb != null && userAnnotations[w.id]) map.set(tmdb, userAnnotations[w.id]);
+    if (tmdb != null && userAnnotations[w.id] && reviewMarks()[`own:${w.id}`]?.status !== 'rejected') map.set(tmdb, userAnnotations[w.id]);
   }
   if (userWorks.length) ownByTmdb = map; // до загрузки справочника не запоминаем пустое
   return map;
@@ -229,10 +231,13 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
   if (w.format === 'series') return undefined;
   const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
-  return tmdb != null ? ownAnnotationByTmdb().get(tmdb) ?? draftAnnotations[`tmdb:${tmdb}`] : undefined;
+  if (tmdb == null) return undefined;
+  // отклонённый куратором черновик (Г3) не используется: лучше без разметки, чем с неверной
+  const draft = reviewMarks()[`draft:tmdb:${tmdb}`]?.status === 'rejected' ? undefined : draftAnnotations[`tmdb:${tmdb}`];
+  return ownAnnotationByTmdb().get(tmdb) ?? draft;
 };
 const annotated = (w: WorkCard): WorkCard => {
-  const a = userAnnotations[w.id] ?? draftFor(w);
+  const a = (reviewMarks()[`own:${w.id}`]?.status === 'rejected' ? undefined : userAnnotations[w.id]) ?? draftFor(w);
   const r = withRegisters(w);
   return a && !w.primaryOperations.length
     ? { ...r, primaryOperations: a.ops.map(([op, intensity]) => ({ op, intensity })), complexityLevel: a.level,
@@ -992,38 +997,176 @@ export async function updateSettings(patch: Partial<UserSettings>): Promise<User
 const reviewed = new Map<ID, AnnotationStatus>();
 const CONF_ORDER: Record<Confidence, number> = { low: 0, medium: 1, high: 2 };
 const queueItem = (i: AnnotationReviewItem): AnnotationReviewItem => ({
-  ...i, status: reviewed.get(i.annotationId) ?? i.status, signals: curator.signals[i.annotationId],
+  ...i, status: reviewed.get(i.annotationId) ?? reviewMarks()[i.annotationId]?.status ?? i.status, signals: curator.signals[i.annotationId],
 });
 
-export async function getCuratorQueue(filters?: { status?: AnnotationStatus; provider?: AnnotationProvider }): Promise<AnnotationReviewItem[]> {
-  await delay(260);
+// ---------- поток проверки черновой разметки (трек Г3) ----------
+// Очередь кураторской собирается из настоящих черновиков: разметка фильмов из списка первых
+// оценок (draftAnnotations.ts, ключ — фильм) и первичная разметка истории владельца
+// (userAnnotations.ts). Порядок — сначала фильмы колоды /rate (их оценивают новые люди первыми),
+// потом самое неуверенное. Поток — по 20 в день: «Сегодня» показывает решённое за сегодня и
+// столько нерешённых, чтобы вместе вышло 20.
+// Решения живут в браузере куратора (localStorage) поверх draftReview.ts — того, что уже
+// приехало со сборкой; «Скачать решения» → tools/apply-review.mts → draftReview.ts.
+export const REVIEW_DAILY = 20;
+const REVIEW_KEY = 'tm.review';
+let localMarks: Record<string, ReviewMark> | undefined;
+function reviewMarks(): Record<string, ReviewMark> {
+  if (!localMarks) {
+    try { localMarks = JSON.parse(localStorage.getItem(REVIEW_KEY) ?? '{}') as Record<string, ReviewMark>; } catch { localMarks = {}; }
+  }
+  return { ...draftReview, ...localMarks };
+}
+function markReview(id: ID, status: ReviewMark['status']): void {
+  reviewMarks();
+  localMarks = { ...localMarks, [id]: { status, at: new Date().toISOString() } };
+  try { localStorage.setItem(REVIEW_KEY, JSON.stringify(localMarks)); } catch { /* приватное окно — решение живёт до перезагрузки */ }
+  ownByTmdb = undefined;   // отклонённая первичная разметка больше не в счёт
+}
+const localDay = (iso: string): string => new Date(iso).toLocaleDateString('sv');   // ГГГГ-ММ-ДД по местному времени
+
+interface DraftSource { id: ID; key?: string; annotation: FirstPassAnnotation; work: WorkCard; own: boolean }
+/** Все черновики с карточками, в порядке проверки. */
+function draftSources(): DraftSource[] {
+  const cards = new Map<string, WorkCard>();
+  for (const w of [...userWorks, ...filmBase, ...filmBaseWiki, ...watchedWorks]) {
+    const t = (w.externalIds ?? externalIds[w.id])?.tmdb;
+    if (t != null && w.format !== 'series' && !cards.has(`tmdb:${t}`)) cards.set(`tmdb:${t}`, w);
+  }
+  const deckOrder = new Map<string, number>();
+  ratingDeck.forEach((id, i) => {
+    const w = deckCard(id);
+    const t = w && (w.externalIds ?? externalIds[w.id])?.tmdb;
+    if (t != null && !deckOrder.has(`tmdb:${t}`)) deckOrder.set(`tmdb:${t}`, i);
+    deckOrder.set(`own:${id}`, deckOrder.get(`own:${id}`) ?? i);
+  });
+  const out: DraftSource[] = [];
+  for (const [key, annotation] of Object.entries(draftAnnotations)) {
+    const work = cards.get(key);
+    if (work) out.push({ id: `draft:${key}`, key, annotation, work, own: false });
+  }
+  for (const w of userWorks) {
+    const annotation = userAnnotations[w.id];
+    if (annotation) out.push({ id: `own:${w.id}`, annotation, work: w, own: true });
+  }
+  const rank = (d: DraftSource) => deckOrder.get(d.key ?? '') ?? deckOrder.get(`own:${d.work.id}`) ?? Number.POSITIVE_INFINITY;
+  return out.sort((a, b) => rank(a) - rank(b) || CONF_ORDER[a.annotation.confidence] - CONF_ORDER[b.annotation.confidence]
+    || Number(a.own) - Number(b.own));
+}
+function draftItem(d: DraftSource): AnnotationReviewItem {
+  const low = d.annotation.confidence === 'low';
+  return {
+    annotationId: d.id,
+    work: { id: d.work.id, type: d.work.type, title: d.work.title, year: d.work.year, creators: d.work.creators ?? [] },
+    status: reviewMarks()[d.id]?.status ?? 'needs_review',
+    tmdfVersion: draftMeta?.tmdfVersion ?? '0.3.1',
+    provider: draftMeta?.provider ?? 'anthropic_api',
+    model: draftMeta?.model ?? '',
+    modelTier: 'heavy',
+    overallConfidence: d.annotation.confidence,
+    lowConfidenceFields: low ? ['level', 'operations'] : [],
+    validationErrors: [],
+    knowledgeSufficiency: low ? 'partial' : 'sufficient',
+    usage: { inputTokens: 0, outputTokens: 0, durationMs: 0, costUsd: 0 },
+    isGold: false,
+    createdAt: draftMeta?.createdAt ?? today(),
+  };
+}
+const allQueueItems = (): AnnotationReviewItem[] => [...draftSources().map(draftItem), ...mocks.curatorQueue.map(queueItem)];
+
+/** Сегодняшняя порция: решённое сегодня (по времени решения) и нерешённые до 20. */
+function todayBatch(items: AnnotationReviewItem[]): AnnotationReviewItem[] {
+  const marks = reviewMarks();
+  const day = localDay(new Date().toISOString());
+  const decided = items.filter((i) => marks[i.annotationId] && localDay(marks[i.annotationId].at) === day);
+  const open = items.filter((i) => i.status === 'needs_review').slice(0, Math.max(0, REVIEW_DAILY - decided.length));
+  return [...open, ...decided];
+}
+
+export interface ReviewProgress { today: number; daily: number; left: number; approved: number; rejected: number }
+export async function getReviewProgress(): Promise<ReviewProgress> {
+  await ready;
+  await catalog();
   await curatorRefs();
-  return mocks.curatorQueue.map(queueItem)
-    .filter((i) => (!filters?.status || i.status === filters.status) && (!filters?.provider || i.provider === filters.provider))
-    .sort((a, b) => CONF_ORDER[a.overallConfidence] - CONF_ORDER[b.overallConfidence]);
+  const marks = reviewMarks();
+  const day = localDay(new Date().toISOString());
+  const drafts = draftSources();
+  const status = (id: ID) => marks[id]?.status;
+  return {
+    today: Object.values(marks).filter((m) => localDay(m.at) === day).length,
+    daily: REVIEW_DAILY,
+    left: drafts.filter((d) => !status(d.id)).length,
+    approved: drafts.filter((d) => status(d.id) === 'approved').length,
+    rejected: drafts.filter((d) => status(d.id) === 'rejected').length,
+  };
+}
+
+export async function getCuratorQueue(filters?: { status?: AnnotationStatus; provider?: AnnotationProvider; today?: boolean }): Promise<AnnotationReviewItem[]> {
+  await delay(260);
+  await catalog();
+  await curatorRefs();
+  const items = allQueueItems()
+    .filter((i) => (!filters?.status || i.status === filters.status) && (!filters?.provider || i.provider === filters.provider));
+  // порядок черновиков — порядок проверки (колода, неуверенное); у старых моков — по уверенности
+  return filters?.today ? todayBatch(items) : items;
+}
+
+/** Следующая нерешённая в сегодняшней порции — после решения ревью сразу открывает её. */
+export async function nextInBatch(): Promise<ID | undefined> {
+  const batch = await getCuratorQueue({ today: true });
+  return batch.find((i) => i.status === 'needs_review')?.annotationId;
 }
 
 export async function getAnnotation(id: ID): Promise<AnnotationReviewItem | undefined> {
   await delay(200);
+  await catalog();
   await curatorRefs();
-  const item = mocks.curatorQueue.find((i) => i.annotationId === id);
-  return item && queueItem(item);
+  return allQueueItems().find((i) => i.annotationId === id);
 }
 
 /** Сверх §17 (22.09): решение по аннотации, разница черновика и публикации, таксономия,
  *  прогоны, качество и потолок — данные кураторских экранов, у которых эндпоинтов не было. */
 export async function reviewAnnotation(id: ID, decision: 'approve' | 'reject'): Promise<AnnotationReviewItem | undefined> {
   await delay(240);
+  await catalog();
   await curatorRefs();
+  const status = decision === 'approve' ? 'approved' : 'rejected';
+  if (id.startsWith('draft:') || id.startsWith('own:')) {
+    if (!draftSources().some((d) => d.id === id)) return undefined;
+    markReview(id, status);
+    return allQueueItems().find((i) => i.annotationId === id);
+  }
   const item = mocks.curatorQueue.find((i) => i.annotationId === id);
   if (!item) return undefined;
-  reviewed.set(id, decision === 'approve' ? 'approved' : 'rejected');
+  reviewed.set(id, status);
   return queueItem(item);
+}
+
+/** Решения по черновикам — файлом для tools/apply-review.mts. */
+export async function exportReviewDecisions(): Promise<{ file: string; count: number }> {
+  const marks = reviewMarks();
+  const own = Object.fromEntries(Object.entries(marks).filter(([id]) => id.startsWith('draft:') || id.startsWith('own:')));
+  return { file: JSON.stringify({ exportedAt: new Date().toISOString(), decisions: own }, null, 1), count: Object.keys(own).length };
 }
 
 export async function getAnnotationDiff(id: ID): Promise<AnnotationDiffRow[]> {
   await delay(180);
+  await catalog();
   await curatorRefs();
+  const d = draftSources().find((x) => x.id === id);
+  if (d) {
+    const a = d.annotation;
+    const conf = a.confidence;
+    const opName = (op: CognitiveOperation) => ru.operations[op]?.short ?? op;
+    return [
+      { path: ru.curator.draftFields.what, draft: a.what, current: null, confidence: conf },
+      { path: ru.curator.draftFields.level, draft: String(a.level), current: null, confidence: conf },
+      { path: ru.curator.draftFields.ops, draft: a.ops.map(([op, x]) => `${opName(op)} ${x.toFixed(1)}`).join(', '), current: null, confidence: conf },
+      { path: ru.curator.draftFields.barriers, draft: a.barriers.join(', ') || '—', current: null },
+      { path: ru.curator.draftFields.warnings, draft: a.warnings.join(', ') || '—', current: null },
+      { path: ru.curator.draftFields.niche, draft: a.niche ? ru.curator.draftFields.yes : ru.curator.draftFields.no, current: null },
+    ];
+  }
   const item = mocks.curatorQueue.find((i) => i.annotationId === id);
   // Без готовой разницы — по неуверенным полям: значение черновика неизвестно, публикации нет.
   return curator.diffs[id] ?? (item?.lowConfidenceFields ?? []).map((path) => ({ path, draft: '…', current: null, confidence: 'low' as const }));
