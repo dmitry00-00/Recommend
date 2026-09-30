@@ -1,5 +1,7 @@
-// Полки (src/mocks/shelves.ts) → карточки того, чего нет в справочнике (29.09).
-//   npx tsx tools/add-shelf-films.mts [--dry]        — ключ TMDb из .env.local
+// Полки (src/mocks/shelves.ts) и канон массового зрителя (src/mocks/massCanon.ts, 30.09) →
+// карточки того, чего нет в справочнике (29.09).
+//   npx tsx tools/add-shelf-films.mts [--dry]        — ключ TMDb из .env.local; потом
+//   npx tsx tools/profile-deck.mts — список первых оценок с каноном
 //
 // Выход — src/mocks/filmBaseCurated.ts: карточки (дополняется, не затирается) и ключи полок.
 // Карточка — как у справочника: без разметки, в подбор фильм попадает, когда у него появится
@@ -12,6 +14,7 @@ import { worksIndex, analysisKey } from './works-index.mts';
 import { pick } from './register-tags.mts';
 import { tmdbFromEnv } from '../src/lib/resolve/index.ts';
 import { shelves } from '../src/mocks/shelves.ts';
+import { massCanonList } from '../src/mocks/massCanon.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
@@ -55,6 +58,18 @@ for (const w of filmBaseCurated) { const k = analysisKey(w); if (k) known.set(k,
 
 const added: WorkCard[] = [];
 const shelfKeys: Record<string, string[]> = {};
+
+/** фильм по номеру TMDb → карточка (если её ещё нет) */
+async function addMovie(id: number, title?: string, registers?: WorkCard['registers']): Promise<void> {
+  const k = `tmdb:${id}`;
+  if (known.has(k)) return;
+  const j = await get<Movie>(`movie/${id}`, { append_to_response: 'keywords,credits' });
+  const directors = (j.credits?.crew ?? []).filter((c) => c.job === 'Director').map((c) => c.name);
+  const c0 = card(`f-tmdb${id}`, title ?? j.title, j.original_title, j.release_date, directors, j.runtime,
+    { tmdb: id, ...(j.imdb_id ? { imdb: j.imdb_id } : {}) }, j.genres, j.keywords?.keywords);
+  const c = registers ? { ...c0, registers } : c0;
+  known.set(k, c); added.push(c);
+}
 for (const [name, shelf] of Object.entries(shelves)) {
   shelfKeys[name] = [];
   for (const item of shelf.items) {
@@ -64,14 +79,8 @@ for (const [name, shelf] of Object.entries(shelves)) {
     const fix = (c: WorkCard): WorkCard => (registers ? { ...c, registers } : c);
     const id = Number(m[2]);
     if (m[1] === 'movie') {
-      const k = `tmdb:${id}`;
-      shelfKeys[name].push(k);
-      if (known.has(k)) continue;
-      const j = await get<Movie>(`movie/${id}`, { append_to_response: 'keywords,credits' });
-      const directors = (j.credits?.crew ?? []).filter((c) => c.job === 'Director').map((c) => c.name);
-      const c = fix(card(`f-tmdb${id}`, title ?? j.title, j.original_title, j.release_date, directors, j.runtime,
-        { tmdb: id, ...(j.imdb_id ? { imdb: j.imdb_id } : {}) }, j.genres, j.keywords?.keywords));
-      known.set(k, c); added.push(c);
+      shelfKeys[name].push(`tmdb:${id}`);
+      await addMovie(id, title, registers);
     } else {
       const j = await get<Tv>(`tv/${id}`, { append_to_response: 'keywords,external_ids' });
       const imdb = j.external_ids?.imdb_id;
@@ -85,6 +94,34 @@ for (const [name, shelf] of Object.entries(shelves)) {
     }
   }
 }
+
+// Канон массового зрителя: сначала справочник по названию и году (±1), нет — поиск TMDb по-русски,
+// потом по оригинальному названию; из результатов — первый (TMDb сортирует по известности) с
+// годом ±1, точный год вперёд. Не нашлось — строка в отчёт, канон поправить руками.
+const normT = (t: string) => t.toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim();
+const byTitle = new Map<string, { key: string; year?: number }[]>();
+for (const [k, w] of known) {
+  if (!k.startsWith('tmdb:')) continue;
+  for (const t of [w.title, w.originalTitle]) if (t) (byTitle.get(normT(t)) ?? byTitle.set(normT(t), []).get(normT(t))!).push({ key: k, year: w.year });
+}
+const canonKeys: string[] = [];
+const unresolved: string[] = [];
+for (const c of massCanonList) {
+  const names = [c.title, c.original].filter((t): t is string => Boolean(t));
+  const local = names.flatMap((t) => byTitle.get(normT(t)) ?? []).find((x) => x.year != null && Math.abs(x.year - c.year) <= 1);
+  if (local) { canonKeys.push(local.key); continue; }
+  let found: number | undefined;
+  for (const q of names) {
+    const j = await get<{ results?: { id: number; release_date?: string }[] }>('search/movie', { query: q });
+    const near = (j.results ?? []).filter((r) => r.release_date && Math.abs(Number(r.release_date.slice(0, 4)) - c.year) <= 1);
+    found = (near.find((r) => Number(r.release_date!.slice(0, 4)) === c.year) ?? near[0])?.id;
+    if (found != null) break;
+  }
+  if (found == null) { unresolved.push(`${c.title} (${c.year})`); continue; }
+  canonKeys.push(`tmdb:${found}`);
+  await addMovie(found);
+}
+console.error(`канон: ${massCanonList.length}, ключей ${canonKeys.length}${unresolved.length ? `, не нашлось в TMDb: ${unresolved.join(', ')}` : ''}`);
 
 // Картинки, описание и «где посмотреть» — как у пула кандидатов (build-candidate-media.mts): без них
 // карточка в ленте пустая. Догружаем всем, у кого их нет, — и заведённым раньше.
@@ -116,4 +153,7 @@ export const filmBaseCurated: WorkCard[] = ${JSON.stringify(cards, null, 2)};
 
 /** полка → ключи произведений (\`tmdb:\` у фильмов, \`imdb:\` у сериалов) в её порядке */
 export const shelfKeys: Record<string, string[]> = ${JSON.stringify(shelfKeys, null, 2)};
+
+/** канон массового зрителя (src/mocks/massCanon.ts) → ключи фильмов, найденные в TMDb */
+export const canonKeys: string[] = ${JSON.stringify([...new Set(canonKeys)], null, 2)};
 `);

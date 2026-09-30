@@ -5,12 +5,16 @@
 //   обзоры   — сколько каналов-обзорщиков (tier: 'review') его разбирали: обзорщик берёт то, что
 //              смотрят все, — это массовость на русскоязычной публике (essaysAuto);
 //   вики     — просмотры статьи в Википедии за два года (.cache/attention.json);
-//   trakt    — зрители на Trakt: мировая мера, для нашей публики слабее.
+//   trakt    — зрители на Trakt: мировая мера, для нашей публики слабее;
+//   канон    — фильм в списке массового зрителя (src/mocks/massCanon.ts): Гайдай, «Брат», «Гарри
+//              Поттер», «Шрек» — то, что видели почти все, но о чём молчат наши каналы (30.09).
+//              Да или нет, без перцентиля. Канон вне справочника в список не идёт — о нём
+//              отдельная строка отчёта, карточки заводит tools/add-shelf-films.mts.
 // Каждый сигнал — в перцентиль среди кандидатов, итог — взвешенная сумма (веса ниже — решение,
 // а не замер: мерить нечем, пока нет прогноза «видел / не видел» от новых людей).
 // «Размечен» — у фильма есть уровень и операции (или черновик userAnnotations): оценка
 // неразмеченного модели ничего не даёт, для колоды годятся только размеченные.
-//   npx tsx tools/profile-deck.mts [--top 150]   → .cache/profile-deck.md и .tsv
+//   npx tsx tools/profile-deck.mts [--top 300]   → .cache/profile-deck.md и .tsv
 // Имён участников в выходе нет — только сколько человек из скольких.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex, analysisKey } from './works-index.mts';
@@ -24,16 +28,20 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { writeFileSync as writeDeck } from 'node:fs';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { ratingDeck } from '../src/mocks/ratingDeck.ts';
+import { massCanonList } from '../src/mocks/massCanon.ts';
+import { canonKeys } from '../src/mocks/filmBaseCurated.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
-const TOP = Number(process.argv[process.argv.indexOf('--top') + 1]) || 150;
-const W = { people: 0.35, reviews: 0.3, wiki: 0.2, trakt: 0.15 };
+// 300, а не 150 (30.09): с каноном верх списка шире, и Г1 размечает по нему с запасом
+const TOP = Number(process.argv[process.argv.indexOf('--top') + 1]) || 300;
+// канон отнимает вес у обзорщиков и Trakt: оба меряют ту же массовость, только косвенно
+const W = { people: 0.3, reviews: 0.25, canon: 0.2, wiki: 0.15, trakt: 0.1 };
 
-interface Row { key: string; title: string; year: number; people: number; reviews: number; wiki: number; wikiLang?: string; trakt: number; annotated: boolean; level?: number; inBase: boolean; inDeck: boolean; score: number }
+interface Row { key: string; title: string; year: number; people: number; reviews: number; canon: boolean; wiki: number; wikiLang?: string; trakt: number; annotated: boolean; level?: number; inBase: boolean; inDeck: boolean; score: number }
 const rows = new Map<string, Row>();
 const row = (key: string, w: Pick<WorkCard, 'title' | 'year'>, inBase: boolean): Row => {
   let r = rows.get(key);
-  if (!r) { r = { key, title: w.title, year: w.year, people: 0, reviews: 0, wiki: 0, trakt: 0, annotated: false, inBase, inDeck: false, score: 0 }; rows.set(key, r); }
+  if (!r) { r = { key, title: w.title, year: w.year, people: 0, reviews: 0, canon: false, wiki: 0, trakt: 0, annotated: false, inBase, inDeck: false, score: 0 }; rows.set(key, r); }
   return r;
 };
 const isAnnotated = (w: WorkCard) => (w.complexityLevel > 0 && w.primaryOperations.length > 0) || Boolean(userAnnotations[w.id]);
@@ -79,6 +87,22 @@ for (const [key, list] of Object.entries(essaysAuto)) {
   const r = rows.get(key);
   if (r) r.reviews = new Set(list.filter((a) => a.tier === 'review').map((a) => a.author)).size;
 }
+// канон: по ключу, найденному в TMDb (add-shelf-films), или по названию и году в справочнике
+const normT = (t: string) => t.toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim();
+for (const k of canonKeys) { const r = rows.get(k); if (r) r.canon = true; }
+const byTitle = new Map<string, Row[]>();
+for (const { key, work } of worksIndex({ all: true })) {
+  const r = rows.get(key);
+  if (!r) continue;
+  for (const t of [work.title, work.originalTitle]) if (t) (byTitle.get(normT(t)) ?? byTitle.set(normT(t), []).get(normT(t))!).push(r);
+}
+const canonOutside: string[] = [];
+for (const c of massCanonList) {
+  const hit = [c.title, c.original].filter((t): t is string => Boolean(t))
+    .flatMap((t) => byTitle.get(normT(t)) ?? []).find((r) => Math.abs(r.year - c.year) <= 1);
+  if (hit) hit.canon = true;
+  else canonOutside.push(`${c.title} (${c.year})`);
+}
 // внимание: Википедия и Trakt
 const attention = existsSync('.cache/attention.json')
   ? JSON.parse(readFileSync('.cache/attention.json', 'utf8')) as Record<string, { views?: number; lang?: string; trakt?: { watchers?: number } }> : {};
@@ -112,28 +136,31 @@ const pctIn = (lang: string | undefined) => {
 const wikiBy = new Map([...new Set(all.map((r) => r.wikiLang))].map((l) => [l, pctIn(l)]));
 const p = { reviews: pct((r) => r.reviews), wiki: (r: Row) => wikiBy.get(r.wikiLang)!(r.wiki), trakt: pct((r) => r.trakt) };
 for (const r of all) {
-  r.score = W.people * (r.people / people.length) + W.reviews * p.reviews(r.reviews) + W.wiki * p.wiki(r) + W.trakt * p.trakt(r.trakt);
+  r.score = W.people * (r.people / people.length) + W.reviews * p.reviews(r.reviews) + W.canon * (r.canon ? 1 : 0)
+    + W.wiki * p.wiki(r) + W.trakt * p.trakt(r.trakt);
 }
 all.sort((a, b) => b.score - a.score);
 const top = all.slice(0, TOP);
 
 mkdirSync('.cache', { recursive: true });
-const tsv = ['место\tфильм\tгод\tлюди\tобзорщики\tвики\ttrakt\tразмечен\tв базе\tв колоде\tоценка',
-  ...top.map((r, i) => [i + 1, r.title, r.year, `${r.people}/${people.length}`, r.reviews, r.wiki, r.trakt, r.annotated ? 'да' : '', r.inBase ? 'да' : '', r.inDeck ? 'да' : '', r.score.toFixed(3)].join('\t'))];
+const tsv = ['место\tфильм\tгод\tлюди\tобзорщики\tканон\tвики\ttrakt\tразмечен\tв базе\tв колоде\tоценка',
+  ...top.map((r, i) => [i + 1, r.title, r.year, `${r.people}/${people.length}`, r.reviews, r.canon ? 'да' : '', r.wiki, r.trakt, r.annotated ? 'да' : '', r.inBase ? 'да' : '', r.inDeck ? 'да' : '', r.score.toFixed(3)].join('\t'))];
 writeFileSync('.cache/profile-deck.tsv', tsv.join('\n') + '\n');
 const md = [`# Фильмы для первых оценок — ${new Date().toISOString().slice(0, 10)}`, '',
-  `Кандидатов ${all.length}, людей в выборке ${people.length}. Веса: люди ${W.people}, обзорщики ${W.reviews}, Википедия ${W.wiki}, Trakt ${W.trakt}.`, '',
-  '| # | фильм | люди | обзорщики | вики, тыс. | trakt, тыс. | размечен | в колоде |', '|---|---|---|---|---|---|---|---|',
-  ...top.map((r, i) => `| ${i + 1} | ${r.title} (${r.year})${r.inBase ? '' : ' ⁺'} | ${r.people}/${people.length} | ${r.reviews || ''} | ${r.wiki ? `${Math.round(r.wiki / 1000)}${r.wikiLang === 'en' ? ' en' : ''}` : ''} | ${r.trakt ? Math.round(r.trakt / 1000) : ''} | ${r.annotated ? '✓' : ''} | ${r.inDeck ? '✓' : ''} |`),
-  '', '⁺ — нет в нашей базе фильмов: пришёл только из присланных профилей.'];
+  `Кандидатов ${all.length}, людей в выборке ${people.length}. Веса: люди ${W.people}, обзорщики ${W.reviews}, канон ${W.canon}, Википедия ${W.wiki}, Trakt ${W.trakt}.`, '',
+  '| # | фильм | люди | обзорщики | канон | вики, тыс. | trakt, тыс. | размечен | в колоде |', '|---|---|---|---|---|---|---|---|---|',
+  ...top.map((r, i) => `| ${i + 1} | ${r.title} (${r.year})${r.inBase ? '' : ' ⁺'} | ${r.people}/${people.length} | ${r.reviews || ''} | ${r.canon ? '✓' : ''} | ${r.wiki ? `${Math.round(r.wiki / 1000)}${r.wikiLang === 'en' ? ' en' : ''}` : ''} | ${r.trakt ? Math.round(r.trakt / 1000) : ''} | ${r.annotated ? '✓' : ''} | ${r.inDeck ? '✓' : ''} |`),
+  '', '⁺ — нет в нашей базе фильмов: пришёл только из присланных профилей.',
+  ...(canonOutside.length ? ['', `Канон вне справочника — ${canonOutside.length} (заведёт \`npx tsx tools/add-shelf-films.mts\`, после — перезапуск этого отчёта): ${canonOutside.join(', ')}.`] : [])];
 writeFileSync('.cache/profile-deck.md', md.join('\n') + '\n');
 
 // фильмы со свидетельством «смотрели» (люди или обзорщики), у которых нет данных о внимании:
 // их досчитывает `tools/build-attention.mts --keys .cache/attention-todo.txt`
-const todoAttention = all.filter((r) => (r.people > 0 || r.reviews > 0) && !attention[r.key]).map((r) => r.key);
+const todoAttention = all.filter((r) => (r.people > 0 || r.reviews > 0 || r.canon) && !attention[r.key]).map((r) => r.key);
 writeFileSync('.cache/attention-todo.txt', todoAttention.join('\n') + '\n');
 if (todoAttention.length) console.error(`без данных о внимании при свидетельстве «смотрели»: ${todoAttention.length} → .cache/attention-todo.txt`);
 const annotatedTop = top.filter((r) => r.annotated);
+console.error(`канон: в справочнике ${massCanonList.length - canonOutside.length} из ${massCanonList.length}, в топ-${TOP} — ${top.filter((r) => r.canon).length}`);
 console.error(`кандидатов ${all.length}, людей ${people.length}; в топ-${TOP}: размечено ${annotatedTop.length}, уже в колоде ${top.filter((r) => r.inDeck).length}, вне базы ${top.filter((r) => !r.inBase).length}`);
 console.error('→ .cache/profile-deck.md, .cache/profile-deck.tsv');
 

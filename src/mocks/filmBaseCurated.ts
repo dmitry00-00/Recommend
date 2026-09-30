@@ -600,3 +600,6 @@ export const shelfKeys: Record<string, string[]> = {
     "imdb:tt14792320"
   ]
 };
+
+/** канон массового зрителя (src/mocks/massCanon.ts) → ключи фильмов, найденные в TMDb */
+export const canonKeys: string[] = [];
