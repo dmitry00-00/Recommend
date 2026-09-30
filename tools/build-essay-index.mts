@@ -10,7 +10,7 @@ import { essays } from '../src/mocks/essays.ts';
 import { sources } from '../src/mocks/sources.ts';
 import { ADAPTATION, isDigest, nameMatch } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
-import { evidenceFor } from './evidence.mts';
+import { evidenceFor, pickNamesake, tooEarly } from './evidence.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
 const key = process.env.YT_API_KEY;
@@ -21,7 +21,7 @@ const get = async <T>(path: string, params: Record<string, string>): Promise<T |
   // любого частичного обхода, а шаг в сборщике необязательный (30.09)
   const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`).catch((e: Error & { cause?: { code?: string } }) => {
     console.error(`ВНИМАНИЕ: YouTube не отвечает (${e.cause?.code ?? e.message}) — индекс роликов не пересобран, остаётся прежний essaysAuto`);
-    process.exit(3);
+    return process.exit(3) as never;
   });
   if (!r.ok) { console.error(`  ${path} ${r.status}`); return undefined; }
   return await r.json() as T;
@@ -116,16 +116,32 @@ const ordinary = existsSync(ordFile)
 
 const out: Record<string, ExternalAnalysis[]> = {};
 const rows: string[] = [];
-// каждый ролик привязывается к одному произведению — тому, чьё название совпало длиннее
-const best = new Map<string, { key: string; work: typeof ours[number]['work']; len: number }>();
+// каждый ролик привязывается к одному произведению — тому, чьё название совпало длиннее;
+// одинаково длинное у нескольких — тёзки, и выбирает pickNamesake (tools/evidence.mts), а не
+// порядок справочников: иначе «Пацаны» 1983-го забирали всё о сериале The Boys (30.09)
+type Cand = { key: string; work: typeof ours[number]['work'] };
+const tied = new Map<string, { len: number; cands: Cand[] }>();
 for (const { key, work, names } of ours) {
   for (const v of videos) {
     const len = Math.max(...names.map((n) => nameMatch(v.title, n, { loose: process.env.TITLE_LOOSE === '1', ordinary })));
     if (!len) continue;
-    const prev = best.get(v.id);
-    if (!prev || len > prev.len) best.set(v.id, { key, work, len });
+    const prev = tied.get(v.id);
+    if (!prev || len > prev.len) tied.set(v.id, { len, cands: [{ key, work }] });
+    else if (len === prev.len) prev.cands.push({ key, work });
   }
 }
+const videoById = new Map(videos.map((v) => [v.id, v]));
+const best = new Map<string, { key: string; work: typeof ours[number]['work']; len: number }>();
+let namesakes = 0;
+let early = 0;
+for (const [id, { len, cands }] of tied) {
+  const v = videoById.get(id)!;
+  const pick = pickNamesake(cands, `${v.title}\n${v.description ?? ''}`, v.publishedAt);
+  if (!pick) { early += 1; continue; }
+  if (pick !== cands[0]) namesakes += 1;
+  best.set(id, { ...pick, len });
+}
+console.error(`тёзки: выбран не первый по справочнику — ${namesakes}`);
 // поверх догадок — решения людей
 let confirmed = 0;
 let dropped = 0;
@@ -172,6 +188,8 @@ for (const [videoId, { key, work }] of best) {
   // Человека сторожа не перепроверяют: он смотрел ролик, а они читают заголовок
   const verdict = said ? 'human' as const : evidenceFor(work, `${v.title}\n${v.description ?? ''}`);
   if (verdict === 'conflict') { conflicts += 1; continue; }
+  // ролик вышел раньше фильма больше чем на год — не про него
+  if (!said && tooEarly(work, v.publishedAt)) { early += 1; continue; }
   (out[key] ??= []).push({
     id: `yta-${videoId}`, title: v.title, author: v.channel, platform: 'youtube', url,
     language: 'ru', spoilerLevel: 2, ...(verdict ? { evidence: verdict } : { unverified: true }),
@@ -182,7 +200,7 @@ for (const [videoId, { key, work }] of best) {
   });
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
-console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations}, снято противоречием года: ${conflicts}`);
+console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations}, снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные

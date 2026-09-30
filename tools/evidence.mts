@@ -87,3 +87,38 @@ export function evidenceFor(work: WorkCard, text: string, links: string[] = []):
   }
   return undefined;
 }
+
+/** Материал вышел раньше фильма больше чем на год — он не про этот фильм: «Близко» 2022-го в
+ *  ролике 2018-го, «Джокер» 2019-го в 2017-м. Год запаса — фестивальный показ и прокат; анонс
+ *  за два года и больше — новость о проекте, а не разбор (замер 30.09: 65 привязок). */
+export function tooEarly(work: WorkCard, publishedAt?: string): boolean {
+  const pub = publishedAt ? Number(publishedAt.slice(0, 4)) : NaN;
+  return Boolean(work.year) && Number.isFinite(pub) && pub < work.year - 1;
+}
+
+/** Слова, по которым материал говорит о сериале. «Веб-сериал» — рубрика канала «ЭПИЗОДЫ», не тема. */
+const SERIES_TALK = /(?<!веб-)сериал|(?<!\p{L})сезон|(?<!\p{L})сери(?:я|и|ю|ей|ях)(?!\p{L})|шоураннер/iu;
+
+/** Из тёзок с одинаково длинным совпадением названия — тот, о ком материал. Раньше побеждал
+ *  первый по порядку справочников, и «Пацаны» 1983-го собирали всё о сериале The Boys, «Ведьмак»
+ *  2001-го — о сериале Netflix, «Обитель зла» 2002-го — о сериале 2022-го (замер 30.09: 177
+ *  материалов у тёзок). Порядок решений, от сильного к слабому:
+ *   1. тёзка, вышедший позже материала больше чем на год, отпадает (`tooEarly`);
+ *   2. у кого есть улика (ссылка, год, оригинальное название) — тот; у кого противоречие — отпадает;
+ *   3. материал говорит о сериале — сериал, иначе — фильм;
+ *   4. дальше как раньше — первый по порядку. Самого свежего не берём нарочно: эссеисты
+ *      разбирают классику, и «ближайший по дате» уводил «Хэллоуин, 1978, реж. Карпентер» к
+ *      ремейку 2018-го, а «Мастера» Пола Томаса Андерсона — к «Мастеру» 2025-го. */
+export function pickNamesake<T extends { work: WorkCard }>(cands: T[], text: string, publishedAt?: string, links: string[] = []): T | undefined {
+  if (cands.length < 2) return cands[0];
+  let pool = cands.filter((c) => !tooEarly(c.work, publishedAt));
+  if (pool.length < 2) return pool[0];
+  const verdicts = pool.map((c) => evidenceFor(c.work, text, links));
+  const withEvidence = pool.filter((_, i) => verdicts[i] && verdicts[i] !== 'conflict');
+  if (withEvidence.length === 1) return withEvidence[0];
+  const clean = pool.filter((_, i) => verdicts[i] !== 'conflict');
+  if (clean.length) pool = clean;
+  const series = SERIES_TALK.test(text);
+  const typed = pool.filter((c) => (c.work.format === 'series') === series);
+  return (typed.length ? typed : pool)[0];
+}

@@ -12,7 +12,7 @@ import { ADAPTATION, nameHits, nameMatch } from './title-match.mts';
 import { parseArgs, readExport, type Post } from './telegram-export.mts';
 import { oembed, videoId, videosApi, type VideoMeta } from './youtube.mts';
 import { worksIndex } from './works-index.mts';
-import { evidenceFor, type Evidence } from './evidence.mts';
+import { evidenceFor, pickNamesake, tooEarly, type Evidence } from './evidence.mts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
@@ -91,7 +91,7 @@ const knownVideos = new Set(Object.values(essaysAuto).flat()
 const PER_WORK = 3;
 
 const found: { key: string; analysis: ExternalAnalysis; row: string; weight: number }[] = [];
-const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0 };
+const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0, early: 0, namesake: 0 };
 const evidenceStats: Record<Evidence, number> = { link: 0, year: 0, original: 0 };
 const conflicts: string[] = [];
 const rubricReport: string[] = [];
@@ -123,10 +123,23 @@ for (const { username, path, role } of args) {
     // Сначала первая строка — она у поста за заголовок, и совпадение там самое надёжное.
     let best: { work: typeof ours[number]['work']; key: string; len: number } | undefined;
     const head = firstLine(p.text);
+    const links = p.links.map((l) => l.url);
+    // одинаково длинное совпадение у нескольких — тёзки («Пацаны» 1983-го и сериал 2019-го):
+    // выбирает pickNamesake (tools/evidence.mts), а не порядок справочников
+    let headLen = 0;
+    let heads: { work: typeof ours[number]['work']; key: string }[] = [];
     for (const { key, work, names } of ours) {
       // только выделенное кавычками или капсом — иначе «Помните, я обещал…» уходит в «Помнить»
       const len = Math.max(0, ...names.map((n) => nameMatch(head, n, { marked: true, ordinary })));
-      if (len && (!best || len > best.len)) best = { work, key, len };
+      if (!len || len < headLen) continue;
+      if (len > headLen) { headLen = len; heads = []; }
+      heads.push({ work, key });
+    }
+    if (heads.length) {
+      const pick = pickNamesake(heads, p.text, p.date, links);
+      if (!pick) { stats.early += 1; continue; }
+      if (pick !== heads[0]) stats.namesake += 1;
+      best = { ...pick, len: headLen };
     }
     // Не нашлось в заголовке — ищем по всему тексту, но привязываем, только если названо
     // ровно одно наше произведение. Пост, где названы три фильма, — это список, а не разбор
@@ -146,10 +159,15 @@ for (const { username, path, role } of args) {
           if (m > len) { len = m; hit = n; }
         }
         if (len) hits.set(key, { work, key, len, name: hit });
-        if (hits.size > 1) break;
+        // тёзки называются одним и тем же словом — это одно названное произведение, а не два
+        if (hits.size > 1 && new Set([...hits.values()].map((h) => h.name.toLowerCase())).size > 1) break;
       }
-      if (hits.size !== 1) { if (hits.size > 1) stats.crowded += 1; continue; }
-      const only = [...hits.values()][0];
+      const named = new Set([...hits.values()].map((h) => h.name.toLowerCase()));
+      if (named.size !== 1) { if (named.size > 1) stats.crowded += 1; continue; }
+      const group = [...hits.values()];
+      const only = pickNamesake(group, p.text, p.date, links);
+      if (!only) { stats.early += 1; continue; }
+      if (only !== group[0]) stats.namesake += 1;
       // Пост про фильм называет его не один раз; одиночное упоминание в перечислении —
       // не разбор. Исключение — если рядом улика (ссылка, год, оригинальное название).
       const repeated = nameHits(p.text, only.name) >= 2;
@@ -167,6 +185,8 @@ for (const { username, path, role } of args) {
     // противоречие (рядом чужой год — ремейк или тёзка) снимает привязку совсем
     const verdict = evidenceFor(best.work, p.text, p.links.map((l) => l.url));
     if (verdict === 'conflict') { conflicts.push(`${best.work.title} (${best.work.year}) ✗ ${channel}: ${firstLine(p.text)}`); continue; }
+    // пост вышел раньше фильма больше чем на год — не про него (tools/evidence.mts tooEarly)
+    if (tooEarly(best.work, p.date)) { stats.early += 1; continue; }
     const evidence = verdict;
     stats.matched += 1;
     if (evidence) evidenceStats[evidence] += 1;
@@ -258,7 +278,8 @@ console.error(rubricReport.join('\n'));
 console.error(`постов длиннее 120 знаков: ${stats.posts}`);
 console.error(`отсеяно: рубрика-картинка ${stats.picture}, новость и анонс ${stats.news},`
   + ` слишком коротко ${stats.thin}, названо несколько фильмов ${stats.crowded},`
-  + ` названо мельком ${stats.passing}, ролик уже известен ${stats.seen}`);
+  + ` названо мельком ${stats.passing}, ролик уже известен ${stats.seen}, раньше фильма ${stats.early}`);
+console.error(`тёзки: выбран не первый по справочнику — ${stats.namesake}`);
 console.error(`→ ${file.pathname}: ${rows.length} совпадений к ${Object.keys(out).length} произведениям (найдено ${stats.matched})`);
 const kept = Object.values(out).flat();
 console.error(`улики в индексе: ${kept.filter((a) => a.evidence).length} из ${kept.length}`
