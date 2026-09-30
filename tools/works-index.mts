@@ -14,6 +14,7 @@ import { filmBase } from '../src/mocks/filmBase.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
+import { seriesBase } from '../src/mocks/seriesBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
 
@@ -53,12 +54,16 @@ export function worksIndex({ all: unnamed = false }: {
     ...filmBaseMarkup,
     // с полок по просьбам людей, данные TMDb (29.09)
     ...filmBaseCurated,
+    // сериалы с черновой разметкой из присланных профилей (Е2, 30.09) — только с ключом: в чужом
+    // тексте их пока не ищем («Начало», «Офис», «Счастье» — тёзки фильмов), привязка роликов — Е6
+    ...seriesBase,
   ];
+  const keyOnly = new Set(seriesBase.map((w) => w.id));
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
     const key = analysisKey(work);
     if (!key || out.has(key)) continue;
-    const names = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
+    const names = keyOnly.has(work.id) ? [] : [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
     if (names.length || unnamed) out.set(key, { key, work, names });
   }

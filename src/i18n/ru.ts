@@ -898,8 +898,10 @@ export const ru = {
   "curatorOnly": "видно только куратору",
   "draftFields": {
     "what": "Что делает", "level": "Уровень", "ops": "Операции", "barriers": "Барьеры", "warnings": "Предупреждения",
-    "niche": "Нишевый шедевр", "yes": "да", "no": "нет"
+    "niche": "Нишевый шедевр", "yes": "да", "no": "нет",
+    "season": (n: number) => `Сезон ${n}`
   },
+  "seasonOf": (title: string, n: number) => `${title} — сезон ${n}`,
   "batchToday": "Сегодня",
   "batchAll": "Вся очередь",
   "batchProgress": (done: number, daily: number, left: number) => `Сегодня проверено ${done} из ${daily} · в очереди ещё ${left}`,

@@ -6,6 +6,7 @@ import { parseExports, toJourneyEntries, type ImportOutcome, type ImportSource }
 import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv, withImages } from '@/lib/resolve';
 import { ratingDeck } from '@/mocks/ratingDeck';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
+import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, type Candidate } from '@/lib/model/recommend';
@@ -105,6 +106,8 @@ let shelfWorks = new Map<string, WorkCard>();
 let shelfKeys: Record<string, string[]> = {};
 /** черновая разметка самых смотримых (трек Г1): ключ — фильм (`tmdb:<id>`), не карточка */
 let draftAnnotations: Record<string, FirstPassAnnotation> = {};
+/** черновая разметка сериалов (Е2): ключ `imdb:`, у антологии — по сезонам */
+let seriesAnnotations: Record<string, SeriesDraft> = {};
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
@@ -114,8 +117,9 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc]) => {
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb]) => {
+    seriesAnnotations = sa.seriesAnnotations;
     people = pp.people; workCredits = wc.workCredits;
     draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
     // сериал — свой вид (Е1): старые карточки с format:'series' (сервер, выгрузки) приводятся здесь
@@ -126,6 +130,10 @@ function catalog(): Promise<void> {
     // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
     const seen = new Set(filmBaseWiki.map((w) => w.id));
     filmBaseWiki = [...filmBaseWiki, ...norm(fc.filmBaseCurated).filter((w) => !seen.has(w.id))];
+    // сериалы с черновой разметкой из присланных профилей (Е2, tools/build-series-base.mts): без
+    // карточки черновик некуда показать ни на странице, ни в кураторской
+    for (const w of [...fc.filmBaseCurated, ...filmBaseWiki]) seen.add(w.id);
+    filmBaseWiki = [...filmBaseWiki, ...sb.seriesBase.filter((w) => !seen.has(w.id))];
     // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
     const media = bm.baseMedia;
@@ -258,6 +266,20 @@ const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
   // отклонённый куратором черновик (Г3) не используется: лучше без разметки, чем с неверной
   const draft = reviewMarks()[`draft:tmdb:${tmdb}`]?.status === 'rejected' ? undefined : draftAnnotations[`tmdb:${tmdb}`];
   return ownAnnotationByTmdb().get(tmdb) ?? draft;
+};
+/** Черновик сериала (Е2) — для страницы произведения и кураторской. В модель и подбор не идёт:
+ *  подбор пока по фильмам (Е4), поэтому `draftFor` сериалы по-прежнему пропускает. */
+const seriesDraftFor = (w: WorkCard): SeriesDraft | undefined => {
+  if (!isSeries(w)) return undefined;
+  const key = workKey(w, w.externalIds ?? externalIds[w.id]);
+  return key && reviewMarks()[`draft:${key}`]?.status !== 'rejected' ? seriesAnnotations[key] : undefined;
+};
+const withSeriesDraft = (w: WorkCard): WorkCard => {
+  const a = seriesDraftFor(w);
+  return a && !w.primaryOperations.length
+    ? { ...w, primaryOperations: a.ops.map(([op, intensity]) => ({ op, intensity })), complexityLevel: a.level,
+        barriers: a.barriers, warnings: a.warnings, isNicheMasterpiece: a.niche }
+    : w;
 };
 const annotated = (w: WorkCard): WorkCard => {
   const a = (reviewMarks()[`own:${w.id}`]?.status === 'rejected' ? undefined : userAnnotations[w.id]) ?? draftFor(w);
@@ -418,7 +440,8 @@ function candidates(): Candidate[] {
  *  ставит такие черновики первыми. Неуверенные (low — в основном фильмы 2025–2026 по завязке) и
  *  отклонённые куратором в подбор не идут. */
 const draftCandidates = (): Candidate[] => draftSources(false)
-  .filter((d) => d.annotation.confidence !== 'low' && reviewMarks()[d.id]?.status !== 'rejected')
+  // сериалы (Е2) в подбор пока не идут — только в кураторскую и на страницу произведения (Е4)
+  .filter((d) => !isSeries(d.work) && d.annotation.confidence !== 'low' && reviewMarks()[d.id]?.status !== 'rejected')
   .map((d) => ({ work: annotated(d.work), what: d.annotation.what }));
 /** размеченное с полки — кандидатами; без разметки (и сериалы, трек Е) в подбор не идут */
 const shelfCandidates = (works: WorkCard[]): Candidate[] => works.flatMap((w) => {
@@ -644,8 +667,9 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
   // карточка ищется везде, где мы знаем произведения: дневник, пул, присланное просмотренное,
   // справочник. Просмотренного тут раньше не было, и ссылка на него (например из «рядом
   // называют») упиралась в «такого произведения нет» (23.09)
-  const own = history().find((e) => e.work.id === id)?.work ?? candidateCard(id)
+  const found = history().find((e) => e.work.id === id)?.work ?? candidateCard(id)
     ?? watchedNow().find((w) => w.id === id) ?? filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id);
+  const own = found && withSeriesDraft(found);
   const detail = workDetail(id) ?? (own ? bare(own) : undefined);
   if (!detail) return undefined;
   const [pic] = await pictured([{ ...detail, externalIds: detail.externalIds ?? externalIds[id] }]);
@@ -1108,7 +1132,9 @@ const loopText = (s: WorkSignal | undefined): string | undefined => {
   return `${parts.join(' · ')} (${ru.curator.loopChecks(s.checks)})`;
 };
 
-interface DraftSource { id: ID; key?: string; annotation: FirstPassAnnotation; work: WorkCard; own: boolean }
+interface DraftSource { id: ID; key?: string; annotation: FirstPassAnnotation; work: WorkCard; own: boolean;
+  /** сериал (Е2): сезон антологии — отдельная единица проверки; поправки сезонов обычного сериала */
+  season?: number; seasons?: SeriesDraft['seasons'] }
 /** Все черновики с карточками, в порядке проверки. */
 function draftSources(ordered = true): DraftSource[] {
   const cards = new Map<string, WorkCard>();
@@ -1128,6 +1154,21 @@ function draftSources(ordered = true): DraftSource[] {
     const work = cards.get(key);
     if (work) out.push({ id: `draft:${key}`, key, annotation, work, own: false });
   }
+  // сериалы (Е2): карточка — по ключу `imdb:`; у антологии проверяется каждый сезон
+  const seriesCards = new Map<string, WorkCard>();
+  for (const w of [...watchedWorks, ...filmBaseWiki, ...userWorks]) {
+    const k = isSeries(w) ? workKey(w, w.externalIds ?? externalIds[w.id]) : undefined;
+    if (k && !seriesCards.has(k)) seriesCards.set(k, w);
+  }
+  for (const [key, d] of Object.entries(seriesAnnotations)) {
+    const work = seriesCards.get(key);
+    if (!work) continue;
+    if (d.anthology && d.seasons) {
+      for (const [n, season] of Object.entries(d.seasons)) {
+        out.push({ id: `draft:${key}#s${n}`, key, annotation: season, work, own: false, season: Number(n) });
+      }
+    } else out.push({ id: `draft:${key}`, key, annotation: d, work, own: false, ...(d.seasons ? { seasons: d.seasons } : {}) });
+  }
   for (const w of userWorks) {
     const annotation = userAnnotations[w.id];
     if (annotation) out.push({ id: `own:${w.id}`, annotation, work: w, own: true });
@@ -1143,7 +1184,8 @@ function draftItem(d: DraftSource): AnnotationReviewItem {
   const low = d.annotation.confidence === 'low';
   return {
     annotationId: d.id,
-    work: { id: d.work.id, type: d.work.type, title: d.work.title, year: d.work.year, creators: d.work.creators ?? [] },
+    work: { id: d.work.id, type: d.work.type, title: d.season ? ru.curator.seasonOf(d.work.title, d.season) : d.work.title,
+      year: d.season ? (d.seasons?.[d.season]?.year ?? (d.annotation as SeasonDraft).year ?? d.work.year) : d.work.year, creators: d.work.creators ?? [] },
     status: reviewMarks()[d.id]?.status ?? 'needs_review',
     tmdfVersion: draftMeta?.tmdfVersion ?? '0.3.1',
     provider: draftMeta?.provider ?? 'anthropic_api',
@@ -1254,6 +1296,10 @@ export async function getAnnotationDiff(id: ID): Promise<AnnotationDiffRow[]> {
       { path: ru.curator.draftFields.barriers, draft: a.barriers.join(', ') || '—', current: null },
       { path: ru.curator.draftFields.warnings, draft: a.warnings.join(', ') || '—', current: null },
       { path: ru.curator.draftFields.niche, draft: a.niche ? ru.curator.draftFields.yes : ru.curator.draftFields.no, current: null },
+      // поправки сезонов обычного сериала (Е2): что в сезоне иначе, чем в сериале
+      ...Object.entries(d.seasons ?? {}).map(([n, x]) => ({
+        path: ru.curator.draftFields.season(Number(n)), draft: `${ru.curator.draftFields.level.toLowerCase()} ${x.level} · ${x.what}`, current: null, confidence: x.confidence,
+      })),
     ];
   }
   const item = mocks.curatorQueue.find((i) => i.annotationId === id);
