@@ -4,7 +4,7 @@ import type {
   DiscussionPlace, DismissReason, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, getJourney, getSettings, getSlate, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork } from '@/api';
+import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import {
   Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
@@ -270,6 +270,14 @@ export function TodayScreen() {
   const [hint, setHint] = useState(hintWanted);
   const learned = () => { if (hint) { hintDone(); setHint(false); } };
 
+  // норма шкалы (OPS-6): один вопрос тем, чья история пришла без него
+  const [scale, setScale] = useState<{ median: number; count: number; options: number[] } | undefined>(undefined);
+  useEffect(() => { getScaleQuestion().then(setScale).catch(() => undefined); }, []);
+  const answerScale = (n: number) => {
+    setScale(undefined);
+    updateSettings({ ratingNorm: n }).then(() => setAttempt((a) => a + 1)).catch(() => undefined);
+  };
+
   useEffect(() => {
     let alive = true;
     setSlate(null);
@@ -382,6 +390,18 @@ export function TodayScreen() {
       </button>
 
       <div className="tm-stream__body">
+        {scale ? (
+          <section className="tm-stream__pad tm-import__norm">
+            <h2 className="tm-label">{ru.today.normTitle}</h2>
+            <p className="tm-caption tm-import__normwhy">{ru.today.normWhy(scale.count, scale.median)}</p>
+            <div className="tm-row tm-row--gap-2 tm-row--wrap">
+              {scale.options.map((n) => (
+                <Button key={n} size="sm" variant={n === scale.median ? 'primary' : undefined} onClick={() => answerScale(n)}>{String(n)}</Button>
+              ))}
+              <Button size="sm" variant="quiet" onClick={() => answerScale(scale.median)}>{ru.today.normKeep(scale.median)}</Button>
+            </div>
+          </section>
+        ) : null}
         {failed ? (
           <ErrorState title={failed === 'offline' ? ru.state.offlineTitle : ru.state.errorSlate}
                       text={failed === 'offline' ? ru.state.offlineText : ru.state.errorSlateText}

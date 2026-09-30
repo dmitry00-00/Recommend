@@ -271,6 +271,20 @@ const ratedEntries = (journal: JourneyEntryData[]): JourneyEntryData[] => {
     .map(([id, work]) => ({ id: `r-${id}`, work, status: 'finished' as const, reflections: [], stateChanges: [] }));
 };
 
+/** Норма шкалы (OPS-6, 30.09). Импорт в приложении спрашивает, какая оценка значит «нормально»,
+ *  а присланная история (seeds → сервер) приезжает без этого вопроса: у одного участника медиана
+ *  10, и модель, беря медиану за норму, не видела, что ему нравится. Спрашиваем один раз, когда
+ *  оценок по десятибалльной шкале набралось хотя бы 10 и нормы нет; ответ — в настройках. */
+export async function getScaleQuestion(): Promise<{ median: number; count: number; options: number[] } | undefined> {
+  await delay(0);
+  await catalog();
+  if (settings.ratingNorm) return undefined;
+  const raws = history().map((e) => e.raw).filter((r): r is number => r != null).sort((a, b) => a - b);
+  if (raws.length < 10) return undefined;
+  const median = raws[Math.floor(raws.length / 2)];
+  return { median, count: raws.length, options: [4, 5, 6, 7, 8, 9, 10] };
+}
+
 /** Сколько оценок нужно, чтобы подбор стал подбором, а не угадыванием. */
 export const MIN_RATED = 10;
 
