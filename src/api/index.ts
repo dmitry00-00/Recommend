@@ -22,7 +22,7 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  CreditRole, Person, PersonId, Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CreditRole, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
@@ -165,18 +165,48 @@ function withCredits<T extends WorkCard>(w: T): T {
   return credits.length ? { ...w, credits } : w;
 }
 
+/** Связи произведения (Ж1) — в обе стороны: «экранизация романа», и «по этому роману сняли».
+ *  По ту сторону — наша карточка, если произведение у нас есть. Порядок: откуда это (экранизация,
+ *  ремейк, сиквел чего), потом что из этого выросло, потом цикл и франшиза. */
+function relationsFor(work: WorkCard): WorkRelationView[] {
+  const key = workKey(work, work.externalIds ?? externalIds[work.id]);
+  const q = (key && relationQid.get(key)) || work.externalIds?.wikidata;
+  if (!q || !relationEdges.length) return [];
+  const byKey = worksByAnalysisKey();
+  const view = (kind: RelationKind, direction: 'out' | 'in', other: string): WorkRelationView | undefined => {
+    const n = relationNodes[other];
+    if (!n) return undefined;
+    const card = n.key ? byKey.get(n.key) : undefined;
+    return { kind, direction, qid: other, title: n.t, ...(n.y ? { year: n.y } : {}), nodeKind: n.k, ...(card ? { workId: card.id } : {}) };
+  };
+  const out: WorkRelationView[] = [];
+  for (const [a, kind, b] of relationEdges) {
+    const v = a === q ? view(kind, 'out', b) : b === q && kind !== 'part_of' ? view(kind, 'in', a) : undefined;
+    if (v && !out.some((x) => x.qid === v.qid && x.kind === v.kind && x.direction === v.direction)) out.push(v);
+  }
+  const rank = (r: WorkRelationView) => (r.kind === 'part_of' ? 3 : r.direction === 'out' ? 0 : 1) * 10
+    + ['adaptation_of', 'remake_of', 'sequel_of', 'part_of'].indexOf(r.kind);
+  return out.sort((x, y) => rank(x) - rank(y) || (x.year ?? 9999) - (y.year ?? 9999)).slice(0, 20);
+}
+
 let filmForm: Record<string, FilmForm> = {};
 let tagNeighbours: Record<string, TagNeighbour[]> = {};
 let filmTropes: Record<string, TropeMention[]> = {};
 let comentions: Record<string, CoMention[]> = {};
+let relationNodes: Record<string, { t: string; y?: number; k: RelationNodeKind; key?: string }> = {};
+let relationEdges: [string, RelationKind, string][] = [];
+/** ключ произведения → элемент Wikidata, по узлам связей */
+let relationQid = new Map<string, string>();
 let workRefsLoad: Promise<void> | undefined;
 /** Замеры и соседи по фильму — только экран «Произведение». */
 function workRefs(): Promise<void> {
   workRefsLoad ??= Promise.all([
     import('@/mocks/filmForm'), import('@/mocks/tagNeighbours'), import('@/mocks/filmTropes'), import('@/mocks/comentions'),
-    serverRef<Record<string, CoMention[]>>('comentions'),
-  ]).then(([ff, tn, ft, cm, freshCo]) => {
+    serverRef<Record<string, CoMention[]>>('comentions'), import('@/mocks/workRelations'),
+  ]).then(([ff, tn, ft, cm, freshCo, wr]) => {
     filmForm = ff.filmForm; tagNeighbours = tn.tagNeighbours; filmTropes = ft.filmTropes; comentions = freshCo ?? cm.comentions;
+    relationNodes = wr.relationNodes; relationEdges = wr.relationEdges;
+    relationQid = new Map(Object.entries(relationNodes).flatMap(([q, n]) => (n.key ? [[n.key, q] as [string, string]] : [])));
   });
   return workRefsLoad;
 }
@@ -720,6 +750,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
   const nearby = nearbyFor(card);
   const form = formFor(card);
   const similarByTags = tagsFor(card);
+  const relations = relationsFor(card);
   const tropeMentions = tropesFor(card);
   return {
     ...detail, ...card,
@@ -727,6 +758,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
     ...(nearby.length ? { nearby } : {}),
     ...(form ? { form } : {}),
     ...(similarByTags.length ? { similarByTags } : {}),
+    ...(relations.length ? { relations } : {}),
     ...(tropeMentions.length ? { tropeMentions } : {}),
   };
 }

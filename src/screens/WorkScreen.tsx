@@ -189,6 +189,25 @@ export function WorkScreen() {
           <WorkVoices analyses={work.externalAnalyses} spoilerLevel={allowed} workTitle={work.title} />
         </section>
 
+        {/* откуда это и что из этого выросло (Ж1): роман, по которому снято, сиквел, ремейки, франшиза */}
+        {work.relations?.length ? (
+          <section className="tm-work__section">
+            <h2 className="tm-title-3">{ru.relations.title}</h2>
+            <ul className="tm-relations">
+              {work.relations.map((r) => (
+                <li key={`${r.kind}-${r.direction}-${r.qid}`} className="tm-relations__item">
+                  <span className="tm-label tm-relations__kind">{ru.relations.label(r.kind, r.direction, r.nodeKind)}</span>
+                  {r.workId
+                    ? <Link to={`/works/${r.workId}`} className="tm-relations__title">{r.title}</Link>
+                    : <span className="tm-relations__title">{r.title}</span>}
+                  {r.year ? <span className="tm-caption tm-relations__year">{r.year}</span> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="tm-caption tm-work__note">{ru.relations.note}</p>
+          </section>
+        ) : null}
+
         {/* темп речи и тишины — раньше разборов: это не чужое мнение, а замер, и он помогает
             решить «сегодня или не сегодня» до того, как читать, что об этом думают */}
         {work.form ? (

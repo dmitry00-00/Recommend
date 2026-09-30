@@ -18,6 +18,7 @@ import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
 import { isSeries } from '../src/lib/media.ts';
 import type { Person, PersonId, WorkCard } from '../src/types/tmdf.ts';
+import { cacheUrl, readCache, resolveWorkQids, search, sleep, sparql, wd } from './wikidata-lib.mts';
 import { parseBindings, peopleSource, propsFor, toPerson, workCreditsSource, type Binding, type CreditsEntry, type Kind } from './credits-lib.mts';
 
 loadEnvFile();
@@ -25,44 +26,11 @@ const args = process.argv.slice(2);
 const has = (f: string) => args.includes(f);
 const FRESH = has('--fresh'), DRY = has('--dry'), RETRY = has('--retry-missing'), NO_TMDB = has('--no-tmdb');
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || Infinity;
-const UA = 'transformative-media/0.1 (film analysis index; contact via repository README)';
-const API = 'https://www.wikidata.org/w/api.php';
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-/** Повтор и на обрыв связи (`fetch failed`), и на 429/5xx — как в build-merit. */
-async function retry<T>(what: string, run: () => Promise<Response>): Promise<T> {
-  for (let attempt = 0; ; attempt++) {
-    try {
-      const r = await run();
-      if (r.ok) return await r.json() as T;
-      if (attempt >= 4 || (r.status !== 429 && r.status < 500)) throw new Error(`${r.status} ${what}`);
-      await sleep(Math.max(Number(r.headers.get('retry-after') ?? 0) * 1000, 2000 * 2 ** attempt));
-    } catch (e) {
-      if (attempt >= 4) throw e;
-      await sleep(2000 * 2 ** attempt);
-    }
-  }
-}
-const wd = <T,>(params: Record<string, string>) =>
-  retry<T>(params.action, () => fetch(`${API}?${new URLSearchParams({ format: 'json', ...params })}`, { headers: { 'User-Agent': UA } }));
-const sparql = <T,>(query: string) => retry<T>('sparql', () => fetch('https://query.wikidata.org/sparql', {
-  method: 'POST',
-  headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded', accept: 'application/sparql-results+json' },
-  body: new URLSearchParams({ query }),
-}));
-async function search(statement: string): Promise<string | null> {
-  const r = await wd<{ query?: { search?: { title: string }[] } }>({ action: 'query', list: 'search', srsearch: `haswbstatement:${statement}`, srlimit: '1' });
-  return r.query?.search?.[0]?.title ?? null;
-}
-
-const cache = (name: string) => new URL(`../.cache/${name}`, import.meta.url);
-const readJson = <T,>(name: string, fallback: T): T => (existsSync(cache(name)) ? JSON.parse(readFileSync(cache(name), 'utf8')) as T : fallback);
-const shared = readJson<Record<string, string | null>>('wikidata-ids.json', {});
-const ids = readJson<Record<string, string | null>>('credits-ids.json', {});
+const cache = cacheUrl;
+const readJson = readCache;
 const entries: Record<string, CreditsEntry> = FRESH ? {} : readJson('credits.json', {});
 const names: Record<PersonId, { ru?: string; en?: string }> = FRESH ? {} : readJson('people.json', {});
 const save = () => {
-  writeFileSync(cache('credits-ids.json'), JSON.stringify(ids));
   writeFileSync(cache('credits.json'), JSON.stringify(entries));
   writeFileSync(cache('people.json'), JSON.stringify(names));
 };
@@ -72,29 +40,8 @@ const works = worksIndex({ all: true }).slice(0, LIMIT);
 console.error(`произведений: ${works.length}`);
 
 // ---------- 1. элементы Wikidata ----------
-let asked = 0, failed = 0;
-for (const w of works) {
-  const known = /^f-wd(\d+)$/.exec(w.work.id)?.[1];
-  const direct = known ? `Q${known}` : w.work.externalIds?.wikidata ?? shared[w.key] ?? undefined;
-  if (direct) { ids[w.key] = direct; continue; }
-  if (ids[w.key] !== undefined && !(RETRY && ids[w.key] === null)) continue;
-  const [scheme, value] = [w.key.slice(0, w.key.indexOf(':')), w.key.slice(w.key.indexOf(':') + 1)];
-  try {
-    ids[w.key] = scheme === 'tmdb' ? await search(`P4947=${value}`)
-      : scheme === 'imdb' ? await search(`P345=${value}`)
-      : scheme === 'isbn' ? (await search(`P212=${value}`)) ?? (await search(`P957=${value}`))
-      : null;
-  } catch (e) {
-    failed++;
-    console.error(`  ${w.work.title}: ${(e as Error).message}`);
-    continue; // не помечаем — спросим на следующем прогоне
-  }
-  if (++asked % 100 === 0) { console.error(`  поиск: ${asked}`); save(); }
-  await sleep(120);
-}
-save();
+const ids = await resolveWorkQids(works, { retryMissing: RETRY });
 const withQ = works.filter((w) => ids[w.key]);
-console.error(`элемент известен у ${withQ.length} из ${works.length} (спрошено ${asked}, сбоев ${failed})`);
 
 // ---------- 2. авторы ----------
 const todo = withQ.filter((w) => !entries[w.key] || entries[w.key].q !== ids[w.key]);

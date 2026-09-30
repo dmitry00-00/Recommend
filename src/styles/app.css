@@ -641,3 +641,10 @@ button.tm-banner { cursor: pointer; }
 .tm-serieswhere__value { min-width: 2ch; text-align: center; margin: 0; }
 .tm-checkinscreen__season { margin: 0 0 var(--tm-space-3); }
 .tm-rate__series { margin-top: var(--tm-space-5); }
+
+/* связи между произведениями (Ж1) */
+.tm-relations { list-style: none; margin: 0 0 var(--tm-space-2); padding: 0; display: grid; gap: var(--tm-space-2); }
+.tm-relations__item { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--tm-space-1) var(--tm-space-2); }
+.tm-relations__kind { color: var(--tm-color-ink-faint); min-width: 9em; }
+.tm-relations__title { font-weight: 500; }
+.tm-relations__year { color: var(--tm-color-ink-faint); }

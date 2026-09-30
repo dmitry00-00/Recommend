@@ -661,6 +661,18 @@ export const ru = {
   "seriesLead": "Если смотрели — оцените сериал целиком. Это тоже вкус: подбор начнёт предлагать и сериалы."
 },
   /* страница автора: все его разборы по нашим фильмам */
+  /* связи между произведениями (Ж1): экранизация, сиквел, ремейк, цикл и франшиза */
+  relations: {
+  "title": "Откуда и что дальше",
+  "note": "По Wikidata: экранизации, продолжения, ремейки, циклы.",
+  "label": (kind: 'adaptation_of' | 'sequel_of' | 'remake_of' | 'part_of', dir: 'out' | 'in', node: string): string => {
+    if (kind === 'part_of') return node === 'franchise' ? 'Франшиза' : 'Цикл';
+    if (kind === 'remake_of') return dir === 'out' ? 'Ремейк фильма' : 'Ремейк';
+    if (kind === 'sequel_of') return dir === 'out' ? 'Продолжает' : 'Продолжение';
+    if (dir === 'in') return node === 'series' ? 'Сериал по нему' : node === 'film' ? 'Фильм по нему' : 'Переложение';
+    return ({ book: 'Экранизация книги', comic: 'Экранизация комикса', series: 'По сериалу', film: 'По фильму', game: 'По игре' } as Record<string, string>)[node] ?? 'По мотивам';
+  }
+},
   /* страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель */
   person: {
   "role": { "director": "режиссёр", "writer": "сценарист", "creator": "автор сериала", "author": "писатель" } as Record<'director' | 'writer' | 'creator' | 'author', string>,

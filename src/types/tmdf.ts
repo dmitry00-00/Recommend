@@ -20,6 +20,27 @@ export interface Person {
   /** в оригинале, если отличается: «Christopher Nolan» */
   originalName?: string;
 }
+/** Связь между произведениями (Ж1): «это экранизация», «это продолжение», «это ремейк», «это
+ *  часть цикла или франшизы». Направление — от того, о ком речь, к тому, с чем он связан:
+ *  «Дюна» 2021 `adaptation_of` → роман «Дюна»; «Бегущий по лезвию 2049» `sequel_of` → «Бегущий
+ *  по лезвию». Источник — Wikidata: P144 (основано на), P155/P156 (предыдущее/следующее), P179
+ *  (часть серии), P8345 (медиафраншиза). */
+export type RelationKind = 'adaptation_of' | 'sequel_of' | 'remake_of' | 'part_of';
+/** Что стоит по ту сторону связи: произведение у нас бывает не всегда (роман, по которому снят
+ *  фильм, в каталоге может отсутствовать), поэтому узел — элемент Wikidata с названием и годом. */
+export type RelationNodeKind = 'film' | 'series' | 'book' | 'comic' | 'game' | 'cycle' | 'franchise' | 'other';
+export interface WorkRelationView {
+  kind: RelationKind;
+  /** `out` — это произведение экранизация/сиквел/ремейк/часть того; `in` — наоборот */
+  direction: 'out' | 'in';
+  qid: string;
+  title: string;
+  year?: number;
+  nodeKind: RelationNodeKind;
+  /** карточка у нас, если произведение есть в справочнике */
+  workId?: ID;
+}
+
 /** director — режиссёр, writer — сценарист, creator — создатель сериала (шоураннер),
  *  author — автор книги */
 export type CreditRole = 'director' | 'writer' | 'creator' | 'author';
@@ -279,6 +300,8 @@ export interface WorkDetail extends WorkCard {
   similarByTags?: TagNeighbour[];
   /** приёмы, отмеченные на TV Tropes: не наша разметка, показывается с оговоркой */
   tropeMentions?: TropeMention[];
+  /** связи с другими произведениями (Ж1): экранизация чего, сиквел чего, ремейки, франшиза */
+  relations?: WorkRelationView[];
   contributorsCredit: string[];
   desireModel?: DesireModel;
   characters?: CharacterDesire[];
