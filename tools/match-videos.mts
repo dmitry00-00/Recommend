@@ -9,7 +9,8 @@
 // больше чем на год (tooEarly) — нет. Шортсы отсекает сама таблица по длительности.
 // Быстро за счёт отбора кандидатов по началу слова: 90 тысяч роликов × 2,6 тысячи фильмов
 // напрямую — это минуты, а так — секунды.
-import { ADAPTATION, isDigest, nameMatch } from './title-match.mts';
+import { isDigest, nameMatch } from './title-match.mts';
+import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
 import type { IndexedWork } from './works-index.mts';
 
@@ -62,12 +63,18 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
 export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?: ReadonlySet<string>): Map<string, VideoGuess> {
   const byId = new Map(videos.map((v) => [v.id, v]));
   const out = new Map<string, VideoGuess>();
+  const adIndex = adaptationIndex(ours);
   for (const [id, { key, work }] of bestByTitle(videos, ours, { ordinary })) {
     const v = byId.get(id)!;
-    const pick = { key, work, names: ours.find((w) => w.key === key)?.names ?? [] };
+    let pick = { key, work, names: ours.find((w) => w.key === key)?.names ?? [] };
     const text = `${v.title}\n${v.description ?? ''}`;
     if (isDigest(v.title, pick.names)) continue;
-    if (pick.key.startsWith('isbn:') && ADAPTATION.test(v.title)) continue;
+    // разбор экранизации — к фильму по связям Ж1 (Ж4), без связей — прочь от книги
+    if (pick.key.startsWith('isbn:')) {
+      const j = judgeBookMatch(adIndex, pick.key, v.title, v.publishedAt);
+      if (j.action === 'drop') continue;
+      if (j.action === 'move') pick = { key: j.to!.key, work: j.to!.work, names: j.to!.names };
+    }
     const verdict = evidenceFor(pick.work, text);
     if (verdict === 'conflict' || tooEarly(pick.work, v.publishedAt)) continue;
     out.set(v.id, { key: pick.key, work: pick.work, ...(verdict ? { evidence: verdict } : {}) });

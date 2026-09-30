@@ -8,7 +8,8 @@
 // (tools/title-match.mts), и с тем же результатом: помечено `unverified`, подтверждает человек
 // заданием «тот ли это фильм».
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { ADAPTATION, nameHits, nameMatch } from './title-match.mts';
+import { nameHits, nameMatch } from './title-match.mts';
+import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { parseArgs, readExport, type Post } from './telegram-export.mts';
 import { oembed, videoId, videosApi, type VideoMeta } from './youtube.mts';
 import { worksIndex } from './works-index.mts';
@@ -92,6 +93,8 @@ const knownVideos = new Set(Object.values(essaysAuto).flat()
 /** Больше трёх разборов одного произведения в карточке не нужно: берём самые содержательные. */
 const PER_WORK = 3;
 
+// экранизации книг по связям Ж1 (Ж4)
+const adIndex = adaptationIndex(worksIndex({ all: true }));
 const found: { key: string; analysis: ExternalAnalysis; row: string; weight: number }[] = [];
 const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0, early: 0, namesake: 0 };
 const evidenceStats: Record<Evidence, number> = { link: 0, year: 0, original: 0 };
@@ -181,8 +184,12 @@ for (const { username, path, role } of args) {
       fromBody = true;
     }
     if (!best) continue;
-    // к книге не привязываем разговор об экранизации: это про фильм, а фильма у нас нет
-    if (best.key.startsWith('isbn:') && ADAPTATION.test(head)) continue;
+    // к книге не привязываем разговор об экранизации (Ж4): по связям — к фильму, если он у нас есть
+    if (best.key.startsWith('isbn:')) {
+      const j = judgeBookMatch(adIndex, best.key, head, p.date);
+      if (j.action === 'drop') continue;
+      if (j.action === 'move') best = { key: j.to!.key, work: j.to!.work, len: best.len };
+    }
     const where = target(p, username);
     const vid = where.platform === 'youtube' ? videoId(where.url) : undefined;
     if (vid && knownVideos.has(vid)) { stats.seen += 1; continue; }

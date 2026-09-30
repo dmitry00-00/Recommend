@@ -8,7 +8,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { essays } from '../src/mocks/essays.ts';
 import { sources } from '../src/mocks/sources.ts';
-import { ADAPTATION, isDigest } from './title-match.mts';
+import { isDigest } from './title-match.mts';
+import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { worksIndex } from './works-index.mts';
 import { evidenceFor, tooEarly } from './evidence.mts';
 import { seriesPart } from './series-part.mts';
@@ -153,8 +154,12 @@ for (let i = 0; i < matched.length; i += 50) {
 let short = 0;
 let digests = 0;
 let adaptations = 0;
+let moved = 0;
 let conflicts = 0;
-for (const [videoId, { key, work }] of best) {
+// экранизации книг по связям Ж1 (Ж4): разбор фильма по книге переезжает к фильму, а не пропадает
+const adIndex = adaptationIndex(worksIndex({ all: true }));
+for (const [videoId, found] of best) {
+  let { key, work } = found;
   const v = videos.find((x) => x.id === videoId)!;
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   if (known.some((a) => a.url === url)) continue;
@@ -164,8 +169,12 @@ for (const [videoId, { key, work }] of best) {
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
   // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
   if (!said && isDigest(v.title, byKey.get(key)?.names ?? [])) { digests += 1; continue; }
-  // к книге не привязываем разбор экранизации: это про фильм
-  if (!said && key.startsWith('isbn:') && ADAPTATION.test(v.title)) { adaptations += 1; continue; }
+  // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
+  if (!said && key.startsWith('isbn:')) {
+    const j = judgeBookMatch(adIndex, key, v.title, v.publishedAt);
+    if (j.action === 'drop') { adaptations += 1; continue; }
+    if (j.action === 'move') { key = j.to!.key; work = j.to!.work; moved += 1; }
+  }
   // улика в названии и описании ролика (В3): год, оригинальное название, ссылка на страницу
   // фильма; противоречие года — ролик про ремейк или тёзку, привязку снимаем.
   // Человека сторожа не перепроверяют: он смотрел ролик, а они читают заголовок
@@ -185,7 +194,7 @@ for (const [videoId, { key, work }] of best) {
   });
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
-console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations}, снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
+console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные
