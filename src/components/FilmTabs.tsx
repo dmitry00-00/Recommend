@@ -9,6 +9,8 @@ import ru from '@/i18n/ru';
 
 export interface FilmTabsProps {
   analyses: ExternalAnalysis[];
+  /** название фильма: значки площадок у автора ведут на поиск фильма у него, если разбора нет */
+  workTitle?: string;
   /** допустимый уровень спойлеров: материал выше него закрыт штриховкой */
   spoilerLevel?: SpoilerLevel;
   watch?: WatchOption[];
@@ -52,7 +54,7 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, spoilerLevel, watch = [], discussions, discussionsCount = 0, actions, corner, onWatch, voiceId }: FilmTabsProps) {
+export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], discussions, discussionsCount = 0, actions, corner, onWatch, voiceId }: FilmTabsProps) {
   const voices = useVoices(analyses, voiceId);
   // автор только с постами в Telegram — его материал на странице «Обсуждения», а не «Обзоры»
   const [mode, setMode] = useState<Mode>(() =>
@@ -91,7 +93,7 @@ export function FilmTabs({ analyses, spoilerLevel, watch = [], discussions, disc
         {mode === 'reviews' ? (
           voices.picked ? (
             <section className="tm-stream__group">
-              <Material key={voices.picked.voice.id} group={voices.picked} spoilerLevel={spoilerLevel} corner={corner} />
+              <Material key={voices.picked.voice.id} group={voices.picked} spoilerLevel={spoilerLevel} corner={corner} workTitle={workTitle} />
             </section>
           ) : (
             <section className={cx('tm-stream__group', 'tm-voice__none', corner != null && 'tm-voice__none--corner')}>
@@ -106,7 +108,7 @@ export function FilmTabs({ analyses, spoilerLevel, watch = [], discussions, disc
           <>
             {voices.talk.length ? (
               <section className="tm-stream__group">
-                {voices.talk.map((g) => <Post key={g.voice.id} group={g} />)}
+                {voices.talk.map((g) => <Post key={g.voice.id} group={g} workTitle={workTitle} />)}
               </section>
             ) : null}
             {!talkCount ? (

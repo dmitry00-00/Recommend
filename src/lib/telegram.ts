@@ -155,7 +155,9 @@ export function openExternal(url: string) {
     window.open(url, '_blank', 'noopener,noreferrer');
     return;
   }
-  if (TELEGRAM_LINK.test(url)) wa.openTelegramLink(url);
+  // t.me/s/<канал>?q= — поиск по веб-превью канала: внутри Telegram такая ссылка открывает
+  // просто канал и теряет запрос, поэтому её ведём в браузер
+  if (TELEGRAM_LINK.test(url) && !/^https?:\/\/t\.me\/s\//i.test(url)) wa.openTelegramLink(url);
   else wa.openLink(url);
 }
 

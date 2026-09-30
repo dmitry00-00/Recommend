@@ -5,6 +5,7 @@
 //      узким местом индекса оказалась база, а не каналы (HANDOFF, 23.09);
 //   3. индексы: посты, ролики, кандидаты в источники, соупоминания;
 //   4. замер (tools/voices-report.mts) — в .cache/collect/, строкой в history.tsv;
+//      контрольные числа против прошлого снимка (tools/collect-metrics.mts) — предупреждения в лог;
 //   5. публикация на сервер (tools/publish-reference.mts) — приложение подхватит без перезаливки.
 // Упавший необязательный шаг не останавливает остальные: старые посты лучше, чем никаких.
 //   npx tsx tools/collect.mts [--expand] [--no-publish]
@@ -69,6 +70,19 @@ if (report.status === 0) {
   say(`\nзамер: фильмов с материалом ${works}, не подтверждено ${unver?.[1]} (${unver?.[2]}%)`);
   say(readFileSync(hist, 'utf8').trim().split('\n').slice(-5).join('\n'));
 }
+
+// 4б. Контрольные замеры (tools/collect-metrics.mts): два десятка чисел против вчерашнего снимка
+// (.cache/collect-metrics.json) — чтобы тихая потеря (шаг отработал «успешно», но отдал меньше:
+// Wikidata с 429, выпавший канал, ручные привязки мимо индекса — всё это было 29.09) была видна
+// в этом логе в то же утро. Стоит до публикации, после всех шагов: меряет ровно то, что сейчас
+// уедет на сервер, и предупреждение оказывается в логе раньше строки о публикации. Публикацию
+// не держит — без --strict замер всегда выходит с кодом 0, и ночной прогон не ломается; если
+// понадобится стоп-кран, код выхода `--strict` здесь и есть готовое условие.
+const metrics = spawnSync(npx, ['--yes', 'tsx', 'tools/collect-metrics.mts'], { encoding: 'utf8', env: process.env });
+say(`\n── контрольные замеры\n${(metrics.stdout ?? '').trimEnd()}`);
+if (metrics.status !== 0) say(`   замер не отработал (код ${metrics.status ?? metrics.error?.message}): ${(metrics.stderr ?? '').trim().slice(-400)}`);
+const warned = /ПРЕДУПРЕЖДЕНИЯ \((\d+)\)/.exec(metrics.stdout ?? '')?.[1];
+if (warned) say(`ВНИМАНИЕ: контрольные замеры — ${warned} предупр., см. выше`);
 
 // 5. Публикация
 if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true });

@@ -13,6 +13,7 @@ import { candidateMedia } from '../src/mocks/candidateMedia.ts';
 import { filmBase } from '../src/mocks/filmBase.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
+import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
 export interface IndexedWork {
@@ -49,6 +50,8 @@ export function worksIndex({ all: unnamed = false }: {
     ...filmBaseWiki,
     // вписано людьми в таблицу разметки и опознано в Wikidata (28.09)
     ...filmBaseMarkup,
+    // с полок по просьбам людей, данные TMDb (29.09)
+    ...filmBaseCurated,
   ];
   const out = new Map<string, IndexedWork>();
   for (const work of all) {

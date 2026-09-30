@@ -45,6 +45,7 @@ interface Attention {
 const films = Object.values(JSON.parse(readFileSync(src, 'utf8')) as Record<string, Summary>);
 const done: Record<string, Attention> = !FRESH && existsSync(out) ? JSON.parse(readFileSync(out, 'utf8')) : {};
 
+
 const pad = (d: Date) => `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}0100`;
 const now = new Date();
 const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));   // первое число текущего месяца
@@ -77,6 +78,66 @@ async function views(lang: string, article: string): Promise<{ views: number; mo
     const after = Number(r.headers.get('retry-after') ?? 0) * 1000;
     await sleep(Math.max(after, 2000 * 2 ** attempt));
   }
+}
+
+// ---------- дополнительные фильмы: --keys <файл> ----------
+// По ключу `tmdb:<id>` на строку — например, .cache/attention-todo.txt из tools/profile-deck.mts:
+// фильмы, которые кто-то смотрел или разбирал, а статьи в plot-summaries у них нет (29.09 таких
+// было 940, среди них вся трилогия «Властелин колец»). Статью находим в Wikidata по TMDb ID
+// (P4947) пачкой `haswbstatement:P4947=a|b|…` — по одному Wikidata режет (429), — а ссылку на
+// статью берём из sitelinks: русская, иначе английская. Эти же фильмы идут в обход Trakt.
+const KEYS = opt('--keys');
+const extra = KEYS && existsSync(KEYS)
+  ? [...new Set(readFileSync(KEYS, 'utf8').split('\n').map((l) => l.trim()).filter((k) => /^tmdb:\d+$/.test(k)))] : [];
+if (extra.length && !NO_WIKI) {
+  const WD = 'https://www.wikidata.org/w/api.php';
+  let last = 0;
+  const wd = async <T,>(params: Record<string, string>): Promise<T> => {
+    for (let attempt = 0; ; attempt++) {
+      const wait = last + 1100 - Date.now();
+      if (wait > 0) await sleep(wait);
+      last = Date.now();
+      const r = await fetch(`${WD}?${new URLSearchParams({ format: 'json', ...params })}`, { headers: { 'User-Agent': UA } });
+      if (r.ok) return await r.json() as T;
+      if (attempt >= 4 || (r.status !== 429 && r.status < 500)) throw new Error(`wikidata ${r.status}`);
+      await sleep(Math.max(Number(r.headers.get('retry-after') ?? 0) * 1000, 2000 * 2 ** attempt));
+    }
+  };
+  const known = new Set(films.map((f) => f.key));
+  const need = extra.filter((k) => !known.has(k) && done[k]?.article == null && !done[k]?.missing);
+  console.error(`Wikidata: статей ищем для ${need.length} из ${extra.length} дополнительных фильмов`);
+  let found = 0;
+  for (let i = 0; i < need.length; i += 40) {
+    const chunk = need.slice(i, i + 40).map((k) => k.slice('tmdb:'.length));
+    try {
+      const sr = await wd<{ query?: { search: { title: string }[] } }>({
+        action: 'query', list: 'search', srnamespace: '0', srlimit: '80',
+        srsearch: `haswbstatement:${chunk.map((id) => `P4947=${id}`).join('|')}`,
+      });
+      const qs = (sr.query?.search ?? []).map((x) => x.title);
+      const got = new Set<string>();
+      for (let j = 0; j < qs.length; j += 50) {
+        const en = await wd<{ entities?: Record<string, { claims?: Record<string, { mainsnak: { datavalue?: { value: unknown } } }[]>; sitelinks?: Record<string, { title: string }> }> }>({
+          action: 'wbgetentities', ids: qs.slice(j, j + 50).join('|'), props: 'claims|sitelinks', sitefilter: 'ruwiki|enwiki',
+        });
+        for (const e of Object.values(en.entities ?? {})) {
+          const link = e.sitelinks?.ruwiki ? { lang: 'ru' as const, article: e.sitelinks.ruwiki.title }
+            : e.sitelinks?.enwiki ? { lang: 'en' as const, article: e.sitelinks.enwiki.title } : undefined;
+          for (const c of e.claims?.P4947 ?? []) {
+            const id = c.mainsnak.datavalue?.value;
+            if (typeof id !== 'string' || !chunk.includes(id) || got.has(id)) continue;
+            got.add(id);
+            if (link) { films.push({ key: `tmdb:${id}`, ...link }); found += 1; }
+          }
+        }
+      }
+      // в Wikidata фильм есть, а статьи нет — это ответ; пачка без единого элемента — скорее сбой
+      if (got.size) for (const id of chunk) if (!got.has(id)) done[`tmdb:${id}`] = { ...done[`tmdb:${id}`], missing: true };
+    } catch (e) {
+      console.error(`  пачка ${i / 40 + 1}: ${(e as Error).message} — повторится на следующем прогоне`);
+    }
+  }
+  console.error(`  статьи нашлись у ${found}`);
 }
 
 if (!NO_WIKI) {
@@ -132,7 +193,7 @@ if (!NO_TRAKT) {
 
     // считаем только то, о чём вообще говорят: лишние запросы здесь — это чужой ресурс
     const poolFile = new URL('../.cache/mentions.json', import.meta.url);
-    const pool = existsSync(poolFile) ? Object.keys(JSON.parse(readFileSync(poolFile, 'utf8'))) : films.map((f) => f.key);
+    const pool = [...new Set([...(existsSync(poolFile) ? Object.keys(JSON.parse(readFileSync(poolFile, 'utf8'))) : films.map((f) => f.key)), ...extra])];
     const todo = pool.filter((k) => k.startsWith('tmdb:') && done[k]?.trakt == null && !done[k]?.traktMissing);
     console.error(`\nTrakt: в пуле ${pool.length}, осталось ${todo.length}`);
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { MediaType, Session, SpoilerLevel, UserSettings } from '@/types/tmdf';
-import { getSession, importHistory, isOwnerSession, logout } from '@/api';
+import { getSession, getShelves, importHistory, isOwnerSession, logout } from '@/api';
 import { loadSettings, saveSettings } from '@/lib/settingsStore';
 import { Button, ConsentCard, Dialog, EnergySwitch, ErrorState, ImportHistorySheet, Skeleton, useToast } from '@/components';
 import { applyTheme } from '@/lib/theme';
@@ -58,6 +58,8 @@ export function SettingsScreen() {
   const [importing, setImporting] = useState(params.get('import') === '1');
 
   useEffect(() => { getSession().then((x) => setSession(x ?? null)).catch(() => setSession(null)); }, []);
+  const [shelves, setShelves] = useState<Awaited<ReturnType<typeof getShelves>>>([]);
+  useEffect(() => { getShelves().then(setShelves).catch(() => undefined); }, []);
 
   useEffect(() => {
     let alive = true;
@@ -193,6 +195,28 @@ export function SettingsScreen() {
         </div>
         <p className="tm-caption tm-settings__note">{ru.settings.mediaNote}</p>
       </section>
+
+      {shelves.length ? (
+        <section className="tm-settings__section">
+          <h2 className="tm-title-3 tm-settings__h">{ru.settings.focus}</h2>
+          <p className="tm-body-sm tm-settings__note">{ru.settings.focusText}</p>
+          <div className="tm-achoice" role="group" aria-label={ru.settings.focus}>
+            {shelves.map((sh) => {
+              const chosen = settings.shelves ?? [];
+              const on = chosen.includes(sh.id);
+              return (
+                <button key={sh.id} type="button" aria-pressed={on ? 'true' : 'false'} title={sh.why}
+                        className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving}
+                        onClick={() => save({ shelves: on ? chosen.filter((x) => x !== sh.id) : [...chosen, sh.id] })}>
+                  <span className="tm-achoice__mark" aria-hidden="true" />
+                  {sh.title}
+                </button>
+              );
+            })}
+          </div>
+          <p className="tm-caption tm-settings__note">{shelves.map((sh) => `${sh.title}: ${ru.settings.focusFilms(sh.films)}`).join(' · ')}</p>
+        </section>
+      ) : null}
 
       <section className="tm-settings__section">
         <h2 className="tm-title-3 tm-settings__h">{ru.settings.spoilers}</h2>

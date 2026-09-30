@@ -100,6 +100,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
         key={`${r.id}:${voiceId ?? ''}`}
         voiceId={voiceId}
         analyses={r.analyses ?? []}
+        workTitle={r.work.title}
         spoilerLevel={allowed}
         watch={r.work.watch}
         onWatch={onWatch}
@@ -441,7 +442,7 @@ export function TodayScreen() {
                  tag={ru.feed.watching} meta={openEntry ? entryMeta(openEntry) : undefined}>
         {openEntry ? (
           <div className="tm-stream__panel tm-stream__panel--tabs">
-            <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} spoilerLevel={spoilerLevel} watch={openEntry.work.watch}
+            <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} workTitle={openEntry.work.title} spoilerLevel={spoilerLevel} watch={openEntry.work.watch}
                       corner={answers(openEntry, true)} />
           </div>
         ) : null}

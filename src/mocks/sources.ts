@@ -333,7 +333,9 @@ function searchUrl(src: VoiceSource, query: string): string {
   // адрес канала бывает кириллическим (@Вслушивание) — в ссылке он обязан быть закодирован
   return src.platform === 'telegram'
     ? `https://t.me/s/${src.handle}?q=${q}`
-    : `https://www.youtube.com/@${encodeURIComponent(src.handle)}/search?query=${q}`;
+    // общий поиск «фильм + канал», а не поиск внутри канала: его приложение YouTube на
+    // телефоне не понимает и открывает главную канала (замечание владельца 29.09)
+    : `https://www.youtube.com/results?search_query=${encodeURIComponent(`${query} ${src.title}`)}`;
 }
 
 /** Поисковые ссылки по каналам для фильма — по одной на автора, а не на канал: у Nuke есть и
@@ -342,7 +344,10 @@ function searchUrl(src: VoiceSource, query: string): string {
 export function searchLinks(work: WorkCard, role: VoiceSource['role'] = 'voice'): DiscussionPlace[] {
   if (work.type !== 'film') return [];
   const byAuthor = new Map<string, VoiceSource>();
-  for (const src of sources.filter((s) => s.role === role && !s.via)) {
+  // обзорщиков (скетчи, шутки, просто впечатление) человеку не показываем — ни материалом, ни
+  // поиском: показываем эссеистов, и их должно хватать (владелец, 29.09)
+  // и книжных авторов — строка ищет фильм, а у них разговор о книгах (medium: 'book')
+  for (const src of sources.filter((s) => s.role === role && !s.via && s.tier !== 'review' && (s.medium ?? 'film') === 'film')) {
     const kept = byAuthor.get(src.title);
     if (!kept || (kept.platform !== 'telegram' && src.platform === 'telegram')) byAuthor.set(src.title, src);
   }

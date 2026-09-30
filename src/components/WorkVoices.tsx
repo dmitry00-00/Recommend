@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { ExternalAnalysis, SpoilerLevel, Voice, WorkVoice } from '@/types/tmdf';
-import { creditOf, groupByVoice, knownVoice, monogram } from '@/lib/voices';
+import { creditOf, groupByVoice, knownVoice, monogram, outletUrl } from '@/lib/voices';
 import { onExternalClick, pick } from '@/lib/telegram';
 import { formatDuration } from '@/lib/format';
 import { cx } from '@/lib/cx';
@@ -57,18 +57,21 @@ function OutletIcon({ kind }: { kind: 'youtube' | 'telegram' | 'chat' }) {
 
 /** Строка выходов автора: где его ещё читать и смотреть. Всегда на одном месте и в одну
  *  строку — даже когда выход один, иначе блок ниже прыгает при переключении автора. */
-function Outlets({ voice, extra }: { voice: Voice; extra?: React.ReactNode }) {
+function Outlets({ voice, extra, items = [], workTitle }: { voice: Voice; extra?: React.ReactNode; items?: ExternalAnalysis[]; workTitle?: string }) {
   return (
     <p className="tm-voice__outlets">
       {knownVoice(voice.id) ? (
         <Link className="tm-voice__chip tm-voice__chip--own" to={`/voice/${voice.id}`}>{ru.voices.allWorks}</Link>
       ) : null}
-      {voice.outlets.map((o) => (
-        <a key={o.kind + o.url} className="tm-voice__chip tm-voice__chip--icon" href={o.url} target="_blank" rel="noreferrer noopener"
-           aria-label={OUTLET[o.kind]} title={OUTLET[o.kind]} onClick={onExternalClick(o.url)}>
-          <OutletIcon kind={o.kind} />
-        </a>
-      ))}
+      {voice.outlets.map((o) => {
+        const url = outletUrl(o, items, workTitle);
+        return (
+          <a key={o.kind + o.url} className="tm-voice__chip tm-voice__chip--icon" href={url} target="_blank" rel="noreferrer noopener"
+             aria-label={OUTLET[o.kind]} title={OUTLET[o.kind]} onClick={onExternalClick(url)}>
+            <OutletIcon kind={o.kind} />
+          </a>
+        );
+      })}
       {extra}
     </p>
   );
@@ -76,7 +79,7 @@ function Outlets({ voice, extra }: { voice: Voice; extra?: React.ReactNode }) {
 
 /** Материал автора об этом фильме: кадр в боксе постоянного размера, название ровно в две
  *  строки, мета — в одну. Переключение автора меняет только то, что внутри коробок. */
-export function Material({ group, spoilerLevel, corner }: { group: WorkVoice; spoilerLevel?: SpoilerLevel; corner?: React.ReactNode }) {
+export function Material({ group, spoilerLevel, corner, workTitle }: { group: WorkVoice; spoilerLevel?: SpoilerLevel; corner?: React.ReactNode; workTitle?: string }) {
   const items = group.items.filter((a) => a.platform !== 'telegram');
   const [at, setAt] = useState(0);
   const a = items[at % items.length] ?? items[0];
@@ -109,7 +112,7 @@ export function Material({ group, spoilerLevel, corner }: { group: WorkVoice; sp
           a.unverified ? ru.voices.unverified : undefined,
         ].filter(Boolean).join(' · ')}
       </p>
-      <Outlets voice={group.voice} extra={rest > 0 ? (
+      <Outlets voice={group.voice} items={group.items} workTitle={workTitle} extra={rest > 0 ? (
         <button type="button" className="tm-voice__chip tm-voice__chip--quiet" onClick={() => setAt((n) => n + 1)}>
           {ru.voices.nextItem(rest)}
         </button>
@@ -123,7 +126,7 @@ export function Material({ group, spoilerLevel, corner }: { group: WorkVoice; sp
 
 /** Строка постов: канал, дата и начало поста. Текст обрезан до двух строк, чтобы длинный
  *  пост не растягивал список. */
-export function Post({ group }: { group: WorkVoice }) {
+export function Post({ group, workTitle }: { group: WorkVoice; workTitle?: string }) {
   const posts = group.items.filter((a) => a.platform === 'telegram');
   const a = posts[0];
   const rest = posts.length - 1;
@@ -140,7 +143,7 @@ export function Post({ group }: { group: WorkVoice }) {
           <span className="tm-voice__posttext">{a.title}</span>
         </span>
       </a>
-      <Outlets voice={group.voice} extra={rest > 0 ? <span className="tm-voice__chip tm-voice__chip--flat">{ru.voices.morePosts(rest)}</span> : null} />
+      <Outlets voice={group.voice} items={group.items} workTitle={workTitle} extra={rest > 0 ? <span className="tm-voice__chip tm-voice__chip--flat">{ru.voices.morePosts(rest)}</span> : null} />
     </div>
   );
 }
@@ -212,13 +215,13 @@ export function WorkVoices({ analyses, spoilerLevel, workTitle }: WorkVoicesProp
         <section className="tm-stream__group">
           <h3 className="tm-label tm-stream__grouplabel">{ru.voices.title}</h3>
           {watch.length > 1 ? <VoiceStrip groups={watch} pickedId={picked.voice.id} onPick={setPicked} /> : null}
-          <Material key={picked.voice.id} group={picked} spoilerLevel={spoilerLevel} />
+          <Material key={picked.voice.id} group={picked} spoilerLevel={spoilerLevel} workTitle={workTitle} />
         </section>
       ) : null}
       {talk.length ? (
         <section className="tm-stream__group">
           <h3 className="tm-label tm-stream__grouplabel">{ru.voices.talk}</h3>
-          {talk.map((g) => <Post key={g.voice.id} group={g} />)}
+          {talk.map((g) => <Post key={g.voice.id} group={g} workTitle={workTitle} />)}
         </section>
       ) : null}
       <section className="tm-stream__group tm-voice__none">{ask}</section>

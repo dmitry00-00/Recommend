@@ -5,6 +5,7 @@ import ru from '@/i18n/ru';
 import { parseExports, toJourneyEntries, type ImportOutcome, type ImportSource } from '@/lib/import';
 import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv, withImages } from '@/lib/resolve';
 import { ratingDeck } from '@/mocks/ratingDeck';
+import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, type Candidate } from '@/lib/model/recommend';
 import { knownVoice, voiceOf } from '@/lib/voices';
@@ -17,7 +18,7 @@ import type {
   AssessmentSession, CheckInRequest, CheckInResult, CognitiveMapData, CognitiveOperation,
   AgreementCeilingData, AnnotationDiffRow, AnnotationRun, CoMention, Confidence, ContributorAnswer, ContributorProfile, ContributorTask,
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
-  JourneyStatus, PacketReport, RecommendationFeedback, RecommendationSlate, ReflectionPromptData,
+  JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty,
   Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
@@ -91,6 +92,12 @@ let userRatings: Record<string, { rating: 1 | 2 | 3 | 4 | 5; raw: number }> = {}
 let watchedWorks: WorkCard[] = [];
 let filmBase: WorkCard[] = [];
 let filmBaseWiki: WorkCard[] = [];
+/** фильмы и сериалы с полок по просьбам людей (shelves.ts → filmBaseCurated.ts): ключ → карточка */
+let shelfWorks = new Map<string, WorkCard>();
+/** полка → ключи её произведений по порядку */
+let shelfKeys: Record<string, string[]> = {};
+/** черновая разметка самых смотримых (трек Г1): ключ — фильм (`tmdb:<id>`), не карточка */
+let draftAnnotations: Record<string, FirstPassAnnotation> = {};
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
 /** Справочник фильмов и история владельца. Повторный вызов ждёт ту же загрузку. */
@@ -98,10 +105,24 @@ function catalog(): Promise<void> {
   catalogLoad ??= Promise.all([
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
-    serverRef<WorkCard[]>('filmBaseWiki'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki]) => {
+    serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc]) => {
+    draftAnnotations = da.draftAnnotations;
     userWorks = uh.userWorks; userJournal = uh.userJournal; userRatings = ur.userRatings;
     watchedWorks = uw.watchedWorks; filmBase = fb.filmBase; filmBaseWiki = freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup];
+    // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
+    const seen = new Set(filmBaseWiki.map((w) => w.id));
+    filmBaseWiki = [...filmBaseWiki, ...fc.filmBaseCurated.filter((w) => !seen.has(w.id))];
+    // по ключам полок из всего справочника: «2046» уже был в нём до полки
+    const onShelf = new Set(Object.values(fc.shelfKeys).flat());
+    const shelfKey = (w: WorkCard) => (w.format === 'series' ? w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`
+      : w.externalIds?.tmdb != null && `tmdb:${w.externalIds.tmdb}`);
+    shelfWorks = new Map();
+    for (const w of [...fc.filmBaseCurated, ...filmBase, ...filmBaseWiki]) {
+      const k = shelfKey(w);
+      if (k && onShelf.has(k) && !shelfWorks.has(k)) shelfWorks.set(k, w);
+    }
+    shelfKeys = fc.shelfKeys;
   });
   return catalogLoad;
 }
@@ -184,8 +205,29 @@ const pictured = (cards: WorkCard[]) => {
 // из разных файлов экспорта (один — по ID Кинопоиска, другой — по TMDb) схлопываются.
 const imported: JourneyEntryData[] = [];
 const withRegisters = (w: WorkCard): WorkCard => (w.registers?.length || !workRegisters[w.id] ? w : { ...w, registers: workRegisters[w.id] });
+/** Черновая разметка по фильму: карточка одного фильма приходит из справочника, из присланных
+ *  профилей (`l-tmdb…`) и из истории с разными id, а разметка у фильма одна. Сериалы — нет:
+ *  номера TMDb у них свои, и разметка сериалов — отдельный трек (Е2). */
+// Разметка истории владельца привязана к id его карточек (u-kp…): у присланных профилей те же
+// фильмы приходят как l-tmdb…, и без этого моста их разметка не находилась
+let ownByTmdb: Map<number, FirstPassAnnotation> | undefined;
+const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
+  if (ownByTmdb) return ownByTmdb;
+  const map = new Map<number, FirstPassAnnotation>();
+  for (const w of userWorks) {
+    const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
+    if (tmdb != null && userAnnotations[w.id]) map.set(tmdb, userAnnotations[w.id]);
+  }
+  if (userWorks.length) ownByTmdb = map; // до загрузки справочника не запоминаем пустое
+  return map;
+};
+const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
+  if (w.format === 'series') return undefined;
+  const tmdb = (w.externalIds ?? externalIds[w.id])?.tmdb;
+  return tmdb != null ? ownAnnotationByTmdb().get(tmdb) ?? draftAnnotations[`tmdb:${tmdb}`] : undefined;
+};
 const annotated = (w: WorkCard): WorkCard => {
-  const a = userAnnotations[w.id];
+  const a = userAnnotations[w.id] ?? draftFor(w);
   const r = withRegisters(w);
   return a && !w.primaryOperations.length
     ? { ...r, primaryOperations: a.ops.map(([op, intensity]) => ({ op, intensity })), complexityLevel: a.level,
@@ -296,7 +338,7 @@ function watchedNow(): WorkCard[] {
 
 /** Что участник назвал просмотренным списком, без дат и оценок: в дневник не идёт (там
  *  нечего показывать), но в подбор идёт — и как «уже видел», и как свидетельство вкуса. */
-const declaredSeen = (): WorkCard[] => watchedNow().map(withRegisters);
+const declaredSeen = (): WorkCard[] => watchedNow().map(annotated);
 
 /** Вкус по регистру считается относительно того, что вообще снимают (registerBase), а не
  *  относительно нашего пула: пул собран руками и сам перекошен. */
@@ -312,8 +354,28 @@ function candidates(): Candidate[] {
     .filter((w) => w.primaryOperations.length && w.complexityLevel)
     .map((w) => ({ work: withRegisters(withMedia(w)), what: mocks.explanations[w.id]?.what ?? workDetail(w.id)?.synopsis ?? '' }));
   const pool: Candidate[] = candidateSeeds.map((s) => ({ work: withRegisters({ ...seedToCard(s), ...candidateMedia[s.id] }), what: s.what }));
-  return [...catalog, ...pool].filter((c) => !seen(c.work, keys));
+  // полки по просьбам людей: размеченное оттуда — тоже кандидаты (сериалы ждут трека Е)
+  const shelf = shelfCandidates([...shelfWorks.values()]);
+  const inPool = new Set([...catalog, ...pool].flatMap((c) => keyList(c.work)));
+  return [...catalog, ...pool, ...shelf.filter((c) => !keyList(c.work).some((k) => inPool.has(k)))].filter((c) => !seen(c.work, keys));
 }
+/** размеченное с полки — кандидатами; без разметки (и сериалы, трек Е) в подбор не идут */
+const shelfCandidates = (works: WorkCard[]): Candidate[] => works.flatMap((w) => {
+  const a = draftFor(w);
+  return a ? [{ work: annotated(w), what: a.what }] : [];
+});
+
+/** Полки для экрана настроек: что можно выбрать фокусом. */
+export async function getShelves(): Promise<{ id: string; title: string; why: string; films: number }[]> {
+  await delay(120);
+  await catalog();
+  const { shelves } = await import('@/mocks/shelves');
+  return Object.entries(shelves).map(([id, s]) => ({
+    id, title: s.title, why: s.why,
+    films: shelfCandidates((shelfKeys[id] ?? []).flatMap((k) => shelfWorks.get(k) ?? [])).length,
+  }));
+}
+
 const candidateCard = (id: ID): WorkCard | undefined => {
   const s = candidateSeeds.find((x) => x.id === id);
   return s ? { ...seedToCard(s), ...candidateMedia[s.id] } : undefined;
@@ -406,6 +468,8 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
   if (store.onServer && rated < MIN_RATED) {
     return { id: 's-cold', generatedAt: new Date().toISOString(), energy, items: [], coldStart: { rated, needed: MIN_RATED } };
   }
+  // справочник с полками и черновой разметкой: на сервере он грузится фоном, а пул без него беднее
+  await catalog();
   const state = ownState();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
   const base = state
@@ -416,6 +480,9 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
   // начатое стоит над лентой, брошенное человек уже попробовал
   for (const e of history()) if (e.status !== 'finished') [e.work.id, ...keyList(e.work)].forEach((k) => keys.add(k));
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
+  // фокус на полке: одно место в ленте — лучшее с выбранных полок, если такого там ещё нет
+  const focus = state ? await focusPick(state, energy, items, keys) : undefined;
+  if (focus) items.splice(Math.min(items.length, 5), 1, focus);
   const works = await pictured(items.map((r) => r.work));
   for (const r of items) slateWorks.set(r.id, r.work.id);
   // показы — знаменатель «принятия слейта» (трек Б2); не ответил сервер — лента важнее
@@ -433,6 +500,23 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
   };
 }
 
+/** Лучшее с полок, выбранных участником, — если в ленте с них ещё ничего нет. Порог модели
+ *  не снимаем: фильм, который совсем не по силам или слишком прост, фокус не протащит. */
+async function focusPick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Promise<Recommendation | undefined> {
+  const chosen = settings.shelves ?? [];
+  if (!chosen.length) return undefined;
+  const { shelves } = await import('@/mocks/shelves');
+  const onShelf = new Map<string, string>();
+  for (const id of chosen) for (const k of shelfKeys[id] ?? []) if (!onShelf.has(k)) onShelf.set(k, id);
+  if (items.some((r) => keyList(r.work).some((k) => onShelf.has(k)))) return undefined;
+  const pool = shelfCandidates([...onShelf.keys()].flatMap((k) => shelfWorks.get(k) ?? []))
+    .filter((c) => !seen(c.work, keys) && !keys.has(c.work.id));
+  const [pick] = recommend(state, pool, energy, 1, today());
+  if (!pick) return undefined;
+  const shelf = shelves[onShelf.get(keyList(pick.work).find((k) => onShelf.has(k))!)!];
+  return { ...pick, explanation: { ...pick.explanation, why: ru.today.fromShelf(shelf.title) + pick.explanation.why } };
+}
+
 // ---------- первые оценки (холодный старт) ----------
 
 export interface RatingItem { work: WorkCard; rating?: 1 | 2 | 3 | 4 | 5 }
@@ -446,7 +530,10 @@ function deckCard(id: ID): WorkCard | undefined {
   const candidate = candidateCard(id);
   if (candidate) return withRegisters(candidate);
   const catalog = (mocks.works as Record<string, WorkCard>)[id];
-  return catalog ? withRegisters(withMedia(catalog)) : undefined;
+  if (catalog) return withRegisters(withMedia(catalog));
+  // самые смотримые из справочника — с черновой разметкой (трек Г1)
+  const base = filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id) ?? watchedWorks.find((w) => w.id === id);
+  return base ? annotated(base) : undefined;
 }
 
 export async function getRatingDeck(): Promise<RatingDeck> {
@@ -455,7 +542,7 @@ export async function getRatingDeck(): Promise<RatingDeck> {
   // Своё просмотренное — первым: если участник прислал список (или отметил виденное сам), ему
   // проще и честнее оценить это, чем угадывать по общей колоде. Сериалы не оцениваем: подбор
   // только по фильмам. Общая колода — следом, без того, что уже есть в своём списке.
-  const own = watchedNow().filter((w) => w.type === 'film' && w.format !== 'series').map(withRegisters);
+  const own = watchedNow().filter((w) => w.type === 'film' && w.format !== 'series').map(annotated);
   const keys = new Set(own.flatMap((w) => [w.id, ...keyList(w)]));
   const common = ratingDeck
     .map((id) => deckCard(id))
@@ -1186,11 +1273,12 @@ function knownWorks(): WorkCard[] {
     // фильмы из истории владельца — часть справочника, а не его личное: по ним ищут и оценивают все
     ...userWorks.map(annotated),
     ...candidateSeeds.map((s) => ({ ...seedToCard(s), ...candidateMedia[s.id] }) as WorkCard),
-    ...watchedNow(),
-    ...filmBase,
+    ...watchedNow().map(annotated),
+    // справочник: у самых смотримых — черновая разметка (трек Г1), остальные без неё
+    ...filmBase.map(annotated),
     // фильмы, о которых говорят каналы (Wikidata, 23.09): нужны, чтобы разборы было к чему
-    // привязывать; разметки у них нет, в подбор не идут
-    ...filmBaseWiki,
+    // привязывать; разметки у них, как правило, нет
+    ...filmBaseWiki.map(annotated),
   ];
 }
 
