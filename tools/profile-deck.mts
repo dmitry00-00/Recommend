@@ -148,7 +148,11 @@ for (const r of all) {
     + W.wiki * p.wiki(r) + W.trakt * p.trakt(r.trakt);
 }
 all.sort((a, b) => b.score - a.score);
-const top = all.slice(0, TOP);
+// канон входит в список всегда: это решение «видели почти все», а не ещё одна мера, которую
+// перевешивают остальные. Без этого советская классика и российские хиты стояли на 900–1100-х
+// местах: у них нет ни обзорщиков, ни Trakt, а Википедия досчитывается не сразу (30.09).
+// Место — по оценке, как у всех
+const top = [...all.slice(0, TOP), ...all.slice(TOP).filter((r) => r.canon)];
 
 mkdirSync('.cache', { recursive: true });
 const tsv = ['место\tфильм\tгод\tлюди\tобзорщики\tканон\tвики\ttrakt\tразмечен\tв базе\tв колоде\tоценка',
@@ -159,6 +163,7 @@ const md = [`# Фильмы для первых оценок — ${new Date().to
   '| # | фильм | люди | обзорщики | канон | вики, тыс. | trakt, тыс. | размечен | в колоде |', '|---|---|---|---|---|---|---|---|---|',
   ...top.map((r, i) => `| ${i + 1} | ${r.title} (${r.year})${r.inBase ? '' : ' ⁺'} | ${r.people}/${people.length} | ${r.reviews || ''} | ${r.canon ? '✓' : ''} | ${r.wiki ? `${Math.round(r.wiki / 1000)}${r.wikiLang === 'en' ? ' en' : ''}` : ''} | ${r.trakt ? Math.round(r.trakt / 1000) : ''} | ${r.annotated ? '✓' : ''} | ${r.inDeck ? '✓' : ''} |`),
   '', '⁺ — нет в нашей базе фильмов: пришёл только из присланных профилей.',
+  ...(top.length > TOP ? [`Места после ${TOP}-го — канон ниже порога (${top.length - TOP}): в список он входит всегда.`] : []),
   ...(canonOutside.length ? ['', `Канон вне справочника — ${canonOutside.length} (заведёт \`npx tsx tools/add-shelf-films.mts\`, после — перезапуск этого отчёта): ${canonOutside.join(', ')}.`] : [])];
 writeFileSync('.cache/profile-deck.md', md.join('\n') + '\n');
 
@@ -168,7 +173,7 @@ const todoAttention = all.filter((r) => (r.people > 0 || r.reviews > 0 || r.cano
 writeFileSync('.cache/attention-todo.txt', todoAttention.join('\n') + '\n');
 if (todoAttention.length) console.error(`без данных о внимании при свидетельстве «смотрели»: ${todoAttention.length} → .cache/attention-todo.txt`);
 const annotatedTop = top.filter((r) => r.annotated);
-console.error(`канон: ${massCanonList.length}, среди кандидатов ${all.filter((r) => r.canon).length}, в топ-${TOP} — ${top.filter((r) => r.canon).length}`);
+console.error(`канон: ${massCanonList.length}, среди кандидатов ${all.filter((r) => r.canon).length}, в первых ${TOP} — ${top.slice(0, TOP).filter((r) => r.canon).length}, ниже порога (добавлены в конец) — ${top.length - TOP}`);
 console.error(`кандидатов ${all.length}, людей ${people.length}; в топ-${TOP}: размечено ${annotatedTop.length}, уже в колоде ${top.filter((r) => r.inDeck).length}, вне базы ${top.filter((r) => !r.inBase).length}`);
 console.error('→ .cache/profile-deck.md, .cache/profile-deck.tsv');
 
