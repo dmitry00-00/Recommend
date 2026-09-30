@@ -406,6 +406,24 @@ export const ru = {
   "toWork": "О произведении"
 },
   /* группа «Дневник и после просмотра» */
+  /* дневник книги (З5): часть и страница, чек-ин после части */
+  bookDiary: {
+  "now": (part?: number, page?: number, pages?: number) =>
+    `Сейчас: ${[part ? `часть ${part}` : '', page ? `стр. ${page}${pages ? ` из ${pages}` : ''}` : ''].filter(Boolean).join(', ')}`,
+  "done": (list: number[]) => (list.length === 1 ? `дочитана часть ${list[0]}` : `дочитаны части: ${list.join(', ')}`),
+  "stoppedAt": (part?: number, page?: number) => `Остановились на ${part ? `части ${part}` : `стр. ${page}`}: `,
+  "stoppedAtBare": (part?: number, page?: number) => `Остановились на ${part ? `части ${part}` : `стр. ${page}`}`,
+  "q": (n: number) => `Как часть ${n}?`,
+  "finishedPart": (n: number) => `Дочитал(а) часть ${n}`,
+  "finishedAll": "Дочитал(а) книгу",
+  "finishPart": (n: number) => `Часть ${n} дочитана`,
+  "whereTitle": "Где вы сейчас",
+  "whereHint": "Часть — если книга на них делится и хочется отмечать, как прошла каждая: тогда чек-ин будет после части. Страница — просто закладка.",
+  "part": "Часть",
+  "page": "Страница",
+  "pageOf": (n: number) => `из ${n}`,
+  "partDone": (n: number, next: number) => `Записали часть ${n}. Дальше — ${next}-я: спросим после неё.`
+},
   /* дневник сериала (Е3): сезон и серия, чек-ин после сезона */
   seriesDiary: {
   "now": (s: number, e?: number) => (e ? `Сейчас: ${s} сезон, ${e} серия` : `Сейчас: ${s} сезон`),
@@ -755,7 +773,11 @@ export const ru = {
   "watchOn": (platform: string) => `Смотреть в ${platform}`,
   "watchHint": (n: number) => `Площадок: ${n} — переключаются в ленте внизу.`,
   "watchNone": "Где посмотреть онлайн, пока не знаем",
-  "watchNoneHint": "Список площадок приходит с Кинопоиска и бывает неполным."
+  "watchNoneHint": "Список площадок приходит с Кинопоиска и бывает неполным.",
+  "read": "Читать",
+  "readHonest": "Где книга есть, наверняка не знаем: у книжных сервисов нет открытых данных о наличии. Вот где её искать:",
+  "readSearch": (title: string) => `${title} — поиск`,
+  "readHours": (h: number, pages: number) => `${pages} страниц, около ${h} ч чтения`
 },
   /* петля прогноза: экран /loop (трек Б) */
   loop: {

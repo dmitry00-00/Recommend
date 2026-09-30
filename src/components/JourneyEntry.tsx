@@ -28,6 +28,9 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
   // сериал (Е3): где человек, какие сезоны досмотрены, на каком бросил
   const sp = isSeries(e.work) ? e.seriesProgress : undefined;
   const doneSeasons = sp?.done?.map((d) => d.season) ?? [];
+  // книга (З5): часть и страница, дочитанные части
+  const bp = e.work.type === 'book' ? e.bookProgress : undefined;
+  const doneParts = bp?.done?.map((d) => d.part) ?? [];
   return (
     <article className={cx('tm-entry', `tm-entry--${e.status}`)}>
       <WorkCover work={e.work} size="sm" />
@@ -42,12 +45,15 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
           inProgress && e.progress != null ? `${Math.round(e.progress * 100)}%` : null,
           inProgress && sp ? ru.seriesDiary.now(sp.season, sp.episode) : null,
           doneSeasons.length ? ru.seriesDiary.done(doneSeasons) : null,
+          inProgress && bp && (bp.part || bp.page) ? ru.bookDiary.now(bp.part, bp.page, e.work.pages) : null,
+          doneParts.length ? ru.bookDiary.done(doneParts) : null,
         ]} />
         {e.status === 'abandoned' && e.abandonReason ? (
           <p className="tm-entry__reason">
-            {(sp ? ru.seriesDiary.stoppedAt(sp.season) : ru.entry.abandoned) + (ru.abandonReason[e.abandonReason] ?? ru.entry.otherReason).toLowerCase()}
+            {(sp ? ru.seriesDiary.stoppedAt(sp.season) : bp && (bp.part || bp.page) ? ru.bookDiary.stoppedAt(bp.part, bp.page) : ru.entry.abandoned) + (ru.abandonReason[e.abandonReason] ?? ru.entry.otherReason).toLowerCase()}
           </p>
-        ) : e.status === 'abandoned' && sp ? <p className="tm-entry__reason">{ru.seriesDiary.stoppedAtBare(sp.season)}</p> : null}
+        ) : e.status === 'abandoned' && sp ? <p className="tm-entry__reason">{ru.seriesDiary.stoppedAtBare(sp.season)}</p>
+          : e.status === 'abandoned' && bp && (bp.part || bp.page) ? <p className="tm-entry__reason">{ru.bookDiary.stoppedAtBare(bp.part, bp.page)}</p> : null}
         {e.prediction ? (
           <PredictionNote prediction={e.prediction} actual={e.perceivedDifficulty} showModel={mechanics} />
         ) : null}
@@ -73,6 +79,7 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
           <div className="tm-row tm-row--gap-2 tm-entry__actions">
             <Button size="sm" variant="primary" onClick={() => onFinish?.(e)}>
               {isSeries(e.work) ? ru.seriesDiary.finishSeason(sp?.season ?? 1)
+                : bp?.part ? ru.bookDiary.finishPart(bp.part)
                 : isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
             </Button>
             <Button size="sm" variant="quiet" onClick={() => onAbandon?.(e)}>{ru.actions.abandon}</Button>

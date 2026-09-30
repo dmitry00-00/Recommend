@@ -97,6 +97,7 @@ export function JournalScreen() {
           <div className="tm-stream__panel tm-stream__panel--tabs">
             <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} workTitle={openEntry.work.title} spoilerLevel={openEntry.status === 'finished' ? 2 : 0}
                       watch={openEntry.work.watch} onWatch={() => watchFrom(openEntry)}
+                      book={openEntry.work.type === 'book' ? openEntry.work : undefined}
                       // Карточка архива статична (24.09): ни строки статуса, ни «Открыть запись»,
                       // ни «Начать смотреть». У отложенного — только «Убрать из планов», в углу
                       corner={openEntry.status === 'planned' ? (

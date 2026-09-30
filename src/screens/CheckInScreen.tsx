@@ -82,16 +82,20 @@ export function CheckInScreen() {
   const season = isSeries(entry.work) ? entry.seriesProgress?.season ?? 1 : undefined;
   // сезон досмотрен, сериал продолжается — запись осталась «смотрю»
   const seasonDone = season != null && result?.entry.status === 'in_progress' ? result.entry.seriesProgress?.season : undefined;
+  // книга (З5): чек-ин о части — если человек отмечает части
+  const part = entry.work.type === 'book' ? entry.bookProgress?.part : undefined;
+  const partDone = part != null && result?.entry.status === 'in_progress' ? result.entry.bookProgress?.part : undefined;
   return (
     <main className="tm-shell__main">
       <h1 className="tm-shell__title">{entry.work.title}</h1>
       <CheckInFlow work={entry.work} prompts={prompts} discussions={discussions}
                    step={params.get('abandon') ? 9 : 0} debrief={result?.debrief}
                    prediction={result?.entry.prediction ?? entry.prediction} showModel={mechanics}
-                   changedOperations={changed} onSubmit={submit} season={season} />
+                   changedOperations={changed} onSubmit={submit} season={season} part={part} />
       {result ? (
         <div className="tm-checkinscreen__after">
           {seasonDone && season ? <p className="tm-body tm-checkinscreen__season">{ru.seriesDiary.seasonDone(season, seasonDone)}</p> : null}
+          {partDone && part ? <p className="tm-body tm-checkinscreen__season">{ru.bookDiary.partDone(part, partDone)}</p> : null}
           {result.trajectoryUpdate?.replanned && result.trajectoryUpdate.reason ? (
             <ReplanNote reason={result.trajectoryUpdate.reason} />
           ) : null}

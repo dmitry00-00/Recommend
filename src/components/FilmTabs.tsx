@@ -1,11 +1,12 @@
 import { useRef, useState, type ReactNode } from 'react';
-import type { ExternalAnalysis, SpoilerLevel, WatchOption } from '@/types/tmdf';
+import type { WorkCard, ExternalAnalysis, SpoilerLevel, WatchOption } from '@/types/tmdf';
 import { Material, Post, VoiceStrip, useVoices } from './WorkVoices';
 import { monogram } from '@/lib/voices';
 import { onExternalClick, pick } from '@/lib/telegram';
 import { useSwipe } from '@/lib/swipe';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
+import { readPlaces, readingHours } from '@/lib/reading';
 
 export interface FilmTabsProps {
   analyses: ExternalAnalysis[];
@@ -14,6 +15,8 @@ export interface FilmTabsProps {
   /** допустимый уровень спойлеров: материал выше него закрыт штриховкой */
   spoilerLevel?: SpoilerLevel;
   watch?: WatchOption[];
+  /** книга (З5): вместо площадок — честное «где читать»: страница Open Library и поиск по сервисам */
+  book?: Pick<WorkCard, 'title' | 'creators' | 'externalIds' | 'pages'>;
   /** что ещё показать в обсуждениях: каналы и чаты, строка поиска по авторам */
   discussions?: ReactNode;
   /** сколько мест разговора в `discussions` — для счётчика на переключателе */
@@ -54,7 +57,7 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], discussions, discussionsCount = 0, actions, corner, onWatch, voiceId }: FilmTabsProps) {
+export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId }: FilmTabsProps) {
   const voices = useVoices(analyses, voiceId);
   // автор только с постами в Telegram — его материал на странице «Обсуждения», а не «Обзоры»
   const [mode, setMode] = useState<Mode>(() =>
@@ -118,6 +121,18 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], discus
             ) : null}
             {discussions}
           </>
+        ) : book ? (
+          <section className="tm-stream__group tm-voice__none">
+            {readingHours(book.pages) ? <p className="tm-caption">{ru.film.readHours(readingHours(book.pages)!, book.pages!)}</p> : null}
+            <p className="tm-body-sm">{ru.film.readHonest}</p>
+            <p className="tm-voice__outlets tm-work__people">
+              {readPlaces(book).map((p) => (
+                <a key={p.url} className="tm-voice__chip" href={p.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(p.url)}>
+                  {p.kind === 'search' ? ru.film.readSearch(p.title) : p.title}
+                </a>
+              ))}
+            </p>
+          </section>
         ) : cinema ? (
           <section className="tm-stream__group tm-film__cinema">
             <CinemaLogo option={cinema} size="xl" />
@@ -164,8 +179,8 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], discus
             return (
               <button key={m} type="button" role="tab" aria-selected={mode === m}
                       className={cx('tm-film__switch', mode === m && 'tm-film__switch--on')} onClick={() => switchTo(m)}>
-                {ru.film[m]}
-                {count ? <span className="tm-film__count">{count}</span> : null}
+                {m === 'watch' && book ? ru.film.read : ru.film[m]}
+                {count && !(m === 'watch' && book) ? <span className="tm-film__count">{count}</span> : null}
               </button>
             );
           })}

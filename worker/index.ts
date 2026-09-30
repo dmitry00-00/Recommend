@@ -333,11 +333,13 @@ async function postCheckIn(req: Request, user: User, db: D1Database, entryId: st
     workId?: string; status?: string; perceived?: string; reason?: string; progress?: number; payload?: unknown;
     /** сериал (Е3): где человек после чек-ина; `season_finished` — досмотрен сезон, а не сериал */
     series?: unknown;
+    /** книга (З5): часть и страница; `part_finished` — дочитана часть, а не книга */
+    book?: unknown;
   };
   const status = body.status ?? 'finished';
-  // сезон досмотрен, сериал продолжается: чек-ин пишем, а запись дневника остаётся «смотрю»
-  const journalStatus = status === 'season_finished' ? 'in_progress' : status;
-  const series = seriesJson(body.series);
+  // сезон или часть дочитаны, а целое — нет: чек-ин пишем, запись дневника остаётся «смотрю/читаю»
+  const journalStatus = status === 'season_finished' || status === 'part_finished' ? 'in_progress' : status;
+  const series = body.book ? bookJson(body.book) : seriesJson(body.series);
   await db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
     .bind(newId('c'), user.id, entryId, body.workId ?? '', status, body.perceived ?? null, body.reason ?? null,
       body.payload ? JSON.stringify(body.payload) : null, now()).run();
@@ -364,11 +366,28 @@ function seriesJson(raw: unknown): string | null {
   return JSON.stringify({ season, ...(episode ? { episode } : {}), ...(done.length ? { done } : {}) });
 }
 
-/** «Где я сейчас» в сериале: сезон и серия у начатого (Е3). */
+/** Книга (З5): часть, страница, дочитанные части — в той же колонке, с пометкой `kind: 'book'`. */
+function bookJson(raw: unknown): string | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const r = raw as { part?: unknown; page?: unknown; done?: unknown };
+  const n = (x: unknown, max: number) => (Number.isInteger(x) && (x as number) >= 1 && (x as number) <= max ? x as number : undefined);
+  const part = n(r.part, 99);
+  const page = n(r.page, 20000);
+  const done = Array.isArray(r.done) ? r.done.slice(0, 99).flatMap((d) => {
+    const x = d as { part?: unknown; perceived?: unknown; at?: unknown };
+    const p = n(x.part, 99);
+    return p ? [{ part: p, ...(typeof x.perceived === 'string' ? { perceived: x.perceived.slice(0, 20) } : {}),
+      ...(typeof x.at === 'string' ? { at: x.at.slice(0, 30) } : {}) }] : [];
+  }) : [];
+  if (!part && !page && !done.length) return null;
+  return JSON.stringify({ kind: 'book', ...(part ? { part } : {}), ...(page ? { page } : {}), ...(done.length ? { done } : {}) });
+}
+
+/** «Где я сейчас»: сезон и серия у сериала (Е3), часть и страница у книги (З5). */
 async function postProgress(req: Request, user: User, db: D1Database, entryId: string): Promise<Response> {
-  const body = (await req.json().catch(() => ({}))) as { series?: unknown };
-  const series = seriesJson(body.series);
-  if (!series) return json({ error: 'bad_series' }, 400);
+  const body = (await req.json().catch(() => ({}))) as { series?: unknown; book?: unknown };
+  const series = body.book ? bookJson(body.book) : seriesJson(body.series);
+  if (!series) return json({ error: 'bad_progress' }, 400);
   await db.prepare("UPDATE journal SET series = ? WHERE user_id = ? AND entry_id = ? AND status = 'in_progress'")
     .bind(series, user.id, entryId).run();
   return json({ ok: true });

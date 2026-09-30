@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { JourneyEntryData, ReflectionPromptData } from '@/types/tmdf';
-import { getJourney, getReflectionPrompts, setSeriesProgress } from '@/api';
+import { getJourney, getReflectionPrompts, setBookProgress, setSeriesProgress } from '@/api';
 import { Button, EmptyState, ErrorState, JourneyEntry, Skeleton, StateChangeNote, useToast } from '@/components';
 import { isSeries } from '@/lib/media';
 import { useMechanics } from '@/lib/settingsStore';
@@ -75,6 +75,9 @@ export function JournalEntryScreen() {
         {entry.status === 'in_progress' && isSeries(entry.work) ? (
           <SeriesWhere entry={entry} onSaved={setEntry} />
         ) : null}
+        {entry.status === 'in_progress' && entry.work.type === 'book' ? (
+          <BookWhere entry={entry} onSaved={setEntry} />
+        ) : null}
         <section className="tm-journal__section">
           <h2 className="tm-title-3">{ru.journal.reflections}</h2>
           {entry.reflections.length ? (
@@ -132,6 +135,45 @@ function SeriesWhere({ entry, onSaved }: { entry: JourneyEntryData; onSaved: (e:
       <p className="tm-caption tm-journal__hint">{ru.seriesDiary.whereHint}</p>
       {stepper(ru.seriesDiary.season, season, (n) => { setSeason(n); setEpisode(0); }, 1, maxSeason)}
       {stepper(ru.seriesDiary.episode, episode, setEpisode, 0, 999)}
+      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ru.seriesDiary.save}</Button>
+    </section>
+  );
+}
+
+/** «Где вы сейчас» у книги (З5): часть — если книга делится и хочется чек-ин после каждой;
+ *  страница — просто закладка. Часть 0 = «не отмечаю части», тогда чек-ин один, в конце. */
+function BookWhere({ entry, onSaved }: { entry: JourneyEntryData; onSaved: (e: JourneyEntryData) => void }) {
+  const toast = useToast();
+  const bp = entry.bookProgress;
+  const [part, setPart] = useState(bp?.part ?? 0);
+  const [page, setPage] = useState(bp?.page ?? 0);
+  const [busy, setBusy] = useState(false);
+  const pages = entry.work.pages;
+  const changed = part !== (bp?.part ?? 0) || page !== (bp?.page ?? 0);
+  const save = () => {
+    setBusy(true);
+    setBookProgress(entry.id, { part: part || undefined, page: page || undefined })
+      .then((e) => { if (e) { onSaved(e); toast({ text: ru.seriesDiary.saved }); } })
+      .catch(() => toast({ text: ru.settings.errorSave }))
+      .finally(() => setBusy(false));
+  };
+  return (
+    <section className="tm-journal__section tm-serieswhere">
+      <h2 className="tm-title-3">{ru.bookDiary.whereTitle}</h2>
+      <p className="tm-caption tm-journal__hint">{ru.bookDiary.whereHint}</p>
+      <div className="tm-row tm-row--gap-2 tm-serieswhere__row">
+        <span className="tm-label tm-serieswhere__label">{ru.bookDiary.part}</span>
+        <Button size="sm" variant="quiet" aria-label={`${ru.bookDiary.part}: ${ru.seriesDiary.less}`} disabled={part <= 0} onClick={() => setPart(part - 1)}>−</Button>
+        <span className="tm-title-3 tm-serieswhere__value" aria-live="polite">{part || '—'}</span>
+        <Button size="sm" variant="quiet" aria-label={`${ru.bookDiary.part}: ${ru.seriesDiary.more}`} disabled={part >= 99} onClick={() => setPart(part + 1)}>+</Button>
+      </div>
+      <label className="tm-row tm-row--gap-2 tm-serieswhere__row">
+        <span className="tm-label tm-serieswhere__label">{ru.bookDiary.page}</span>
+        <input className="tm-input tm-serieswhere__page" type="number" inputMode="numeric" min={0} max={pages ?? 99999}
+               value={page || ''} placeholder="—"
+               onChange={(ev) => { const n = Math.max(0, Math.min(pages ?? 99999, Math.floor(Number(ev.target.value) || 0))); setPage(n); }} />
+        {pages ? <span className="tm-caption">{ru.bookDiary.pageOf(pages)}</span> : null}
+      </label>
       <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ru.seriesDiary.save}</Button>
     </section>
   );

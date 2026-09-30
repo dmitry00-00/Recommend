@@ -101,6 +101,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
         key={`${r.id}:${voiceId ?? ''}`}
         voiceId={voiceId}
         analyses={r.analyses ?? []}
+        book={r.work.type === 'book' ? r.work : undefined}
         workTitle={r.work.title}
         spoilerLevel={allowed}
         watch={r.work.watch}
@@ -362,6 +363,7 @@ export function TodayScreen() {
     <>
       <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in`); }}>
         {isSeries(e.work) ? ru.seriesDiary.finishSeason(e.seriesProgress?.season ?? 1)
+          : e.work.type === 'book' && e.bookProgress?.part ? ru.bookDiary.finishPart(e.bookProgress.part)
           : isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
       </Button>
       <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?abandon=1`); }}>{ru.feed.gaveUp}</Button>
@@ -465,7 +467,7 @@ export function TodayScreen() {
         {openEntry ? (
           <div className="tm-stream__panel tm-stream__panel--tabs">
             <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} workTitle={openEntry.work.title} spoilerLevel={spoilerLevel} watch={openEntry.work.watch}
-                      corner={answers(openEntry, true)} />
+                      book={openEntry.work.type === 'book' ? openEntry.work : undefined} corner={answers(openEntry, true)} />
           </div>
         ) : null}
       </WorkSheet>

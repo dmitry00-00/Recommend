@@ -478,6 +478,14 @@ export interface SeriesProgress {
   done?: { season: number; perceived?: PerceivedDifficulty; at?: ISODate }[];
 }
 
+/** Где человек в книге (З5): часть и страница; дочитанные части — с тем, как прошла каждая. У
+ *  длинной книги чек-ин — после части, если человек отмечает части; иначе — после книги. */
+export interface BookProgress {
+  part?: number;
+  page?: number;
+  done?: { part: number; perceived?: PerceivedDifficulty; at?: ISODate }[];
+}
+
 export interface JourneyEntryData {
   id: ID;
   work: WorkCard;
@@ -485,6 +493,8 @@ export interface JourneyEntryData {
   progress?: number;
   /** сериал (Е3) */
   seriesProgress?: SeriesProgress;
+  /** книга (З5) */
+  bookProgress?: BookProgress;
   startedAt?: ISODate;
   finishedAt?: ISODate;
   perceivedDifficulty?: PerceivedDifficulty;
@@ -506,6 +516,8 @@ export interface CheckInRequest {
   /** сериал (Е3): о каком сезоне чек-ин. `finished` с сезоном — досмотрен сезон; сериал
    *  заканчивается, только если сезон последний (или `last`). `abandoned` — бросил на этом сезоне */
   season?: number;
+  /** книга (З5): о какой части чек-ин — как сезон у сериала */
+  part?: number;
   last?: boolean;
   perceivedDifficulty?: PerceivedDifficulty;
   abandonReason?: AbandonReason;

@@ -1077,7 +1077,8 @@ function hydrate(state: StoredState | undefined): void {
       ...(row.finished_at ? { finishedAt: row.finished_at } : {}),
       ...(row.eagerness ? { eagerness: row.eagerness as Eagerness } : {}),
       ...(row.inferred ? { inferred: true } : {}),
-      ...(row.series?.season ? { seriesProgress: row.series } : {}),
+      ...(row.series?.kind === 'book' ? { bookProgress: (({ kind: _k, ...b }) => b)(row.series) }
+        : row.series?.season ? { seriesProgress: row.series } : {}),
       reflections: [], stateChanges: [],
     });
   }
@@ -1288,9 +1289,24 @@ export async function setSeriesProgress(entryId: ID, season: number, episode?: n
   const before = entry.seriesProgress;
   entry.seriesProgress = { season, ...(episode ? { episode } : {}), ...(before?.done ? { done: before.done } : {}) };
   try {
-    await store.progress(entryId, entry.work.id, entry.seriesProgress);
+    await store.progress(entryId, entry.work.id, { series: entry.seriesProgress });
   } catch (err) {
     entry.seriesProgress = before;
+    throw err;
+  }
+  return withPrediction({ ...entry });
+}
+
+/** Книга (З5): где я сейчас — часть и страница у начатого. */
+export async function setBookProgress(entryId: ID, where: { part?: number; page?: number }): Promise<JourneyEntryData | undefined> {
+  const entry = [...imported, ...baseJournal()].find((e) => e.id === entryId && e.status === 'in_progress');
+  if (!entry || entry.work.type !== 'book') return undefined;
+  const before = entry.bookProgress;
+  entry.bookProgress = { ...(where.part ? { part: where.part } : {}), ...(where.page ? { page: where.page } : {}), ...(before?.done ? { done: before.done } : {}) };
+  try {
+    await store.progress(entryId, entry.work.id, { book: entry.bookProgress });
+  } catch (err) {
+    entry.bookProgress = before;
     throw err;
   }
   return withPrediction({ ...entry });
@@ -1319,7 +1335,20 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     const episode = request.status === 'abandoned' ? entry.seriesProgress?.episode : undefined;
     entry.seriesProgress = { season: seasonOnly ? season + 1 : season, ...(episode ? { episode } : {}), ...(done.length ? { done } : {}) };
   }
-  if (entry && seasonOnly) {
+  // книга (З5): чек-ин после части, если человек отмечает части; книга кончается по «дочитал книгу»
+  const part = entry && entry.work.type === 'book' ? request.part : undefined;
+  const partOnly = part != null && request.status === 'finished' && !request.last;
+  if (entry && part != null) {
+    const done = [...(entry.bookProgress?.done ?? []).filter((d) => d.part !== part)];
+    if (request.status === 'finished') {
+      done.push({ part, ...(request.perceivedDifficulty ? { perceived: request.perceivedDifficulty } : {}), at: new Date().toISOString().slice(0, 10) });
+    }
+    done.sort((a, b) => a.part - b.part);
+    // брошенной книге — страница, на которой остановились; дочитанная часть страницу не сбрасывает
+    const page = entry.bookProgress?.page;
+    entry.bookProgress = { part: partOnly ? part + 1 : part, ...(page ? { page } : {}), ...(done.length ? { done } : {}) };
+  }
+  if (entry && (seasonOnly || partOnly)) {
     result.entry = withPrediction({ ...entry });
   } else if (entry) {
     entry.status = request.status;
@@ -1337,8 +1366,8 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
   }
   await store.checkIn(entryId, entry?.work.id ?? result.entry.work.id, {
     // досмотрен сезон, а не сериал: запись остаётся «смотрю», в петле это не «досмотрел»
-    status: seasonOnly ? 'season_finished' : request.status,
-    ...(entry?.seriesProgress ? { series: entry.seriesProgress } : {}),
+    status: seasonOnly ? 'season_finished' : partOnly ? 'part_finished' : request.status,
+    ...(entry?.bookProgress && entry.work.type === 'book' ? { book: entry.bookProgress } : entry?.seriesProgress ? { series: entry.seriesProgress } : {}),
     perceived: request.perceivedDifficulty,
     reason: request.abandonReason,
     payload: request,

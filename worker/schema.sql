@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS journal (
   -- потом переспрашиваем («посмотрели?»), и «ещё не смотрел» — нормальный ответ (24.09)
   inferred    INTEGER,
   -- сериал (Е3, 30.09): где человек — сезон и серия — и какие сезоны досмотрены, JSON
-  -- {season, episode?, done?: [{season, perceived?, at}]}. У брошенного — на чём бросил
+  -- {season, episode?, done?: [{season, perceived?, at}]}. У брошенного — на чём бросил.
+  -- Книга (З5): {kind: 'book', part?, page?, done?: [{part, perceived?, at}]}
   series      TEXT,
   PRIMARY KEY (user_id, entry_id)
 );

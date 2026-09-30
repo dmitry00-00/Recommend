@@ -34,6 +34,8 @@ export interface CheckInFlowProps {
   onSubmit?: (request: CheckInRequest) => void;
   /** сериал (Е3): чек-ин о сезоне — «досмотрел сезон», «весь сериал» или «бросаю на нём» */
   season?: number;
+  /** книга (З5): чек-ин о части — если человек отмечает части */
+  part?: number;
 }
 
 const DEBRIEF = 3;
@@ -43,7 +45,7 @@ const ABANDON = 9;
  *  ответы; что они значат для карты — решает сервер и возвращает в разборе. */
 export function CheckInFlow({
   work, prompts = [], debrief, discussions = [], step: initial = 0, changedOperations = [],
-  prediction, showModel, onSubmit, season,
+  prediction, showModel, onSubmit, season, part,
 }: CheckInFlowProps) {
   const [step, setStep] = useState(initial);
   const [last, setLast] = useState(false);
@@ -56,6 +58,7 @@ export function CheckInFlow({
     onSubmit?.({
       status,
       ...(season ? { season, ...(last ? { last: true } : {}) } : {}),
+      ...(part ? { part, ...(last ? { last: true } : {}) } : {}),
       perceivedDifficulty: difficulty,
       abandonReason,
       reflections: Object.entries(answers).map(([promptId, answer]) => ({ promptId, answer })),
@@ -71,6 +74,17 @@ export function CheckInFlow({
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ru.seriesDiary.finishedSeason(season)}</Button>
           <Button onClick={() => { setLast(true); setStep(1); }}>{ru.seriesDiary.finishedAll}</Button>
+          <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
+        </div>
+      </div>
+    );
+  } else if (step === 0 && part) {
+    body = (
+      <div>
+        <p className="tm-checkin__q">{ru.bookDiary.q(part)}</p>
+        <div className="tm-row tm-row--gap-2 tm-row--wrap">
+          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ru.bookDiary.finishedPart(part)}</Button>
+          <Button onClick={() => { setLast(true); setStep(1); }}>{ru.bookDiary.finishedAll}</Button>
           <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
         </div>
       </div>

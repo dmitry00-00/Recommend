@@ -7,7 +7,7 @@
 // Правило слоя: сервер хранит факты участника, а не собирает ленту. Подбор по-прежнему
 // считается на клиенте, каталог и разборы — общие данные и приходят отдельно. Поэтому здесь
 // нет ни одного запроса «дай рекомендации» — только «запиши, что человек сделал».
-import type { ID, PerceivedDifficulty, SeriesProgress, UserSettings, WorkCard } from '@/types/tmdf';
+import type { BookProgress, ID, PerceivedDifficulty, SeriesProgress, UserSettings, WorkCard } from '@/types/tmdf';
 import { webApp } from '@/lib/telegram';
 
 // `VITE_API_URL=/` — API на том же адресе, что и страница (сборка для bothost); пустая строка
@@ -25,7 +25,7 @@ export interface StoredState {
   watched: { workId: ID; watched: boolean; work?: WorkCard }[];
   predictions: { entry_id: string; work_id: ID; expected?: PerceivedDifficulty; model?: string; model_p?: string | null; at: string }[];
   verdicts: { url: string; verdict: 'about_this' | 'other_work' | 'unsure' }[];
-  journal?: { entry_id: string; work_id: ID; work?: WorkCard; status: string; progress?: number | null; started_at?: string | null; finished_at?: string | null; eagerness?: number | null; inferred?: number | null; series?: SeriesProgress | null }[];
+  journal?: { entry_id: string; work_id: ID; work?: WorkCard; status: string; progress?: number | null; started_at?: string | null; finished_at?: string | null; eagerness?: number | null; inferred?: number | null; series?: (SeriesProgress & { kind?: undefined }) | (BookProgress & { kind: 'book' }) | null }[];
   ratings?: { workId: ID; rating: 1 | 2 | 3 | 4 | 5; raw?: number; work?: WorkCard; at: string }[];
   profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean };
 }
@@ -126,8 +126,8 @@ export const store = {
   impressions: (slateId: string, energy: string, items: { recId: string; workId: ID; slot?: string; rank: number }[]) =>
     send('/api/impressions', 'POST', { slateId, energy, items }),
   /** сериал (Е3): «где я сейчас» — сезон и серия */
-  progress: (entryId: string, workId: ID, series: SeriesProgress) =>
-    send(`/api/journal/${encodeURIComponent(entryId)}/progress`, 'POST', { workId, series }),
+  progress: (entryId: string, workId: ID, where: { series: SeriesProgress } | { book: BookProgress }) =>
+    send(`/api/journal/${encodeURIComponent(entryId)}/progress`, 'POST', { workId, ...where }),
   checkIn: (entryId: string, workId: ID, payload: Record<string, unknown>) =>
     send(`/api/journal/${encodeURIComponent(entryId)}/checkin`, 'POST', { workId, ...payload }),
   feedback: (recId: string, workId: ID | undefined, action: string, reason?: string, eagerness?: number) =>
