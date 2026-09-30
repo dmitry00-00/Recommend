@@ -36,6 +36,8 @@ export function ExternalAnalysisLink({ analysis: a, spoilerLevel }: ExternalAnal
       <span className="tm-extlink__title">{a.title}</span>
       <Meta items={[
         a.author,
+        // разбор сезона или серии (Е6): у антологии это другая история, а не «ещё про сериал»
+        ru.seriesPart(a.season, a.episode),
         a.durationMinutes ? formatDuration(a.durationMinutes) : ru.platform[a.platform],
         // рубрика канала: «#спгс» объясняет, что это за пост, короче любого нашего описания
         a.tags?.length ? `#${a.tags[0]}` : undefined,

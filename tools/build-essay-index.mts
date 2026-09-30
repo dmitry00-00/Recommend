@@ -11,6 +11,8 @@ import { sources } from '../src/mocks/sources.ts';
 import { ADAPTATION, isDigest } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
 import { evidenceFor, tooEarly } from './evidence.mts';
+import { seriesPart } from './series-part.mts';
+import { isSeries } from '../src/lib/media.ts';
 import { bestByTitle } from './match-videos.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
@@ -178,6 +180,8 @@ for (const [videoId, { key, work }] of best) {
     previewUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     ...(minutes ? { durationMinutes: minutes } : {}),
     ...(v.publishedAt ? { publishedAt: v.publishedAt } : {}),
+    // разбор сезона или серии (Е6) — по названию ролика
+    ...(isSeries(work) ? seriesPart(v.title) : {}),
   });
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }

@@ -24,6 +24,10 @@ export interface IndexedWork {
   /** названия, по которым ловим произведение в чужом тексте: слишком короткое имя из одного
    *  слова даёт слишком много ложных совпадений («Игра», «Она») */
   names: string[];
+  /** сериал из присланных профилей с названием в одно слово («Офис», «Счастье», «Топи»): такое
+   *  слово слишком часто значит что-то другое, поэтому совпадение засчитывается, только если
+   *  материал говорит о сериале (`talksSeries`, Е6) */
+  needsSeriesTalk?: boolean;
 }
 
 export function analysisKey(work: WorkCard): string | undefined {
@@ -54,18 +58,24 @@ export function worksIndex({ all: unnamed = false }: {
     ...filmBaseMarkup,
     // с полок по просьбам людей, данные TMDb (29.09)
     ...filmBaseCurated,
-    // сериалы с черновой разметкой из присланных профилей (Е2, 30.09) — только с ключом: в чужом
-    // тексте их пока не ищем («Начало», «Офис», «Счастье» — тёзки фильмов), привязка роликов — Е6
+    // сериалы с черновой разметкой из присланных профилей (Е2, 30.09); с одним словом в названии
+    // ищутся только в разговоре о сериале (Е6): «Офис», «Счастье», «Начало» — обычные слова и тёзки фильмов
     ...seriesBase,
   ];
-  const keyOnly = new Set(seriesBase.map((w) => w.id));
+  const fromProfiles = new Set(seriesBase.map((w) => w.id));
+  // названия, которые чаще значат другое: группа, роман, другая экранизация того же романа
+  // (замер 30.09 по дампу роликов: песни «Короля и Шута», разборы романа Достоевского и сериала
+  // 2024-го, фильм «Граф Монте-Кристо» 2024-го уходили к сериалам из профилей)
+  const ALSO_ELSEWHERE = new Set(['король и шут', 'преступление и наказание', 'граф монте-кристо']);
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
     const key = analysisKey(work);
     if (!key || out.has(key)) continue;
-    const names = keyOnly.has(work.id) ? [] : [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
+    const names = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
-    if (names.length || unnamed) out.set(key, { key, work, names });
+    const needsSeriesTalk = fromProfiles.has(work.id)
+      && (work.title.trim().split(/\s+/).length === 1 || ALSO_ELSEWHERE.has(work.title.trim().toLowerCase()));
+    if (names.length || unnamed) out.set(key, { key, work, names, ...(needsSeriesTalk ? { needsSeriesTalk } : {}) });
   }
   return [...out.values()];
 }

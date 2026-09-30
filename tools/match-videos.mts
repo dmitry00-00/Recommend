@@ -10,7 +10,7 @@
 // Быстро за счёт отбора кандидатов по началу слова: 90 тысяч роликов × 2,6 тысячи фильмов
 // напрямую — это минуты, а так — секунды.
 import { ADAPTATION, isDigest, nameMatch } from './title-match.mts';
-import { evidenceFor, pickNamesake, tooEarly } from './evidence.mts';
+import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
 import type { IndexedWork } from './works-index.mts';
 
 export interface VideoLike { id: string; title: string; description?: string; publishedAt?: string }
@@ -43,8 +43,9 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     if (!cands.size) continue;
     let max = 0;
     let tied: IndexedWork[] = [];
+    const series = talksSeries(`${v.title}\n${v.description ?? ''}`);
     for (const w of ours) {   // порядок справочников — как у индекса: pickNamesake опирается на него
-      if (!cands.has(w)) continue;
+      if (!cands.has(w) || (w.needsSeriesTalk && !series)) continue;
       const len = Math.max(0, ...w.names.map((n) => nameMatch(v.title, n, { ordinary: options.ordinary, loose: options.loose })));
       if (!len || len < max) continue;
       if (len > max) { max = len; tied = []; }

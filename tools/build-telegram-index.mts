@@ -12,7 +12,9 @@ import { ADAPTATION, nameHits, nameMatch } from './title-match.mts';
 import { parseArgs, readExport, type Post } from './telegram-export.mts';
 import { oembed, videoId, videosApi, type VideoMeta } from './youtube.mts';
 import { worksIndex } from './works-index.mts';
-import { evidenceFor, pickNamesake, tooEarly, type Evidence } from './evidence.mts';
+import { evidenceFor, pickNamesake, talksSeries, tooEarly, type Evidence } from './evidence.mts';
+import { seriesPart } from './series-part.mts';
+import { isSeries } from '../src/lib/media.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
@@ -128,7 +130,9 @@ for (const { username, path, role } of args) {
     // выбирает pickNamesake (tools/evidence.mts), а не порядок справочников
     let headLen = 0;
     let heads: { work: typeof ours[number]['work']; key: string }[] = [];
-    for (const { key, work, names } of ours) {
+    const series = talksSeries(p.text);
+    for (const { key, work, names, needsSeriesTalk } of ours) {
+      if (needsSeriesTalk && !series) continue;
       // только выделенное кавычками или капсом — иначе «Помните, я обещал…» уходит в «Помнить»
       const len = Math.max(0, ...names.map((n) => nameMatch(head, n, { marked: true, ordinary })));
       if (!len || len < headLen) continue;
@@ -151,7 +155,8 @@ for (const { username, path, role } of args) {
       // даёт ровно то, от чего уходили 22.09. У автора — наоборот, название часто во втором
       // абзаце. Поэтому по телу ищем только у авторов.
       const hits = new Map<string, { work: typeof ours[number]['work']; key: string; len: number; name: string }>();
-      for (const { key, work, names } of ours) {
+      for (const { key, work, names, needsSeriesTalk } of ours) {
+        if (needsSeriesTalk && !series) continue;
         let len = 0;
         let hit = '';
         for (const n of names) {
@@ -206,6 +211,8 @@ for (const { username, path, role } of args) {
         ...where,
         ...(tags.length ? { tags: tags.slice(0, 2) } : {}),
         ...(p.date ? { publishedAt: p.date.slice(0, 10) } : {}),
+        // сезон и серия — по заголовку поста (Е6); в теле их слишком легко спутать с другими
+        ...(isSeries(best.work) ? seriesPart(head) : {}),
       },
       row: `${evidence ? `[${evidence}] ` : ''}${best.work.title} (${best.work.year}) ← ${channel}: ${firstLine(p.preview?.title || p.text)}`,
     });

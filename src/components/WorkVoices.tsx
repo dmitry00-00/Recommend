@@ -106,6 +106,7 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
       <p className="tm-voice__meta">
         {[
           credit,
+          ru.seriesPart(a.season, a.episode),
           a.tags?.length ? `#${a.tags[0]}` : undefined,
           a.language === 'ru' ? ru.lang.ru : ru.lang.en,
           a.spoilerLevel > 0 ? ru.spoilers.with : ru.spoilers.without,

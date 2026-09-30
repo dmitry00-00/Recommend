@@ -227,6 +227,9 @@ export const ru = {
   "previousFrame": "Предыдущий кадр · пройдено"
 },
   /* группа «Произведение»: строки компонентов WorkHeader … DiscussionLink, выгружены из бандла */
+  /* сезон и серия разбора сериала (Е6) */
+  seriesPart: (season?: number, episode?: number): string | undefined =>
+    season && episode ? `${season} сезон, ${episode} серия` : season ? `${season} сезон` : episode ? `${episode} серия` : undefined,
   platform: {
   "youtube": "видео",
   "vk": "видео",
