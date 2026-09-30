@@ -1,13 +1,14 @@
 // Данные для ручной разметки «ролик → фильм»: что смотреть человеку и из чего выбирать.
 // Пишет .cache/markup/film-reviews.json, из которого tools/markup-xlsx.py собирает
 // film_reviews.xlsx (выпадающий список в Excel — это уже не наша часть, её делает openpyxl).
-//   npx tsx tools/markup-xlsx.mts [--min-minutes 5] [--books] [--limit N]
+//   npx tsx tools/markup-xlsx.mts [--min-minutes 5] [--books] [--limit N] [--all-links]
 // Ролики берём из .cache/youtube/videos.json (его наполняет tools/youtube-dump.mts),
 // предмет и ярус канала — из .cache/youtube/channels.json: книжные каналы в таблицу про кино
 // не идут, а обзорщики и эссеисты разъезжаются по разным листам (просьба владельца 26.09:
 // это разная работа — у обзорщика фильм в заголовке, у эссеиста он бывает только в теле).
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
+import { matchVideos } from './match-videos.mts';
 import { essays } from '../src/mocks/essays.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
@@ -23,8 +24,8 @@ const flag = (name: string): boolean => process.argv.includes(`--${name}`);
 const MIN_MINUTES = Number(arg('min-minutes', '5'));
 const LIMIT = Number(arg('limit', '0'));
 
-interface Video { id: string; title: string; publishedAt?: string; channel: string; channelId?: string; minutes?: number }
-type Channel = { title: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book' };
+interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; channelId?: string; minutes?: number }
+type Channel = { title: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book'; via?: 'links' };
 
 const root = new URL('..', import.meta.url);
 const videos = JSON.parse(readFileSync(new URL('.cache/youtube/videos.json', root), 'utf8')) as Video[];
@@ -55,6 +56,21 @@ for (const [key, list] of Object.entries(essaysAuto)) {
     const id = /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1];
     if (id && !guess.has(id)) guess.set(id, key);
   }
+}
+
+// 2а. Каналы из ссылок владельца (`via: 'links'`) индекс разборов не обходит — догадку по их
+// роликам считаем здесь, теми же правилами (tools/match-videos.mts). Без неё ~62 тысячи строк
+// приходили с пустым «Фильмом» (30.09).
+const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
+{
+  const ordFile = new URL('.cache/ordinary.json', root);
+  const ordinary = existsSync(ordFile) ? new Set<string>(JSON.parse(readFileSync(ordFile, 'utf8')).names ?? []) : undefined;
+  const todo = videos.filter((v) => fromLinks(v) && (v.minutes ?? 0) >= MIN_MINUTES && !guess.has(v.id));
+  const t = Date.now();
+  // книги (isbn:) не предлагаем — таблица про киноролики, и ярлыка у них в списке нет
+  const found = matchVideos(todo, worksIndex().filter((w) => !w.key.startsWith('isbn:')), ordinary);
+  for (const [id, g] of found) guess.set(id, g.key);
+  console.log(`каналы из ссылок: роликов ${todo.length}, угадан фильм у ${found.size} (${Math.round((Date.now() - t) / 1000)} с)`);
 }
 
 // 2б. Что уже решили люди (tools/markup-verdicts.json, его пишет import-markup.py). Решение
@@ -122,11 +138,20 @@ const row = (v: Video) => {
   if (key && !film) lost++;   // догадка есть, а фильма в индексе уже нет — пустая строка честнее
   return { ...base, film: film ?? '', checked: false };
 };
+// Каналы из ссылок — только ролики с догадкой или решением человека: остальное — десятки тысяч
+// строк, которые вручную не разметить (30.09). Все подряд — --all-links.
+let skippedLinks = 0;
+const keepLink = (v: Video) => {
+  if (!fromLinks(v) || flag('all-links') || human[v.id] || guess.has(v.id)) return true;
+  skippedLinks += 1;
+  return false;
+};
 const pick = (tier: 'essay' | 'review') => {
   const rows = videos
     .filter((v) => (channels[v.channelId ?? '']?.medium ?? 'film') === 'film' || flag('books'))
     .filter((v) => (channels[v.channelId ?? '']?.tier ?? 'essay') === tier)
     .filter((v) => (v.minutes ?? 0) >= MIN_MINUTES)
+    .filter(keepLink)
     .sort((a, b) => a.channel.localeCompare(b.channel, 'ru') || (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
     .map(row);
   return LIMIT > 0 ? rows.slice(0, LIMIT) : rows;
@@ -139,6 +164,7 @@ writeFileSync(new URL('.cache/markup/film-reviews.json', root), JSON.stringify({
 const withGuess = (rows: typeof review) => rows.filter((r) => r.film && !r.checked).length;
 const decided = (rows: typeof review) => rows.filter((r) => r.checked).length;
 console.log(`обзоры ${review.length} строк (догадок ${withGuess(review)}, решено людьми ${decided(review)}), эссе ${essay.length} (догадок ${withGuess(essay)}, решено ${decided(essay)})`);
+if (skippedLinks) console.log(`каналы из ссылок: без догадки и решения в таблицу не вошло ${skippedLinks} (все подряд — --all-links)`);
 console.log(`решений в tools/markup-verdicts.json: ${Object.keys(human).length}`);
 console.log(`фильмов в списке ${films.length}${lost ? `, потеряно догадок ${lost}` : ''}; без разбора и обзора ${missing.length}, из них названы в постах ${missing.filter((m) => m.talk > 0).length}`);
 console.log('→ .cache/markup/film-reviews.json');
