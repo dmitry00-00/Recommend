@@ -15,7 +15,8 @@ import { worksIndex } from './works-index.mts';
 import { isSeries } from '../src/lib/media.ts';
 import type { RelationNodeKind, WorkCard } from '../src/types/tmdf.ts';
 import { readCache, resolveWorkQids, sleep, sparql, writeCache } from './wikidata-lib.mts';
-import { parseRelations, relationsSource, type RelBinding, type RelEdge, type RelNode } from './relations-lib.mts';
+import { nodeKind, parseRelations, relationsSource, type RelBinding, type RelEdge, type RelNode } from './relations-lib.mts';
+import { universeSeeds } from './universe-seeds.mts';
 
 const args = process.argv.slice(2);
 const has = (f: string) => args.includes(f);
@@ -75,7 +76,27 @@ const rows = [...new Set(withQ.map((w) => ids[w.key]!))].flatMap((q) => cache[q]
 const { nodes, edges } = parseRelations(rows, own);
 // наши — со своим названием и ключом: так приложение находит карточку по ту сторону связи
 const all = new Map<string, RelNode & { key?: string }>([...nodes, ...ownNodes]);
-const valid: RelEdge[] = edges.filter(([a, , b]) => all.has(a) && all.has(b));
+// заранее заложенные вселенные (tools/seed-universes.mts): состав франшиз целиком, «часть» к
+// франшизе — даже для того, чего в нашем справочнике нет; название франшизы — наше, русское
+const seedQ = readCache<Record<string, string | null>>('universe-seeds.json', {});
+const seedMembers = readCache<Record<string, { q: string; t: string; y?: number; cls: string[]; imdb?: string; tmdb?: number }[]>>('universe-members.json', {});
+const indexKeys = new Set(works.map((w) => w.key));
+let seeded = 0;
+for (const seed of universeSeeds) {
+  const hub = seedQ[seed.id];
+  if (!hub || !seedMembers[hub]) continue;
+  if (!ownNodes.has(hub)) all.set(hub, { t: seed.ru, k: 'franchise' });
+  for (const m of seedMembers[hub]) {
+    const k = nodeKind(m.cls);
+    const key = k === 'series' ? (m.imdb ? `imdb:${m.imdb}` : undefined) : m.tmdb != null ? `tmdb:${m.tmdb}` : undefined;
+    if (!all.has(m.q)) all.set(m.q, { t: m.t, ...(m.y ? { y: m.y } : {}), k, ...(key && indexKeys.has(key) ? { key } : {}) });
+    edges.push([m.q, 'part_of', hub]);
+    seeded++;
+  }
+}
+if (seeded) console.error(`из заложенных вселенных: ${seeded} связей «часть»`);
+const seenEdge = new Set<string>();
+const valid: RelEdge[] = edges.filter(([a, k, b]) => all.has(a) && all.has(b) && !seenEdge.has(`${a}|${k}|${b}`) && (seenEdge.add(`${a}|${k}|${b}`), true));
 
 const count = (k: string) => valid.filter((e) => e[1] === k).length;
 const linkedOwn = new Set(valid.flatMap(([a, , b]) => [a, b]).filter((q) => ownNodes.has(q)));

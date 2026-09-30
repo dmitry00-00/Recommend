@@ -451,7 +451,7 @@ export function TodayScreen() {
           </article>
         ))}
         {items.map((r, i) => (
-          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics ? ru.slot[r.slot].label : undefined}
+          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' ? ru.slot[r.slot].label : undefined}
                     onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
                     onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
@@ -471,7 +471,7 @@ export function TodayScreen() {
       </WorkSheet>
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
-                 tag={mechanics && openRec ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}>
+                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}>
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />

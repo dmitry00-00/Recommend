@@ -67,7 +67,8 @@ export type Confidence = 'low' | 'medium' | 'high';
 export type SpoilerLevel = 0 | 1 | 2;
 export type Energy = 'low' | 'normal' | 'high';
 export type StateChangeType = 'refined_estimate' | 'observed_growth';
-export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation';
+/** `universe` (Ж3) — «дальше во вселенной»: продолжение виденного, отдельно от слотов развития */
+export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation' | 'universe';
 export type StepStatus = 'locked' | 'available' | 'in_progress' | 'completed' | 'skipped';
 export type JourneyStatus = 'planned' | 'in_progress' | 'finished' | 'abandoned';
 export type PerceivedDifficulty = 'too_easy' | 'just_right' | 'too_hard';

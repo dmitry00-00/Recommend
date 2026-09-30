@@ -226,7 +226,7 @@
 .tm-rec__splicetext { margin: 0; max-width: 56ch; }
 .tm-rec__slot { display: flex; align-items: baseline; justify-content: space-between; gap: var(--tm-space-3); margin-bottom: var(--tm-space-3); }
 .tm-rec__slotlabel { text-transform: uppercase; color: var(--tm-color-accent-ink); }
-.tm-rec--stretch .tm-rec__slotlabel, .tm-rec--side_step .tm-rec__slotlabel, .tm-rec--preparation .tm-rec__slotlabel { color: var(--tm-color-ink-faint); }
+.tm-rec--stretch .tm-rec__slotlabel, .tm-rec--side_step .tm-rec__slotlabel, .tm-rec--preparation .tm-rec__slotlabel, .tm-rec--universe .tm-rec__slotlabel { color: var(--tm-color-ink-faint); }
 .tm-rec__main { display: flex; gap: var(--tm-space-4); align-items: flex-start; }
 .tm-rec__body { min-width: 0; flex: 1; }
 .tm-rec__title { margin: 0; }

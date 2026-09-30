@@ -81,6 +81,10 @@ export const ru = {
   "preparation": {
     "label": "Подготовка",
     "note": "ведёт к вершине"
+  },
+  "universe": {
+    "label": "Дальше во вселенной",
+    "note": "продолжение того, что вы уже видели"
   }
 },
   stretch: {
@@ -626,6 +630,8 @@ export const ru = {
   today: {
   "loading": "Загружаем сегодняшние кадры",
   "fromShelf": (shelf: string) => `С полки «${shelf}», которую вы выбрали. `,
+  "universeSequel": (seen: string) => `Продолжение «${seen}», который вы видели.`,
+  "universeMore": (universe: string, seen: string) => `Из той же вселенной, что «${seen}»${universe && universe !== seen ? ` («${universe}»)` : ''}.`,
   "pagerLabel": "Кадры по одному",
   "prev": "‹ Назад",
   "next": "Дальше ›",
@@ -687,6 +693,8 @@ export const ru = {
   "chain": (n: number, first: string) => `Цепочка ${n}: от «${first}»`,
   "places": "Где об этом говорят",
   "notOurs": "у нас нет",
+  "sources": "Энциклопедии и данные",
+  "apis": (list: string) => `Открытые данные: ${list}.`,
   "link": (title: string, n: number) => `Вселенная «${title}»: ${n} произведений`,
   "unknown": "Такой вселенной нет",
   "unknownText": "Связей у этого произведения у нас не нашлось — возможно, ссылка устарела."

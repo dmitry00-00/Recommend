@@ -9,7 +9,7 @@ import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
-import { difficultyOdds, expectedDifficulty, recommend, type Candidate } from '@/lib/model/recommend';
+import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
 import { knownVoice, voiceOf } from '@/lib/voices';
 import { apiBase, fetchLoopReport, loadState, store, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
@@ -249,6 +249,8 @@ export interface UniversePage {
   startWith?: { member: UniverseMember; why: 'first' | 'near' };
   /** места разговора: кураторские по её произведениям и поиск по каналам авторов по названию вселенной */
   discussions: DiscussionPlace[];
+  /** заложенная вселенная (Ж3): вики фандома и открытые API, ответившие при сборке */
+  sources?: { wiki: string[]; api: { url: string; what: string; key?: boolean }[] };
 }
 
 export async function getUniverse(id: string): Promise<UniversePage | undefined> {
@@ -312,7 +314,10 @@ export async function getUniverse(id: string): Promise<UniversePage | undefined>
   const seenUrl = new Set<string>();
   const discussions = [...curated, ...searchLinks(probe), ...searchLinks(probe, 'place')]
     .filter((d) => (seenUrl.has(d.url) ? false : (seenUrl.add(d.url), true))).slice(0, 12);
-  return { id, title: hub.t, kind: hub.k, byKind, chains, ...(startWith ? { startWith } : {}), discussions };
+  const { universeSources } = await import('@/mocks/universeSources');
+  const src = universeSources[id];
+  return { id, title: hub.t, kind: hub.k, byKind, chains, ...(startWith ? { startWith } : {}), discussions,
+    ...(src && (src.wiki.length || src.api.length) ? { sources: { wiki: src.wiki, api: src.api } } : {}) };
 }
 
 let filmForm: Record<string, FilmForm> = {};
@@ -323,17 +328,24 @@ let relationNodes: Record<string, { t: string; y?: number; k: RelationNodeKind; 
 let relationEdges: [string, RelationKind, string][] = [];
 /** ключ произведения → элемент Wikidata, по узлам связей */
 let relationQid = new Map<string, string>();
+let relationsLoad: Promise<void> | undefined;
+/** Связи и вселенные (Ж1–Ж3) — странице произведения, вселенной и ленте (слот «дальше во вселенной»). */
+function relationRefs(): Promise<void> {
+  relationsLoad ??= import('@/mocks/workRelations').then((wr) => {
+    relationNodes = wr.relationNodes; relationEdges = wr.relationEdges;
+    relationQid = new Map(Object.entries(relationNodes).flatMap(([q, n]) => (n.key ? [[n.key, q] as [string, string]] : [])));
+    universes = undefined;
+  });
+  return relationsLoad;
+}
 let workRefsLoad: Promise<void> | undefined;
 /** Замеры и соседи по фильму — только экран «Произведение». */
 function workRefs(): Promise<void> {
   workRefsLoad ??= Promise.all([
     import('@/mocks/filmForm'), import('@/mocks/tagNeighbours'), import('@/mocks/filmTropes'), import('@/mocks/comentions'),
-    serverRef<Record<string, CoMention[]>>('comentions'), import('@/mocks/workRelations'),
-  ]).then(([ff, tn, ft, cm, freshCo, wr]) => {
+    serverRef<Record<string, CoMention[]>>('comentions'), relationRefs(),
+  ]).then(([ff, tn, ft, cm, freshCo]) => {
     filmForm = ff.filmForm; tagNeighbours = tn.tagNeighbours; filmTropes = ft.filmTropes; comentions = freshCo ?? cm.comentions;
-    relationNodes = wr.relationNodes; relationEdges = wr.relationEdges;
-    relationQid = new Map(Object.entries(relationNodes).flatMap(([q, n]) => (n.key ? [[n.key, q] as [string, string]] : [])));
-    universes = undefined;
   });
   return workRefsLoad;
 }
@@ -743,6 +755,9 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
   // фокус на полке: одно место в ленте — лучшее с выбранных полок, если такого там ещё нет
   const focus = state ? await focusPick(state, energy, items, keys) : undefined;
   if (focus) items.splice(Math.min(items.length, 5), 1, focus);
+  // «дальше во вселенной» (Ж3) — отдельным местом, сверх слотов развития: одно не подменяет другое
+  const next = state ? await universePick(state, energy, items, keys) : undefined;
+  if (next) items.splice(Math.min(items.length, 2), 0, next);
   const works = await pictured(items.map((r) => r.work));
   for (const r of items) slateWorks.set(r.id, r.work.id);
   // показы — знаменатель «принятия слейта» (трек Б2); не ответил сервер — лента важнее
@@ -758,6 +773,41 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
       discussions: placesFor(works[i]),
     })),
   };
+}
+
+/** «Дальше во вселенной» (Ж3): продолжение того, что человек видел и досмотрел. Сначала — прямое
+ *  продолжение (сиквел) последнего досмотренного из вселенной; нет — лучшее по модели непросмотренное
+ *  той же вселенной (другая экранизация того же романа, часть франшизы). Модель здесь не решает,
+ *  брать ли, — только отсекает совсем не по силам (оценка ниже 0,3) и не размеченное: иначе слот
+ *  развития и слот вселенной стали бы одним и тем же. */
+async function universePick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Promise<Recommendation | undefined> {
+  await relationRefs();
+  if (!relationEdges.length) return undefined;
+  const { hubOf } = universeIndex();
+  const byKey = worksByAnalysisKey();
+  const taken = new Set(items.flatMap((r) => [r.work.id, ...keyList(r.work)]));
+  const qOf = (w: WorkCard) => { const k = workKey(w, w.externalIds ?? externalIds[w.id]); return (k && relationQid.get(k)) || w.externalIds?.wikidata; };
+  const cardOf = (q: string) => { const k = relationNodes[q]?.key; const w = k ? byKey.get(k) : undefined; return w && (isSeries(w) ? withSeriesDraft(w) : annotated(w)); };
+  const open = (w: WorkCard | undefined): w is WorkCard => Boolean(w && w.complexityLevel && w.primaryOperations.length
+    && !seen(w, keys) && !keys.has(w.id) && !taken.has(w.id) && !keyList(w).some((k) => taken.has(k)) && (isScreen(w))
+    && scoreCandidate(state, w, energy) >= 0.3);
+  // от свежего к старому: досмотренное из дневника, потом просмотренное списком
+  const done = [...history().filter((e) => e.status === 'finished').sort((a, b) => (b.finishedAt ?? '').localeCompare(a.finishedAt ?? '')).map((e) => e.work), ...watchedNow()];
+  for (const w of done) {
+    const q = qOf(w);
+    const hub = q && hubOf.get(q);
+    if (!q || !hub) continue;
+    const sequel = relationEdges.filter(([, kind, b]) => kind === 'sequel_of' && b === q).map(([a]) => cardOf(a)).find(open);
+    const pick = sequel ?? [...(universeIndex().members.get(hub) ?? [])].map(cardOf).filter(open)
+      .sort((a, b) => scoreCandidate(state, b, energy) - scoreCandidate(state, a, energy))[0];
+    if (!pick) continue;
+    const [rec] = recommend(state, [{ work: pick, what: draftFor(pick)?.what ?? workDetail(pick.id)?.synopsis ?? '' }], energy, 1, today(), { maxSeries: 1 });
+    if (!rec) continue;
+    const universe = relationNodes[hub]?.t ?? '';
+    return { ...rec, id: `rec-universe-${pick.id}`, slot: 'universe',
+      explanation: { ...rec.explanation, why: `${sequel ? ru.today.universeSequel(w.title) : ru.today.universeMore(universe, w.title)} ${rec.explanation.why}` } };
+  }
+  return undefined;
 }
 
 /** Лучшее с полок, выбранных участником, — если в ленте с них ещё ничего нет. Порог модели

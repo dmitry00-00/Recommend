@@ -4,6 +4,7 @@ import { getUniverse, type UniverseMember, type UniversePage } from '@/api';
 import { DiscussionLink, EmptyState, ErrorState, Skeleton } from '@/components';
 import { opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
+import { onExternalClick } from '@/lib/telegram';
 import ru from '@/i18n/ru';
 
 /** Страница вселенной (/universe/:id, трек Ж2): франшиза, цикл или цепочка связанных произведений.
@@ -91,11 +92,32 @@ export function UniverseScreen() {
               {data.discussions.map((d) => <DiscussionLink key={d.id} discussion={d} />)}
             </section>
           ) : null}
+          {data.sources ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ru.universe.sources}</h2>
+              <p className="tm-voice__outlets tm-work__people">
+                {data.sources.wiki.map((w) => (
+                  <a key={w} className="tm-voice__chip" href={w} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(w)}>{wikiName(w)}</a>
+                ))}
+              </p>
+              {data.sources.api.length ? (
+                <p className="tm-caption tm-work__note">{ru.universe.apis(data.sources.api.map((a) => `${new URL(a.url).host} — ${a.what}`).join('; '))}</p>
+              ) : null}
+            </section>
+          ) : null}
           <p className="tm-caption tm-work__note">{ru.relations.note}</p>
         </>
       ) : null}
     </main>
   );
+}
+
+/** «starwars.fandom.com/ru» → «starwars · вики (ru)»: адрес короче и понятнее ссылки целиком. */
+function wikiName(url: string): string {
+  const u = new URL(url);
+  const name = u.host.replace(/\.fandom\.com$/, '').replace(/^www\./, '');
+  const lang = u.pathname.replace(/^\/|\/$/g, '');
+  return `${name}${lang && lang.length <= 3 ? ` (${lang})` : ''}`;
 }
 
 function Member({ m, onOpen, note }: { m: UniverseMember; onOpen?: () => void; note?: string }) {

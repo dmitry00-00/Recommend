@@ -7,6 +7,8 @@
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$(dirname "$0")/.." || exit 1
 set -e
+# сначала заложенные вселенные (Ж3): франшиза целиком, вики и API — потом связи
+npx --yes tsx tools/seed-universes.mts || echo "!! заложенные вселенные не собрались — связи без них"
 npx --yes tsx tools/resolve-relations.mts "$@"
 echo
 echo "Готово. Проверить: git diff --stat src/mocks/workRelations.ts"
