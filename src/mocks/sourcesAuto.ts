@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-09-28): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-09-30): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -10,7 +10,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Цветок для подопытного Кролика",
     "handle": "transgressivesamourai",
     "url": "https://t.me/transgressivesamourai",
-    "mentions": 84,
+    "mentions": 88,
     "reposts": 27,
     "by": [
       "Tanya in Horrorland",
@@ -21,15 +21,15 @@ export const sourceCandidates: SourceCandidate[] = [
       "Тревожные кассеты",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-25",
-    "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
+    "lastAt": "2026-09-29",
+    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
     "id": "srcc-kinopoisk_soon",
     "title": "Кинопоиск | Новости",
     "handle": "kinopoisk_soon",
     "url": "https://t.me/kinopoisk_soon",
-    "mentions": 834,
+    "mentions": 836,
     "reposts": 338,
     "by": [
       "Cinemaholics",
@@ -39,8 +39,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Ремизорро",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-27",
-    "sample": "Хоррор «Алтарь», американский дебют режиссера «Спутника» Егора Абраменко, наконец-то под…"
+    "lastAt": "2026-09-29",
+    "sample": "Похоже, «Диггер» с Томом Крузом будет большим провалом 😢"
   },
   {
     "id": "srcc-exponentafilm",
@@ -84,7 +84,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "бурый дженкин",
     "handle": "b_jenkin",
     "url": "https://t.me/b_jenkin",
-    "mentions": 85,
+    "mentions": 88,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -97,8 +97,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-09-21",
-    "sample": "8 фильмов Ромеро — от зомби-классики до ведьминского феминизма"
+    "lastAt": "2026-09-29",
+    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
     "id": "srcc-cinemasha",
@@ -173,7 +173,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Horror TOSH",
     "handle": "horrortosh",
     "url": "https://t.me/horrortosh",
-    "mentions": 92,
+    "mentions": 95,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -184,8 +184,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Сеанс в 23:30 📽",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-21",
-    "sample": "8 фильмов Ромеро — от зомби-классики до ведьминского феминизма"
+    "lastAt": "2026-09-29",
+    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
     "id": "srcc-plus_yndx",
@@ -214,6 +214,45 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-09-25",
     "sample": "Объявляем Московскую книжную неделю: самый масштабный фестиваль книжной культуры пройдет…"
+  },
+  {
+    "id": "srcc-satanlairtatt",
+    "title": "Satan Talk",
+    "handle": "satanlairtatt",
+    "url": "https://t.me/satanlairtatt",
+    "mentions": 33,
+    "reposts": 5,
+    "by": [
+      "Abramacabre!",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Невнимательный зритель",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов",
+      "обзора не будет"
+    ],
+    "lastAt": "2026-09-28",
+    "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
+  },
+  {
+    "id": "srcc-alyashorror",
+    "title": "AHK",
+    "handle": "alyashorror",
+    "url": "https://t.me/alyashorror",
+    "mentions": 88,
+    "reposts": 7,
+    "by": [
+      "Tanya in Horrorland",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Невнимательный зритель",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов"
+    ],
+    "lastAt": "2026-09-29",
+    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
     "id": "srcc-maysaltburn",
@@ -273,22 +312,24 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Гению немецкого кино Райнеру Вернеру Фассбиндеру не требовалось многого, дабы создать ше…"
   },
   {
-    "id": "srcc-satanlairtatt",
-    "title": "Satan Talk",
-    "handle": "satanlairtatt",
-    "url": "https://t.me/satanlairtatt",
-    "mentions": 32,
-    "reposts": 5,
+    "id": "srcc-krysota",
+    "title": "крысота по-американски",
+    "handle": "krysota",
+    "url": "https://t.me/krysota",
+    "mentions": 22,
+    "reposts": 1,
     "by": [
       "Abramacabre!",
+      "Tanya in Horrorland",
+      "Дзига-аппаратчик",
       "Жизнь страшнее. Фильмы ужасов",
       "На майские едем в Хоргу",
       "Невнимательный зритель",
       "Сеанс в 23:30 📽",
       "Тревожные кассеты",
-      "обзора не будет"
+      "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-25",
+    "lastAt": "2026-09-28",
     "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
   },
   {
@@ -309,35 +350,16 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "На исходе лета #Культовый_киноклуб посмотрел романтическую комедию Уильяма Уайлера Римск…"
   },
   {
-    "id": "srcc-alyashorror",
-    "title": "AHK",
-    "handle": "alyashorror",
-    "url": "https://t.me/alyashorror",
-    "mentions": 84,
-    "reposts": 4,
-    "by": [
-      "Tanya in Horrorland",
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Невнимательный зритель",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "Уютный уголок любителя ужасов"
-    ],
-    "lastAt": "2026-09-25",
-    "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
-  },
-  {
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
-    "reposts": 101,
+    "reposts": 108,
     "by": [
       "Cut The Chat",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-27",
-    "sample": "Рейчел Вайс на съёмках новой части «Мумии»"
+    "lastAt": "2026-09-29",
+    "sample": "«Футурама» закрыта после 14 сезона, но впереди три спецвыпуска."
   },
   {
     "id": "srcc-kinotv",
@@ -374,26 +396,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-19",
     "sample": "Начнем обратный отсчет до Хэллоуина важнейшим жанровым анонсом: в октябре в прокат выход…"
-  },
-  {
-    "id": "srcc-krysota",
-    "title": "крысота по-американски",
-    "handle": "krysota",
-    "url": "https://t.me/krysota",
-    "mentions": 21,
-    "reposts": 1,
-    "by": [
-      "Abramacabre!",
-      "Tanya in Horrorland",
-      "Дзига-аппаратчик",
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Невнимательный зритель",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты"
-    ],
-    "lastAt": "2026-09-25",
-    "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
   },
   {
     "id": "srcc-trkvsk_vrt",
@@ -469,6 +471,25 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "О, а попробуем-ка новый формат! @aonefilms и @oembox в \"Сентиментальной ценности\" есть с…"
   },
   {
+    "id": "srcc-oembox",
+    "title": "Егор Москвитин",
+    "handle": "oembox",
+    "url": "https://t.me/oembox",
+    "mentions": 31,
+    "reposts": 0,
+    "by": [
+      "Cinemaholics",
+      "Невнимательный зритель",
+      "Ремизорро",
+      "Тревожные кассеты",
+      "ШишКИНО",
+      "Што это было",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-09-28",
+    "sample": "Постер драмы «Любовь моя» номинанта на «Оскар» Родриго Сорогойена с Хавьером Бардемом в…"
+  },
+  {
     "id": "srcc-house_of_light",
     "title": "Свет далекого маяка",
     "handle": "house_of_light",
@@ -513,12 +534,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 33,
+    "reposts": 34,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-09-26",
-    "sample": "Жена хочет прогнать подозрительного гостя 🔥"
+    "lastAt": "2026-09-28",
+    "sample": "Требует сатисфакции прямо сейчас 👊"
   },
   {
     "id": "srcc-nemakarov",
@@ -625,24 +646,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-09-13",
     "sample": "Оглядываясь на первый сезон рубрики #админскийкиноклуб, мне показалось, что прошел он сл…"
-  },
-  {
-    "id": "srcc-oembox",
-    "title": "Егор Москвитин",
-    "handle": "oembox",
-    "url": "https://t.me/oembox",
-    "mentions": 30,
-    "reposts": 0,
-    "by": [
-      "Cinemaholics",
-      "Невнимательный зритель",
-      "Тревожные кассеты",
-      "ШишКИНО",
-      "Што это было",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-09-21",
-    "sample": "Я в Питере одним днём и, к сожалению, пропускаю очередной \"КИНОФАН Level One\", который Е…"
   },
   {
     "id": "srcc-kinokatetg",
@@ -828,6 +831,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "На исходе лета #Культовый_киноклуб посмотрел романтическую комедию Уильяма Уайлера Римск…"
   },
   {
+    "id": "srcc-это всего лишь a-one",
+    "title": "Это всего лишь A-ONE",
+    "mentions": 0,
+    "reposts": 9,
+    "by": [
+      "Abramacabre!",
+      "Cinemaholics",
+      "Дзига-аппаратчик",
+      "Кинотеатр «Художественный»",
+      "Ремизорро"
+    ],
+    "lastAt": "2026-09-28",
+    "sample": "Постер драмы «Любовь моя» номинанта на «Оскар» Родриго Сорогойена с Хавьером Бардемом в…"
+  },
+  {
     "id": "srcc-kinowelt",
     "title": "Список Шиллера",
     "handle": "kinowelt",
@@ -977,6 +995,42 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Сценарий Марти Суприма или мастер класс \"как заставить сопереживать засранцу\"?"
   },
   {
+    "id": "srcc-inoekino",
+    "title": "Иноекино",
+    "handle": "inoekino",
+    "url": "https://t.me/inoekino",
+    "mentions": 8,
+    "reposts": 1,
+    "by": [
+      "Cinemaholics",
+      "Дзига-аппаратчик",
+      "Кинопоиск | Фильмы и сериалы",
+      "Кинотеатр «Художественный»",
+      "ШишКИНО",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-09-29",
+    "sample": "«Донни Дарко»: 9 фактов о фильме"
+  },
+  {
+    "id": "srcc-stupidthough",
+    "title": "Кино (не) для всех",
+    "handle": "stupidthough",
+    "url": "https://t.me/stupidthough",
+    "mentions": 8,
+    "reposts": 1,
+    "by": [
+      "Abramacabre!",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов"
+    ],
+    "lastAt": "2026-09-28",
+    "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
+  },
+  {
     "id": "srcc-beekindrewind",
     "title": "be kind rewind",
     "handle": "beekindrewind",
@@ -1072,24 +1126,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-02-17",
     "sample": "Про трех белых коней наврали, слышали? Скачет ведь никто иная, как красная лошадь, а по…"
-  },
-  {
-    "id": "srcc-inoekino",
-    "title": "@inoekino",
-    "handle": "inoekino",
-    "url": "https://t.me/inoekino",
-    "mentions": 8,
-    "reposts": 0,
-    "by": [
-      "Cinemaholics",
-      "Дзига-аппаратчик",
-      "Кинопоиск | Фильмы и сериалы",
-      "Кинотеатр «Художественный»",
-      "ШишКИНО",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-09-26",
-    "sample": "Иноекино"
   },
   {
     "id": "srcc-запасаемся попкорном",
@@ -1242,20 +1278,6 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "к 8 марта мы сделали зин о женщинах в кино!"
   },
   {
-    "id": "srcc-это всего лишь a-one",
-    "title": "Это всего лишь A-ONE",
-    "mentions": 0,
-    "reposts": 8,
-    "by": [
-      "Abramacabre!",
-      "Cinemaholics",
-      "Дзига-аппаратчик",
-      "Кинотеатр «Художественный»"
-    ],
-    "lastAt": "2026-09-04",
-    "sample": "Спросили зрителей московской премьеры «Тони» в кинотеатре «Художественный» — кто такой Э…"
-  },
-  {
     "id": "srcc-kinoprotebya",
     "title": "кино про тебя",
     "handle": "kinoprotebya",
@@ -1320,16 +1342,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-30",
     "sample": "сегодня у меня рождения ⛩️"
-  },
-  {
-    "id": "srcc-ефим гугнит",
-    "title": "Ефим Гугнит",
-    "mentions": 0,
-    "reposts": 17,
-    "by": [
-      "Cinemaholics"
-    ],
-    "lastAt": "2025-11-12",
-    "sample": "GOOD LUCK, HAVE FUN, DON'T DIE | Teaser Trailer | February 13 - Only in Theaters"
   }
 ];
