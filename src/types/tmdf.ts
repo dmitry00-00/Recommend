@@ -441,11 +441,21 @@ export interface DifficultyPrediction {
   at: ISODate;
 }
 
+/** Где человек в сериале (Е3): сезон и серия сейчас — у брошенного и законченного на чём
+ *  остановился — и досмотренные сезоны с тем, как каждый прошёл. Чек-ин у сериала — после сезона. */
+export interface SeriesProgress {
+  season: number;
+  episode?: number;
+  done?: { season: number; perceived?: PerceivedDifficulty; at?: ISODate }[];
+}
+
 export interface JourneyEntryData {
   id: ID;
   work: WorkCard;
   status: JourneyStatus;
   progress?: number;
+  /** сериал (Е3) */
+  seriesProgress?: SeriesProgress;
   startedAt?: ISODate;
   finishedAt?: ISODate;
   perceivedDifficulty?: PerceivedDifficulty;
@@ -464,6 +474,10 @@ export interface JourneyEntryData {
 
 export interface CheckInRequest {
   status: 'finished' | 'abandoned';
+  /** сериал (Е3): о каком сезоне чек-ин. `finished` с сезоном — досмотрен сезон; сериал
+   *  заканчивается, только если сезон последний (или `last`). `abandoned` — бросил на этом сезоне */
+  season?: number;
+  last?: boolean;
   perceivedDifficulty?: PerceivedDifficulty;
   abandonReason?: AbandonReason;
   reflections?: { promptId: ID; answer: string }[];

@@ -224,7 +224,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
   await applyUserSeed(db, env, user.id).catch((err) => console.error('seed', user.id, err));
   const [watched, journal, predictions, verdicts, ratings, profile] = await Promise.all([
     db.prepare('SELECT work_id, state, work FROM watched WHERE user_id = ? ORDER BY at DESC').bind(user.id).all<{ work_id: string; state: string; work: string | null }>(),
-    db.prepare('SELECT entry_id, work_id, work, status, progress, started_at, finished_at, eagerness, inferred FROM journal WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
+    db.prepare('SELECT entry_id, work_id, work, status, progress, started_at, finished_at, eagerness, inferred, series FROM journal WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT entry_id, work_id, expected, model, model_p, at FROM prediction WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT url, verdict FROM link_verdict WHERE user_id = ?').bind(user.id).all<{ url: string; verdict: string }>(),
     db.prepare('SELECT work_id, rating, raw, work, at FROM rating WHERE user_id = ? ORDER BY at').bind(user.id).all<{ work_id: string; rating: number; raw: number | null; work: string | null; at: string }>(),
@@ -234,7 +234,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
   return json({
     settings: parse(user.settings) ?? {},
     watched: watched.results.map((r) => ({ workId: r.work_id, watched: r.state === 'watched', work: parse(r.work) })),
-    journal: journal.results.map((r) => ({ ...r, work: parse(r.work) })),
+    journal: journal.results.map((r) => ({ ...r, work: parse(r.work), series: parse(r.series) })),
     predictions: predictions.results,
     verdicts: verdicts.results,
     ratings: ratings.results.map((r) => ({ workId: r.work_id, rating: r.rating, ...(r.raw != null ? { raw: r.raw } : {}), work: parse(r.work), at: r.at })),
@@ -331,14 +331,46 @@ async function deletePlan(user: User, db: D1Database, entryId: string): Promise<
 async function postCheckIn(req: Request, user: User, db: D1Database, entryId: string): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as {
     workId?: string; status?: string; perceived?: string; reason?: string; progress?: number; payload?: unknown;
+    /** сериал (Е3): где человек после чек-ина; `season_finished` — досмотрен сезон, а не сериал */
+    series?: unknown;
   };
   const status = body.status ?? 'finished';
+  // сезон досмотрен, сериал продолжается: чек-ин пишем, а запись дневника остаётся «смотрю»
+  const journalStatus = status === 'season_finished' ? 'in_progress' : status;
+  const series = seriesJson(body.series);
   await db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
     .bind(newId('c'), user.id, entryId, body.workId ?? '', status, body.perceived ?? null, body.reason ?? null,
       body.payload ? JSON.stringify(body.payload) : null, now()).run();
   await db.prepare(
-    `UPDATE journal SET status = ?, progress = COALESCE(?, progress), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
-  ).bind(status, body.progress ?? null, status === 'in_progress' ? null : now(), user.id, entryId).run();
+    `UPDATE journal SET status = ?, progress = COALESCE(?, progress), series = COALESCE(?, series), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
+  ).bind(journalStatus, body.progress ?? null, series, journalStatus === 'in_progress' ? null : now(), user.id, entryId).run();
+  return json({ ok: true });
+}
+
+/** Сериал: сезон, серия, досмотренные сезоны — проверяем форму и длину, чужого не храним. */
+function seriesJson(raw: unknown): string | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const r = raw as { season?: unknown; episode?: unknown; done?: unknown };
+  const n = (x: unknown, max: number) => (Number.isInteger(x) && (x as number) >= 1 && (x as number) <= max ? x as number : undefined);
+  const season = n(r.season, 99);
+  if (!season) return null;
+  const episode = n(r.episode, 999);
+  const done = Array.isArray(r.done) ? r.done.slice(0, 99).flatMap((d) => {
+    const x = d as { season?: unknown; perceived?: unknown; at?: unknown };
+    const s = n(x.season, 99);
+    return s ? [{ season: s, ...(typeof x.perceived === 'string' ? { perceived: x.perceived.slice(0, 20) } : {}),
+      ...(typeof x.at === 'string' ? { at: x.at.slice(0, 30) } : {}) }] : [];
+  }) : [];
+  return JSON.stringify({ season, ...(episode ? { episode } : {}), ...(done.length ? { done } : {}) });
+}
+
+/** «Где я сейчас» в сериале: сезон и серия у начатого (Е3). */
+async function postProgress(req: Request, user: User, db: D1Database, entryId: string): Promise<Response> {
+  const body = (await req.json().catch(() => ({}))) as { series?: unknown };
+  const series = seriesJson(body.series);
+  if (!series) return json({ error: 'bad_series' }, 400);
+  await db.prepare("UPDATE journal SET series = ? WHERE user_id = ? AND entry_id = ? AND status = 'in_progress'")
+    .bind(series, user.id, entryId).run();
   return json({ ok: true });
 }
 
@@ -478,6 +510,9 @@ export default {
 
       const watched = /^\/api\/watched\/(.+)$/.exec(path);
       if (watched && req.method === 'PUT') return putWatched(req, user, env.DB, decodeURIComponent(watched[1]));
+
+      const progress = /^\/api\/journal\/([^/]+)\/progress$/.exec(path);
+      if (progress && req.method === 'POST') return postProgress(req, user, env.DB, decodeURIComponent(progress[1]));
 
       const checkin = /^\/api\/journal\/([^/]+)\/checkin$/.exec(path);
       if (checkin && req.method === 'POST') return postCheckIn(req, user, env.DB, decodeURIComponent(checkin[1]));

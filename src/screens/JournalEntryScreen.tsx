@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { JourneyEntryData, ReflectionPromptData } from '@/types/tmdf';
-import { getJourney, getReflectionPrompts } from '@/api';
-import { EmptyState, ErrorState, JourneyEntry, Skeleton, StateChangeNote } from '@/components';
+import { getJourney, getReflectionPrompts, setSeriesProgress } from '@/api';
+import { Button, EmptyState, ErrorState, JourneyEntry, Skeleton, StateChangeNote, useToast } from '@/components';
+import { isSeries } from '@/lib/media';
 import { useMechanics } from '@/lib/settingsStore';
 import ru from '@/i18n/ru';
 
@@ -71,6 +72,9 @@ export function JournalEntryScreen() {
                     onFinish={() => navigate(`/journal/${entry.id}/check-in`)}
                     onAbandon={() => navigate(`/journal/${entry.id}/check-in?abandon=1`)} />
       <div className="tm-journal__sections">
+        {entry.status === 'in_progress' && isSeries(entry.work) ? (
+          <SeriesWhere entry={entry} onSaved={setEntry} />
+        ) : null}
         <section className="tm-journal__section">
           <h2 className="tm-title-3">{ru.journal.reflections}</h2>
           {entry.reflections.length ? (
@@ -95,5 +99,40 @@ export function JournalEntryScreen() {
         ) : null}
       </div>
     </main>
+  );
+}
+
+/** «Где вы сейчас» у сериала (Е3): сезон и серия. Чек-ин — после сезона: кнопка «N сезон
+ *  досмотрен» в записи ведёт в него, а здесь человек просто отмечает, докуда дошёл. */
+function SeriesWhere({ entry, onSaved }: { entry: JourneyEntryData; onSaved: (e: JourneyEntryData) => void }) {
+  const toast = useToast();
+  const [season, setSeason] = useState(entry.seriesProgress?.season ?? 1);
+  const [episode, setEpisode] = useState(entry.seriesProgress?.episode ?? 0);
+  const [busy, setBusy] = useState(false);
+  const maxSeason = entry.work.series?.seasons ?? 99;
+  const changed = season !== (entry.seriesProgress?.season ?? 1) || episode !== (entry.seriesProgress?.episode ?? 0);
+  const save = () => {
+    setBusy(true);
+    setSeriesProgress(entry.id, season, episode || undefined)
+      .then((e) => { if (e) { onSaved(e); toast({ text: ru.seriesDiary.saved }); } })
+      .catch(() => toast({ text: ru.settings.errorSave }))
+      .finally(() => setBusy(false));
+  };
+  const stepper = (label: string, value: number, set: (n: number) => void, min: number, max: number) => (
+    <div className="tm-row tm-row--gap-2 tm-serieswhere__row">
+      <span className="tm-label tm-serieswhere__label">{label}</span>
+      <Button size="sm" variant="quiet" aria-label={`${label}: ${ru.seriesDiary.less}`} disabled={value <= min} onClick={() => set(value - 1)}>−</Button>
+      <span className="tm-title-3 tm-serieswhere__value" aria-live="polite">{value || '—'}</span>
+      <Button size="sm" variant="quiet" aria-label={`${label}: ${ru.seriesDiary.more}`} disabled={value >= max} onClick={() => set(value + 1)}>+</Button>
+    </div>
+  );
+  return (
+    <section className="tm-journal__section tm-serieswhere">
+      <h2 className="tm-title-3">{ru.seriesDiary.whereTitle}</h2>
+      <p className="tm-caption tm-journal__hint">{ru.seriesDiary.whereHint}</p>
+      {stepper(ru.seriesDiary.season, season, (n) => { setSeason(n); setEpisode(0); }, 1, maxSeason)}
+      {stepper(ru.seriesDiary.episode, episode, setEpisode, 0, 999)}
+      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ru.seriesDiary.save}</Button>
+    </section>
   );
 }

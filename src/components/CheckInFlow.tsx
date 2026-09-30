@@ -32,6 +32,8 @@ export interface CheckInFlowProps {
   showModel?: boolean;
   /** вызывается один раз при переходе к разбору со всем, что собрано */
   onSubmit?: (request: CheckInRequest) => void;
+  /** сериал (Е3): чек-ин о сезоне — «досмотрел сезон», «весь сериал» или «бросаю на нём» */
+  season?: number;
 }
 
 const DEBRIEF = 3;
@@ -41,9 +43,10 @@ const ABANDON = 9;
  *  ответы; что они значат для карты — решает сервер и возвращает в разборе. */
 export function CheckInFlow({
   work, prompts = [], debrief, discussions = [], step: initial = 0, changedOperations = [],
-  prediction, showModel, onSubmit,
+  prediction, showModel, onSubmit, season,
 }: CheckInFlowProps) {
   const [step, setStep] = useState(initial);
+  const [last, setLast] = useState(false);
   const [difficulty, setDifficulty] = useState<PerceivedDifficulty | undefined>();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const steps = ru.checkin.steps;
@@ -52,6 +55,7 @@ export function CheckInFlow({
   const submit = (status: CheckInRequest['status'], abandonReason?: AbandonReason) => {
     onSubmit?.({
       status,
+      ...(season ? { season, ...(last ? { last: true } : {}) } : {}),
       perceivedDifficulty: difficulty,
       abandonReason,
       reflections: Object.entries(answers).map(([promptId, answer]) => ({ promptId, answer })),
@@ -60,7 +64,18 @@ export function CheckInFlow({
   };
 
   let body;
-  if (step === 0) {
+  if (step === 0 && season) {
+    body = (
+      <div>
+        <p className="tm-checkin__q">{ru.seriesDiary.q(season)}</p>
+        <div className="tm-row tm-row--gap-2 tm-row--wrap">
+          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ru.seriesDiary.finishedSeason(season)}</Button>
+          <Button onClick={() => { setLast(true); setStep(1); }}>{ru.seriesDiary.finishedAll}</Button>
+          <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
+        </div>
+      </div>
+    );
+  } else if (step === 0) {
     body = (
       <div>
         <p className="tm-checkin__q">{isScreen(work) ? ru.checkin.qFilm : ru.checkin.qBook}</p>

@@ -12,6 +12,8 @@ const COLUMNS: { table: string; column: string; ddl: string }[] = [
   { table: 'journal', column: 'eagerness', ddl: 'ALTER TABLE journal ADD COLUMN eagerness INTEGER' },
   // 24.09: старт по переходу в кинотеатр, а не кнопкой «Начать смотреть»
   { table: 'journal', column: 'inferred', ddl: 'ALTER TABLE journal ADD COLUMN inferred INTEGER' },
+  // 30.09, Е3: сериал — сезон и серия, досмотренные сезоны
+  { table: 'journal', column: 'series', ddl: 'ALTER TABLE journal ADD COLUMN series TEXT' },
 ];
 
 let done: Promise<void> | undefined;

@@ -6,6 +6,7 @@ import {
   Button, CheckInFlow, EmptyState, ErrorState, RecommendationCard, ReplanNote, Skeleton,
 } from '@/components';
 import { useMechanics } from '@/lib/settingsStore';
+import { isSeries } from '@/lib/media';
 import { outcome } from '@/lib/telegram';
 import ru from '@/i18n/ru';
 
@@ -77,15 +78,20 @@ export function CheckInScreen() {
 
   const { entry, prompts, discussions } = data;
   const changed = result?.entry.stateChanges.map((c) => c.op) ?? [];
+  // сериал (Е3): чек-ин — о сезоне, на котором человек сейчас
+  const season = isSeries(entry.work) ? entry.seriesProgress?.season ?? 1 : undefined;
+  // сезон досмотрен, сериал продолжается — запись осталась «смотрю»
+  const seasonDone = season != null && result?.entry.status === 'in_progress' ? result.entry.seriesProgress?.season : undefined;
   return (
     <main className="tm-shell__main">
       <h1 className="tm-shell__title">{entry.work.title}</h1>
       <CheckInFlow work={entry.work} prompts={prompts} discussions={discussions}
                    step={params.get('abandon') ? 9 : 0} debrief={result?.debrief}
                    prediction={result?.entry.prediction ?? entry.prediction} showModel={mechanics}
-                   changedOperations={changed} onSubmit={submit} />
+                   changedOperations={changed} onSubmit={submit} season={season} />
       {result ? (
         <div className="tm-checkinscreen__after">
+          {seasonDone && season ? <p className="tm-body tm-checkinscreen__season">{ru.seriesDiary.seasonDone(season, seasonDone)}</p> : null}
           {result.trajectoryUpdate?.replanned && result.trajectoryUpdate.reason ? (
             <ReplanNote reason={result.trajectoryUpdate.reason} />
           ) : null}

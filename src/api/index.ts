@@ -762,6 +762,7 @@ function hydrate(state: StoredState | undefined): void {
       ...(row.finished_at ? { finishedAt: row.finished_at } : {}),
       ...(row.eagerness ? { eagerness: row.eagerness as Eagerness } : {}),
       ...(row.inferred ? { inferred: true } : {}),
+      ...(row.series?.season ? { seriesProgress: row.series } : {}),
       reflections: [], stateChanges: [],
     });
   }
@@ -965,13 +966,47 @@ export async function getReflectionPrompts(entryId: ID): Promise<ReflectionPromp
   return mocks.reflectionPrompts;
 }
 
+/** Сериал (Е3): где я сейчас — сезон и серия у начатого. */
+export async function setSeriesProgress(entryId: ID, season: number, episode?: number): Promise<JourneyEntryData | undefined> {
+  const entry = [...imported, ...baseJournal()].find((e) => e.id === entryId && e.status === 'in_progress');
+  if (!entry || season < 1) return undefined;
+  const before = entry.seriesProgress;
+  entry.seriesProgress = { season, ...(episode ? { episode } : {}), ...(before?.done ? { done: before.done } : {}) };
+  try {
+    await store.progress(entryId, entry.work.id, entry.seriesProgress);
+  } catch (err) {
+    entry.seriesProgress = before;
+    throw err;
+  }
+  return withPrediction({ ...entry });
+}
+
+/** Последний ли сезон: сезонов столько, и сериал больше не выходит. */
+const lastSeason = (work: WorkCard, season: number): boolean =>
+  Boolean(work.series?.seasons && season >= work.series.seasons && work.series.status !== 'running');
+
 export async function checkIn(entryId: ID, request: CheckInRequest): Promise<CheckInResult> {
   await delay(320);
   // Настоящая запись дневника, а не мок сценария: раньше чек-ин уходил на сервер с чужим
   // workId, и петля считала бы не тот фильм (найдено 24.09)
   const entry = [...imported, ...baseJournal()].find((e) => e.id === entryId);
   const result = buildCheckInResult(entryId, request);
-  if (entry) {
+  // сериал (Е3): чек-ин после сезона; сериал заканчивается, только если сезон последний
+  const season = entry && isSeries(entry.work) ? request.season : undefined;
+  const seasonOnly = season != null && request.status === 'finished' && !request.last && !lastSeason(entry!.work, season);
+  if (entry && season != null) {
+    const done = [...(entry.seriesProgress?.done ?? []).filter((d) => d.season !== season)];
+    if (request.status === 'finished') {
+      done.push({ season, ...(request.perceivedDifficulty ? { perceived: request.perceivedDifficulty } : {}), at: new Date().toISOString().slice(0, 10) });
+    }
+    done.sort((a, b) => a.season - b.season);
+    // брошенному оставляем серию, на которой остановились; досмотренный сезон её обнуляет
+    const episode = request.status === 'abandoned' ? entry.seriesProgress?.episode : undefined;
+    entry.seriesProgress = { season: seasonOnly ? season + 1 : season, ...(episode ? { episode } : {}), ...(done.length ? { done } : {}) };
+  }
+  if (entry && seasonOnly) {
+    result.entry = withPrediction({ ...entry });
+  } else if (entry) {
     entry.status = request.status;
     entry.finishedAt = new Date().toISOString();
     if (request.perceivedDifficulty) entry.perceivedDifficulty = request.perceivedDifficulty;
@@ -986,7 +1021,9 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     }
   }
   await store.checkIn(entryId, entry?.work.id ?? result.entry.work.id, {
-    status: request.status,
+    // досмотрен сезон, а не сериал: запись остаётся «смотрю», в петле это не «досмотрел»
+    status: seasonOnly ? 'season_finished' : request.status,
+    ...(entry?.seriesProgress ? { series: entry.seriesProgress } : {}),
     perceived: request.perceivedDifficulty,
     reason: request.abandonReason,
     payload: request,
