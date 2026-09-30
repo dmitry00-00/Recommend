@@ -113,6 +113,8 @@ let seriesAnnotations: Record<string, SeriesDraft> = {};
 let bookBridge: BookWorks = {};
 /** метаданные книг (З3, tools/build-book-media.mts): ключ произведения → поля карточки */
 let bookMedia: Record<string, Partial<WorkCard>> = {};
+/** ручная разметка книг (З4, калибровка владельца): ключ произведения или `t:<название>` */
+let bookAnnotations: Record<string, FirstPassAnnotation> = {};
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
@@ -122,9 +124,9 @@ function catalog(): Promise<void> {
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd]) => {
-    bookMedia = bmd.bookMedia;
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'), import('@/mocks/bookAnnotations'),
+  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba]) => {
+    bookMedia = bmd.bookMedia; bookAnnotations = ba.bookAnnotations;
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
     for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
@@ -473,7 +475,16 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
   if (userWorks.length) ownByTmdb = map; // до загрузки справочника не запоминаем пустое
   return map;
 };
+/** Разметка книги (З4): ручная калибровка владельца — по ключу произведения, а если книги в
+ *  справочнике не было — по названию. Черновиков книг пока нет: они — после калибровки. */
+const bookDraftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
+  const byKey = workKeys(w, w.externalIds ?? externalIds[w.id]).map((k) => bookAnnotations[k]).find(Boolean);
+  if (byKey) return byKey;
+  const t = (s?: string) => s?.toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  return [w.title, w.originalTitle].map((x) => x && bookAnnotations[`t:${t(x)}`]).find(Boolean) || undefined;
+};
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
+  if (w.type === 'book') return bookDraftFor(w);
   // сериал (Е4): черновик сериала — и для модели: оценённый и досмотренный сериал теперь
   // свидетельство вкуса, как фильм
   if (isSeries(w)) return seriesDraftFor(w);
@@ -499,9 +510,11 @@ const withSeriesDraft = (w: WorkCard): WorkCard => {
 const annotated = (w: WorkCard): WorkCard => {
   const a = (reviewMarks()[`own:${w.id}`]?.status === 'rejected' ? undefined : userAnnotations[w.id]) ?? draftFor(w);
   const r = withRegisters(w);
+  // у книги объём — свой барьер (З4): больше 500 страниц — «Большой объём», если разметчик его не поставил
+  const big = w.type === 'book' && (w.pages ?? 0) > 500 && a && !a.barriers.includes('Большой объём') ? ['Большой объём'] : [];
   return a && !w.primaryOperations.length
     ? { ...r, primaryOperations: a.ops.map(([op, intensity]) => ({ op, intensity })), complexityLevel: a.level,
-        barriers: a.barriers, warnings: a.warnings, isNicheMasterpiece: a.niche }
+        barriers: [...big, ...a.barriers], warnings: a.warnings, isNicheMasterpiece: a.niche }
     : r;
 };
 const entryKey = (e: JourneyEntryData): string => {
