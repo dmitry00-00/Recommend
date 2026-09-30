@@ -3713,6 +3713,35 @@ export const filmBaseCurated: WorkCard[] = [
     "countries": [
       "Russia"
     ]
+  },
+  {
+    "id": "f-tmdb22358",
+    "type": "film",
+    "title": "Остров",
+    "year": 2006,
+    "creators": [
+      "Павел Лунгин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 110,
+    "externalIds": {
+      "tmdb": 22358,
+      "imdb": "tt0851577"
+    },
+    "registers": [
+      "absurd_satire"
+    ],
+    "coverUrl": "https://image.tmdb.org/t/p/w342/dqVWksB2VpPl4Koa2B5UcET5dtY.jpg",
+    "stillUrl": "https://image.tmdb.org/t/p/w780/lG7r39HFZrc9B7agZcWZNmInz3U.jpg",
+    "imageSource": "tmdb",
+    "blurb": "Вторая мировая война. Баржу, на которой Анатолий и его старший товарищ Тихон перевозят уголь, захватывает немецкий сторожевой корабль. Вымаливая пощаду у немцев, Анатолий совершает предательство — расстреливает Тихона. Немцы оставляют труса на заминированной барже, но благодаря помощи монахов, проживающих в монастыре на острове, ему удаётся выжить.",
+    "countries": [
+      "Russia"
+    ]
   }
 ];
 
@@ -3777,7 +3806,7 @@ export const canonKeys: string[] = [
   "tmdb:20994",
   "tmdb:14097",
   "tmdb:53129",
-  "tmdb:1635",
+  "tmdb:22358",
   "tmdb:64736",
   "tmdb:62678",
   "tmdb:27046",
