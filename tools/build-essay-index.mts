@@ -8,9 +8,10 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { essays } from '../src/mocks/essays.ts';
 import { sources } from '../src/mocks/sources.ts';
-import { ADAPTATION, isDigest, nameMatch } from './title-match.mts';
+import { ADAPTATION, isDigest } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
-import { evidenceFor, pickNamesake, tooEarly } from './evidence.mts';
+import { evidenceFor, tooEarly } from './evidence.mts';
+import { bestByTitle } from './match-videos.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
 const key = process.env.YT_API_KEY;
@@ -116,32 +117,12 @@ const ordinary = existsSync(ordFile)
 
 const out: Record<string, ExternalAnalysis[]> = {};
 const rows: string[] = [];
-// каждый ролик привязывается к одному произведению — тому, чьё название совпало длиннее;
-// одинаково длинное у нескольких — тёзки, и выбирает pickNamesake (tools/evidence.mts), а не
-// порядок справочников: иначе «Пацаны» 1983-го забирали всё о сериале The Boys (30.09)
-type Cand = { key: string; work: typeof ours[number]['work'] };
-const tied = new Map<string, { len: number; cands: Cand[] }>();
-for (const { key, work, names } of ours) {
-  for (const v of videos) {
-    const len = Math.max(...names.map((n) => nameMatch(v.title, n, { loose: process.env.TITLE_LOOSE === '1', ordinary })));
-    if (!len) continue;
-    const prev = tied.get(v.id);
-    if (!prev || len > prev.len) tied.set(v.id, { len, cands: [{ key, work }] });
-    else if (len === prev.len) prev.cands.push({ key, work });
-  }
-}
-const videoById = new Map(videos.map((v) => [v.id, v]));
-const best = new Map<string, { key: string; work: typeof ours[number]['work']; len: number }>();
-let namesakes = 0;
+// каждый ролик привязывается к одному произведению — тому, чьё название совпало длиннее; из тёзок
+// выбирает pickNamesake. Правила общие с таблицей разметки — tools/match-videos.mts (HYG-3, 30.09):
+// там же отбор кандидатов по началу слова, в двадцать раз быстрее перебора, результат тот же
+// (проверено на 2,5 тыс. роликов дампа — ни одного расхождения)
+const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1' });
 let early = 0;
-for (const [id, { len, cands }] of tied) {
-  const v = videoById.get(id)!;
-  const pick = pickNamesake(cands, `${v.title}\n${v.description ?? ''}`, v.publishedAt);
-  if (!pick) { early += 1; continue; }
-  if (pick !== cands[0]) namesakes += 1;
-  best.set(id, { ...pick, len });
-}
-console.error(`тёзки: выбран не первый по справочнику — ${namesakes}`);
 // поверх догадок — решения людей
 let confirmed = 0;
 let dropped = 0;
