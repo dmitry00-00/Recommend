@@ -12,6 +12,7 @@ import { VoiceScreen } from '@/screens/VoiceScreen';
 const LoopScreen = lazy(() => import('@/screens/LoopScreen').then((m) => ({ default: m.LoopScreen })));
 const MapScreen = lazy(() => import('@/screens/MapScreen').then((m) => ({ default: m.MapScreen })));
 const TrajectoriesScreen = lazy(() => import('@/screens/TrajectoriesScreen').then((m) => ({ default: m.TrajectoriesScreen })));
+const PersonScreen = lazy(() => import('@/screens/PersonScreen').then((m) => ({ default: m.PersonScreen })));
 const TrajectoryScreen = lazy(() => import('@/screens/TrajectoryScreen').then((m) => ({ default: m.TrajectoryScreen })));
 import { JournalScreen } from '@/screens/JournalScreen';
 import { JournalEntryScreen } from '@/screens/JournalEntryScreen';
@@ -51,6 +52,7 @@ export const routes: RouteObject[] = [
   { path: '/rate', element: <RateScreen /> },
   { path: '/voice/:id', element: <VoiceScreen /> },
   { path: '/works/:id', element: <WorkScreen /> },
+  { path: '/person/:id', element: <PersonScreen /> },
   { path: '/trajectories', element: <TrajectoriesScreen /> },
   { path: '/trajectories/:id', element: <TrajectoryScreen /> },
   { path: '/map', element: <MapScreen /> },

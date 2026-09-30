@@ -438,6 +438,14 @@ button.tm-banner { cursor: pointer; }
 .tm-voicepage__who p { margin: 2px 0 0; color: var(--tm-color-ink-faint); }
 .tm-voicepage__outlets { margin: var(--tm-space-3) 0; height: auto; flex-wrap: wrap; }
 .tm-voicepage__item .tm-search__orig { color: var(--tm-color-ink-muted); }
+/* страница автора-создателя (Д3) */
+.tm-person__head { margin-bottom: var(--tm-space-3); }
+.tm-person__head .tm-caption { margin: var(--tm-space-1) 0 0; color: var(--tm-color-ink-faint); }
+.tm-person__start, .tm-person__section { margin-top: var(--tm-space-4); }
+.tm-person__start > .tm-title-3, .tm-person__section > .tm-title-3 { margin: 0 0 var(--tm-space-2); }
+.tm-person__essays { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--tm-space-3); }
+.tm-person__about { margin: 0 0 var(--tm-space-1); color: var(--tm-color-ink-faint); }
+.tm-work__people { margin: var(--tm-space-2) 0 0; height: auto; flex-wrap: wrap; }
 
 /* Шкала формы: линейка с меткой, а не оценка — поэтому подписаны оба края. */
 .tm-form__scale { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: var(--tm-space-2) var(--tm-space-3); margin: var(--tm-space-2) 0; }

@@ -80,3 +80,23 @@ export function workKey(w: Pick<WorkCard, 'type' | 'externalIds'> & { format?: '
   if (ids?.isbn?.length) return `isbn:${ids.isbn[0]}`;
   return undefined;
 }
+
+/** Имя как ключ: регистр, диакритика, ё и пунктуация снимаются — «Андрей Тарковский» и
+ *  «андрей  тарковский» — одно. */
+export const nameKey = (name: string): string =>
+  // «й» — отдельная буква, а не «и» с диакритикой: иначе адрес «андреи-тарковскии»
+  name.toLowerCase().replace(/ё/g, 'е').replace(/й/g, '\u0001').normalize('NFD').replace(/\p{M}+/gu, '')
+    .replace(/\u0001/g, 'й').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+
+/** Адрес страницы автора (Д3): элемент Wikidata, а пока его нет (Д2 не прогнан, человек не
+ *  найден) — имя: `n-андреи-тарковскии`. Так страница работает и на карточках со строками `creators`. */
+export const personRef = (c: Pick<CreditView, 'personId' | 'name'>): string => c.personId ?? `n-${nameKey(c.name)}`;
+
+/** Тот ли это человек: по элементу Wikidata, а у карточки без него — по имени (русскому или
+ *  оригинальному из справочника). */
+export function sameCredit(c: CreditView, ref: string, person?: Pick<Person, 'name' | 'originalName'>): boolean {
+  if (c.personId) return c.personId === ref;
+  const k = nameKey(c.name);
+  if (ref.startsWith('n-')) return `n-${k}` === ref;
+  return Boolean(person && (nameKey(person.name) === k || (person.originalName && nameKey(person.originalName) === k)));
+}

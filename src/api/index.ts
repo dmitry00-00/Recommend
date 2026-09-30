@@ -22,10 +22,10 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  Person, PersonId, Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CreditRole, Person, PersonId, Session, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork } from '@/lib/media';
-import { decodeCredits, workKey } from '@/lib/credits';
+import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -1541,6 +1541,92 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
     .map((i) => ({ ...i, analyses: [...i.analyses].sort((x, y) => stamp(y) - stamp(x)) }))
     .sort((a, b) => stamp(b.analyses[0]) - stamp(a.analyses[0]));
   return { voice, items };
+}
+
+/** Страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель. Не путать с
+ *  `/voice/:id` — там эссеист, который разбирает. */
+export interface PersonPage {
+  person: Person;
+  /** есть элемент Wikidata — иначе человек опознан только по имени в карточках */
+  wikidata: boolean;
+  roles: CreditRole[];
+  works: { work: WorkCard; roles: CreditRole[]; analyses: number; seen: boolean }[];
+  /** разборы эссеистов о его работах — свежие первыми, обзоры не показываем (решение 29.09) */
+  analyses: { work: WorkCard; analysis: ExternalAnalysis; seen: boolean }[];
+  /** с чего начать: непросмотренное с разметкой — ближе всего к «чуть выше привычного»
+   *  (`near`), а без состояния — самый доступный вход (`entry`) */
+  startWith?: { work: WorkCard; why: 'near' | 'entry'; level: number };
+  trajectories: { id: ID; title: string }[];
+}
+
+export async function getPerson(ref: string): Promise<PersonPage | undefined> {
+  await delay(200);
+  await Promise.all([catalog(), workRefs()]);
+  const known = isPersonId(ref) ? people[ref] : undefined;
+  const seenIds = new Set([...history().map((e) => e.work.id), ...watchedNow().map((w) => w.id)]);
+  const seenKeys = new Set([...history().map((e) => e.work), ...watchedNow()]
+    .map((w) => workKey(w, w.externalIds ?? externalIds[w.id])).filter((k): k is string => Boolean(k)));
+  const byWork = new Map<string, { work: WorkCard; roles: CreditRole[]; key?: string }>();
+  let name: string | undefined = known?.name;
+  for (const raw of knownWorks()) {
+    const w = withCredits(raw);
+    const mine = creditsOf(w, people).filter((c) => sameCredit(c, ref, known));
+    if (!mine.length) continue;
+    name ??= mine[0].name;
+    const key = workKey(w, w.externalIds ?? externalIds[w.id]);
+    const id = key ?? w.id;
+    const item = byWork.get(id) ?? { work: isSeries(w) ? withSeriesDraft(w) : w, roles: [], key };
+    for (const c of mine) if (!item.roles.includes(c.role)) item.roles.push(c.role);
+    // карточка с разметкой побеждает голую того же произведения
+    if (!item.work.complexityLevel && w.complexityLevel) item.work = w;
+    byWork.set(id, item);
+  }
+  if (!byWork.size || !name) return undefined;
+  const person: Person = known ?? { id: ref, name };
+
+  const analyses: PersonPage['analyses'] = [];
+  const count = new Map<string, number>();
+  for (const { work, key } of byWork.values()) {
+    if (!key) continue;
+    const seen = seenIds.has(work.id) || seenKeys.has(key);
+    const seenUrl = new Set<string>();
+    for (const src of [essays, essaysAuto, postsAuto]) {
+      for (const a of src[key] ?? []) {
+        if (a.tier === 'review' || seenUrl.has(a.url) || linkVerdicts.get(a.url) === 'other_work') continue;
+        seenUrl.add(a.url);
+        analyses.push({ work, analysis: a, seen });
+      }
+    }
+    count.set(key, seenUrl.size);
+  }
+  const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
+  analyses.sort((x, y) => Number(Boolean(x.analysis.unverified)) - Number(Boolean(y.analysis.unverified)) || stamp(y.analysis) - stamp(x.analysis));
+
+  const works = [...byWork.values()].map(({ work, roles, key }) => ({
+    work, roles, analyses: key ? count.get(key) ?? 0 : 0,
+    seen: seenIds.has(work.id) || Boolean(key && seenKeys.has(key)),
+  })).sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
+
+  // с чего начать: чуть выше привычного (зона ближайшего развития), при равенстве — где больше разборов
+  const comfort = ownState()?.complexityComfort;
+  const open = works.filter((x) => !x.seen && x.work.complexityLevel > 0);
+  const pick = [...open].sort((a, b) => (comfort != null
+    ? Math.abs(a.work.complexityLevel - (comfort + 1)) - Math.abs(b.work.complexityLevel - (comfort + 1))
+    : a.work.complexityLevel - b.work.complexityLevel) || b.analyses - a.analyses)[0];
+
+  const mineIds = new Set(works.map((x) => x.work.id));
+  const mineKeys = new Set([...byWork.values()].map((x) => x.key).filter(Boolean));
+  const trajectories = mocks.trajectories
+    .filter((t) => t.steps.some((st) => mineIds.has(st.work.id) || mineKeys.has(workKey(st.work, st.work.externalIds ?? externalIds[st.work.id]) ?? '')))
+    .map((t) => ({ id: t.id, title: t.title }));
+
+  const roleOrder: CreditRole[] = ['director', 'creator', 'author', 'writer'];
+  const roles = roleOrder.filter((r) => works.some((x) => x.roles.includes(r)));
+  return {
+    person, wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24),
+    ...(pick ? { startWith: { work: pick.work, why: comfort != null ? 'near' as const : 'entry' as const, level: pick.work.complexityLevel } } : {}),
+    trajectories,
+  };
 }
 
 /** Вердикты по автонайденным разборам: ключ — ссылка на ролик. */
