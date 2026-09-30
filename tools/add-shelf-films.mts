@@ -95,7 +95,7 @@ for (const [name, shelf] of Object.entries(shelves)) {
   }
 }
 
-// Канон массового зрителя: сначала справочник по названию и году (±1), нет — поиск TMDb по-русски,
+// Канон массового зрителя: сначала справочник по названию и точному году, нет — поиск TMDb по-русски,
 // потом по оригинальному названию; из результатов — первый (TMDb сортирует по известности) с
 // годом ±1, точный год вперёд. Не нашлось — строка в отчёт, канон поправить руками.
 const normT = (t: string) => t.toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim();
@@ -108,7 +108,9 @@ const canonKeys: string[] = [];
 const unresolved: string[] = [];
 for (const c of massCanonList) {
   const names = [c.title, c.original].filter((t): t is string => Boolean(t));
-  const local = names.flatMap((t) => byTitle.get(normT(t)) ?? []).find((x) => x.year != null && Math.abs(x.year - c.year) <= 1);
+  // в справочнике — только точный год: «Остров» 2006-го (Лунгин) при ±1 находил «Остров» 2005-го
+  // (Майкл Бэй). Год ±1 — уже в поиске TMDb, где точный год идёт первым
+  const local = names.flatMap((t) => byTitle.get(normT(t)) ?? []).find((x) => x.year === c.year);
   if (local) { canonKeys.push(local.key); continue; }
   let found: number | undefined;
   for (const q of names) {

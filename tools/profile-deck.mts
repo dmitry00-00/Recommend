@@ -97,11 +97,19 @@ for (const { key, work } of worksIndex({ all: true })) {
   for (const t of [work.title, work.originalTitle]) if (t) (byTitle.get(normT(t)) ?? byTitle.set(normT(t), []).get(normT(t))!).push(r);
 }
 const canonOutside: string[] = [];
-for (const c of massCanonList) {
+// ключи из TMDb (add-shelf-films) точнее названия: «Остров» — и Лунгин, и Майкл Бэй. По
+// названию и году — только пока ключей нет (карточки канона ещё не заводились)
+for (const c of canonKeys.length ? [] : massCanonList) {
   const hit = [c.title, c.original].filter((t): t is string => Boolean(t))
     .flatMap((t) => byTitle.get(normT(t)) ?? []).find((r) => Math.abs(r.year - c.year) <= 1);
   if (hit) hit.canon = true;
   else canonOutside.push(`${c.title} (${c.year})`);
+}
+if (canonKeys.length) {
+  // ключ есть, а фильма среди кандидатов нет (сериал или карточка не завелась); не нашедшихся в
+  // TMDb add-shelf-films перечисляет сам, ключей у них нет
+  for (const k of canonKeys) if (!rows.has(k)) canonOutside.push(k);
+  if (canonKeys.length < massCanonList.length) canonOutside.push(`ещё ${massCanonList.length - canonKeys.length} не нашлись в TMDb`);
 }
 // внимание: Википедия и Trakt
 const attention = existsSync('.cache/attention.json')
@@ -160,7 +168,7 @@ const todoAttention = all.filter((r) => (r.people > 0 || r.reviews > 0 || r.cano
 writeFileSync('.cache/attention-todo.txt', todoAttention.join('\n') + '\n');
 if (todoAttention.length) console.error(`без данных о внимании при свидетельстве «смотрели»: ${todoAttention.length} → .cache/attention-todo.txt`);
 const annotatedTop = top.filter((r) => r.annotated);
-console.error(`канон: в справочнике ${massCanonList.length - canonOutside.length} из ${massCanonList.length}, в топ-${TOP} — ${top.filter((r) => r.canon).length}`);
+console.error(`канон: ${massCanonList.length}, среди кандидатов ${all.filter((r) => r.canon).length}, в топ-${TOP} — ${top.filter((r) => r.canon).length}`);
 console.error(`кандидатов ${all.length}, людей ${people.length}; в топ-${TOP}: размечено ${annotatedTop.length}, уже в колоде ${top.filter((r) => r.inDeck).length}, вне базы ${top.filter((r) => !r.inBase).length}`);
 console.error('→ .cache/profile-deck.md, .cache/profile-deck.tsv');
 
