@@ -29,6 +29,11 @@ export interface VoiceSource {
    *  «массовое внимание к фильму» идут только `medium: 'film'` (значение по умолчанию).
    *  Денис Чужой и bookspace — книги, поправка владельца 26.09. */
   medium?: 'film' | 'book';
+  /** канал подборок «что посмотреть» (владелец, 30.09): ролик — список фильмов, а не разговор об
+   *  одном. Ярус — обзор (массовое внимание, в приложении не показываем); сборники индекс разборов
+   *  и так отсеивает по названию. Ценность — сам список: какие фильмы советуют смотреть; разбирать
+   *  его из описаний роликов (таймкоды с названиями) — отдельная задача, см. BACKLOG. */
+  lists?: true;
   /** Канал пришёл ссылками владельца на отдельные ролики (лист «Без разбора» таблицы
    *  разметки), а не списком голосов. В реестре — ради яруса и учёта; индекс разборов их
    *  загрузки не обходит и в строку поиска карточки их не ставим: таких каналов сотни (29.09 —
@@ -58,6 +63,13 @@ export const sources: VoiceSource[] = [
   { id: 'src-kubrik', title: 'Кубрик', handle: 'kubrik1985', platform: 'youtube', url: 'https://www.youtube.com/@kubrik1985', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-akr', title: 'Уголок Акра', handle: 'Akr815', platform: 'youtube', url: 'https://www.youtube.com/@Akr815', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-woodmark', title: 'Woodmark', handle: 'WoodmarkChannel', platform: 'youtube', url: 'https://www.youtube.com/@WoodmarkChannel', role: 'voice', kind: 'channel', tier: 'review' },
+  // обзорщики кино — владелец, 30.09. Названия — предварительные: точные приходят из YouTube API при обходе
+  { id: 'src-alesha-pirojok', title: 'Алёша Пирожок', handle: 'alesha_pirojok', platform: 'youtube', url: 'https://www.youtube.com/@alesha_pirojok', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-4kamedia', title: '4ka media', handle: '4kamedia', platform: 'youtube', url: 'https://www.youtube.com/@4kamedia', role: 'voice', kind: 'channel', tier: 'review' },
+  // подборки «что посмотреть» — владелец, 30.09: ярус обзора, `lists` — ролик это список фильмов
+  { id: 'src-slavakinoman', title: 'Слава Киноман', handle: 'slavakinoman', platform: 'youtube', url: 'https://www.youtube.com/@slavakinoman', role: 'voice', kind: 'channel', tier: 'review', lists: true },
+  { id: 'src-kino-time', title: 'Kino Time', handle: 'kino-time', platform: 'youtube', url: 'https://www.youtube.com/@kino-time', role: 'voice', kind: 'channel', tier: 'review', lists: true },
+  { id: 'src-kinosovetnik', title: 'Киносоветник', handle: 'kinosovetnik', platform: 'youtube', url: 'https://www.youtube.com/@kinosovetnik', role: 'voice', kind: 'channel', tier: 'review', lists: true },
   // второй список владельца 28.09; ярус — по роликам канала (кино на слуху → обзор, своё → эссе)
   { id: 'src-kultas', title: 'Культас', handle: 'Kultas', platform: 'youtube', url: 'https://www.youtube.com/@Kultas', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-usachev', title: 'Павел Усачёв', handle: 'pavelusachoff', platform: 'youtube', url: 'https://www.youtube.com/@pavelusachoff', role: 'voice', kind: 'channel', tier: 'review' },
