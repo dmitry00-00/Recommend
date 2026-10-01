@@ -33,7 +33,13 @@ const old: WesterosSeed | null = FRESH ? null : readCache<WesterosSeed | null>('
 
 // ---------- 1. книги ----------
 type ApiBook = { url: string; name: string; released?: string; authors?: string[] };
-const apiBooks = await get<ApiBook[]>(`${API}/books?pageSize=50`);
+// API не открывается (с Mac 01.10 — таймаут соединения к Cloudflare, как и the-one-api и hp-api в
+// заложенных вселенных: похоже на блокировку по стране) — одна строка вместо трассы, и прежний кэш
+// остаётся в силе: героям хватит того, что было собрано раньше
+const apiBooks = await get<ApiBook[]>(`${API}/books?pageSize=50`).catch((e: Error & { cause?: { code?: string } }) => {
+  console.error(`!! An API of Ice and Fire не отвечает (${e.cause?.code ?? e.message}) — пропускаю${old ? '; остаётся собранное раньше' : ''}. Если сайт закрыт из этой сети — запустить через VPN.`);
+  process.exit(0);
+});
 type Ent = { labels?: Record<string, { value: string }>; descriptions?: Record<string, { value: string }>; aliases?: Record<string, { value: string }[]>; claims?: Record<string, { mainsnak: { datavalue?: { value: unknown } } }[]> };
 const ents = async (ids: string[], props: string) =>
   (await wd<{ entities?: Record<string, Ent> }>({ action: 'wbgetentities', ids: ids.join('|'), props, languages: 'ru|en' })).entities ?? {};
