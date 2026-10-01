@@ -120,9 +120,14 @@ export function filmOptions(works: { key: string; work: { title: string; year?: 
 
 /** Строка реестра src/mocks/sources.ts для нового канала. */
 export function sourceLine(c: { handle: string; title: string; tier: 'essay' | 'review'; medium?: 'film' | 'book' }): string {
-  const slug = c.handle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'channel';
+  // ник кириллицей («глаз_дракона») — транслитом: иначе id выходил общий «src-channel» (01.10)
+  const TR: Record<string, string> = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'i', к: 'k', л: 'l',
+    м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '',
+    э: 'e', ю: 'yu', я: 'ya' };
+  const slug = [...c.handle.toLowerCase()].map((ch) => TR[ch] ?? ch).join('').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    || `channel-${[...c.handle].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7).toString(36)}`;
   const q = (x: string) => `'${x.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
-  return `  { id: ${q(`src-${slug}`)}, title: ${q(c.title)}, handle: ${q(c.handle)}, platform: 'youtube', url: ${q(`https://www.youtube.com/@${c.handle}`)}, role: 'voice', kind: 'channel', tier: '${c.tier}'${c.medium === 'book' ? ", medium: 'book'" : ''} },`;
+  return `  { id: ${q(`src-${slug}`)}, title: ${q(c.title.trim())}, handle: ${q(c.handle)}, platform: 'youtube', url: ${q(`https://www.youtube.com/@${c.handle}`)}, role: 'voice', kind: 'channel', tier: '${c.tier}'${c.medium === 'book' ? ", medium: 'book'" : ''} },`;
 }
 
 /** Названо ли произведение в заголовке ролика — для пометки «проверьте»: фильм взят из заметок

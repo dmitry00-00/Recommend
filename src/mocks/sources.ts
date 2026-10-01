@@ -117,6 +117,11 @@ export const sources: VoiceSource[] = [
   { id: 'src-cinema1909', title: 'cinema1909', handle: 'cinema1909', platform: 'telegram', url: 'https://t.me/cinema1909', role: 'place', kind: 'unknown' },
   { id: 'src-lifeisscarier', title: 'LifeIsScarier', handle: 'LifeIsScarier', platform: 'telegram', url: 'https://t.me/LifeIsScarier', role: 'place', kind: 'unknown' },
   { id: 'src-alarm-cassettes', title: 'alarm_cassettes', handle: 'alarm_cassettes', platform: 'telegram', url: 'https://t.me/alarm_cassettes', role: 'place', kind: 'unknown' },
+  // ── каналы из пульта ссылок: tools/links-desk.mts дописывает сюда ──
+  { id: 'src-patchface-project', title: 'PatchFace Project', handle: 'patchface_project', platform: 'youtube', url: 'https://www.youtube.com/@patchface_project', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-recastik', title: 'Recast', handle: 'recastik', platform: 'youtube', url: 'https://www.youtube.com/@recastik', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-glaz-drakona', title: 'Глаз Дракона', handle: 'глаз_дракона', platform: 'youtube', url: 'https://www.youtube.com/@глаз_дракона', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-doriangrayreview', title: 'DORIAN GRAY', handle: 'doriangrayreview', platform: 'youtube', url: 'https://www.youtube.com/@doriangrayreview', role: 'voice', kind: 'channel', tier: 'review' },
   // ── каналы из ссылок владельца: tools/register-link-channels.mts дописывает сюда ──
   // ярус по умолчанию — обзор; поменять — tier: 'essay'; сделать полноценным голосом — убрать via
   { id: 'src-yt-15_minut_pro_kino', title: '15 минут про кино (чаще больше)', handle: '15_minut_pro_kino', platform: 'youtube', url: 'https://www.youtube.com/@15_minut_pro_kino', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 10 роликов: Снегирь (2023), Приключения Паддингтона 3 (2024) и ещё 8
