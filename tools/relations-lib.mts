@@ -1,6 +1,7 @@
 // Чистая часть Ж1 (связи между произведениями): строки Wikidata → рёбра и узлы, текст мока.
 // Сеть — в tools/resolve-relations.mts; здесь то, что проверяется без неё.
 import type { RelationKind, RelationNodeKind } from '../src/types/tmdf.ts';
+import { listLike } from '../src/lib/relations.ts';
 
 /** Вид узла по P31 (экземпляр класса). Список — самые частые классы, без обхода P279: этого
  *  хватает, чтобы отличить роман от фильма, а для незнакомого класса честнее `other`. */
@@ -64,7 +65,8 @@ export function parseRelations(rows: RelBinding[], own: ReadonlyMap<string, Rela
     if (prop === 'P144') add([item, basedOn(kindOf(item), kindOf(t)), t]);
     else if (prop === 'P155') add([item, 'sequel_of', t]);
     else if (prop === 'P156') add([t, 'sequel_of', item]);
-    else if (prop === 'P179' || prop === 'P8345') add([item, 'part_of', t]);
+    // «часть» перечня («100 величайших…», «список мультфильмов Pixar») — не цикл: не связь
+    else if ((prop === 'P179' || prop === 'P8345') && !listLike(nodes.get(t)?.t)) add([item, 'part_of', t]);
   }
   return { nodes, edges };
 }

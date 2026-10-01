@@ -129,7 +129,7 @@ export function WorkScreen() {
   const start = () => {
     setStarting(true);
     startWork(work.id)
-      .then(() => { toast({ text: ru.toast.watchMarked }); navigate('/today'); })
+      .then(() => { toast({ text: work.type === 'book' ? ru.toast.readMarked : ru.toast.watchMarked }); navigate('/today'); })
       .catch(() => toast({ text: ru.settings.errorSave }))
       .finally(() => setStarting(false));
   };
@@ -186,7 +186,7 @@ export function WorkScreen() {
             вход «знаете разбор, которого здесь нет» — он нужнее всего как раз там, где пусто */}
         <section className="tm-work__section">
           <h2 className="tm-title-3">{ru.work.analyses}</h2>
-          <WorkVoices analyses={work.externalAnalyses} spoilerLevel={allowed} workTitle={work.title} />
+          <WorkVoices analyses={work.externalAnalyses} spoilerLevel={allowed} workTitle={work.title} kind={work.type} />
         </section>
 
         {/* откуда это и что из этого выросло (Ж1): роман, по которому снято, сиквел, ремейки, франшиза */}

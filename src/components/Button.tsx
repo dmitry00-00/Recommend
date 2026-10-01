@@ -12,11 +12,15 @@ export interface ButtonProps {
   onClick?: () => void;
   className?: string;
   children?: ReactNode;
+  /** подпись для чтения с экрана, когда на кнопке значок («+», «−», «×»). Атрибуты с дефисом TS
+   *  не проверяет — раньше её передавали, а кнопка молча теряла (нашлось 01.10 в прогоне экранов) */
+  'aria-label'?: string;
+  title?: string;
 }
 
 export function Button({
   variant = 'secondary', size = 'md', loading, disabled, pressed, block, href, onClick,
-  className, children,
+  className, children, 'aria-label': ariaLabel, title,
 }: ButtonProps) {
   const cls = cx('tm-btn', `tm-btn--${variant}`, size === 'sm' && 'tm-btn--sm',
                  block && 'tm-btn--block', className);
@@ -27,11 +31,11 @@ export function Button({
     </>
   );
   if (href) {
-    return <a className={cls} href={href} aria-busy={loading ? 'true' : undefined}>{inner}</a>;
+    return <a className={cls} href={href} aria-busy={loading ? 'true' : undefined} aria-label={ariaLabel} title={title}>{inner}</a>;
   }
   return (
     <button className={cls} type="button" disabled={disabled} aria-pressed={pressed}
-            aria-busy={loading ? 'true' : undefined} onClick={onClick}>
+            aria-busy={loading ? 'true' : undefined} aria-label={ariaLabel} title={title} onClick={onClick}>
       {inner}
     </button>
   );

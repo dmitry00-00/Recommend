@@ -6,6 +6,7 @@ import { OperationChip } from './OperationChip';
 import { PredictionNote } from './PredictionNote';
 import { WorkCover } from './WorkCover';
 import { cx } from '@/lib/cx';
+import { formatDate } from '@/lib/format';
 import ru from '@/i18n/ru';
 import { useMechanics } from '@/lib/settingsStore';
 import { isScreen, isSeries } from '@/lib/media';
@@ -40,7 +41,8 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
           <span className={cx('tm-entry__status', `tm-entry__status--${e.status}`)}>{ru.journeyStatus[e.status]}</span>
         </div>
         <Meta items={[
-          e.finishedAt ?? e.startedAt,
+          // дата по-человечески: свежая запись хранит полное время ISO, и оно выходило как есть (01.10)
+          formatDate(e.finishedAt ?? e.startedAt),
           e.perceivedDifficulty ? ru.difficulty[e.perceivedDifficulty].toLowerCase() : null,
           inProgress && e.progress != null ? `${Math.round(e.progress * 100)}%` : null,
           inProgress && sp ? ru.seriesDiary.now(sp.season, sp.episode) : null,

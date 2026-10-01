@@ -102,6 +102,9 @@ export function JournalScreen() {
                       // ни «Начать смотреть». У отложенного — только «Убрать из планов», в углу
                       corner={openEntry.status === 'planned' ? (
                         <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ru.feed.unplan}</Button>
+                      ) : openEntry.status === 'in_progress' && (openEntry.work.type === 'book' || openEntry.work.type === 'series') ? (
+                        // сериал и книга в процессе — сезон, часть, страница на странице записи (Е3, З5)
+                        <Button variant="quiet" size="sm" onClick={() => navigate(`/journal/${openEntry.id}`)}>{ru.feed.whereNow}</Button>
                       ) : undefined} />
           </div>
         ) : null}

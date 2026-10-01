@@ -9,6 +9,7 @@ import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
 import { nameForms, nameRegex, sharedWords } from '@/lib/characters';
+import { listLike } from '@/lib/relations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
@@ -214,6 +215,7 @@ function relationsFor(work: WorkCard): WorkRelationView[] {
   };
   const out: WorkRelationView[] = [];
   for (const [a, kind, b] of relationEdges) {
+    if (kind === 'part_of' && listLike(relationNodes[b]?.t)) continue;
     const v = a === q ? view(kind, 'out', b) : b === q && kind !== 'part_of' ? view(kind, 'in', a) : undefined;
     if (v && !out.some((x) => x.qid === v.qid && x.kind === v.kind && x.direction === v.direction)) out.push(v);
   }
@@ -358,7 +360,9 @@ function universeIndex(): NonNullable<typeof universes> {
   const parent = new Map<string, string>();
   const find = (x: string): string => { let r = x; while (parent.get(r) !== r) r = parent.get(r) ?? (parent.set(r, r), r); parent.set(x, r); return r; };
   const degree = new Map<string, number>();
-  for (const [a, , b] of relationEdges) {
+  for (const [a, kind, b] of relationEdges) {
+    // перечень («100 величайших…») не склеивает фильмы во вселенную — даже в связях, собранных до правила
+    if (kind === 'part_of' && listLike(relationNodes[b]?.t)) continue;
     for (const x of [a, b]) { if (!parent.has(x)) parent.set(x, x); degree.set(x, (degree.get(x) ?? 0) + 1); }
     parent.set(find(a), find(b));
   }

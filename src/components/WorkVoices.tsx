@@ -14,6 +14,8 @@ export interface WorkVoicesProps {
   spoilerLevel?: SpoilerLevel;
   /** название фильма — уходит с заявкой «кто ещё разбирал»: без него заявка бесполезна */
   workTitle?: string;
+  /** вид произведения — для строки «пока никто не говорил»: о книге, сериале, фильме */
+  kind?: 'film' | 'series' | 'book';
 }
 
 /** Аватар автора: картинка канала, а без неё — монограмма. Размер задаёт вёрстка, чтобы
@@ -185,7 +187,7 @@ export function VoiceStrip({ groups, pickedId, onPick }: { groups: WorkVoice[]; 
   );
 }
 
-export function WorkVoices({ analyses, spoilerLevel, workTitle }: WorkVoicesProps) {
+export function WorkVoices({ analyses, spoilerLevel, workTitle, kind = 'film' }: WorkVoicesProps) {
   const { watch, talk, picked, setPicked } = useVoices(analyses);
   const [asking, setAsking] = useState(false);
   // Заявка «кто ещё разбирал» нужна в обоих случаях: и когда пусто, и когда есть один автор,
@@ -204,8 +206,8 @@ export function WorkVoices({ analyses, spoilerLevel, workTitle }: WorkVoicesProp
   if (!watch.length && !talk.length) {
     return (
       <section className="tm-stream__group tm-voice__none">
-        <p className="tm-body-sm">{ru.voices.nobody}</p>
-        <p className="tm-caption tm-voice__nonehint">{ru.voices.nobodyHint}</p>
+        <p className="tm-body-sm">{kind === 'book' ? ru.voices.nobodyBook : kind === 'series' ? ru.voices.nobodySeries : ru.voices.nobody}</p>
+        <p className="tm-caption tm-voice__nonehint">{kind === 'book' ? ru.voices.nobodyBookHint : ru.voices.nobodyHint}</p>
         {ask}
       </section>
     );

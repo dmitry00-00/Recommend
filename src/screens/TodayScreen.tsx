@@ -367,7 +367,11 @@ export function TodayScreen() {
           : isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
       </Button>
       <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?abandon=1`); }}>{ru.feed.gaveUp}</Button>
-      <Button variant="quiet" size="sm" onClick={() => notYet(e)}>{ru.feed.notYet}</Button>
+      <Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ru.feed.notYetRead : ru.feed.notYet}</Button>
+      {/* сериал и книга — долгие: где человек (сезон, часть, страница) — на странице записи */}
+      {isSeries(e.work) || e.work.type === 'book' ? (
+        <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}`); }}>{ru.feed.whereNow}</Button>
+      ) : null}
     </>
   );
 
@@ -447,7 +451,9 @@ export function TodayScreen() {
             {/* сверка в один тап прямо из ленты: «посмотрели?». «Ещё не смотрел» — нормальный
                 ответ: переход в кинотеатр ещё не просмотр, человека могли отвлечь */}
             <div className="tm-stream__quick">
-              <span className="tm-caption tm-stream__quicklabel">{age(e) < FRESH_MS ? ru.feed.watchingNow : ru.feed.didYouWatch}</span>
+              <span className="tm-caption tm-stream__quicklabel">{e.work.type === 'book'
+                ? (age(e) < FRESH_MS ? ru.feed.readingNow : ru.feed.didYouRead)
+                : (age(e) < FRESH_MS ? ru.feed.watchingNow : ru.feed.didYouWatch)}</span>
               <span className="tm-stream__quickbtns">{answers(e)}</span>
             </div>
           </article>

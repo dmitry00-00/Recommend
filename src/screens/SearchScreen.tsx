@@ -58,7 +58,7 @@ export function SearchScreen() {
     setHits((prev) => (prev ?? []).map((h) => (h.work.id === id ? { ...h, watching: true } : h)));
     startWork(id)
       .then((entry) => toast({
-        text: ru.toast.watchMarked,
+        text: hits?.find((h) => h.work.id === id)?.work.type === 'book' ? ru.toast.readMarked : ru.toast.watchMarked,
         ...(entry ? {
           action: ru.actions.undo,
           onAction: () => {

@@ -89,7 +89,7 @@ export function JournalEntryScreen() {
                 </li>
               ))}
             </ul>
-          ) : <p className="tm-caption tm-journal__hint">{ru.journal.noReflections}</p>}
+          ) : <p className="tm-caption tm-journal__hint">{entry.work.type === 'book' ? ru.journal.noReflectionsBook : ru.journal.noReflections}</p>}
         </section>
         {mechanics && entry.stateChanges.length ? (
           <section className="tm-journal__section">
