@@ -7,7 +7,7 @@
 #   4. герои ещё раз — по свежим разборам (всё в кэше, это быстро);
 #   5. калибровка книг — только если лист .cache/markup/book_calibration.csv уже заполнен;
 #   6. проверка: пустые авторы (people.ts, workCredits.ts) в git не пойдут;
-#   7. коммит src/mocks и push — с вопросом;
+#   7. коммит src/mocks и решений разметки (tools/markup-*.json) и push — с вопросом;
 #   8. сборка для bothost (npm run build:bothost) — с вопросом.
 # Ключи: --yes — не спрашивать (коммит, push и сборка — да); --no-build — без сборки;
 #        --no-collect — без индексов разборов. Лог — .cache/run-all/<дата>.log.
@@ -79,10 +79,12 @@ for f in src/mocks/people.ts src/mocks/workCredits.ts; do
 done
 
 step "7/8 коммит данных"
-git status --short src/mocks
-if [ -n "$(git status --porcelain src/mocks)" ]; then
-  if ask "Закоммитить src/mocks и отправить?"; then
-    git add src/mocks && git commit -q -m "Данные: прогон $(date +%d.%m)" && git push || FAILED+=("коммит или push данных")
+# решения разметки (таблица, пульт ссылок) живут в tools/ — коммитятся вместе с данными
+DATA="src/mocks tools/markup-verdicts.json tools/markup-resolved.json"
+git status --short $DATA
+if [ -n "$(git status --porcelain $DATA)" ]; then
+  if ask "Закоммитить данные (src/mocks и решения разметки) и отправить?"; then
+    git add $DATA && git commit -q -m "Данные: прогон $(date +%d.%m)" && git push || FAILED+=("коммит или push данных")
   fi
 else
   echo "данные не изменились"

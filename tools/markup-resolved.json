@@ -1,6 +1,6 @@
 {
  "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
- "updated": "2026-09-29",
+ "updated": "2026-10-01",
  "videos": {
   "_3gNe43hFA0": {
    "typed": "mr. robot",
