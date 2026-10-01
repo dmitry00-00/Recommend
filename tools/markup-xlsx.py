@@ -18,6 +18,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.workbook.defined_name import DefinedName
+from openpyxl.utils import get_column_letter
 
 def arg(name, default):
     return sys.argv[sys.argv.index('--' + name) + 1] if '--' + name in sys.argv[:-1] else default
@@ -100,17 +101,20 @@ markup_sheet('Эссе', data['essay'], 1)
 
 # 3. Обратный взгляд: фильмы, о которых у нас никто не высказался
 gaps = wb.create_sheet('Без разбора', 2)
-head(gaps, ['Фильм', 'Год', 'Назвали в постах', 'Знаю разбор — ссылка'])
+# ссылки — все, по одной в ячейке вправо от D (как их и вписывают); плюс одна пустая колонка для новой
+links_of = lambda m: m.get('links') or ([m['link']] if m.get('link') else [])
+wide = max([len(links_of(m)) for m in missing] + [1]) + 1
+head(gaps, ['Фильм', 'Год', 'Назвали в постах', 'Знаю разбор — ссылка'] + ['ещё ссылка'] * (wide - 1))
 for r, m in enumerate(missing, start=2):
     gaps.cell(row=r, column=1, value=m['label'])
     gaps.cell(row=r, column=2, value=m['year'] or None)
     gaps.cell(row=r, column=3, value=m['talk'] or None)
-    if m.get('link'):
-        gaps.cell(row=r, column=4, value=m['link'])
-for col, width in zip('ABCD', (46, 8, 18, 50)):
-    gaps.column_dimensions[col].width = width
+    for i, url in enumerate(links_of(m)):
+        gaps.cell(row=r, column=4 + i, value=url)
+for i, width in enumerate((46, 8, 18) + (50,) * wide):
+    gaps.column_dimensions[get_column_letter(1 + i)].width = width
 gaps.freeze_panes = 'A2'
-gaps.auto_filter.ref = 'A1:D%d' % (len(missing) + 1)
+gaps.auto_filter.ref = 'A1:%s%d' % (get_column_letter(3 + wide), len(missing) + 1)
 
 # 4. Короткая памятка — в том же файле, чтобы не терялась
 how = wb.create_sheet('Как размечать')

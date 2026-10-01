@@ -87,9 +87,12 @@ const humanLabel = (v: Verdict): string =>
   v.key ? (labelOf.get(v.key) ?? v.film ?? '') : v.why === 'не про фильм' ? NOT_A_FILM : (v.film ?? '');
 // фильмы, которым люди нашли материал, и ссылки, принесённые со стороны фильма
 const humanKeys = new Set(Object.values(human).map((v) => v.key).filter((k): k is string => Boolean(k)));
-const gapLink = new Map<string, string>();
+// все ссылки фильма, а не первая: владелец кладёт их в ряд, до восьми на фильм (29.09: 293 ссылки к
+// 37 фильмам), и при пересборке в листе оставалась одна — остальные жили только в markup-verdicts.json
+// (01.10). Порядок — как в файле решений
+const gapLink = new Map<string, string[]>();
 for (const [id, v] of Object.entries(human)) {
-  if (v.from === 'gap' && v.key && !gapLink.has(v.key)) gapLink.set(v.key, `https://www.youtube.com/watch?v=${id}`);
+  if (v.from === 'gap' && v.key) (gapLink.get(v.key) ?? gapLink.set(v.key, []).get(v.key)!).push(`https://www.youtube.com/watch?v=${id}`);
 }
 
 // 3. У каких фильмов материала нет вовсе. Считаем так же, как tools/overlooked.mts: площадки
@@ -123,7 +126,7 @@ const mentions: Record<string, { author?: number }> = existsSync(mentionsFile)
 const missing = films
   .filter((f) => (!hasEssay.get(f.key) && !hasReview.get(f.key) && !humanKeys.has(f.key)) || gapLink.has(f.key))
   .map((f) => ({ label: f.label, title: f.title, year: f.year ?? '', talk: mentions[f.key]?.author ?? 0, key: f.key,
-    link: gapLink.get(f.key) ?? '' }))
+    link: gapLink.get(f.key)?.[0] ?? '', links: gapLink.get(f.key) ?? [] }))
   // сначала те, о ком говорят: это и есть очередь на разбор, а не алфавит
   .sort((a, b) => b.talk - a.talk || a.title.localeCompare(b.title, 'ru'));
 
