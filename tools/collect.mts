@@ -51,7 +51,9 @@ if (process.argv.includes('--expand') || weekOld) {
   if (step('справочник фильмов (Wikidata)', ...tsx('tools/expand-film-base.mts', '--min', '2'), { optional: true })) writeFileSync(expandMark, new Date().toISOString());
 }
 
-// 3. Индексы
+// 3. Индексы. Сначала — названия-ловушки по свежему корпусу: с новыми постами и каналами меняется,
+// что здесь повседневная фраза (01.10: «Главный герой»); без них индексы работают как раньше
+step('названия-ловушки', ...tsx('tools/build-ordinary.mts'), { optional: true });
 step('разборы в постах', ...tsx('tools/build-telegram-index.mts'));
 if (process.env.YT_API_KEY) step('разборы-ролики', ...tsx('tools/build-essay-index.mts'), { optional: true });
 else say('── разборы-ролики: нет YT_API_KEY — пропускаем');

@@ -16,10 +16,12 @@ const SHARE = Number(opt('--share') ?? ORDINARY_SHARE);
 const counts = new Map<string, number>();
 let posts = 0;
 const lower: string[] = [];
+const raw: string[] = [];
 for (const a of parseArgs([])) {
   for (const p of readExport(a.path).posts) {
     addText(counts, p.text);
     lower.push(p.text.toLowerCase().replace(/ё/g, 'е'));
+    raw.push(p.text.replace(/ё/g, 'е'));
     posts += 1;
   }
 }
@@ -33,11 +35,22 @@ const byWords = ordinaryFrom(counts, posts, names, SHARE);
 const threshold = Math.max(20, Math.round(posts * SHARE));
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const ordinary: string[] = [];
+// Фраза из двух и больше слов: считаем, сколько раз она написана строчными посреди речи — не с
+// заглавной и не в кавычках (так пишут название). Порог — ниже, чем у слова: фраза в речи по природе
+// реже слова. Прежний счёт без учёта регистра на полном корпусе (65 949 постов, порог 132) не поймал
+// «главный герой» — и фильм «Главный герой» (2021) получил 83 «упоминания» из закавыченного
+// термина (01.10). Одно слово — как раньше.
+const phraseThreshold = Math.max(10, Math.round(posts * SHARE / 4));
 for (const name of byWords) {
-  const re = new RegExp(`(?<!\\p{L})${esc(name.toLowerCase().replace(/ё/g, 'е'))}(?!\\p{L})`, 'u');
+  const low = name.toLowerCase().replace(/ё/g, 'е');
+  const multi = /\s/.test(low.trim());
+  const re = multi
+    ? new RegExp(`(?<![\\p{L}«"„'])${esc(low)}(?![\\p{L}»"“'])`, 'u')
+    : new RegExp(`(?<!\\p{L})${esc(low)}(?!\\p{L})`, 'u');
+  const need = multi ? phraseThreshold : threshold;
   let n = 0;
-  for (const t of lower) if (re.test(t)) { n += 1; if (n >= threshold) break; }
-  if (n >= threshold) ordinary.push(name);
+  for (const t of multi ? raw : lower) if (re.test(t)) { n += 1; if (n >= need) break; }
+  if (n >= need) ordinary.push(name);
 }
 ordinary.sort((a, b) => a.localeCompare(b, 'ru'));
 

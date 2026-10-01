@@ -16,6 +16,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { parseArgs, readExport } from './telegram-export.mts';
 import { worksIndex } from './works-index.mts';
 import { VENUE } from './title-match.mts';
+import { evidenceFor } from './evidence.mts';
 import { registerBase } from '../src/mocks/registerBase.ts';
 import { workRegisters } from '../src/mocks/workRegisters.ts';
 import type { CoMention, WorkCard } from '../src/types/tmdf.ts';
@@ -78,6 +79,9 @@ for (const { path, role, username } of args) {
       const name = norm(frag.text);
       if (!frag.quoted && ordinary.has(name)) continue;
       const key = byName.get(name);
+      // повседневному названию и кавычек мало: «Главный герой» в кавычках — чаще термин, чем фильм
+      // 2021-го. Нужна улика в посте — год, оригинальное название или ссылка на страницу фильма
+      if (key && ordinary.has(name) && !evidenceFor(cards.get(key)!, p.text)) continue;
       if (key) found.add(key);
     }
     if (!found.size) continue;
