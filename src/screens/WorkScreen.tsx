@@ -213,6 +213,30 @@ export function WorkScreen() {
           </section>
         ) : null}
 
+        {/* герои, которые есть и в других произведениях (И1): Холмс, Джокер, Дракула */}
+        {work.heroes?.length ? (
+          <section className="tm-work__section">
+            <h2 className="tm-title-3">{ru.heroes.title}</h2>
+            <ul className="tm-relations">
+              {work.heroes.map((h) => (
+                <li key={h.id} className="tm-relations__item">
+                  <span className="tm-label tm-relations__kind">{h.name}</span>
+                  <span className="tm-caption tm-relations__year">{ru.heroes.also}</span>
+                  {h.elsewhere.slice(0, 8).map((w, i) => (
+                    <span key={w.workId} className="tm-heroes__work">
+                      <Link to={`/works/${w.workId}`} className="tm-relations__title">{w.title}</Link>
+                      {w.year ? <span className="tm-caption tm-relations__year">{` ${w.year}`}</span> : null}
+                      {i < Math.min(h.elsewhere.length, 8) - 1 ? ',' : null}
+                    </span>
+                  ))}
+                  {h.elsewhere.length > 8 ? <span className="tm-caption">{ru.heroes.more(h.elsewhere.length - 8)}</span> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="tm-caption tm-work__note">{ru.heroes.note}</p>
+          </section>
+        ) : null}
+
         {/* темп речи и тишины — раньше разборов: это не чужое мнение, а замер, и он помогает
             решить «сегодня или не сегодня» до того, как читать, что об этом думают */}
         {work.form ? (

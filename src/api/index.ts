@@ -7,6 +7,7 @@ import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv, withImages }
 import { ratingDeck } from '@/mocks/ratingDeck';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
+import type { CharacterRecord } from '@/mocks/characters';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
@@ -22,7 +23,7 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  CreditRole, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CharacterView, CreditRole, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
@@ -76,6 +77,10 @@ async function serverRef<T>(name: string): Promise<T | undefined> {
   }
 }
 
+/** Ядро — один раз: справочнику (catalog) нужны externalIds из ядра, и если ядро ждёт ответа
+ *  сервера (serverRef), справочник успевал раньше и падал на пустых externalIds (найдено 01.10). */
+let coreLoading: Promise<void> | undefined;
+const core = (): Promise<void> => (coreLoading ??= loadCore());
 async function loadCore(): Promise<void> {
   const [[m, wd, ei, ua, cs, wr, rb, cm, ctm, src, es, ea, pa], freshEssays, freshPosts] = await Promise.all([
     coreImports(),
@@ -125,7 +130,7 @@ function catalog(): Promise<void> {
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
     import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'), import('@/mocks/bookAnnotations'),
-  ]).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba]) => {
+  ]).then(async (mods) => { await core(); return mods; }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba]) => {
     bookMedia = bmd.bookMedia; bookAnnotations = ba.bookAnnotations;
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
@@ -214,6 +219,31 @@ function relationsFor(work: WorkCard): WorkRelationView[] {
   const rank = (r: WorkRelationView) => (r.kind === 'part_of' ? 3 : r.direction === 'out' ? 0 : 1) * 10
     + ['adaptation_of', 'remake_of', 'sequel_of', 'part_of'].indexOf(r.kind);
   return out.sort((x, y) => rank(x) - rank(y) || (x.year ?? 9999) - (y.year ?? 9999)).slice(0, 20);
+}
+
+/** Герои через несколько произведений (И1): ключ произведения → элементы героев. */
+let characters: Record<string, CharacterRecord> = {};
+let charactersByKey = new Map<string, string[]>();
+
+/** Герои произведения, которые есть и в других наших произведениях: по ним — ссылки на те
+ *  произведения. Сначала самые обсуждаемые; героев не больше шести, произведений у героя — восьми
+ *  с хвостом «и ещё N». Своё произведение (по любому ключу) в «ещё в» не попадает. */
+function heroesFor(work: WorkCard): CharacterView[] {
+  const own = workKeys(work, work.externalIds ?? externalIds[work.id]);
+  const qs = [...new Set(own.flatMap((k) => charactersByKey.get(k) ?? []))];
+  if (!qs.length) return [];
+  const byKey = worksByAnalysisKey();
+  const out: CharacterView[] = [];
+  for (const q of qs) {
+    const c = characters[q];
+    const seenIds = new Set<string>([work.id]);
+    const elsewhere = c.works.filter((k) => !own.includes(k)).map((k) => byKey.get(k))
+      .filter((w): w is WorkCard => Boolean(w && !seenIds.has(w.id) && seenIds.add(w.id)))
+      .sort((a, b) => (a.year || 9999) - (b.year || 9999))
+      .map((w) => ({ workId: w.id, title: w.title, ...(w.year ? { year: w.year } : {}), type: w.type }));
+    if (elsewhere.length) out.push({ id: q, name: c.n, elsewhere, said: c.said });
+  }
+  return out.sort((a, b) => b.said - a.said || b.elsewhere.length - a.elsewhere.length).slice(0, 6);
 }
 
 /** Вселенные (Ж2): связные куски графа связей. Средоточие — франшиза, иначе цикл, иначе узел с
@@ -370,9 +400,12 @@ let workRefsLoad: Promise<void> | undefined;
 function workRefs(): Promise<void> {
   workRefsLoad ??= Promise.all([
     import('@/mocks/filmForm'), import('@/mocks/tagNeighbours'), import('@/mocks/filmTropes'), import('@/mocks/comentions'),
-    serverRef<Record<string, CoMention[]>>('comentions'), relationRefs(),
-  ]).then(([ff, tn, ft, cm, freshCo]) => {
+    serverRef<Record<string, CoMention[]>>('comentions'), relationRefs(), import('@/mocks/characters'),
+  ]).then(([ff, tn, ft, cm, freshCo, , ch]) => {
     filmForm = ff.filmForm; tagNeighbours = tn.tagNeighbours; filmTropes = ft.filmTropes; comentions = freshCo ?? cm.comentions;
+    characters = ch.characters;
+    charactersByKey = new Map();
+    for (const [q, c] of Object.entries(characters)) for (const k of c.works) (charactersByKey.get(k) ?? charactersByKey.set(k, []).get(k)!).push(q);
   });
   return workRefsLoad;
 }
@@ -394,7 +427,7 @@ function curatorRefs(): Promise<void> {
  *  успеет посчитаться по пустому просмотренному, а потом дёрнется. */
 let unreachable = false;
 const ready: Promise<void> = (async () => {
-  const [state] = await Promise.all([loadState(), loadCore(), store.onServer ? undefined : catalog()]);
+  const [state] = await Promise.all([loadState(), core(), store.onServer ? undefined : catalog()]);
   // с сервером справочник фильмов догружается фоном: ленте он не нужен
   if (store.onServer) catalog().catch(() => undefined);
   if (state === 'unreachable') { unreachable = true; return; }
@@ -990,6 +1023,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
   const similarByTags = tagsFor(card);
   const relations = relationsFor(card);
   const universe = universeFor(card);
+  const heroes = heroesFor(card);
   const tropeMentions = tropesFor(card);
   return {
     ...detail, ...card,
@@ -999,6 +1033,7 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
     ...(similarByTags.length ? { similarByTags } : {}),
     ...(relations.length ? { relations } : {}),
     ...(universe ? { universe } : {}),
+    ...(heroes.length ? { heroes } : {}),
     ...(tropeMentions.length ? { tropeMentions } : {}),
   };
 }

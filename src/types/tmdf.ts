@@ -41,6 +41,19 @@ export interface WorkRelationView {
   workId?: ID;
 }
 
+/** Герой, проходящий через несколько произведений (И1): Шерлок Холмс, Джокер, Дракула. Источник —
+ *  Wikidata (персонажи P674, «присутствует в» P1441, роли актёров P453); показываем только тех, кто
+ *  есть хотя бы в двух наших произведениях и кого называют в разборах. */
+export interface CharacterView {
+  /** элемент Wikidata героя */
+  id: string;
+  name: string;
+  /** другие наши произведения с ним — по году выхода */
+  elsewhere: { workId: ID; title: string; year?: number; type: MediaType }[];
+  /** сколько заголовков разборов его называют */
+  said: number;
+}
+
 /** director — режиссёр, writer — сценарист, creator — создатель сериала (шоураннер),
  *  author — автор книги */
 export type CreditRole = 'director' | 'writer' | 'creator' | 'author';
@@ -306,6 +319,8 @@ export interface WorkDetail extends WorkCard {
   relations?: WorkRelationView[];
   /** вселенная (Ж2), если в ней хотя бы три произведения: франшиза, цикл или цепочка связей */
   universe?: { id: string; title: string; size: number };
+  /** герои, которые есть и в других наших произведениях (И1) */
+  heroes?: CharacterView[];
   contributorsCredit: string[];
   desireModel?: DesireModel;
   characters?: CharacterDesire[];
