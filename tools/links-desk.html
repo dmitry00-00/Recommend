@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пульт ссылок</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --drop: #eef2fc; --chip: #efede8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --drop: #1d2438; --chip: #2a2926; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 96px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 28px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .warn { color: var(--warn); } .bad { color: var(--bad); } .ok { color: var(--ok); } .muted { color: var(--muted); }
+  #drop { border: 2px dashed var(--line); border-radius: 12px; padding: 12px; background: var(--panel); transition: .15s; }
+  #drop.over { border-color: var(--accent); background: var(--drop); }
+  textarea { width: 100%; min-height: 150px; font: 14px/1.4 ui-monospace, Menlo, monospace; border: 0; background: transparent; color: var(--ink); resize: vertical; outline: none; }
+  button, select { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.chip { border-radius: 999px; padding: 3px 11px; font-size: 14px; }
+  button.chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0 0; }
+  .spacer { flex: 1; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; position: sticky; top: 0; background: var(--panel); }
+  tr:last-child td { border-bottom: 0; }
+  td.n { color: var(--muted); font-variant-numeric: tabular-nums; width: 3em; }
+  .vt a { color: var(--ink); text-decoration: none; } .vt a:hover { text-decoration: underline; }
+  .vt small { display: block; color: var(--muted); }
+  input.film { font: inherit; width: 100%; min-width: 220px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+  input.film.unknown { border-color: var(--warn); } input.film.empty { border-color: var(--bad); }
+  .tag { display: inline-block; font-size: 12px; padding: 1px 7px; border-radius: 999px; background: var(--chip); color: var(--muted); margin: 3px 4px 0 0; }
+  .tag.warn { color: var(--warn); } .tag.ok { color: var(--ok); }
+  .opts { margin-top: 3px; } .opts button { font-size: 12px; padding: 1px 7px; margin: 2px 4px 0 0; border-radius: 999px; }
+  .x { border: 0; background: none; color: var(--muted); font-size: 18px; padding: 0 6px; }
+  .table-wrap { overflow-x: auto; }
+  #save-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--panel); border-top: 1px solid var(--line); padding: 10px 16px; }
+  #save-bar .in { max-width: 1100px; margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Пульт ссылок</h1>
+  <p class="sub">Ролики к фильмам и каналы обзорщиков и эссеистов — сразу пачкой, как накопились в заметках. Название фильма строкой выше ссылок или в той же строке («Дюна (2021) — ссылка»); заголовок вроде «Обзорщики:» или «Эссеисты» задаёт ярус каналам ниже. Без названия фильм угадается по названию ролика.</p>
+  <p id="env" class="warn"></p>
+
+  <div id="drop">
+    <textarea id="text" placeholder="Вставьте сюда заметки со ссылками — или перетащите файлы .txt, .md, .csv"></textarea>
+  </div>
+  <div class="bar">
+    <button id="parse" class="primary">Разобрать</button>
+    <button id="pick">Файлы…</button><input id="file" type="file" multiple accept=".txt,.md,.csv,.html,.htm" hidden>
+    <span id="loading" class="muted"></span>
+  </div>
+
+  <h2 id="vh">Ролики</h2>
+  <div class="bar" id="filters"></div>
+  <div class="table-wrap" style="margin-top:10px"><table id="videos"></table></div>
+
+  <h2 id="ch">Каналы</h2>
+  <div class="table-wrap"><table id="channels"></table></div>
+  <datalist id="films"></datalist>
+</main>
+<div id="save-bar"><div class="in">
+  <span id="summary"></span><span class="spacer"></span>
+  <button id="clear">Убрать сохранённое</button>
+  <button id="save" class="primary">Сохранить</button>
+</div></div>
+<div id="toast"></div>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const plural = (n, one, few, many) => `${n} ${n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many}`;
+let state = { items: [], channels: [], counts: {}, env: {} };
+let lastJson = '';
+let filter = 'all';
+
+function toast(text) {
+  const t = $('#toast'); t.textContent = text; t.style.display = 'block';
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => { t.style.display = 'none'; }, 6000);
+}
+async function post(path, body = {}) {
+  const res = await fetch(path, { method: 'POST', headers: { 'content-type': 'application/json', 'x-desk': '1' }, body: JSON.stringify(body) });
+  const data = await res.json();
+  if (data.error) toast(data.error);
+  if (data.state) apply(data.state);
+  return data;
+}
+async function refresh() { try { apply(await (await fetch('/api/state')).json()); } catch { /* пульт закрыли */ } }
+function apply(s) {
+  state = s;
+  const json = JSON.stringify(s);
+  if (json === lastJson || document.activeElement?.matches('input.film')) return;
+  lastJson = json;
+  render();
+}
+
+const HOW = { notes: 'из заметок', title: 'по названию ролика', manual: 'вручную' };
+const FILTERS = [
+  ['all', 'все', (i) => true],
+  ['empty', 'без фильма', (i) => i.key === undefined || i.key === null && !i.film],
+  ['unknown', 'нет у нас', (i) => i.key === null && i.film],
+  ['title', 'угадано по ролику', (i) => i.how === 'title'],
+  ['check', 'проверить', (i) => i.check],
+  ['existing', 'уже в разметке', (i) => i.existing && !i.saved],
+  ['unsaved', 'не сохранено', (i) => !i.saved],
+];
+
+function render() {
+  const c = state.counts;
+  $('#env').textContent = state.env.yt ? '' : 'Нет YT_API_KEY в .env.local — названия роликов спрошу по одному (медленнее), каналы по ссылке /channel/… не узнаю.';
+  $('#loading').textContent = state.loading ? `узнаю названия роликов: ${state.loading}…` : '';
+  $('#vh').textContent = `Ролики · ${c.videos ?? 0}`;
+  $('#filters').innerHTML = FILTERS.map(([k, label, f]) => {
+    const n = state.items.filter(f).length;
+    return `<button class="chip ${filter === k ? 'on' : ''}" data-filter="${k}">${label} ${n}</button>`;
+  }).join('');
+  const f = FILTERS.find(([k]) => k === filter)[2];
+  const rows = state.items.filter(f);
+  $('#videos').innerHTML = rows.length ? `<tr><th>стр.</th><th>Ролик</th><th style="width:44%">Фильм</th><th></th></tr>` + rows.map((i) => {
+    const title = i.meta ? `${esc(i.meta.title)}<small>${esc(i.meta.author)}</small>` : `<span class="muted">${esc(i.id)}</span>`;
+    const cls = i.key === null && i.film ? 'unknown' : !i.film ? 'empty' : '';
+    const tags = [
+      i.film && i.how && HOW[i.how] ? `<span class="tag">${HOW[i.how]}</span>` : '',
+      i.check ? '<span class="tag warn">в названии ролика этого фильма нет — проверьте</span>' : '',
+      i.key === null && i.film ? '<span class="tag warn">нет у нас — опознаем по названию при следующей синхронизации</span>' : '',
+      i.typed && i.key === null ? `<span class="tag">в заметках: «${esc(i.typed)}»</span>` : '',
+      i.existing ? `<span class="tag ${i.saved ? 'ok' : ''}">${i.saved ? 'сохранено' : 'уже в разметке'}: ${esc(i.existing.film ?? '—')}</span>` : '',
+    ].join('');
+    const opts = i.options?.length > 1 || (i.key === null && i.options?.length)
+      ? `<div class="opts">${i.options.map((o) => `<button data-pick="${esc(o.label)}">${esc(o.label)}</button>`).join('')}</div>` : '';
+    return `<tr data-id="${i.id}"><td class="n">${i.line}</td>
+      <td class="vt"><a href="${esc(i.url)}" target="_blank" rel="noreferrer">${title}</a></td>
+      <td><input class="film ${cls}" list="films" value="${esc(i.film ?? '')}" placeholder="фильм — начните вводить">${tags}${opts}</td>
+      <td><button class="x" data-remove title="убрать">×</button></td></tr>`;
+  }).join('') : '<tr><td class="muted">пусто</td></tr>';
+
+  $('#ch').textContent = `Каналы · ${state.channels.length}`;
+  $('#channels').innerHTML = state.channels.length ? `<tr><th>стр.</th><th>Канал</th><th>В реестре</th><th>Ярус</th><th>Предмет</th><th>Сохранить</th><th></th></tr>` + state.channels.map((ch) => `
+    <tr data-ch="${esc(ch.id)}"><td class="n">${ch.line}</td>
+      <td class="vt"><a href="${esc(ch.url)}" target="_blank" rel="noreferrer">${esc(ch.title ?? (ch.handle ? '@' + ch.handle : ch.url))}<small>${ch.handle ? '@' + esc(ch.handle) : ''}</small></a>${ch.error ? `<small class="bad">${esc(ch.error)}</small>` : ''}</td>
+      <td>${ch.existing ? `есть: ${ch.existing.tier === 'review' ? 'обзор' : 'эссе'}${ch.existing.medium === 'book' ? ', книги' : ''}${ch.existing.via ? ', из ссылок' : ''}` : '<span class="ok">новый</span>'}${ch.saved ? ' <span class="tag ok">сохранено</span>' : ''}</td>
+      <td><select data-tier><option value="review" ${ch.tier === 'review' ? 'selected' : ''}>обзор</option><option value="essay" ${ch.tier === 'essay' ? 'selected' : ''}>эссе</option></select></td>
+      <td><select data-medium><option value="film" ${ch.medium === 'film' ? 'selected' : ''}>кино</option><option value="book" ${ch.medium === 'book' ? 'selected' : ''}>книги</option></select></td>
+      <td><input type="checkbox" data-include ${ch.include ? 'checked' : ''} ${ch.handle ? '' : 'disabled'}></td>
+      <td><button class="x" data-cremove title="убрать">×</button></td></tr>`).join('') : '<tr><td class="muted">пусто</td></tr>';
+
+  const chToSave = state.channels.filter((ch) => ch.include && !ch.saved && ch.handle).length;
+  $('#summary').innerHTML = `к сохранению: ${plural(c.unsaved ?? 0, 'ролик', 'ролика', 'роликов')}${c.unknown ? ` (из них «нет у нас» ${c.unknown})` : ''}, ${plural(chToSave, 'канал', 'канала', 'каналов')}${c.empty ? ` · <span class="bad">без фильма ${c.empty}</span> — не сохранятся` : ''}`;
+  $('#save').disabled = !(c.unsaved || chToSave);
+}
+
+// ─── действия ────────────────────────────────────────────────────────────────
+$('#filters').addEventListener('click', (e) => { const b = e.target.closest('[data-filter]'); if (b) { filter = b.dataset.filter; lastJson = ''; render(); } });
+$('#videos').addEventListener('change', (e) => {
+  if (!e.target.matches('input.film')) return;
+  const id = e.target.closest('tr').dataset.id;
+  post(`/api/video/${id}/film`, { film: e.target.value });
+});
+$('#videos').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input.film')) e.target.blur(); });
+$('#videos').addEventListener('focusout', (e) => { if (e.target.matches('input.film')) setTimeout(() => { lastJson = ''; apply(state); }, 0); });
+$('#videos').addEventListener('click', (e) => {
+  const tr = e.target.closest('tr[data-id]');
+  if (!tr) return;
+  if (e.target.closest('[data-remove]')) return post(`/api/video/${tr.dataset.id}/remove`);
+  const pick = e.target.closest('[data-pick]');
+  if (pick) post(`/api/video/${tr.dataset.id}/film`, { film: pick.dataset.pick });
+});
+$('#channels').addEventListener('change', (e) => {
+  const tr = e.target.closest('tr[data-ch]');
+  if (!tr) return;
+  const id = encodeURIComponent(tr.dataset.ch);
+  if (e.target.matches('[data-tier]')) post(`/api/channel/${id}`, { tier: e.target.value, include: true });
+  if (e.target.matches('[data-medium]')) post(`/api/channel/${id}`, { medium: e.target.value, include: true });
+  if (e.target.matches('[data-include]')) post(`/api/channel/${id}`, { include: e.target.checked });
+});
+$('#channels').addEventListener('click', (e) => {
+  const tr = e.target.closest('tr[data-ch]');
+  if (tr && e.target.closest('[data-cremove]')) post(`/api/channel/${encodeURIComponent(tr.dataset.ch)}`, { remove: true });
+});
+async function sendText(text) {
+  if (!text.trim()) return;
+  const r = await post('/api/text', { text });
+  const a = r.added;
+  if (a) toast(`Роликов ${a.videos}${a.known ? ` (уже в разметке ${a.known})` : ''}, каналов ${a.channels}${a.other.length ? ` · не узнал ссылок: ${a.other.length} (${a.other.slice(0, 2).join(', ')}${a.other.length > 2 ? '…' : ''})` : ''}`);
+}
+$('#parse').onclick = async () => { await sendText($('#text').value); $('#text').value = ''; };
+$('#save').onclick = async () => {
+  const r = await post('/api/save');
+  const s = r.saved;
+  if (s) toast(`Сохранено: роликов ${s.videos}${s.unknown ? ` (нет у нас ${s.unknown})` : ''}, каналов новых ${s.channels}, изменено ${s.changed}${s.skipped.length ? `, без ника пропущено ${s.skipped.length}` : ''}. Дальше — deploy/markup-sync.command или run-all.`);
+};
+$('#clear').onclick = () => post('/api/clear-saved');
+
+// файлы: кнопка и перетаскивание
+async function upload(files) {
+  for (const f of files) await sendText(await f.text());
+}
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach((t) => drop.addEventListener(t, (e) => { if (e.dataTransfer?.types?.includes('Files')) { e.preventDefault(); drop.classList.add('over'); } }));
+['dragleave', 'drop'].forEach((t) => drop.addEventListener(t, () => drop.classList.remove('over')));
+drop.addEventListener('drop', (e) => { if (e.dataTransfer.files.length) { e.preventDefault(); upload([...e.dataTransfer.files]); } });
+$('#pick').onclick = () => $('#file').click();
+$('#file').onchange = (e) => { upload([...e.target.files]); e.target.value = ''; };
+
+fetch('/api/films').then((r) => r.json()).then((list) => { $('#films').innerHTML = list.map((l) => `<option value="${esc(l)}">`).join(''); });
+refresh();
+setInterval(() => { if (state.loading || !lastJson) refresh(); }, 1200);
+</script>
+</body>
+</html>

@@ -202,6 +202,21 @@ if 'Корпус' in wb.sheetnames:
             for vid in found:
                 put(vid, {'key': keys[label], 'film': label, 'from': 'corpus'}, 'из корпуса')
 
+# Пульт ссылок (tools/links-desk.mts, 01.10): ролик к фильму, которого у нас нет, лежит в решениях как
+# «нет у нас» с названием. В листах таблицы его нет — поэтому опознаватель (resolve-markup-films.mts)
+# получает его отсюда, а найденное им применяется здесь же на втором круге импорта
+for vid, v in list(verdicts.items()):
+    if v.get('from') != 'desk' or v.get('key') or v.get('why') != 'нет у нас' or not v.get('film'):
+        continue
+    r = resolved.get(vid, {})
+    if r.get('typed') == v['film'] and r.get('key'):
+        nv = {'key': r['key'], 'film': r['label'], 'from': 'desk'}
+        if not r.get('sure'):
+            nv['guess'] = True
+        put(vid, nv, 'опознали по названию' if r.get('sure') else 'опознали, на проверку')
+    else:
+        typed.append({'video': vid, 'film': v['film'], 'title': v.get('title', ''), 'sheet': 'пульт ссылок'})
+
 body = {'//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
               ' читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса'
               ' её не сотрёт. Править руками можно, ключ — id ролика на YouTube.',
