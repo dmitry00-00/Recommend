@@ -66,6 +66,10 @@ export const sources: VoiceSource[] = [
   // обзорщики кино — владелец, 30.09. Названия — предварительные: точные приходят из YouTube API при обходе
   { id: 'src-alesha-pirojok', title: 'Алёша Пирожок', handle: 'alesha_pirojok', platform: 'youtube', url: 'https://www.youtube.com/@alesha_pirojok', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-4kamedia', title: '4ka media', handle: '4kamedia', platform: 'youtube', url: 'https://www.youtube.com/@4kamedia', role: 'voice', kind: 'channel', tier: 'review' },
+  // ещё три обзорщика — владелец, 01.10 (название в индексе роликов берётся из YouTube)
+  { id: 'src-mefisto-studio', title: 'Mefisto Studio', handle: 'mefisto_studio', platform: 'youtube', url: 'https://www.youtube.com/@mefisto_studio', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-chuckreview', title: 'Chuck Review', handle: 'chuckreview', platform: 'youtube', url: 'https://www.youtube.com/@chuckreview', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-uglyjoke', title: 'Ugly Joke', handle: 'uglyjoke', platform: 'youtube', url: 'https://www.youtube.com/@uglyjoke', role: 'voice', kind: 'channel', tier: 'review' },
   // подборки «что посмотреть» — владелец, 30.09: ярус обзора, `lists` — ролик это список фильмов
   { id: 'src-slavakinoman', title: 'Слава Киноман', handle: 'slavakinoman', platform: 'youtube', url: 'https://www.youtube.com/@slavakinoman', role: 'voice', kind: 'channel', tier: 'review', lists: true },
   { id: 'src-kino-time', title: 'Kino Time', handle: 'kino-time', platform: 'youtube', url: 'https://www.youtube.com/@kino-time', role: 'voice', kind: 'channel', tier: 'review', lists: true },
