@@ -1,20 +1,20 @@
-// Пульт импорта с Кинопоиска: страница на http://127.0.0.1:8721 — бросаешь страницы профилей
+// Пульт импорта с Кинопоиска — вкладка «Оценки Кинопоиска» общего пульта (tools/desk.mts,
+// http://127.0.0.1:8721/kinopoisk/): бросаешь страницы профилей
 // (сразу от нескольких людей, можно папками), пульт раскладывает их по профилям, ты вписываешь
 // ник Telegram, «Собрать» → seeds/<ник>.json, «Отправить» → сервер. Запуск двойным щелчком —
-// deploy/kinopoisk-desk.command; или `npx tsx tools/kinopoisk-desk.mts [порт]`.
-// Слушает только 127.0.0.1. Меняющие запросы — только со своей страницы (заголовок x-desk и
-// Host): чужой сайт в браузере не сможет отправить сид от имени владельца.
+// deploy/desk.command (или deploy/kinopoisk-desk.command — сразу на эту вкладку).
+// Слушает только 127.0.0.1; меняющие запросы — только со своей страницы (заголовок x-desk и
+// Host) — это проверяет общий пульт: чужой сайт в браузере не отправит сид от имени владельца.
 // Сырые страницы в память не кладутся: из запроса сразу разбор, дальше — только записи.
 // Ник для профиля Кинопоиска запоминается (.cache/kinopoisk-profiles.json, вне git): кто
 // прислал страницы второй раз, узнаётся сам.
-import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import {
   buildSeed, mergeRecords, pagesReport, publishSeed, readPage, SEEDS, seedSummary, validNick,
   type Page, type Progress, type Published, type SeedResult,
 } from './kinopoisk-seed.mts';
 
-const PORT = Number(process.argv[2] ?? 8721);
 const PROFILES = '.cache/kinopoisk-profiles.json';
 const remembered: Record<string, string> = existsSync(PROFILES) ? JSON.parse(readFileSync(PROFILES, 'utf8')) : {};
 const remember = (profile: string, nick: string) => {
@@ -148,12 +148,13 @@ const readBody = (req: IncomingMessage): Promise<string> => new Promise((ok, fai
 });
 const PAGE = new URL('./kinopoisk-desk.html', import.meta.url);
 
-const server = createServer(async (req, res) => {
-  const url = new URL(req.url ?? '/', `http://${req.headers.host}`);
-  if (!/^(127\.0\.0\.1|localhost):\d+$/.test(req.headers.host ?? '')) return send(res, 403, { error: 'host' });
+/** Вкладка общего пульта: `path` — адрес внутри вкладки («/», «/api/state»…). Хост и заголовок x-desk
+ *  уже проверил tools/desk.mts. */
+export async function kinopoiskRoute(req: IncomingMessage, res: ServerResponse, path: string): Promise<void> {
+  const url = { pathname: path };
   if (req.method === 'GET' && url.pathname === '/') return send(res, 200, readFileSync(PAGE, 'utf8'), 'text/html; charset=utf-8');
   if (req.method === 'GET' && url.pathname === '/api/state') return send(res, 200, state());
-  if (req.method !== 'POST' || req.headers['x-desk'] !== '1') return send(res, 404, { error: 'not_found' });
+  if (req.method !== 'POST') return send(res, 404, { error: 'not_found' });
 
   try {
     const body = JSON.parse((await readBody(req)) || '{}') as Record<string, unknown>;
@@ -188,5 +189,4 @@ const server = createServer(async (req, res) => {
   } catch (err) {
     return send(res, 400, { error: (err as Error).message });
   }
-});
-server.listen(PORT, '127.0.0.1', () => console.log(`пульт импорта Кинопоиска: http://127.0.0.1:${PORT} — окно не закрывать, пока работаете`));
+}

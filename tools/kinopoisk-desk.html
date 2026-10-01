@@ -52,10 +52,14 @@
   td.num { font-variant-numeric: tabular-nums; }
   .table-wrap { overflow-x: auto; }
   #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
+  nav.tabs { display: flex; gap: 6px; margin: 0 0 18px; border-bottom: 1px solid var(--line); }
+  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
+  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="tabs"><a href="../links/" class="">Ссылки</a><a href="../kinopoisk/" class="on">Оценки Кинопоиска</a></nav>
   <h1>Импорт оценок с Кинопоиска</h1>
   <p class="sub">Страницы профилей → профили участников на сервере. Файлы разбираются здесь, на этом компьютере, и никуда не уходят — на сервер попадает только список фильмов с оценками.</p>
   <p id="env" class="warn"></p>
@@ -97,7 +101,7 @@ async function post(path, body = {}) {
   return data;
 }
 async function refresh() {
-  try { apply(await (await fetch('/api/state')).json()); } catch { /* сервер закрыли — страница останется как есть */ }
+  try { apply(await (await fetch('api/state')).json()); } catch { /* сервер закрыли — страница останется как есть */ }
 }
 function apply(s) {
   state = s;
@@ -191,14 +195,14 @@ $('#groups').addEventListener('click', (e) => {
   if (!btn) return;
   const id = btn.closest('.card').dataset.id;
   if (btn.dataset.act === 'remove' && !confirm('Убрать этот профиль с пульта? Собранный seeds/ останется.')) return;
-  post(`/api/group/${encodeURIComponent(id)}/${btn.dataset.act}`);
+  post(`api/group/${encodeURIComponent(id)}/${btn.dataset.act}`);
 });
 $('#groups').addEventListener('change', (e) => {
   if (!e.target.matches('input.nick')) return;
   const id = e.target.closest('.card').dataset.id;
   const nick = e.target.value.trim().replace(/^@/, '');
   e.target.blur();
-  post(`/api/group/${encodeURIComponent(id)}/nick`, { nick });
+  post(`api/group/${encodeURIComponent(id)}/nick`, { nick });
 });
 $('#groups').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input.nick')) e.target.blur(); });
 $('#groups').addEventListener('focusout', (e) => { if (e.target.matches('input.nick')) setTimeout(() => { lastJson = ''; apply(state); }, 0); });
@@ -206,13 +210,13 @@ $('#seeds').addEventListener('click', async (e) => {
   const btn = e.target.closest('button[data-seed]');
   if (!btn || !confirm(`Отправить seeds/${btn.dataset.seed}.json на сервер?`)) return;
   btn.disabled = true;
-  const r = await post(`/api/seed/${encodeURIComponent(btn.dataset.seed)}/publish`);
+  const r = await post(`api/seed/${encodeURIComponent(btn.dataset.seed)}/publish`);
   if (r.published) toast(`@${btn.dataset.seed}: на сервере`);
 });
-$('#buildAll').onclick = () => post('/api/build-all');
+$('#buildAll').onclick = () => post('api/build-all');
 $('#publishAll').onclick = () => {
   const n = state.groups.filter((g) => g.status === 'built').length;
-  if (confirm(`Отправить на сервер ${plural(n, 'профиль', 'профиля', 'профилей')}?`)) post('/api/publish-all');
+  if (confirm(`Отправить на сервер ${plural(n, 'профиль', 'профиля', 'профилей')}?`)) post('api/publish-all');
 };
 
 // ─── файлы: кнопка, перетаскивание, папки ─────────────────────────────────────
@@ -225,7 +229,7 @@ async function upload(files) {
   let added = 0; const unknown = [];
   for (let i = 0; i < list.length; i += 20) {
     const batch = await Promise.all(list.slice(i, i + 20).map(async (f) => ({ name: f.name, text: await f.text() })));
-    const r = await post('/api/files', { files: batch });
+    const r = await post('api/files', { files: batch });
     added += r.added ?? 0; unknown.push(...(r.unrecognized ?? []));
   }
   toast(`Разобрано ${added}${unknown.length ? ` · не узнал: ${unknown.slice(0, 3).join(', ')}${unknown.length > 3 ? '…' : ''}` : ''}`);

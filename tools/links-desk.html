@@ -47,10 +47,14 @@
   #save-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--panel); border-top: 1px solid var(--line); padding: 10px 16px; }
   #save-bar .in { max-width: 1100px; margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
+  nav.tabs { display: flex; gap: 6px; margin: 0 0 18px; border-bottom: 1px solid var(--line); }
+  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
+  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
 </style>
 </head>
 <body>
 <main>
+  <nav class="tabs"><a href="../links/" class="on">Ссылки</a><a href="../kinopoisk/" class="">Оценки Кинопоиска</a></nav>
   <h1>Пульт ссылок</h1>
   <p class="sub">Ролики к фильмам и каналы обзорщиков и эссеистов — сразу пачкой, как накопились в заметках. Название фильма строкой выше ссылок или в той же строке («Дюна (2021) — ссылка»); заголовок вроде «Обзорщики:» или «Эссеисты» задаёт ярус каналам ниже. Без названия фильм угадается по названию ролика.</p>
   <p id="env" class="warn"></p>
@@ -97,7 +101,7 @@ async function post(path, body = {}) {
   if (data.state) apply(data.state);
   return data;
 }
-async function refresh() { try { apply(await (await fetch('/api/state')).json()); } catch { /* пульт закрыли */ } }
+async function refresh() { try { apply(await (await fetch('api/state')).json()); } catch { /* пульт закрыли */ } }
 function apply(s) {
   state = s;
   const json = JSON.stringify(s);
@@ -166,42 +170,42 @@ $('#filters').addEventListener('click', (e) => { const b = e.target.closest('[da
 $('#videos').addEventListener('change', (e) => {
   if (!e.target.matches('input.film')) return;
   const id = e.target.closest('tr').dataset.id;
-  post(`/api/video/${id}/film`, { film: e.target.value });
+  post(`api/video/${id}/film`, { film: e.target.value });
 });
 $('#videos').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input.film')) e.target.blur(); });
 $('#videos').addEventListener('focusout', (e) => { if (e.target.matches('input.film')) setTimeout(() => { lastJson = ''; apply(state); }, 0); });
 $('#videos').addEventListener('click', (e) => {
   const tr = e.target.closest('tr[data-id]');
   if (!tr) return;
-  if (e.target.closest('[data-remove]')) return post(`/api/video/${tr.dataset.id}/remove`);
+  if (e.target.closest('[data-remove]')) return post(`api/video/${tr.dataset.id}/remove`);
   const pick = e.target.closest('[data-pick]');
-  if (pick) post(`/api/video/${tr.dataset.id}/film`, { film: pick.dataset.pick });
+  if (pick) post(`api/video/${tr.dataset.id}/film`, { film: pick.dataset.pick });
 });
 $('#channels').addEventListener('change', (e) => {
   const tr = e.target.closest('tr[data-ch]');
   if (!tr) return;
   const id = encodeURIComponent(tr.dataset.ch);
-  if (e.target.matches('[data-tier]')) post(`/api/channel/${id}`, { tier: e.target.value, include: true });
-  if (e.target.matches('[data-medium]')) post(`/api/channel/${id}`, { medium: e.target.value, include: true });
-  if (e.target.matches('[data-include]')) post(`/api/channel/${id}`, { include: e.target.checked });
+  if (e.target.matches('[data-tier]')) post(`api/channel/${id}`, { tier: e.target.value, include: true });
+  if (e.target.matches('[data-medium]')) post(`api/channel/${id}`, { medium: e.target.value, include: true });
+  if (e.target.matches('[data-include]')) post(`api/channel/${id}`, { include: e.target.checked });
 });
 $('#channels').addEventListener('click', (e) => {
   const tr = e.target.closest('tr[data-ch]');
-  if (tr && e.target.closest('[data-cremove]')) post(`/api/channel/${encodeURIComponent(tr.dataset.ch)}`, { remove: true });
+  if (tr && e.target.closest('[data-cremove]')) post(`api/channel/${encodeURIComponent(tr.dataset.ch)}`, { remove: true });
 });
 async function sendText(text) {
   if (!text.trim()) return;
-  const r = await post('/api/text', { text });
+  const r = await post('api/text', { text });
   const a = r.added;
   if (a) toast(`Роликов ${a.videos}${a.known ? ` (уже в разметке ${a.known})` : ''}, каналов ${a.channels}${a.other.length ? ` · не узнал ссылок: ${a.other.length} (${a.other.slice(0, 2).join(', ')}${a.other.length > 2 ? '…' : ''})` : ''}`);
 }
 $('#parse').onclick = async () => { await sendText($('#text').value); $('#text').value = ''; };
 $('#save').onclick = async () => {
-  const r = await post('/api/save');
+  const r = await post('api/save');
   const s = r.saved;
   if (s) toast(`Сохранено: роликов ${s.videos}${s.unknown ? ` (нет у нас ${s.unknown})` : ''}, каналов новых ${s.channels}, изменено ${s.changed}${s.skipped.length ? `, без ника пропущено ${s.skipped.length}` : ''}. Дальше — deploy/markup-sync.command или run-all.`);
 };
-$('#clear').onclick = () => post('/api/clear-saved');
+$('#clear').onclick = () => post('api/clear-saved');
 
 // файлы: кнопка и перетаскивание
 async function upload(files) {
@@ -214,7 +218,7 @@ drop.addEventListener('drop', (e) => { if (e.dataTransfer.files.length) { e.prev
 $('#pick').onclick = () => $('#file').click();
 $('#file').onchange = (e) => { upload([...e.target.files]); e.target.value = ''; };
 
-fetch('/api/films').then((r) => r.json()).then((list) => { $('#films').innerHTML = list.map((l) => `<option value="${esc(l)}">`).join(''); });
+fetch('api/films').then((r) => r.json()).then((list) => { $('#films').innerHTML = list.map((l) => `<option value="${esc(l)}">`).join(''); });
 refresh();
 setInterval(() => { if (state.loading || !lastJson) refresh(); }, 1200);
 </script>

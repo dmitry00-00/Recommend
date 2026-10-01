@@ -1,14 +1,13 @@
-// Пульт ссылок: страница на http://127.0.0.1:8722 — вставляешь накопленные заметки со ссылками
+// Пульт ссылок — вкладка «Ссылки» общего пульта (tools/desk.mts, http://127.0.0.1:8721/links/): вставляешь накопленные заметки со ссылками
 // (сотни сразу: ролики к фильмам, каналы обзорщиков и эссеистов), пульт раскладывает их, угадывает
 // фильм, показывает, что уже размечено, и по «Сохранить» пишет:
 //   · ролики → tools/markup-verdicts.json (как ручная разметка из таблицы, `from: 'desk'`) — их
 //     подхватывают индекс разборов и таблица разметки; фильм, которого у нас нет, — «нет у нас»
 //     с названием: его опознает tools/resolve-markup-films.mts на следующем круге markup-sync;
 //   · каналы → src/mocks/sources.ts (ярус и предмет — выбором на странице).
-// Запуск двойным щелчком — deploy/links-desk.command; или `npx tsx tools/links-desk.mts [порт]`.
-// Слушает только 127.0.0.1; меняющие запросы — только со своей страницы (заголовок x-desk и Host),
-// как у пульта Кинопоиска (tools/kinopoisk-desk.mts).
-import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
+// Запуск двойным щелчком — deploy/desk.command (или deploy/links-desk.command — сразу на эту вкладку).
+// Хост и заголовок x-desk проверяет общий пульт.
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
@@ -18,7 +17,6 @@ import { filmOptions, matchFilm, parsePaste, sourceLine, titleMentions } from '.
 import { sources } from '../src/mocks/sources.ts';
 
 loadEnvFile();
-const PORT = Number(process.argv[2] ?? 8722);
 const YT = process.env.YT_API_KEY;
 const VERDICTS = new URL('./markup-verdicts.json', import.meta.url);
 const REGISTRY = new URL('../src/mocks/sources.ts', import.meta.url);
@@ -240,13 +238,13 @@ const readBody = (req: IncomingMessage): Promise<string> => new Promise((ok, fai
 });
 const PAGE = new URL('./links-desk.html', import.meta.url);
 
-const server = createServer(async (req, res) => {
-  const url = new URL(req.url ?? '/', `http://${req.headers.host}`);
-  if (!/^(127\.0\.0\.1|localhost):\d+$/.test(req.headers.host ?? '')) return send(res, 403, { error: 'host' });
+/** Вкладка общего пульта: `path` — адрес внутри вкладки. Хост и x-desk проверил tools/desk.mts. */
+export async function linksRoute(req: IncomingMessage, res: ServerResponse, path: string): Promise<void> {
+  const url = { pathname: path };
   if (req.method === 'GET' && url.pathname === '/') return send(res, 200, readFileSync(PAGE, 'utf8'), 'text/html; charset=utf-8');
   if (req.method === 'GET' && url.pathname === '/api/state') return send(res, 200, state());
   if (req.method === 'GET' && url.pathname === '/api/films') return send(res, 200, films.map((f) => f.label));
-  if (req.method !== 'POST' || req.headers['x-desk'] !== '1') return send(res, 404, { error: 'not_found' });
+  if (req.method !== 'POST') return send(res, 404, { error: 'not_found' });
   try {
     const body = JSON.parse((await readBody(req)) || '{}') as Record<string, unknown>;
     if (url.pathname === '/api/text') return send(res, 200, { added: addText(String(body.text ?? '')), state: state() });
@@ -294,5 +292,4 @@ const server = createServer(async (req, res) => {
   } catch (err) {
     return send(res, 400, { error: (err as Error).message });
   }
-});
-server.listen(PORT, '127.0.0.1', () => console.log(`пульт ссылок: http://127.0.0.1:${PORT} — окно не закрывать, пока работаете`));
+}
