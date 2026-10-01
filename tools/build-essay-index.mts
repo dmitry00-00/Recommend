@@ -42,6 +42,9 @@ const channels = new Map<string, string>();
 const reviewers = new Set<string>();
 // книжные каналы (`medium: 'book'`, З6): в их роликах ищем книги, а не фильмы (tools/book-channels.mts)
 const bookChannels = new Set<string>();
+// англоязычные каналы (`language: 'en'` в sources.ts): их ролик помечаем «англ.» и сопоставляем
+// по-английски (Title Case в заголовке — не продолжение названия, tools/title-match.mts)
+const englishChannels = new Set<string>();
 for (let i = 0; i < ids.length; i += 50) {
   const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
     { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
@@ -55,12 +58,13 @@ for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === '
   if (it?.id) channels.set(it.id, it.snippet?.title ?? src.title);
   if (it?.id && src.medium === 'book') bookChannels.add(it.snippet?.title ?? src.title);
   if (it?.id && src.tier === 'review') reviewers.add(it.snippet?.title ?? src.title);
-  else console.error(`  ? канал @${src.handle} не нашёлся`);
+  if (it?.id && src.language === 'en') englishChannels.add(it.snippet?.title ?? src.title);
+  if (!it?.id) console.error(`  ? канал @${src.handle} не нашёлся`);
 }
 console.error(`каналы: ${[...channels.values()].join(', ')}`);
 
 // 2. Все загрузки каждого канала.
-interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean }
+interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean; en?: boolean }
 const videos: Video[] = [];
 for (const [id, title] of channels) {
   const c = await get<{ items?: { contentDetails?: { relatedPlaylists?: { uploads?: string } } }[] }>('channels',
@@ -74,7 +78,7 @@ for (const [id, title] of channels) {
       'playlistItems', { part: 'snippet', playlistId: uploads, maxResults: '50', ...(page ? { pageToken: page } : {}) });
     for (const it of j?.items ?? []) {
       if (it.snippet?.title && it.snippet.resourceId?.videoId) {
-        videos.push({ id: it.snippet.resourceId.videoId, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, ...(bookChannels.has(title) ? { book: true } : {}) });
+        videos.push({ id: it.snippet.resourceId.videoId, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, ...(bookChannels.has(title) ? { book: true } : {}), ...(englishChannels.has(title) ? { en: true } : {}) });
       }
     }
     page = j?.nextPageToken;
@@ -198,7 +202,7 @@ for (const [videoId, found] of best) {
   if (!said && tooEarly(work, v.publishedAt)) { early += 1; continue; }
   (out[key] ??= []).push({
     id: `yta-${videoId}`, title: v.title, author: v.channel, platform: 'youtube', url,
-    language: 'ru', spoilerLevel: 2, ...(verdict ? { evidence: verdict } : { unverified: true }),
+    language: v.en || englishChannels.has(v.channel) ? 'en' : 'ru', spoilerLevel: 2, ...(verdict ? { evidence: verdict } : { unverified: true }),
     ...(reviewers.has(v.channel) ? { tier: 'review' as const } : {}),
     previewUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     ...(minutes ? { durationMinutes: minutes } : {}),

@@ -27,7 +27,7 @@ const MIN_MINUTES = Number(arg('min-minutes', '5'));
 const LIMIT = Number(arg('limit', '0'));
 
 interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; channelId?: string; minutes?: number }
-type Channel = { title: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book'; via?: 'links' };
+type Channel = { title: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book'; via?: 'links'; language?: 'en' };
 
 const root = new URL('..', import.meta.url);
 const videos = JSON.parse(readFileSync(new URL('.cache/youtube/videos.json', root), 'utf8')) as Video[];
@@ -70,7 +70,7 @@ const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
   const todo = videos.filter((v) => fromLinks(v) && (v.minutes ?? 0) >= MIN_MINUTES && !guess.has(v.id));
   const t = Date.now();
   // книги (isbn:) не предлагаем — таблица про киноролики, и ярлыка у них в списке нет
-  const found = matchVideos(todo, worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
+  const found = matchVideos(todo.map((v) => (channels[v.channelId ?? '']?.language === 'en' ? { ...v, en: true } : v)), worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
   for (const [id, g] of found) guess.set(id, g.key);
   console.log(`каналы из ссылок: роликов ${todo.length}, угадан фильм у ${found.size} (${Math.round((Date.now() - t) / 1000)} с)`);
 }

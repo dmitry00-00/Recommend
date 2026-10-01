@@ -22,6 +22,8 @@ export interface VideoLike {
   id: string; title: string; description?: string; publishedAt?: string;
   /** ролик книжного канала (З6): ищем и книги каталога, из равных — книгу (tools/book-channels.mts) */
   book?: boolean;
+  /** ролик англоязычного канала: заголовок в Title Case (tools/title-match.mts, `english`) */
+  en?: boolean;
 }
 export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string }
 
@@ -60,7 +62,7 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       if (!cands.has(w) || (w.needsSeriesTalk && !series)) continue;
       // «Адмирал Кузнецов 6 серия обзор», «Больница Питт 2 сезон 7 серия» — разбор серии, а не фильма (01.10)
       if (episode && !isSeries(w.work)) continue;
-      const len = Math.max(0, ...namesFor(w, Boolean(v.book)).map((n) => nameMatch(v.title, n, { ordinary: options.ordinary, loose: options.loose })));
+      const len = Math.max(0, ...namesFor(w, Boolean(v.book)).map((n) => nameMatch(v.title, n, { ordinary: options.ordinary, loose: options.loose, english: v.en })));
       if (!len || len < max) continue;
       if (len > max) { max = len; tied = []; }
       tied.push(w);

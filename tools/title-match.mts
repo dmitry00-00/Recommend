@@ -115,6 +115,23 @@ export interface MatchOptions {
    *  требуется (`marked`), поднимает планку: капса мало, нужны кавычки. Капс её и не ловил —
    *  «ВСЕМ СПАСИБО» уходило в «Спасибо» 2003 года именно капсом (замер 24.09). */
   ordinary?: ReadonlySet<string>;
+  /** заголовок англоязычного канала (`language: 'en'` в sources.ts, 01.10): там всё латиницей и в
+   *  Title Case, и сторож «латиница продолжает название» резал бы почти каждый ролик — «Game of
+   *  Thrones Season 8 Review», «Why the Game of Thrones Ending Failed». Слово перед названием здесь
+   *  не в счёт (кроме притяжательного «Ridley Scott's»), а после — только слово-подпись (`EN_RUBRIC`). */
+  english?: boolean;
+}
+
+/** Слова, которыми англоязычные каналы подписывают ролик после названия. */
+const EN_RUBRIC = /^(?:seasons?|episodes?|s\d{1,2}(?:e\d{1,3})?|ep|reviews?|explained|explanation|theor(?:y|ies)|endings?|finale|breakdown|recap|reactions?|lore|analysis|trailers?|teaser|characters?|books?|show|tv|series|part|prequels?|spin-?offs?|fans?|predictions?|timeline|history|easter|retrospective|critique|opening|scenes?|spoilers?|discussion|podcast|live|deep|dive|maps?|myster(?:y|ies)|secrets?|foreshadowing|symbolism|vs\.?|is|was|were|are|has|had|have|will|did|does|do|should|could|would|can|actually|really|just|still|never|finally|isn['’]t|wasn['’]t|didn['’]t|doesn['’]t)$/i;
+
+/** То же, что `latinContinues`, для англоязычного заголовка. */
+function englishContinues(hit: string, before: string, after: string): boolean {
+  if (/^\s+(?:of|the|and|in|on|at|to|from|for|with|a|an)(?![A-Za-z])/i.test(after)) return true;
+  if (/^['’]s?(?:\s|$)/.test(after) && /^['’]s(?![A-Za-z])/.test(after)) return false;
+  const next = /^\s*[:—–-]?\s*([A-Za-z][A-Za-z'’-]*)/.exec(after)?.[1];
+  if (next && /^[A-Z]/.test(next) && !EN_RUBRIC.test(next)) return true;
+  return /['’]s\s*$/.test(before) && !/^\s*$/.test(hit);
 }
 
 /** Латинское название продолжается латиницей — значит, это чужое, более длинное название:
@@ -214,7 +231,7 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
     // «Легенда №17» — номер тоже продолжение, как «Джокер 2» (30.09)
     // Тире с ярлыком после — подпись, а не продолжение: «ГЕОШТОРМ - ФИЛЬМ БЕЗ ГЕОШТОРМА», «Матильда — Обзор» (01.10)
     const dashNext = /^\s*[—–-]\s*([\p{L}]+)/u.exec(after)?.[1];
-    const dashLabel = dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext));
+    const dashLabel = dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext) || (Boolean(options.english) && EN_RUBRIC.test(dashNext)));
     if (/^\s*№?\s*\d(?<!\s(?:19|20)\d{2}(?!\d))/.test(after) && !/^\s*(?:19|20)\d{2}(?!\d)/.test(after) || (!dashLabel && /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after)) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
     // «Бэтмен: Начало», «Джокер 2: Безумие на двоих» — наше слово идёт частью чужого названия
     const before = videoTitle.slice(0, m.index + m[1].length).trimEnd();
@@ -222,7 +239,8 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
     const numbered = /([А-ЯЁA-Z][\p{L}]*)\s+\d{1,2}:$/u.exec(before)?.[1];
     if (numbered && !/^(?:эпизод|выпуск|часть|серия|глава|episode|part|ep)$/iu.test(numbered)) continue;
     if (!options.loose && strayHit(videoTitle, m.index + m[1].length, hit, after, name, options.ordinary?.has(name) ?? false)) continue;
-    if (/^[A-Za-z]/.test(hit) && latinContinues(hit, videoTitle.slice(0, m.index + m[1].length), after)) continue;
+    if (/^[A-Za-z]/.test(hit) && (options.english ? englishContinues(hit, videoTitle.slice(0, m.index + m[1].length), after)
+      : latinContinues(hit, videoTitle.slice(0, m.index + m[1].length), after))) continue;
     // название после ярлыка должно быть нашим, иначе разбирают другой фильм
     const labelled = LABELLED.exec(videoTitle)?.[1];
     if (labelled && !labelled.toLowerCase().includes(hit.toLowerCase())) continue;

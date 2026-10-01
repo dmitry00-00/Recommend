@@ -47,7 +47,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
   // ярус канала (эссеист / обзорщик) задаётся в sources.ts по handle, а у ролика есть только
   // channelId — связь между ними знает лишь этот перебор, поэтому её и сохраняем. Название
   // канала для этого не годится: на YouTube он «TerlKabot channel», в списке «TerlKabot»
-  const meta = new Map<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links' }>();
+  const meta = new Map<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links'; language?: 'en' }>();
   for (let i = 0; i < ids.length; i += 50) {
     const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
       { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
@@ -65,7 +65,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
     const it = j?.items?.[0];
     if (it?.id) {
       channels.set(it.id, it.snippet?.title ?? src.title);
-      meta.set(it.id, { handle: src.handle, title: it.snippet?.title ?? src.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}) });
+      meta.set(it.id, { handle: src.handle, title: it.snippet?.title ?? src.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}), ...(src.language ? { language: src.language } : {}) });
     } else log(`  ? канал @${src.handle} не нашёлся`);
   }
   // Канал из списка, который сейчас не нашёлся (сбой сети, квота), берём из прежнего
@@ -74,7 +74,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
   const chFile = new URL('../.cache/youtube/channels.json', import.meta.url);
   const wanted = new Set(sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || links))
     .map((x) => x.handle.toLowerCase()));
-  const oldMeta: Record<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links' }> =
+  const oldMeta: Record<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links'; language?: 'en' }> =
     existsSync(chFile) ? JSON.parse(readFileSync(chFile, 'utf8')) : {};
   if (!meta.size) {
     log('ни один канал не ответил — выгрузку не трогаю, остаётся прежняя');
