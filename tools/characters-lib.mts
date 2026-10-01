@@ -10,11 +10,11 @@
 
 // имена и их поиск в заголовках — общие с приложением (страница героя, И2)
 export { countSaid, nameForms, nameRegex, sharedWords } from '../src/lib/characters.ts';
-import { countSaid, nameForms, sharedWords } from '../src/lib/characters.ts';
+import { nameForms, nameRegex, sharedWords } from '../src/lib/characters.ts';
 
 export interface CharBinding { work: string; char: string }
 export interface CharInfo { ru?: string; en?: string; aka?: string[]; root?: string; fictional: boolean }
-export interface CharacterEntry { q: string; n: string; en?: string; aka?: string[]; works: string[]; said: number }
+export interface CharacterEntry { q: string; n: string; en?: string; aka?: string[]; w?: string[]; works: string[]; said: number }
 
 const qid = (s: string) => s.split('/').pop()!;
 
@@ -70,19 +70,63 @@ export function mergeSeeded(byChar: Map<string, Set<string>>, info: Map<string, 
   return added;
 }
 
-/** Герои И1: в двух и больше наших произведениях и названные хотя бы в одном разборе. */
-export function pickCharacters(byChar: ReadonlyMap<string, Set<string>>, info: ReadonlyMap<string, CharInfo>, titles: string[],
+/** Разбор: ключ произведения, к которому он привязан, и заголовок. */
+export interface TitledAnalysis { key: string; title: string }
+
+const low = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
+/** Слово, которое в заголовках встречается и со строчной — обычное слово, а не имя: «король»,
+ *  «один», «призрак», «охотник» (прогон 01.10: «Король» — 25 разборов, «Один» — 24). */
+function commonWords(titles: string[], words: Set<string>): Set<string> {
+  const count = new Map<string, number>();
+  for (const t of titles) {
+    for (const tok of t.split(/[^\p{L}-]+/u)) {
+      if (!tok || !/^\p{Ll}/u.test(tok)) continue;
+      const w = low(tok);
+      for (const cut of [0, 1, 2, 3]) {
+        const stem = w.slice(0, w.length - cut);
+        if (stem.length >= 3 && words.has(stem)) count.set(stem, (count.get(stem) ?? 0) + 1);
+      }
+    }
+  }
+  return new Set([...count].filter(([, n]) => n >= 3).map(([w]) => w));
+}
+
+/** Герои И1: в двух и больше наших произведениях и названные хотя бы в одном разборе.
+ *  Разбор своего произведения называет героя любым его именем — и словом метки («Холмса»), и
+ *  синонимом. Разбор чужого — только «широким» именем (`wide`, оно же `w` в моке): из двух и больше
+ *  слов («Шерлок Холмс», «Ганнибал Лектер») или одним словом метки у героя трёх и больше произведений
+ *  («Джокер», «Бэтмен»), если это не обычное слово и не имя другого героя. Прогон 01.10 без этого
+ *  правила: «Билли Нолан» — 37 разборов (Кристофер Нолан), «Майлз Моралес» — 43 (синоним
+ *  «Человек-паук»), «Дик Грейсон» — 53 («Робин»), «Король», «Один», «Призрак» — обычные слова. */
+export function pickCharacters(byChar: ReadonlyMap<string, Set<string>>, info: ReadonlyMap<string, CharInfo>, analyses: TitledAnalysis[],
   { minWorks = 2, minSaid = 1 } = {}): { kept: CharacterEntry[]; dropped: (CharacterEntry & { why: string })[] } {
   // «Ланнистер» одним словом — не Тирион: общие слова имён героев из поиска убираем
   const shared = sharedWords([...byChar.keys()].map((q) => info.get(q)?.ru));
+  // одно и то же имя у двух героев (метка или синоним: «Человек-паук», «Призрак») — в чужих разборах не в счёт
+  const owners = new Map<string, number>();
+  for (const q of byChar.keys()) {
+    const i = info.get(q);
+    for (const f of new Set([i?.ru, i?.en, ...(i?.aka ?? [])].filter((x): x is string => Boolean(x)).map(low))) owners.set(f, (owners.get(f) ?? 0) + 1);
+  }
+  const titles = analyses.map((a) => a.title);
+  const single = new Set([...byChar.keys()].map((q) => info.get(q)?.ru).filter((x): x is string => Boolean(x && !/\s/.test(x.trim())))
+    .map((x) => { const w = low(x.trim()); return /[аяоеыиьй]$/.test(w) ? w.slice(0, -1) : w; }));
+  const common = commonWords(titles, single);
   const kept: CharacterEntry[] = [];
   const dropped: (CharacterEntry & { why: string })[] = [];
   for (const [q, works] of byChar) {
     const i = info.get(q);
     const n = i?.ru ?? i?.en;
     if (!i || !n || /^Q\d+$/.test(n)) continue;
-    const said = works.size >= minWorks ? countSaid(titles, nameForms(i, { shared })) : 0;
-    const e: CharacterEntry = { q, n, ...(i.en && i.en !== n ? { en: i.en } : {}), ...(i.aka?.length ? { aka: i.aka.slice(0, 6) } : {}), works: [...works].sort(), said };
+    const wide = wideForms(i, works.size, owners, common);
+    let said = 0;
+    if (works.size >= minWorks) {
+      const own = nameRegex(nameForms(i, { shared }));
+      const other = nameRegex(wide);
+      said = analyses.filter((a) => (works.has(a.key) ? own : other)?.test(a.title)).length;
+    }
+    const e: CharacterEntry = { q, n, ...(i.en && i.en !== n ? { en: i.en } : {}), ...(i.aka?.length ? { aka: i.aka.slice(0, 6) } : {}),
+      ...(wide.length ? { w: wide } : {}), works: [...works].sort(), said };
     if (works.size < minWorks) dropped.push({ ...e, why: 'одно произведение' });
     else if (said < minSaid) dropped.push({ ...e, why: 'не назван в разборах' });
     else kept.push(e);
@@ -91,12 +135,22 @@ export function pickCharacters(byChar: ReadonlyMap<string, Set<string>>, info: R
   return { kept, dropped };
 }
 
+/** «Широкие» имена героя — те, по которым его можно узнать в разборе чужого произведения. */
+export function wideForms(i: CharInfo, works: number, owners: ReadonlyMap<string, number>, common: ReadonlySet<string>): string[] {
+  const unique = (f: string) => (owners.get(low(f)) ?? 0) <= 1;
+  const multi = [i.ru, i.en, ...(i.aka ?? [])].filter((f): f is string => Boolean(f && /\S\s+\S/.test(f.trim()) && f.length >= 6 && unique(f)));
+  const one = i.ru && !/\s/.test(i.ru.trim()) && works >= 3 && unique(i.ru) && i.ru.length >= 4
+    && !common.has((() => { const w = low(i.ru!.trim()); return /[аяоеыиьй]$/.test(w) ? w.slice(0, -1) : w; })()) ? [i.ru.trim()] : [];
+  return [...new Set([...multi, ...one])];
+}
+
 /** Текст src/mocks/characters.ts. */
 export function charactersSource(entries: CharacterEntry[]): string {
   return `// Сгенерировано tools/resolve-characters.mts (И1) — руками не править.
 // Герои, проходящие через два и больше наших произведений и названные в разборах. Ключ — элемент
-// Wikidata героя; n — имя, works — ключи наших произведений, said — сколько разборов называют его.
-export interface CharacterRecord { n: string; en?: string; aka?: string[]; works: string[]; said: number }
+// Wikidata героя; n — имя, w — имена, по которым он узнаётся в разборах чужих произведений, works —
+// ключи наших произведений, said — сколько разборов называют его.
+export interface CharacterRecord { n: string; en?: string; aka?: string[]; w?: string[]; works: string[]; said: number }
 
 export const characters: Record<string, CharacterRecord> = {
 ${entries.map(({ q, ...rest }) => `  ${q}: ${JSON.stringify(rest)},`).join('\n')}

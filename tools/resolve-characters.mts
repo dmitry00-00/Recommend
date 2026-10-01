@@ -9,7 +9,8 @@
 // 3. Сведения о героях — пачками по 50: метки ru/en, русские синонимы, «основано на» (P144) и
 //    вымышленный ли (P31/P279* Q95074). Кэш — .cache/character-info.json.
 // 4. Отбор (tools/characters-lib.mts): версии сведены к исходному герою, два и больше наших
-//    произведения, назван хотя бы в одном заголовке разбора (essays, essaysAuto, postsAuto, каталог).
+//    произведения, назван хотя бы в одном заголовке разбора (essays, essaysAuto, postsAuto): своё произведение называет героя любым
+//    именем, чужое — только «широким» (`wideForms`).
 //    Отсеянное — .cache/characters-dropped.tsv.
 // 5. Заложенные герои (.cache/westeros-seed.json — tools/seed-westeros.mts): персонажи «Песни льда и
 //    огня» по книгам и сезонам — к своему элементу Wikidata или отдельным героем; правило отбора то же.
@@ -21,7 +22,6 @@ import { seededHeroes, type WesterosSeed } from './westeros-lib.mts';
 import { essays } from '../src/mocks/essays.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
-import { externalAnalyses } from '../src/mocks/index.ts';
 
 const args = process.argv.slice(2);
 const has = (f: string) => args.includes(f);
@@ -112,9 +112,9 @@ if (westeros) {
   const added = mergeSeeded(byChar, infoMap, heroes);
   console.error(`заложенные герои Вестероса: ${heroes.length} с нашими произведениями, пар «герой — произведение» прибавилось ${added}`);
 }
-const titles = [essays, essaysAuto, postsAuto].flatMap((src) => Object.values(src).flat().map((a) => a.title))
-  .concat(externalAnalyses.map((a) => a.title));
-const { kept, dropped } = pickCharacters(byChar, infoMap, titles);
+// разборы с ключом произведения: своё произведение героя называет его любым именем, чужое — только «широким»
+const analyses = [essays, essaysAuto, postsAuto].flatMap((src) => Object.entries(src).flatMap(([key, list]) => list.map((a) => ({ key, title: a.title }))));
+const { kept, dropped } = pickCharacters(byChar, infoMap, analyses);
 writeFileSync(new URL('../.cache/characters-dropped.tsv', import.meta.url),
   ['герой\tэлемент\tпроизведений\tразборов\tпочему', ...dropped.filter((d) => d.works.length >= 2 || d.said)
     .sort((a, b) => b.works.length - a.works.length).map((d) => [d.n, d.q, d.works.length, d.said, d.why].join('\t'))].join('\n') + '\n');

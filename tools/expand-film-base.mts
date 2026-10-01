@@ -14,6 +14,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { stemOf } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 
 const arg = (name: string) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : undefined);
 const MIN = Number(arg('--min')) || 2;
@@ -97,7 +98,25 @@ const found: WorkCard[] = [];
 const directors = new Map<string, string[]>(); // QID режиссёра → id карточек
 const missed: string[] = [];
 let done = 0;
+// Кэш по названию (01.10): прогон — тысяча-другая запросов, и Wikidata отвечает медленно (около 8 с на
+// название с повторами на 429). Прерванный прогон продолжается с места, недельный — спрашивает только
+// новые названия. Найденное — карточка и режиссёр, не найденное — пометка; --fresh — заново.
+type Cached = { card?: WorkCard; director?: string; miss?: true };
+const CACHE = new URL('../.cache/expand-film-base.json', import.meta.url);
+const cache: Record<string, Cached> = process.argv.includes('--fresh') || !existsSync(CACHE) ? {} : JSON.parse(readFileSync(CACHE, 'utf8'));
+const saveCache = () => writeFileSync(CACHE, JSON.stringify(cache));
+let asked = 0;
 for (const { title } of todo) {
+  const hit = cache[title];
+  if (hit) {
+    if (hit.card) {
+      found.push({ ...hit.card });
+      if (hit.director) directors.set(hit.director, [...(directors.get(hit.director) ?? []), hit.card.id]);
+    } else missed.push(title);
+    done++;
+    continue;
+  }
+  asked++;
   const search = await api<{ search?: SearchHit[] }>({ action: 'wbsearchentities', search: title, language: 'ru', uselang: 'ru', type: 'item', limit: '5' });
   const ids = (search?.search ?? []).map((s) => s.id);
   if (ids.length) {
@@ -129,13 +148,17 @@ for (const { title } of todo) {
       const director = id(e?.claims?.P57?.[0]);
       if (director) directors.set(director, [...(directors.get(director) ?? []), card.id]);
       found.push(card);
+      cache[title] = { card: { ...card }, ...(director ? { director } : {}) };
       break;
     }
   }
+  // сеть не ответила (search undefined) — не помечаем: спросим в следующий раз
+  if (!cache[title] && search) cache[title] = { miss: true };
   if (!found.some((f) => f.title === title) && !ids.length) missed.push(title);
-  if (++done % 50 === 0) console.error(`  опознано ${found.length} из ${done}`);
+  if (++done % 50 === 0) { console.error(`  опознано ${found.length} из ${done} (спрошено ${asked}, из кэша ${done - asked})`); saveCache(); }
   await sleep(250);
 }
+saveCache();
 
 // имена режиссёров одним заходом: сами по себе они не ищутся, только по QID из карточек
 for (let i = 0; i < [...directors.keys()].length; i += 50) {
@@ -154,12 +177,19 @@ for (let i = 0; i < [...directors.keys()].length; i += 50) {
 
 // дубли по TMDb: одно название могло прийти в двух формах
 const seen = new Set<string>();
+const idKey = (f: WorkCard) => (f.externalIds?.tmdb != null ? `tmdb:${f.externalIds.tmdb}` : `imdb:${f.externalIds?.imdb}`);
 const uniq = found.filter((f) => {
-  const k = f.externalIds?.tmdb != null ? `tmdb:${f.externalIds.tmdb}` : `imdb:${f.externalIds?.imdb}`;
+  const k = idKey(f);
   if (seen.has(k) || known.has(key(f.title))) return false;
   seen.add(k);
   return true;
 });
+// Прежние карточки остаются (01.10). Раньше файл переписывался только новыми находками: названия уже
+// опознанных фильмов в «незнакомые» не попадают (они в worksIndex), и недельный прогон стёр бы все
+// прежние 645 карточек — а сборщик закоммитил бы и опубликовал это на сервер
+const kept = filmBaseWiki.filter((f) => !uniq.some((u) => idKey(u) === idKey(f)));
+const all = [...kept, ...uniq];
+console.error(`прежних карточек ${filmBaseWiki.length}, новых ${uniq.length} → всего ${all.length}`);
 
 writeFileSync(new URL('../src/mocks/filmBaseWiki.ts', import.meta.url),
   `// Сгенерировано tools/expand-film-base.mts (${new Date().toISOString().slice(0, 10)}): фильмы, о
@@ -168,7 +198,7 @@ writeFileSync(new URL('../src/mocks/filmBaseWiki.ts', import.meta.url),
 // Не править руками — перегенерировать.
 import type { WorkCard } from '@/types/tmdf';
 
-export const filmBaseWiki: WorkCard[] = ${JSON.stringify(uniq, null, 2)};
+export const filmBaseWiki: WorkCard[] = ${JSON.stringify(all, null, 2)};
 `);
 console.error(`опознано ${uniq.length} из ${todo.length}; с TMDb ${uniq.filter((f) => f.externalIds?.tmdb != null).length}, только IMDb ${uniq.filter((f) => f.externalIds?.tmdb == null).length}`);
 console.error(`не нашлось ничего похожего: ${missed.length}`);

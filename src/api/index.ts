@@ -279,11 +279,12 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
   const card = (k: string) => { const raw = byKey.get(k); return raw && (isSeries(raw) ? withSeriesDraft(raw) : annotated(raw)); };
 
   // разборы, называющие героя: по всем ключам корпуса, к нашей карточке
-  // у его произведений хватает и слова имени («Холмса»), у чужих — только полное имя или синоним:
-  // «Шерлок в России» в подборке «что смотреть» — не Холмс
+  // у его произведений хватает и слова имени («Холмса»), у чужих — только «широкого» имени, которое
+  // отобрала сборка (`w`: из двух слов или одно, но не обычное слово и не имя другого героя) —
+  // «Шерлок в России» в подборке «что смотреть» не Холмс, «Нолан» не Билли Нолан
   const shared = sharedWords(Object.values(characters).map((x) => x.n));
   const re = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }, { shared }));
-  const reOther = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }, { words: false }));
+  const reOther = c.w ? nameRegex(c.w) : undefined;
   const ownKeys = new Set(c.works);
   const analyses: CharacterPage['analyses'] = [];
   const perWork = new Map<string, number>();
@@ -293,7 +294,8 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
       for (const [k, list] of Object.entries(src)) {
         for (const a of list) {
           const own = ownKeys.has(k);
-          if (a.tier === 'review' || seenUrl.has(a.url) || !(own ? re : reOther ?? re).test(a.title) || linkVerdicts.get(a.url) === 'other_work') continue;
+          const match = own ? re : reOther;
+          if (a.tier === 'review' || seenUrl.has(a.url) || !match?.test(a.title) || linkVerdicts.get(a.url) === 'other_work') continue;
           const w = card(k);
           if (!w) continue;
           seenUrl.add(a.url);

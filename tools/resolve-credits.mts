@@ -50,12 +50,15 @@ for (let i = 0; i < todo.length; i += 50) {
   const chunk = todo.slice(i, i + 50);
   const kinds = new Map(chunk.map((w) => [ids[w.key]!, kindOfWork(w.work)]));
   // книга-издание → произведение (P629): авторство записано у произведения
+  // Порядок — как написан (hint:optimizer "None"): иначе планировщик начинал с «?person — человек»
+  // (миллионы элементов) и каждая пачка падала по таймауту 504 — так прошёл прогон 01.10: 0 людей
   const query = `SELECT ?item ?prop ?person ?ru ?en WHERE {
+  hint:Query hint:optimizer "None" .
   VALUES ?item { ${[...kinds.keys()].map((q) => `wd:${q}`).join(' ')} }
   OPTIONAL { ?item wdt:P629 ?edOf }
   BIND(COALESCE(?edOf, ?item) AS ?src)
-  VALUES (?prop ?claim) { (wd:P57 wdt:P57) (wd:P58 wdt:P58) (wd:P170 wdt:P170) (wd:P50 wdt:P50) }
-  ?src ?claim ?person .
+  { ?src wdt:P57 ?person . BIND(wd:P57 AS ?prop) } UNION { ?src wdt:P58 ?person . BIND(wd:P58 AS ?prop) }
+  UNION { ?src wdt:P170 ?person . BIND(wd:P170 AS ?prop) } UNION { ?src wdt:P50 ?person . BIND(wd:P50 AS ?prop) }
   ?person wdt:P31 wd:Q5 .
   OPTIONAL { ?person rdfs:label ?ru FILTER(LANG(?ru) = "ru") }
   OPTIONAL { ?person rdfs:label ?en FILTER(LANG(?en) = "en") }
