@@ -8,6 +8,7 @@ import { ratingDeck } from '@/mocks/ratingDeck';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
+import { nameForms, nameRegex } from '@/lib/characters';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
@@ -23,7 +24,7 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  CharacterView, CreditRole, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CharacterView, CreditRole, MediaType, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
@@ -244,6 +245,105 @@ function heroesFor(work: WorkCard): CharacterView[] {
     if (elsewhere.length) out.push({ id: q, name: c.n, elsewhere, said: c.said });
   }
   return out.sort((a, b) => b.said - a.said || b.elsewhere.length - a.elsewhere.length).slice(0, 6);
+}
+
+/** Страница героя (И2): его версии по произведениям и видам — книги, фильмы, сериалы — и разборы,
+ *  которые называют его в заголовке. Адрес — элемент Wikidata героя. */
+export interface CharacterPage {
+  id: string;
+  name: string;
+  /** в оригинале, если отличается: «Sherlock Holmes» */
+  original?: string;
+  aka: string[];
+  /** по видам — книги первыми (с них чаще всё начинается), внутри — по году */
+  byKind: { kind: MediaType; works: { work: WorkCard; seen: boolean; analyses: number }[] }[];
+  /** самое раннее из наших — часто книга, с которой герой пришёл */
+  first?: WorkCard;
+  /** с чего начать: непросмотренное с разметкой — ближе всего к «чуть выше привычного» */
+  startWith?: { work: WorkCard; level: number };
+  /** разборы, называющие героя в заголовке: по его произведениям и по любым другим; обзоры не
+   *  показываем (решение 29.09); подтверждённые и свежие первыми */
+  analyses: { work: WorkCard; analysis: ExternalAnalysis; seen: boolean; own: boolean }[];
+  discussions: DiscussionPlace[];
+}
+
+export async function getCharacter(id: string): Promise<CharacterPage | undefined> {
+  await delay(200);
+  await Promise.all([catalog(), workRefs()]);
+  const c = characters[id];
+  if (!c) return undefined;
+  const byKey = worksByAnalysisKey();
+  const keys = seenKeys();
+  const seenIds = new Set([...history().filter((e) => e.status === 'finished').map((e) => e.work.id), ...watchedNow().map((w) => w.id)]);
+  const isSeen = (w: WorkCard) => seenIds.has(w.id) || seen(w, keys);
+  const card = (k: string) => { const raw = byKey.get(k); return raw && (isSeries(raw) ? withSeriesDraft(raw) : annotated(raw)); };
+
+  // разборы, называющие героя: по всем ключам корпуса, к нашей карточке
+  // у его произведений хватает и слова имени («Холмса»), у чужих — только полное имя или синоним:
+  // «Шерлок в России» в подборке «что смотреть» — не Холмс
+  const re = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }));
+  const reOther = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }, { words: false }));
+  const ownKeys = new Set(c.works);
+  const analyses: CharacterPage['analyses'] = [];
+  const perWork = new Map<string, number>();
+  const seenUrl = new Set<string>();
+  if (re) {
+    for (const src of [essays, essaysAuto, postsAuto]) {
+      for (const [k, list] of Object.entries(src)) {
+        for (const a of list) {
+          const own = ownKeys.has(k);
+          if (a.tier === 'review' || seenUrl.has(a.url) || !(own ? re : reOther ?? re).test(a.title) || linkVerdicts.get(a.url) === 'other_work') continue;
+          const w = card(k);
+          if (!w) continue;
+          seenUrl.add(a.url);
+          analyses.push({ work: w, analysis: a, seen: isSeen(w), own });
+          perWork.set(w.id, (perWork.get(w.id) ?? 0) + 1);
+        }
+      }
+    }
+  }
+  const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
+  analyses.sort((x, y) => Number(Boolean(x.analysis.unverified)) - Number(Boolean(y.analysis.unverified))
+    || Number(y.own) - Number(x.own) || stamp(y.analysis) - stamp(x.analysis));
+
+  const works = [...new Map(c.works.map((k) => card(k)).filter((w): w is WorkCard => Boolean(w)).map((w) => [w.id, w])).values()]
+    .map((work) => ({ work, seen: isSeen(work), analyses: perWork.get(work.id) ?? 0 }))
+    .sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
+  if (!works.length) return undefined;
+  const ORDER: MediaType[] = ['book', 'film', 'series'];
+  const byKind = ORDER.map((kind) => ({ kind, works: works.filter((x) => x.work.type === kind) })).filter((g) => g.works.length);
+
+  const comfort = ownState()?.complexityComfort;
+  const open = works.filter((x) => !x.seen && x.work.complexityLevel > 0);
+  const pick = [...open].sort((a, b) => (comfort != null
+    ? Math.abs(a.work.complexityLevel - (comfort + 1)) - Math.abs(b.work.complexityLevel - (comfort + 1))
+    : a.work.complexityLevel - b.work.complexityLevel) || b.analyses - a.analyses)[0];
+
+  const probe = { id: `h-${id}`, type: 'film', title: c.n, year: 0, creators: [], primaryOperations: [], complexityLevel: 0,
+    warnings: [], barriers: [], isNicheMasterpiece: false } as WorkCard;
+  const seenLink = new Set<string>();
+  const discussions = [...searchLinks(probe), ...searchLinks(probe, 'place')]
+    .filter((d) => (seenLink.has(d.url) ? false : (seenLink.add(d.url), true))).slice(0, 10);
+  return {
+    id, name: c.n, ...(c.en && c.en !== c.n ? { original: c.en } : {}), aka: (c.aka ?? []).filter((x) => x !== c.n),
+    byKind, ...(works[0]?.work.year ? { first: works[0].work } : {}),
+    ...(pick ? { startWith: { work: pick.work, level: pick.work.complexityLevel } } : {}),
+    analyses: analyses.slice(0, 15), discussions,
+  };
+}
+
+/** Герои по запросу поиска (И2): имя, оригинальное имя или синоним начинается с запроса или
+ *  содержит его словом — «джокер», «холмс», «шерлок». Не больше трёх. */
+export async function searchCharacters(query: string): Promise<{ id: string; name: string; works: number }[]> {
+  const q = searchKey(query);
+  if (q.length < 3) return [];
+  await workRefs();
+  const hit = (name?: string): boolean => Boolean(name && (searchKey(name).startsWith(q) || searchKey(name).split(/[\s-]+/).some((w) => w.startsWith(q))));
+  return Object.entries(characters)
+    .filter(([, c]) => hit(c.n) || hit(c.en) || (c.aka ?? []).some(hit))
+    .sort(([, a], [, b]) => b.said - a.said)
+    .slice(0, 3)
+    .map(([id, c]) => ({ id, name: c.n, works: c.works.length }));
 }
 
 /** Вселенные (Ж2): связные куски графа связей. Средоточие — франшиза, иначе цикл, иначе узел с

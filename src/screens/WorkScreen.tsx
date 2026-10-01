@@ -220,7 +220,7 @@ export function WorkScreen() {
             <ul className="tm-relations">
               {work.heroes.map((h) => (
                 <li key={h.id} className="tm-relations__item">
-                  <span className="tm-label tm-relations__kind">{h.name}</span>
+                  <Link to={`/character/${h.id}`} className="tm-label tm-relations__kind">{h.name}</Link>
                   <span className="tm-caption tm-relations__year">{ru.heroes.also}</span>
                   {h.elsewhere.slice(0, 8).map((w, i) => (
                     <span key={w.workId} className="tm-heroes__work">

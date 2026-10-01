@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, Register } from '@/types/tmdf';
-import { notWatched, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
+import { notWatched, searchCharacters, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
 import { Button, EmptyState, ErrorState, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration } from '@/lib/format';
 import { registers } from '@/lib/registers';
@@ -29,6 +29,13 @@ export function SearchScreen() {
   const [reg, setReg] = useState<Register | null>(null);
   const [asking, setAsking] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+  // герои по запросу (И2): «джокер» — это и фильм, и герой десятка произведений
+  const [heroes, setHeroes] = useState<{ id: string; name: string; works: number }[]>([]);
+  useEffect(() => {
+    let alive = true;
+    const timer = setTimeout(() => { searchCharacters(query).then((h) => alive && setHeroes(h)).catch(() => alive && setHeroes([])); }, query ? DEBOUNCE : 0);
+    return () => { alive = false; clearTimeout(timer); };
+  }, [query]);
 
   useEffect(() => { input.current?.focus(); }, []);
 
@@ -127,6 +134,16 @@ export function SearchScreen() {
             </button>
           ))}
         </div>
+      ) : null}
+
+      {query && heroes.length ? (
+        <p className="tm-voice__outlets tm-search__heroes">
+          {heroes.map((h) => (
+            <button key={h.id} type="button" className="tm-voice__chip" onClick={() => navigate(`/character/${h.id}`)}>
+              {ru.hero.search(h.name, h.works)}
+            </button>
+          ))}
+        </p>
       ) : null}
 
       {failed ? <ErrorState title={ru.search.error} onRetry={() => setQuery(`${query}`)} /> : null}

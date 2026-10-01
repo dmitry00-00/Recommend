@@ -13,6 +13,7 @@ const LoopScreen = lazy(() => import('@/screens/LoopScreen').then((m) => ({ defa
 const MapScreen = lazy(() => import('@/screens/MapScreen').then((m) => ({ default: m.MapScreen })));
 const TrajectoriesScreen = lazy(() => import('@/screens/TrajectoriesScreen').then((m) => ({ default: m.TrajectoriesScreen })));
 const UniverseScreen = lazy(() => import('@/screens/UniverseScreen').then((m) => ({ default: m.UniverseScreen })));
+const CharacterScreen = lazy(() => import('@/screens/CharacterScreen').then((m) => ({ default: m.CharacterScreen })));
 const PersonScreen = lazy(() => import('@/screens/PersonScreen').then((m) => ({ default: m.PersonScreen })));
 const TrajectoryScreen = lazy(() => import('@/screens/TrajectoryScreen').then((m) => ({ default: m.TrajectoryScreen })));
 import { JournalScreen } from '@/screens/JournalScreen';
@@ -55,6 +56,7 @@ export const routes: RouteObject[] = [
   { path: '/works/:id', element: <WorkScreen /> },
   { path: '/person/:id', element: <PersonScreen /> },
   { path: '/universe/:id', element: <UniverseScreen /> },
+  { path: '/character/:id', element: <CharacterScreen /> },
   { path: '/trajectories', element: <TrajectoriesScreen /> },
   { path: '/trajectories/:id', element: <TrajectoryScreen /> },
   { path: '/map', element: <MapScreen /> },
