@@ -11,10 +11,13 @@
 // 4. Отбор (tools/characters-lib.mts): версии сведены к исходному герою, два и больше наших
 //    произведения, назван хотя бы в одном заголовке разбора (essays, essaysAuto, postsAuto, каталог).
 //    Отсеянное — .cache/characters-dropped.tsv.
+// 5. Заложенные герои (.cache/westeros-seed.json — tools/seed-westeros.mts): персонажи «Песни льда и
+//    огня» по книгам и сезонам — к своему элементу Wikidata или отдельным героем; правило отбора то же.
 import { writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { readCache, resolveWorkQids, sleep, sparql, writeCache } from './wikidata-lib.mts';
-import { characterWorks, charactersSource, pickCharacters, type CharBinding, type CharInfo } from './characters-lib.mts';
+import { characterWorks, charactersSource, mergeSeeded, pickCharacters, type CharBinding, type CharInfo } from './characters-lib.mts';
+import { seededHeroes, type WesterosSeed } from './westeros-lib.mts';
 import { essays } from '../src/mocks/essays.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
@@ -102,6 +105,13 @@ const infoMap = new Map(Object.entries(info));
 
 // ---------- 4. отбор ----------
 const byChar = characterWorks(rows, keysOfWork, infoMap);
+// заложенные герои Вестероса (tools/seed-westeros.mts): книги и сезоны из An API of Ice and Fire
+const westeros = readCache<WesterosSeed | null>('westeros-seed.json', null);
+if (westeros) {
+  const heroes = seededHeroes(westeros, keysOfWork, new Set(works.map((w) => w.key)));
+  const added = mergeSeeded(byChar, infoMap, heroes);
+  console.error(`заложенные герои Вестероса: ${heroes.length} с нашими произведениями, пар «герой — произведение» прибавилось ${added}`);
+}
 const titles = [essays, essaysAuto, postsAuto].flatMap((src) => Object.values(src).flat().map((a) => a.title))
   .concat(externalAnalyses.map((a) => a.title));
 const { kept, dropped } = pickCharacters(byChar, infoMap, titles);

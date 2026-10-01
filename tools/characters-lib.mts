@@ -9,8 +9,8 @@
 // персонаж» (Q95074 и подклассы).
 
 // имена и их поиск в заголовках — общие с приложением (страница героя, И2)
-export { countSaid, nameForms, nameRegex } from '../src/lib/characters.ts';
-import { countSaid, nameForms } from '../src/lib/characters.ts';
+export { countSaid, nameForms, nameRegex, sharedWords } from '../src/lib/characters.ts';
+import { countSaid, nameForms, sharedWords } from '../src/lib/characters.ts';
 
 export interface CharBinding { work: string; char: string }
 export interface CharInfo { ru?: string; en?: string; aka?: string[]; root?: string; fictional: boolean }
@@ -46,16 +46,42 @@ export function characterWorks(rows: CharBinding[], keysOfWork: ReadonlyMap<stri
   return out;
 }
 
+/** Заложенные герои (tools/seed-westeros.mts) поверх героев Wikidata: с элементом — к нему (и к его
+ *  исходному герою), без элемента — отдельным героем `aoiaf-<n>` с английским именем. Русское имя из
+ *  заложенного дополняет элемент, у которого его нет. Возвращает, сколько пар «герой — произведение»
+ *  прибавилось. */
+export function mergeSeeded(byChar: Map<string, Set<string>>, info: Map<string, CharInfo>,
+  heroes: { id: string; q?: string; en: string; ru?: string; aka?: string[]; works: string[] }[]): number {
+  let added = 0;
+  for (const h of heroes) {
+    const id = h.q ? rootOf(h.q, info) : h.id;
+    const known = info.get(id);
+    if (!known) info.set(id, { ...(h.ru ? { ru: h.ru } : {}), en: h.en, ...(h.aka?.length ? { aka: h.aka } : {}), fictional: true });
+    else {
+      // элемент нашли по описанию «персонаж Вестероса» — он вымышленный, даже если класс записан иначе
+      known.fictional = true;
+      known.ru ??= h.ru;
+      known.en ??= h.en;
+      if (h.aka?.length && !known.aka?.length) known.aka = h.aka;
+    }
+    const set = byChar.get(id) ?? byChar.set(id, new Set()).get(id)!;
+    for (const k of h.works) if (!set.has(k)) { set.add(k); added++; }
+  }
+  return added;
+}
+
 /** Герои И1: в двух и больше наших произведениях и названные хотя бы в одном разборе. */
 export function pickCharacters(byChar: ReadonlyMap<string, Set<string>>, info: ReadonlyMap<string, CharInfo>, titles: string[],
   { minWorks = 2, minSaid = 1 } = {}): { kept: CharacterEntry[]; dropped: (CharacterEntry & { why: string })[] } {
+  // «Ланнистер» одним словом — не Тирион: общие слова имён героев из поиска убираем
+  const shared = sharedWords([...byChar.keys()].map((q) => info.get(q)?.ru));
   const kept: CharacterEntry[] = [];
   const dropped: (CharacterEntry & { why: string })[] = [];
   for (const [q, works] of byChar) {
     const i = info.get(q);
     const n = i?.ru ?? i?.en;
     if (!i || !n || /^Q\d+$/.test(n)) continue;
-    const said = works.size >= minWorks ? countSaid(titles, nameForms(i)) : 0;
+    const said = works.size >= minWorks ? countSaid(titles, nameForms(i, { shared })) : 0;
     const e: CharacterEntry = { q, n, ...(i.en && i.en !== n ? { en: i.en } : {}), ...(i.aka?.length ? { aka: i.aka.slice(0, 6) } : {}), works: [...works].sort(), said };
     if (works.size < minWorks) dropped.push({ ...e, why: 'одно произведение' });
     else if (said < minSaid) dropped.push({ ...e, why: 'не назван в разборах' });

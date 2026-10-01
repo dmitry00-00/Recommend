@@ -7,11 +7,24 @@ export interface HeroNames { ru?: string; en?: string; aka?: string[] }
  *  слова метки от пяти букв («Холмс», «Ганнибал»). Латиница — только английская метка целиком.
  *  `words: false` — без отдельных слов: в разборе чужого произведения «Шерлок» скорее «Шерлок в
  *  России», чем Холмс. */
-export function nameForms(info: HeroNames, { words: withWords = true } = {}): string[] {
+export function nameForms(info: HeroNames, { words: withWords = true, shared }: { words?: boolean; shared?: ReadonlySet<string> } = {}): string[] {
   const full = [info.ru, ...(info.aka ?? [])].filter((x): x is string => Boolean(x && x.length >= 4 && /^\p{Lu}/u.test(x)));
-  const words = !withWords ? [] : (info.ru ?? '').split(/[\s-]+/).filter((w) => w.length >= 5 && /^\p{Lu}/u.test(w));
+  const words = !withWords ? [] : (info.ru ?? '').split(/[\s-]+/)
+    .filter((w) => w.length >= 5 && /^\p{Lu}/u.test(w) && !shared?.has(w.toLowerCase().replace(/ё/g, 'е')));
   const en = info.en && info.en.length >= 5 ? [info.en] : [];
   return [...new Set([...full, ...words, ...en])];
+}
+
+/** Слова, общие для имён двух и больше героев: «Ланнистер», «Старк», «Таргариен». Одним таким словом
+ *  героя не назвать — «Тайвин Ланнистер» не про Тириона; передаётся в `nameForms` как `shared`. */
+export function sharedWords(labels: (string | undefined)[]): Set<string> {
+  const count = new Map<string, number>();
+  for (const l of labels) {
+    for (const w of new Set((l ?? '').split(/[\s-]+/).map((x) => x.toLowerCase().replace(/ё/g, 'е')).filter((x) => x.length >= 5))) {
+      count.set(w, (count.get(w) ?? 0) + 1);
+    }
+  }
+  return new Set([...count].filter(([, n]) => n >= 2).map(([w]) => w));
 }
 
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

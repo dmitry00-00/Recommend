@@ -1,7 +1,7 @@
 // Стартовый каталог книг через мост с кино (З2): не «все книги», а те, к которым у наших людей
 // уже есть дорога — через фильм.
 //   npx tsx tools/build-book-base.mts [--fresh] [--dry] [--top N]
-// Три источника:
+// Четыре источника:
 //   1. экранизации (связи Ж1, src/mocks/workRelations.ts): книги, по которым сняты фильмы и сериалы
 //      нашего справочника. Чем больше наших экранизаций у книги, тем выше;
 //   2. кино-эссеисты: книги, названные в их постах и роликах рядом с книжным словом («по роману
@@ -11,7 +11,9 @@
 //   3. книжные каналы (З6, `medium: 'book'` в src/mocks/sources.ts — ролики всех ярусов и посты):
 //      там книжного слова рядом с названием нет, зато есть автор («"Собачье сердце" Булгакова»,
 //      tools/book-bridge.mts `loose`). Книгу ищем в Wikidata по названию и берём ту, у которой автор
-//      (P50) — та же фамилия (`sameSurname`: «Булгакова» и «Bulgakov»); не нашлось — Open Library.
+//      (P50) — та же фамилия (`sameSurname`: «Булгакова» и «Bulgakov»); не нашлось — Open Library;
+//   4. заложенные вселенные (.cache/seed-books.json — пишет tools/seed-westeros.mts): книги, без которых
+//      у вселенной нет героев через несколько произведений («Песнь льда и огня», «Пламя и кровь»).
 // Карточка: Wikidata (метки, год P577, автор P50, Open Library ID P648) и Open Library (обложка, автор,
 // год первой публикации). Ключ — произведение (`wd:`/`olw:`, З1). Кэш — .cache/book-base.json.
 // Итог — src/mocks/bookBase.ts; всё найденное, включая отсеянное, — .cache/book-candidates.tsv.
@@ -133,6 +135,14 @@ for (const g of graph.slice(0, TOP)) {
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
+// заложенные вселенные: элементы уже известны — только сведения
+const seeded = readCache<{ q: string; why: string }[]>('seed-books.json', []);
+for (const { q } of seeded) {
+  if (cache[`wd:${q}`]) continue;
+  try { cache[`wd:${q}`] = await wdInfo(q, q); } catch (e) { console.error(`  ${q}: ${(e as Error).message}`); continue; }
+  if (++asked % 20 === 0) writeCache('book-base.json', cache);
+  await sleep(300);
+}
 for (const [k, s] of said) {
   if (cache[`said:${k}`]) continue;
   if (s.channels.size < 2 && !s.author) { cache[`said:${k}`] = { miss: true }; continue; }
@@ -172,6 +182,12 @@ for (const g of graph.slice(0, TOP)) {
   if (c && !cards.has(c.id)) cards.set(c.id, c);
   rows.push(['экранизация', relationNodes[g.q].t, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${g.q}`, titles.join('; '), c ? 'да' : 'нет'].join('\t'));
 }
+for (const { q, why } of seeded) {
+  const info = cache[`wd:${q}`];
+  const c = info && card(info, `Заложенная вселенная: ${why}`);
+  if (c && !cards.has(c.id)) cards.set(c.id, c);
+  rows.push(['заложенная вселенная', info?.title ?? q, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${q}`, why, c ? 'да' : 'нет'].join('\t'));
+}
 for (const [k, s] of said) {
   const info = cache[`said:${k}`];
   // автор из текста должен сойтись с автором Open Library — иначе это тёзка
@@ -185,7 +201,7 @@ writeFileSync(new URL('../.cache/book-candidates.tsv', import.meta.url), rows.jo
 // уже есть в справочнике под тем же ключом — не дублируем
 const have = new Set([...ours.keys()]);
 const fresh = [...cards.values()].filter((c) => !have.has(c.externalIds?.wikidata ? `wd:${c.externalIds.wikidata}` : `olw:${c.externalIds?.openLibrary}`));
-console.error(`\nкарточек книг: ${fresh.length} (по экранизациям ${fresh.filter((c) => c.blurb?.startsWith('Экранизации')).length}, от эссеистов ${fresh.filter((c) => c.blurb?.startsWith('Называют эссеисты')).length}, от книжных каналов ${fresh.filter((c) => c.blurb?.startsWith('Называют книжные')).length}); все кандидаты — .cache/book-candidates.tsv`);
+console.error(`\nкарточек книг: ${fresh.length} (по экранизациям ${fresh.filter((c) => c.blurb?.startsWith('Экранизации')).length}, от эссеистов ${fresh.filter((c) => c.blurb?.startsWith('Называют эссеисты')).length}, от книжных каналов ${fresh.filter((c) => c.blurb?.startsWith('Называют книжные')).length}, из заложенных вселенных ${fresh.filter((c) => c.blurb?.startsWith('Заложенная')).length}); все кандидаты — .cache/book-candidates.tsv`);
 if (DRY) process.exit(0);
 writeFileSync(new URL('../src/mocks/bookBase.ts', import.meta.url), `// Сгенерировано tools/build-book-base.mts (З2) — руками не править.
 // Стартовый каталог книг через мост с кино: книги по фильмам и сериалам справочника и книги,

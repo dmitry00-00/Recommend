@@ -8,7 +8,7 @@ import { ratingDeck } from '@/mocks/ratingDeck';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
-import { nameForms, nameRegex } from '@/lib/characters';
+import { nameForms, nameRegex, sharedWords } from '@/lib/characters';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
@@ -281,7 +281,8 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
   // разборы, называющие героя: по всем ключам корпуса, к нашей карточке
   // у его произведений хватает и слова имени («Холмса»), у чужих — только полное имя или синоним:
   // «Шерлок в России» в подборке «что смотреть» — не Холмс
-  const re = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }));
+  const shared = sharedWords(Object.values(characters).map((x) => x.n));
+  const re = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }, { shared }));
   const reOther = nameRegex(nameForms({ ru: c.n, en: c.en, aka: c.aka }, { words: false }));
   const ownKeys = new Set(c.works);
   const analyses: CharacterPage['analyses'] = [];
