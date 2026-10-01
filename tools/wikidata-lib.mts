@@ -1,6 +1,6 @@
 // Общее для инструментов, которые ходят в Wikidata (Д2 авторы, Ж1 связи): повтор запросов,
 // API и SPARQL, поиск по утверждению и элемент Wikidata произведения по его ключу.
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import type { IndexedWork } from './works-index.mts';
 
 const UA = 'transformative-media/0.1 (film analysis index; contact via repository README)';
@@ -36,7 +36,14 @@ export async function search(statement: string): Promise<string | null> {
 export const cacheUrl = (name: string) => new URL(`../.cache/${name}`, import.meta.url);
 export const readCache = <T,>(name: string, fallback: T): T =>
   (existsSync(cacheUrl(name)) ? JSON.parse(readFileSync(cacheUrl(name), 'utf8')) as T : fallback);
-export const writeCache = (name: string, data: unknown) => writeFileSync(cacheUrl(name), JSON.stringify(data));
+/** Запись кэша через временный файл и переименование: шаги resolve-all идут параллельно и читают одни
+ *  кэши (.cache/credits-ids.json — авторы, связи, герои), и недописанный файл ломал бы JSON.parse у
+ *  соседа. Переименование атомарно: сосед видит либо старый файл, либо новый целиком. */
+export const writeCache = (name: string, data: unknown) => {
+  const tmp = new URL(`${cacheUrl(name).href}.${process.pid}.tmp`);
+  writeFileSync(tmp, JSON.stringify(data));
+  renameSync(tmp, cacheUrl(name));
+};
 
 /** Элементы Wikidata произведений: из id карточки (`f-wd<N>`), externalIds.wikidata, общего
  *  .cache/wikidata-ids.json, иначе поиском `haswbstatement` — фильм P4947, сериал P345, книга

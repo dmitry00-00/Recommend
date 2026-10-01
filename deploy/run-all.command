@@ -1,7 +1,9 @@
 #!/bin/bash
 # Весь прогон на Mac одним двойным щелчком — всё, что накопилось после правок кода, по порядку:
 #   1. git push — отправить коммиты, если они есть;
-#   2. данные из Wikidata, Open Library и An API of Ice and Fire (deploy/resolve-all.command, 8 шагов);
+#   2. данные из Wikidata, Open Library и An API of Ice and Fire (deploy/resolve-all.command, 8 шагов,
+#      внутри — две параллельные дорожки), а одновременно с ними — недельное расширение справочника
+#      фильмов (tools/expand-film-base.mts, самый долгий шаг: раньше он шёл внутри сборщика после них);
 #   3. индексы разборов — посты, ролики, соупоминания — и публикация на сервер (tools/collect.mts;
 #      ролики — если в .env есть YT_API_KEY);
 #   4. герои ещё раз — по свежим разборам (всё в кэше, это быстро);
@@ -47,8 +49,21 @@ else
   echo "отправлять нечего"
 fi
 
-step "2/8 данные: Wikidata, Open Library, Вестерос"
+step "2/8 данные: Wikidata, Open Library, Вестерос (+ справочник фильмов параллельно)"
+tag() { local t="$1"; while IFS= read -r line; do printf '[%s] %s\n' "$t" "$line"; done; }
+# справочник фильмов раз в неделю (как в сборщике); прошёл — отметка, и сборщик на шаге 3 его не повторит
+mkdir -p .cache/collect
+EXPAND_PID=
+if [ "$COLLECT" = 1 ] && [ -z "$(find .cache/collect/expand.last -mtime -7 2>/dev/null)" ]; then
+  ( npx --yes tsx tools/expand-film-base.mts --min 2 && date -u +%FT%TZ > .cache/collect/expand.last ) > >(tag справочник) 2>&1 &
+  EXPAND_PID=$!
+fi
 bash deploy/resolve-all.command || FAILED+=("resolve-all (данные) — смотрите лог выше")
+if [ -n "$EXPAND_PID" ]; then
+  echo "жду справочник фильмов…"
+  wait $EXPAND_PID || FAILED+=("справочник фильмов (Wikidata) — прерван или не ответил; сборщик попробует снова")
+  sleep 0.2
+fi
 
 if [ "$COLLECT" = 1 ]; then
   step "3/8 индексы разборов и публикация"
@@ -80,7 +95,7 @@ done
 
 step "7/8 коммит данных"
 # решения разметки (таблица, пульт ссылок) живут в tools/ — коммитятся вместе с данными
-DATA="src/mocks tools/markup-verdicts.json tools/markup-resolved.json"
+DATA=$(for f in src/mocks tools/markup-verdicts.json tools/markup-resolved.json; do [ -e "$f" ] && printf '%s ' "$f"; done)
 git status --short $DATA
 if [ -n "$(git status --porcelain $DATA)" ]; then
   if ask "Закоммитить данные (src/mocks и решения разметки) и отправить?"; then
