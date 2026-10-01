@@ -81,6 +81,8 @@ export const sources: VoiceSource[] = [
   { id: 'src-greengrass', title: 'GreenGrass', handle: 'greengrassreal', platform: 'youtube', url: 'https://www.youtube.com/@greengrassreal', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-plaguevision', title: 'Обзор во время чумы', handle: 'PlagueVision', platform: 'youtube', url: 'https://www.youtube.com/@PlagueVision', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-radiodolin', title: 'Радио Долин', handle: 'radiodolin', platform: 'youtube', url: 'https://www.youtube.com/@radiodolin', role: 'voice', kind: 'channel', tier: 'essay' },
+  // эссеист — владелец, 01.10 (название предварительное: точное приходит из YouTube при обходе)
+  { id: 'src-lampoviyfister', title: 'Ламповый Фистер', handle: 'lampoviyfister1489', platform: 'youtube', url: 'https://www.youtube.com/@lampoviyfister1489', role: 'voice', kind: 'channel', tier: 'essay' },
   { id: 'src-zharinov', title: 'Николай Жаринов', handle: 'NikolaiZharinov', platform: 'youtube', url: 'https://www.youtube.com/@NikolaiZharinov', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
   { id: 'src-kirichenko', title: 'Кирилл Кириченко', handle: 'KIRILL_KIRICHENKO', platform: 'youtube', url: 'https://www.youtube.com/@KIRILL_KIRICHENKO', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
   { id: 'src-kinokritika', title: 'КИНОКРИТИКА', handle: 'kinokritika', platform: 'youtube', url: 'https://www.youtube.com/@kinokritika', role: 'voice', kind: 'channel', tier: 'review' },
