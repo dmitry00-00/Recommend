@@ -130,6 +130,38 @@ const missing = films
   // сначала те, о ком говорят: это и есть очередь на разбор, а не алфавит
   .sort((a, b) => b.talk - a.talk || a.title.localeCompare(b.title, 'ru'));
 
+// 3б. Корпус (01.10): самые обсуждаемые фильмы — топ-300 по упоминаниям в постах авторов, — у которых
+// роликов мало (до двух): их владелец наполняет ссылками. Ролики фильма — YouTube из индексов разборов
+// (без площадок и книжных каналов) и из решений людей. Ссылки, вписанные в этом листе (from: 'corpus'),
+// остаются в нём при пересборке, даже если роликов стало больше двух — как в «Без разбора».
+const CORPUS_TOP = 300, CORPUS_MAX = 2;
+const ytId = (url: string) => /(?:[?&]v=|youtu\.be\/)([\w-]{11})/.exec(url)?.[1];
+const videosOf = new Map<string, { all: Set<string>; review: Set<string> }>();
+const addVideo = (k: string, id: string, review = false) => {
+  const e = videosOf.get(k) ?? videosOf.set(k, { all: new Set(), review: new Set() }).get(k)!;
+  e.all.add(id);
+  if (review) e.review.add(id);
+};
+for (const src of [essays, essaysAuto, postsAuto]) {
+  for (const [k, list] of Object.entries(src)) for (const a of list) {
+    if (byId.get(vid(a))?.role === 'platform' || bookTitles.has(a.author)) continue;
+    const id = a.platform === 'youtube' ? ytId(a.url) : undefined;
+    if (id) addVideo(k, id, reviewTitles.has(a.author));
+  }
+}
+for (const [id, v] of Object.entries(human)) if (v.key) addVideo(v.key, id);
+const corpusLink = new Map<string, string[]>();
+for (const [id, v] of Object.entries(human)) {
+  if (v.from === 'corpus' && v.key) (corpusLink.get(v.key) ?? corpusLink.set(v.key, []).get(v.key)!).push(`https://www.youtube.com/watch?v=${id}`);
+}
+const corpus = films
+  .map((f) => ({ label: f.label, title: f.title, year: f.year ?? '', key: f.key, talk: mentions[f.key]?.author ?? 0,
+    have: videosOf.get(f.key)?.all.size ?? 0, reviews: videosOf.get(f.key)?.review.size ?? 0, links: corpusLink.get(f.key) ?? [] }))
+  .filter((f) => f.talk > 0)
+  .sort((a, b) => b.talk - a.talk || a.title.localeCompare(b.title, 'ru'))
+  .slice(0, CORPUS_TOP)
+  .filter((f) => f.have <= CORPUS_MAX || f.links.length);
+
 // 4. Строки разметки, врозь по ярусу канала
 let lost = 0;
 const row = (v: Video) => {
@@ -165,11 +197,12 @@ const review = pick('review');
 const essay = pick('essay');
 
 mkdirSync(new URL('.cache/markup/', root), { recursive: true });
-writeFileSync(new URL('.cache/markup/film-reviews.json', root), JSON.stringify({ films, review, essay, missing }));
+writeFileSync(new URL('.cache/markup/film-reviews.json', root), JSON.stringify({ films, review, essay, missing, corpus }));
 const withGuess = (rows: typeof review) => rows.filter((r) => r.film && !r.checked).length;
 const decided = (rows: typeof review) => rows.filter((r) => r.checked).length;
 console.log(`обзоры ${review.length} строк (догадок ${withGuess(review)}, решено людьми ${decided(review)}), эссе ${essay.length} (догадок ${withGuess(essay)}, решено ${decided(essay)})`);
 if (skippedLinks) console.log(`каналы из ссылок: без догадки и решения в таблицу не вошло ${skippedLinks} (все подряд — --all-links)`);
 console.log(`решений в tools/markup-verdicts.json: ${Object.keys(human).length}`);
 console.log(`фильмов в списке ${films.length}${lost ? `, потеряно догадок ${lost}` : ''}; без разбора и обзора ${missing.length}, из них названы в постах ${missing.filter((m) => m.talk > 0).length}`);
+console.log(`корпус: из ${CORPUS_TOP} самых обсуждаемых роликов до ${CORPUS_MAX} у ${corpus.length} (совсем без роликов ${corpus.filter((c) => !c.have).length})`);
 console.log('→ .cache/markup/film-reviews.json');

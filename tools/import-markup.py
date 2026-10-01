@@ -104,7 +104,7 @@ if os.path.exists(OUT):
     was = json.load(open(OUT, encoding='utf-8')).get('videos', {})
 
 verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0,
-                              'нет у нас': 0, 'пропустили': 0, 'со стороны фильма': 0,
+                              'нет у нас': 0, 'пропустили': 0, 'со стороны фильма': 0, 'из корпуса': 0,
                               'изменили прежнее': 0, 'без изменений': 0, 'опознали по названию': 0,
                               'опознали, на проверку': 0}
 rows_read = 0
@@ -184,6 +184,23 @@ if 'Без разбора' in wb.sheetnames:
                 gap_channels.append('%s: %s' % (label, str(cell).split('?')[0]))
             for vid in found:
                 put(vid, {'key': keys[label], 'film': label, 'from': 'gap'}, 'со стороны фильма')
+
+# Лист «Корпус» — самые обсуждаемые фильмы, у которых роликов мало (01.10): тоже со стороны фильма,
+# ссылки — от колонки F вправо
+if 'Корпус' in wb.sheetnames:
+    for row in wb['Корпус'].iter_rows(min_row=2, values_only=True):
+        film, links = (row[0] if row else None), [c for c in row[5:] if c]
+        if not links or not film:
+            continue
+        label = str(film).strip()
+        if label not in keys:
+            continue
+        for cell in links:
+            found = VIDEO.findall(str(cell))
+            if not found and re.search(r'youtube\.com/(@|channel/|c/)', str(cell)):
+                gap_channels.append('%s: %s' % (label, str(cell).split('?')[0]))
+            for vid in found:
+                put(vid, {'key': keys[label], 'film': label, 'from': 'corpus'}, 'из корпуса')
 
 body = {'//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
               ' читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса'

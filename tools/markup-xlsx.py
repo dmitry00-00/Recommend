@@ -99,6 +99,24 @@ def markup_sheet(name, rows, index):
 markup_sheet('Обзоры', data['review'], 0)
 markup_sheet('Эссе', data['essay'], 1)
 
+# 2б. Корпус: самые обсуждаемые фильмы, у которых роликов мало, — их наполняют ссылками
+corpus = data.get('corpus', [])
+cw = max([len(c.get('links') or []) for c in corpus] + [1]) + 2
+cs = wb.create_sheet('Корпус', 2)
+head(cs, ['Фильм', 'Год', 'Назвали в постах', 'Роликов уже', 'из них обзоров', 'Ссылка на ролик'] + ['ещё ссылка'] * (cw - 1))
+for r, c in enumerate(corpus, start=2):
+    cs.cell(row=r, column=1, value=c['label'])
+    cs.cell(row=r, column=2, value=c['year'] or None)
+    cs.cell(row=r, column=3, value=c['talk'] or None)
+    cs.cell(row=r, column=4, value=c['have'])
+    cs.cell(row=r, column=5, value=c['reviews'] or None)
+    for i, url in enumerate(c.get('links') or []):
+        cs.cell(row=r, column=6 + i, value=url)
+for i, width in enumerate((46, 8, 16, 12, 14) + (50,) * cw):
+    cs.column_dimensions[get_column_letter(1 + i)].width = width
+cs.freeze_panes = 'B2'
+cs.auto_filter.ref = 'A1:%s%d' % (get_column_letter(5 + cw), len(corpus) + 1)
+
 # 3. Обратный взгляд: фильмы, о которых у нас никто не высказался
 gaps = wb.create_sheet('Без разбора', 2)
 # ссылки — все, по одной в ячейке вправо от D (как их и вписывают); плюс одна пустая колонка для новой
@@ -148,6 +166,12 @@ for line in [
     'каналов, — это и есть очередь на разбор. Знаете разбор такого фильма — вставьте ссылку',
     'в последнюю колонку, она попадёт в разметку так же, как выбор из списка.',
     '',
+    'Лист «Корпус» (%d фильмов) — самые обсуждаемые: из 300 фильмов, которые чаще всего называют'
+    % len(corpus),
+    'в постах авторов, те, у кого роликов пока не больше двух. Сверху — самые обсуждаемые. Знаете',
+    'обзор или разбор — вставьте ссылку на ролик в колонку «Ссылка на ролик» (и правее, если',
+    'их несколько): она попадёт в разметку, а фильм в листе останется со своими ссылками.',
+    '',
     'Внизу листов разметки по %d пустых строк с тем же списком — для роликов, которых тут нет.' % EMPTY,
     'Список фильмов лежит на скрытом листе «Справочник», там же ключи. Лист не трогать.',
 ]:
@@ -157,6 +181,6 @@ how.column_dimensions['A'].width = 100
 del wb['Sheet']
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 wb.save(OUT)
-print('обзоры %d, эссе %d (с догадкой %d), без разбора %d, фильмов в списке %d'
-      % (len(data['review']), len(data['essay']), guessed, len(missing), len(films) + 1))
+print('обзоры %d, эссе %d (с догадкой %d), корпус %d, без разбора %d, фильмов в списке %d'
+      % (len(data['review']), len(data['essay']), guessed, len(corpus), len(missing), len(films) + 1))
 print('→ %s  (%.1f МБ)' % (OUT, os.path.getsize(OUT) / 1048576))
