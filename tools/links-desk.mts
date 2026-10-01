@@ -11,7 +11,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
-import { bestByTitle } from './match-videos.mts';
+import { matchVideos } from './match-videos.mts';
 import { oembed, recalled, videosApi, type VideoMeta } from './youtube.mts';
 import { filmOptions, matchFilm, parsePaste, sourceLine, titleMentions } from './links-desk-lib.mts';
 import { sources } from '../src/mocks/sources.ts';
@@ -24,6 +24,9 @@ const DESK_MARK = '  // ── каналы из пульта ссылок: tool
 const LINKS_MARK = '  // ── каналы из ссылок владельца: tools/register-link-channels.mts дописывает сюда ──';
 
 const ours = worksIndex();
+// повседневные названия («Безумие», «Болото») — с той же строгостью, что в индексе разборов (01.10)
+const ORDINARY = new URL('../.cache/ordinary.json', import.meta.url);
+const ordinary = existsSync(ORDINARY) ? new Set<string>(JSON.parse(readFileSync(ORDINARY, 'utf8')).names ?? []) : undefined;
 const films = filmOptions(worksIndex({ all: true }));
 const byKey = new Map(films.map((f) => [f.key, f]));
 const byLabel = new Map(films.map((f) => [f.label.toLowerCase(), f]));
@@ -83,7 +86,9 @@ async function fetchMeta(ids: string[]): Promise<void> {
     }
     for (const [id, m] of got) { const it = items.get(id); if (it) it.meta = m; }
     const blind = ids.map((id) => items.get(id)!).filter((it) => it && !it.typed && it.how === 'none' && it.meta);
-    const guess = bestByTitle(blind.map((it) => ({ id: it.id, title: it.meta!.title })), ours);
+    // догадка со всеми сторожами (сборник, игра, серия, год), а не голое совпадение названия: до 01.10
+    // «ПОЧЕМУ ЧУЖОЙ (1979) — …ХРЕБТОВ БЕЗУМИЯ» уходил к «Безумию» 2008-го
+    const guess = matchVideos(blind.map((it) => ({ id: it.id, title: it.meta!.title, ...(it.meta!.publishedAt ? { publishedAt: it.meta!.publishedAt } : {}) })), ours, ordinary);
     for (const it of blind) {
       const g = guess.get(it.id);
       const f = g ? byKey.get(g.key) : undefined;
@@ -161,7 +166,8 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
     // «сериал» из ярлыка и название ролика — в `title`, по ним он выбирает между фильмом и сериалом
     const series = /\(сериал/i.test(it.film);
     const plain = it.film.replace(/\s*\((?:сериал,?\s*)?((?:19|20)\d{2})?\)\s*$/i, (_, y) => (y ? ` (${y})` : '')).trim();
-    const v: Verdict = it.key ? { key: it.key, film: it.film, from: 'desk', at: today }
+    // фильм, угаданный по названию ролика, — догадка: в таблице разметки он приходит непроверенным
+    const v: Verdict = it.key ? { key: it.key, film: it.film, from: 'desk', at: today, ...(it.how === 'title' ? { guess: true } : {}) }
       : { key: null, why: 'нет у нас', film: plain, from: 'desk', at: today,
         ...(it.meta?.title || series ? { title: `${it.meta?.title ?? ''}${series ? ' сериал' : ''}`.trim() } : {}) };
     const ex = videos[it.id];

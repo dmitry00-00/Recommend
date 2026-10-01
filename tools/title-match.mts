@@ -31,7 +31,7 @@ export const DIGEST = /новост|что посмотреть|(?<!\p{L})топ
 /** Слабые приметы сборника: «Оскар» (92 ролика — 1 подтверждён), «лучшие/лучших» (370 — 65).
  *  Отсекают, только если в заголовке нет признака разбора: «Фильм 1917 — 10 номинаций на
  *  Оскар (обзор)» и «Почему „Лего Бэтмен" — лучший фильм про Бэтмена» — про один фильм. */
-export const DIGEST_SOFT = /оскар|(?<!\p{L})лучш(?:ие|их)(?!\p{L})/iu;
+export const DIGEST_SOFT = /оскар|(?<!\p{L})и\s+другие(?!\p{L})|(?<!\p{L})лучш(?:ие|их)(?!\p{L})/iu;
 /** Признаки разбора одного произведения: доля подтверждённых в 2,5–6 раз выше средней
  *  (плохбастер 58%, смысл 41%, ретроспектива 39%, разбор 37%, обзор 24%) — для отсева
  *  годятся как «защита», для подтверждения в одиночку — нет. */
@@ -39,10 +39,16 @@ export const REVIEW = /обзор|разбор|смысл|плохбастер|�
 
 /** Сборник или новости по заголовку; `names` — названия привязанного фильма, их из заголовка
  *  вырезаем до проверки. */
+/** Не ролик о кино вовсе: прохождение игры, стрим (замер 01.10 — «МЕТРО ИСХОД ПРОХОЖДЕНИЕ |
+ *  … БОЛОТО, АДМИРАЛ» уходил к «Болоту» и «Адмиралу»); англоязычные новости («INSANE HORROR NEWS!
+ *  … American Psycho»); выпуск подкаста из нескольких тем через «||», от четырёх тем («№64 Новый Голый пистолет ||
+ *  Сэр Кристофер Нолан || Снова Бесконечная история»). */
+export const NOT_FILM = /прохождени|летсплей|let'?s\s*play|walkthrough|gameplay|геймплей|(?<!\p{L})dlc(?!\p{L})|(?<!\p{L})news(?!\p{L})|(?:\|\|[^|]*){3}/iu;
+
 export function isDigest(title: string, names: string[] = []): boolean {
   let rest = title;
   for (const n of names) if (n.length > 1) rest = rest.split(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'iu')).join(' ');
-  if (DIGEST.test(rest)) return true;
+  if (DIGEST.test(rest) || NOT_FILM.test(rest)) return true;
   return DIGEST_SOFT.test(rest) && !REVIEW.test(rest);
 }
 
@@ -145,6 +151,51 @@ const RUBRIC = new Set([
   'ТРАКТОВКА', 'АНАЛИЗ', 'ИТОГИ', 'ЧАСТЬ', 'СЕРИЯ', 'ВИДЕО', 'ЭССЕ', 'ЛЕКЦИЯ',
 ]);
 
+/** Слова, после которых односложное название стоит как название: ярлык или вопрос о фильме
+ *  («смысл ПРИБЫТИЯ», «разбор фильма ИЗГОЙ», «почему ЗЕРКАЛО», «о чём ПРИБЫТИЕ»). */
+const LEAD = /^(?:смысл|разбор\p{L}*|обзор\p{L}*|анализ|трактовк\p{L}*|фильм\p{L}*|кино|сериал\p{L}*|мультфильм\p{L}*|аниме|почему|как|что|зачем|ч[её]м|концовк\p{L}*|объяснени\p{L}*|плохбастер|треш|ликбез|кинолик\p{L}*|мнение|рецензи\p{L}*|спгс|скрыт\p{L}*|финал|персонаж\p{L}*|героин\p{L}*|геро[йяе]\p{L}*|вселенн\p{L}*|трилоги\p{L}*|дилоги\p{L}*|франшиз\p{L}*|саг[аиу]|новым|нового|новом|плох\p{L}*|хорош\p{L}*|ли|хоррор\p{L}*|ужастик\p{L}*|триллер\p{L}*)$/iu;
+/** Сравнение: «почти БРАТ 3», «лучше Волка с Уолл-стрит», «наш Доктор Стрэндж», «новую МАТРИЦУ» —
+ *  ролик о другом фильме, наш назван для сравнения (замер 01.10 на ручной разметке). */
+const COMPARE = /^(?:почти|лучше|хуже|круче|против|вместо|наш|наша|наше|нашу|новый|новая|новую|новое|очередн\p{L}*)$/iu;
+const PREP = '(?:на|в|во|и|с|со|из|для|под|над|от|до|без|у|о|об|по|за|к)';
+
+/** Совпадение есть, но название в нём — не название (01.10, ошибки из таблицы разметки):
+ *  частью сложного слова («Гранд-Адмирал»), внутри чужой цитаты («"Божественность" бюрократических
+ *  машин»), для сравнения («почти БРАТ 3», «Секс в большом городе по-русски»). Односложному или
+ *  повседневному названию — ещё и своя строгость: оно должно начинать фразу или стоять после ярлыка
+ *  («С этого заблуждения начинается БЕЗУМИЕ», «ПУТЬ В БЕЗДНУ», «НАШИ БЕЗУМНЫЕ АДАПТАЦИИ» — речь),
+ *  и не продолжаться чужим именем («Адмирал Кузнецов», «Больница Питт», «Бабушка Ке-чхун»,
+ *  «Безумие на Двоих», «Бабушка лёгкого поведения 2»). Родительный падеж автора продолжением не
+ *  считаем: «Зеркало Тарковского», «Начало Нолана» — это наш фильм. */
+function strayHit(title: string, at: number, hit: string, after: string, name: string, ordinary: boolean): boolean {
+  const pre = title.slice(0, at);
+  if (/\p{L}-$/u.test(pre)) return true;
+  // внутри «…», которая шире нашего названия
+  const open = pre.lastIndexOf('«');
+  if (open >= 0 && open > pre.lastIndexOf('»') && !/«$/.test(pre)) {
+    const close = title.indexOf('»', at);
+    const inside = title.slice(open + 1, close < 0 ? undefined : close).replace(/["„“”]/g, '').trim();
+    if (inside.length > name.length + 3) return true;
+  }
+  const prev = /(?:^|[^\p{L}\p{N}-])((?:[\p{L}\p{N}]+-)*[\p{L}\p{N}]+)\s+$/u.exec(pre)?.[1];
+  if (prev && COMPARE.test(prev)) return true;
+  if (/^\s*по-(?:русски|нашему|советски)|^\s+на\s+минималках/iu.test(after)) return true;
+  if (/\s/.test(name) && !ordinary) return false;
+  // односложное или повседневное: начало фразы или ярлык перед ним. Вопрос о фильме, которым
+  // название и кончается, — тоже: «Что скрывает Субстанция?», «Кого боится ОНО?»
+  const clause = /[^|:.!?«»"()—–\[\]]*$/u.exec(pre)?.[0] ?? '';
+  const asks = /^\s*(?:что|как|почему|зачем|кто|кого|чем|ч[её]м|о\s+ч[её]м|куда|откуда|где|когда|чего)(?!\p{L})/iu.test(clause) && /^\s*(?:[?!]|$)/u.test(after);
+  if (prev && !LEAD.test(prev) && !asks) return true;
+  const next = /^\s+([\p{L}][\p{L}-]*)/u.exec(after)?.[1];
+  if (next && /^[А-ЯЁ]/u.test(next) && !RUBRIC.has(next.toUpperCase()) && next !== next.toUpperCase()
+    && !/(?:ого|его|ова|ева|ина|ына|ы|а|я|и)$/u.test(next)) return true;
+  if (new RegExp(`^\\s+${PREP}\\s+[А-ЯЁ]`, 'u').test(after)) return true;
+  // «Бабушка лёгкого поведения 2»: фраза продолжается словами и кончается номером — это чужое название
+  const seg = /^[^|()—–:!?.,"«»]*/u.exec(after)?.[0] ?? '';
+  if (/^\s+\p{L}[\p{L}\s]*\s\d{1,2}\s*$/u.test(seg)) return true;
+  return false;
+}
+
 export function nameMatch(videoTitle: string, name: string, options: MatchOptions = {}): number {
   const rival = RIVALS.find(([n]) => n.test(name));
   if (rival && rival[1].test(videoTitle)) return 0;
@@ -161,10 +212,16 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
     // названия от этого не страдают: они длиннее и побеждают как более длинное совпадение
     const after = videoTitle.slice(m.index + m[0].length - (m[4]?.length ?? 0));
     // «Легенда №17» — номер тоже продолжение, как «Джокер 2» (30.09)
-    if (/^\s*№?\s*\d/.test(after) || /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
-    // «Бэтмен: Начало» — наше слово идёт частью чужого названия, а не своим
+    // Тире с ярлыком после — подпись, а не продолжение: «ГЕОШТОРМ - ФИЛЬМ БЕЗ ГЕОШТОРМА», «Матильда — Обзор» (01.10)
+    const dashNext = /^\s*[—–-]\s*([\p{L}]+)/u.exec(after)?.[1];
+    const dashLabel = dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext));
+    if (/^\s*№?\s*\d(?<!\s(?:19|20)\d{2}(?!\d))/.test(after) && !/^\s*(?:19|20)\d{2}(?!\d)/.test(after) || (!dashLabel && /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after)) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
+    // «Бэтмен: Начало», «Джокер 2: Безумие на двоих» — наше слово идёт частью чужого названия
     const before = videoTitle.slice(0, m.index + m[1].length).trimEnd();
     if (/[А-ЯЁA-Z][^\s:]*:$/.test(before)) continue;
+    const numbered = /([А-ЯЁA-Z][\p{L}]*)\s+\d{1,2}:$/u.exec(before)?.[1];
+    if (numbered && !/^(?:эпизод|выпуск|часть|серия|глава|episode|part|ep)$/iu.test(numbered)) continue;
+    if (!options.loose && strayHit(videoTitle, m.index + m[1].length, hit, after, name, options.ordinary?.has(name) ?? false)) continue;
     if (/^[A-Za-z]/.test(hit) && latinContinues(hit, videoTitle.slice(0, m.index + m[1].length), after)) continue;
     // название после ярлыка должно быть нашим, иначе разбирают другой фильм
     const labelled = LABELLED.exec(videoTitle)?.[1];

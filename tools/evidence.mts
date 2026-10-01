@@ -65,7 +65,8 @@ export function foreignCreator(work: WorkCard, head: string): string | undefined
   const esc = work.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ё/gi, '[её]');
   // имя — до трёх слов с большой буквы, между ними частицы: «Ларса фон Триера», «Гильермо дель Торо»
   const NAME = '((?:[А-ЯЁ][а-яё]+(?:(?:\\s+(?:фон|де|ван|дер|дель|ди|ле|да|ла))?[-\\s](?=[А-ЯЁ]))?){1,3})(?![а-яёА-ЯЁ])';
-  const quoted = new RegExp(`[«"„]${esc}[»"“]\\s*(?:\\(\\d+\\+\\)\\s*)?${NAME}`, 'u').exec(head);
+  // имя — на той же строке: «"Цельнометаллическая оболочка"\nВторая часть разбора» — не режиссёр «Вторая» (01.10)
+  const quoted = new RegExp(`[«"„]${esc}[»"“][^\\S\\n]*(?:\\(\\d+\\+\\)[^\\S\\n]*)?${NAME}`, 'u').exec(head);
   const capsTitle = work.title.toLocaleUpperCase('ru').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/Ё/g, '[ЕЁ]');
   // без кавычек имя должно закрывать подпись: дальше тире, черта, скобка или конец —
   // «ДРАКУЛА Бессона - (ПЕРЕ)СКАЗКА», а не «ГРОМОВЕРЖЦЫ* Звездочка имеет значение»
@@ -122,7 +123,9 @@ export function evidenceFor(work: WorkCard, text: string, links: string[] = []):
   // Противоречие-режиссёр: после названия в кавычках назван чужой создатель (30.09)
   if (foreignCreator(work, head)) return 'conflict';
   const title = head.split('\n').map((l) => l.trim()).find(Boolean)?.slice(0, 150) ?? '';
-  const titleYears = yearsIn(title);
+  // год из самого названия — не противоречие: «2001 год: Космическая одиссея» (01.10)
+  const own = [work.title, work.originalTitle].filter((t): t is string => Boolean(t));
+  const titleYears = yearsIn(own.reduce((t, n) => t.replace(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'giu'), ' '), title));
   if (work.year && titleYears.length && titleYears.length <= 2 && !titleYears.some((y) => Math.abs(y - work.year) <= 1)) return 'conflict';
   const orig = work.originalTitle?.trim();
   if (orig && orig.length >= 5 && /[A-Za-z]/.test(orig) && orig.toLowerCase() !== work.title.toLowerCase()) {

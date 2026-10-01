@@ -15,6 +15,7 @@ import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
 import type { IndexedWork } from './works-index.mts';
 import { isBookKey } from '../src/lib/keys.ts';
+import { isSeries } from '../src/lib/media.ts';
 import { bookChannelList, judgeInBookChannel, namesFor, preferBooks, sourceIndex } from './book-channels.mts';
 
 export interface VideoLike {
@@ -24,6 +25,8 @@ export interface VideoLike {
 }
 export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string }
 
+/** Номер серии или сезона в заголовке: ролик о серии сериала. */
+export const EPISODE = /(?<!\p{L})(?:\d{1,3}\s*(?:-?я\s*)?(?:сери[яи]|сезон)|(?:сери[яи]|сезон)\s*\d{1,3})(?!\p{L})|(?<![\p{L}\p{N}])s\d{1,2}\s*e\d{1,3}(?![\p{L}\p{N}])/iu;
 const norm = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
 const words = (s: string) => norm(s).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 const head = (w: string) => w.slice(0, 4);
@@ -52,8 +55,11 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     let max = 0;
     let tied: IndexedWork[] = [];
     const series = talksSeries(`${v.title}\n${v.description ?? ''}`);
+    const episode = EPISODE.test(v.title);
     for (const w of ours) {   // порядок справочников — как у индекса: pickNamesake опирается на него
       if (!cands.has(w) || (w.needsSeriesTalk && !series)) continue;
+      // «Адмирал Кузнецов 6 серия обзор», «Больница Питт 2 сезон 7 серия» — разбор серии, а не фильма (01.10)
+      if (episode && !isSeries(w.work)) continue;
       const len = Math.max(0, ...namesFor(w, Boolean(v.book)).map((n) => nameMatch(v.title, n, { ordinary: options.ordinary, loose: options.loose })));
       if (!len || len < max) continue;
       if (len > max) { max = len; tied = []; }
