@@ -1,4 +1,4 @@
-// Сгенерировано tools/expand-film-base.mts (2026-09-24): фильмы, о
+// Сгенерировано tools/expand-film-base.mts (2026-10-01): фильмы, о
 // которых говорят каналы, опознанные в Wikidata (CC0). Разметки у этих карточек нет — они нужны,
 // чтобы разборы было к чему привязывать, и в подбор не идут.
 // Не править руками — перегенерировать.
@@ -783,23 +783,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd133397105",
-    "type": "film",
-    "title": "Хокум",
-    "originalTitle": "Hokum",
-    "year": 2026,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1430077,
-      "imdb": "tt35672862"
-    }
-  },
-  {
     "id": "f-wd101112656",
     "type": "film",
     "title": "Бруталист",
@@ -1214,25 +1197,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd123185887",
-    "type": "film",
-    "title": "Анора",
-    "originalTitle": "Anora",
-    "year": 2024,
-    "creators": [
-      "Шон Бэйкер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1064213,
-      "imdb": "tt28607951"
-    }
-  },
-  {
     "id": "f-wd1114038",
     "type": "film",
     "title": "Новая волна",
@@ -1518,25 +1482,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd22972803",
-    "type": "film",
-    "title": "Вопль",
-    "originalTitle": "The Wailing",
-    "year": 2016,
-    "creators": [
-      "На Хонджин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 293670,
-      "imdb": "tt5215952"
-    }
-  },
-  {
     "id": "f-wd27566067",
     "type": "film",
     "title": "Пассажир",
@@ -1553,24 +1498,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 399035,
       "imdb": "tt1590193"
-    }
-  },
-  {
-    "id": "f-wd114246242",
-    "type": "film",
-    "title": "F1",
-    "year": 2025,
-    "creators": [
-      "Джозеф Косински"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 911430,
-      "imdb": "tt16311594"
     }
   },
   {
@@ -1799,25 +1726,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 419704,
       "imdb": "tt2935510"
-    }
-  },
-  {
-    "id": "f-wd25136484",
-    "type": "film",
-    "title": "Оно",
-    "originalTitle": "It",
-    "year": 2017,
-    "creators": [
-      "Энди Мускетти"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 346364,
-      "imdb": "tt1396484"
     }
   },
   {
@@ -2391,25 +2299,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd137652478",
-    "type": "film",
-    "title": "Фьорд",
-    "originalTitle": "Fjord",
-    "year": 2026,
-    "creators": [
-      "Кристиан Мунджиу"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1401459,
-      "imdb": "tt35410859"
-    }
-  },
-  {
     "id": "f-wd105031",
     "type": "film",
     "title": "Один дома",
@@ -2844,25 +2733,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 11362,
       "imdb": "tt0245844"
-    }
-  },
-  {
-    "id": "f-wd63985561",
-    "type": "film",
-    "title": "Довод",
-    "originalTitle": "Tenet",
-    "year": 2020,
-    "creators": [
-      "Кристофер Нолан"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 577922,
-      "imdb": "tt6723592"
     }
   },
   {
@@ -4269,25 +4139,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd732960",
-    "type": "film",
-    "title": "Драйв",
-    "originalTitle": "Drive",
-    "year": 2011,
-    "creators": [
-      "Николас Виндинг Рефн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 64690,
-      "imdb": "tt0780504"
-    }
-  },
-  {
     "id": "f-wd137640905",
     "type": "film",
     "title": "Барашек в ящике",
@@ -4703,24 +4554,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd59783",
-    "type": "film",
-    "title": "Декалог",
-    "originalTitle": "The Decalogue",
-    "year": 1989,
-    "creators": [
-      "Кшиштоф Кесьлёвский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "imdb": "tt0092337"
-    }
-  },
-  {
     "id": "f-wd7715695",
     "type": "film",
     "title": "Пустошь",
@@ -4794,25 +4627,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 263331,
       "imdb": "tt0102265"
-    }
-  },
-  {
-    "id": "f-wd190908",
-    "type": "film",
-    "title": "Семь",
-    "originalTitle": "Seven",
-    "year": 1995,
-    "creators": [
-      "Дэвид Финчер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 807,
-      "imdb": "tt0114369"
     }
   },
   {
@@ -5062,25 +4876,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd2345",
-    "type": "film",
-    "title": "12 разгневанных мужчин",
-    "originalTitle": "12 Angry Men",
-    "year": 1957,
-    "creators": [
-      "Сидни Люмет"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 389,
-      "imdb": "tt0050083"
-    }
-  },
-  {
     "id": "f-wd113012523",
     "type": "film",
     "title": "Подай знак",
@@ -5268,25 +5063,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 1290159,
       "imdb": "tt32376165"
-    }
-  },
-  {
-    "id": "f-wd124608269",
-    "type": "film",
-    "title": "Стив",
-    "originalTitle": "Steve",
-    "year": 2025,
-    "creators": [
-      "Тим Милантс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1242404,
-      "imdb": "tt32985279"
     }
   },
   {
@@ -5724,25 +5500,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd107176162",
-    "type": "film",
-    "title": "Нет",
-    "originalTitle": "Nope",
-    "year": 2022,
-    "creators": [
-      "Джордан Пил"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 762504,
-      "imdb": "tt10954984"
-    }
-  },
-  {
     "id": "f-wd913426",
     "type": "film",
     "title": "Ирония судьбы, или С лёгким паром!",
@@ -5816,25 +5573,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 132030,
       "imdb": "tt1003080"
-    }
-  },
-  {
-    "id": "f-wd467840",
-    "type": "film",
-    "title": "Куб",
-    "originalTitle": "Cube",
-    "year": 1997,
-    "creators": [
-      "Винченцо Натали"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 431,
-      "imdb": "tt0123755"
     }
   },
   {
@@ -5949,25 +5687,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 14553,
       "imdb": "tt0117737"
-    }
-  },
-  {
-    "id": "f-wd1004801",
-    "type": "film",
-    "title": "Бумер",
-    "originalTitle": "Bumer",
-    "year": 2003,
-    "creators": [
-      "Пётр Викторович Буслов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 62276,
-      "imdb": "tt0381936"
     }
   },
   {
@@ -6237,25 +5956,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd133850188",
-    "type": "film",
-    "title": "Сират",
-    "originalTitle": "Sirāt",
-    "year": 2025,
-    "creators": [
-      "Оливер Лэкси"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1151272,
-      "imdb": "tt32298285"
-    }
-  },
-  {
     "id": "f-wd239756",
     "type": "film",
     "title": "Земляничная поляна",
@@ -6462,44 +6162,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd60834962",
-    "type": "film",
-    "title": "Дюна",
-    "originalTitle": "Dune",
-    "year": 2021,
-    "creators": [
-      "Дени Вильнёв"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 438631,
-      "imdb": "tt1160419"
-    }
-  },
-  {
-    "id": "f-wd26465665",
-    "type": "film",
-    "title": "Живое",
-    "originalTitle": "Life",
-    "year": 2017,
-    "creators": [
-      "Даниэль Эспиноса"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 395992,
-      "imdb": "tt5442430"
-    }
-  },
-  {
     "id": "f-wd220515",
     "type": "film",
     "title": "В погоне за счастьем",
@@ -6554,25 +6216,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 664469,
       "imdb": "tt10304142"
-    }
-  },
-  {
-    "id": "f-wd217020",
-    "type": "film",
-    "title": "Тор",
-    "originalTitle": "Thor",
-    "year": 2011,
-    "creators": [
-      "Кеннет Брана"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 10195,
-      "imdb": "tt0800369"
     }
   },
   {
@@ -6728,25 +6371,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd123472177",
-    "type": "film",
-    "title": "Эдем",
-    "originalTitle": "Eden",
-    "year": 2024,
-    "creators": [
-      "Рон Ховард"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1042834,
-      "imdb": "tt23149780"
-    }
-  },
-  {
     "id": "f-wd20669997",
     "type": "film",
     "title": "Двое во вселенной",
@@ -6782,44 +6406,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 22302,
       "imdb": "tt1194238"
-    }
-  },
-  {
-    "id": "f-wd2844879",
-    "type": "film",
-    "title": "Враг",
-    "originalTitle": "Enemy",
-    "year": 2013,
-    "creators": [
-      "Дени Вильнёв"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 181886,
-      "imdb": "tt2316411"
-    }
-  },
-  {
-    "id": "f-wd97359775",
-    "type": "film",
-    "title": "Удача",
-    "originalTitle": "Luck",
-    "year": 2022,
-    "creators": [
-      "Пегги Холмс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 585511,
-      "imdb": "tt7214954"
     }
   },
   {
@@ -6896,25 +6482,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 65229,
       "imdb": "tt1847731"
-    }
-  },
-  {
-    "id": "f-wd58814567",
-    "type": "film",
-    "title": "Того",
-    "originalTitle": "Togo",
-    "year": 2019,
-    "creators": [
-      "Эриксон Кор"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 606856,
-      "imdb": "tt8096836"
     }
   },
   {
@@ -7048,25 +6615,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 1690,
       "imdb": "tt0450278"
-    }
-  },
-  {
-    "id": "f-wd103569",
-    "type": "film",
-    "title": "Чужой",
-    "originalTitle": "Alien",
-    "year": 1979,
-    "creators": [
-      "Ридли Скотт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 348,
-      "imdb": "tt0078748"
     }
   },
   {
@@ -7847,44 +7395,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd22432",
-    "type": "film",
-    "title": "Знаки",
-    "originalTitle": "Signs",
-    "year": 2002,
-    "creators": [
-      "М. Найт Шьямалан"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 2675,
-      "imdb": "tt0286106"
-    }
-  },
-  {
-    "id": "f-wd21869840",
-    "type": "film",
-    "title": "Сплит",
-    "originalTitle": "Split",
-    "year": 2017,
-    "creators": [
-      "М. Найт Шьямалан"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 381288,
-      "imdb": "tt4972582"
-    }
-  },
-  {
     "id": "f-wd109414393",
     "type": "film",
     "title": "Влюблённость (фильм, 1985)",
@@ -8089,25 +7599,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 533921,
       "imdb": "tt0129227"
-    }
-  },
-  {
-    "id": "f-wd55815471",
-    "type": "film",
-    "title": "После",
-    "originalTitle": "After",
-    "year": 2019,
-    "creators": [
-      "Jenny Gage"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 537915,
-      "imdb": "tt4126476"
     }
   },
   {
@@ -8833,25 +8324,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd331405",
-    "type": "film",
-    "title": "Вий",
-    "originalTitle": "Viy",
-    "year": 1967,
-    "creators": [
-      "Ершов, Константин Владимирович"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 57230,
-      "imdb": "tt0062453"
-    }
-  },
-  {
     "id": "f-wd495513",
     "type": "film",
     "title": "Эпидемия",
@@ -8944,25 +8416,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 177677,
       "imdb": "tt2381249"
-    }
-  },
-  {
-    "id": "f-wd1887799",
-    "type": "film",
-    "title": "Чтиво",
-    "originalTitle": "Pulp",
-    "year": 1972,
-    "creators": [
-      "Майк Ходжес"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 28131,
-      "imdb": "tt0069134"
     }
   },
   {
@@ -9137,25 +8590,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd103474",
-    "type": "film",
-    "title": "Космическая одиссея 2001 года",
-    "originalTitle": "2001: A Space Odyssey",
-    "year": 1968,
-    "creators": [
-      "Стэнли Кубрик"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 62,
-      "imdb": "tt0062622"
-    }
-  },
-  {
     "id": "f-wd1157019",
     "type": "film",
     "title": "Сцены у моря",
@@ -9232,25 +8666,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd1768437",
-    "type": "film",
-    "title": "Гонка",
-    "originalTitle": "Rush",
-    "year": 2013,
-    "creators": [
-      "Рон Ховард"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 96721,
-      "imdb": "tt1979320"
-    }
-  },
-  {
     "id": "f-wd1336326",
     "type": "film",
     "title": "Туринская лошадь",
@@ -9304,23 +8719,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 549670,
       "imdb": "tt3683846"
-    }
-  },
-  {
-    "id": "f-wd106900561",
-    "type": "film",
-    "title": "Друзей не выбирают",
-    "year": 1985,
-    "creators": [
-      "Борис Константинович Шадурский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "imdb": "tt5247430"
     }
   },
   {
@@ -9527,24 +8925,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 850297,
       "imdb": "tt9455468"
-    }
-  },
-  {
-    "id": "f-wd4633009",
-    "type": "film",
-    "title": "2:22",
-    "year": 2017,
-    "creators": [
-      "Пол Карри"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 269795,
-      "imdb": "tt1131724"
     }
   },
   {
@@ -9866,44 +9246,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 87502,
       "imdb": "tt1907668"
-    }
-  },
-  {
-    "id": "f-wd40187",
-    "type": "film",
-    "title": "Догма",
-    "originalTitle": "Dogma",
-    "year": 1999,
-    "creators": [
-      "Кевин Смит"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1832,
-      "imdb": "tt0120655"
-    }
-  },
-  {
-    "id": "f-wd47486507",
-    "type": "film",
-    "title": "Мэнди",
-    "originalTitle": "Mandy",
-    "year": 2018,
-    "creators": [
-      "Панос Косматос"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 460885,
-      "imdb": "tt6998518"
     }
   },
   {
@@ -10324,25 +9666,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd108649516",
-    "type": "film",
-    "title": "Тар",
-    "originalTitle": "Tár",
-    "year": 2022,
-    "creators": [
-      "Тодд Филд"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 817758,
-      "imdb": "tt14444726"
-    }
-  },
-  {
     "id": "f-wd111944238",
     "type": "film",
     "title": "Дворец",
@@ -10495,25 +9818,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd626483",
-    "type": "film",
-    "title": "Трон",
-    "originalTitle": "Tron",
-    "year": 1982,
-    "creators": [
-      "Стивен Лизбергер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 97,
-      "imdb": "tt0084827"
-    }
-  },
-  {
     "id": "f-wd209481",
     "type": "film",
     "title": "С широко закрытыми глазами",
@@ -10590,25 +9894,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd583407",
-    "type": "film",
-    "title": "Дуэль",
-    "originalTitle": "Duel",
-    "year": 1971,
-    "creators": [
-      "Стивен Спилберг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 839,
-      "imdb": "tt0067023"
-    }
-  },
-  {
     "id": "f-wd16514627",
     "type": "film",
     "title": "Поймать ведьму",
@@ -10643,43 +9928,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 13515,
       "imdb": "tt0790686"
-    }
-  },
-  {
-    "id": "f-wd203560",
-    "type": "film",
-    "title": "1408",
-    "year": 2007,
-    "creators": [
-      "Микаэль Хофстрём"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 3021,
-      "imdb": "tt0450385"
-    }
-  },
-  {
-    "id": "f-wd1070275",
-    "type": "film",
-    "title": "Страх",
-    "originalTitle": "Fear",
-    "year": 1996,
-    "creators": [
-      "Джеймс Фоли"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 10543,
-      "imdb": "tt0116287"
     }
   },
   {
@@ -10775,24 +10023,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 207932,
       "imdb": "tt3062096"
-    }
-  },
-  {
-    "id": "f-wd755523",
-    "type": "film",
-    "title": "Doom",
-    "year": 2005,
-    "creators": [
-      "Анджей Бартковяк"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 8814,
-      "imdb": "tt0419706"
     }
   },
   {
@@ -11320,25 +10550,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd1419980",
-    "type": "film",
-    "title": "Игра на вылет",
-    "originalTitle": "Sleuth",
-    "year": 1972,
-    "creators": [
-      "Джозеф Л. Манкевич"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 993,
-      "imdb": "tt0069281"
-    }
-  },
-  {
     "id": "f-wd1199881",
     "type": "film",
     "title": "Второе дыхание",
@@ -11389,22 +10600,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 1075175,
       "imdb": "tt22890246"
-    }
-  },
-  {
-    "id": "f-wd15270654",
-    "type": "film",
-    "title": "Как было написано первое письмо",
-    "originalTitle": "How the First Letter Was Written",
-    "year": 1984,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "imdb": "tt2832918"
     }
   },
   {
@@ -11713,23 +10908,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd47539351",
-    "type": "film",
-    "title": "Марио",
-    "originalTitle": "Mario",
-    "year": 2018,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 500259,
-      "imdb": "tt6999052"
-    }
-  },
-  {
     "id": "f-wd4085749",
     "type": "film",
     "title": "Бесприданница",
@@ -11832,23 +11010,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd116257424",
-    "type": "film",
-    "title": "Игра в свидание",
-    "originalTitle": "Woman of the Hour",
-    "year": 2023,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 835113,
-      "imdb": "tt7737800"
-    }
-  },
-  {
     "id": "f-wd128602012",
     "type": "film",
     "title": "Дожить до рассвета",
@@ -11880,23 +11041,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 1214509,
       "imdb": "tt30321146"
-    }
-  },
-  {
-    "id": "f-wd332798",
-    "type": "film",
-    "title": "Живые",
-    "originalTitle": "Alive",
-    "year": 1993,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 7305,
-      "imdb": "tt0106246"
     }
   },
   {
@@ -11968,25 +11112,6 @@ export const filmBaseWiki: WorkCard[] = [
     }
   },
   {
-    "id": "f-wd260208",
-    "type": "film",
-    "title": "Куклы",
-    "originalTitle": "Dolls",
-    "year": 2002,
-    "creators": [
-      "Такэси Китано"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 870,
-      "imdb": "tt0330229"
-    }
-  },
-  {
     "id": "f-wd12280197",
     "type": "film",
     "title": "Жребия",
@@ -12017,23 +11142,6 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 36896,
       "imdb": "tt0102210"
-    }
-  },
-  {
-    "id": "f-wd763446",
-    "type": "film",
-    "title": "Трюк",
-    "originalTitle": "Trick",
-    "year": 1999,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "tmdb": 1812,
-      "imdb": "tt0162710"
     }
   },
   {
@@ -12125,6 +11233,3449 @@ export const filmBaseWiki: WorkCard[] = [
     "externalIds": {
       "tmdb": 11601,
       "imdb": "tt0164181"
+    }
+  },
+  {
+    "id": "f-wd130118681",
+    "type": "film",
+    "title": "Марти Великолепный",
+    "originalTitle": "Marty Supreme",
+    "year": 2025,
+    "creators": [
+      "Джош Сафди"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1317288,
+      "imdb": "tt32916440"
+    }
+  },
+  {
+    "id": "f-wd28517227",
+    "type": "film",
+    "title": "Последствия",
+    "originalTitle": "The Aftermath",
+    "year": 2019,
+    "creators": [
+      "Джеймс Кент"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 433502,
+      "imdb": "tt5977276"
+    }
+  },
+  {
+    "id": "f-wd205532",
+    "type": "film",
+    "title": "Человек-волк",
+    "originalTitle": "The Wolfman",
+    "year": 2010,
+    "creators": [
+      "Джо Джонстон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 7978,
+      "imdb": "tt0780653"
+    }
+  },
+  {
+    "id": "f-wd116677364",
+    "type": "film",
+    "title": "Майкл",
+    "originalTitle": "Michael",
+    "year": 2025,
+    "creators": [
+      "Антуан Фукуа"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 936075,
+      "imdb": "tt11378946"
+    }
+  },
+  {
+    "id": "f-wd134430061",
+    "type": "film",
+    "title": "Её личный ад",
+    "originalTitle": "Her Private Hell",
+    "year": 2026,
+    "creators": [
+      "Николас Виндинг Рефн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1469342,
+      "imdb": "tt36629665"
+    }
+  },
+  {
+    "id": "f-wd125473145",
+    "type": "film",
+    "title": "Грешники",
+    "originalTitle": "Sinners",
+    "year": 2025,
+    "creators": [
+      "Райан Куглер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1233413,
+      "imdb": "tt31193180"
+    }
+  },
+  {
+    "id": "f-wd152780",
+    "type": "film",
+    "title": "Жизнь Пи",
+    "originalTitle": "Life of Pi",
+    "year": 2012,
+    "creators": [
+      "Энг Ли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 87827,
+      "imdb": "tt0454876"
+    }
+  },
+  {
+    "id": "f-wd1206820",
+    "type": "film",
+    "title": "Дьявол",
+    "originalTitle": "Devil",
+    "year": 2010,
+    "creators": [
+      "Джон Эрик Даудл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 44040,
+      "imdb": "tt1314655"
+    }
+  },
+  {
+    "id": "f-wd135267913",
+    "type": "film",
+    "title": "Искусственный",
+    "originalTitle": "Artificial",
+    "year": 2026,
+    "creators": [
+      "Лука Гуаданьино"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1492198,
+      "imdb": "tt37171180"
+    }
+  },
+  {
+    "id": "f-wd209667",
+    "type": "film",
+    "title": "Возвращение",
+    "originalTitle": "Volver",
+    "year": 2006,
+    "creators": [
+      "Педро Альмодовар"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 219,
+      "imdb": "tt0441909"
+    }
+  },
+  {
+    "id": "f-wd133397105",
+    "type": "film",
+    "title": "Хокум",
+    "originalTitle": "Hokum",
+    "year": 2026,
+    "creators": [
+      "Damian McCarthy"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1430077,
+      "imdb": "tt35672862"
+    }
+  },
+  {
+    "id": "f-wd129423731",
+    "type": "film",
+    "title": "28 лет спустя: Храм костей",
+    "originalTitle": "28 Years Later: The Bone Temple",
+    "year": 2026,
+    "creators": [
+      "Ниа Дакоста"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1272837,
+      "imdb": "tt32141377"
+    }
+  },
+  {
+    "id": "f-wd24577642",
+    "type": "film",
+    "title": "Непокой",
+    "originalTitle": "Unrest",
+    "year": 2017,
+    "creators": [
+      "Дженнифер Бреа"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 433033,
+      "imdb": "tt3268850"
+    }
+  },
+  {
+    "id": "f-wd129677718",
+    "type": "film",
+    "title": "Диггер",
+    "originalTitle": "Digger",
+    "year": 2026,
+    "creators": [
+      "Алехандро Гонсалес Иньярриту"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1248832,
+      "imdb": "tt31450459"
+    }
+  },
+  {
+    "id": "f-wd1416440",
+    "type": "film",
+    "title": "Красный круг",
+    "originalTitle": "Le Cercle rouge",
+    "year": 1970,
+    "creators": [
+      "Жан-Пьер Мельвиль"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 11657,
+      "imdb": "tt0065531"
+    }
+  },
+  {
+    "id": "f-wd848391",
+    "type": "film",
+    "title": "Время ведьм",
+    "originalTitle": "Season of the Witch",
+    "year": 2011,
+    "creators": [
+      "Доминик Сена"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 23047,
+      "imdb": "tt0479997"
+    }
+  },
+  {
+    "id": "f-wd134708172",
+    "type": "film",
+    "title": "Бумажный тигр",
+    "originalTitle": "Paper Tiger",
+    "year": 2026,
+    "creators": [
+      "Джеймс Грэй"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1381273,
+      "imdb": "tt34385689"
+    }
+  },
+  {
+    "id": "f-wd1190090",
+    "type": "film",
+    "title": "Женщина-демон",
+    "originalTitle": "Onibaba",
+    "year": 1964,
+    "creators": [
+      "Канэто Синдо"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 3763,
+      "imdb": "tt0058430"
+    }
+  },
+  {
+    "id": "f-wd123185887",
+    "type": "film",
+    "title": "Анора",
+    "originalTitle": "Anora",
+    "year": 2024,
+    "creators": [
+      "Шон Бэйкер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1064213,
+      "imdb": "tt28607951"
+    }
+  },
+  {
+    "id": "f-wd63386137",
+    "type": "film",
+    "title": "Обезьяны",
+    "originalTitle": "Monos",
+    "year": 2019,
+    "creators": [
+      "Алехандро Лэндес"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 417466,
+      "imdb": "tt6062774"
+    }
+  },
+  {
+    "id": "f-wd25136484",
+    "type": "film",
+    "title": "Оно",
+    "originalTitle": "It",
+    "year": 2017,
+    "creators": [
+      "Энди Мускетти"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 346364,
+      "imdb": "tt1396484"
+    }
+  },
+  {
+    "id": "f-wd135921404",
+    "type": "film",
+    "title": "Долина улыбок",
+    "originalTitle": "The Holy Boy",
+    "year": 2025,
+    "creators": [
+      "Паоло Стрипполи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1092936,
+      "imdb": "tt33382323"
+    }
+  },
+  {
+    "id": "f-wd2140247",
+    "type": "film",
+    "title": "Под огнём",
+    "originalTitle": "Under Fire",
+    "year": 1983,
+    "creators": [
+      "Роджер Споттисвуд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 12503,
+      "imdb": "tt0086510"
+    }
+  },
+  {
+    "id": "f-wd22972803",
+    "type": "film",
+    "title": "Вопль",
+    "originalTitle": "The Wailing",
+    "year": 2016,
+    "creators": [
+      "На Хонджин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 293670,
+      "imdb": "tt5215952"
+    }
+  },
+  {
+    "id": "f-wd114246242",
+    "type": "film",
+    "title": "F1",
+    "year": 2025,
+    "creators": [
+      "Джозеф Косински"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 911430,
+      "imdb": "tt16311594"
+    }
+  },
+  {
+    "id": "f-wd19955845",
+    "type": "film",
+    "title": "Неизвестная",
+    "originalTitle": "The Unknown Girl",
+    "year": 2016,
+    "creators": [
+      "Жан-Пьер Дарденн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 340481,
+      "imdb": "tt4630550"
+    }
+  },
+  {
+    "id": "f-wd571164",
+    "type": "film",
+    "title": "Белый плен",
+    "originalTitle": "Eight Below",
+    "year": 2006,
+    "creators": [
+      "Фрэнк Маршалл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 9036,
+      "imdb": "tt0397313"
+    }
+  },
+  {
+    "id": "f-wd637842",
+    "type": "film",
+    "title": "Сайлент Хилл",
+    "originalTitle": "Silent Hill",
+    "year": 2006,
+    "creators": [
+      "Кристоф Ган"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 588,
+      "imdb": "tt0384537"
+    }
+  },
+  {
+    "id": "f-wd1653410",
+    "type": "film",
+    "title": "Суперменеджер, или Мотыга судьбы",
+    "originalTitle": "SuperManager, or Hack of the Fate",
+    "year": 2011,
+    "creators": [
+      "Дробязко, Богдан Дмитриевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 67958,
+      "imdb": "tt1844048"
+    }
+  },
+  {
+    "id": "f-wd17893055",
+    "type": "film",
+    "title": "Супер Майк XXL",
+    "originalTitle": "Magic Mike XXL",
+    "year": 2015,
+    "creators": [
+      "Грегори Джейкобс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 264999,
+      "imdb": "tt2268016"
+    }
+  },
+  {
+    "id": "f-wd1254451",
+    "type": "film",
+    "title": "Невесты Дракулы",
+    "originalTitle": "The Brides of Dracula",
+    "year": 1960,
+    "creators": [
+      "Теренс Фишер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 23220,
+      "imdb": "tt0053677"
+    }
+  },
+  {
+    "id": "f-wd845204",
+    "type": "film",
+    "title": "Шесть демонов Эмили Роуз",
+    "originalTitle": "The Exorcism of Emily Rose",
+    "year": 2005,
+    "creators": [
+      "Скотт Дерриксон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 8643,
+      "imdb": "tt0404032"
+    }
+  },
+  {
+    "id": "f-wd12655879",
+    "type": "film",
+    "title": "Красавица",
+    "originalTitle": "The Beautiful Girl",
+    "year": 1970,
+    "creators": [
+      "Арунас Жебрюнас"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 342898,
+      "imdb": "tt1272016"
+    }
+  },
+  {
+    "id": "f-wd106448550",
+    "type": "film",
+    "title": "Ты здесь, Бог? Это я, Маргарет (фильм)",
+    "originalTitle": "Are You There God? It's Me, Margaret",
+    "year": 2023,
+    "creators": [
+      "Келли Фримон Крейг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 555285,
+      "imdb": "tt9185206"
+    }
+  },
+  {
+    "id": "f-wd137652478",
+    "type": "film",
+    "title": "Фьорд",
+    "originalTitle": "Fjord",
+    "year": 2026,
+    "creators": [
+      "Кристиан Мунджиу"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1401459,
+      "imdb": "tt35410859"
+    }
+  },
+  {
+    "id": "f-wd597046",
+    "type": "film",
+    "title": "Похороны",
+    "originalTitle": "The Funerals",
+    "year": 1996,
+    "creators": [
+      "Абель Феррара"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 21612,
+      "imdb": "tt0116378"
+    }
+  },
+  {
+    "id": "f-wd1460092",
+    "type": "film",
+    "title": "Монстры",
+    "originalTitle": "Monsters",
+    "year": 2010,
+    "creators": [
+      "Гарет Эдвардс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 43933,
+      "imdb": "tt1470827"
+    }
+  },
+  {
+    "id": "f-wd505790",
+    "type": "film",
+    "title": "Миссия невыполнима 2",
+    "originalTitle": "Mission: Impossible 2",
+    "year": 2000,
+    "creators": [
+      "Джон Ву"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 955,
+      "imdb": "tt0120755"
+    }
+  },
+  {
+    "id": "f-wd222868",
+    "type": "film",
+    "title": "Счастливый случай",
+    "originalTitle": "It Could Happen to You",
+    "year": 1994,
+    "creators": [
+      "Эндрю Бергман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10660,
+      "imdb": "tt0110167"
+    }
+  },
+  {
+    "id": "f-wd379460",
+    "type": "film",
+    "title": "Медведь",
+    "originalTitle": "The Bear",
+    "year": 1988,
+    "creators": [
+      "Жан-Жак Анно"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 2383,
+      "imdb": "tt0095800"
+    }
+  },
+  {
+    "id": "f-wd2656737",
+    "type": "film",
+    "title": "Солнце",
+    "originalTitle": "The Sun",
+    "year": 2005,
+    "creators": [
+      "Александр Сокуров"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 98246,
+      "imdb": "tt0439817"
+    }
+  },
+  {
+    "id": "f-wd117830073",
+    "type": "film",
+    "title": "Мортал Комбат 2",
+    "originalTitle": "Mortal Kombat II",
+    "year": 2026,
+    "creators": [
+      "Саймон Маккуойд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 931285,
+      "imdb": "tt17490712"
+    }
+  },
+  {
+    "id": "f-wd63985561",
+    "type": "film",
+    "title": "Довод",
+    "originalTitle": "Tenet",
+    "year": 2020,
+    "creators": [
+      "Кристофер Нолан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 577922,
+      "imdb": "tt6723592"
+    }
+  },
+  {
+    "id": "f-wd221075",
+    "type": "film",
+    "title": "28 дней спустя",
+    "originalTitle": "28 Days Later",
+    "year": 2002,
+    "creators": [
+      "Дэнни Бойл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 170,
+      "imdb": "tt0289043"
+    }
+  },
+  {
+    "id": "f-wd27958394",
+    "type": "film",
+    "title": "Чудо",
+    "originalTitle": "Wonder",
+    "year": 2017,
+    "creators": [
+      "Стивен Чбоски"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 406997,
+      "imdb": "tt2543472"
+    }
+  },
+  {
+    "id": "f-wd3016381",
+    "type": "film",
+    "title": "Космонавт",
+    "originalTitle": "The Cosmonaut",
+    "year": 2013,
+    "creators": [
+      "Николас Алкала"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 86817,
+      "imdb": "tt1629747"
+    }
+  },
+  {
+    "id": "f-wd133866932",
+    "type": "film",
+    "title": "Простая случайность",
+    "originalTitle": "It Was Just an Accident",
+    "year": 2025,
+    "creators": [
+      "Джафар Панахи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1456349,
+      "imdb": "tt36491653"
+    }
+  },
+  {
+    "id": "f-wd1259466",
+    "type": "film",
+    "title": "Незнакомцы",
+    "originalTitle": "The Strangers",
+    "year": 2008,
+    "creators": [
+      "Брайан Бертино"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10665,
+      "imdb": "tt0482606"
+    }
+  },
+  {
+    "id": "f-wd131870558",
+    "type": "film",
+    "title": "Одно целое",
+    "originalTitle": "Together",
+    "year": 2025,
+    "creators": [
+      "Michael Shanks"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1242011,
+      "imdb": "tt31184028"
+    }
+  },
+  {
+    "id": "f-wd1319180",
+    "type": "film",
+    "title": "Осколки",
+    "originalTitle": "Shattered",
+    "year": 1921,
+    "creators": [
+      "Лупу Пик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 175437,
+      "imdb": "tt0012650"
+    }
+  },
+  {
+    "id": "f-wd176488",
+    "type": "film",
+    "title": "Хэллоуин: Воскрешение",
+    "originalTitle": "Halloween: Resurrection",
+    "year": 2002,
+    "creators": [
+      "Рик Розентал"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 11442,
+      "imdb": "tt0220506"
+    }
+  },
+  {
+    "id": "f-wd52000412",
+    "type": "film",
+    "title": "Экстаз",
+    "originalTitle": "Climax",
+    "year": 2018,
+    "creators": [
+      "Гаспар Ноэ"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 507076,
+      "imdb": "tt8359848"
+    }
+  },
+  {
+    "id": "f-wd130907516",
+    "type": "film",
+    "title": "Нормал",
+    "originalTitle": "Normal",
+    "year": 2025,
+    "creators": [
+      "Бен Уитли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1242332,
+      "imdb": "tt31195136"
+    }
+  },
+  {
+    "id": "f-wd1754344",
+    "type": "film",
+    "title": "Тот самый человек",
+    "originalTitle": "The Man",
+    "year": 2005,
+    "creators": [
+      "Лес Мэйфилд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 9074,
+      "imdb": "tt0399327"
+    }
+  },
+  {
+    "id": "f-wd80660",
+    "type": "film",
+    "title": "Короткий фильм о любви",
+    "originalTitle": "A Short Film About Love",
+    "year": 1988,
+    "creators": [
+      "Кшиштоф Кесьлёвский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 31056,
+      "imdb": "tt0095467"
+    }
+  },
+  {
+    "id": "f-wd124246549",
+    "type": "film",
+    "title": "Мандалорец и Грогу",
+    "originalTitle": "The Mandalorian and Grogu",
+    "year": 2026,
+    "creators": [
+      "Джон Фавро"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1228710,
+      "imdb": "tt30825738"
+    }
+  },
+  {
+    "id": "f-wd732960",
+    "type": "film",
+    "title": "Драйв",
+    "originalTitle": "Drive",
+    "year": 2011,
+    "creators": [
+      "Николас Виндинг Рефн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 64690,
+      "imdb": "tt0780504"
+    }
+  },
+  {
+    "id": "f-wd849656",
+    "type": "film",
+    "title": "Конец света",
+    "originalTitle": "End of Days",
+    "year": 1999,
+    "creators": [
+      "Питер Хайамс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 9946,
+      "imdb": "tt0146675"
+    }
+  },
+  {
+    "id": "f-wd4675507",
+    "type": "film",
+    "title": "Прослушка",
+    "originalTitle": "The Listening",
+    "year": 2006,
+    "creators": [
+      "Джакомо Мартелли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 23843,
+      "imdb": "tt0427461"
+    }
+  },
+  {
+    "id": "f-wd59783",
+    "type": "film",
+    "title": "Декалог",
+    "originalTitle": "The Decalogue",
+    "year": 1989,
+    "creators": [
+      "Кшиштоф Кесьлёвский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "imdb": "tt0092337"
+    }
+  },
+  {
+    "id": "f-wd466959",
+    "type": "film",
+    "title": "Мальчикам это нравится",
+    "originalTitle": "The House Bunny",
+    "year": 2008,
+    "creators": [
+      "Фред Вульф"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 12620,
+      "imdb": "tt0852713"
+    }
+  },
+  {
+    "id": "f-wd190908",
+    "type": "film",
+    "title": "Семь",
+    "originalTitle": "Seven",
+    "year": 1995,
+    "creators": [
+      "Дэвид Финчер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 807,
+      "imdb": "tt0114369"
+    }
+  },
+  {
+    "id": "f-wd2345",
+    "type": "film",
+    "title": "12 разгневанных мужчин",
+    "originalTitle": "12 Angry Men",
+    "year": 1957,
+    "creators": [
+      "Сидни Люмет"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 389,
+      "imdb": "tt0050083"
+    }
+  },
+  {
+    "id": "f-wd130742503",
+    "type": "film",
+    "title": "Грабитель с крыши",
+    "originalTitle": "Roofman",
+    "year": 2025,
+    "creators": [
+      "Дерек Сиенфрэнс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1242419,
+      "imdb": "tt4627382"
+    }
+  },
+  {
+    "id": "f-wd124608269",
+    "type": "film",
+    "title": "Стив",
+    "originalTitle": "Steve",
+    "year": 2025,
+    "creators": [
+      "Тим Милантс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1242404,
+      "imdb": "tt32985279"
+    }
+  },
+  {
+    "id": "f-wd4458425",
+    "type": "film",
+    "title": "Тихая жизнь",
+    "originalTitle": "A Quiet Life",
+    "year": 1995,
+    "creators": [
+      "Дзюдзо Итами"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 81860,
+      "imdb": "tt0131013"
+    }
+  },
+  {
+    "id": "f-wd20646613",
+    "type": "film",
+    "title": "Страна Оз",
+    "originalTitle": "The Land of Oz",
+    "year": 2015,
+    "creators": [
+      "Василий Владимирович Сигарев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 370902,
+      "imdb": "tt3579808"
+    }
+  },
+  {
+    "id": "f-wd2533411",
+    "type": "film",
+    "title": "Перед самым рассветом",
+    "originalTitle": "Just Before Dawn",
+    "year": 1981,
+    "creators": [
+      "Джефф Либерман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 39982,
+      "imdb": "tt0082592"
+    }
+  },
+  {
+    "id": "f-wd123690382",
+    "type": "film",
+    "title": "Присутствие",
+    "originalTitle": "Presence",
+    "year": 2024,
+    "creators": [
+      "Стивен Содерберг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1140535,
+      "imdb": "tt28249919"
+    }
+  },
+  {
+    "id": "f-wd278053",
+    "type": "film",
+    "title": "Лабиринт",
+    "originalTitle": "Labyrinth",
+    "year": 1986,
+    "creators": [
+      "Джим Хенсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 13597,
+      "imdb": "tt0091369"
+    }
+  },
+  {
+    "id": "f-wd55196866",
+    "type": "film",
+    "title": "Шедевр (фильм)",
+    "originalTitle": "My Masterpiece",
+    "year": 2018,
+    "creators": [
+      "Гастон Дюпра"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 535692,
+      "imdb": "tt7605922"
+    }
+  },
+  {
+    "id": "f-wd123730795",
+    "type": "film",
+    "title": "Светлячок",
+    "originalTitle": "Firefly",
+    "year": 0,
+    "creators": [
+      "Zig Dulay"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1164506,
+      "imdb": "tt29173414"
+    }
+  },
+  {
+    "id": "f-wd13560069",
+    "type": "film",
+    "title": "Счастья вам, девочки!",
+    "year": 1973,
+    "creators": [
+      "Эльдар Кулиев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 534976,
+      "imdb": "tt6456374"
+    }
+  },
+  {
+    "id": "f-wd107176162",
+    "type": "film",
+    "title": "Нет",
+    "originalTitle": "Nope",
+    "year": 2022,
+    "creators": [
+      "Джордан Пил"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 762504,
+      "imdb": "tt10954984"
+    }
+  },
+  {
+    "id": "f-wd186587",
+    "type": "film",
+    "title": "Троя",
+    "originalTitle": "Troy",
+    "year": 2004,
+    "creators": [
+      "Вольфганг Петерсен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 652,
+      "imdb": "tt0332452"
+    }
+  },
+  {
+    "id": "f-wd964909",
+    "type": "film",
+    "title": "Однажды в Ирландии",
+    "originalTitle": "The Guard",
+    "year": 2011,
+    "creators": [
+      "Джон Майкл Макдонах"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 67913,
+      "imdb": "tt1540133"
+    }
+  },
+  {
+    "id": "f-wd467840",
+    "type": "film",
+    "title": "Куб",
+    "originalTitle": "Cube",
+    "year": 1997,
+    "creators": [
+      "Винченцо Натали"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 431,
+      "imdb": "tt0123755"
+    }
+  },
+  {
+    "id": "f-wd14775069",
+    "type": "film",
+    "title": "Зильс-Мария",
+    "originalTitle": "Clouds of Sils Maria",
+    "year": 2014,
+    "creators": [
+      "Оливье Ассаяс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 246860,
+      "imdb": "tt2452254"
+    }
+  },
+  {
+    "id": "f-wd1418932",
+    "type": "film",
+    "title": "Огненный лис",
+    "originalTitle": "Firefox",
+    "year": 1982,
+    "creators": [
+      "Клинт Иствуд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10724,
+      "imdb": "tt0083943"
+    }
+  },
+  {
+    "id": "f-wd960920",
+    "type": "film",
+    "title": "Потоп",
+    "originalTitle": "The Deluge",
+    "year": 1974,
+    "creators": [
+      "Ежи Гофман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 36627,
+      "imdb": "tt0072021"
+    }
+  },
+  {
+    "id": "f-wd1004801",
+    "type": "film",
+    "title": "Бумер",
+    "originalTitle": "Bumer",
+    "year": 2003,
+    "creators": [
+      "Пётр Викторович Буслов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 62276,
+      "imdb": "tt0381936"
+    }
+  },
+  {
+    "id": "f-wd18149041",
+    "type": "film",
+    "title": "Преступник",
+    "originalTitle": "Criminal",
+    "year": 2016,
+    "creators": [
+      "Ариэль Вромен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 302156,
+      "imdb": "tt3014866"
+    }
+  },
+  {
+    "id": "f-wd64403793",
+    "type": "film",
+    "title": "The Banished",
+    "originalTitle": "The Banished",
+    "year": 2019,
+    "creators": [
+      "David Bohórquez"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 593946,
+      "imdb": "tt7385524"
+    }
+  },
+  {
+    "id": "f-wd126511469",
+    "type": "film",
+    "title": "Долгая прогулка",
+    "originalTitle": "The Long Walk",
+    "year": 2025,
+    "creators": [
+      "Фрэнсис Лоуренс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 604079,
+      "imdb": "tt10374610"
+    }
+  },
+  {
+    "id": "f-wd133850188",
+    "type": "film",
+    "title": "Сират",
+    "originalTitle": "Sirāt",
+    "year": 2025,
+    "creators": [
+      "Оливер Лэкси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1151272,
+      "imdb": "tt32298285"
+    }
+  },
+  {
+    "id": "f-wd5966063",
+    "type": "film",
+    "title": "Дом в конце времён",
+    "originalTitle": "The House at the End of Time",
+    "year": 2013,
+    "creators": [
+      "Алехандро Идальго"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 207686,
+      "imdb": "tt2640474"
+    }
+  },
+  {
+    "id": "f-wd63352729",
+    "type": "film",
+    "title": "Я потеряла своё тело",
+    "originalTitle": "I Lost My Body",
+    "year": 2019,
+    "creators": [
+      "Жереми Клапен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 586940,
+      "imdb": "tt9806192"
+    }
+  },
+  {
+    "id": "f-wd1208193",
+    "type": "film",
+    "title": "Зубы",
+    "originalTitle": "Teeth",
+    "year": 2007,
+    "creators": [
+      "Митчелл Лихтенштейн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 13121,
+      "imdb": "tt0780622"
+    }
+  },
+  {
+    "id": "f-wd60834962",
+    "type": "film",
+    "title": "Дюна",
+    "originalTitle": "Dune",
+    "year": 2021,
+    "creators": [
+      "Дени Вильнёв"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 438631,
+      "imdb": "tt1160419"
+    }
+  },
+  {
+    "id": "f-wd26465665",
+    "type": "film",
+    "title": "Живое",
+    "originalTitle": "Life",
+    "year": 2017,
+    "creators": [
+      "Даниэль Эспиноса"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 395992,
+      "imdb": "tt5442430"
+    }
+  },
+  {
+    "id": "f-wd113671585",
+    "type": "film",
+    "title": "Каскадёры",
+    "originalTitle": "The Fall Guy",
+    "year": 2024,
+    "creators": [
+      "Дэвид Литч"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 746036,
+      "imdb": "tt1684562"
+    }
+  },
+  {
+    "id": "f-wd217020",
+    "type": "film",
+    "title": "Тор",
+    "originalTitle": "Thor",
+    "year": 2011,
+    "creators": [
+      "Кеннет Брана"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10195,
+      "imdb": "tt0800369"
+    }
+  },
+  {
+    "id": "f-wd123472177",
+    "type": "film",
+    "title": "Эдем",
+    "originalTitle": "Eden",
+    "year": 2024,
+    "creators": [
+      "Рон Ховард"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1042834,
+      "imdb": "tt23149780"
+    }
+  },
+  {
+    "id": "f-wd2844879",
+    "type": "film",
+    "title": "Враг",
+    "originalTitle": "Enemy",
+    "year": 2013,
+    "creators": [
+      "Дени Вильнёв"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 181886,
+      "imdb": "tt2316411"
+    }
+  },
+  {
+    "id": "f-wd97359775",
+    "type": "film",
+    "title": "Удача",
+    "originalTitle": "Luck",
+    "year": 2022,
+    "creators": [
+      "Пегги Холмс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 585511,
+      "imdb": "tt7214954"
+    }
+  },
+  {
+    "id": "f-wd58814567",
+    "type": "film",
+    "title": "Того",
+    "originalTitle": "Togo",
+    "year": 2019,
+    "creators": [
+      "Эриксон Кор"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 606856,
+      "imdb": "tt8096836"
+    }
+  },
+  {
+    "id": "f-wd56461564",
+    "type": "film",
+    "title": "Божественная ярость",
+    "originalTitle": "The Divine Fury",
+    "year": 2019,
+    "creators": [
+      "Jason Kim"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 571627,
+      "imdb": "tt10550884"
+    }
+  },
+  {
+    "id": "f-wd16651335",
+    "type": "film",
+    "title": "Происхождение мира",
+    "originalTitle": "L'Origine du monde",
+    "year": 2001,
+    "creators": [
+      "Джером Энрико"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 534429,
+      "imdb": "tt0260252"
+    }
+  },
+  {
+    "id": "f-wd103569",
+    "type": "film",
+    "title": "Чужой",
+    "originalTitle": "Alien",
+    "year": 1979,
+    "creators": [
+      "Ридли Скотт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 348,
+      "imdb": "tt0078748"
+    }
+  },
+  {
+    "id": "f-wd1061541",
+    "type": "film",
+    "title": "Пророк",
+    "originalTitle": "A Prophet",
+    "year": 2009,
+    "creators": [
+      "Жак Одиар"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 21575,
+      "imdb": "tt1235166"
+    }
+  },
+  {
+    "id": "f-wd1449248",
+    "type": "film",
+    "title": "Страх высоты",
+    "originalTitle": "High Anxiety",
+    "year": 1977,
+    "creators": [
+      "Мел Брукс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 12535,
+      "imdb": "tt0076141"
+    }
+  },
+  {
+    "id": "f-wd63352785",
+    "type": "film",
+    "title": "Вивариум",
+    "originalTitle": "Vivarium",
+    "year": 2019,
+    "creators": [
+      "Лоркан Финнеган"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 458305,
+      "imdb": "tt8368406"
+    }
+  },
+  {
+    "id": "f-wd130569520",
+    "type": "film",
+    "title": "Гений",
+    "originalTitle": "The Mastermind",
+    "year": 2025,
+    "creators": [
+      "Келли Райхардт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1352624,
+      "imdb": "tt33455099"
+    }
+  },
+  {
+    "id": "f-wd1411345",
+    "type": "film",
+    "title": "Кровь за кровь",
+    "originalTitle": "Four Brothers",
+    "year": 2005,
+    "creators": [
+      "Джон Синглтон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 8292,
+      "imdb": "tt0430105"
+    }
+  },
+  {
+    "id": "f-wd111684978",
+    "type": "film",
+    "title": "Стук в дверь",
+    "originalTitle": "Knock at the Cabin",
+    "year": 2023,
+    "creators": [
+      "М. Найт Шьямалан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 631842,
+      "imdb": "tt15679400"
+    }
+  },
+  {
+    "id": "f-wd124619782",
+    "type": "film",
+    "title": "Затерянное место",
+    "originalTitle": "Never Let Go",
+    "year": 2024,
+    "creators": [
+      "Александр Ажа"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 814889,
+      "imdb": "tt14415204"
+    }
+  },
+  {
+    "id": "f-wd22432",
+    "type": "film",
+    "title": "Знаки",
+    "originalTitle": "Signs",
+    "year": 2002,
+    "creators": [
+      "М. Найт Шьямалан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 2675,
+      "imdb": "tt0286106"
+    }
+  },
+  {
+    "id": "f-wd21869840",
+    "type": "film",
+    "title": "Сплит",
+    "originalTitle": "Split",
+    "year": 2017,
+    "creators": [
+      "М. Найт Шьямалан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 381288,
+      "imdb": "tt4972582"
+    }
+  },
+  {
+    "id": "f-wd3738764",
+    "type": "film",
+    "title": "Притворство и коварство",
+    "originalTitle": "False Pretenses",
+    "year": 2004,
+    "creators": [
+      "Джейсон Хрено"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 45119,
+      "imdb": "tt0433371"
+    }
+  },
+  {
+    "id": "f-wd1199628",
+    "type": "film",
+    "title": "Клео от 5 до 7",
+    "originalTitle": "Cléo from 5 to 7",
+    "year": 1962,
+    "creators": [
+      "Аньес Варда"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 499,
+      "imdb": "tt0055852"
+    }
+  },
+  {
+    "id": "f-wd127382372",
+    "type": "film",
+    "title": "После охоты",
+    "originalTitle": "After the Hunt",
+    "year": 2025,
+    "creators": [
+      "Лука Гуаданьино"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1265063,
+      "imdb": "tt32159989"
+    }
+  },
+  {
+    "id": "f-wd55815471",
+    "type": "film",
+    "title": "После",
+    "originalTitle": "After",
+    "year": 2019,
+    "creators": [
+      "Jenny Gage"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 537915,
+      "imdb": "tt4126476"
+    }
+  },
+  {
+    "id": "f-wd427296",
+    "type": "film",
+    "title": "Безумцы",
+    "originalTitle": "The Crazies",
+    "year": 2010,
+    "creators": [
+      "Брек Айснер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 29427,
+      "imdb": "tt0455407"
+    }
+  },
+  {
+    "id": "f-wd4191769",
+    "type": "film",
+    "title": "Зигзаг удачи",
+    "originalTitle": "Zigzag of Success",
+    "year": 1968,
+    "creators": [
+      "Эльдар Александрович Рязанов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 46588,
+      "imdb": "tt0063840"
+    }
+  },
+  {
+    "id": "f-wd2426434",
+    "type": "film",
+    "title": "Ветер",
+    "originalTitle": "The Wind",
+    "year": 1928,
+    "creators": [
+      "Виктор Шёстрём"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 31416,
+      "imdb": "tt0019585"
+    }
+  },
+  {
+    "id": "f-wd498577",
+    "type": "film",
+    "title": "Небесный замок Лапута",
+    "originalTitle": "Castle in the Sky",
+    "year": 1986,
+    "creators": [
+      "Хаяо Миядзаки"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10515,
+      "imdb": "tt0092067"
+    }
+  },
+  {
+    "id": "f-wd919444",
+    "type": "film",
+    "title": "На ярком солнце",
+    "originalTitle": "Purple Noon",
+    "year": 1960,
+    "creators": [
+      "Рене Клеман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10363,
+      "imdb": "tt0054189"
+    }
+  },
+  {
+    "id": "f-wd573104",
+    "type": "film",
+    "title": "Другой",
+    "originalTitle": "Godsend",
+    "year": 2004,
+    "creators": [
+      "Ник Хэмм"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 11058,
+      "imdb": "tt0335121"
+    }
+  },
+  {
+    "id": "f-wd1534510",
+    "type": "film",
+    "title": "Изгнанные дьяволом",
+    "originalTitle": "The Devil's Rejects",
+    "year": 2005,
+    "creators": [
+      "Роб Зомби"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1696,
+      "imdb": "tt0395584"
+    }
+  },
+  {
+    "id": "f-wd22077183",
+    "type": "film",
+    "title": "Тетрадь смерти",
+    "originalTitle": "Death Note",
+    "year": 2017,
+    "creators": [
+      "Адам Вингард"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 351460,
+      "imdb": "tt1241317"
+    }
+  },
+  {
+    "id": "f-wd16824958",
+    "type": "film",
+    "title": "AM1200",
+    "originalTitle": "AM1200",
+    "year": 2008,
+    "creators": [
+      "Дэвид Прайор"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 39279,
+      "imdb": "tt1295053"
+    }
+  },
+  {
+    "id": "f-wd331405",
+    "type": "film",
+    "title": "Вий",
+    "originalTitle": "Viy",
+    "year": 1967,
+    "creators": [
+      "Ершов, Константин Владимирович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 57230,
+      "imdb": "tt0062453"
+    }
+  },
+  {
+    "id": "f-wd1052260",
+    "type": "film",
+    "title": "Старый Новый год",
+    "originalTitle": "New Year's Eve",
+    "year": 2011,
+    "creators": [
+      "Гарри Маршалл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 62838,
+      "imdb": "tt1598822"
+    }
+  },
+  {
+    "id": "f-wd108470901",
+    "type": "film",
+    "title": "Сын",
+    "originalTitle": "The Son",
+    "year": 2022,
+    "creators": [
+      "Флориан Зеллер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 806368,
+      "imdb": "tt14458442"
+    }
+  },
+  {
+    "id": "f-wd1887799",
+    "type": "film",
+    "title": "Чтиво",
+    "originalTitle": "Pulp",
+    "year": 1972,
+    "creators": [
+      "Майк Ходжес"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 28131,
+      "imdb": "tt0069134"
+    }
+  },
+  {
+    "id": "f-wd154077",
+    "type": "film",
+    "title": "Переступить черту",
+    "originalTitle": "Walk the Line",
+    "year": 2005,
+    "creators": [
+      "Джеймс Мэнголд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 69,
+      "imdb": "tt0358273"
+    }
+  },
+  {
+    "id": "f-wd205321",
+    "type": "film",
+    "title": "Убийцы",
+    "originalTitle": "The Killers",
+    "year": 1946,
+    "creators": [
+      "Роберт Сиодмак"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 14638,
+      "imdb": "tt0038669"
+    }
+  },
+  {
+    "id": "f-wd103474",
+    "type": "film",
+    "title": "Космическая одиссея 2001 года",
+    "originalTitle": "2001: A Space Odyssey",
+    "year": 1968,
+    "creators": [
+      "Стэнли Кубрик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 62,
+      "imdb": "tt0062622"
+    }
+  },
+  {
+    "id": "f-wd1768437",
+    "type": "film",
+    "title": "Гонка",
+    "originalTitle": "Rush",
+    "year": 2013,
+    "creators": [
+      "Рон Ховард"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 96721,
+      "imdb": "tt1979320"
+    }
+  },
+  {
+    "id": "f-wd131785610",
+    "type": "film",
+    "title": "2000 метров до Андреевки",
+    "year": 2025,
+    "creators": [
+      "Мстислав Андреевич Чернов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1400789,
+      "imdb": "tt34964205"
+    }
+  },
+  {
+    "id": "f-wd106900561",
+    "type": "film",
+    "title": "Друзей не выбирают",
+    "year": 1985,
+    "creators": [
+      "Борис Константинович Шадурский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "imdb": "tt5247430"
+    }
+  },
+  {
+    "id": "f-wd80963748",
+    "type": "film",
+    "title": "Мои мысли тихие",
+    "originalTitle": "My Thoughts Are Silent",
+    "year": 2019,
+    "creators": [
+      "Антонио Лукич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 609031,
+      "imdb": "tt7876510"
+    }
+  },
+  {
+    "id": "f-wd4633009",
+    "type": "film",
+    "title": "2:22",
+    "year": 2017,
+    "creators": [
+      "Пол Карри"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 269795,
+      "imdb": "tt1131724"
+    }
+  },
+  {
+    "id": "f-wd160060",
+    "type": "film",
+    "title": "Король говорит!",
+    "originalTitle": "The King's Speech",
+    "year": 2010,
+    "creators": [
+      "Том Хупер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 45269,
+      "imdb": "tt1504320"
+    }
+  },
+  {
+    "id": "f-wd1192545",
+    "type": "film",
+    "title": "Логово белого червя",
+    "originalTitle": "The Lair of the White Worm",
+    "year": 1988,
+    "creators": [
+      "Кен Расселл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 11347,
+      "imdb": "tt0095488"
+    }
+  },
+  {
+    "id": "f-wd822946",
+    "type": "film",
+    "title": "Мечтатели",
+    "originalTitle": "The Dreamers",
+    "year": 2003,
+    "creators": [
+      "Бернардо Бертолуччи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1278,
+      "imdb": "tt0309987"
+    }
+  },
+  {
+    "id": "f-wd753899",
+    "type": "film",
+    "title": "Скотт Пилигрим против всех",
+    "originalTitle": "Scott Pilgrim vs. the World",
+    "year": 2010,
+    "creators": [
+      "Эдгар Райт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 22538,
+      "imdb": "tt0446029"
+    }
+  },
+  {
+    "id": "f-wd40187",
+    "type": "film",
+    "title": "Догма",
+    "originalTitle": "Dogma",
+    "year": 1999,
+    "creators": [
+      "Кевин Смит"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1832,
+      "imdb": "tt0120655"
+    }
+  },
+  {
+    "id": "f-wd47486507",
+    "type": "film",
+    "title": "Мэнди",
+    "originalTitle": "Mandy",
+    "year": 2018,
+    "creators": [
+      "Панос Косматос"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 460885,
+      "imdb": "tt6998518"
+    }
+  },
+  {
+    "id": "f-wd30611924",
+    "type": "film",
+    "title": "Аритмия",
+    "originalTitle": "Arrhythmia",
+    "year": 2017,
+    "creators": [
+      "Борис Хлебников"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 457842,
+      "imdb": "tt6952604"
+    }
+  },
+  {
+    "id": "f-wd112633",
+    "type": "film",
+    "title": "Репетиция",
+    "originalTitle": "Replay",
+    "year": 2001,
+    "creators": [
+      "Катерин Корсини"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 47254,
+      "imdb": "tt0253612"
+    }
+  },
+  {
+    "id": "f-wd39047194",
+    "type": "film",
+    "title": "Арахисовый сокол",
+    "originalTitle": "The Peanut Butter Falcon",
+    "year": 2019,
+    "creators": [
+      "Тайлер Нилсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 463257,
+      "imdb": "tt4364194"
+    }
+  },
+  {
+    "id": "f-wd3520827",
+    "type": "film",
+    "title": "Фабрика",
+    "originalTitle": "The Factory",
+    "year": 2012,
+    "creators": [
+      "Морган О’Нил"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 136911,
+      "imdb": "tt1132285"
+    }
+  },
+  {
+    "id": "f-wd124829697",
+    "type": "film",
+    "title": "Джей Келли",
+    "originalTitle": "Jay Kelly",
+    "year": 2025,
+    "creators": [
+      "Ноа Баумбах"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1069905,
+      "imdb": "tt30446847"
+    }
+  },
+  {
+    "id": "f-wd108649516",
+    "type": "film",
+    "title": "Тар",
+    "originalTitle": "Tár",
+    "year": 2022,
+    "creators": [
+      "Тодд Филд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 817758,
+      "imdb": "tt14444726"
+    }
+  },
+  {
+    "id": "f-wd2016798",
+    "type": "film",
+    "title": "Четырежды",
+    "originalTitle": "Le Quattro Volte",
+    "year": 2010,
+    "creators": [
+      "Микеланджело Фраммартино"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 57389,
+      "imdb": "tt1646975"
+    }
+  },
+  {
+    "id": "f-wd19405",
+    "type": "film",
+    "title": "Девятые врата",
+    "originalTitle": "The Ninth Gate",
+    "year": 1999,
+    "creators": [
+      "Роман Полански"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 622,
+      "imdb": "tt0142688"
+    }
+  },
+  {
+    "id": "f-wd626483",
+    "type": "film",
+    "title": "Трон",
+    "originalTitle": "Tron",
+    "year": 1982,
+    "creators": [
+      "Стивен Лизбергер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 97,
+      "imdb": "tt0084827"
+    }
+  },
+  {
+    "id": "f-wd12648283",
+    "type": "film",
+    "title": "Вечное сияние",
+    "year": 1987,
+    "creators": [
+      "Альгимантас Пуйпа"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 528406,
+      "imdb": "tt0200619"
+    }
+  },
+  {
+    "id": "f-wd583407",
+    "type": "film",
+    "title": "Дуэль",
+    "originalTitle": "Duel",
+    "year": 1971,
+    "creators": [
+      "Стивен Спилберг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 839,
+      "imdb": "tt0067023"
+    }
+  },
+  {
+    "id": "f-wd203560",
+    "type": "film",
+    "title": "1408",
+    "year": 2007,
+    "creators": [
+      "Микаэль Хофстрём"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 3021,
+      "imdb": "tt0450385"
+    }
+  },
+  {
+    "id": "f-wd1070275",
+    "type": "film",
+    "title": "Страх",
+    "originalTitle": "Fear",
+    "year": 1996,
+    "creators": [
+      "Джеймс Фоли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10543,
+      "imdb": "tt0116287"
+    }
+  },
+  {
+    "id": "f-wd755523",
+    "type": "film",
+    "title": "Doom",
+    "year": 2005,
+    "creators": [
+      "Анджей Бартковяк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 8814,
+      "imdb": "tt0419706"
+    }
+  },
+  {
+    "id": "f-wd107984188",
+    "type": "film",
+    "title": "Ко всем чертям",
+    "originalTitle": "Boys from County Hell",
+    "year": 2020,
+    "creators": [
+      "Крис Боф"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 680631,
+      "imdb": "tt10262380"
+    }
+  },
+  {
+    "id": "f-wd1024838",
+    "type": "film",
+    "title": "Лихорадка",
+    "originalTitle": "Cabin Fever",
+    "year": 2002,
+    "creators": [
+      "Элай Рот"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 11547,
+      "imdb": "tt0303816"
+    }
+  },
+  {
+    "id": "f-wd5966848",
+    "type": "film",
+    "title": "Глубокое погружение",
+    "originalTitle": "The Rift",
+    "year": 1989,
+    "creators": [
+      "Хуан Пике Симон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 28450,
+      "imdb": "tt0099701"
+    }
+  },
+  {
+    "id": "f-wd1660446",
+    "type": "film",
+    "title": "Давилка",
+    "originalTitle": "The Mangler",
+    "year": 1995,
+    "creators": [
+      "Тоуб Хупер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 13559,
+      "imdb": "tt0113762"
+    }
+  },
+  {
+    "id": "f-wd56241199",
+    "type": "film",
+    "title": "Rabid",
+    "originalTitle": "Rabid",
+    "year": 2020,
+    "creators": [
+      "Джен Соска"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 384756,
+      "imdb": "tt5628902"
+    }
+  },
+  {
+    "id": "f-wd11763079",
+    "type": "film",
+    "title": "Я люблю вампира (фильм)",
+    "originalTitle": "I Like Bats",
+    "year": 1985,
+    "creators": [
+      "Грегорц Варчол"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 386303,
+      "imdb": "tt0091444"
+    }
+  },
+  {
+    "id": "f-wd2049168",
+    "type": "film",
+    "title": "Падение дома Ашеров",
+    "originalTitle": "House of Usher",
+    "year": 1960,
+    "creators": [
+      "Роджер Корман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 23439,
+      "imdb": "tt0053925"
+    }
+  },
+  {
+    "id": "f-wd2746391",
+    "type": "film",
+    "title": "В стеклянной клетке",
+    "originalTitle": "Tras el cristal",
+    "year": 1987,
+    "creators": [
+      "Агусти Вильяронга"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 46767,
+      "imdb": "tt0090197"
+    }
+  },
+  {
+    "id": "f-wd1419980",
+    "type": "film",
+    "title": "Игра на вылет",
+    "originalTitle": "Sleuth",
+    "year": 1972,
+    "creators": [
+      "Джозеф Л. Манкевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 993,
+      "imdb": "tt0069281"
+    }
+  },
+  {
+    "id": "f-wd136540069",
+    "type": "film",
+    "title": "Гипотеза любви",
+    "originalTitle": "The Love Hypothesis",
+    "year": 2026,
+    "creators": [
+      "Клер Скэнлон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1032863,
+      "imdb": "tt22526100"
+    }
+  },
+  {
+    "id": "f-wd15270654",
+    "type": "film",
+    "title": "Как было написано первое письмо",
+    "originalTitle": "How the First Letter Was Written",
+    "year": 1984,
+    "creators": [
+      "Анатолий Кирик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "imdb": "tt2832918"
+    }
+  },
+  {
+    "id": "f-wd124624585",
+    "type": "film",
+    "title": "Лёд 3",
+    "originalTitle": "Ice 3",
+    "year": 2024,
+    "creators": [
+      "Юрий Хмельницкий"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1205088,
+      "imdb": "tt27487288"
+    }
+  },
+  {
+    "id": "f-wd162458",
+    "type": "film",
+    "title": "У моря",
+    "originalTitle": "Beyond the Sea",
+    "year": 2004,
+    "creators": [
+      "Кевин Спейси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 6478,
+      "imdb": "tt0363473"
+    }
+  },
+  {
+    "id": "f-wd110397182",
+    "type": "film",
+    "title": "Сердцем к сердцу",
+    "originalTitle": "Heart to Hearts",
+    "year": 1988,
+    "creators": [],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 364411,
+      "imdb": "tt0096032"
+    }
+  },
+  {
+    "id": "f-wd16954098",
+    "type": "film",
+    "title": "Бруклин",
+    "originalTitle": "Brooklyn",
+    "year": 2015,
+    "creators": [
+      "Джон Краули"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 167073,
+      "imdb": "tt2381111"
+    }
+  },
+  {
+    "id": "f-wd4108123",
+    "type": "film",
+    "title": "Вертикаль",
+    "originalTitle": "Vertical",
+    "year": 1966,
+    "creators": [
+      "Станислав Сергеевич Говорухин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 74852,
+      "imdb": "tt0182512"
+    }
+  },
+  {
+    "id": "f-wd85857870",
+    "type": "film",
+    "title": "Цой",
+    "originalTitle": "Tsoi",
+    "year": 2020,
+    "creators": [
+      "Алексей Ефимович Учитель"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 597904,
+      "imdb": "tt12077086"
+    }
+  },
+  {
+    "id": "f-wd139665875",
+    "type": "film",
+    "title": "Холоп 3",
+    "originalTitle": "Serf 3",
+    "year": 2026,
+    "creators": [
+      "Клим Алексеевич Шипенко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1273684,
+      "imdb": "tt31591561"
+    }
+  },
+  {
+    "id": "f-wd47539351",
+    "type": "film",
+    "title": "Марио",
+    "originalTitle": "Mario",
+    "year": 2018,
+    "creators": [
+      "Марсель Гислер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 500259,
+      "imdb": "tt6999052"
+    }
+  },
+  {
+    "id": "f-wd4994471",
+    "type": "film",
+    "title": "Перемены",
+    "originalTitle": "Changes",
+    "year": 1991,
+    "creators": [
+      "Чарльз Джэрротт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 21391,
+      "imdb": "tt0101565"
+    }
+  },
+  {
+    "id": "f-wd116257424",
+    "type": "film",
+    "title": "Свидание с монстром",
+    "originalTitle": "Woman of the Hour",
+    "year": 2023,
+    "creators": [
+      "Анна Кендрик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 835113,
+      "imdb": "tt7737800"
+    }
+  },
+  {
+    "id": "f-wd20512186",
+    "type": "film",
+    "title": "Не бойся",
+    "originalTitle": "Do Not Be Afraid",
+    "year": 2007,
+    "creators": [
+      "Арам Шахбазян"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "imdb": "tt2571604"
+    }
+  },
+  {
+    "id": "f-wd332798",
+    "type": "film",
+    "title": "Живые",
+    "originalTitle": "Alive",
+    "year": 1993,
+    "creators": [
+      "Фрэнк Маршалл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 7305,
+      "imdb": "tt0106246"
+    }
+  },
+  {
+    "id": "f-wd108552200",
+    "type": "film",
+    "title": "Жребий",
+    "originalTitle": "Salem's Lot",
+    "year": 2024,
+    "creators": [
+      "Гари Доберман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 748230,
+      "imdb": "tt10245072"
+    }
+  },
+  {
+    "id": "f-wd260208",
+    "type": "film",
+    "title": "Куклы",
+    "originalTitle": "Dolls",
+    "year": 2002,
+    "creators": [
+      "Такэси Китано"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 870,
+      "imdb": "tt0330229"
+    }
+  },
+  {
+    "id": "f-wd16472534",
+    "type": "film",
+    "title": "Утопленник",
+    "year": 1956,
+    "creators": [
+      "Витаутас Жалакявичюс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1483945,
+      "imdb": "tt1804635"
+    }
+  },
+  {
+    "id": "f-wd965859",
+    "type": "film",
+    "title": "Фредди против Джейсона",
+    "originalTitle": "Freddy vs. Jason",
+    "year": 2003,
+    "creators": [
+      "Ронни Ю"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 6466,
+      "imdb": "tt0329101"
+    }
+  },
+  {
+    "id": "f-wd763446",
+    "type": "film",
+    "title": "Трюк",
+    "originalTitle": "Trick",
+    "year": 1999,
+    "creators": [
+      "Джим Фолл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1812,
+      "imdb": "tt0162710"
+    }
+  },
+  {
+    "id": "f-wd1199513",
+    "type": "film",
+    "title": "Доспехи Бога",
+    "originalTitle": "Armour of God",
+    "year": 1986,
+    "creators": [
+      "Джеки Чан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 10974,
+      "imdb": "tt0091431"
     }
   }
 ];

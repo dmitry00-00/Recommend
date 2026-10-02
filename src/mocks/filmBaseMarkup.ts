@@ -10888,5 +10888,83 @@ export const filmBaseMarkup: WorkCard[] = [
       "tmdb": 365544,
       "imdb": "tt5172306"
     }
+  },
+  {
+    "id": "f-wd136773033",
+    "type": "film",
+    "title": "Мороженщик",
+    "originalTitle": "Ice Cream Man",
+    "year": 2026,
+    "creators": [
+      "Элай Рот"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 86,
+    "externalIds": {
+      "tmdb": 1477712,
+      "imdb": "tt36893729"
+    }
+  },
+  {
+    "id": "f-wd126095177",
+    "type": "series",
+    "title": "Призрак в доспехах",
+    "originalTitle": "The Ghost in the Shell",
+    "year": 2026,
+    "creators": [
+      "Moko-chan"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "imdb": "tt36517689"
+    }
+  },
+  {
+    "id": "f-wd136163067",
+    "type": "film",
+    "title": "Обсессия",
+    "originalTitle": "Obsession",
+    "year": 2025,
+    "creators": [
+      "Карри Баркер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 109,
+    "externalIds": {
+      "tmdb": 1339713,
+      "imdb": "tt37287335"
+    }
+  },
+  {
+    "id": "f-wd3939300",
+    "type": "film",
+    "title": "Боевые роботы",
+    "originalTitle": "Robo Warriors",
+    "year": 1996,
+    "creators": [
+      "Йен Бэрри"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 89,
+    "externalIds": {
+      "tmdb": 38237,
+      "imdb": "tt0117497"
+    }
   }
 ];

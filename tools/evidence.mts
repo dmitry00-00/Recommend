@@ -11,6 +11,7 @@
 // Чего правило не делает: не подтверждает по одному названию, как бы длинно оно ни было, и не
 // опровергает — отсутствие улики значит «не знаем», а не «не тот фильм». Что осталось без
 // улики, остаётся в очереди «тот ли это фильм».
+import { compact, hashtagsOf } from './tag-match.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { latinContinues } from './title-match.mts';
 import { isSeries } from '../src/lib/media.ts';
@@ -92,7 +93,7 @@ export function foreignCreator(work: WorkCard, head: string): string | undefined
   return far ? m[1] : undefined;
 }
 
-export type Evidence = 'link' | 'year' | 'original';
+export type Evidence = 'link' | 'year' | 'original' | 'tag';
 /** Противоречие: рядом с названием стоят годы, и ни один не похож на год этого фильма.
  *  Так выглядит ремейк или тёзка — «Хэллоуин 2007» при «Хэллоуине» 1978-го (замер 24.09:
  *  без этого правила оригинальное название подтверждало ремейки — у них оно общее). */
@@ -123,6 +124,12 @@ export function evidenceFor(work: WorkCard, text: string, links: string[] = []):
   const line0 = head.split('\n').map((l) => l.trim()).find(Boolean)?.slice(0, 150) ?? '';
   const titleYears0 = yearsIn(own0.reduce((t, n) => t.replace(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'giu'), ' '), line0));
   if (work.year && titleYears0.length && titleYears0.length <= 2 && !titleYears0.some((y) => Math.abs(y - work.year) <= 1)) return 'conflict';
+  // хэштег с названием слитно — «#хищникдобыча», «#prey2022» (02.10): канал сам назвал фильм
+  const tags = hashtagsOf(text);
+  if (tags.length && [work.title, work.originalTitle].some((n) => {
+    const c = n ? compact(n) : '';
+    return c.length >= 5 && (tags.includes(c) || (work.year != null && tags.includes(`${c}${work.year}`)));
+  })) return 'tag';
   if (work.year && years.length && years.length <= 2 && years.some((y) => Math.abs(y - work.year) <= 1)) return 'year';
   // Противоречие — только в заголовке (первая строка): «Хэллоуин 2007», «(Lembayung, 2024)».
   // Год дальше по тексту обычно про другое — «следующей работой режиссёра в 2021-м» (замер 24.09)

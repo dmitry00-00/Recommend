@@ -11,6 +11,7 @@
 // Быстро за счёт отбора кандидатов по началу слова: 90 тысяч роликов × 2,6 тысячи фильмов
 // напрямую — это минуты, а так — секунды.
 import { isDigest, listItems, nameMatchAt } from './title-match.mts';
+import { byTags, tagIndex } from './tag-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
 import type { IndexedWork } from './works-index.mts';
@@ -24,6 +25,8 @@ export interface VideoLike {
   book?: boolean;
   /** ролик англоязычного канала: заголовок в Title Case (tools/title-match.mts, `english`) */
   en?: boolean;
+  /** теги YouTube (выгрузка): запасной путь, когда заголовок не назвал фильм (tools/tag-match.mts) */
+  tags?: string[];
 }
 export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string; also?: string[] }
 /** Ещё одно произведение ролика (OPS-8): «разбор „Адвокат дьявола“ и „Фирма“» — к обоим. */
@@ -39,7 +42,7 @@ const head = (w: string) => w.slice(0, 4);
  *  сторожей «сборник», «экранизация», «противоречие» — их вызывающий ставит сам (индекс разборов
  *  считает, сколько отсеял каждым, и не применяет их к решениям людей). */
 export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: { ordinary?: ReadonlySet<string>; loose?: boolean; stats?: { lists: number; pairs: number } } = {}):
-  Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[] }> {
+  Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' }> {
   // начало первого слова названия → произведения
   const byHead = new Map<string, IndexedWork[]>();
   for (const w of ours) {
@@ -51,11 +54,20 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       if (!list.includes(w)) list.push(w);
     }
   }
-  const out = new Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[] }>();
+  const out = new Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' }>();
+  const tags = tagIndex(ours);
+  // заголовок не назвал ни одного нашего фильма — хэштеги и теги ролика (02.10, tools/tag-match.mts).
+  // Книжные каналы — мимо: там свои правила; ролик о серии — не к фильму
+  const fallback = (v: VideoLike) => {
+    if (v.book) return;
+    const f = byTags(v, tags);
+    if (!f || (EPISODE.test(v.title) && !isSeries(f.work.work))) return;
+    out.set(v.id, { key: f.work.key, work: f.work.work, len: 0, via: f.via });
+  };
   for (const v of videos) {
     const cands = new Set<IndexedWork>();
     for (const t of words(v.title)) for (const w of byHead.get(head(t)) ?? []) cands.add(w);
-    if (!cands.size) continue;
+    if (!cands.size) { fallback(v); continue; }
     let max = 0;
     let tied: IndexedWork[] = [];
     // все совпадения с местом: из них — второе название ролика (OPS-8, 02.10)
@@ -77,7 +89,7 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       if (len > max) { max = len; tied = []; }
       tied.push(w);
     }
-    if (!tied.length) continue;
+    if (!tied.length) { fallback(v); continue; }
     // Самое длинное совпадение — одно слово без кавычек, а рядом есть название в кавычках: главное —
     // то, что в кавычках. «Расшифровка фильма «Престиж» Кристофера Нолана» — про «Престиж», а не про
     // «Кристоферов» (02.10)

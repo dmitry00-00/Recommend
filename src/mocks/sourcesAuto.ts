@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-09-30): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-10-02): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -29,7 +29,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Кинопоиск | Новости",
     "handle": "kinopoisk_soon",
     "url": "https://t.me/kinopoisk_soon",
-    "mentions": 836,
+    "mentions": 838,
     "reposts": 338,
     "by": [
       "Cinemaholics",
@@ -39,8 +39,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Ремизорро",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-29",
-    "sample": "Похоже, «Диггер» с Томом Крузом будет большим провалом 😢"
+    "lastAt": "2026-09-30",
+    "sample": "Зак Креггер после «Обители зла» взялся за фантастику в духе «Чужого», и главную роль в н…"
   },
   {
     "id": "srcc-exponentafilm",
@@ -134,7 +134,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-кроненберг нефильтрованный",
     "title": "Кроненберг нефильтрованный",
     "mentions": 0,
-    "reposts": 59,
+    "reposts": 60,
     "by": [
       "Cinemaholics",
       "Заскриптованный",
@@ -142,8 +142,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Ремизорро",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-23",
-    "sample": "You Can See Everything | Official Trailer HD | A24"
+    "lastAt": "2026-09-30",
+    "sample": "Will Tom Cruise’s ‘Digger’ Continue Warner Bros.’ Dismal Box Office Year?"
   },
   {
     "id": "srcc-volgafilms",
@@ -234,6 +234,24 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-09-28",
     "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
+  },
+  {
+    "id": "srcc-kinotv",
+    "title": "КИНОТВ",
+    "handle": "kinotv",
+    "url": "https://t.me/kinotv",
+    "mentions": 6,
+    "reposts": 19,
+    "by": [
+      "Cinemaholics",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ШишКИНО",
+      "Што это было",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-01",
+    "sample": "В чём фишка платьев главной героини «Любовного настроения»? С какого сериала сплагиачен…"
   },
   {
     "id": "srcc-alyashorror",
@@ -353,30 +371,32 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
-    "reposts": 108,
+    "reposts": 135,
     "by": [
       "Cut The Chat",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-29",
-    "sample": "«Футурама» закрыта после 14 сезона, но впереди три спецвыпуска."
+    "lastAt": "2026-10-01",
+    "sample": "Эди Гатеги присоединился к актёрскому составу фильма #MiamiVice"
   },
   {
-    "id": "srcc-kinotv",
-    "title": "КИНОТВ",
-    "handle": "kinotv",
-    "url": "https://t.me/kinotv",
-    "mentions": 5,
-    "reposts": 18,
+    "id": "srcc-pollydaily",
+    "title": "Полночная Полли пишет",
+    "handle": "pollydaily",
+    "url": "https://t.me/pollydaily",
+    "mentions": 29,
+    "reposts": 3,
     "by": [
-      "Cinemaholics",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "Што это было",
-      "ЭПИЗОДЫ"
+      "Abramacabre!",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов",
+      "обзора не будет"
     ],
-    "lastAt": "2026-08-13",
-    "sample": "У нас тоже теперь есть своего рода «Форсаж», но с соблюдением правил дорожного движения.…"
+    "lastAt": "2026-10-01",
+    "sample": "Новость, о которой я вам рассказываю, вызывает во мне бурю эмоций — от ужаса и тревоги д…"
   },
   {
     "id": "srcc-horror_russorosso",
@@ -417,6 +437,23 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "На завершение первого сезона рубрики Геля решила отвести #админскийкиноклуб на меланхоли…"
   },
   {
+    "id": "srcc-ershovfilm",
+    "title": "Я видел свечение экрана",
+    "handle": "ershovfilm",
+    "url": "https://t.me/ershovfilm",
+    "mentions": 8,
+    "reposts": 15,
+    "by": [
+      "Дзига-аппаратчик",
+      "Жизнь страшнее. Фильмы ужасов",
+      "Заскриптованный",
+      "Ремизорро",
+      "Што это было"
+    ],
+    "lastAt": "2026-09-30",
+    "sample": "Я видел свечение экрана"
+  },
+  {
     "id": "srcc-streamingverse",
     "title": "into the streaming-verse",
     "handle": "streamingverse",
@@ -433,23 +470,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-19",
     "sample": "Christian Metal Band Demon Hunter Sues Netflix, AEG Over ‘KPop Demon Hunters’ Trademark"
-  },
-  {
-    "id": "srcc-ershovfilm",
-    "title": "Я видел свечение экрана",
-    "handle": "ershovfilm",
-    "url": "https://t.me/ershovfilm",
-    "mentions": 7,
-    "reposts": 15,
-    "by": [
-      "Дзига-аппаратчик",
-      "Жизнь страшнее. Фильмы ужасов",
-      "Заскриптованный",
-      "Ремизорро",
-      "Што это было"
-    ],
-    "lastAt": "2026-09-23",
-    "sample": "⚡️«Вольга» выпустит в российский прокат «Искусственный интеллект» (Artificial) Луки Гуад…"
   },
   {
     "id": "srcc-aonefilms",
@@ -534,12 +554,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 34,
+    "reposts": 37,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-09-28",
-    "sample": "Требует сатисфакции прямо сейчас 👊"
+    "lastAt": "2026-10-01",
+    "sample": "Я построю здесь новый мир."
   },
   {
     "id": "srcc-nemakarov",
@@ -560,6 +580,24 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Оглядываясь на первый сезон рубрики #админскийкиноклуб, мне показалось, что прошел он сл…"
   },
   {
+    "id": "srcc-rkvt_2020",
+    "title": "РУССКОЕ КИНО В ТОПЕ",
+    "handle": "rkvt_2020",
+    "url": "https://t.me/rkvt_2020",
+    "mentions": 13,
+    "reposts": 8,
+    "by": [
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "Тревожные кассеты",
+      "ШишКИНО",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-09-30",
+    "sample": "🎱 Стася Толстая и Савва Минаев прочитают свои новые и неизвестные произведения на КИНОЧ…"
+  },
+  {
     "id": "srcc-bogdana_zakroy",
     "title": "BOGDANA ZAKROY",
     "handle": "bogdana_zakroy",
@@ -575,42 +613,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-02-17",
     "sample": "Про трех белых коней наврали, слышали? Скачет ведь никто иная, как красная лошадь, а по…"
-  },
-  {
-    "id": "srcc-rkvt_2020",
-    "title": "РУССКОЕ КИНО В ТОПЕ",
-    "handle": "rkvt_2020",
-    "url": "https://t.me/rkvt_2020",
-    "mentions": 13,
-    "reposts": 7,
-    "by": [
-      "Заскриптованный",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "Тревожные кассеты",
-      "ШишКИНО",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-08-20",
-    "sample": "«ДРУГ» в конкурсе «КОРОЧЕ». По шкале от жижи до ЧАГИ — уверенная ЧАГА."
-  },
-  {
-    "id": "srcc-pollydaily",
-    "title": "Полночная Полли пишет",
-    "handle": "pollydaily",
-    "url": "https://t.me/pollydaily",
-    "mentions": 27,
-    "reposts": 2,
-    "by": [
-      "Abramacabre!",
-      "Жизнь страшнее. Фильмы ужасов",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "Уютный уголок любителя ужасов",
-      "обзора не будет"
-    ],
-    "lastAt": "2026-09-18",
-    "sample": "▪️Ключ от всех дверей (2005)"
   },
   {
     "id": "srcc-vonmorgue",

@@ -62,9 +62,9 @@ for (const [id, m] of Object.entries(channelMeta())) {
   if (m.medium === 'book') bookChannels.add(m.title);
   if (m.language === 'en') englishChannels.add(m.title);
 }
-interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean; en?: boolean }
+interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean; en?: boolean; tags?: string[] }
 const videos: Video[] = dump.filter((v) => v.channelId && channels.has(v.channelId)).map((v) => ({
-  id: v.id, title: v.title, description: v.description?.slice(0, 600), publishedAt: v.publishedAt, channel: v.channel,
+  id: v.id, title: v.title, description: v.description?.slice(0, 600), publishedAt: v.publishedAt, channel: v.channel, ...(v.tags?.length ? { tags: v.tags } : {}),
   ...(bookChannels.has(v.channel) ? { book: true } : {}), ...(englishChannels.has(v.channel) ? { en: true } : {}),
 }));
 console.error(`каналов: ${channels.size}, роликов: ${videos.length}`);
