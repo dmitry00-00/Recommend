@@ -129,7 +129,8 @@ const rows: string[] = [];
 // выбирает pickNamesake. Правила общие с таблицей разметки — tools/match-videos.mts (HYG-3, 30.09):
 // там же отбор кандидатов по началу слова, в двадцать раз быстрее перебора, результат тот же
 // (проверено на 2,5 тыс. роликов дампа — ни одного расхождения)
-const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1' });
+const listStats = { lists: 0, pairs: 0 };
+const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1', stats: listStats });
 let early = 0;
 // поверх догадок — решения людей
 let confirmed = 0;
@@ -172,14 +173,21 @@ let bookLists = 0, toBook = 0, outsideCatalog = 0;
 // экранизации книг по связям Ж1 (Ж4): разбор фильма по книге переезжает к фильму, а не пропадает
 const adIndex = adaptationIndex(worksIndex({ all: true }));
 const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
+// второй фильм ролика (OPS-8, 02.10): «разбор „Девчата“ и „Серенада Солнечной долины“» — отдельной
+// парой «ролик → фильм», с теми же сторожами. Решение человека по ролику главнее: тогда без догадок
+const pairs: [string, { key: string; work: (typeof best extends Map<string, infer T> ? T : never)['work']; other?: boolean }][] = [];
 for (const [videoId, found] of best) {
+  pairs.push([videoId, found]);
+  if (!human[videoId]) for (const o of found.others ?? []) pairs.push([videoId, { key: o.key, work: o.work, other: true }]);
+}
+for (const [videoId, found] of pairs) {
   let { key, work } = found;
   const v = videos.find((x) => x.id === videoId)!;
   const url = `https://www.youtube.com/watch?v=${videoId}`;
   if (known.some((a) => a.url === url)) continue;
   const minutes = durations.get(videoId);
   // выбор опознавателя из тёзок (guess) — не слово человека: сторожа его проверяют, в карточке «не проверено»
-  const said = Boolean(human[videoId]?.key) && !human[videoId]?.guess;
+  const said = !found.other && Boolean(human[videoId]?.key) && !human[videoId]?.guess;
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
   // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
   if (!said && isDigest(v.title, byKey.get(key) ? namesFor(byKey.get(key)!, Boolean(v.book)) : [])) { digests += 1; continue; }
@@ -215,6 +223,7 @@ for (const [videoId, found] of best) {
   });
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
+console.error(`перечней из трёх и больше названий (не разбор ни одного): ${listStats.lists}, роликов о двух фильмах: ${listStats.pairs}`);
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outsideCatalog}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);

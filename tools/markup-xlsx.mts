@@ -53,10 +53,14 @@ const labelOf = new Map(films.map((f) => [f.key, f.label]));
 // 2. Что уже угадал сопоставитель — этим заполняем колонку «Фильм» заранее: человеку остаётся
 // подтвердить или поправить, а не искать фильм в списке из полутора тысяч.
 const guess = new Map<string, string>();
+// второй фильм ролика (OPS-8, 02.10) — догадкой в колонку «Ещё фильмы»
+const guessAlso = new Map<string, string[]>();
 for (const [key, list] of Object.entries(essaysAuto)) {
   for (const a of list) {
     const id = /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1];
-    if (id && !guess.has(id)) guess.set(id, key);
+    if (!id) continue;
+    if (!guess.has(id)) guess.set(id, key);
+    else if (guess.get(id) !== key) guessAlso.set(id, [...(guessAlso.get(id) ?? []), key]);
   }
 }
 
@@ -71,7 +75,7 @@ const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
   const t = Date.now();
   // книги (isbn:) не предлагаем — таблица про киноролики, и ярлыка у них в списке нет
   const found = matchVideos(todo.map((v) => (channels[v.channelId ?? '']?.language === 'en' ? { ...v, en: true } : v)), worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
-  for (const [id, g] of found) guess.set(id, g.key);
+  for (const [id, g] of found) { guess.set(id, g.key); if (g.also?.length) guessAlso.set(id, g.also); }
   console.log(`каналы из ссылок: роликов ${todo.length}, угадан фильм у ${found.size} (${Math.round((Date.now() - t) / 1000)} с)`);
 }
 
@@ -175,7 +179,8 @@ const row = (v: Video) => {
   const key = guess.get(v.id);
   const film = key ? labelOf.get(key) : undefined;
   if (key && !film) lost++;   // догадка есть, а фильма в индексе уже нет — пустая строка честнее
-  return { ...base, film: film ?? '', checked: false };
+  const also = (guessAlso.get(v.id) ?? []).map((k) => labelOf.get(k)).filter(Boolean).join('; ');
+  return { ...base, film: film ?? '', checked: false, ...(also ? { also } : {}) };
 };
 // Каналы из ссылок — только ролики с догадкой или решением человека: остальное — десятки тысяч
 // строк, которые вручную не разметить (30.09). Все подряд — --all-links.

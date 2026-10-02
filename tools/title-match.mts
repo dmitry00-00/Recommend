@@ -219,8 +219,39 @@ function strayHit(title: string, at: number, hit: string, after: string, name: s
 }
 
 export function nameMatch(videoTitle: string, name: string, options: MatchOptions = {}): number {
+  return nameMatchAt(videoTitle, name, options)?.len ?? 0;
+}
+
+/** Перечень в заголовке (02.10, OPS-8): сколько названий перечислено — в кавычках подряд или
+ *  короткими пунктами через запятую или точку с запятой. «Хирург разбирает сцены из фильмов
+ *  «Доктор Стрэндж», «Доктор Хаус», «Клиника»» — три; «Крэйвен в Marvel, Форсаж, Джон Уик, Соник» —
+ *  четыре. Не перечень: косая черта и «|» (так отделяют рубрики и авторов: «После Янга / Когонада»),
+ *  скобки («Сибирское воспитание (УРКИ, СТАЛИН, ДВА ЧИФИРА)» — шутка, а не список) и запятые внутри
+ *  самого названия («Удачи, веселья, не сдохни») — его место передают в `skip`. Пункт перечня —
+ *  каждый с большой буквы и не длиннее пяти слов («воздушный бой, Аэрокобра, мотор и таран» — нет). */
+export function listItems(title: string, skip?: { at: number; len: number }): number {
+  let t = skip ? `${title.slice(0, skip.at)}${'\u2026'}${title.slice(skip.at + skip.len)}` : title;
+  t = t.replace(/\([^)]*\)|\[[^\]]*\]/gu, ' ');
+  // кавычки считаем по заголовку целиком (без скобок): название в кавычках — тоже пункт
+  const quoted = (title.replace(/\([^)]*\)|\[[^\]]*\]/gu, ' ').match(/[«„"][^«»„“"]{2,60}[»“"]/gu) ?? []).length;
+  let best = 0;
+  for (const part of t.split(/\s[—–-]\s|[|/:]/u)) {
+    const items = part.split(/\s*[,;•]\s*/u).map((x) => x.trim()).filter(Boolean);
+    if (items.length < 3) continue;
+    if (items.every((x) => x === '\u2026' || (x.split(/\s+/).length <= 5 && /^[«„"]?[\p{Lu}\d]/u.test(x)))) best = Math.max(best, items.length);
+  }
+  // косая черта и «|» — перечень, только когда пунктов четыре и больше: «ФОРСАЖ 9 / СОКОЛ И ЗИМНИЙ
+  // СОЛДАТ / ГОДЗИЛЛА ПРОТИВ КОНГА / Анонс…», «Подкаст №233 Аркейн | Гладиатор 2 | Конклав | …»;
+  // три — это рубрики и подписи («Почему… | смысл ИРОНИЯ СУДЬБЫ | разбор СПГС»)
+  const slashed = t.split(/\s*(?:\/|\|)\s*/u).map((x) => x.trim()).filter(Boolean);
+  if (slashed.length >= 4 && slashed.every((x) => x.split(/\s+/).length <= 6)) best = Math.max(best, slashed.length);
+  return Math.max(quoted > 1 ? quoted : 0, best);
+}
+
+/** То же, что `nameMatch`, с местом совпадения — чтобы найти в заголовке несколько разных названий. */
+export function nameMatchAt(videoTitle: string, name: string, options: MatchOptions = {}): { len: number; at: number } | undefined {
   const rival = RIVALS.find(([n]) => n.test(name));
-  if (rival && rival[1].test(videoTitle)) return 0;
+  if (rival && rival[1].test(videoTitle)) return undefined;
   // флаг `i` обязателен: у этих каналов название пишут капсом («смысл ПРИБЫТИЯ»), а отбор
   // по заглавной букве делается ниже, на самом совпадении
   const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})([${CYR}]{0,3})(?![A-Za-z0-9_${CYR}])()`, 'giu');
@@ -304,9 +335,9 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
       const labelled = LABEL.test(videoTitle.replace(hit, ' '));
       if (!caps && !quoted && !labelled) continue;
     }
-    return hit.length;
+    return { len: hit.length, at: m.index + m[1].length };
   }
-  return 0;
+  return undefined;
 }
 
 /** Сколько раз название названо в тексте. Пост про фильм называет его не один раз, а
