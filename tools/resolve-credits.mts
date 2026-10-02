@@ -74,7 +74,7 @@ for (let i = 0; i < todo.length; i += 50) {
       const q = ids[w.key]!;
       entries[w.key] = { q, credits: parsed.byItem.get(q) ?? [] };
     }
-    for (const [p, n] of parsed.names) names[p] = { ru: names[p]?.ru ?? n.ru, en: names[p]?.en ?? n.en };
+    for (const [p, n] of parsed.names) names[p] = { ru: names[p]?.ru ?? n.ru, en: names[p]?.en || n.en };
   } catch (e) {
     console.error(`  пачка ${i}: ${(e as Error).message}`);
   }
@@ -124,13 +124,14 @@ if (NO_TMDB || !key) {
   console.error(`создатели из TMDb: +${added} у ${noCreator.length} сериалов без P170`);
 }
 
-// недостающие метки людей (TMDb дал Q-код без метки en, или метки не пришли в SPARQL)
-const unnamed = Object.keys(names).filter((p) => !names[p].en);
+// недостающие метки людей (TMDb дал Q-код без метки en, или метки не пришли в SPARQL). У кого
+// английской метки нет и в Wikidata, тому пишем '' — второй прогон его не спрашивает (02.10)
+const unnamed = Object.keys(names).filter((p) => names[p].en === undefined);
 for (let i = 0; i < unnamed.length; i += 50) {
   try {
     const r = await wd<{ entities?: Record<string, { labels?: Record<string, { value: string }> }> }>(
       { action: 'wbgetentities', ids: unnamed.slice(i, i + 50).join('|'), props: 'labels', languages: 'ru|en' });
-    for (const [p, e] of Object.entries(r.entities ?? {})) names[p] = { ru: e.labels?.ru?.value ?? names[p].ru, en: e.labels?.en?.value };
+    for (const [p, e] of Object.entries(r.entities ?? {})) names[p] = { ru: e.labels?.ru?.value ?? names[p].ru, en: e.labels?.en?.value ?? '' };
   } catch (e) { console.error(`  метки ${i}: ${(e as Error).message}`); }
   await sleep(200);
 }

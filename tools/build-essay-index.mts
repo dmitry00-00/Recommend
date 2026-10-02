@@ -15,6 +15,7 @@ import { evidenceFor, tooEarly } from './evidence.mts';
 import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
 import { bestByTitle } from './match-videos.mts';
+import { channelMeta, fetchChannelVideos } from './youtube-channels.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isBookKey } from '../src/lib/keys.ts';
 import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex } from './book-channels.mts';
@@ -22,20 +23,29 @@ import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex } from './bo
 const key = process.env.YT_API_KEY;
 if (!key) { console.error('нужен YT_API_KEY'); process.exit(1); }
 const API = 'https://www.googleapis.com/youtube/v3';
-const get = async <T>(path: string, params: Record<string, string>): Promise<T | undefined> => {
-  // YouTube не отвечает по сети — выходим, ничего не записав: вчерашний essaysAuto полнее
-  // любого частичного обхода, а шаг в сборщике необязательный (30.09)
+// YouTube не отвечает — индекс собирается из прежней выгрузки и прежних ответов (02.10): раньше
+// выходили, ничего не записав, теперь вчерашнее и так лежит в кэше
+let offline = false;
+const get = async <T,>(path: string, params: Record<string, string>): Promise<T | undefined> => {
+  if (offline) return undefined;
   const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`).catch((e: Error & { cause?: { code?: string } }) => {
-    console.error(`ВНИМАНИЕ: YouTube не отвечает (${e.cause?.code ?? e.message}) — индекс роликов не пересобран, остаётся прежний essaysAuto`);
-    return process.exit(3) as never;
+    console.error(`ВНИМАНИЕ: YouTube не отвечает (${e.cause?.code ?? e.message}) — дальше только из кэша`);
+    offline = true;
+    return undefined;
   });
+  if (!r) return undefined;
   if (!r.ok) { console.error(`  ${path} ${r.status}`); return undefined; }
   return await r.json() as T;
 };
 
-// 1. Каналы — из роликов, которые уже есть.
+// присланные вручную разборы (src/mocks/essays.ts) — ниже их не дублируем
 const known = Object.values(essays).flat();
-const ids = known.map((a) => /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1]).filter((x): x is string => Boolean(x));
+
+// 1–2. Каналы и их загрузки — из общей выгрузки (tools/youtube-channels.mts): она помнит, что уже
+// получено, и спрашивает YouTube только о новом (02.10). Раньше индекс каждую ночь заново проходил
+// все загрузки всех каналов — по 40 страниц на канал. Каналы из ссылок (`via: 'links'`) индекс
+// по-прежнему не берёт. Сети нет — индекс собирается из прежней выгрузки.
+const dump = await fetchChannelVideos(key, console.error, { links: false, full: process.argv.includes('--full') });
 const channels = new Map<string, string>();
 // ярус по названию канала, как оно приходит в ролике: обзорщиков помечаем в индексе, чтобы
 // приложение их не показывало, а подбор — видел. Канала нет в sources.ts — это автор эссе
@@ -45,50 +55,19 @@ const bookChannels = new Set<string>();
 // англоязычные каналы (`language: 'en'` в sources.ts): их ролик помечаем «англ.» и сопоставляем
 // по-английски (Title Case в заголовке — не продолжение названия, tools/title-match.mts)
 const englishChannels = new Set<string>();
-for (let i = 0; i < ids.length; i += 50) {
-  const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
-    { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
-  for (const it of j?.items ?? []) if (it.snippet?.channelId) channels.set(it.snippet.channelId, it.snippet.channelTitle ?? '');
+for (const [id, m] of Object.entries(channelMeta())) {
+  if (m.via) continue;
+  channels.set(id, m.title);
+  if (m.tier === 'review') reviewers.add(m.title);
+  if (m.medium === 'book') bookChannels.add(m.title);
+  if (m.language === 'en') englishChannels.add(m.title);
 }
-// и каналы из списка владельца (src/mocks/sources.ts) — те, чьих роликов у нас ещё нет
-for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && !x.via)) {
-  const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels',
-    { part: 'snippet', forHandle: `@${src.handle}` });
-  const it = j?.items?.[0];
-  if (it?.id) channels.set(it.id, it.snippet?.title ?? src.title);
-  if (it?.id && src.medium === 'book') bookChannels.add(it.snippet?.title ?? src.title);
-  if (it?.id && src.tier === 'review') reviewers.add(it.snippet?.title ?? src.title);
-  if (it?.id && src.language === 'en') englishChannels.add(it.snippet?.title ?? src.title);
-  if (!it?.id) console.error(`  ? канал @${src.handle} не нашёлся`);
-}
-console.error(`каналы: ${[...channels.values()].join(', ')}`);
-
-// 2. Все загрузки каждого канала.
 interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean; en?: boolean }
-const videos: Video[] = [];
-for (const [id, title] of channels) {
-  const c = await get<{ items?: { contentDetails?: { relatedPlaylists?: { uploads?: string } } }[] }>('channels',
-    { part: 'contentDetails', id });
-  const uploads = c?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-  if (!uploads) continue;
-  let page: string | undefined;
-  let n = 0;
-  do {
-    const j = await get<{ items?: { snippet?: { title?: string; description?: string; publishedAt?: string; resourceId?: { videoId?: string } } }[]; nextPageToken?: string }>(
-      'playlistItems', { part: 'snippet', playlistId: uploads, maxResults: '50', ...(page ? { pageToken: page } : {}) });
-    for (const it of j?.items ?? []) {
-      if (it.snippet?.title && it.snippet.resourceId?.videoId) {
-        videos.push({ id: it.snippet.resourceId.videoId, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, ...(bookChannels.has(title) ? { book: true } : {}), ...(englishChannels.has(title) ? { en: true } : {}) });
-      }
-    }
-    page = j?.nextPageToken;
-    n += 1;
-  // 40 страниц = 2 000 роликов, как в youtube-channels.mts. При 20 обход обрезал на тысяче
-  // (25.09: КИНОЛИКБЕЗ, КИНОКРИТИКА 1 062, Клим Жуков 1 789), а плейлист идёт от новых к
-  // старым — терялись как раз старые разборы.
-  } while (page && n < 40);
-  console.error(`  ${title}: ${videos.filter((v) => v.channel === title).length}`);
-}
+const videos: Video[] = dump.filter((v) => v.channelId && channels.has(v.channelId)).map((v) => ({
+  id: v.id, title: v.title, description: v.description?.slice(0, 600), publishedAt: v.publishedAt, channel: v.channel,
+  ...(bookChannels.has(v.channel) ? { book: true } : {}), ...(englishChannels.has(v.channel) ? { en: true } : {}),
+}));
+console.error(`каналов: ${channels.size}, роликов: ${videos.length}`);
 
 // 3. Сопоставление с нашими произведениями по названию.
 const ours = worksIndex();
@@ -103,20 +82,37 @@ const human: Record<string, Verdict> = existsSync(vFile)
 // Ролики, которые человек принёс сам (лист «Без разбора»), чаще всего с чужих каналов: в
 // загрузках наших их нет, и без этого шага ручная привязка молча пропадала (29.09: 290 из
 // 293 присланных). Берём их по id — единица квоты на 50 роликов.
-const outside = Object.entries(human).filter(([id, v]) => v.key && !videos.some((x) => x.id === id)).map(([id]) => id);
-for (let i = 0; i < outside.length; i += 50) {
+// Ответ YouTube по таким роликам храним (02.10): спрашиваем только о новых решениях
+const OUTSIDE = new URL('../.cache/youtube/outside.json', import.meta.url);
+type OutsideVideo = Video & { channelTitle?: string };
+const outsideCache: Record<string, OutsideVideo | null> = existsSync(OUTSIDE) ? JSON.parse(readFileSync(OUTSIDE, 'utf8')) : {};
+const inDump = new Set(videos.map((x) => x.id));
+const outside = Object.entries(human).filter(([id, v]) => v.key && !inDump.has(id)).map(([id]) => id);
+const addOutside = (it: OutsideVideo) => {
+  videos.push(it);
+  // ярус такого канала — из реестра (via: 'links', заводит tools/register-link-channels.mts);
+  // канала там ещё нет — обзорщик: так решил владелец для всех, кого он приносит ссылками (29.09)
+  const tier = sources.find((s) => s.platform === 'youtube' && s.title === it.channel)?.tier;
+  if ((tier ?? 'review') === 'review' && ![...channels.values()].includes(it.channel)) reviewers.add(it.channel);
+};
+for (const id of outside) if (outsideCache[id]) addOutside(outsideCache[id]!);
+const askOutside = outside.filter((id) => outsideCache[id] === undefined);
+for (let i = 0; i < askOutside.length; i += 50) {
   const j = await get<{ items?: { id: string; snippet?: { title?: string; description?: string; publishedAt?: string; channelTitle?: string } }[] }>(
-    'videos', { part: 'snippet', id: outside.slice(i, i + 50).join(',') });
-  for (const it of j?.items ?? []) {
+    'videos', { part: 'snippet', id: askOutside.slice(i, i + 50).join(',') });
+  if (!j) continue;
+  const got = new Set<string>();
+  for (const it of j.items ?? []) {
     if (!it.snippet?.title) continue;
-    const channel = it.snippet.channelTitle ?? '';
-    videos.push({ id: it.id, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel });
-    // ярус такого канала — из реестра (via: 'links', заводит tools/register-link-channels.mts);
-    // канала там ещё нет — обзорщик: так решил владелец для всех, кого он приносит ссылками (29.09)
-    const tier = sources.find((s) => s.platform === 'youtube' && s.title === channel)?.tier;
-    if ((tier ?? 'review') === 'review' && ![...channels.values()].includes(channel)) reviewers.add(channel);
+    const v: OutsideVideo = { id: it.id, title: it.snippet.title, description: it.snippet.description?.slice(0, 600), publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: it.snippet.channelTitle ?? '' };
+    outsideCache[it.id] = v;
+    got.add(it.id);
+    addOutside(v);
   }
+  // удалённый или закрытый ролик — тоже ответ: второй раз не спрашиваем
+  for (const id of askOutside.slice(i, i + 50)) if (!got.has(id)) outsideCache[id] = null;
 }
+if (askOutside.length) writeFileSync(OUTSIDE, JSON.stringify(outsideCache));
 if (outside.length) console.error(`ролики с других каналов из ручной разметки: ${outside.length}, нашлось в YouTube ${videos.filter((v) => outside.includes(v.id)).length}`);
 // ручная привязка может указать и на фильм с коротким названием, которого в `ours` нет
 const byKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
@@ -150,22 +146,29 @@ for (const [videoId, v] of Object.entries(human)) {
 if (Object.keys(human).length) console.error(`ручная разметка: подтвердила и поправила ${confirmed}, сняла ${dropped}, добавила ${added}`);
 
 // длительность — только у совпавших: разбор короче пяти минут это не разбор, а шортс
+// (02.10) длительность — из выгрузки и из прежних ответов: спрашиваем только о роликах без неё
 const matched = [...best.keys()];
+const DURATIONS = new URL('../.cache/youtube/durations.json', import.meta.url);
+const durationCache: Record<string, number> = existsSync(DURATIONS) ? JSON.parse(readFileSync(DURATIONS, 'utf8')) : {};
 const durations = new Map<string, number>();
-for (let i = 0; i < matched.length; i += 50) {
+for (const v of dump) if (v.minutes) durations.set(v.id, v.minutes);
+for (const id of matched) if (!durations.has(id) && durationCache[id]) durations.set(id, durationCache[id]);
+const askDur = matched.filter((id) => !durations.has(id));
+for (let i = 0; i < askDur.length; i += 50) {
   const j = await get<{ items?: { id: string; contentDetails?: { duration?: string } }[] }>('videos',
-    { part: 'contentDetails', id: matched.slice(i, i + 50).join(',') });
+    { part: 'contentDetails', id: askDur.slice(i, i + 50).join(',') });
   for (const it of j?.items ?? []) {
     const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(it.contentDetails?.duration ?? '');
-    if (m) durations.set(it.id, Number(m[1] ?? 0) * 60 + Number(m[2] ?? 0) + (Number(m[3] ?? 0) >= 30 ? 1 : 0));
+    if (m) { const min = Number(m[1] ?? 0) * 60 + Number(m[2] ?? 0) + (Number(m[3] ?? 0) >= 30 ? 1 : 0); durations.set(it.id, min); durationCache[it.id] = min; }
   }
 }
+if (askDur.length) writeFileSync(DURATIONS, JSON.stringify(durationCache));
 let short = 0;
 let digests = 0;
 let adaptations = 0;
 let moved = 0;
 let conflicts = 0;
-let bookLists = 0, toBook = 0, outside = 0;
+let bookLists = 0, toBook = 0, outsideCatalog = 0;
 // экранизации книг по связям Ж1 (Ж4): разбор фильма по книге переезжает к фильму, а не пропадает
 const adIndex = adaptationIndex(worksIndex({ all: true }));
 const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
@@ -185,7 +188,7 @@ for (const [videoId, found] of best) {
   if (!said && v.book) {
     if (bookChannelList(v.title)) { bookLists += 1; continue; }
     const j = judgeInBookChannel(byKey.get(key) ?? { key, work, names: [] }, v.title, v.title, bookCtx, v.publishedAt);
-    if (j.action === 'drop') { if (j.why === 'outside') outside += 1; else adaptations += 1; continue; }
+    if (j.action === 'drop') { if (j.why === 'outside') outsideCatalog += 1; else adaptations += 1; continue; }
     if (j.action === 'move') { key = j.to!.key; work = j.to!.work; if (j.why === 'to_book') toBook += 1; else moved += 1; }
   } else if (!said && isBookKey(key)) {
     // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
@@ -213,7 +216,7 @@ for (const [videoId, found] of best) {
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
-console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outside}`);
+console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outsideCatalog}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные

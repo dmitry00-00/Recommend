@@ -28,96 +28,141 @@ export function cachedVideos(): ChannelVideo[] | undefined {
   try { return JSON.parse(readFileSync(CACHE, 'utf8')) as ChannelVideo[]; } catch { return undefined; }
 }
 
+/** Что известно о канале: ник из реестра, ярус, предмет, язык. Ключ — id канала. */
+export type ChannelMeta = { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links'; language?: 'en' };
+export const CHANNELS = '.cache/youtube/channels.json';
+/** Состояние обхода по каналу (02.10): плейлист загрузок и дошёл ли обход до конца. Дошёл — дальше
+ *  читаем плейлист только до первого уже известного ролика: он идёт от новых к старым. */
+const UPLOADS = '.cache/youtube/uploads.json';
+type UploadsState = Record<string, { uploads?: string; complete?: boolean; at?: string }>;
+const readJson = <T,>(file: string, fallback: T): T => {
+  try { return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) as T : fallback; } catch { return fallback; }
+};
+export const channelMeta = (): Record<string, ChannelMeta> => readJson(CHANNELS, {});
+
 /** `links` — обходить и каналы, пришедшие ссылками владельца (`via: 'links'` в sources.ts, 224 на
  *  29.09): их ролики нужны таблице разметки film_reviews (решение владельца 30.09). Индекс
- *  разборов (build-essay-index) их по-прежнему не обходит. Квота с ними — порядка нескольких
- *  тысяч единиц за выгрузку из 10 000 суточных, поэтому выгрузку не ставим в ночной сбор. */
+ *  разборов (build-essay-index) обходит только свои каналы — без `links`.
+ *
+ *  Не спрашиваем уже полученное (02.10): канал по нику и канал известного ролика — из прежних
+ *  channels.json и videos.json; плейлист загрузок — из uploads.json; загрузки — до первого
+ *  известного ролика; детали (описание, длительность) — только у новых. Первый обход канала —
+ *  целиком (до 2 000 роликов), дальше — страница-другая. `full` — пройти всё заново. */
 export async function fetchChannelVideos(key: string, log: (s: string) => void = console.error,
-  { links = true }: { links?: boolean } = {}): Promise<ChannelVideo[]> {
+  { links = true, full = false }: { links?: boolean; full?: boolean } = {}): Promise<ChannelVideo[]> {
+  let calls = 0;
   const get = async <T,>(path: string, params: Record<string, string>): Promise<T | undefined> => {
+    calls += 1;
     const r = await fetch(`${API}/${path}?${new URLSearchParams({ ...params, key })}`).catch(() => undefined);
     if (!r?.ok) { log(`  ${path} ${r?.status ?? 'нет сети'}`); return undefined; }
     return await r.json() as T;
   };
+  const before = cachedVideos() ?? [];
+  const oldMeta = channelMeta();
+  const state: UploadsState = full ? {} : readJson(UPLOADS, {});
 
-  // 1. Каналы — из уже известных роликов (src/mocks/essays.ts) и из списка владельца
-  const known = Object.values(essays).flat();
-  const ids = known.map((a) => /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1]).filter((x): x is string => Boolean(x));
-  const channels = new Map<string, string>();
-  // ярус канала (эссеист / обзорщик) задаётся в sources.ts по handle, а у ролика есть только
+  // 1. Каналы — из уже известных роликов (src/mocks/essays.ts) и из списка владельца.
+  // Ярус канала (эссеист / обзорщик) задаётся в sources.ts по handle, а у ролика есть только
   // channelId — связь между ними знает лишь этот перебор, поэтому её и сохраняем. Название
   // канала для этого не годится: на YouTube он «TerlKabot channel», в списке «TerlKabot»
-  const meta = new Map<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links'; language?: 'en' }>();
-  for (let i = 0; i < ids.length; i += 50) {
+  const channels = new Map<string, string>();
+  const meta = new Map<string, ChannelMeta>();
+  const chanOf = new Map(before.filter((v) => v.channelId).map((v) => [v.id, v.channelId!]));
+  const known = Object.values(essays).flat();
+  const ids = known.map((a) => /v=([A-Za-z0-9_-]{11})/.exec(a.url)?.[1]).filter((x): x is string => Boolean(x));
+  const unknownIds: string[] = [];
+  for (const id of ids) {
+    const c = chanOf.get(id);
+    // канал, найденный по уже известному разбору, — из первого круга владельца: там одни
+    // эссеисты. Явный ярус из sources.ts ниже это перекроет, если канал есть и там
+    if (c && oldMeta[c]) { channels.set(c, oldMeta[c].title); meta.set(c, { title: oldMeta[c].title, tier: 'essay', medium: 'film' }); }
+    else unknownIds.push(id);
+  }
+  for (let i = 0; i < unknownIds.length; i += 50) {
     const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
-      { part: 'snippet', id: ids.slice(i, i + 50).join(',') });
-    for (const it of j?.items ?? []) if (it.snippet?.channelId) {
+      { part: 'snippet', id: unknownIds.slice(i, i + 50).join(',') });
+    for (const it of j?.items ?? []) if (it.snippet?.channelId && !meta.has(it.snippet.channelId)) {
       const title = it.snippet.channelTitle ?? '';
       channels.set(it.snippet.channelId, title);
-      // канал, найденный по уже известному разбору, — из первого круга владельца: там одни
-      // эссеисты. Явный ярус из sources.ts ниже это перекроет, если канал есть и там
       meta.set(it.snippet.channelId, { title, tier: 'essay', medium: 'film' });
     }
   }
-  // каналы, пришедшие ссылками (`via: 'links'`), — только с `links`; их ярус по умолчанию «обзор»
+  // каналы реестра: id по нику — из прежнего channels.json, спрашиваем только новых
+  const byHandle = new Map(Object.entries(oldMeta).filter(([, m]) => m.handle).map(([id, m]) => [m.handle!.toLowerCase(), { id, title: m.title }]));
+  let askedHandles = 0;
   for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || (links && x.via === 'links')))) {
-    const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', { part: 'snippet', forHandle: `@${src.handle}` });
-    const it = j?.items?.[0];
-    if (it?.id) {
-      channels.set(it.id, it.snippet?.title ?? src.title);
-      meta.set(it.id, { handle: src.handle, title: it.snippet?.title ?? src.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}), ...(src.language ? { language: src.language } : {}) });
+    let found = full ? undefined : byHandle.get(src.handle.toLowerCase());
+    if (!found) {
+      askedHandles += 1;
+      const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', { part: 'snippet', forHandle: `@${src.handle}` });
+      const it = j?.items?.[0];
+      if (it?.id) found = { id: it.id, title: it.snippet?.title ?? src.title };
+    }
+    if (found) {
+      channels.set(found.id, found.title);
+      meta.set(found.id, { handle: src.handle, title: found.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}), ...(src.language ? { language: src.language } : {}) });
     } else log(`  ? канал @${src.handle} не нашёлся`);
   }
-  // Канал из списка, который сейчас не нашёлся (сбой сети, квота), берём из прежнего
-  // channels.json — по id он обходится и без поиска по handle. Не нашлось ни одного — сети нет
-  // вовсе: выгрузку не трогаем, иначе таблица разметки собралась бы пустой
-  const chFile = new URL('../.cache/youtube/channels.json', import.meta.url);
-  const wanted = new Set(sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || links))
-    .map((x) => x.handle.toLowerCase()));
-  const oldMeta: Record<string, { handle?: string; title: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; via?: 'links'; language?: 'en' }> =
-    existsSync(chFile) ? JSON.parse(readFileSync(chFile, 'utf8')) : {};
   if (!meta.size) {
     log('ни один канал не ответил — выгрузку не трогаю, остаётся прежняя');
-    return cachedVideos() ?? [];
+    return before;
   }
-  const resolved = new Set([...meta.values()].map((m) => m.handle?.toLowerCase()).filter(Boolean));
-  for (const [id, m] of Object.entries(oldMeta)) {
-    if (meta.has(id) || !m.handle || resolved.has(m.handle.toLowerCase()) || !wanted.has(m.handle.toLowerCase())) continue;
-    meta.set(id, m);
-    channels.set(id, m.title);
-    log(`  канал @${m.handle} взят из прежнего списка`);
-  }
-  writeFileSync(chFile, JSON.stringify(Object.fromEntries(meta), null, 1));
-  log(`каналы: ${[...channels.values()].join(', ')}`);
-  log(`  из них обзорщиков ${[...meta.values()].filter((m) => m.tier === 'review').length}, эссеистов ${[...meta.values()].filter((m) => m.tier === 'essay').length}, про книги ${[...meta.values()].filter((m) => m.medium === 'book').length}`);
+  // каналы из ссылок, когда их не обходим, остаются в списке как были: им нужен ярус в таблице разметки
+  const kept = links ? {} : Object.fromEntries(Object.entries(oldMeta).filter(([id, m]) => m.via === 'links' && !meta.has(id)));
+  writeFileSync(CHANNELS, JSON.stringify({ ...kept, ...Object.fromEntries(meta) }, null, 1));
+  log(`каналов: ${channels.size} (новых ников спрошено ${askedHandles}); обзорщиков ${[...meta.values()].filter((m) => m.tier === 'review').length}, эссеистов ${[...meta.values()].filter((m) => m.tier === 'essay').length}, про книги ${[...meta.values()].filter((m) => m.medium === 'book').length}`);
 
-  // 2. Все загрузки каждого канала
-  const videos: ChannelVideo[] = [];
+  // 2. Загрузки: у пройденного до конца канала — до первого уже известного ролика
+  const have = new Map<string, Set<string>>();
+  for (const v of before) if (v.channelId) (have.get(v.channelId) ?? have.set(v.channelId, new Set()).get(v.channelId)!).add(v.id);
+  const fresh: ChannelVideo[] = [];
+  let walkedFull = 0;
   for (const [channelId, title] of channels) {
-    const c = await get<{ items?: { contentDetails?: { relatedPlaylists?: { uploads?: string } } }[] }>('channels', { part: 'contentDetails', id: channelId });
-    const uploads = c?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-    if (!uploads) continue;
+    const st = state[channelId] ?? {};
+    if (!st.uploads) {
+      const c = await get<{ items?: { contentDetails?: { relatedPlaylists?: { uploads?: string } } }[] }>('channels', { part: 'contentDetails', id: channelId });
+      st.uploads = c?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
+    }
+    if (!st.uploads) continue;
+    const seen = have.get(channelId) ?? new Set<string>();
+    // канал из прежней выгрузки уже пройден целиком (тем же потолком в 40 страниц) — сразу
+    // по-новому; `complete: false` — прошлый полный обход оборвался, повторить
+    const incremental = !full && seen.size > 0 && st.complete !== false;
+    if (!incremental) walkedFull += 1;
     let page: string | undefined;
-    let n = 0;
+    let n = 0, added = 0, failed = false, hit = false;
     do {
       const j = await get<{ items?: { snippet?: { title?: string; publishedAt?: string; resourceId?: { videoId?: string } } }[]; nextPageToken?: string }>(
-        'playlistItems', { part: 'snippet', playlistId: uploads, maxResults: '50', ...(page ? { pageToken: page } : {}) });
-      for (const it of j?.items ?? []) {
+        'playlistItems', { part: 'snippet', playlistId: st.uploads, maxResults: '50', ...(page ? { pageToken: page } : {}) });
+      if (!j) { failed = true; break; }
+      for (const it of j.items ?? []) {
         const id = it.snippet?.resourceId?.videoId;
-        if (id && it.snippet?.title) videos.push({ id, title: it.snippet.title, publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, channelId });
+        if (!id || !it.snippet?.title) continue;
+        if (seen.has(id)) { hit = true; continue; }
+        fresh.push({ id, title: it.snippet.title, publishedAt: it.snippet.publishedAt?.slice(0, 10), channel: title, channelId });
+        added += 1;
       }
-      page = j?.nextPageToken;
+      page = j.nextPageToken;
       n += 1;
-    } while (page && n < 40);
-    log(`  ${title}: ${videos.filter((v) => v.channelId === channelId).length}`);
+    // 40 страниц = 2 000 роликов; плейлист идёт от новых к старым
+    } while (page && n < 40 && !(incremental && hit));
+    // до конца (или до потолка, или до известного) и без сбоя — следующий раз только новое
+    if (!failed) { st.complete = true; st.at = new Date().toISOString().slice(0, 10); }
+    else if (!incremental) st.complete = false;
+    state[channelId] = st;
+    if (added || !incremental) log(`  ${title}: +${added}${incremental ? '' : ' (весь канал)'}`);
   }
 
-  // 3. Детали: полное описание, теги, длительность — пачками по 50
-  const byId = new Map(videos.map((v) => [v.id, v]));
-  const all = [...byId.keys()];
-  for (let i = 0; i < all.length; i += 50) {
+  // 3. Детали — только у новых роликов: полное описание, теги, длительность — пачками по 50
+  const byId = new Map<string, ChannelVideo>();
+  // прежняя выгрузка остаётся: её каналы — в обходе или в списке (из ссылок без `links`)
+  const listed = new Set([...channels.keys(), ...Object.keys(kept)]);
+  for (const v of before) if (v.channelId && listed.has(v.channelId)) byId.set(v.id, v);
+  const newIds = fresh.map((v) => v.id).filter((id) => !byId.has(id));
+  for (const v of fresh) byId.set(v.id, { ...byId.get(v.id), ...v });
+  for (let i = 0; i < newIds.length; i += 50) {
     const j = await get<{ items?: { id: string; snippet?: { description?: string; tags?: string[] }; contentDetails?: { duration?: string } }[] }>(
-      'videos', { part: 'snippet,contentDetails', id: all.slice(i, i + 50).join(',') });
+      'videos', { part: 'snippet,contentDetails', id: newIds.slice(i, i + 50).join(',') });
     for (const it of j?.items ?? []) {
       const v = byId.get(it.id);
       if (!v) continue;
@@ -127,21 +172,10 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
       if (m) v.minutes = m;
     }
   }
-  // Сбой сети или квоты на одном канале не должен стирать его ролики из выгрузки: таблица
-  // разметки строится из неё, и пропавшие строки выглядели бы как потерянная разметка. Ролики
-  // прежней выгрузки, которых нет в новой, остаются — если их канал по-прежнему в обходе
-  // (канал, убранный из списка, уходит вместе с роликами).
-  const before = cachedVideos() ?? [];
-  let kept = 0;
-  for (const v of before) {
-    if (byId.has(v.id) || !v.channelId || !channels.has(v.channelId)) continue;
-    byId.set(v.id, v);
-    kept += 1;
-  }
-  if (kept) log(`  из прежней выгрузки сохранено ${kept} роликов (канал не ответил или ролик пропал из плейлиста)`);
   const out = [...byId.values()];
   mkdirSync('.cache/youtube', { recursive: true });
   writeFileSync(CACHE, JSON.stringify(out));
-  log(`роликов ${out.length} → ${CACHE}`);
+  writeFileSync(UPLOADS, JSON.stringify(state));
+  log(`роликов ${out.length} (новых ${newIds.length}; каналов целиком ${walkedFull}) → ${CACHE}; запросов к YouTube: ${calls}`);
   return out;
 }

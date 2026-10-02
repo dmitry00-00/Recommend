@@ -15,6 +15,8 @@ import { readCache, search, sleep, wd, writeCache } from './wikidata-lib.mts';
 
 const args = process.argv.slice(2);
 const FRESH = args.includes('--fresh'), DRY = args.includes('--dry');
+// ненайденное раньше — только по просьбе (02.10): иначе каждый прогон спрашивал Open Library заново
+const RETRY = args.includes('--retry-missing');
 const UA = 'transformative-media/0.1 (book index; contact via repository README)';
 
 type Entry = { olw?: string; wd?: string; miss?: true };
@@ -28,7 +30,7 @@ console.error(`книг: ${books.length}, ISBN: ${isbns.length}`);
 
 let asked = 0;
 for (const isbn of isbns) {
-  if (cache[isbn] && !cache[isbn].miss) continue;
+  if (cache[isbn] && (!cache[isbn].miss || !RETRY)) continue;
   const entry: Entry = {};
   try {
     const r = await fetch(`https://openlibrary.org/isbn/${isbn}.json`, { headers: { 'User-Agent': UA }, redirect: 'follow', signal: AbortSignal.timeout(20000) });

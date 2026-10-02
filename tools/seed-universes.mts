@@ -21,8 +21,11 @@ const FRESH = args.includes('--fresh'), PING = !args.includes('--no-ping');
 
 const HUB_CLASSES = new Set(['Q196600', 'Q559618', 'Q24856', 'Q277759', 'Q1667921', 'Q7058673']);
 const qids: Record<string, string | null> = FRESH ? {} : readCache('universe-seeds.json', {});
+// по какой метке искали (02.10): найденное не спрашиваем, ненайденное — только если метку поправили
+const askedAs: Record<string, string> = FRESH ? {} : readCache('universe-seeds-asked.json', {});
 for (const seed of universeSeeds) {
-  if (qids[seed.id] !== undefined) continue;
+  if (qids[seed.id] || (qids[seed.id] === null && askedAs[seed.id] === seed.en)) continue;
+  askedAs[seed.id] = seed.en;
   try {
     const found = await wd<{ search?: { id: string }[] }>({ action: 'wbsearchentities', search: seed.en, language: 'en', type: 'item', limit: '10' });
     const ids = (found.search ?? []).map((x) => x.id);
@@ -37,6 +40,7 @@ for (const seed of universeSeeds) {
   await sleep(200);
 }
 writeCache('universe-seeds.json', qids);
+writeCache('universe-seeds-asked.json', askedAs);
 const lost = universeSeeds.filter((s) => !qids[s.id]);
 console.error(`вселенных: ${universeSeeds.length}, найдено в Wikidata: ${universeSeeds.length - lost.length}`);
 if (lost.length) console.error(`  не нашлось (поправить метку en в tools/universe-seeds.mts): ${lost.map((s) => `${s.ru} («${s.en}»)`).join(', ')}`);
@@ -82,12 +86,20 @@ for (const seed of universeSeeds) {
 writeCache('universe-members.json', members);
 
 // ---------- вики и API ----------
+// ответ сайта помним неделю (02.10): мёртвый адрес иначе стоит по десять секунд таймаута каждый прогон
+const REACH_DAYS = 7;
+const reachCache: Record<string, { ok: boolean; at: string }> = FRESH ? {} : readCache('universe-reach.json', {});
 const reach = async (url: string): Promise<boolean> => {
   if (!PING) return true;
+  const c = reachCache[url];
+  if (c && Date.now() - Date.parse(c.at) < REACH_DAYS * 864e5) return c.ok;
+  let ok = false;
   try {
     const r = await fetch(url, { method: 'GET', signal: AbortSignal.timeout(10000), headers: { 'User-Agent': 'transformative-media/0.1' } });
-    return r.status < 500 && r.status !== 404;
-  } catch { return false; }
+    ok = r.status < 500 && r.status !== 404;
+  } catch { ok = false; }
+  reachCache[url] = { ok, at: new Date().toISOString() };
+  return ok;
 };
 const sources: Record<string, { id: string; ru: string; wiki: string[]; api: { url: string; what: string; key?: boolean }[] }> = {};
 const dead: string[] = [];
@@ -100,6 +112,7 @@ for (const seed of universeSeeds) {
   for (const a of seed.api ?? []) (await reach(a.url) ? api.push(a) : dead.push(a.url));
   sources[hub] = { id: seed.id, ru: seed.ru, wiki, api };
 }
+writeCache('universe-reach.json', reachCache);
 if (dead.length) console.error(`не отвечают (проверить адрес): ${dead.join(', ')}`);
 writeFileSync(new URL('../src/mocks/universeSources.ts', import.meta.url), `// Сгенерировано tools/seed-universes.mts (Ж3) — руками не править; список — tools/universe-seeds.mts.
 // Элемент Wikidata франшизы → вики фандома и открытые API, которые ответили при прогоне.

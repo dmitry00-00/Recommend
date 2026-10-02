@@ -33,12 +33,17 @@ const old: WesterosSeed | null = FRESH ? null : readCache<WesterosSeed | null>('
 
 // ---------- 1. книги ----------
 type ApiBook = { url: string; name: string; released?: string; authors?: string[] };
+type ApiChar = { url: string; name: string; aliases?: string[]; books?: string[]; povBooks?: string[]; tvSeries?: string[] };
 // API не открывается (с Mac 01.10 — таймаут соединения к Cloudflare, как и the-one-api и hp-api в
 // заложенных вселенных: похоже на блокировку по стране) — одна строка вместо трассы, и прежний кэш
 // остаётся в силе: героям хватит того, что было собрано раньше
-const apiBooks = await get<ApiBook[]>(`${API}/books?pageSize=50`).catch((e: Error & { cause?: { code?: string } }) => {
+// Ответы API храним целиком (02.10): книги и персонажи там не меняются, а сайт открывается только
+// через VPN — один удачный прогон, дальше всё из кэша. --fresh — спросить API заново
+type ApiCache = { at: string; books: ApiBook[]; characters: ApiChar[] };
+const apiCache: ApiCache | null = FRESH ? null : readCache<ApiCache | null>('aoiaf-api.json', null);
+const apiBooks = apiCache?.books ?? await get<ApiBook[]>(`${API}/books?pageSize=50`).catch((e: Error & { cause?: { code?: string } }) => {
   console.error(`!! An API of Ice and Fire не отвечает (${e.cause?.code ?? e.message}) — пропускаю${old ? '; остаётся собранное раньше' : ''}. Если сайт закрыт из этой сети — запустить через VPN.`);
-  process.exit(0);
+  return process.exit(0) as never;
 });
 type Ent = { labels?: Record<string, { value: string }>; descriptions?: Record<string, { value: string }>; aliases?: Record<string, { value: string }[]>; claims?: Record<string, { mainsnak: { datavalue?: { value: unknown } } }[]> };
 const ents = async (ids: string[], props: string) =>
@@ -63,7 +68,7 @@ for (const b of [...apiBooks, ...EXTRA_BOOKS.map((name) => ({ url: `extra:${name
   if (known) { books.push(known); continue; }
   try {
     const f = await bookQ(b.name);
-    books.push({ url: b.url, name: b.name, ...('released' in b && b.released ? { released: b.released.slice(0, 10) } : {}), ...(f ?? {}) });
+    books.push({ url: b.url, name: b.name, ...('released' in b && typeof b.released === 'string' ? { released: b.released.slice(0, 10) } : {}), ...(f ?? {}) });
   } catch (e) { console.error(`  книга ${b.name}: ${(e as Error).message}`); books.push({ url: b.url, name: b.name }); }
   await sleep(200);
 }
@@ -74,14 +79,16 @@ const seedBooks = readCache<{ q: string; why: string }[]>('seed-books.json', [])
 writeCache('seed-books.json', [...seedBooks, ...books.filter((b) => b.q && !NOT_STORY.has(b.name)).map((b) => ({ q: b.q!, why: 'Песнь льда и огня' }))]);
 
 // ---------- 2. персонажи ----------
-type ApiChar = { url: string; name: string; aliases?: string[]; books?: string[]; povBooks?: string[]; tvSeries?: string[] };
-const chars: ApiChar[] = [];
-for (let page = 1; page < 200; page++) {
-  const list = await get<ApiChar[]>(`${API}/characters?page=${page}&pageSize=50`);
-  if (!list.length) break;
-  chars.push(...list);
-  await sleep(150);
-}
+const chars: ApiChar[] = apiCache?.characters ? [...apiCache.characters] : [];
+if (!apiCache?.characters) {
+  for (let page = 1; page < 200; page++) {
+    const list = await get<ApiChar[]>(`${API}/characters?page=${page}&pageSize=50`);
+    if (!list.length) break;
+    chars.push(...list);
+    await sleep(150);
+  }
+  writeCache('aoiaf-api.json', { at: new Date().toISOString(), books: apiBooks, characters: chars } satisfies ApiCache);
+} else console.error(`An API of Ice and Fire — из кэша (${apiCache.at.slice(0, 10)}): книг ${apiBooks.length}, персонажей ${chars.length}`);
 const bookQByUrl = new Map(books.filter((b) => b.q && !NOT_STORY.has(b.name)).map((b) => [b.url, b.q!]));
 const prev = new Map((old?.characters ?? []).map((c) => [c.id, c]));
 const characters: SeedCharacter[] = chars.filter((c) => c.name).map((c) => ({
