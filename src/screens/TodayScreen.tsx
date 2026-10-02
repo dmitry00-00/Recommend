@@ -489,7 +489,8 @@ export function TodayScreen() {
       </WorkSheet>
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
-                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}>
+                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
+                 plot={openRec?.explanation?.what || undefined}>
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />

@@ -661,3 +661,15 @@ button.tm-banner { cursor: pointer; }
 .tm-quick.tm-row { flex-direction: row; }
 .tm-quick__how { color: var(--tm-color-ink-faint); }
 .tm-quick__scale { display: flex; flex-wrap: wrap; gap: var(--tm-space-1); }
+
+/* фабула в карточке (02.10): тап по баннеру — кадр уезжает вверх до шторки, под ней описание */
+.tm-worksheet__top .tm-banner { transition: max-height .28s ease, min-height .28s ease; }
+.tm-worksheet__top--plot .tm-banner { min-height: 0; max-height: 64px; }
+.tm-worksheet__top--plot .tm-banner__meta { display: none; }
+.tm-worksheet__top--plot .tm-banner__text { bottom: var(--tm-space-3); right: calc(var(--tm-space-5) + 40px); }
+.tm-worksheet__top--plot .tm-banner__title { font-size: 20px; line-height: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-worksheet__plothint { position: absolute; z-index: 3; right: var(--tm-space-3); bottom: var(--tm-space-3); padding: 2px var(--tm-space-2); border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink-faint); font-size: 12px; pointer-events: none; }
+.tm-worksheet__plot { flex: none; height: calc(clamp(min(200px, 34vh), min(100vw, var(--tm-frame, 420px)) * 0.5625, 40vh) - 64px); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: var(--tm-space-3) var(--tm-space-5); border-bottom: 1px solid var(--tm-color-line, transparent); background: var(--tm-color-surface-200); animation: tm-plot-in .28s ease; }
+.tm-worksheet__plot p { margin: 0; white-space: pre-line; }
+@keyframes tm-plot-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .tm-worksheet__top .tm-banner { transition: none; } .tm-worksheet__plot { animation: none; } }
