@@ -1367,8 +1367,21 @@ export async function startWork(workId: ID, expected?: PerceivedDifficulty, opts
  *  закрывается чек-ином, оценка уходит в модель (`rateWork`), брошенное становится записью
  *  `abandoned` — для подбора по силам это самый ценный сигнал. Просмотренное без оценки и без
  *  записи — «уже видел» (`setWatched`): в подбор не попадёт, но и вкус не уточнит. */
-export async function markWork(workId: ID, outcome: { status: 'finished' | 'abandoned'; rating?: 1 | 2 | 3 | 4 | 5 }): Promise<{ rated: number; needed: number }> {
+export async function markWork(workId: ID, outcome: { status: 'finished' | 'abandoned'; rating?: 1 | 2 | 3 | 4 | 5 }): Promise<{ rated: number; needed: number; counted: boolean }> {
   await catalog();
+  // засчиталась ли оценка в порог первой ленты: туда идут только размеченные фильмы (их знает модель)
+  const before = ratedCount();
+  const result = await markWorkInner(workId, outcome);
+  return { ...result, counted: result.rated > before };
+}
+
+/** Сколько оценок не хватает до первой ленты (0 — лента есть; без сервера порога нет). */
+export async function coldStartLeft(): Promise<number> {
+  await delay(0);
+  return store.onServer ? Math.max(0, MIN_RATED - ratedCount()) : 0;
+}
+
+async function markWorkInner(workId: ID, outcome: { status: 'finished' | 'abandoned'; rating?: 1 | 2 | 3 | 4 | 5 }): Promise<{ rated: number; needed: number }> {
   const open = history().find((e) => e.work.id === workId && (e.status === 'in_progress' || e.status === 'planned'));
   if (outcome.status === 'abandoned') {
     const entry = open?.status === 'in_progress' ? open : await startWork(workId);

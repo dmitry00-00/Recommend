@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import { markWork } from '@/api';
 import { Button } from './Button';
@@ -24,6 +25,7 @@ export interface QuickMarkProps {
  *  `diary`; эта кнопка — то, что видит новый человек. */
 export function QuickMark({ work, primary, disabled, extra, onDone }: QuickMarkProps) {
   const toast = useToast();
+  const navigate = useNavigate();
   const [step, setStep] = useState<'idle' | 'rate'>('idle');
   const [busy, setBusy] = useState(false);
   const book = work.type === 'book';
@@ -31,12 +33,17 @@ export function QuickMark({ work, primary, disabled, extra, onDone }: QuickMarkP
   const send = (status: 'finished' | 'abandoned', rating?: Score) => {
     setBusy(true);
     markWork(work.id, { status, ...(rating ? { rating } : {}) })
-      .then(({ rated, needed }) => {
+      .then(({ rated, needed, counted }) => {
         const done = status === 'abandoned' ? ru.quick.doneAbandoned : book ? ru.quick.doneRead : ru.quick.doneWatched;
-        // пока ленты нет — говорим, сколько осталось до неё: это и есть онбординг
+        // пока ленты нет — говорим, сколько осталось до неё: это и есть онбординг. Оценка фильма,
+        // которого модель не знает, порог не двигает — честно говорим и ведём в колоду
         const left = needed - rated;
-        const tail = rating && left > 0 ? ` · ${ru.quick.more(left)}` : rating && left === 0 ? ` · ${ru.quick.ready}` : '';
-        toast({ text: `${done}${tail}` });
+        if (rating && left > 0 && !counted) {
+          toast({ text: `${done} · ${ru.quick.notCounted(left)}`, action: ru.quick.toDeck, onAction: () => navigate('/rate') });
+        } else {
+          const tail = rating && left > 0 ? ` · ${ru.quick.more(left)}` : rating && left === 0 && counted ? ` · ${ru.quick.ready}` : '';
+          toast({ text: `${done}${tail}` });
+        }
         setStep('idle');
         onDone?.(status);
       })

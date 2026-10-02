@@ -72,6 +72,12 @@ export const initData = (): string => webApp()?.initData ?? '';
 
 /** Бот, внутри которого живёт мини-приложение: ссылки на него — `https://t.me/recomend_media_bot`. */
 export const BOT_USERNAME = 'recomend_media_bot';
+/** Кому писать первым пользователям (02.10): владелец продукта. */
+export const AUTHOR_USERNAME = 'Tacticheskiy_Enot';
+export const writeAuthorUrl = `https://t.me/${AUTHOR_USERNAME}`;
+/** «Позвать друга»: штатное окно Telegram «переслать» со ссылкой на бота. */
+export const shareUrl = (text: string) =>
+  `https://t.me/share/url?url=${encodeURIComponent(`https://t.me/${BOT_USERNAME}`)}&text=${encodeURIComponent(text)}`;
 
 const root = () => document.documentElement;
 

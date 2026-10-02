@@ -4,16 +4,16 @@ import type {
   DiscussionPlace, DismissReason, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, importHistory, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import {
-  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, QuickMark, ReasonPicker, Skeleton,
+  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
 } from '@/components';
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
 import { useDiary, useMechanics } from '@/lib/settingsStore';
-import { onExternalClick, tap } from '@/lib/telegram';
+import { onExternalClick, openExternal, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
 import { formatDuration, pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
@@ -259,6 +259,8 @@ export function TodayScreen() {
   const toast = useToast();
   const mechanics = useMechanics();
   const diary = useDiary();
+  // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
+  const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const [slate, setSlate] = useState<RecommendationSlate | null>(null);
   const [spoilerLevel, setSpoilerLevel] = useState<SpoilerLevel>(0);
@@ -433,13 +435,27 @@ export function TodayScreen() {
         ) : null}
         {/* Новый участник: ленты ещё нет, и дело не в ошибке — модели не от чего считать.
             Объясняем и ведём туда, где это исправляется за минуту. */}
+        {/* Новый человек (02.10): в Telegram он попадает сюда сразу, мимо приветствия, — поэтому здесь
+            и что это за приложение, и как получить первую ленту, и кому писать */}
         {slate?.coldStart ? (
-          <div className="tm-stream__pad">
-            <EmptyState title={ru.today.coldTitle}
-                        text={`${ru.today.coldText(slate.coldStart.needed)} ${ru.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
-                        action={slate.coldStart.rated ? ru.today.coldMore : ru.today.coldAction}
-                        onAction={() => { tap('medium'); navigate('/rate'); }} />
-          </div>
+          <section className="tm-stream__pad tm-coldstart">
+            <h1 className="tm-title-2 tm-coldstart__title">{ru.today.introTitle}</h1>
+            <p className="tm-body tm-coldstart__text">{ru.today.introText}</p>
+            <p className="tm-body-sm tm-coldstart__text">
+              {`${ru.today.coldText(slate.coldStart.needed)} ${ru.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
+            </p>
+            <div className="tm-row tm-row--gap-2 tm-row--wrap">
+              <Button variant="primary" onClick={() => { tap('medium'); navigate('/rate'); }}>
+                {slate.coldStart.rated ? ru.today.coldMore : ru.today.coldAction}
+              </Button>
+              <Button variant="quiet" onClick={() => { tap(); setImporting(true); }}>{ru.today.coldImport}</Button>
+            </div>
+            <p className="tm-caption tm-coldstart__hint">{ru.today.coldImportHint}</p>
+            <p className="tm-caption tm-coldstart__early">
+              {ru.today.early}{' '}
+              <button type="button" className="tm-coldstart__link" onClick={() => openExternal(writeAuthorUrl)}>{ru.social.write}</button>
+            </p>
+          </section>
         ) : null}
         {slate && !items.length && !slate.coldStart ? (
           <div className="tm-stream__pad">
@@ -475,7 +491,25 @@ export function TodayScreen() {
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
         ))}
         </div> : null}
+        {/* позвать друга — под лентой, тихо: тот, кто долистал, лентой доволен (02.10) */}
+        {items.length ? (
+          <p className="tm-caption tm-stream__pad tm-coldstart__share">
+            {ru.today.shareLead}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); openExternal(shareUrl(ru.social.shareText)); }}>{ru.social.share}</button>
+          </p>
+        ) : null}
       </div>
+
+      <ImportHistorySheet
+        open={importing}
+        onOpenChange={setImporting}
+        onImport={async (texts, ratingNorm) => {
+          if (ratingNorm) await updateSettings({ ratingNorm });
+          const r = await importHistory(texts);
+          setAttempt((a) => a + 1);
+          return r ? { added: r.entries.length, resolved: r.resolved } : undefined;
+        }}
+      />
 
       {/* Карточка того, что смотрите сейчас: описание и чек-ин */}
       <WorkSheet work={openEntry?.work ?? null} open={openEntry != null} onOpenChange={(o) => !o && closeSheet()}

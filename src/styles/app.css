@@ -673,3 +673,11 @@ button.tm-banner { cursor: pointer; }
 .tm-worksheet__plot p { margin: 0; white-space: pre-line; }
 @keyframes tm-plot-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .tm-worksheet__top .tm-banner { transition: none; } .tm-worksheet__plot { animation: none; } }
+
+/* первый вход (02.10): что это, как получить ленту, кому писать */
+.tm-coldstart { display: flex; flex-direction: column; gap: var(--tm-space-3); padding-top: var(--tm-space-5); padding-bottom: var(--tm-space-6); }
+.tm-coldstart__title { margin: 0; }
+.tm-coldstart__text { margin: 0; }
+.tm-coldstart__hint, .tm-coldstart__early { margin: 0; color: var(--tm-color-ink-faint); }
+.tm-coldstart__share { margin: 0; padding-top: var(--tm-space-4); padding-bottom: var(--tm-space-6); color: var(--tm-color-ink-faint); text-align: center; }
+.tm-coldstart__link { padding: 0; border: 0; background: none; color: var(--tm-color-accent, var(--tm-color-ink)); font: inherit; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }

@@ -5,7 +5,7 @@ import { getSession, getShelves, importHistory, isOwnerSession, logout } from '@
 import { loadSettings, saveSettings } from '@/lib/settingsStore';
 import { Button, ConsentCard, Dialog, EnergySwitch, ErrorState, ImportHistorySheet, Skeleton, useToast } from '@/components';
 import { applyTheme } from '@/lib/theme';
-import { BOT_USERNAME } from '@/lib/telegram';
+import { BOT_USERNAME, openExternal, shareUrl, writeAuthorUrl } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import ru from '@/i18n/ru';
 
@@ -278,6 +278,15 @@ export function SettingsScreen() {
           <ConsentCard busy={saving} onAccept={() => save({ researchConsent: true }, ru.settings.consented)}
                        onLater={() => navigate('/today')} />
         )}
+      </section>
+
+      <section className="tm-settings__section">
+        <h2 className="tm-title-3 tm-settings__h">{ru.social.title}</h2>
+        <p className="tm-body-sm tm-settings__note">{ru.social.text}</p>
+        <div className="tm-row tm-row--gap-2 tm-row--wrap">
+          <Button size="sm" onClick={() => openExternal(writeAuthorUrl)}>{ru.social.write}</Button>
+          <Button size="sm" variant="quiet" onClick={() => openExternal(shareUrl(ru.social.shareText))}>{ru.social.share}</Button>
+        </div>
       </section>
 
       <section className="tm-settings__section">

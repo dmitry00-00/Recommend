@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, Register } from '@/types/tmdf';
-import { notWatched, searchCharacters, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
+import { coldStartLeft, notWatched, searchCharacters, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
 import { Button, EmptyState, ErrorState, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration } from '@/lib/format';
 import { registers } from '@/lib/registers';
@@ -84,8 +84,10 @@ export function SearchScreen() {
       .map((h) => (h.work.id === id ? { ...h, watched } : h))
       .filter((h) => query || h.watched));
     setWatched(id, watched)
-      .then(() => toast({
-        text: watched ? ru.search.added : ru.search.removed,
+      // пока первой ленты нет, «Смотрел» её не приближает — говорим это сразу (02.10)
+      .then(() => (watched ? coldStartLeft() : 0))
+      .then((left) => toast({
+        text: watched ? (left ? `${ru.search.added} · ${ru.quick.notCounted(left)}` : ru.search.added) : ru.search.removed,
         ...(undo ? { action: ru.actions.undo, onAction: () => apply(id, !watched, false) } : {}),
       }))
       .catch(() => {
