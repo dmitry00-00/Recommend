@@ -7,7 +7,7 @@ import { getDiscussions, getJourney, getSettings, getWork, planWork, startWork }
 import {
   BarrierTag, Button, CoMentionList, DiscussionLink, EmptyState, ErrorState, FilmFormNote, OperationChip,
   ReadinessNotice, Skeleton, SpoilerGuard, TagNeighbourList, TropeInsight, TropeMentionList,
-  WorkCover, WorkHeader, WorkVoices, useToast,
+  QuickMark, WorkCover, WorkHeader, WorkVoices, useToast,
 } from '@/components';
 import { Meta } from '@/components/Meta';
 import { workMeta } from '@/lib/format';
@@ -54,6 +54,8 @@ export function WorkScreen() {
   const [attempt, setAttempt] = useState(0);
   const [saved, setSaved] = useState(false);
   const [starting, setStarting] = useState(false);
+  // облегчённый учёт (02.10): отметка «посмотрел/бросил» прямо здесь, без перезагрузки экрана
+  const [marked, setMarked] = useState<'finished' | 'abandoned' | null>(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -111,7 +113,8 @@ export function WorkScreen() {
 
   const { work, discussions, journal, settings } = data;
   // Выбор из данных, не расчёт: завершено ли — по дневнику; что можно открывать — по настройке.
-  const finished = journal.some((e) => e.work.id === work.id && e.status === 'finished');
+  const finished = marked === 'finished' || journal.some((e) => e.work.id === work.id && e.status === 'finished');
+  const abandoned = !finished && (marked === 'abandoned' || journal.some((e) => e.work.id === work.id && e.status === 'abandoned'));
   const mechanics = settings.showDetails;
   const allowed: SpoilerLevel = finished ? 2 : settings.spoilerLevel;
   const openInsights = work.tropeInsights.filter((t) => t.spoilerLevel <= allowed);
@@ -164,12 +167,21 @@ export function WorkScreen() {
         {work.prerequisites.length ? (
           <ReadinessNotice readiness={{ ready: unmet.length === 0, missing: unmet }} />
         ) : null}
-        <div className="tm-row tm-row--gap-2 tm-row--wrap tm-work__actions">
-          <Button variant="primary" loading={starting} disabled={finished} onClick={start}>
-            {work.type === 'book' ? ru.feed.readingMark : ru.feed.watchingMark}
-          </Button>
-          <Button pressed={saved} disabled={saved || finished} onClick={plan}>{ru.actions.save}</Button>
-        </div>
+        {settings.diary ? (
+          <div className="tm-row tm-row--gap-2 tm-row--wrap tm-work__actions">
+            <Button variant="primary" loading={starting} disabled={finished} onClick={start}>
+              {work.type === 'book' ? ru.feed.readingMark : ru.feed.watchingMark}
+            </Button>
+            <Button pressed={saved} disabled={saved || finished} onClick={plan}>{ru.actions.save}</Button>
+          </div>
+        ) : finished ? null : (
+          // облегчённый учёт (02.10): «посмотрел» с оценкой, «бросил», «в планы» — без «смотрю сейчас»
+          <div className="tm-work__actions">
+            <QuickMark work={work} primary onDone={setMarked}
+                       extra={<Button pressed={saved} disabled={saved} onClick={plan}>{ru.actions.save}</Button>} />
+            {abandoned ? <p className="tm-caption tm-work__finished">{ru.quick.abandonedMark}</p> : null}
+          </div>
+        )}
       </WorkHeader>
 
       <div className="tm-work__sections">

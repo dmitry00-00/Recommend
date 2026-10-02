@@ -6,13 +6,13 @@ import type {
 } from '@/types/tmdf';
 import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import {
-  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ReasonPicker, Skeleton,
+  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
 } from '@/components';
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
-import { useMechanics } from '@/lib/settingsStore';
+import { useDiary, useMechanics } from '@/lib/settingsStore';
 import { onExternalClick, tap } from '@/lib/telegram';
 import { formatDuration, pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
@@ -258,6 +258,7 @@ export function TodayScreen() {
   const navigate = useNavigate();
   const toast = useToast();
   const mechanics = useMechanics();
+  const diary = useDiary();
   const mainRef = useRef<HTMLElement>(null);
   const [slate, setSlate] = useState<RecommendationSlate | null>(null);
   const [spoilerLevel, setSpoilerLevel] = useState<SpoilerLevel>(0);
@@ -359,7 +360,16 @@ export function TodayScreen() {
       .then(() => { setOpen(null); setCurrent((list) => list.filter((x) => x.id !== e.id)); toast({ text: ru.toast.notWatched }); })
       .catch(() => toast({ text: ru.settings.errorSave }));
   };
-  const answers = (e: JourneyEntryData, big = false) => (
+  // облегчённый учёт (02.10): «посмотрел» с оценкой и «бросил» прямо в ленте, без экрана чек-ина
+  const quickDone = (e: JourneyEntryData) => {
+    setOpen(null);
+    setCurrent((list) => list.filter((x) => x.id !== e.id));
+    setAttempt((a) => a + 1);
+  };
+  const answers = (e: JourneyEntryData, big = false) => (!diary ? (
+    <QuickMark work={e.work} primary={big} onDone={() => quickDone(e)}
+               extra={<Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ru.feed.notYetRead : ru.feed.notYet}</Button>} />
+  ) : (
     <>
       <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in`); }}>
         {isSeries(e.work) ? ru.seriesDiary.finishSeason(e.seriesProgress?.season ?? 1)
@@ -373,7 +383,7 @@ export function TodayScreen() {
         <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}`); }}>{ru.feed.whereNow}</Button>
       ) : null}
     </>
-  );
+  ));
 
   const items = slate?.items ?? [];
   const openEntry = current.find((e) => e.id === open) ?? null;

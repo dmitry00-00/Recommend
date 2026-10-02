@@ -10,6 +10,7 @@ import { pick, tap } from '@/lib/telegram';
 import { opVar } from '@/lib/operations';
 import ru from '@/i18n/ru';
 import { isSeries } from '@/lib/media';
+import { useDiary } from '@/lib/settingsStore';
 
 const DEBOUNCE = 250;
 
@@ -20,6 +21,7 @@ const DEBOUNCE = 250;
 export function SearchScreen() {
   const navigate = useNavigate();
   const toast = useToast();
+  const diary = useDiary();
   const [query, setQuery] = useState('');
   const [hits, setHits] = useState<SearchHit[] | null>(null);
   const [failed, setFailed] = useState(false);
@@ -201,7 +203,8 @@ export function SearchScreen() {
                       onClick={() => apply(hit.work.id, !hit.watched)}>
                 {hit.watched ? ru.search.unmark : ru.search.mark}
               </Button>
-              {!hit.watched && !isSeries(hit.work) ? (
+              {/* «Смотрю» — часть подробного дневника (02.10): в облегчённом учёте хватает «Смотрел» */}
+              {diary && !hit.watched && !isSeries(hit.work) ? (
                 <Button size="sm" variant="quiet" pressed={hit.watching} disabled={hit.watching || busy.includes(hit.work.id)}
                         onClick={() => watchingNow(hit.work.id)}>
                   {hit.work.type === 'book'

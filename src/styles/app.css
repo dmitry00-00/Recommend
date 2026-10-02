@@ -655,3 +655,9 @@ button.tm-banner { cursor: pointer; }
 .tm-universe__order { margin-top: var(--tm-space-4); flex-wrap: wrap; }
 .tm-universe__chain { counter-reset: none; }
 .tm-universe__static { cursor: default; }
+
+/* облегчённый учёт (02.10): «Посмотрел» → шкала из пяти слов в одно касание */
+.tm-quick { display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-quick.tm-row { flex-direction: row; }
+.tm-quick__how { color: var(--tm-color-ink-faint); }
+.tm-quick__scale { display: flex; flex-wrap: wrap; gap: var(--tm-space-1); }

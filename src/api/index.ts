@@ -699,7 +699,9 @@ export async function getScaleQuestion(): Promise<{ median: number; count: numbe
 }
 
 /** Сколько оценок нужно, чтобы подбор стал подбором, а не угадыванием. */
-export const MIN_RATED = 10;
+// 02.10: первая лента — после пяти оценок, а не десяти (порог входа); модели состояния хватает
+// трёх досмотренных (deriveState), дальше подбор уточняется по ходу
+export const MIN_RATED = 5;
 
 const history = (): RatedEntry[] => {
   const seenKey = new Set<string>();
@@ -1358,6 +1360,25 @@ export async function startWork(workId: ID, expected?: PerceivedDifficulty, opts
   if (!known) (store.onServer ? serverJournal : imported).unshift(entry);
   await store.start(workId, work, expected, model, entry.id, modelOdds, opts.inferred);
   return withPrediction(entry);
+}
+
+/** Облегчённый учёт (02.10): «посмотрел» — с оценкой в одно касание или без неё, «бросил» — без
+ *  расспросов. Под капотом — те же записи, что у подробного дневника: начатое или отложенное
+ *  закрывается чек-ином, оценка уходит в модель (`rateWork`), брошенное становится записью
+ *  `abandoned` — для подбора по силам это самый ценный сигнал. Просмотренное без оценки и без
+ *  записи — «уже видел» (`setWatched`): в подбор не попадёт, но и вкус не уточнит. */
+export async function markWork(workId: ID, outcome: { status: 'finished' | 'abandoned'; rating?: 1 | 2 | 3 | 4 | 5 }): Promise<{ rated: number; needed: number }> {
+  await catalog();
+  const open = history().find((e) => e.work.id === workId && (e.status === 'in_progress' || e.status === 'planned'));
+  if (outcome.status === 'abandoned') {
+    const entry = open?.status === 'in_progress' ? open : await startWork(workId);
+    if (entry) await checkIn(entry.id, { status: 'abandoned' });
+    return { rated: ratedCount(), needed: MIN_RATED };
+  }
+  if (open) await checkIn(open.id, { status: 'finished', ...(outcome.rating ? { rating: outcome.rating } : {}) });
+  if (outcome.rating) return rateWork(workId, outcome.rating);
+  if (!open) await setWatched(workId, true);
+  return { rated: ratedCount(), needed: MIN_RATED };
 }
 
 /** «Ещё не смотрел»: начатое возвращается в планы. `expired` — вопрос остался без ответа;

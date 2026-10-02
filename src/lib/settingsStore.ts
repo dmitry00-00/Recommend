@@ -31,6 +31,11 @@ export function useSettings(): UserSettings | null {
   return useSyncExternalStore(subscribe, snapshot, snapshot);
 }
 
+/** Подробный дневник или облегчённый учёт (02.10). До загрузки — облегчённый. */
+export function useDiary(): boolean {
+  return useSettings()?.diary ?? false;
+}
+
 /** Показывать ли механику. До загрузки настроек — нет: экран не должен мигать чипами. */
 export function useMechanics(): boolean {
   return useSettings()?.showDetails ?? false;

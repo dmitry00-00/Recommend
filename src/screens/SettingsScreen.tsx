@@ -165,6 +165,17 @@ export function SettingsScreen() {
 
       <section className="tm-settings__section">
         <label className="tm-settings__switch">
+          <input type="checkbox" role="switch" checked={settings.diary ?? false} disabled={saving}
+                 onChange={(e) => save({ diary: e.target.checked })} />
+          <span>
+            <span className="tm-title-3 tm-settings__h">{ru.settings.diary}</span>
+            <span className="tm-body-sm tm-settings__note">{ru.settings.diaryText}</span>
+          </span>
+        </label>
+      </section>
+
+      <section className="tm-settings__section">
+        <label className="tm-settings__switch">
           <input type="checkbox" role="switch" checked={settings.showDetails} disabled={saving}
                  onChange={(e) => save({ showDetails: e.target.checked })} />
           <span>

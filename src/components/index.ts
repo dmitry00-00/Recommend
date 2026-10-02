@@ -77,3 +77,4 @@ export { WorkHeader } from './WorkHeader';
 export { WorkSheet } from './WorkSheet';
 export { WorkVoices, VoiceStrip, useVoices, Material, Post, Avatar } from './WorkVoices';
 export { FilmTabs } from './FilmTabs';
+export { QuickMark } from './QuickMark';

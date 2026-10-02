@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type { JourneyEntryData } from '@/types/tmdf';
 import { getJourney, startWork, unplanWork } from '@/api';
-import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
+import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
+import { useDiary } from '@/lib/settingsStore';
 import { tap } from '@/lib/telegram';
 import { formatDate } from '@/lib/format';
 import ru from '@/i18n/ru';
@@ -17,6 +18,7 @@ export function JournalScreen() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
+  const diary = useDiary();
   const toast = useToast();
 
   useEffect(() => {
@@ -100,7 +102,12 @@ export function JournalScreen() {
                       book={openEntry.work.type === 'book' ? openEntry.work : undefined}
                       // Карточка архива статична (24.09): ни строки статуса, ни «Открыть запись»,
                       // ни «Начать смотреть». У отложенного — только «Убрать из планов», в углу
-                      corner={openEntry.status === 'planned' ? (
+                      // облегчённый учёт (02.10): из планов и начатого — сразу «посмотрел» с оценкой или «бросил»
+                      corner={!diary && (openEntry.status === 'planned' || openEntry.status === 'in_progress') ? (
+                        <QuickMark work={openEntry.work} onDone={() => { setOpen(null); setAttempt((a) => a + 1); }}
+                                   extra={openEntry.status === 'planned'
+                                     ? <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ru.feed.unplan}</Button> : undefined} />
+                      ) : openEntry.status === 'planned' ? (
                         <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ru.feed.unplan}</Button>
                       ) : openEntry.status === 'in_progress' && (openEntry.work.type === 'book' || openEntry.work.type === 'series') ? (
                         // сериал и книга в процессе — сезон, часть, страница на странице записи (Е3, З5)
