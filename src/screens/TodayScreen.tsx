@@ -16,6 +16,7 @@ import { useDiary, useMechanics } from '@/lib/settingsStore';
 import { onExternalClick, openExternal, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
 import { formatDuration, pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
+import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 import { isScreen, isSeries } from '@/lib/media';
 
@@ -391,10 +392,10 @@ export function TodayScreen() {
   const openEntry = current.find((e) => e.id === open) ?? null;
   const openRec = items.find((r) => r.id === open) ?? null;
   const recMeta = (r: Recommendation) =>
-    [r.work.year, r.work.creators[0], formatDuration(r.work.durationMinutes)].filter(Boolean).join(' · ');
+    [r.work.year, leadName(r.work), formatDuration(r.work.durationMinutes)].filter(Boolean).join(' · ');
   // вопрос «посмотрели?» стоит под баннером — в мете его не повторяем
   const entryMeta = (e: JourneyEntryData) =>
-    [e.work.year, e.work.creators[0], e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
+    [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
     <main className="tm-shell__main tm-stream" ref={mainRef}>
       <h1 className="tm-sr">{ru.nav.today}</h1>

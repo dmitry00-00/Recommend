@@ -8,6 +8,7 @@ import { registers } from '@/lib/registers';
 import { cx } from '@/lib/cx';
 import { pick, tap } from '@/lib/telegram';
 import { opVar } from '@/lib/operations';
+import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 import { isSeries } from '@/lib/media';
 import { useDiary } from '@/lib/settingsStore';
@@ -106,7 +107,7 @@ export function SearchScreen() {
   const shown = !query && reg ? list.filter((h) => h.work.registers?.includes(reg)) : list;
 
   const meta = (hit: SearchHit) =>
-    [hit.work.year, hit.work.creators[0], formatDuration(hit.work.durationMinutes)].filter(Boolean).join(' · ');
+    [hit.work.year, leadName(hit.work), formatDuration(hit.work.durationMinutes)].filter(Boolean).join(' · ');
 
   return (
     <main className="tm-shell__main tm-search">

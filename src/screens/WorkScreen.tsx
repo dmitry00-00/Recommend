@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import { Meta } from '@/components/Meta';
 import { workMeta } from '@/lib/format';
-import { creditsOf, personRef } from '@/lib/credits';
+import { creditsOf, personRef, readableName } from '@/lib/credits';
 import { SearchLine } from './TodayScreen';
 import ru from '@/i18n/ru';
 
@@ -148,9 +148,9 @@ export function WorkScreen() {
     <main className="tm-shell__main">
       <WorkHeader work={work} showDetails={settings.showDetails}>
         {/* кто сделал — ссылками на страницу автора (Д3): «это Вильнёв — а что ещё у него» */}
-        {creditsOf(work).length ? (
+        {creditsOf(work).filter((c) => readableName(c.name)).length ? (
           <p className="tm-voice__outlets tm-work__people">
-            {creditsOf(work).slice(0, 6).map((c) => (
+            {creditsOf(work).filter((c) => readableName(c.name)).slice(0, 6).map((c) => (
               <Link key={`${c.role}-${personRef(c)}`} className="tm-voice__chip" to={`/person/${encodeURIComponent(personRef(c))}`}>
                 {ru.person.roleOf[c.role]}: {c.name}
               </Link>

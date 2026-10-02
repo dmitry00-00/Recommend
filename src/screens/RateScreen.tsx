@@ -7,6 +7,7 @@ import { cx } from '@/lib/cx';
 import { opVar } from '@/lib/operations';
 import { outcome, pick, tap } from '@/lib/telegram';
 import { useSwipe } from '@/lib/swipe';
+import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 
 type Score = 1 | 2 | 3 | 4 | 5;
@@ -158,7 +159,7 @@ function RateRow({ work, rating, off, onRate, onSkip }: {
         </span>
         <span className="tm-search__text">
           <span className="tm-search__name">{work.title}</span>
-          <span className="tm-search__meta">{meta(work.year, work.creators[0])}</span>
+          <span className="tm-search__meta">{meta(work.year, leadName(work))}</span>
           {off ? <span className="tm-search__orig">{ru.rate.skipped}</span> : null}
         </span>
       </div>

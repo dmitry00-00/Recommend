@@ -5,6 +5,7 @@ import { EmptyState, ErrorState, Skeleton } from '@/components';
 import { monogram } from '@/lib/voices';
 import { onExternalClick } from '@/lib/telegram';
 import { opVar } from '@/lib/operations';
+import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 
 const OUTLET = { youtube: ru.voices.outletYoutube, telegram: ru.voices.outletTelegram, chat: ru.voices.outletChat } as const;
@@ -79,7 +80,7 @@ export function VoiceScreen() {
                   </span>
                   <span className="tm-search__text">
                     <span className="tm-search__name">{work.title}</span>
-                    <span className="tm-search__meta">{[work.year, work.creators[0]].filter(Boolean).join(' · ')}</span>
+                    <span className="tm-search__meta">{[work.year, leadName(work)].filter(Boolean).join(' · ')}</span>
                     <span className="tm-search__orig">
                       {analyses[0].title}
                       {analyses.length > 1 ? ` · ${ru.voices.nextItem(analyses.length - 1)}` : ''}

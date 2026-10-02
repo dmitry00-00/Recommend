@@ -6,6 +6,7 @@ import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton
 import { useDiary } from '@/lib/settingsStore';
 import { tap } from '@/lib/telegram';
 import { formatDate } from '@/lib/format';
+import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 
 /** Архив (/journal): всё просмотренное и прочитанное лентой баннеров, как архив чатов в
@@ -91,7 +92,7 @@ export function JournalScreen() {
       ))}</div> : null}
 
       <WorkSheet work={openEntry?.work ?? null} open={openEntry != null} onOpenChange={(o) => !o && close()}
-                 meta={openEntry ? [openEntry.work.year, openEntry.work.creators[0],
+                 meta={openEntry ? [openEntry.work.year, leadName(openEntry.work),
                                     openEntry.status === 'planned' && openEntry.eagerness ? ru.feed.wantMeta(openEntry.eagerness) : null,
                                    ].filter(Boolean).join(' · ') : undefined}
                  tag={openEntry?.status === 'in_progress' || openEntry?.status === 'planned' ? ru.journeyStatus[openEntry.status] : undefined}>

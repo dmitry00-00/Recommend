@@ -30,6 +30,32 @@ export function creditsOf(w: Authored, people?: Readonly<Record<PersonId, Person
   return w.creators.filter(Boolean).map((name) => ({ role, name }));
 }
 
+const CYRILLIC = /[А-Яа-яЁё]/;
+// латиницей — только полное имя («Bryan Fuller»): одна фамилия («Miller») в русской подписи выглядит обрывком
+const FULL_LATIN = /^[A-Za-z][A-Za-z.'’-]*(?:\s+[A-Za-z.'’-]+)+$/;
+
+/** Имя для строки под названием (02.10): главный автор по-русски из справочника; нет — что пришло
+ *  с карточкой, если оно по-русски или полным именем латиницей. Иероглифы и одну фамилию не
+ *  показываем вовсе: лучше пустая строка, чем «陆川» или «Miller». */
+/** Имя для подписи (02.10): русская метка Wikidata бывает полной — «Эльдар Александрович Рязанов»,
+ *  «Мегердичев, Антон Евгеньевич». В подписи — «Имя Фамилия», без отчества. */
+export function shortName(name: string): string {
+  let n = name.trim();
+  const inverted = /^([^,]+),\s*(.+)$/u.exec(n);
+  if (inverted && CYRILLIC.test(n)) n = `${inverted[2]} ${inverted[1]}`;
+  const words = n.split(/\s+/);
+  if (words.length === 3 && /(?:ович|евич|ьич|овна|евна|ична|инична)$/u.test(words[1])) n = `${words[0]} ${words[2]}`;
+  return n;
+}
+
+export const readableName = (n: string): boolean => CYRILLIC.test(n) || FULL_LATIN.test(n.trim());
+
+export function leadName(w: Authored): string | undefined {
+  const names = leadCredits(w).map((c) => c.name);
+  const readable = (n: string) => CYRILLIC.test(n) || FULL_LATIN.test(n.trim());
+  return names.find((n) => CYRILLIC.test(n)) ?? names.find(readable) ?? w.creators.find(readable);
+}
+
 /** Главные авторы — те, чьё имя идёт в строку под названием: режиссёр фильма, создатель
  *  сериала, автор книги. Сценаристы — в `creditsOf`, но не здесь. */
 export function leadCredits(w: Authored, people?: Readonly<Record<PersonId, Person>>): CreditView[] {
@@ -69,7 +95,7 @@ export function decodeCredits(row: string | undefined, people: Readonly<Record<P
     const [personId, code] = pair.split(':');
     const role = ROLE_BY_CODE[code];
     const name = people[personId]?.name;
-    return role && name ? [{ personId, role, name }] : [];
+    return role && name ? [{ personId, role, name: shortName(name) }] : [];
   });
 }
 

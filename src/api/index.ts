@@ -564,7 +564,9 @@ const kp = import.meta.env.VITE_KP_PROXY === '1' && typeof location !== 'undefin
 // Карточки из бандла не несут внешних ID — подкладываем их из externalIds.ts перед обогащением.
 // Обогащение не должно держать экран: не успело за 6 секунд — карточки уходят как есть,
 // а результат осядет в кэше к следующему разу.
-const withMedia = (c: WorkCard): WorkCard => withBookMedia({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] });
+// авторы из справочника (Д3) — сразу при карточке: подпись под названием берёт оттуда русское имя
+// режиссёра, а не то, что пришло с карточкой («Miller», «陆川»; 02.10)
+const withMedia = (c: WorkCard): WorkCard => withCredits(withBookMedia({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] }));
 /** Книге — метаданные Wikidata и Open Library (З3) по любому её ключу. Своё главнее: заполняем
  *  пустое; название — русским, если у карточки оно не по-русски (из экспорта Goodreads приходит
  *  английское), а прежнее уходит в оригинальное. */
