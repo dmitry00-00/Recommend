@@ -11,7 +11,20 @@
 //     названию ролика (links-desk.mts, тем же сопоставителем, что и индекс разборов).
 import { normalizeTitle } from '../src/lib/import/match.ts';
 
-export interface PastedVideo { id: string; url: string; film?: string; year?: number; line: number }
+/** Вид ошибки опознавателя (02.10, разметка владельца): заголовком раздела заметок («# не тот фильм»)
+ *  или хэштегом у строки (#нетот, #нефильм, #несколько). Те же три значения — колонка «Ошибка» таблицы. */
+export type MarkupError = 'не тот фильм' | 'не фильм' | 'несколько фильмов';
+export function errorOf(text: string): MarkupError | undefined {
+  const t = text.toLowerCase().replace(/ё/g, 'е');
+  if (/не\s*тот|#нетот/.test(t)) return 'не тот фильм';
+  if (/не\s*фильм|не\s*про\s*фильм|#нефильм/.test(t)) return 'не фильм';
+  if (/несколько|#несколько|#многофильм/.test(t)) return 'несколько фильмов';
+  return undefined;
+}
+/** строка-раздел вида ошибки: «# не фильм», «## Несколько фильмов», «#нетот» */
+const ERROR_SECTION = /^#+\s*(?:не\s*тот|не\s*фильм|не\s*про\s*фильм|несколько)|^#(?:нетот|нефильм|несколько)\b/iu;
+
+export interface PastedVideo { id: string; url: string; film?: string; year?: number; line: number; err?: MarkupError }
 export interface PastedChannel { handle?: string; channelId?: string; url: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book'; line: number }
 export interface Pasted { videos: PastedVideo[]; channels: PastedChannel[]; other: string[] }
 
@@ -42,12 +55,20 @@ export function parsePaste(text: string): Pasted {
   const out: Pasted = { videos: [], channels: [], other: [] };
   let film: string | undefined;
   let hint: Pick<PastedChannel, 'tier' | 'medium'> = {};
+  let err: MarkupError | undefined;
   const seenV = new Set<string>(), seenC = new Set<string>();
   text.split(/\r?\n/).forEach((raw, i) => {
     const urls = [...raw.matchAll(URL_RE)].map((m) => m[0]);
-    const words = cleanText(raw);
+    // строка, скопированная из таблицы разметки (ссылка, фильм, заголовок, канал, дата через табуляцию):
+    // фильм — первая ячейка после ссылки; без табуляции — «Название (год)» в начале текста
+    const cells = raw.split('\t').map((c) => c.trim()).filter((c) => c && !/^https?:\/\//i.test(c));
+    const fromTable = urls.length && cells.length >= 2 ? cells[0] : undefined;
+    const lead = urls.length && !fromTable ? /^(.+?\((?:сериал,\s*)?(?:19|20)\d{2}\))/u.exec(cleanText(raw))?.[1] : undefined;
+    const words = fromTable ?? lead ?? cleanText(raw);
+    const tagged = urls.length ? errorOf(raw.replace(URL_RE, ' ').match(/#\p{L}+/gu)?.join(' ') ?? '') : undefined;
     if (!urls.length) {
       if (!words) return;
+      if (ERROR_SECTION.test(raw.trim())) { err = errorOf(raw); film = undefined; return; }
       if (SECTION.test(words)) { hint = sectionHint(words); film = undefined; return; }
       film = words;
       return;
@@ -61,8 +82,11 @@ export function parsePaste(text: string): Pasted {
         if (seenV.has(v[1])) continue;
         seenV.add(v[1]);
         const name = lineFilm ?? film;
-        const { title, year } = name ? splitYear(name) : { title: undefined, year: undefined };
-        out.videos.push({ id: v[1], url: `https://www.youtube.com/watch?v=${v[1]}`, ...(title ? { film: title } : {}), ...(year ? { year } : {}), line: i + 1 });
+        // ярлык сериала из таблицы («Дом Дракона (сериал, 2022)») — целиком: matchFilm узнаёт его как есть
+        const { title, year } = !name ? { title: undefined, year: undefined }
+          : /\(сериал,\s*(?:19|20)\d{2}\)$/u.test(name) ? { title: name, year: undefined } : splitYear(name);
+        const e = tagged ?? err;
+        out.videos.push({ id: v[1], url: `https://www.youtube.com/watch?v=${v[1]}`, ...(title ? { film: title } : {}), ...(year ? { year } : {}), line: i + 1, ...(e ? { err: e } : {}) });
         continue;
       }
       const c = CHANNEL.exec(url);

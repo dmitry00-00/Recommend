@@ -138,6 +138,7 @@ function render() {
     const tags = [
       i.film && i.how && HOW[i.how] ? `<span class="tag">${HOW[i.how]}</span>` : '',
       i.check ? '<span class="tag warn">в названии ролика этого фильма нет — проверьте</span>' : '',
+      i.err ? `<span class="tag warn">ошибка: ${esc(i.err)}</span>` : '',
       i.key === null && i.film ? '<span class="tag warn">нет у нас — опознаем по названию при следующей синхронизации</span>' : '',
       i.typed && i.key === null ? `<span class="tag">в заметках: «${esc(i.typed)}»</span>` : '',
       i.existing ? `<span class="tag ${i.saved ? 'ok' : ''}">${i.saved ? 'сохранено' : 'уже в разметке'}: ${esc(i.existing.film ?? '—')}</span>` : '',

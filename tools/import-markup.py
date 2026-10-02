@@ -103,14 +103,37 @@ was = {}
 if os.path.exists(OUT):
     was = json.load(open(OUT, encoding='utf-8')).get('videos', {})
 
-verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0,
+verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0, 'не тот фильм': 0,
                               'нет у нас': 0, 'пропустили': 0, 'со стороны фильма': 0, 'из корпуса': 0,
                               'изменили прежнее': 0, 'без изменений': 0, 'опознали по названию': 0,
                               'опознали, на проверку': 0}
 rows_read = 0
 
 # guess — выбор опознавателя из тёзок: «да» в «Проверено» снимает пометку, это тоже изменение
-SAME = ('key', 'why', 'film', 'guess')
+SAME = ('key', 'why', 'film', 'guess', 'err', 'also', 'alsoFilms')
+
+# Вид ошибки (колонка «Ошибка», 02.10): те же три значения, что у пульта ссылок; хэштеги тоже понимаем
+def error_of(text):
+    t = str(text or '').strip().lower().replace('ё', 'е')
+    if not t:
+        return None
+    if re.search(r'не\s*тот|#нетот', t):
+        return 'не тот фильм'
+    if re.search(r'не\s*фильм|не\s*про\s*фильм|#нефильм', t):
+        return 'не фильм'
+    if re.search(r'несколько|#несколько', t):
+        return 'несколько фильмов'
+    return None
+
+def also_of(text):
+    """«Ещё фильмы»: ярлыки через «;» или с новой строки → ключи; неизвестные — названием"""
+    ks, names = [], []
+    for part in re.split(r'[;\n]+', str(text or '')):
+        p = part.strip()
+        if not p:
+            continue
+        (ks if p in keys else names).append(keys.get(p, p))
+    return ks, names
 
 def put(vid, v, bucket):
     old = was.get(vid)
@@ -128,8 +151,8 @@ def put(vid, v, bucket):
 for name in SHEETS:
     ws = wb[name]
     rows_read += ws.max_row - 1
-    for row in ws.iter_rows(min_row=2, max_col=6, values_only=True):
-        url, film, _title, _ch, _date, checked = (list(row) + [None] * 6)[:6]
+    for row in ws.iter_rows(min_row=2, max_col=8, values_only=True):
+        url, film, _title, _ch, _date, checked, err_cell, also_cell = (list(row) + [None] * 8)[:8]
         if not url:
             continue
         m = VIDEO.search(str(url))
@@ -140,6 +163,20 @@ for name in SHEETS:
         film = str(int(film)) if isinstance(film, float) and film.is_integer() else (str(film).strip() if film else '')
         ok = str(checked).strip().lower() in ('да', 'yes', 'x', '+', 'true', '1') if checked else False
         before = guess.get(vid, '')
+        err = error_of(err_cell)
+        also_keys, also_names = also_of(also_cell)
+        extra = {**({'err': err} if err else {}), **({'also': also_keys} if also_keys else {}),
+                 **({'alsoFilms': also_names} if also_names else {})}
+        # «не фильм» и «не тот фильм» — решение и без «да»: привязку снимаем; фильм в колонке — та
+        # самая ошибочная догадка (или исправленный фильм, если его поменяли — тогда это поправка)
+        if err == 'не фильм':
+            put(vid, {'key': None, 'why': 'не про фильм', **extra}, 'не про фильм')
+            continue
+        if err == 'не тот фильм' and (not film or film == before):
+            put(vid, {'key': None, 'why': 'не тот фильм', **({'film': film} if film else {}), **extra}, 'не тот фильм')
+            continue
+        if err:
+            ok = True   # вид ошибки поставил человек — строку он смотрел
 
         if not film:
             stats['пропустили'] += 1
@@ -149,9 +186,9 @@ for name in SHEETS:
             continue
 
         if film == NOT_A_FILM:
-            put(vid, {'key': None, 'why': 'не про фильм'}, 'не про фильм')
+            put(vid, {'key': None, 'why': 'не про фильм', **extra}, 'не про фильм')
         elif film in keys:
-            put(vid, {'key': keys[film], 'film': film}, 'подтвердили' if film == before else 'поправили')
+            put(vid, {'key': keys[film], 'film': film, **extra}, 'подтвердили' if film == before else 'поправили')
         elif resolved.get(vid, {}).get('typed') == film and resolved[vid].get('key'):
             r = resolved[vid]
             if r.get('sure'):

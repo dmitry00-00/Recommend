@@ -13,7 +13,7 @@ import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
 import { oembed, recalled, videosApi, type VideoMeta } from './youtube.mts';
-import { filmOptions, matchFilm, parsePaste, sourceLine, titleMentions } from './links-desk-lib.mts';
+import { filmOptions, matchFilm, parsePaste, sourceLine, titleMentions, type MarkupError } from './links-desk-lib.mts';
 import { sources } from '../src/mocks/sources.ts';
 
 loadEnvFile();
@@ -31,7 +31,7 @@ const films = filmOptions(worksIndex({ all: true }));
 const byKey = new Map(films.map((f) => [f.key, f]));
 const byLabel = new Map(films.map((f) => [f.label.toLowerCase(), f]));
 
-type Verdict = { key: string | null; film?: string; why?: string; from?: string; guess?: boolean; at?: string; title?: string };
+type Verdict = { key: string | null; film?: string; why?: string; from?: string; guess?: boolean; at?: string; title?: string; err?: MarkupError };
 const readVerdicts = (): { body: Record<string, unknown>; videos: Record<string, Verdict> } => {
   const body = existsSync(VERDICTS) ? JSON.parse(readFileSync(VERDICTS, 'utf8')) as Record<string, unknown> : {};
   return { body, videos: (body.videos ?? {}) as Record<string, Verdict> };
@@ -50,6 +50,8 @@ interface Item {
   /** уже в разметке */
   existing?: { key: string | null; film?: string };
   saved?: boolean;
+  /** вид ошибки опознавателя — из раздела заметок или хэштега (02.10) */
+  err?: MarkupError;
 }
 interface Chan {
   id: string; handle?: string; channelId?: string; url: string; line: number;
@@ -126,7 +128,7 @@ function addText(text: string): { videos: number; channels: number; other: strin
   let known = 0;
   for (const v of p.videos) {
     if (items.has(v.id)) continue;
-    const it: Item = { id: v.id, url: v.url, line: v.line, ...(v.film ? { typed: v.film } : {}), ...(v.year ? { year: v.year } : {}), how: 'none', options: [] };
+    const it: Item = { id: v.id, url: v.url, line: v.line, ...(v.film ? { typed: v.film } : {}), ...(v.year ? { year: v.year } : {}), ...(v.err ? { err: v.err } : {}), how: 'none', options: [] };
     const ex = done[v.id];
     if (ex) { it.existing = { key: ex.key, ...(ex.film ? { film: ex.film } : {}) }; known++; }
     placeFilm(it);
@@ -161,17 +163,31 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
   const { body, videos } = readVerdicts();
   let saved = 0, unknown = 0;
   for (const it of items.values()) {
-    if (it.saved || it.key === undefined || !it.film) continue;
+    if (it.saved) continue;
+    // вид ошибки (02.10): «не фильм» и «не тот фильм» снимают привязку — фильм в строке это
+    // как раз ошибочная догадка; «несколько фильмов» — названный фильм верен, остальные — позже (OPS-8)
+    if (it.err === 'не фильм' || it.err === 'не тот фильм') {
+      const v: Verdict = { key: null, why: it.err === 'не фильм' ? 'не про фильм' : 'не тот фильм', err: it.err, from: 'desk', at: today,
+        ...(it.film ? { film: it.film } : {}) };
+      const ex = videos[it.id];
+      if (ex && ex.key === null && ex.err === it.err) { it.saved = true; continue; }
+      videos[it.id] = v;
+      it.saved = true;
+      it.existing = { key: null, film: v.film };
+      saved++;
+      continue;
+    }
+    if (it.key === undefined || !it.film) continue;
     // «нет у нас» — в виде, который поймёт опознаватель (resolve-markup-films.mts): «Название (год)»;
     // «сериал» из ярлыка и название ролика — в `title`, по ним он выбирает между фильмом и сериалом
     const series = /\(сериал/i.test(it.film);
     const plain = it.film.replace(/\s*\((?:сериал,?\s*)?((?:19|20)\d{2})?\)\s*$/i, (_, y) => (y ? ` (${y})` : '')).trim();
     // фильм, угаданный по названию ролика, — догадка: в таблице разметки он приходит непроверенным
-    const v: Verdict = it.key ? { key: it.key, film: it.film, from: 'desk', at: today, ...(it.how === 'title' ? { guess: true } : {}) }
+    const v: Verdict = it.key ? { key: it.key, film: it.film, from: 'desk', at: today, ...(it.how === 'title' ? { guess: true } : {}), ...(it.err ? { err: it.err } : {}) }
       : { key: null, why: 'нет у нас', film: plain, from: 'desk', at: today,
         ...(it.meta?.title || series ? { title: `${it.meta?.title ?? ''}${series ? ' сериал' : ''}`.trim() } : {}) };
     const ex = videos[it.id];
-    if (ex && ex.key === v.key && (ex.key || ex.film === v.film)) { it.saved = true; continue; }
+    if (ex && ex.key === v.key && ex.err === v.err && (ex.key || ex.film === v.film)) { it.saved = true; continue; }
     videos[it.id] = v;
     it.saved = true;
     it.existing = { key: v.key, film: v.film };

@@ -79,7 +79,7 @@ const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
 // сильнее догадки: таблица уходит обратно в Google, и если заполнить её одними догадками,
 // заливка сотрёт всё, что там разметили. Строка с решением приходит с «Проверено» = «да».
 const NOT_A_FILM = '— не про фильм —';
-interface Verdict { key: string | null; why?: string; film?: string; from?: string; guess?: boolean }
+interface Verdict { key: string | null; why?: string; film?: string; from?: string; guess?: boolean; err?: string; also?: string[]; alsoFilms?: string[] }
 const vFile = new URL('tools/markup-verdicts.json', root);
 const human: Record<string, Verdict> = existsSync(vFile)
   ? (JSON.parse(readFileSync(vFile, 'utf8')).videos ?? {}) : {};
@@ -169,7 +169,9 @@ const row = (v: Video) => {
   const base = { url, title: v.title, channel: v.channel, date: v.publishedAt ?? '' };
   const h = human[v.id];
   // догадка опознавателя (фильм вписан без года, выбран из тёзок) — с годом, но не проверена
-  if (h) return { ...base, film: humanLabel(h), checked: !h.guess };
+  // вид ошибки и «ещё фильмы» (02.10) возвращаются в таблицу как были
+  if (h) return { ...base, film: humanLabel(h), checked: !h.guess, err: h.err ?? '',
+    also: [...(h.also ?? []).map((k) => labelOf.get(k) ?? k), ...(h.alsoFilms ?? [])].join('; ') };
   const key = guess.get(v.id);
   const film = key ? labelOf.get(key) : undefined;
   if (key && !film) lost++;   // догадка есть, а фильма в индексе уже нет — пустая строка честнее

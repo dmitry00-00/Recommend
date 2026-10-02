@@ -75,7 +75,7 @@ const ours = worksIndex();
 // Ручная разметка (tools/import-markup.py ← film_reviews.xlsx). Она сильнее догадки во всём:
 // привязывает то, чего регексп не увидел, снимает то, что он привязал зря, и не спрашивает
 // про длительность и улики — человек уже посмотрел. Файла нет — всё как раньше.
-interface Verdict { key: string | null; why?: string; film?: string; guess?: boolean }
+interface Verdict { key: string | null; why?: string; film?: string; guess?: boolean; err?: string; also?: string[] }
 const vFile = new URL('./markup-verdicts.json', import.meta.url);
 const human: Record<string, Verdict> = existsSync(vFile)
   ? (JSON.parse(readFileSync(vFile, 'utf8')).videos ?? {}) : {};
@@ -218,6 +218,21 @@ for (const [videoId, found] of best) {
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outsideCatalog}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
+// «Несколько фильмов» (02.10): человек назвал в таблице и остальные фильмы ролика — разбор идёт
+// и к ним, той же записью. Автоматически несколько фильмов опознаватель пока не находит (OPS-8)
+let alsoAdded = 0;
+for (const [videoId, h] of Object.entries(human)) {
+  if (!h.key || !h.also?.length) continue;
+  const url = `https://www.youtube.com/watch?v=${videoId}`;
+  const entry = out[h.key]?.find((a) => a.url === url);
+  if (!entry) continue;
+  for (const k of h.also) {
+    if (k === h.key || out[k]?.some((a) => a.url === url)) continue;
+    (out[k] ??= []).push({ ...entry });
+    alsoAdded += 1;
+  }
+}
+if (alsoAdded) console.error(`ролики о нескольких фильмах (из разметки): +${alsoAdded} привязок`);
 writeFileSync(new URL('../src/mocks/essaysAuto.ts', import.meta.url),
   `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): разборы, найденные
 // перебором загрузок тех же каналов, с привязкой по названию. Это догадка, а не разметка:

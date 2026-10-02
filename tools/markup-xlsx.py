@@ -58,7 +58,7 @@ def head(ws, titles):
 def markup_sheet(name, rows, index):
     """Лист разметки: ссылка, выпадающий список, и рядом то, по чему человек решает."""
     ws = wb.create_sheet(name, index)
-    head(ws, ['Обзор / видео', 'Фильм', 'Заголовок ролика', 'Канал', 'Дата', 'Проверено'])
+    head(ws, ['Обзор / видео', 'Фильм', 'Заголовок ролика', 'Канал', 'Дата', 'Проверено', 'Ошибка', 'Ещё фильмы'])
     for r, row in enumerate(rows, start=2):
         a = ws.cell(row=r, column=1, value=row['url'])
         a.hyperlink = row['url']
@@ -69,6 +69,10 @@ def markup_sheet(name, rows, index):
         ws.cell(row=r, column=5, value=row['date'])
         if row.get('checked'):
             ws.cell(row=r, column=6, value='да')      # решение человека — возвращаем как было
+        if row.get('err'):
+            ws.cell(row=r, column=7, value=row['err'])
+        if row.get('also'):
+            ws.cell(row=r, column=8, value=row['also'])
     last = len(rows) + 1 + EMPTY   # пустые строки снизу — с тем же выпадающим списком
 
     # Выпадающий список. Предупреждение, а не запрет: если человек знает фильм, которого нет в
@@ -90,10 +94,18 @@ def markup_sheet(name, rows, index):
     dv2.add('F2:F%d' % last)
     ws.add_data_validation(dv2)
 
-    for col, width in zip('ABCDEF', (44, 46, 64, 22, 12, 12)):
+    # Вид ошибки опознавателя (02.10): по нему видно, какие правила чинить. «не фильм» и «не тот фильм»
+    # снимают привязку и без «да»; «несколько фильмов» — фильм в колонке B верен, остальные — в H
+    dv3 = DataValidation(type='list', formula1='"не тот фильм,не фильм,несколько фильмов"', allow_blank=True,
+                         showDropDown=False, showInputMessage=True, showErrorMessage=True)
+    dv3.promptTitle = 'Ошибка'
+    dv3.prompt = 'Если машина ошиблась: не тот фильм / не фильм вовсе / в ролике несколько фильмов.'
+    dv3.add('G2:G%d' % last)
+    ws.add_data_validation(dv3)
+    for col, width in zip('ABCDEFGH', (44, 46, 64, 22, 12, 12, 18, 40)):
         ws.column_dimensions[col].width = width
     ws.freeze_panes = 'A2'
-    ws.auto_filter.ref = 'A1:F%d' % (len(rows) + 1)
+    ws.auto_filter.ref = 'A1:H%d' % (len(rows) + 1)
     return ws
 
 markup_sheet('Обзоры', data['review'], 0)

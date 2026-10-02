@@ -117,6 +117,12 @@ export function evidenceFor(work: WorkCard, text: string, links: string[] = []):
   const years = yearsIn(head);
   // ±1: фестивальный год и год проката у одного фильма часто разные;
   // подборка «лучшее 2010-х» с десятком годов — ни улика, ни противоречие
+  // год в самом заголовке сильнее года в описании: «Обзор фильма "Бегущий человек" (2025)» — ремейк,
+  // даже если в описании упомянут оригинал 1987-го (02.10). Поэтому противоречие заголовка — раньше
+  const own0 = [work.title, work.originalTitle].filter((t): t is string => Boolean(t));
+  const line0 = head.split('\n').map((l) => l.trim()).find(Boolean)?.slice(0, 150) ?? '';
+  const titleYears0 = yearsIn(own0.reduce((t, n) => t.replace(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'giu'), ' '), line0));
+  if (work.year && titleYears0.length && titleYears0.length <= 2 && !titleYears0.some((y) => Math.abs(y - work.year) <= 1)) return 'conflict';
   if (work.year && years.length && years.length <= 2 && years.some((y) => Math.abs(y - work.year) <= 1)) return 'year';
   // Противоречие — только в заголовке (первая строка): «Хэллоуин 2007», «(Lembayung, 2024)».
   // Год дальше по тексту обычно про другое — «следующей работой режиссёра в 2021-м» (замер 24.09)
