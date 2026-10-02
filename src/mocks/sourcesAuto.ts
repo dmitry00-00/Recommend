@@ -131,6 +131,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "У Геральта в новом дополнении к «Ведьмаку 3» появится цепь, у самого The Witcher 3 — рем…"
   },
   {
+    "id": "srcc-7kingdoms.ru",
+    "title": "7kingdoms.ru",
+    "mentions": 0,
+    "reposts": 40,
+    "by": [
+      "greenconcilium",
+      "grrm7kingdoms",
+      "hotdgreenteam",
+      "kingofthenorthru",
+      "planetoshotd",
+      "teamrhaenyra"
+    ],
+    "lastAt": "2026-08-13",
+    "sample": "Съемки второго сезона Рыцаря 7Королевств официально завершились."
+  },
+  {
     "id": "srcc-кроненберг нефильтрованный",
     "title": "Кроненберг нефильтрованный",
     "mentions": 0,
@@ -371,13 +387,13 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
-    "reposts": 135,
+    "reposts": 154,
     "by": [
       "Cut The Chat",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-10-01",
-    "sample": "Эди Гатеги присоединился к актёрскому составу фильма #MiamiVice"
+    "lastAt": "2026-10-02",
+    "sample": "На текущий момент сериал «Фонари» в среднем собирает около 19 миллионов зрителей за эпиз…"
   },
   {
     "id": "srcc-pollydaily",
@@ -554,12 +570,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 37,
+    "reposts": 38,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-10-01",
-    "sample": "Я построю здесь новый мир."
+    "lastAt": "2026-10-02",
+    "sample": "Что происходит с литературным миром, когда он становится кино? ❤️"
   },
   {
     "id": "srcc-nemakarov",
@@ -613,6 +629,18 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-02-17",
     "sample": "Про трех белых коней наврали, слышали? Скачет ведь никто иная, как красная лошадь, а по…"
+  },
+  {
+    "id": "srcc-ᴛʜᴇ ɴᴏʀᴛʜ ʀᴇᴍᴇᴍʙᴇʀꜱ",
+    "title": "ᴛʜᴇ ɴᴏʀᴛʜ ʀᴇᴍᴇᴍʙᴇʀꜱ",
+    "mentions": 0,
+    "reposts": 25,
+    "by": [
+      "planetoshotd",
+      "teamrhaenyra"
+    ],
+    "lastAt": "2026-09-10",
+    "sample": "🥰 Мэйси Уильямс сказала, что ничего не знает о спин-оффе про Арью Старк, который, по сл…"
   },
   {
     "id": "srcc-vonmorgue",
@@ -1311,38 +1339,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-01-21",
     "sample": "Читка «Бугонии» Йоргаса, Эммы и Джесси"
-  },
-  {
-    "id": "srcc-mineznaemchtoetotakoe",
-    "title": "соня смотрит ужасы",
-    "handle": "mineznaemchtoetotakoe",
-    "url": "https://t.me/mineznaemchtoetotakoe",
-    "mentions": 12,
-    "reposts": 0,
-    "by": [
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2025-11-10",
-    "sample": "Стефани Ротман: женский взгляд на эксплуатационное кино"
-  },
-  {
-    "id": "srcc-discoenotium",
-    "title": "Disco Enotium",
-    "handle": "discoenotium",
-    "url": "https://t.me/discoenotium",
-    "mentions": 22,
-    "reposts": 0,
-    "by": [
-      "Tanya in Horrorland",
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Сеанс в 23:30 📽"
-    ],
-    "lastAt": "2026-08-30",
-    "sample": "сегодня у меня рождения ⛩️"
   }
 ];

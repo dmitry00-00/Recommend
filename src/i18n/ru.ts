@@ -747,6 +747,37 @@ export const ru = {
   "unknown": "Такой вселенной нет",
   "unknownText": "Связей у этого произведения у нас не нашлось — возможно, ссылка устарела."
 },
+  /* статистика обсуждений (/stats/:kind/:id, 02.10): сколько и где говорят */
+  stats: {
+  "link": "Статистика обсуждений",
+  "title": (kind: 'work' | 'universe' | 'person') => ({ work: 'Обсуждения произведения', universe: 'Обсуждения вселенной', person: 'Обсуждения автора' })[kind],
+  "videos": "роликов",
+  "posts": "постов",
+  "channels": "каналов",
+  "hours": "часов",
+  "essays": (n: number, reviews: number) => reviews ? `эссе и постов: ${n}, обзоров: ${reviews}` : `эссе и постов: ${n}`,
+  "span": (first: string, last: string) => first.slice(0, 4) === last.slice(0, 4) ? `за ${first.slice(0, 4)} год` : `с ${first.slice(0, 4)} по ${last.slice(0, 4)} год`,
+  "rank": (kind: 'work' | 'universe' | 'person', place: number, of: number) => `${place}-е место из ${of} ${kind === 'universe' ? 'вселенных' : 'произведений'} по числу материалов`,
+  "about": (n: number) => `о ней или о нём целиком: ${n}`,
+  "timeline": "По времени",
+  "timelineNote": "Сколько вышло роликов и постов. Пустой период — тоже сведения: о произведении молчали.",
+  "channelsTitle": "Кто говорит",
+  "worksTitle": "О каких произведениях",
+  "evidenceTitle": "Насколько привязкам можно верить",
+  "evidenceNote": "Найденное по названию без подтверждения бывает ошибкой: совпадение названий врёт.",
+  "evidence": { "human": "подтвердил человек", "manual": "прислано вручную", "link": "ссылка на фильм", "year": "год рядом с названием", "original": "оригинальное название", "channel": "надёжный канал", "tag": "хэштег", "lore": "по герою", "playlist": "плейлист канала", "none": "без подтверждения" } as Record<string, string>,
+  "nearbyTitle": "С чем называют вместе",
+  "nearbyNote": "Что упоминают в тех же постах. Это не похожесть по смыслу, а то, как о кино говорят.",
+  "mentionsTitle": "В подборках и новостях",
+  "mentions": (list: number, several: number, news: number) => [list ? `в подборках: ${list}` : '', several ? `в роликах о нескольких: ${several}` : '', news ? `в новостях: ${news}` : ''].filter(Boolean).join(' · ') || 'пока нигде',
+  "mentionsNote": (labels: number) => `По разметке модели, ${labels} материалов. Это её догадка, а не решение человека.`,
+  "legendVideos": "ролики",
+  "legendPosts": "посты",
+  "empty": "Материалов пока нет",
+  "emptyText": "О нём у нас ещё не нашли ни роликов, ни постов.",
+  "unknown": "Такой страницы нет",
+  "more": (n: number) => `и ещё ${n}`
+},
   /* страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель */
   person: {
   "role": { "director": "режиссёр", "writer": "сценарист", "creator": "автор сериала", "author": "писатель" } as Record<'director' | 'writer' | 'creator' | 'author', string>,

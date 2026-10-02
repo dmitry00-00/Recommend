@@ -2334,3 +2334,251 @@ export async function getLoopReport(scope: 'all' | 'me' = 'all'): Promise<LoopRe
   await delay(120);
   return (await fetchLoopReport(scope)) as LoopReportData | undefined;
 }
+
+// ---------- статистика обсуждений (02.10) ----------
+/** Страница статистики: сколько и где говорят о произведении, вселенной или человеке. Считается из
+ *  тех же разборов и постов, что в карточках, и по тем же правилам (вердикт «про другое» убирает
+ *  привязку); подборки и новости — из разметки модели (src/mocks/mediaMentions.ts). */
+export type StatsKind = 'work' | 'universe' | 'person';
+export interface StatsChannel { voiceId: string; title: string; known: boolean; videos: number; posts: number }
+export interface StatsWork { workId?: ID; title: string; year?: number; videos: number; posts: number }
+export interface StatsPage {
+  kind: StatsKind;
+  id: string;
+  title: string;
+  /** страница, с которой пришли: карточка, вселенная, человек */
+  back: string;
+  totals: {
+    videos: number; posts: number;
+    /** из роликов и постов: эссе (без обзоров) и обзоры */
+    essays: number; reviews: number;
+    /** найдено по названию и не подтверждено ни уликой, ни человеком */
+    unverified: number;
+    /** сколько всего смотреть, минут (у роликов, где длительность известна) */
+    minutes: number;
+    channels: number;
+    /** ролики о вселенной или человеке целиком (решения разметки) */
+    about: number;
+    first?: ISODate; last?: ISODate;
+  };
+  /** место по числу материалов среди произведений (или вселенных), у которых они есть */
+  rank?: { place: number; of: number };
+  /** по годам; если материалы укладываются в два года — по кварталам */
+  timeline: { period: string; videos: number; posts: number }[];
+  channels: StatsChannel[];
+  /** вселенная и человек: по произведениям */
+  works?: StatsWork[];
+  /** чем подтверждены привязки: улики, человек, прислано вручную, без подтверждения */
+  evidence: { kind: string; n: number }[];
+  /** с чем называют вместе (соупоминания в постах), без своих же произведений */
+  nearby: CoMention[];
+  /** из разметки модели: в подборках, в роликах о нескольких, в новостях */
+  mentions?: { list: number; several: number; news: number; labels: number };
+}
+
+/** Все материалы по набору ключей — без повторов и без отвергнутых привязок. */
+function materialsOf(keys: Iterable<string>): { key: string; a: ExternalAnalysis }[] {
+  const out: { key: string; a: ExternalAnalysis }[] = [];
+  const seenUrl = new Set<string>();
+  for (const key of keys) {
+    for (const src of [essays, essaysAuto, postsAuto]) {
+      for (const raw of src[key] ?? []) {
+        const verdict = linkVerdicts.get(raw.url);
+        if (verdict === 'other_work' || seenUrl.has(raw.url)) continue;
+        seenUrl.add(raw.url);
+        out.push({ key, a: verdict === 'about_this' ? { ...raw, unverified: undefined } : raw });
+      }
+    }
+  }
+  return out;
+}
+
+/** Число материалов по каждому ключу — для места в рейтинге; считается один раз. */
+let materialCounts: Map<string, number> | undefined;
+function countsByKey(): Map<string, number> {
+  if (materialCounts) return materialCounts;
+  const urls = new Map<string, Set<string>>();
+  for (const src of [essays, essaysAuto, postsAuto]) {
+    for (const [key, list] of Object.entries(src)) {
+      const set = urls.get(key) ?? urls.set(key, new Set()).get(key)!;
+      for (const a of list) if (linkVerdicts.get(a.url) !== 'other_work') set.add(a.url);
+    }
+  }
+  materialCounts = new Map([...urls].map(([k, s]) => [k, s.size]));
+  return materialCounts;
+}
+
+const rankOf = (value: number, all: number[]): { place: number; of: number } | undefined =>
+  value > 0 ? { place: all.filter((n) => n > value).length + 1, of: all.filter((n) => n > 0).length } : undefined;
+
+/** Ключи разборов у произведения вселенной: по карточке (у книги их несколько), иначе — ключ узла. */
+function memberKeys(q: string, byKey: Map<string, WorkCard>): string[] {
+  const n = relationNodes[q];
+  if (!n?.key) return [];
+  const card = byKey.get(n.key);
+  return card ? workKeys(card, card.externalIds ?? externalIds[card.id]) : [n.key];
+}
+
+const mentionsImport = () => import('@/mocks/mediaMentions');
+let mentionsLoad: ReturnType<typeof mentionsImport> | undefined;
+const mediaMentions = () => (mentionsLoad ??= mentionsImport());
+
+export async function getStats(kind: StatsKind, id: string): Promise<StatsPage | undefined> {
+  await delay(150);
+  await Promise.all([catalog(), workRefs()]);
+  const byKey = worksByAnalysisKey();
+  let title: string;
+  let back: string;
+  let about: ExternalAnalysis[] = [];
+  /** ключ → произведение: для разбивки по произведениям */
+  const groups = new Map<string, { workId?: ID; title: string; year?: number; keys: string[] }>();
+  let rank: StatsPage['rank'];
+
+  if (kind === 'work') {
+    const work = await getWork(id);
+    if (!work) return undefined;
+    title = work.title;
+    back = `/works/${id}`;
+    const keys = workKeys(work, work.externalIds ?? externalIds[work.id]);
+    groups.set(id, { workId: id, title: work.title, ...(work.year ? { year: work.year } : {}), keys });
+    const counts = countsByKey();
+    rank = rankOf(Math.max(0, ...keys.map((k) => counts.get(k) ?? 0)), [...counts.values()]);
+  } else if (kind === 'universe') {
+    const { members } = universeIndex();
+    const list = members.get(id);
+    const hub = relationNodes[id];
+    if (!list || !hub) return undefined;
+    title = hub.t;
+    back = `/universe/${id}`;
+    about = (await aboutVideos()).universe[id] ?? [];
+    for (const q of list) {
+      const keys = memberKeys(q, byKey);
+      if (!keys.length) continue;
+      const n = relationNodes[q]!;
+      const card = byKey.get(keys[0]) ?? byKey.get(n.key!);
+      groups.set(q, { ...(card ? { workId: card.id } : {}), title: n.t, ...(n.y ? { year: n.y } : {}), keys });
+    }
+    // место среди вселенных: сумма материалов по произведениям
+    const counts = countsByKey();
+    const sum = (qs: string[]) => qs.reduce((s, q) => s + (relationNodes[q]?.key ? counts.get(relationNodes[q]!.key!) ?? 0 : 0), 0);
+    const sums = [...members.values()].filter((qs) => qs.length >= 3).map(sum);
+    rank = rankOf(sum(list), sums);
+  } else {
+    const known = isPersonId(id) ? people[id] : undefined;
+    let name = known?.name;
+    for (const raw of knownWorks()) {
+      const w = withCredits(raw);
+      const mine = creditsOf(w, people).filter((c) => sameCredit(c, id, known));
+      if (!mine.length) continue;
+      name ??= mine[0].name;
+      const keys = workKeys(w, w.externalIds ?? externalIds[w.id]);
+      const gid = keys[0] ?? w.id;
+      if (!groups.has(gid)) groups.set(gid, { workId: w.id, title: w.title, ...(w.year ? { year: w.year } : {}), keys });
+    }
+    about = isPersonId(id) ? (await aboutVideos()).person[id] ?? [] : [];
+    if (!name || (!groups.size && !about.length)) return undefined;
+    title = name;
+    back = `/person/${id}`;
+  }
+
+  const items = materialsOf([...groups.values()].flatMap((g) => g.keys));
+  const seenUrl = new Set(items.map((x) => x.a.url));
+  const all = [...items.map((x) => x.a), ...about.filter((a) => !seenUrl.has(a.url))];
+  const isPost = (a: ExternalAnalysis) => a.platform === 'telegram';
+  const dates = all.map((a) => a.publishedAt).filter((d): d is ISODate => Boolean(d)).sort();
+
+  // по времени: годы, а если всё уместилось в два года — кварталы
+  const years = new Set(dates.map((d) => d.slice(0, 4)));
+  const period = (d: string) => (years.size <= 2 ? `${d.slice(0, 4)}·${Math.floor((Number(d.slice(5, 7)) - 1) / 3) + 1}` : d.slice(0, 4));
+  const tl = new Map<string, { period: string; videos: number; posts: number }>();
+  if (dates.length) {
+    // пустые периоды между первым и последним тоже показываем: провал — тоже сведения
+    const [y0, y1] = [Number(dates[0].slice(0, 4)), Number(dates[dates.length - 1].slice(0, 4))];
+    for (let y = y0; y <= y1; y++) {
+      if (years.size <= 2) for (let q = 1; q <= 4; q++) tl.set(`${y}·${q}`, { period: `${y}·${q}`, videos: 0, posts: 0 });
+      else tl.set(String(y), { period: String(y), videos: 0, posts: 0 });
+    }
+    if (years.size <= 2) {
+      const first = period(dates[0]), last = period(dates[dates.length - 1]);
+      for (const k of [...tl.keys()]) if (k < first || k > last) tl.delete(k);
+    }
+  }
+  for (const a of all) {
+    if (!a.publishedAt) continue;
+    const slot = tl.get(period(a.publishedAt));
+    if (slot) { if (isPost(a)) slot.posts++; else slot.videos++; }
+  }
+
+  const ch = new Map<string, StatsChannel>();
+  for (const a of all) {
+    const v = voiceOf(a);
+    const c = ch.get(v.id) ?? { voiceId: v.id, title: v.short ?? v.title, known: Boolean(knownVoice(v.id)), videos: 0, posts: 0 };
+    if (isPost(a)) c.posts++; else c.videos++;
+    ch.set(v.id, c);
+  }
+  const channels = [...ch.values()].sort((a, b) => b.videos + b.posts - a.videos - a.posts || a.title.localeCompare(b.title, 'ru'));
+
+  const ev = new Map<string, number>();
+  for (const a of all) {
+    const k = a.evidence ?? (a.unverified ? 'none' : 'manual');
+    ev.set(k, (ev.get(k) ?? 0) + 1);
+  }
+  const EV_ORDER = ['human', 'manual', 'link', 'year', 'original', 'channel', 'tag', 'lore', 'playlist', 'none'];
+  const evidence = [...ev].map(([k, n]) => ({ kind: k, n })).sort((a, b) => EV_ORDER.indexOf(a.kind) - EV_ORDER.indexOf(b.kind));
+
+  let works: StatsWork[] | undefined;
+  if (kind !== 'work') {
+    const per = new Map<string, { videos: number; posts: number }>();
+    const keyGroup = new Map<string, string>();
+    for (const [gid, g] of groups) for (const k of g.keys) keyGroup.set(k, gid);
+    for (const { key, a } of items) {
+      const gid = keyGroup.get(key)!;
+      const x = per.get(gid) ?? { videos: 0, posts: 0 };
+      if (isPost(a)) x.posts++; else x.videos++;
+      per.set(gid, x);
+    }
+    works = [...groups].map(([gid, g]) => ({ ...(g.workId ? { workId: g.workId } : {}), title: g.title, ...(g.year ? { year: g.year } : {}), ...(per.get(gid) ?? { videos: 0, posts: 0 }) }))
+      .filter((w) => w.videos + w.posts > 0)
+      .sort((a, b) => b.videos + b.posts - a.videos - a.posts || (a.year ?? 9999) - (b.year ?? 9999));
+  }
+
+  // соседи по постам: у вселенной и человека — сумма по произведениям, свои же — вон
+  const own = new Set([...groups.values()].flatMap((g) => g.keys));
+  const near = new Map<string, CoMention>();
+  for (const k of own) for (const c of comentions[k] ?? []) {
+    if (own.has(c.key)) continue;
+    const x = near.get(c.key);
+    near.set(c.key, x ? { ...x, n: x.n + c.n, weight: Math.max(x.weight, c.weight) } : { ...c });
+  }
+  const nearby = [...near.values()].sort((a, b) => b.n - a.n || b.weight - a.weight).slice(0, 8);
+
+  const mm = await mediaMentions().then((m) => m.mediaMentions).catch(() => undefined);
+  let mentions: StatsPage['mentions'];
+  if (mm?.labels) {
+    const m = { list: 0, several: 0, news: 0, labels: mm.labels };
+    for (const k of own) { const x = mm.works[k]; if (x) { m.list += x.list ?? 0; m.several += x.several ?? 0; m.news += x.news ?? 0; } }
+    mentions = m;
+  }
+
+  return {
+    kind, id, title, back,
+    totals: {
+      videos: all.filter((a) => !isPost(a)).length,
+      posts: all.filter(isPost).length,
+      essays: all.filter((a) => a.tier !== 'review').length,
+      reviews: all.filter((a) => a.tier === 'review').length,
+      unverified: all.filter((a) => a.unverified).length,
+      minutes: all.reduce((s, a) => s + (a.durationMinutes ?? 0), 0),
+      channels: channels.length,
+      about: about.length,
+      ...(dates.length ? { first: dates[0], last: dates[dates.length - 1] } : {}),
+    },
+    ...(rank ? { rank } : {}),
+    timeline: [...tl.values()],
+    channels,
+    ...(works ? { works } : {}),
+    evidence,
+    nearby,
+    ...(mentions ? { mentions } : {}),
+  };
+}

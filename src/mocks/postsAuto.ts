@@ -453,6 +453,43 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-09-11"
     }
   ],
+  "tmdb:98": [
+    {
+      "id": "tg-episodesfilm-297",
+      "title": "Ридли Скотт — фантаст или историк? Разбираем вселенные от «Чужого» и «Гладиатора» до «Дома Gucci»",
+      "author": "Радио Долин",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SESCSiE5yY0",
+      "previewUrl": "https://i.ytimg.com/vi/SESCSiE5yY0/hqdefault.jpg",
+      "publishedAt": "2021-12-03",
+      "durationMinutes": 50
+    },
+    {
+      "id": "tg-kinopoisk-41926",
+      "title": "30 минут — столько понадобилось Полу Мескалу, чтобы получить роль во втором «Гладиаторе»…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/41926",
+      "publishedAt": "2024-10-27"
+    },
+    {
+      "id": "tg-kinopoisk-3563",
+      "title": "Ридли Скотт начал работу над продолжением «Гладиатора» — Новости на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/3563",
+      "publishedAt": "2018-11-01"
+    }
+  ],
   "tmdb:11051": [
     {
       "id": "tg-episodesfilm-299",
@@ -1135,6 +1172,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt0903747": [
     {
+      "id": "tg-kingofthenorthru-2901",
+      "title": "Король Севера l Игра Престолов l Дом Дракона",
+      "author": "kingofthenorthru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kingofthenorthru/2901",
+      "publishedAt": "2026-06-04"
+    },
+    {
       "id": "tg-a_researcher-548",
       "title": "Спустя 12 лет после легендарных «Во все тяжкие» и 3 года ничем не уступающему «Лучше зво…",
       "author": "R⁴²",
@@ -1159,19 +1207,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/chtozapersonazh/917",
       "publishedAt": "2026-05-05"
-    },
-    {
-      "id": "tg-kinopoisk-8451",
-      "title": "Визуальный стиль «Во все тяжкие»",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=YFpWxjRtyvg",
-      "previewUrl": "https://i.ytimg.com/vi/YFpWxjRtyvg/hqdefault.jpg",
-      "publishedAt": "2019-11-22",
-      "durationMinutes": 15
     }
   ],
   "tmdb:935": [
@@ -3504,17 +3539,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-28"
     },
     {
-      "id": "tg-logovofilologa-852",
-      "title": "Друзья, не переживайте, весь основной костяк мыслей в видео «С широко закрытыми глазами»…",
-      "author": "Логово Филолога",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/logovofilologa/852",
-      "publishedAt": "2026-02-18"
-    },
-    {
       "id": "tg-episodesfilm-3152",
       "title": "Представьте себе такую ситуауию: Кубрик снимает \"С широко закрытыми глазами\", в котором…",
       "author": "ЭПИЗОДЫ",
@@ -3524,6 +3548,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/episodesfilm/3152",
       "publishedAt": "2026-02-14"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-3721",
+      "title": "«С широко закрытыми глазами» Стэнли Кубрика возвращается на большие экраны! Ретроспектив…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/3721",
+      "publishedAt": "2019-12-16"
     }
   ],
   "tmdb:1160360": [
@@ -4624,17 +4659,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-12-05"
     },
     {
-      "id": "tg-logovofilologa-779",
-      "title": "Спасибо вам, родненькие, кто меня хвалил даже за пустяковый пересказ «Дракулы». Ваши ком…",
-      "author": "Логово Филолога",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/logovofilologa/779",
-      "publishedAt": "2025-10-30"
-    },
-    {
       "id": "tg-kinopoisk-11632",
       "title": "​​Киану Ривз отказался оскорблять Вайнону Райдер на съемках «Дракулы». По словам актрисы…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -4644,6 +4668,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/11632",
       "publishedAt": "2020-06-25"
+    },
+    {
+      "id": "tg-kinopoisk-3397",
+      "title": "Создатели «Шерлока» перезапустят «Дракулу» для телевидения",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/3397",
+      "publishedAt": "2018-10-15"
     }
   ],
   "tmdb:588": [
@@ -5565,6 +5600,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:333339": [
     {
+      "id": "tg-kingofthenorthru-2954",
+      "title": "Olivia Cooke on HOUSE OF THE DRAGON, READY PLAYER ONE, her bad STAR WARS audition, and more",
+      "author": "Josh Horowitz",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=OWyKoDOTll0",
+      "previewUrl": "https://i.ytimg.com/vi/OWyKoDOTll0/hqdefault.jpg",
+      "publishedAt": "2026-06-22",
+      "durationMinutes": 60
+    },
+    {
       "id": "tg-kinopoisk-1953",
       "title": "«Первому игроку приготовиться»: Как встретить фильм Спилберга во всеоружии — Статьи на К…",
       "author": "Кинопоиск",
@@ -5585,17 +5633,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/859",
       "publishedAt": "2018-03-22"
-    },
-    {
-      "id": "tg-kinopoisk-1880",
-      "title": "Опубликовано 12 новых постеров к фильму «Первому игроку приготовиться» — Новости на Кино…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/1880",
-      "publishedAt": "2018-03-07"
     }
   ],
   "tmdb:375262": [
@@ -8190,6 +8227,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt0944947": [
     {
+      "id": "tg-thenortherners-3673",
+      "title": "🥺 Мэйси Уильямс поделилась воспоминаниями о том, как «Игра престолов» повлияла на ее жи…",
+      "author": "thenortherners",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/thenortherners/3673",
+      "publishedAt": "2026-09-09"
+    },
+    {
       "id": "tg-kinopoisk-1715",
       "title": "«Игра престолов», Звягинцев и фон Триер: Какие фильмы смотрят в тюрьмах — Статьи на Кино…",
       "author": "Кинопоиск",
@@ -8210,17 +8258,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/3240874",
       "publishedAt": "2019-07-08"
-    },
-    {
-      "id": "tg-kinopoisk-5810",
-      "title": "Прекрасная свадьба: Как «Игра престолов» изменила жизнь фанатов",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/5810",
-      "publishedAt": "2019-05-11"
     }
   ],
   "tmdb:771": [
@@ -8994,41 +9031,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-05-25"
     }
   ],
-  "tmdb:98": [
-    {
-      "id": "tg-kinopoisk-41926",
-      "title": "30 минут — столько понадобилось Полу Мескалу, чтобы получить роль во втором «Гладиаторе»…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/41926",
-      "publishedAt": "2024-10-27"
-    },
-    {
-      "id": "tg-kinopoisk-3563",
-      "title": "Ридли Скотт начал работу над продолжением «Гладиатора» — Новости на Кинопоиске",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/3563",
-      "publishedAt": "2018-11-01"
-    },
-    {
-      "id": "tg-kinopoisk-20835",
-      "title": "Ридли Скотта не остановить. Он все-таки снимет продолжение «Гладиатора» спустя более чем…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/20835",
-      "publishedAt": "2021-09-30"
-    }
-  ],
   "tmdb:246741": [
     {
       "id": "tg-kinopoisk-47510",
@@ -9318,6 +9320,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/47348",
       "publishedAt": "2025-08-08"
+    },
+    {
+      "id": "tg-CutTheChat-2979549",
+      "title": "Энн Хэтэуэй заявила, что хотела бы сняться вместе со Скарлетт Йоханссон в будущем фильме…",
+      "author": "Cut The Crap",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/CutTheChat/2979549",
+      "publishedAt": "2026-10-01"
     }
   ],
   "imdb:tt2356777": [
@@ -13865,6 +13878,28 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt11198330": [
     {
+      "id": "tg-greenconcilium-2562",
+      "title": "🔗 Мне кажется, «Дом Дракона» тащит Тома Глинн-Карни вниз.",
+      "author": "greenconcilium",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/greenconcilium/2562",
+      "publishedAt": "2025-01-06"
+    },
+    {
+      "id": "tg-kingofthenorthru-2936",
+      "title": "Какие планы на \"Дом Дракона\".",
+      "author": "kingofthenorthru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kingofthenorthru/2936",
+      "publishedAt": "2026-06-13"
+    },
+    {
       "id": "tg-kinopoisk-27777",
       "title": "Почему «Дом Дракона» — самостоятельное произведение, а не просто приквел «Игры престолов…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -13874,30 +13909,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/27777",
       "publishedAt": "2022-08-24"
-    },
-    {
-      "id": "tg-kinopoisk-39845",
-      "title": "Как «Дом Дракона» взаимосвязан с «Игрой престолов»",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=t3-el-5LQLQ",
-      "previewUrl": "https://i.ytimg.com/vi/t3-el-5LQLQ/hqdefault.jpg",
-      "publishedAt": "2024-06-25",
-      "durationMinutes": 9
-    },
-    {
-      "id": "tg-kinopoisk-19199",
-      "title": "К сериалу «Дом дракона», приквелу «Игры престолов», присоединились актрисы Милли Олкок (…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/19199",
-      "publishedAt": "2021-07-06"
     }
   ],
   "tmdb:497698": [
@@ -22099,6 +22110,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:26517": [
     {
+      "id": "tg-grrm7kingdoms-2664",
+      "title": "В этом месяце в издательстве АСТ выходит переиздание «Пламени и крови» в серии «Мартин.…",
+      "author": "grrm7kingdoms",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/grrm7kingdoms/2664",
+      "publishedAt": "2026-07-01"
+    },
+    {
       "id": "tg-kinopoisk-51455",
       "title": "🏓🏓🏓🏓🏓🏓🏓🏓🏓 — столько мы бы поставили «Марти Великолепному». А вы?",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -23304,7 +23326,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-02-12"
     }
   ],
-  "tmdb:52654": [
+  "wd:Q1083331": [
     {
       "id": "tg-filologofrus-1044",
       "title": "Да, вы заметили, читать Набокова надо очень внимательно 😅",
@@ -23315,6 +23337,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/filologofrus/1044",
       "publishedAt": "2026-06-22"
+    }
+  ],
+  "wd:Q1142887": [
+    {
+      "id": "tg-logovofilologa-3",
+      "title": "Для любителей тру-крайма: прочитайте «Хладнокровное убийство» Трумана Капоте.",
+      "author": "Логово Филолога",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/logovofilologa/3",
+      "publishedAt": "2024-07-19"
     }
   ],
   "tmdb:938250": [
@@ -23328,6 +23363,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/logovofilologa/358",
       "publishedAt": "2024-11-29"
+    }
+  ],
+  "wd:Q41542": [
+    {
+      "id": "tg-logovofilologa-779",
+      "title": "Спасибо вам, родненькие, кто меня хвалил даже за пустяковый пересказ «Дракулы». Ваши ком…",
+      "author": "Логово Филолога",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/logovofilologa/779",
+      "publishedAt": "2025-10-30"
+    }
+  ],
+  "wd:Q266232": [
+    {
+      "id": "tg-logovofilologa-852",
+      "title": "Друзья, не переживайте, весь основной костяк мыслей в видео «С широко закрытыми глазами»…",
+      "author": "Логово Филолога",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/logovofilologa/852",
+      "publishedAt": "2026-02-18"
     }
   ],
   "tmdb:793": [

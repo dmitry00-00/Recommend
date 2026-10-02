@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getSettings, getUniverse, type UniverseMember, type UniversePage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
 import { DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
@@ -53,6 +53,9 @@ export function UniverseScreen() {
             <p className="tm-label tm-universe__kind">{ru.universe.kind[data.kind] ?? ru.universe.kind.other}</p>
             <h1 className="tm-title-2">{data.title}</h1>
             <p className="tm-caption">{counts}</p>
+            <p className="tm-voice__outlets tm-work__people">
+              <Link className="tm-voice__chip" to={`/stats/universe/${data.id}`}>{ru.stats.link}</Link>
+            </p>
           </header>
 
           {data.startWith ? (

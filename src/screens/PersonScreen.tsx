@@ -55,6 +55,9 @@ export function PersonScreen() {
               {[data.roles.map((r) => ru.person.role[r]).join(', '), ru.person.works(data.works.length),
                 data.wikidata ? undefined : ru.person.byName].filter(Boolean).join(' · ')}
             </p>
+            <p className="tm-voice__outlets tm-work__people">
+              <Link className="tm-voice__chip" to={`/stats/person/${encodeURIComponent(id)}`}>{ru.stats.link}</Link>
+            </p>
           </header>
 
           {data.startWith ? (

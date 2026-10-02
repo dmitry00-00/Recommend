@@ -5811,106 +5811,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.211
     }
   ],
-  "imdb:tt0903747": [
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 25,
-      "weight": 0.3
-    },
-    {
-      "key": "tmdb:559969",
-      "workId": "f-wd61741521",
-      "title": "Путь: Во все тяжкие. Фильм",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.159
-    },
-    {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
-      "n": 4,
-      "weight": 0.106
-    },
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 4,
-      "weight": 0.085
-    }
-  ],
-  "imdb:tt3032476": [
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 25,
-      "weight": 0.3
-    },
-    {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 7,
-      "weight": 0.122
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.075
-    },
-    {
-      "key": "tmdb:2383",
-      "workId": "f-wd379460",
-      "title": "Медведь",
-      "year": 1988,
-      "n": 3,
-      "weight": 0.061
-    },
-    {
-      "key": "imdb:tt4574334",
-      "workId": "f-wd19798734",
-      "title": "Очень странные дела",
-      "year": 2016,
-      "n": 6,
-      "weight": 0.061
-    },
-    {
-      "key": "tmdb:414906",
-      "workId": "f-tmdb414906",
-      "title": "Бэтмен",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.055
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.04
-    },
-    {
-      "key": "imdb:tt11198330",
-      "workId": "f-wd72930269",
-      "title": "Дом Дракона",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.035
-    }
-  ],
   "tmdb:414453": [
     {
       "key": "tmdb:585378",
@@ -6033,6 +5933,114 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.297
     }
   ],
+  "imdb:tt0903747": [
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 25,
+      "weight": 0.297
+    },
+    {
+      "key": "tmdb:559969",
+      "workId": "f-wd61741521",
+      "title": "Путь: Во все тяжкие. Фильм",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.157
+    },
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 5,
+      "weight": 0.127
+    },
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 5,
+      "weight": 0.103
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.028
+    }
+  ],
+  "imdb:tt3032476": [
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 25,
+      "weight": 0.297
+    },
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 7,
+      "weight": 0.121
+    },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.075
+    },
+    {
+      "key": "tmdb:2383",
+      "workId": "f-wd379460",
+      "title": "Медведь",
+      "year": 1988,
+      "n": 3,
+      "weight": 0.061
+    },
+    {
+      "key": "imdb:tt4574334",
+      "workId": "f-wd19798734",
+      "title": "Очень странные дела",
+      "year": 2016,
+      "n": 6,
+      "weight": 0.061
+    },
+    {
+      "key": "tmdb:414906",
+      "workId": "f-tmdb414906",
+      "title": "Бэтмен",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.055
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.04
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.033
+    }
+  ],
   "tmdb:49047": [
     {
       "key": "tmdb:194662",
@@ -6149,6 +6157,58 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 3,
       "weight": 0.155
+    }
+  ],
+  "tmdb:23843": [
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 6,
+      "weight": 0.285
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 7,
+      "weight": 0.12
+    },
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 5,
+      "weight": 0.103
+    }
+  ],
+  "tmdb:29427": [
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 6,
+      "weight": 0.285
+    },
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 5,
+      "weight": 0.127
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 5,
+      "weight": 0.106
     }
   ],
   "tmdb:501929": [
@@ -6777,50 +6837,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.267
     }
   ],
-  "tmdb:129": [
-    {
-      "key": "tmdb:4935",
-      "workId": "f-tmdb4935",
-      "title": "Ходячий замок",
-      "year": 2004,
-      "n": 4,
-      "weight": 0.267
-    },
-    {
-      "key": "tmdb:8392",
-      "workId": "f-wd39571",
-      "title": "Мой сосед Тоторо",
-      "year": 1988,
-      "n": 6,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.123
-    },
-    {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.085
-    }
-  ],
-  "tmdb:4935": [
-    {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.267
-    }
-  ],
   "tmdb:284053": [
     {
       "key": "tmdb:271110",
@@ -7193,6 +7209,50 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.263
     }
   ],
+  "tmdb:129": [
+    {
+      "key": "tmdb:4935",
+      "workId": "f-tmdb4935",
+      "title": "Ходячий замок",
+      "year": 2004,
+      "n": 4,
+      "weight": 0.263
+    },
+    {
+      "key": "tmdb:8392",
+      "workId": "f-wd39571",
+      "title": "Мой сосед Тоторо",
+      "year": 1988,
+      "n": 6,
+      "weight": 0.227
+    },
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.12
+    },
+    {
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.083
+    }
+  ],
+  "tmdb:4935": [
+    {
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.263
+    }
+  ],
   "tmdb:103": [
     {
       "key": "tmdb:1578",
@@ -7459,58 +7519,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 5,
       "weight": 0.14
-    }
-  ],
-  "tmdb:23843": [
-    {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
-      "n": 5,
-      "weight": 0.25
-    },
-    {
-      "key": "imdb:tt0944947",
-      "workId": "f-wd23572",
-      "title": "Игра престолов",
-      "year": 2011,
-      "n": 6,
-      "weight": 0.109
-    },
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.085
-    }
-  ],
-  "tmdb:29427": [
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 5,
-      "weight": 0.25
-    },
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.106
-    },
-    {
-      "key": "imdb:tt0944947",
-      "workId": "f-wd23572",
-      "title": "Игра престолов",
-      "year": 2011,
-      "n": 4,
-      "weight": 0.091
     }
   ],
   "imdb:tt15435876": [
@@ -8285,24 +8293,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.077
     }
   ],
-  "tmdb:8392": [
-    {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 6,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.091
-    }
-  ],
   "tmdb:284054": [
     {
       "key": "tmdb:271110",
@@ -8433,6 +8423,24 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.119
     }
   ],
+  "tmdb:8392": [
+    {
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
+      "n": 6,
+      "weight": 0.227
+    },
+    {
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.091
+    }
+  ],
   "tmdb:558449": [
     {
       "key": "tmdb:516729",
@@ -8537,58 +8545,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 6,
       "weight": 0.166
-    }
-  ],
-  "tmdb:157336": [
-    {
-      "key": "tmdb:374720",
-      "workId": "f-tmdb374720",
-      "title": "Дюнкерк",
-      "year": 2017,
-      "n": 8,
-      "weight": 0.22
-    },
-    {
-      "key": "tmdb:98",
-      "workId": "f-tmdb98",
-      "title": "Гладиатор",
-      "year": 2000,
-      "n": 4,
-      "weight": 0.175
-    },
-    {
-      "key": "tmdb:686",
-      "workId": "f-tmdb686",
-      "title": "Контакт",
-      "year": 1997,
-      "n": 3,
-      "weight": 0.143
-    },
-    {
-      "key": "tmdb:155",
-      "workId": "f-tmdb155",
-      "title": "Тёмный рыцарь",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.124
-    },
-    {
-      "key": "tmdb:419704",
-      "workId": "f-wd38774788",
-      "title": "К звёздам",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.09
-    }
-  ],
-  "tmdb:374720": [
-    {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
-      "n": 8,
-      "weight": 0.22
     }
   ],
   "tmdb:18": [
@@ -8705,6 +8661,58 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 3,
       "weight": 0.11
+    }
+  ],
+  "tmdb:157336": [
+    {
+      "key": "tmdb:374720",
+      "workId": "f-tmdb374720",
+      "title": "Дюнкерк",
+      "year": 2017,
+      "n": 8,
+      "weight": 0.217
+    },
+    {
+      "key": "tmdb:98",
+      "workId": "f-tmdb98",
+      "title": "Гладиатор",
+      "year": 2000,
+      "n": 4,
+      "weight": 0.175
+    },
+    {
+      "key": "tmdb:686",
+      "workId": "f-tmdb686",
+      "title": "Контакт",
+      "year": 1997,
+      "n": 3,
+      "weight": 0.143
+    },
+    {
+      "key": "tmdb:155",
+      "workId": "f-tmdb155",
+      "title": "Тёмный рыцарь",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.124
+    },
+    {
+      "key": "tmdb:419704",
+      "workId": "f-wd38774788",
+      "title": "К звёздам",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.09
+    }
+  ],
+  "tmdb:374720": [
+    {
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
+      "year": 2014,
+      "n": 8,
+      "weight": 0.217
     }
   ],
   "tmdb:254320": [
@@ -10326,7 +10334,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 7,
-      "weight": 0.072
+      "weight": 0.07
     },
     {
       "key": "imdb:tt3581920",
@@ -10404,7 +10412,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Унесённые призраками",
       "year": 2001,
       "n": 4,
-      "weight": 0.123
+      "weight": 0.12
     },
     {
       "key": "imdb:tt4093826",
@@ -10563,16 +10571,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.119
     }
   ],
-  "tmdb:559969": [
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.159
-    }
-  ],
   "tmdb:433808": [
     {
       "key": "tmdb:1100988",
@@ -10614,7 +10612,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Унесённые призраками",
       "year": 2001,
       "n": 3,
-      "weight": 0.085
+      "weight": 0.083
     },
     {
       "key": "tmdb:872585",
@@ -10623,6 +10621,16 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2023,
       "n": 3,
       "weight": 0.054
+    }
+  ],
+  "tmdb:559969": [
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.157
     }
   ],
   "tmdb:632617": [
@@ -11027,42 +11035,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.147
     }
   ],
-  "imdb:tt11280740": [
-    {
-      "key": "imdb:tt22202452",
-      "workId": "f-wd122155720",
-      "title": "Одна из многих",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.146
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 7,
-      "weight": 0.122
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.085
-    }
-  ],
-  "imdb:tt22202452": [
-    {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.146
-    }
-  ],
   "tmdb:580175": [
     {
       "key": "tmdb:615643",
@@ -11162,6 +11134,42 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Орудия",
       "year": 2025,
       "n": 4,
+      "weight": 0.145
+    }
+  ],
+  "imdb:tt11280740": [
+    {
+      "key": "imdb:tt22202452",
+      "workId": "f-wd122155720",
+      "title": "Одна из многих",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.145
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 7,
+      "weight": 0.121
+    },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.084
+    }
+  ],
+  "imdb:tt22202452": [
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 3,
       "weight": 0.145
     }
   ],
@@ -11756,6 +11764,56 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.098
     }
   ],
+  "imdb:tt0944947": [
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 7,
+      "weight": 0.12
+    },
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 5,
+      "weight": 0.106
+    },
+    {
+      "key": "tmdb:589761",
+      "workId": "f-wd65154504",
+      "title": "Чернобыль",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.07
+    },
+    {
+      "key": "tmdb:57278",
+      "workId": "f-wd7739524",
+      "title": "Ведьмак",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.045
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.03
+    },
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.028
+    }
+  ],
   "tmdb:9740": [
     {
       "key": "tmdb:118340",
@@ -11908,48 +11966,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 5,
       "weight": 0.11
-    }
-  ],
-  "imdb:tt0944947": [
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 6,
-      "weight": 0.109
-    },
-    {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
-      "n": 4,
-      "weight": 0.091
-    },
-    {
-      "key": "tmdb:589761",
-      "workId": "f-wd65154504",
-      "title": "Чернобыль",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.072
-    },
-    {
-      "key": "tmdb:57278",
-      "workId": "f-wd7739524",
-      "title": "Ведьмак",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.047
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.031
     }
   ],
   "tmdb:616037": [
@@ -12278,66 +12294,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.093
     }
   ],
-  "imdb:tt11198330": [
-    {
-      "key": "tmdb:2383",
-      "workId": "f-wd379460",
-      "title": "Медведь",
-      "year": 1988,
-      "n": 5,
-      "weight": 0.093
-    },
-    {
-      "key": "imdb:tt7631058",
-      "workId": "f-wd59149852",
-      "title": "Властелин колец: Кольца власти",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.068
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.035
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.03
-    }
-  ],
-  "tmdb:2383": [
-    {
-      "key": "imdb:tt11198330",
-      "workId": "f-wd72930269",
-      "title": "Дом Дракона",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.093
-    },
-    {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.065
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.061
-    }
-  ],
   "tmdb:11423": [
     {
       "key": "tmdb:496243",
@@ -12381,7 +12337,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Разделение",
       "year": 2022,
       "n": 5,
-      "weight": 0.085
+      "weight": 0.084
     },
     {
       "key": "imdb:tt3032476",
@@ -12594,6 +12550,66 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.086
     }
   ],
+  "imdb:tt11198330": [
+    {
+      "key": "tmdb:2383",
+      "workId": "f-wd379460",
+      "title": "Медведь",
+      "year": 1988,
+      "n": 5,
+      "weight": 0.084
+    },
+    {
+      "key": "imdb:tt7631058",
+      "workId": "f-wd59149852",
+      "title": "Властелин колец: Кольца власти",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.062
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.032
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.027
+    }
+  ],
+  "tmdb:2383": [
+    {
+      "key": "imdb:tt11198330",
+      "workId": "f-wd72930269",
+      "title": "Дом Дракона",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.084
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.065
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.061
+    }
+  ],
   "tmdb:399566": [
     {
       "key": "tmdb:460465",
@@ -12694,24 +12710,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.069
     }
   ],
-  "imdb:tt7631058": [
-    {
-      "key": "imdb:tt11198330",
-      "workId": "f-wd72930269",
-      "title": "Дом Дракона",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.068
-    },
-    {
-      "key": "tmdb:123",
-      "workId": "f-wd378913",
-      "title": "Властелин колец",
-      "year": 1978,
-      "n": 3,
-      "weight": 0.064
-    }
-  ],
   "tmdb:110415": [
     {
       "key": "tmdb:496243",
@@ -12722,6 +12720,24 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.065
     }
   ],
+  "imdb:tt7631058": [
+    {
+      "key": "tmdb:123",
+      "workId": "f-wd378913",
+      "title": "Властелин колец",
+      "year": 1978,
+      "n": 3,
+      "weight": 0.063
+    },
+    {
+      "key": "imdb:tt11198330",
+      "workId": "f-wd72930269",
+      "title": "Дом Дракона",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.062
+    }
+  ],
   "tmdb:123": [
     {
       "key": "imdb:tt7631058",
@@ -12729,7 +12745,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Властелин колец: Кольца власти",
       "year": 2022,
       "n": 3,
-      "weight": 0.064
+      "weight": 0.063
     }
   ],
   "imdb:tt4574334": [
@@ -12773,7 +12789,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 4,
-      "weight": 0.047
+      "weight": 0.045
     }
   ],
   "imdb:tt1520211": [

@@ -199,6 +199,11 @@ export function WorkScreen() {
         <section className="tm-work__section">
           <h2 className="tm-title-3">{ru.work.analyses}</h2>
           <WorkVoices analyses={work.externalAnalyses} spoilerLevel={allowed} workTitle={work.title} kind={work.type} />
+          {work.externalAnalyses?.length ? (
+            <p className="tm-voice__outlets tm-work__people">
+              <Link className="tm-voice__chip" to={`/stats/work/${work.id}`}>{ru.stats.link}</Link>
+            </p>
+          ) : null}
         </section>
 
         {/* откуда это и что из этого выросло (Ж1): роман, по которому снято, сиквел, ремейки, франшиза */}

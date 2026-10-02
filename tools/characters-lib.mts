@@ -153,7 +153,7 @@ export function charactersSource(entries: CharacterEntry[]): string {
 export interface CharacterRecord { n: string; en?: string; aka?: string[]; w?: string[]; works: string[]; said: number }
 
 export const characters: Record<string, CharacterRecord> = {
-${entries.map(({ q, ...rest }) => `  ${q}: ${JSON.stringify(rest)},`).join('\n')}
+${entries.map(({ q, ...rest }) => `  ${/^[A-Za-z_$][\w$]*$/.test(q) ? q : JSON.stringify(q)}: ${JSON.stringify(rest)},`).join('\n')}
 };
 `;
 }
