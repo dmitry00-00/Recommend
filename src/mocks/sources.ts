@@ -144,6 +144,22 @@ export const sources: VoiceSource[] = [
   { id: 'src-aveonius', title: 'Aveonius', handle: 'aveonius', platform: 'youtube', url: 'https://www.youtube.com/@aveonius', role: 'voice', kind: 'channel', tier: 'review', language: 'en' },
   { id: 'src-mylittlethoughttree', title: 'My Little Thought Tree', handle: 'mylittlethoughttree', platform: 'youtube', url: 'https://www.youtube.com/@mylittlethoughttree', role: 'voice', kind: 'channel', tier: 'review', language: 'en' },
   { id: 'src-michaeltalksaboutstuff', title: 'Michael Talks About Stuff', handle: 'michaeltalksaboutstuff', platform: 'youtube', url: 'https://www.youtube.com/@michaeltalksaboutstuff', role: 'voice', kind: 'channel', tier: 'review', language: 'en' },
+  // Прислано владельцем 02.10 («Без названия 7»): каналы о кино. Ярус — «обзор» по умолчанию (в
+  // приложении не видны), эссеистов владелец отметит сам. Названия — по нику, настоящие придут из YouTube.
+  { id: 'src-vicsantidepressants', title: 'Vic’s Antidepressants', handle: 'vicsantidepressants', platform: 'youtube', url: 'https://www.youtube.com/@vicsantidepressants', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-kuraga_media', title: 'Курага', handle: 'kuraga_media', platform: 'youtube', url: 'https://www.youtube.com/@kuraga_media', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-westernzy', title: 'Westernzy', handle: 'westernzy', platform: 'youtube', url: 'https://www.youtube.com/@westernzy', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-hleb_channel', title: 'Хлеб', handle: 'hleb.channel', platform: 'youtube', url: 'https://www.youtube.com/@hleb.channel', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-tkkr', title: 'tkkr', handle: 'tkkr', platform: 'youtube', url: 'https://www.youtube.com/@tkkr', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-chepokino', title: 'Чё по кино', handle: 'chepokino', platform: 'youtube', url: 'https://www.youtube.com/@chepokino', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-adkinchik', title: 'Адкинчик', handle: 'adkinchik', platform: 'youtube', url: 'https://www.youtube.com/@adkinchik', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-el_kinodel', title: 'Эль Кинодел', handle: 'el_kinodel', platform: 'youtube', url: 'https://www.youtube.com/@el_kinodel', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-dalermontov', title: 'Далер Монтов', handle: 'dalermontov', platform: 'youtube', url: 'https://www.youtube.com/@dalermontov', role: 'voice', kind: 'channel', tier: 'review' },
+  // …и о «Песни льда и огня» (русскоязычные)
+  { id: 'src-chimrus', title: 'ChimRUS', handle: 'ChimRUS', platform: 'youtube', url: 'https://www.youtube.com/@ChimRUS', role: 'voice', kind: 'channel', tier: 'review' },
+  { id: 'src-berdengusstrategists', title: 'Berden Gus Strategists', handle: 'BerdenGusStrategists', platform: 'youtube', url: 'https://www.youtube.com/@BerdenGusStrategists', role: 'voice', kind: 'channel', tier: 'review' },
+  // книжный: в его роликах ищем книги (З6)
+  { id: 'src-mnogoknigcom', title: 'Много книг', handle: 'mnogoknigcom', platform: 'youtube', url: 'https://www.youtube.com/@mnogoknigcom', role: 'voice', kind: 'channel', tier: 'review', medium: 'book' },
   // ── каналы из ссылок владельца: tools/register-link-channels.mts дописывает сюда ──
   // ярус по умолчанию — обзор; поменять — tier: 'essay'; сделать полноценным голосом — убрать via
   { id: 'src-yt-15_minut_pro_kino', title: '15 минут про кино (чаще больше)', handle: '15_minut_pro_kino', platform: 'youtube', url: 'https://www.youtube.com/@15_minut_pro_kino', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 10 роликов: Снегирь (2023), Приключения Паддингтона 3 (2024) и ещё 8
@@ -256,7 +272,7 @@ export const sources: VoiceSource[] = [
   { id: 'src-yt-целлулоидакусок', title: 'Целлулоида Кусок', handle: 'целлулоидакусок', platform: 'youtube', url: 'https://www.youtube.com/@целлулоидакусок', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Реинкарнация (2018)
   { id: 'src-yt-cynicaltheorist', title: 'Циничный Теоретик', handle: 'cynicaltheorist', platform: 'youtube', url: 'https://www.youtube.com/@cynicaltheorist', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Девушка, подающая надежды (2020)
   { id: 'src-yt-kakoekino', title: 'Что за кино?', handle: 'kakoekino', platform: 'youtube', url: 'https://www.youtube.com/@kakoekino', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Ведьмы (2020)
-  { id: 'src-yt-grajdaninrejisser', title: 'Что Посмотреть', handle: 'grajdaninrejisser', platform: 'youtube', url: 'https://www.youtube.com/@grajdaninrejisser', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 3 ролика: CODA: Ребенок глухих родителей (2021), Фабельманы (2022) и ещё 1
+  { id: 'src-yt-grajdaninrejisser', title: 'Что Посмотреть', handle: 'grajdaninrejisser', platform: 'youtube', url: 'https://www.youtube.com/@grajdaninrejisser', role: 'voice', kind: 'channel', tier: 'review' }, // 3 ролика; каналом прислан 02.10: CODA: Ребенок глухих родителей (2021), Фабельманы (2022) и ещё 1
   { id: 'src-yt-tatianazhakova', title: 'Что хотел сказать автор | Сторителлинг', handle: 'tatianazhakova', platform: 'youtube', url: 'https://www.youtube.com/@tatianazhakova', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 2 ролика: Грозовой перевал (2011), Бедные-несчастные (2023)
   { id: 'src-yt-6thriver', title: 'ШЕСТАЯ РЕКА', handle: '6thriver', platform: 'youtube', url: 'https://www.youtube.com/@6thriver', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Грозовой перевал (2011)
   { id: 'src-yt-shubinstream', title: 'Шубин Stream', handle: 'shubinstream', platform: 'youtube', url: 'https://www.youtube.com/@shubinstream', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Снегирь (2023)
@@ -456,7 +472,7 @@ export const sources: VoiceSource[] = [
   { id: 'src-yt-cinemabackstage', title: 'Backstage Cinema', handle: 'cinemabackstage', platform: 'youtube', url: 'https://www.youtube.com/@cinemabackstage', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Очень странные дела (сериал, 2016)
   { id: 'src-yt-bettervoice', title: 'Better Voice', handle: 'bettervoice', platform: 'youtube', url: 'https://www.youtube.com/@bettervoice', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Обсессия (2025)
   { id: 'src-yt-tgbigreview', title: 'Big Review', handle: 'tgbigreview', platform: 'youtube', url: 'https://www.youtube.com/@tgbigreview', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Чужой: Ромул (2024)
-  { id: 'src-yt-blackmeatplate', title: 'Black Meat Plate', handle: 'blackmeatplate', platform: 'youtube', url: 'https://www.youtube.com/@blackmeatplate', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Цельнометаллическая оболочка (1987)
+  { id: 'src-yt-blackmeatplate', title: 'Black Meat Plate', handle: 'blackmeatplate', platform: 'youtube', url: 'https://www.youtube.com/@blackmeatplate', role: 'voice', kind: 'channel', tier: 'review' }, // каналом прислан 02.10; 1 ролик: Цельнометаллическая оболочка (1987)
   { id: 'src-yt-bryceedwardbrown', title: 'Bryce Edward Brown', handle: 'bryceedwardbrown', platform: 'youtube', url: 'https://www.youtube.com/@bryceedwardbrown', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Взрывная блондинка (2017)
   { id: 'src-yt-calipso_lim', title: 'Calipso', handle: 'calipso_lim', platform: 'youtube', url: 'https://www.youtube.com/@calipso_lim', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Остров проклятых (2009)
   { id: 'src-yt-cdandsmotry', title: 'CD И СМОТРИ', handle: 'cdandsmotry', platform: 'youtube', url: 'https://www.youtube.com/@cdandsmotry', role: 'voice', kind: 'channel', tier: 'review', via: 'links' }, // 1 ролик: Игра престолов (сериал, 2011)
