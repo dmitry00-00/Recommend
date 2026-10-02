@@ -1,10 +1,11 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getVoiceWorks, type VoiceWorks } from '@/api';
 import { EmptyState, ErrorState, Skeleton } from '@/components';
 import { monogram } from '@/lib/voices';
 import { onExternalClick } from '@/lib/telegram';
 import { opVar } from '@/lib/operations';
+import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
 import ru from '@/i18n/ru';
 
@@ -66,6 +67,22 @@ export function VoiceScreen() {
               </a>
             ))}
           </p>
+
+          {data.profile ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ru.voice.about}</h2>
+              <p className="tm-voice__outlets">
+                {data.profile.top.map((t) => (
+                  <Link key={t.id} className={cx('tm-voice__chip', t.focus && 'tm-voice__chip--on')}
+                        to={t.kind === 'universe' ? `/universe/${t.id}` : `/person/${t.id}`}
+                        title={t.focus ? ru.voice.focus : undefined}>
+                    {t.title} · {ru.voice.share(t.share)}
+                  </Link>
+                ))}
+              </p>
+              <p className="tm-caption">{ru.voice.aboutNote(data.profile.n)}</p>
+            </section>
+          ) : null}
 
           {!data.items.length ? <EmptyState title={ru.voice.empty} text={ru.voice.emptyText} /> : null}
           <ul className="tm-search__list">

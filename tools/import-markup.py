@@ -103,14 +103,14 @@ was = {}
 if os.path.exists(OUT):
     was = json.load(open(OUT, encoding='utf-8')).get('videos', {})
 
-verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0, 'не тот фильм': 0,
+verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0, 'не тот фильм': 0, 'о франшизе': 0, 'о человеке': 0,
                               'нет у нас': 0, 'пропустили': 0, 'со стороны фильма': 0, 'из корпуса': 0,
                               'изменили прежнее': 0, 'без изменений': 0, 'опознали по названию': 0,
                               'опознали, на проверку': 0}
 rows_read = 0
 
 # guess — выбор опознавателя из тёзок: «да» в «Проверено» снимает пометку, это тоже изменение
-SAME = ('key', 'why', 'film', 'guess', 'err', 'also', 'alsoFilms')
+SAME = ('key', 'why', 'film', 'guess', 'err', 'also', 'alsoFilms', 'aboutTitle')
 
 # Вид ошибки (колонка «Ошибка», 02.10): те же три значения, что у пульта ссылок; хэштеги тоже понимаем
 def error_of(text):
@@ -123,6 +123,11 @@ def error_of(text):
         return 'не фильм'
     if re.search(r'несколько|#несколько', t):
         return 'несколько фильмов'
+    # о франшизе (цикле) и о человеке (режиссёре, писателе) — категории владельца 02.10
+    if re.search(r'франшиз|вселенн|цикл|#франшиза', t):
+        return 'о франшизе'
+    if re.search(r'о\s*человеке|режиссер|писател|#очеловеке', t):
+        return 'о человеке'
     return None
 
 def also_of(text):
@@ -135,8 +140,20 @@ def also_of(text):
         (ks if p in keys else names).append(keys.get(p, p))
     return ks, names
 
+# Вкладка «Проверка» пульта (tools/check-desk.mts, 02.10) пишет решения сразу сюда. Строка таблицы,
+# отданной людям раньше, их не перетирает: решение пульта, принятое в день заливки или позже,
+# новее любой ячейки той таблицы (у ячеек нет своего времени — сравниваем с днём заливки).
+PUSHED_DAY = ''
+if os.path.exists(REF):
+    PUSHED_DAY = date.fromtimestamp(os.path.getmtime(REF)).isoformat()
+newer_in_desk = []
+
 def put(vid, v, bucket):
     old = was.get(vid)
+    if old and old.get('from') == 'check' and old.get('at', '') >= PUSHED_DAY and v.get('from') != 'check' \
+            and any(old.get(k) != v.get(k) for k in SAME):
+        newer_in_desk.append(vid)
+        return
     # таблица возвращается из Google с прежними решениями: их не считаем заново и дату не
     # трогаем, иначе каждый круг выглядел бы как сотни новых подтверждений
     if old and all(old.get(k) == v.get(k) for k in SAME):
@@ -171,6 +188,14 @@ for name in SHEETS:
         # самая ошибочная догадка (или исправленный фильм, если его поменяли — тогда это поправка)
         if err == 'не фильм':
             put(vid, {'key': None, 'why': 'не про фильм', **extra}, 'не про фильм')
+            continue
+        # о франшизе или человеке: к фильму не привязываем; название цели — из колонки «Фильм», если
+        # его там поменяли (нетронутая догадка — это название фильма, а не франшизы)
+        if err in ('о франшизе', 'о человеке'):
+            about = {'aboutKind': 'universe' if err == 'о франшизе' else 'person'}
+            if film and film != before and film != NOT_A_FILM:
+                about['aboutTitle'] = re.sub(r'\s*\((?:сериал,?\s*)?(?:19|20)\d{2}\)\s*$', '', film).strip()
+            put(vid, {'key': None, 'why': err, **about, **extra}, err)
             continue
         if err == 'не тот фильм' and (not film or film == before):
             put(vid, {'key': None, 'why': 'не тот фильм', **({'film': film} if film else {}), **extra}, 'не тот фильм')
@@ -243,16 +268,18 @@ if 'Корпус' in wb.sheetnames:
 # «нет у нас» с названием. В листах таблицы его нет — поэтому опознаватель (resolve-markup-films.mts)
 # получает его отсюда, а найденное им применяется здесь же на втором круге импорта
 for vid, v in list(verdicts.items()):
-    if v.get('from') != 'desk' or v.get('key') or v.get('why') != 'нет у нас' or not v.get('film'):
+    if v.get('from') not in ('desk', 'check') or v.get('key') or v.get('why') != 'нет у нас' or not v.get('film'):
         continue
     r = resolved.get(vid, {})
     if r.get('typed') == v['film'] and r.get('key'):
         nv = {'key': r['key'], 'film': r['label'], 'from': 'desk'}
         if not r.get('sure'):
             nv['guess'] = True
+        nv['from'] = v.get('from')
         put(vid, nv, 'опознали по названию' if r.get('sure') else 'опознали, на проверку')
     else:
-        typed.append({'video': vid, 'film': v['film'], 'title': v.get('title', ''), 'sheet': 'пульт ссылок'})
+        typed.append({'video': vid, 'film': v['film'], 'title': v.get('title', ''),
+                      'sheet': 'проверка' if v.get('from') == 'check' else 'пульт ссылок'})
 
 body = {'//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
               ' читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса'
@@ -268,6 +295,8 @@ print('прочитано строк: %d (листы: %s)' % (rows_read, ', '.jo
 for k, n in stats.items():
     print('  %s: %d' % (k, n))
 print('решений всего в %s: %d%s' % (os.path.relpath(OUT, ROOT), len(verdicts), ' (--dry, файл не тронут)' if DRY else ''))
+if newer_in_desk:
+    print('решения вкладки «Проверка» новее таблицы — оставил их (%d): %s' % (len(newer_in_desk), ', '.join(newer_in_desk[:10])))
 if gap_channels:
     print('в «Без разбора» ссылки на канал, а не на ролик (%d) — разметкой не считаю: %s' % (len(gap_channels), '; '.join(gap_channels)))
 unknown = [v['film'] for v in verdicts.values() if v.get('why') == 'нет у нас']

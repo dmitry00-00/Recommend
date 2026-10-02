@@ -14,6 +14,51 @@ import { isDigest, listItems, nameMatchAt } from './title-match.mts';
 import { byTags, tagIndex } from './tag-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
+import { inFocusKey, readProfiles } from './channel-profile.mts';
+import { stopMatcher } from './stopwords-lib.mts';
+import { rubricStripper } from './rubrics.mts';
+import { loreHits, loreNames } from './lore.mts';
+import { playlistConfirms, playlistTargets } from './playlists-lib.mts';
+
+/** Цели плейлистов — один раз на процесс (tools/youtube-playlists.mts). */
+let plTargets: ReturnType<typeof playlistTargets> | undefined;
+const playlistsOf = (id: string) => (process.env.NO_PLAYLISTS ? undefined : (plTargets ??= playlistTargets()).get(id));
+import { resolveAbout } from './about-lib.mts';
+
+/** Вырезатель рубрик каналов (tools/rubrics.mts): рубрика, которая сама называет вселенную или
+ *  произведение из фокуса канала, остаётся («A Song of Ice and Fire» у Preston Jacobs).
+ *  По умолчанию выключен (RUBRICS_STRIP=1 — включить): замер 02.10 — вырезание сняло 2 ошибки, но
+ *  потеряло 9 верных. Рубрики «(обзор фильма)», «Рецензия „Красного Циника“» — это ярлык, по которому
+ *  опознаватель понимает, что рядом название, а «Во все тяжкие» у «4то за Персонаж?» — сам предмет.
+ *  Рубрики работают через стоп-слова: их исход по решениям людей — в кандидатах tools/stopwords.mts. */
+export function rubricsFor(ours: IndexedWork[], focusOf = focusFromProfiles()): (title: string, channel?: string) => string {
+  const low = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
+  const cache = new Map<string, string[]>();
+  const focusNames = (ch: string) => {
+    if (!cache.has(ch)) {
+      const f = focusOf(ch)?.focus;
+      cache.set(ch, f ? ours.filter((w) => inFocusKey(w.key, f)).flatMap((w) => w.names.map(low)).filter((n) => n.length >= 4) : []);
+    }
+    return cache.get(ch)!;
+  };
+  return rubricStripper(undefined, (seg, ch) => {
+    const f = focusOf(ch)?.focus;
+    if (!f) return false;
+    const u = resolveAbout('universe', seg);
+    if (u && f.has(u.id)) return true;
+    const s = low(seg);
+    return focusNames(ch).some((n) => s.includes(n));
+  });
+}
+
+export interface ChannelFocus { focus: ReadonlySet<string>; dominant: ReadonlySet<string> }
+/** Фокус каналов из .cache/channel-profiles.json (tools/channel-profile.mts) — для bestByTitle. */
+export function focusFromProfiles(): (channel?: string) => ChannelFocus | undefined {
+  const p = readProfiles();
+  const m = new Map(Object.entries(p).filter(([, x]) => x.focus.length)
+    .map(([ch, x]) => [ch, { focus: new Set(x.focus), dominant: new Set(x.dominant ?? []) }]));
+  return (ch) => (ch ? m.get(ch) : undefined);
+}
 import type { IndexedWork } from './works-index.mts';
 import { isBookKey } from '../src/lib/keys.ts';
 import { isSeries } from '../src/lib/media.ts';
@@ -21,6 +66,8 @@ import { bookChannelList, judgeInBookChannel, namesFor, preferBooks, sourceIndex
 
 export interface VideoLike {
   id: string; title: string; description?: string; publishedAt?: string;
+  /** название канала — по нему профиль канала (tools/channel-profile.mts) */
+  channel?: string;
   /** ролик книжного канала (З6): ищем и книги каталога, из равных — книгу (tools/book-channels.mts) */
   book?: boolean;
   /** ролик англоязычного канала: заголовок в Title Case (tools/title-match.mts, `english`) */
@@ -28,7 +75,7 @@ export interface VideoLike {
   /** теги YouTube (выгрузка): запасной путь, когда заголовок не назвал фильм (tools/tag-match.mts) */
   tags?: string[];
 }
-export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string; also?: string[] }
+export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?: string; also?: string[]; offFocus?: boolean }
 /** Ещё одно произведение ролика (OPS-8): «разбор „Адвокат дьявола“ и „Фирма“» — к обоим. */
 export interface OtherHit { key: string; work: IndexedWork['work'] }
 
@@ -41,8 +88,12 @@ const head = (w: string) => w.slice(0, 4);
 /** Лучшее совпадение названия по каждому ролику: самое длинное, из тёзок — pickNamesake. Без
  *  сторожей «сборник», «экранизация», «противоречие» — их вызывающий ставит сам (индекс разборов
  *  считает, сколько отсеял каждым, и не применяет их к решениям людей). */
-export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: { ordinary?: ReadonlySet<string>; loose?: boolean; stats?: { lists: number; pairs: number } } = {}):
-  Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' }> {
+export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: { ordinary?: ReadonlySet<string>; loose?: boolean; stats?: { lists: number; pairs: number; focusPicked?: number; offFocus?: number };
+  /** фокус канала — элементы Wikidata вселенных и людей (профиль канала, 02.10) */
+  focusOf?: (channel?: string) => ChannelFocus | undefined;
+  /** заголовок без рубрик канала (tools/rubrics.mts, 02.10) — для поиска названия */
+  strip?: (title: string, channel?: string) => string } = {}):
+  Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' | 'lore' | 'playlist'; offFocus?: boolean }> {
   // начало первого слова названия → произведения
   const byHead = new Map<string, IndexedWork[]>();
   for (const w of ours) {
@@ -54,17 +105,34 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       if (!list.includes(w)) list.push(w);
     }
   }
-  const out = new Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' }>();
+  const out = new Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' | 'lore' | 'playlist'; offFocus?: boolean }>();
+  const inFocus = (w: IndexedWork, focus: ReadonlySet<string>) => inFocusKey(w.key, focus);
   const tags = tagIndex(ours);
   // заголовок не назвал ни одного нашего фильма — хэштеги и теги ролика (02.10, tools/tag-match.mts).
   // Книжные каналы — мимо: там свои правила; ролик о серии — не к фильму
+  const byKeyOurs = new Map(ours.map((w) => [w.key, w]));
+  const lore = process.env.NO_LORE ? [] : loreNames(new Set(byKeyOurs.keys())).filter((n) => !n.one);
   const fallback = (v: VideoLike) => {
     if (v.book) return;
     const f = byTags(v, tags);
-    if (!f || (EPISODE.test(v.title) && !isSeries(f.work.work))) return;
-    out.set(v.id, { key: f.work.key, work: f.work.work, len: 0, via: f.via });
+    if (f && !(EPISODE.test(v.title) && !isSeries(f.work.work))) { out.set(v.id, { key: f.work.key, work: f.work.work, len: 0, via: f.via }); return; }
+    // словарь вселенной (tools/lore.mts, 02.10): в заголовке герой — имя из двух слов — одного нашего
+    // произведения: «Тирион Ланнистер: путь героя» — к «Игре престолов» (без улики, на проверку)
+    const hits = loreHits(v.title, lore);
+    const works = new Set(hits.flatMap((h) => h.works));
+    if (hits.length && works.size === 1) {
+      const w = byKeyOurs.get([...works][0]);
+      if (w) { out.set(v.id, { key: w.key, work: w.work, len: 0, via: 'lore' }); return; }
+    }
+    // плейлист одного произведения («Разбор „Сталкера“») — автор сам сказал, о чём ролик (02.10)
+    const pw = new Set((playlistsOf(v.id) ?? []).filter((t) => t.kind === 'work').map((t) => t.id));
+    if (pw.size === 1) {
+      const w = byKeyOurs.get([...pw][0]);
+      if (w) out.set(v.id, { key: w.key, work: w.work, len: 0, via: 'playlist' });
+    }
   };
-  for (const v of videos) {
+  for (const v0 of videos) {
+    const v = options.strip ? { ...v0, title: options.strip(v0.title, v0.channel) } : v0;
     const cands = new Set<IndexedWork>();
     for (const t of words(v.title)) for (const w of byHead.get(head(t)) ?? []) cands.add(w);
     if (!cands.size) { fallback(v); continue; }
@@ -101,6 +169,13 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       if (q.length) { max = q[0].len; tied = q.filter((h) => h.len === max).map((h) => h.w); }
     }
     if (v.book) tied = preferBooks(tied);
+    // профиль канала (02.10): из тёзок — тот, что в фокусе канала («Дракон» у канала о «Песни льда и
+    // огня»). Не привязка: вне фокуса совпадение остаётся, только без подтверждения (offFocus)
+    const cf = options.focusOf?.(v.channel);
+    if (cf && tied.length > 1) {
+      const f = tied.filter((w) => inFocus(w, cf.focus));
+      if (f.length && f.length < tied.length) { tied = f; if (options.stats) options.stats.focusPicked = (options.stats.focusPicked ?? 0) + 1; }
+    }
     const pick = pickNamesake(tied, `${v.title}\n${v.description ?? ''}`, v.publishedAt);
     if (!pick) continue;
     // Другие названия в заголовке — места, которые не пересекаются с главным и друг с другом;
@@ -126,13 +201,17 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     // ни одного из них (разметка владельца 02.10, вид «несколько фильмов»)
     if (Math.max(others.length + 1, listItems(v.title, mainHit)) >= 3) { if (options.stats) options.stats.lists += 1; continue; }
     if (others.length && options.stats) options.stats.pairs += 1;
-    out.set(v.id, { key: pick.key, work: pick.work, len: max, ...(others.length ? { others } : {}) });
+    const off = Boolean(cf?.dominant.size && !inFocus(pick, cf.dominant));
+    if (off && options.stats) options.stats.offFocus = (options.stats.offFocus ?? 0) + 1;
+    out.set(v.id, { key: pick.key, work: pick.work, len: max, ...(others.length ? { others } : {}), ...(off ? { offFocus: true } : {}) });
   }
   return out;
 }
 
 /** Догадка со сторожами — для таблицы разметки. */
-export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?: ReadonlySet<string>): Map<string, VideoGuess> {
+export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?: ReadonlySet<string>, opts: { noStop?: boolean } = {}): Map<string, VideoGuess> {
+  // стоп-слова владельца (tools/stopwords.json, 02.10): заголовок с ними — не к фильму по названию
+  const stop = opts.noStop ? () => undefined : stopMatcher();
   const byId = new Map(videos.map((v) => [v.id, v]));
   const out = new Map<string, VideoGuess>();
   const adIndex = adaptationIndex(ours);
@@ -156,14 +235,22 @@ export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?:
       if (j.action === 'drop') return undefined;
       if (j.action === 'move') pick = { key: j.to!.key, work: j.to!.work, names: j.to!.names };
     }
-    const verdict = evidenceFor(pick.work, text);
-    if (verdict === 'conflict' || tooEarly(pick.work, v.publishedAt)) return undefined;
+    const raw = evidenceFor(pick.work, text);
+    if (raw === 'conflict' || tooEarly(pick.work, v.publishedAt)) return undefined;
+    // герой этого произведения в заголовке или описании — тоже улика (словарь вселенной, 02.10)
+    // герой, чьё имя и есть название («Терминатор», «Хеллбой»), уликой не считается — это то же совпадение
+    const inTitle = (h: { name: string }) => pick.work.title.toLowerCase().replace(/ё/g, 'е').includes(h.name.split(' ')[0].slice(0, 5));
+    const verdict = raw ?? (!process.env.NO_LORE && loreHits(text).some((h) => h.works.includes(pick.key) && !inTitle(h)) ? 'lore'
+      : playlistConfirms(playlistsOf(v.id), pick.key) ? 'playlist' : undefined);
     return { key: pick.key, work: pick.work, ...(verdict ? { evidence: verdict } : {}) };
   };
-  for (const [id, { key, work, others }] of bestByTitle(videos, ours, { ordinary })) {
+  for (const [id, { key, work, others, offFocus }] of bestByTitle(videos, ours, { ordinary, focusOf: process.env.NO_FOCUS ? undefined : focusFromProfiles(), ...(process.env.RUBRICS_STRIP ? { strip: rubricsFor(ours) } : {}) })) {
     const v = byId.get(id)!;
-    const main = judge(v, key, work);
-    if (!main) continue;
+    if (stop(v.title, v.channel)) continue;
+    const judged = judge(v, key, work);
+    if (!judged) continue;
+    // вне фокуса канала — без подтверждения уликой: пусть посмотрит человек (профиль канала, 02.10)
+    const main = offFocus ? { key: judged.key, work: judged.work, offFocus: true } : judged;
     // второй фильм ролика (OPS-8) — со своими сторожами; в таблице он идёт в «Ещё фильмы»
     const also = (others ?? []).map((o) => judge(v, o.key, o.work)?.key).filter((k): k is string => Boolean(k) && k !== main.key);
     out.set(v.id, { ...main, ...(also.length ? { also } : {}) });

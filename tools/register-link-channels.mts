@@ -9,6 +9,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { sources } from '../src/mocks/sources.ts';
+import { excludedChannels } from './youtube-channels.mts';
 import { cachedVideos } from './youtube-channels.mts';
 
 loadEnvFile();
@@ -47,7 +48,9 @@ for (let i = 0; i < ids.length; i += 50) {
 }
 
 // 3. Название и @handle канала; кто уже в реестре (по handle или названию) — пропускаем
-const known = new Set(sources.flatMap((s) => [s.handle.toLowerCase(), s.title.toLowerCase()]));
+// и убранные владельцем (tools/channels-excluded.json): их не заводим заново
+const known = new Set([...sources.flatMap((s) => [s.handle.toLowerCase(), s.title.toLowerCase()]),
+  ...excludedChannels().flatMap((e) => [e.handle, e.title, e.channelId].filter(Boolean).map((x) => x!.toLowerCase()))]);
 const fresh: { line: string; title: string }[] = [];
 const chIds = [...byChannel.keys()];
 for (let i = 0; i < chIds.length; i += 50) {
@@ -55,7 +58,7 @@ for (let i = 0; i < chIds.length; i += 50) {
   for (const it of j.items ?? []) {
     const title = it.snippet?.title?.trim() || it.id;
     const handle = it.snippet?.customUrl?.replace(/^@/, '') || it.id;
-    if (known.has(handle.toLowerCase()) || known.has(title.toLowerCase())) continue;
+    if (known.has(handle.toLowerCase()) || known.has(title.toLowerCase()) || known.has(it.id.toLowerCase())) continue;
     known.add(handle.toLowerCase());
     const e = byChannel.get(it.id)!;
     const url = it.snippet?.customUrl ? `https://www.youtube.com/@${handle}` : `https://www.youtube.com/channel/${it.id}`;

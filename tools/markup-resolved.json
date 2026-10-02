@@ -1,6 +1,6 @@
 {
  "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
- "updated": "2026-10-01",
+ "updated": "2026-10-02",
  "videos": {
   "_3gNe43hFA0": {
    "typed": "mr. robot",
@@ -2256,6 +2256,12 @@
    "typed": "Трансформеры 4",
    "key": "tmdb:91314",
    "label": "Трансформеры: Эпоха истребления (2014)",
+   "sure": true
+  },
+  "EGWYfT4si5Q": {
+   "typed": "ДВИЖЕНИЕ ВВЕРХ",
+   "key": "tmdb:444218",
+   "label": "Движение вверх (2017)",
    "sure": true
   },
   "EI4bHf2fwA8": {

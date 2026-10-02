@@ -13,16 +13,21 @@ import { normalizeTitle } from '../src/lib/import/match.ts';
 
 /** Вид ошибки опознавателя (02.10, разметка владельца): заголовком раздела заметок («# не тот фильм»)
  *  или хэштегом у строки (#нетот, #нефильм, #несколько). Те же три значения — колонка «Ошибка» таблицы. */
-export type MarkupError = 'не тот фильм' | 'не фильм' | 'несколько фильмов';
+export type MarkupError = 'не тот фильм' | 'не фильм' | 'несколько фильмов' | 'о франшизе' | 'о человеке';
+/** ролик о франшизе (цикле) или о человеке (режиссёре, писателе) — категории владельца 02.10:
+ *  к фильму не привязываем, цель — вселенная или человек (tools/about-lib.mts) */
+export const isAboutError = (e?: string): e is 'о франшизе' | 'о человеке' => e === 'о франшизе' || e === 'о человеке';
 export function errorOf(text: string): MarkupError | undefined {
   const t = text.toLowerCase().replace(/ё/g, 'е');
+  if (/франшиз|вселенн|цикл|#франшиза|#цикл|#вселенная/.test(t)) return 'о франшизе';
+  if (/о\s*человеке|режиссер|писател|творчеств|#очеловеке|#режиссер|#писатель/.test(t)) return 'о человеке';
   if (/не\s*тот|#нетот/.test(t)) return 'не тот фильм';
   if (/не\s*фильм|не\s*про\s*фильм|#нефильм/.test(t)) return 'не фильм';
   if (/несколько|#несколько|#многофильм/.test(t)) return 'несколько фильмов';
   return undefined;
 }
 /** строка-раздел вида ошибки: «# не фильм», «## Несколько фильмов», «#нетот» */
-const ERROR_SECTION = /^#+\s*(?:не\s*тот|не\s*фильм|не\s*про\s*фильм|несколько)|^#(?:нетот|нефильм|несколько)\b/iu;
+const ERROR_SECTION = /^#+\s*(?:не\s*тот|не\s*фильм|не\s*про\s*фильм|несколько|о\s*франшизе|франшиз|о\s*цикле|о\s*человеке|о\s*режисс|о\s*писател)|^#(?:нетот|нефильм|несколько|франшиза|цикл|очеловеке|режиссер|писатель)\b/iu;
 
 export interface PastedVideo { id: string; url: string; film?: string; year?: number; line: number; err?: MarkupError }
 export interface PastedChannel { handle?: string; channelId?: string; url: string; tier?: 'essay' | 'review'; medium?: 'film' | 'book'; line: number }

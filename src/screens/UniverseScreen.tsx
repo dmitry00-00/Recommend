@@ -1,7 +1,8 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getUniverse, type UniverseMember, type UniversePage } from '@/api';
-import { DiscussionLink, EmptyState, ErrorState, Skeleton } from '@/components';
+import { getSettings, getUniverse, type UniverseMember, type UniversePage } from '@/api';
+import type { SpoilerLevel } from '@/types/tmdf';
+import { DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
 import { opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
 import { onExternalClick } from '@/lib/telegram';
@@ -18,6 +19,9 @@ export function UniverseScreen() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [order, setOrder] = useState<'release' | 'story'>('release');
+  const [spoilers, setSpoilers] = useState<SpoilerLevel>(0);
+
+  useEffect(() => { getSettings().then((s) => setSpoilers(s.spoilerLevel)).catch(() => undefined); }, []);
 
   useEffect(() => {
     let alive = true;
@@ -85,6 +89,16 @@ export function UniverseScreen() {
               </ul>
             </section>
           ))}
+
+          {data.essays.length ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ru.universe.essays}</h2>
+              <p className="tm-caption">{ru.universe.essaysNote}</p>
+              <ul className="tm-person__essays">
+                {data.essays.map((a) => <li key={a.url}><ExternalAnalysisLink analysis={a} spoilerLevel={spoilers} /></li>)}
+              </ul>
+            </section>
+          ) : null}
 
           {data.discussions.length ? (
             <section className="tm-person__section">

@@ -14,8 +14,13 @@ import { worksIndex } from './works-index.mts';
 import { evidenceFor, tooEarly } from './evidence.mts';
 import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
-import { bestByTitle } from './match-videos.mts';
-import { channelMeta, fetchChannelVideos } from './youtube-channels.mts';
+import { focusFromProfiles, bestByTitle } from './match-videos.mts';
+import { stopMatcher } from './stopwords-lib.mts';
+import { loreHits } from './lore.mts';
+import { playlistConfirms, playlistTargets } from './playlists-lib.mts';
+import { pairKey, readPrecision } from './link-precision.mts';
+import { channelMeta, excludedChannels, fetchChannelVideos, isExcluded } from './youtube-channels.mts';
+import { resolveAbout, type AboutKind } from './about-lib.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isBookKey } from '../src/lib/keys.ts';
 import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex } from './book-channels.mts';
@@ -55,8 +60,9 @@ const bookChannels = new Set<string>();
 // англоязычные каналы (`language: 'en'` в sources.ts): их ролик помечаем «англ.» и сопоставляем
 // по-английски (Title Case в заголовке — не продолжение названия, tools/title-match.mts)
 const englishChannels = new Set<string>();
+const excluded = excludedChannels();
 for (const [id, m] of Object.entries(channelMeta())) {
-  if (m.via) continue;
+  if (m.via || isExcluded({ channelId: id, handle: m.handle, title: m.title }, excluded)) continue;
   channels.set(id, m.title);
   if (m.tier === 'review') reviewers.add(m.title);
   if (m.medium === 'book') bookChannels.add(m.title);
@@ -75,7 +81,9 @@ const ours = worksIndex();
 // Ручная разметка (tools/import-markup.py ← film_reviews.xlsx). Она сильнее догадки во всём:
 // привязывает то, чего регексп не увидел, снимает то, что он привязал зря, и не спрашивает
 // про длительность и улики — человек уже посмотрел. Файла нет — всё как раньше.
-interface Verdict { key: string | null; why?: string; film?: string; guess?: boolean; err?: string; also?: string[] }
+interface Verdict { key: string | null; why?: string; film?: string; guess?: boolean; err?: string; also?: string[];
+  /** ролик о франшизе или человеке (02.10): цель — элемент Wikidata и название */
+  about?: string; aboutKind?: AboutKind; aboutTitle?: string }
 const vFile = new URL('./markup-verdicts.json', import.meta.url);
 const human: Record<string, Verdict> = existsSync(vFile)
   ? (JSON.parse(readFileSync(vFile, 'utf8')).videos ?? {}) : {};
@@ -87,7 +95,7 @@ const OUTSIDE = new URL('../.cache/youtube/outside.json', import.meta.url);
 type OutsideVideo = Video & { channelTitle?: string };
 const outsideCache: Record<string, OutsideVideo | null> = existsSync(OUTSIDE) ? JSON.parse(readFileSync(OUTSIDE, 'utf8')) : {};
 const inDump = new Set(videos.map((x) => x.id));
-const outside = Object.entries(human).filter(([id, v]) => v.key && !inDump.has(id)).map(([id]) => id);
+const outside = Object.entries(human).filter(([id, v]) => (v.key || v.aboutTitle) && !inDump.has(id)).map(([id]) => id);
 const addOutside = (it: OutsideVideo) => {
   videos.push(it);
   // ярус такого канала — из реестра (via: 'links', заводит tools/register-link-channels.mts);
@@ -129,8 +137,9 @@ const rows: string[] = [];
 // выбирает pickNamesake. Правила общие с таблицей разметки — tools/match-videos.mts (HYG-3, 30.09):
 // там же отбор кандидатов по началу слова, в двадцать раз быстрее перебора, результат тот же
 // (проверено на 2,5 тыс. роликов дампа — ни одного расхождения)
-const listStats = { lists: 0, pairs: 0 };
-const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1', stats: listStats });
+const listStats: { lists: number; pairs: number; focusPicked?: number; offFocus?: number } = { lists: 0, pairs: 0 };
+// профиль канала (tools/channel-profile.mts, 02.10): тёзки — в пользу фокуса канала, вне фокуса — без улики
+const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1', stats: listStats, focusOf: focusFromProfiles() });
 let early = 0;
 // поверх догадок — решения людей
 let confirmed = 0;
@@ -148,7 +157,9 @@ if (Object.keys(human).length) console.error(`ручная разметка: п�
 
 // длительность — только у совпавших: разбор короче пяти минут это не разбор, а шортс
 // (02.10) длительность — из выгрузки и из прежних ответов: спрашиваем только о роликах без неё
-const matched = [...best.keys()];
+// о франшизе и о человеке (02.10) — тоже нужна длительность: их показывает страница вселенной и человека
+const aboutIds = Object.entries(human).filter(([, v]) => v.aboutTitle && !v.key).map(([id]) => id);
+const matched = [...new Set([...best.keys(), ...aboutIds])];
 const DURATIONS = new URL('../.cache/youtube/durations.json', import.meta.url);
 const durationCache: Record<string, number> = existsSync(DURATIONS) ? JSON.parse(readFileSync(DURATIONS, 'utf8')) : {};
 const durations = new Map<string, number>();
@@ -165,6 +176,12 @@ for (let i = 0; i < askDur.length; i += 50) {
 }
 if (askDur.length) writeFileSync(DURATIONS, JSON.stringify(durationCache));
 let short = 0;
+let stopped = 0;
+let trustedUp = 0, weakened = 0;
+const playlists = playlistTargets();
+const prec = readPrecision();
+const precision = { trusted: new Set(prec?.trusted ?? []), weak: new Set(prec?.weak ?? []) };
+const stopWord = stopMatcher();
 let digests = 0;
 let adaptations = 0;
 let moved = 0;
@@ -175,7 +192,7 @@ const adIndex = adaptationIndex(worksIndex({ all: true }));
 const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
 // второй фильм ролика (OPS-8, 02.10): «разбор „Девчата“ и „Серенада Солнечной долины“» — отдельной
 // парой «ролик → фильм», с теми же сторожами. Решение человека по ролику главнее: тогда без догадок
-const pairs: [string, { key: string; work: (typeof best extends Map<string, infer T> ? T : never)['work']; other?: boolean }][] = [];
+const pairs: [string, { key: string; work: (typeof best extends Map<string, infer T> ? T : never)['work']; other?: boolean; offFocus?: boolean }][] = [];
 for (const [videoId, found] of best) {
   pairs.push([videoId, found]);
   if (!human[videoId]) for (const o of found.others ?? []) pairs.push([videoId, { key: o.key, work: o.work, other: true }]);
@@ -189,6 +206,8 @@ for (const [videoId, found] of pairs) {
   // выбор опознавателя из тёзок (guess) — не слово человека: сторожа его проверяют, в карточке «не проверено»
   const said = !found.other && Boolean(human[videoId]?.key) && !human[videoId]?.guess;
   if (!said && minutes != null && minutes < 5) { short += 1; continue; }
+  // стоп-слова владельца (tools/stopwords.json, 02.10) — не к фильму по названию
+  if (!said && stopWord(v.title, v.channel)) { stopped += 1; continue; }
   // сборник, топ или новости (слова владельца, tools/title-match.mts DIGEST): не про один фильм
   if (!said && isDigest(v.title, byKey.get(key) ? namesFor(byKey.get(key)!, Boolean(v.book)) : [])) { digests += 1; continue; }
   // книжный канал (З6): сборник («ПРОЧИТАНО», «N книг») — нет; фильм без разговора о кино — к книге
@@ -207,7 +226,20 @@ for (const [videoId, found] of pairs) {
   // улика в названии и описании ролика (В3): год, оригинальное название, ссылка на страницу
   // фильма; противоречие года — ролик про ремейк или тёзку, привязку снимаем.
   // Человека сторожа не перепроверяют: он смотрел ролик, а они читают заголовок
-  const verdict = said ? 'human' as const : evidenceFor(work, `${v.title}\n${v.description ?? ''}`);
+  // вне фокуса канала улика не подтверждает: «Королева» 2006 года у канала о Вестеросе — на проверку
+  const ev0 = said ? 'human' as const : found.offFocus ? undefined : evidenceFor(work, `${v.title}\n${v.description ?? ''}`);
+  // словарь вселенной (tools/lore.mts, 02.10): герой этого произведения в заголовке или описании —
+  // улика, если его имя не само название («Терминатор»)
+  const raw = ev0 ?? (said || found.offFocus ? undefined
+    : loreHits(`${v.title}\n${v.description ?? ''}`).some((h) => h.works.includes(key) && !work.title.toLowerCase().replace(/ё/g, 'е').includes(h.name.split(' ')[0].slice(0, 5))) ? 'lore' as const
+      // плейлист канала (tools/youtube-playlists.mts): само произведение, его вселенная или его человек
+      : playlistConfirms(playlists.get(videoId), key) ? 'playlist' as const : undefined);
+  // точность по каналу и способу (tools/link-precision.mts, 02.10): у надёжного канала догадка по
+  // названию подтверждена; у слабого улика не подтверждает — на проверку
+  const pk = pairKey(v.channel, raw && raw !== 'conflict' ? raw : 'title');
+  const verdict = said || raw === 'conflict' ? raw
+    : precision.weak.has(pk) ? (raw ? (weakened += 1, undefined) : undefined)
+      : !raw && !found.offFocus && precision.trusted.has(pk) ? (trustedUp += 1, 'channel' as const) : raw;
   if (verdict === 'conflict') { conflicts += 1; continue; }
   // ролик вышел раньше фильма больше чем на год — не про него
   if (!said && tooEarly(work, v.publishedAt)) { early += 1; continue; }
@@ -224,6 +256,9 @@ for (const [videoId, found] of pairs) {
   rows.push(`${verdict ? `[${verdict}] ` : ''}${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
 }
 console.error(`перечней из трёх и больше названий (не разбор ни одного): ${listStats.lists}, роликов о двух фильмах: ${listStats.pairs}`);
+console.error(`стоп-слова владельца сняли привязок: ${stopped}`);
+console.error(`точность по каналам: подтверждено надёжным каналом ${trustedUp}, улика снята у слабого ${weakened}`);
+console.error(`профиль канала: тёзка выбран по фокусу ${listStats.focusPicked ?? 0}, совпадений вне фокуса (без улики) ${listStats.offFocus ?? 0}`);
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outsideCatalog}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
@@ -251,5 +286,36 @@ import type { ExternalAnalysis } from '@/types/tmdf';
 
 export const essaysAuto: Record<string, ExternalAnalysis[]> = ${JSON.stringify(out, null, 2)};
 `);
+// Ролики о франшизе (вселенной) и о человеке — решения людей (вкладка «Проверка», 02.10): к фильму не
+// привязаны, идут на страницу вселенной (/universe/:id) и человека (/person/:id). Цель без id
+// (вписали название) узнаём по справочнику ещё раз — вдруг вселенная или человек появились
+const about: { universe: Record<string, ExternalAnalysis[]>; person: Record<string, ExternalAnalysis[]> } = { universe: {}, person: {} };
+let aboutLost = 0;
+const videoById = new Map(videos.map((v) => [v.id, v]));
+for (const [videoId, h] of Object.entries(human)) {
+  if (h.key || !h.aboutTitle || h.guess) continue;
+  const kind: AboutKind = h.aboutKind ?? (h.why === 'о человеке' ? 'person' : 'universe');
+  const id = h.about ?? resolveAbout(kind, h.aboutTitle)?.id;
+  const v = videoById.get(videoId);
+  if (!id || !v) { aboutLost += 1; continue; }
+  const minutes = durations.get(videoId);
+  (about[kind][id] ??= []).push({
+    id: `yta-${videoId}`, title: v.title, author: v.channel, platform: 'youtube', url: `https://www.youtube.com/watch?v=${videoId}`,
+    language: v.en || englishChannels.has(v.channel) ? 'en' : 'ru', spoilerLevel: 2, evidence: 'human',
+    ...(reviewers.has(v.channel) ? { tier: 'review' as const } : {}),
+    previewUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    ...(minutes ? { durationMinutes: minutes } : {}), ...(v.publishedAt ? { publishedAt: v.publishedAt } : {}),
+  } as ExternalAnalysis);
+}
+writeFileSync(new URL('../src/mocks/essaysAbout.ts', import.meta.url),
+  `// Сгенерировано tools/build-essay-index.mts (${new Date().toISOString().slice(0, 10)}): ролики о франшизе (вселенной) и о
+// человеке — по решениям людей во вкладке «Проверка» пульта. Ключ — элемент Wikidata вселенной или человека.
+// Не править руками — перегенерировать.
+import type { ExternalAnalysis } from '@/types/tmdf';
+
+export const essaysAbout: { universe: Record<string, ExternalAnalysis[]>; person: Record<string, ExternalAnalysis[]> } = ${JSON.stringify(about, null, 2)};
+`);
+const aboutN = (k: AboutKind) => Object.values(about[k]).flat().length;
+console.error(`о франшизе: ${aboutN('universe')} к ${Object.keys(about.universe).length} вселенным, о человеке: ${aboutN('person')} к ${Object.keys(about.person).length} людям${aboutLost ? `; без цели или без ролика: ${aboutLost}` : ''}`);
 console.error(`\n→ src/mocks/essaysAuto.ts: ${rows.length} совпадений к ${Object.keys(out).length} фильмам`);
 console.error(rows.sort().join('\n'));

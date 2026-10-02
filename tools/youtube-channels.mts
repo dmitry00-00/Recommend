@@ -40,6 +40,20 @@ const readJson = <T,>(file: string, fallback: T): T => {
 };
 export const channelMeta = (): Record<string, ChannelMeta> => readJson(CHANNELS, {});
 
+/** Каналы, убранные из выборки совсем (tools/channels-excluded.json, 02.10): ни обхода, ни роликов
+ *  в выгрузке, ни строки в реестре — пульт ссылок и register-link-channels их заново не заводят. */
+export interface Excluded { handle?: string; channelId?: string; title?: string; why?: string }
+const EXCLUDED_FILE = new URL('./channels-excluded.json', import.meta.url);
+export const excludedChannels = (): Excluded[] => {
+  try { return (JSON.parse(readFileSync(EXCLUDED_FILE, 'utf8')).channels ?? []) as Excluded[]; } catch { return []; }
+};
+/** Убран ли канал: по id, нику или названию (у ролика в индексе есть только название канала). */
+export function isExcluded(c: { channelId?: string; handle?: string; title?: string }, list = excludedChannels()): boolean {
+  const low = (x?: string) => (x ?? '').trim().toLowerCase().replace(/^@/, '');
+  return list.some((e) => (e.channelId && e.channelId === c.channelId) || (e.handle && low(e.handle) === low(c.handle))
+    || (e.title && low(e.title) === low(c.title)));
+}
+
 /** `links` — обходить и каналы, пришедшие ссылками владельца (`via: 'links'` в sources.ts, 224 на
  *  29.09): их ролики нужны таблице разметки film_reviews (решение владельца 30.09). Индекс
  *  разборов (build-essay-index) обходит только свои каналы — без `links`.
@@ -57,8 +71,9 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
     if (!r?.ok) { log(`  ${path} ${r?.status ?? 'нет сети'}`); return undefined; }
     return await r.json() as T;
   };
-  const before = cachedVideos() ?? [];
-  const oldMeta = channelMeta();
+  const excluded = excludedChannels();
+  const before = (cachedVideos() ?? []).filter((v) => !isExcluded({ channelId: v.channelId, title: v.channel }, excluded));
+  const oldMeta = Object.fromEntries(Object.entries(channelMeta()).filter(([id, m]) => !isExcluded({ channelId: id, handle: m.handle, title: m.title }, excluded)));
   const state: UploadsState = full ? {} : readJson(UPLOADS, {});
 
   // 1. Каналы — из уже известных роликов (src/mocks/essays.ts) и из списка владельца.
@@ -81,7 +96,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
   for (let i = 0; i < unknownIds.length; i += 50) {
     const j = await get<{ items?: { snippet?: { channelId?: string; channelTitle?: string } }[] }>('videos',
       { part: 'snippet', id: unknownIds.slice(i, i + 50).join(',') });
-    for (const it of j?.items ?? []) if (it.snippet?.channelId && !meta.has(it.snippet.channelId)) {
+    for (const it of j?.items ?? []) if (it.snippet?.channelId && !meta.has(it.snippet.channelId) && !isExcluded({ channelId: it.snippet.channelId, title: it.snippet.channelTitle }, excluded)) {
       const title = it.snippet.channelTitle ?? '';
       channels.set(it.snippet.channelId, title);
       meta.set(it.snippet.channelId, { title, tier: 'essay', medium: 'film' });
@@ -90,7 +105,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
   // каналы реестра: id по нику — из прежнего channels.json, спрашиваем только новых
   const byHandle = new Map(Object.entries(oldMeta).filter(([, m]) => m.handle).map(([id, m]) => [m.handle!.toLowerCase(), { id, title: m.title }]));
   let askedHandles = 0;
-  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || (links && x.via === 'links')))) {
+  for (const src of sources.filter((x) => x.platform === 'youtube' && x.role === 'voice' && (!x.via || (links && x.via === 'links')) && !isExcluded({ handle: x.handle, title: x.title }, excluded))) {
     let found = full ? undefined : byHandle.get(src.handle.toLowerCase());
     if (!found) {
       askedHandles += 1;
@@ -98,6 +113,7 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
       const it = j?.items?.[0];
       if (it?.id) found = { id: it.id, title: it.snippet?.title ?? src.title };
     }
+    if (found && isExcluded({ channelId: found.id }, excluded)) continue;
     if (found) {
       channels.set(found.id, found.title);
       meta.set(found.id, { handle: src.handle, title: found.title, tier: src.tier ?? (src.via ? 'review' : 'essay'), medium: src.medium ?? 'film', ...(src.via ? { via: src.via } : {}), ...(src.language ? { language: src.language } : {}) });

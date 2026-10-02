@@ -96,10 +96,10 @@ def markup_sheet(name, rows, index):
 
     # Вид ошибки опознавателя (02.10): по нему видно, какие правила чинить. «не фильм» и «не тот фильм»
     # снимают привязку и без «да»; «несколько фильмов» — фильм в колонке B верен, остальные — в H
-    dv3 = DataValidation(type='list', formula1='"не тот фильм,не фильм,несколько фильмов"', allow_blank=True,
+    dv3 = DataValidation(type='list', formula1='"не тот фильм,не фильм,несколько фильмов,о франшизе,о человеке"', allow_blank=True,
                          showDropDown=False, showInputMessage=True, showErrorMessage=True)
     dv3.promptTitle = 'Ошибка'
-    dv3.prompt = 'Если машина ошиблась: не тот фильм / не фильм вовсе / в ролике несколько фильмов.'
+    dv3.prompt = 'Если машина ошиблась: не тот фильм / не фильм вовсе / несколько фильмов / о франшизе (название — в «Фильм») / о человеке (имя — в «Фильм»).'
     dv3.add('G2:G%d' % last)
     ws.add_data_validation(dv3)
     for col, width in zip('ABCDEFGH', (44, 46, 64, 22, 12, 12, 18, 40)):

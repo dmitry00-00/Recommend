@@ -9,7 +9,7 @@ import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
 import { nameForms, nameRegex, sharedWords } from '@/lib/characters';
-import { listLike } from '@/lib/relations';
+import { hubWeight, listLike } from '@/lib/relations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
@@ -370,7 +370,7 @@ function universeIndex(): NonNullable<typeof universes> {
   for (const x of parent.keys()) (groups.get(find(x)) ?? groups.set(find(x), []).get(find(x))!).push(x);
   const hubOf = new Map<string, string>();
   const members = new Map<string, string[]>();
-  const weight = (q: string) => { const k = relationNodes[q]?.k; return k === 'franchise' ? 2 : k === 'cycle' ? 1 : 0; };
+  const weight = (q: string) => hubWeight(relationNodes[q]);
   for (const list of groups.values()) {
     if (list.length < 2) continue;
     const hub = [...list].sort((a, b) => weight(b) - weight(a) || (degree.get(b) ?? 0) - (degree.get(a) ?? 0)
@@ -415,6 +415,9 @@ export interface UniversePage {
   discussions: DiscussionPlace[];
   /** заложенная вселенная (Ж3): вики фандома и открытые API, ответившие при сборке */
   sources?: { wiki: string[]; api: { url: string; what: string; key?: boolean }[] };
+  /** ролики о вселенной целиком (хронология, лор, история серии) — по решениям разметки, 02.10;
+   *  эссе первыми, обзоры за ними, внутри — свежие первыми */
+  essays: ExternalAnalysis[];
 }
 
 export async function getUniverse(id: string): Promise<UniversePage | undefined> {
@@ -480,7 +483,8 @@ export async function getUniverse(id: string): Promise<UniversePage | undefined>
     .filter((d) => (seenUrl.has(d.url) ? false : (seenUrl.add(d.url), true))).slice(0, 12);
   const { universeSources } = await import('@/mocks/universeSources');
   const src = universeSources[id];
-  return { id, title: hub.t, kind: hub.k, byKind, chains, ...(startWith ? { startWith } : {}), discussions,
+  const essays = aboutOrder((await aboutVideos()).universe[id] ?? []);
+  return { id, title: hub.t, kind: hub.k, byKind, chains, ...(startWith ? { startWith } : {}), discussions, essays,
     ...(src && (src.wiki.length || src.api.length) ? { sources: { wiki: src.wiki, api: src.api } } : {}) };
 }
 
@@ -2064,6 +2068,8 @@ function analysesFor(work: WorkCard, detail?: ExternalAnalysis[]): ExternalAnaly
 export interface VoiceWorks {
   voice: Voice;
   items: { work: WorkCard; analyses: ExternalAnalysis[] }[];
+  /** о чём говорит (профиль канала, 02.10): вселенные и люди с долей, по всем каналам автора */
+  profile?: { n: number; top: { id: string; kind: 'universe' | 'person'; title: string; share: number; focus: boolean }[] };
 }
 
 export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undefined> {
@@ -2092,7 +2098,24 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
   const items = [...byKey.values()]
     .map((i) => ({ ...i, analyses: [...i.analyses].sort((x, y) => stamp(y) - stamp(x)) }))
     .sort((a, b) => stamp(b.analyses[0]) - stamp(a.analyses[0]));
-  return { voice, items };
+  // профиль по всем каналам автора: доли складываются с весом объёма канала
+  const authors = new Set(items.flatMap((i) => i.analyses.map((a) => a.author)));
+  const { channelProfiles } = await import('@/mocks/channelProfiles');
+  const parts = [...authors].map((a) => channelProfiles[a]).filter(Boolean);
+  let profile: VoiceWorks['profile'];
+  if (parts.length) {
+    const n = parts.reduce((s, p) => s + p.n, 0);
+    const acc = new Map<string, { id: string; kind: 'universe' | 'person'; title: string; share: number; focus: boolean }>();
+    for (const p of parts) for (const t of p.top) {
+      const x = acc.get(t.id) ?? { ...t, share: 0, focus: false };
+      x.share += (t.share * p.n) / n;
+      x.focus ||= p.focus.includes(t.id);
+      acc.set(t.id, x);
+    }
+    const top = [...acc.values()].filter((x) => x.share >= 0.08).sort((a, b) => b.share - a.share).slice(0, 6);
+    if (top.length) profile = { n: Math.round(n), top };
+  }
+  return { voice, items, ...(profile ? { profile } : {}) };
 }
 
 /** Страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель. Не путать с
@@ -2105,6 +2128,8 @@ export interface PersonPage {
   works: { work: WorkCard; roles: CreditRole[]; analyses: number; seen: boolean }[];
   /** разборы эссеистов о его работах — свежие первыми, обзоры не показываем (решение 29.09) */
   analyses: { work: WorkCard; analysis: ExternalAnalysis; seen: boolean }[];
+  /** ролики о нём самом и его творчестве целиком — по решениям разметки (02.10) */
+  about: ExternalAnalysis[];
   /** с чего начать: непросмотренное с разметкой — ближе всего к «чуть выше привычного»
    *  (`near`), а без состояния — самый доступный вход (`entry`) */
   startWith?: { work: WorkCard; why: 'near' | 'entry'; level: number };
@@ -2133,7 +2158,9 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
     if (!item.work.complexityLevel && w.complexityLevel) item.work = w;
     byWork.set(id, item);
   }
-  if (!byWork.size || !name) return undefined;
+  const about = aboutOrder(isPersonId(ref) ? (await aboutVideos()).person[ref] ?? [] : []);
+  // человек без работ в каталоге, но с роликами о нём — страница всё равно есть
+  if ((!byWork.size && !about.length) || !name) return undefined;
   const person: Person = known ?? { id: ref, name };
 
   const analyses: PersonPage['analyses'] = [];
@@ -2175,11 +2202,18 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
   const roleOrder: CreditRole[] = ['director', 'creator', 'author', 'writer'];
   const roles = roleOrder.filter((r) => works.some((x) => x.roles.includes(r)));
   return {
-    person, wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24),
+    person, wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24), about,
     ...(pick ? { startWith: { work: pick.work, why: comfort != null ? 'near' as const : 'entry' as const, level: pick.work.complexityLevel } } : {}),
     trajectories,
   };
 }
+
+/** Ролики о франшизе и о человеке (src/mocks/essaysAbout.ts, 02.10) — подгружаются со страницей. */
+let aboutLoad: Promise<{ universe: Record<string, ExternalAnalysis[]>; person: Record<string, ExternalAnalysis[]> }> | undefined;
+const aboutVideos = () => (aboutLoad ??= import('@/mocks/essaysAbout').then((m) => m.essaysAbout));
+/** эссе первыми, обзоры за ними; внутри — свежие первыми */
+const aboutOrder = (list: ExternalAnalysis[]): ExternalAnalysis[] => [...list].sort((a, b) =>
+  Number(a.tier === 'review') - Number(b.tier === 'review') || (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
 
 /** Вердикты по автонайденным разборам: ключ — ссылка на ролик. */
 const linkVerdicts = new Map<string, 'about_this' | 'other_work' | 'unsure'>();

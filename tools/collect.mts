@@ -7,6 +7,10 @@
 //   4. замер (tools/voices-report.mts) — в .cache/collect/, строкой в history.tsv;
 //      контрольные числа против прошлого снимка (tools/collect-metrics.mts) — предупреждения в лог;
 //   5. публикация на сервер (tools/publish-reference.mts) — приложение подхватит без перезаливки.
+// После индексов (02.10) — разметка моделью (tools/llm-label.mts, не больше 300 штук и 20 минут:
+// локальная модель общая с recruit) и замер на ручной разметке (tools/markup-eval.mts).
+// Каждый шаг оставляет отметку в .cache/pipeline/state.json — её показывает панель «Конвейер»
+// во вкладке «Проверка» пульта (tools/check-desk.mts).
 // Упавший необязательный шаг не останавливает остальные: старые посты лучше, чем никаких.
 //   npx tsx tools/collect.mts [--expand] [--no-publish]
 // Расписание ставит deploy/install-collect.command (launchd, каждый день в 06:30).
@@ -14,6 +18,7 @@ import { spawnSync } from 'node:child_process';
 import { appendFileSync, closeSync, existsSync, mkdirSync, openSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadEnvFile } from './env-file.mts';
+import { markStage } from './pipeline.mts';
 
 loadEnvFile();
 const DIR = '.cache/collect';
@@ -22,9 +27,10 @@ const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
 const log = join(DIR, `${stamp}.log`);
 const say = (s: string) => { console.log(s); appendFileSync(log, `${s}\n`); };
 
-function step(name: string, cmd: string, args: string[], { optional = false } = {}): boolean {
+function step(name: string, cmd: string, args: string[], { optional = false, mark }: { optional?: boolean; mark?: string } = {}): boolean {
   say(`\n── ${name}: ${cmd} ${args.join(' ')}`);
   const t = Date.now();
+  const startedAt = new Date().toISOString();
   // вывод шага пишется в лог сразу, а не по окончании: долгий шаг (Wikidata — полчаса) видно
   // по `tail -f .cache/collect/<время>.log`, и понятно, что он жив
   const fd = openSync(log, 'a');
@@ -32,6 +38,11 @@ function step(name: string, cmd: string, args: string[], { optional = false } = 
   closeSync(fd);
   const ok = r.status === 0;
   say(`   ${ok ? 'готово' : `ОШИБКА (код ${r.status ?? r.error?.message})`} за ${Math.round((Date.now() - t) / 1000)} с`);
+  if (mark) {
+    // последняя строка шага — итог для панели (её и печатают шаги последней)
+    const tail = readFileSync(log, 'utf8').trimEnd().split('\n').filter((l) => l.trim() && !l.startsWith('──') && !l.startsWith('   готово') && !l.startsWith('   ОШИБКА')).at(-1);
+    markStage(mark, { startedAt, finishedAt: new Date().toISOString(), code: r.status ?? 1, ...(tail ? { summary: tail.slice(0, 300) } : {}), by: 'сборщик' });
+  }
   if (!ok && !optional) { say('обязательный шаг упал — дальше не идём'); process.exit(1); }
   return ok;
 }
@@ -42,7 +53,7 @@ const tsx = (script: string, ...args: string[]) => [npx, ['--yes', 'tsx', script
 // 1. Telegram: посты забирает шлюз (~/core/services/tg-gateway), аккаунтом владеет он один. Шаг
 // необязательный: если шлюз лежит, telegram-pull выходит с кодом 2, и индексы строятся по
 // тем постам, что уже выкачаны, — старые посты лучше, чем никаких.
-step('посты каналов', ...tsx('tools/telegram-pull.mts'), { optional: true });
+step('посты каналов', ...tsx('tools/telegram-pull.mts'), { optional: true, mark: 'tg' });
 
 // 2. Справочник фильмов — раз в неделю или по --expand: это сотни запросов к Wikidata
 const expandMark = join(DIR, 'expand.last');
@@ -54,11 +65,22 @@ if (process.argv.includes('--expand') || weekOld) {
 // 3. Индексы. Сначала — названия-ловушки по свежему корпусу: с новыми постами и каналами меняется,
 // что здесь повседневная фраза (01.10: «Главный герой»); без них индексы работают как раньше
 step('названия-ловушки', ...tsx('tools/build-ordinary.mts'), { optional: true });
+// профиль канала (02.10): о каких вселенных и людях канал — по прошлому индексу и решениям людей
+// плейлисты каналов (02.10): их названия — подпись автора к роликам; квота — не больше 1500 запросов
+if (process.env.YT_API_KEY) step('плейлисты каналов', ...tsx('tools/youtube-playlists.mts', '--max-calls', '1500'), { optional: true });
+step('профили каналов', ...tsx('tools/channel-profile.mts'), { optional: true });
+// точность по каналу и способу (02.10): надёжным каналам индекс верит без человека, слабым — нет
+step('точность по каналам', ...tsx('tools/link-precision.mts'), { optional: true });
 step('разборы в постах', ...tsx('tools/build-telegram-index.mts'));
-if (process.env.YT_API_KEY) step('разборы-ролики', ...tsx('tools/build-essay-index.mts'), { optional: true });
+if (process.env.YT_API_KEY) step('разборы-ролики', ...tsx('tools/build-essay-index.mts'), { optional: true, mark: 'index' });
 else say('── разборы-ролики: нет YT_API_KEY — пропускаем');
 step('кандидаты в источники', ...tsx('tools/build-source-index.mts'), { optional: true });
 step('соупоминания', ...tsx('tools/build-comention-index.mts'), { optional: true });
+// разметка моделью через llm-gateway основы: шлюз лежит — код 2, шаг пропущен, остальное идёт
+step('разметка моделью', ...tsx('tools/llm-label.mts', '--limit', '300', '--minutes', '20'), { optional: true, mark: 'llm' });
+step('рубрики каналов', ...tsx('tools/rubrics.mts'), { optional: true });
+step('кандидаты в стоп-слова', ...tsx('tools/stopwords.mts'), { optional: true });
+step('замер на ручной разметке', ...tsx('tools/markup-eval.mts'), { optional: true, mark: 'eval' });
 
 // 4. Замер
 const report = spawnSync(npx, ['--yes', 'tsx', 'tools/voices-report.mts'], { encoding: 'utf8', env: process.env });
@@ -87,5 +109,5 @@ const warned = /ПРЕДУПРЕЖДЕНИЯ \((\d+)\)/.exec(metrics.stdout ?? '
 if (warned) say(`ВНИМАНИЕ: контрольные замеры — ${warned} предупр., см. выше`);
 
 // 5. Публикация
-if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true });
+if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true, mark: 'publish' });
 say(`\nлог: ${log}`);

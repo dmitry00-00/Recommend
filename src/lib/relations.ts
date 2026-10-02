@@ -6,3 +6,10 @@
 const LIST = /^(?:список|перечень|(?:\d+|сто)\s+(?:лучш|величайш|главн|важн|фильм|мультфильм|книг)|лучш|величайш|полнометражн\p{L}*\s+(?:фильм|мультфильм)|(?:фильмы|мультфильмы)\s+(?:студии|компании|производства|по\s+версии))|по\s+версии|\blist\s+of\b|\bfilms?\s+by\b|\bfilmography\b|фильмограф/iu;
 
 export const listLike = (title?: string): boolean => Boolean(title && LIST.test(title.trim()));
+
+/** Кроссовер («Чужой против Хищника», «Batman v Superman») — не средоточие вселенной: иначе вся
+ *  вселенная «Хищника» называлась «Чужой против Хищника» (02.10). */
+const CROSSOVER = /\s(?:против|vs\.?|v\.?|versus)\s/iu;
+/** Вес узла при выборе средоточия вселенной: франшиза, потом цикл; кроссовер — ниже цикла. */
+export const hubWeight = (n?: { t: string; k: string }): number =>
+  !n ? 0 : n.k === 'franchise' ? (CROSSOVER.test(n.t) ? 0.5 : 2) : n.k === 'cycle' ? (CROSSOVER.test(n.t) ? 0.5 : 1) : 0;

@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка привязок</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --sel: #eef2fc; --chip: #efede8;
+    --row-h: 58px; --shadow: 0 8px 28px rgba(0, 0, 0, .14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --sel: #1d2438; --chip: #2a2926;
+      --shadow: 0 8px 28px rgba(0, 0, 0, .5); }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; overflow: hidden; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  button, select, input { font: inherit; color: var(--ink); }
+  button { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 3px 9px; cursor: pointer; white-space: nowrap; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .45; cursor: default; }
+  input, select { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 4px 8px; min-width: 0; }
+  kbd { font: 11px ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; background: var(--panel); color: var(--muted); }
+
+  /* каркас: шапка, слева фильтры, справа таблица — без прокрутки страницы */
+  .app { height: 100vh; display: flex; flex-direction: column; padding: 0 16px; max-width: 1600px; margin: 0 auto; }
+  header { flex: none; }
+  nav.tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
+  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
+  .strip { position: relative; display: flex; gap: 10px; align-items: center; padding: 8px 0; flex-wrap: wrap; }
+  .strip h1 { font-size: 17px; margin: 0 8px 0 0; }
+  .dots { display: inline-flex; gap: 4px; align-items: center; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; flex: none; }
+  .dot.ok { background: var(--ok); } .dot.stale, .dot.skipped, .dot.never { background: var(--warn); } .dot.error { background: var(--bad); }
+  .dot.blocked { background: transparent; border: 2px solid var(--muted); } .dot.running { background: var(--accent); animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  #pipe-sum { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46vw; }
+  .spacer { flex: 1; }
+
+  /* конвейер — выпадающая панель поверх таблицы */
+  #drawer { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; max-height: 72vh; overflow: auto; }
+  #drawer.on, #stopdrawer.on { display: block; }
+  #stopdrawer { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; max-height: 72vh; overflow: auto; }
+  .sw { display: grid; grid-template-columns: minmax(160px, 1.2fr) 110px 3fr auto; gap: 4px 12px; align-items: center; font-size: 13px; }
+  .sw > div { padding: 5px 0; border-top: 1px solid var(--line); }
+  .sw .w { font-weight: 600; } .sw .w small { font-weight: 400; color: var(--muted); display: block; }
+  .sw .ex { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sw .b { display: flex; gap: 4px; justify-content: flex-end; }
+  .sw .b button { font-size: 12px; padding: 1px 8px; }
+  .swhead { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 8px; }
+  .swhead h2 { font-size: 12px; margin: 0; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .swlist { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 12px; }
+  .swlist span { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 4px 1px 9px; }
+  .swlist span button { border: 0; background: none; padding: 0 4px; color: var(--muted); }
+  .groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
+  .groups h2 { font-size: 12px; margin: 0 0 6px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .stage { display: grid; grid-template-columns: 14px 1fr auto; gap: 2px 8px; align-items: start; padding: 6px 0; border-top: 1px solid var(--line); }
+  .stage .dot { margin-top: 5px; }
+  .stage .t { font-weight: 500; }
+  .stage .m { grid-column: 2 / 4; font-size: 12px; color: var(--muted); }
+  .stage .m b { font-weight: 500; color: var(--ink); }
+  .stage button { font-size: 12px; padding: 1px 8px; }
+  #log { margin: 12px 0 0; max-height: 240px; overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; }
+  #log:empty { display: none; }
+
+  .body { flex: 1; min-height: 0; display: flex; gap: 14px; padding-bottom: 10px; }
+
+  /* фильтры */
+  aside { flex: none; width: 250px; overflow-y: auto; padding: 2px 4px 10px 0; font-size: 13px; }
+  aside h3 { font-size: 11px; margin: 12px 0 5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  aside h3:first-child { margin-top: 4px; }
+  .groupsel button { display: flex; width: 100%; justify-content: space-between; border: 0; background: none; padding: 4px 8px; border-radius: 6px; text-align: left; }
+  .groupsel button.on { background: var(--ink); color: var(--bg); }
+  .groupsel button span { opacity: .7; font-variant-numeric: tabular-nums; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chips button { font-size: 12px; border-radius: 999px; padding: 1px 8px; }
+  .chips button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .chips button i { font-style: normal; opacity: .65; margin-left: 3px; font-variant-numeric: tabular-nums; }
+  .chips button.zero { opacity: .45; }
+  aside input, aside select { width: 100%; }
+  .pair { display: flex; gap: 6px; align-items: center; }
+  .pair input { width: 50%; }
+
+  /* таблица */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .tablearea { flex: 1; min-height: 0; overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th { height: 32px; text-align: left; padding: 0 10px; color: var(--muted); font-weight: 500; font-size: 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th[data-sort] { cursor: pointer; user-select: none; }
+  th[data-sort]:hover { color: var(--ink); }
+  th .arr { color: var(--accent); margin-left: 3px; }
+  tr.cf th { height: 36px; padding: 0 6px; background: var(--bg); }
+  tr.cf th.th { text-align: center; }
+  tr.cf input, tr.cf select { width: 100%; font-size: 12px; padding: 3px 6px; height: 26px; }
+  tr.cf .pair { display: flex; gap: 4px; }
+  tr.cf .pair > * { flex: 1; min-width: 0; }
+  tr.cf .on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  #cf-clear { font-size: 12px; padding: 1px 6px; }
+  td { height: var(--row-h); max-height: var(--row-h); padding: 0 10px; border-bottom: 1px solid var(--line); overflow: hidden; vertical-align: middle; }
+  tr.sel td { background: var(--sel); }
+  tr.done .vt, tr.done .cell-film, tr.done .cell-llm { opacity: .6; }
+  col.c-th { width: 82px; } col.c-film { width: 20%; } col.c-llm { width: 21%; } col.c-act { width: 392px; }
+  td.th { padding-right: 0; }
+  td.th img { width: 72px; height: 40px; object-fit: cover; border-radius: 5px; background: var(--chip); display: block; }
+  .l1, .l2 { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .l2 { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .vt .l1 a { color: var(--ink); text-decoration: none; font-weight: 500; } .vt .l1 a:hover { text-decoration: underline; }
+  .tag { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 999px; background: var(--chip); color: var(--muted); margin-right: 4px; white-space: nowrap; }
+  .tag.ok { color: var(--ok); } .tag.warn { color: var(--warn); } .tag.bad { color: var(--bad); } .tag.acc { color: var(--accent); }
+  .acts { display: flex; gap: 3px; }
+  .acts button { font-size: 12px; padding: 1px 6px; }
+  .acts kbd { border: 0; padding: 0; margin-left: 2px; background: none; }
+  .sug { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: left; font-size: 12px; padding: 0 7px; margin-top: 3px; }
+  .sug kbd { color: inherit; opacity: .75; border: 0; background: none; padding: 0; }
+  .empty td { color: var(--muted); height: 120px; text-align: center; }
+
+  footer { flex: none; display: flex; gap: 10px; align-items: center; padding: 8px 2px 0; font-size: 13px; flex-wrap: wrap; }
+  .pager { display: flex; gap: 3px; align-items: center; }
+  .pager button { min-width: 32px; padding: 2px 7px; font-variant-numeric: tabular-nums; }
+  .pager button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .pager .gap { color: var(--muted); padding: 0 3px; }
+  #keys { color: var(--muted); font-size: 12px; }
+
+  /* поле фильма — поверх строки, высоту строки не меняет */
+  #pop { display: none; position: fixed; z-index: 30; width: 420px; max-width: calc(100vw - 32px); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 10px; }
+  #pop.on { display: block; }
+  #pop input { width: 100%; margin-top: 6px; }
+  #pop .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  #pop b { font-weight: 600; }
+  #toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 13px; display: none; max-width: 90vw; z-index: 40; }
+
+  @media (max-width: 860px) {
+    body { overflow: auto; }
+    .app { height: auto; }
+    .body { flex-direction: column; }
+    aside { width: auto; overflow: visible; }
+    col.c-th, td.th, th.th { display: none; }
+    col.c-film, col.c-llm { width: 30%; }
+    col.c-act { width: 0; }
+    td.act, th.act { display: none; }
+    .tablearea { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <nav class="tabs"><a href="../links/">Ссылки</a><a href="../check/" class="on">Проверка</a><a href="../kinopoisk/">Оценки Кинопоиска</a></nav>
+    <div class="strip">
+      <h1>Проверка привязок</h1>
+      <button id="pipe-btn" type="button" title="шаги конвейера: отметки, устаревшее, запуск">Конвейер <span id="pipe-dots" class="dots"></span> ▾</button>
+      <button id="stop-btn" type="button" title="кандидаты в стоп-слова по решениям разметки">Стоп-слова <span id="stop-n" class="muted"></span> ▾</button>
+      <span id="pipe-sum"></span>
+      <span class="spacer"></span>
+      <button id="run-stale" class="primary" type="button">Обновить устаревшее</button>
+      <button id="run-stop" type="button" disabled>Стоп</button>
+      <div id="stopdrawer">
+        <div class="swhead"><h2>Стоп-слова</h2><span id="sw-sum" class="muted"></span><span class="spacer"></span>
+          <input id="sw-new" placeholder="слово или фраза" style="width:170px"><input id="sw-ch" list="sw-chs" placeholder="только канал" style="width:170px"><button id="sw-add" type="button">В стоп</button></div>
+        <datalist id="sw-chs"></datalist>
+        <div class="swlist" id="sw-words"></div>
+        <div class="swhead"><h2>Кандидаты</h2><span class="muted">чаще в ошибочных привязках, чем в верных (по вашим решениям)</span></div>
+        <div class="sw" id="sw-cands"></div>
+        <div class="swhead" style="margin-top:12px"><h2>Не стоп</h2></div>
+        <div class="swlist" id="sw-rejected"></div>
+      </div>
+      <div id="drawer">
+        <div class="groups" id="groups"></div>
+        <div id="log"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside id="filters">
+      <h3>Выборка</h3>
+      <div class="groupsel" id="f-g"></div>
+      <h3>Поиск</h3>
+      <input id="f-q" type="search" placeholder="ролик, канал, фильм  ( / )">
+      <h3>Канал</h3>
+      <select id="f-ch"></select>
+      <h3>Модель: что говорит</h3>
+      <div class="chips" id="f-flag"></div>
+      <h3>Модель: вид материала</h3>
+      <div class="chips" id="f-kind"></div>
+      <h3>Модель: тема (жанр, эпоха…)</h3>
+      <div class="chips" id="f-topic"></div>
+      <h3>Уверенность модели</h3>
+      <select id="f-cmin"><option value="">любая</option><option value="0.5">от 50%</option><option value="0.7">от 70%</option><option value="0.9">от 90%</option></select>
+      <h3>Привязка</h3>
+      <div class="chips" id="f-ev"></div>
+      <h3>Решение</h3>
+      <div class="chips" id="f-vd"></div>
+      <h3>Длительность, мин</h3>
+      <div class="pair"><input id="f-dmin" type="number" min="0" placeholder="от"><input id="f-dmax" type="number" min="0" placeholder="до"></div>
+      <div class="chips" style="margin-top:5px" id="f-dpre">
+        <button type="button" data-d="0-10">до 10</button><button type="button" data-d="10-40">10–40</button><button type="button" data-d="40-0">от 40</button>
+      </div>
+      <h3>Дата ролика</h3>
+      <div class="pair"><input id="f-from" type="date"><input id="f-to" type="date"></div>
+      <h3>Порядок</h3>
+      <select id="f-sort">
+        <option value="">спорные первыми</option><option value="date">новые первыми</option><option value="date-asc">старые первыми</option>
+        <option value="conf">уверенность модели</option><option value="dur">длинные первыми</option><option value="dur-asc">короткие первыми</option>
+        <option value="channel">по каналу</option><option value="film">фильм А→Я</option><option value="film-desc">фильм Я→А</option>
+        <option value="conf-asc">модель не уверена</option><option value="decided">недавно решённые</option><option value="decided-asc">давно решённые</option>
+      </select>
+      <p><button id="f-reset" type="button">Сбросить фильтры</button></p>
+    </aside>
+
+    <section class="main">
+      <div class="tablearea" id="area">
+        <table>
+          <colgroup><col class="c-th"><col><col class="c-film"><col class="c-llm"><col class="c-act"></colgroup>
+          <thead>
+            <tr class="hd"><th class="th"></th><th data-sort="date" data-alt="date-asc">Ролик</th><th data-sort="film" data-alt="film-desc">Привязка</th><th data-sort="conf" data-alt="conf-asc">Модель</th><th class="act" data-sort="decided" data-alt="decided-asc">Решение</th></tr>
+            <tr class="cf">
+              <th class="th"><button id="cf-clear" type="button" title="сбросить фильтры столбцов">✕</button></th>
+              <th><input id="cf-ft" type="search" placeholder="название или канал"></th>
+              <th><div class="pair"><input id="cf-ff" type="search" placeholder="фильм"><select id="cf-ev" title="как привязан"></select></div></th>
+              <th><div class="pair"><select id="cf-flag" title="что говорит модель"></select><input id="cf-fn" type="search" placeholder="что назвала"></div></th>
+              <th class="act"><select id="cf-vd" title="решение человека"></select></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <footer>
+        <span id="range" class="muted"></span>
+        <span class="pager" id="pager"></span>
+        <span class="spacer"></span>
+        <span id="keys"><kbd>↑↓</kbd> строка <kbd>←→</kbd> страница <kbd>1</kbd> верно <kbd>2</kbd> не тот <kbd>3</kbd> не фильм <kbd>4</kbd> несколько <kbd>5</kbd> франшиза <kbd>6</kbd> человек <kbd>⏎</kbd> как модель <kbd>⌫</kbd> отменить <kbd>O</kbd> открыть</span>
+      </footer>
+    </section>
+  </div>
+</div>
+<div id="pop"></div>
+<datalist id="films"></datalist>
+<div id="toast"></div>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const api = async (path, body) => {
+  const r = await fetch(path, body === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json', 'x-desk': '1' }, body: JSON.stringify(body) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  return j;
+};
+let toastT;
+const toast = (t) => { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toastT); toastT = setTimeout(() => (el.style.display = 'none'), 3200); };
+const when = (iso) => {
+  if (!iso) return '';
+  const d = new Date(iso), now = new Date();
+  const hm = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  return d.toDateString() === now.toDateString() ? `сегодня ${hm}` : `${d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })} ${hm}`;
+};
+
+// ─── конвейер ────────────────────────────────────────────────────────────────
+const STATE_RU = { ok: 'свежий', stale: 'устарел', error: 'ошибка', skipped: 'пропущен', never: 'не запускался', blocked: 'нельзя', running: 'идёт' };
+let pipe = null, pipeTimer = null, sheetText = 'правки в таблице — не проверял';
+function renderPipe() {
+  if (!pipe) return;
+  const running = pipe.run && !pipe.run.finishedAt;
+  $('#pipe-dots').innerHTML = pipe.stages.map((s) => `<i class="dot ${s.state}" title="${esc(s.title)}: ${esc(STATE_RU[s.state])}"></i>`).join('');
+  const groups = {};
+  for (const s of pipe.stages) (groups[s.group] ??= []).push(s);
+  $('#groups').innerHTML = Object.entries(groups).map(([g, list]) => `<div><h2>${esc(g)}</h2>${list.map((s) => `
+    <div class="stage" title="${esc(s.what)}">
+      <span class="dot ${s.state}"></span><span class="t">${esc(s.title)}</span>
+      <button type="button" data-run="${s.id}" ${running || s.state === 'blocked' ? 'disabled' : ''}>▶</button>
+      <span class="m">${esc(STATE_RU[s.state])}${s.lastAt ? ` · ${esc(when(s.lastAt))}` : ''}${s.why && s.why !== 'ещё не запускался' ? ` · ${esc(s.why)}` : ''}${s.pending && s.pending.text !== s.why ? ` · <b>${esc(s.pending.text)}</b>` : ''}${s.last?.summary && s.state === 'ok' ? `<br>${esc(s.last.summary)}` : ''}${s.id === 'sheet' ? `<br>${sheetText} <a href="#" id="sheet-check">проверить</a>` : ''}</span>
+    </div>`).join('')}</div>`).join('');
+  const stale = pipe.stale.length;
+  $('#run-stale').textContent = stale ? `Обновить устаревшее (${stale})` : 'Устаревшего нет';
+  $('#run-stale').disabled = running || !stale;
+  $('#run-stop').disabled = !running;
+  const r = pipe.run;
+  const t = (id) => pipe.stages.find((s) => s.id === id)?.title ?? id;
+  $('#pipe-sum').textContent = running ? `идёт: ${t(r.current)} (${r.results.length + 1} из ${r.ids.length})`
+    : r?.finishedAt ? `прогон ${when(r.finishedAt)}: ${r.results.map((x) => `${t(x.id)} ${x.code === 0 ? '✓' : x.code === 2 ? '–' : '✗'}`).join(', ')}`
+      : stale ? `устарело: ${pipe.stale.map(t).join(', ')}` : 'всё свежее';
+  const log = $('#log');
+  const atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+  log.textContent = r?.log?.length ? r.log.join('\n') : '';
+  if (atEnd) log.scrollTop = log.scrollHeight;
+  for (const b of document.querySelectorAll('[data-run]')) b.onclick = () => runStages([b.dataset.run]);
+  const sc = $('#sheet-check');
+  if (sc) sc.onclick = (e) => { e.preventDefault(); probe(); };
+}
+async function probe() {
+  sheetText = 'проверяю…'; renderPipe();
+  try { const p = await api('api/sheet?force=1'); sheetText = esc(p.text) + (p.changed ? ' — <b>заберите синхронизацией</b>' : ''); }
+  catch (e) { sheetText = esc(e.message); }
+  renderPipe();
+}
+async function loadPipe() {
+  const was = pipe?.run && !pipe.run.finishedAt;
+  try { pipe = await api('api/pipeline'); renderPipe(); } catch (e) { $('#pipe-sum').textContent = e.message; }
+  const running = pipe?.run && !pipe.run.finishedAt;
+  if (was && !running) { toast('Прогон закончен — выборка обновлена'); load(); }
+  clearTimeout(pipeTimer);
+  pipeTimer = setTimeout(loadPipe, running ? 1500 : 20000);
+}
+async function runStages(ids) {
+  const st = pipe?.stages.filter((s) => ids === 'stale' ? pipe.stale.includes(s.id) : ids.includes(s.id)) ?? [];
+  for (const s of st) if (s.confirm && !confirm(s.confirm)) return;
+  try { pipe = await api('api/pipeline/run', { ids }); $('#drawer').classList.add('on'); renderPipe(); loadPipe(); }
+  catch (e) { toast(e.message); }
+}
+$('#pipe-btn').onclick = () => { $('#stopdrawer').classList.remove('on'); $('#drawer').classList.toggle('on'); };
+$('#stop-btn').onclick = () => { $('#drawer').classList.remove('on'); const on = $('#stopdrawer').classList.toggle('on'); if (on) loadStop(); };
+
+// ─── стоп-слова: кандидаты по решениям разметки, решает владелец (tools/stopwords.json) ───
+let sw = null;
+async function loadStop() {
+  try { sw = await api('api/stopwords'); renderStop(); } catch (e) { toast(e.message); }
+}
+function renderStop() {
+  if (!sw) return;
+  const cands = sw.candidates ?? [];
+  $('#stop-n').textContent = cands.length ? `(${cands.length})` : '';
+  $('#sw-sum').textContent = sw.effect ? `принятые снимают ${sw.effect.cut} из ${sw.wrong} ошибок и теряют ${sw.effect.lost} из ${sw.right} верных (замер ${when(sw.at)}); применяются при сборке индекса` : 'кандидатов ещё не считали — шаг «Замер» конвейера';
+  const chip = (x, act) => `<span>${esc(x.w)}${x.channel ? ` <i class="muted">· ${esc(x.channel)}</i>` : ''}<button type="button" data-sw="${act}" data-w="${esc(x.w)}" data-ch="${esc(x.channel ?? '')}" title="убрать">×</button></span>`;
+  $('#sw-words').innerHTML = sw.words.length ? sw.words.map((x) => chip(x, 'remove')).join('') : '<span class="muted" style="border:0">пока пусто</span>';
+  $('#sw-rejected').innerHTML = sw.rejected.length ? sw.rejected.map((x) => chip(x, 'remove')).join('') : '<span class="muted" style="border:0">пока пусто</span>';
+  $('#sw-cands').innerHTML = cands.map((c) => `
+    <div class="w">${esc(c.w)}${c.rubric ? `<small>рубрика канала ${esc(c.channel)}</small>` : c.channel ? `<small>почти всё — ${esc(c.channel)}</small>` : ''}</div>
+    <div>ошибок ${c.wrong} · верных ${c.right}</div>
+    <div class="ex" title="${esc(c.examples.join('\n'))}">${esc(c.examples.join(' · '))}</div>
+    <div class="b">
+      <button type="button" data-sw="add" data-w="${esc(c.w)}" data-ch="">В стоп</button>
+      ${c.channel ? `<button type="button" data-sw="add" data-w="${esc(c.w)}" data-ch="${esc(c.channel)}">Только канал</button>` : ''}
+      <button type="button" data-sw="reject" data-w="${esc(c.w)}" data-ch="${esc(c.channel ?? '')}">Не стоп</button>
+    </div>`).join('') || '<div class="muted">кандидатов нет — решений пока мало или все разобраны</div>';
+  $('#sw-chs').innerHTML = (data.facets?.ch ?? []).map(([c]) => `<option value="${esc(c)}">`).join('');
+  for (const b of document.querySelectorAll('[data-sw]')) b.onclick = () => stopAct(b.dataset.sw, b.dataset.w, b.dataset.ch);
+}
+async function stopAct(action, w, channel) {
+  try {
+    const f = await api('api/stopwords', { action, w, ...(channel ? { channel } : {}) });
+    sw = { ...sw, words: f.words, rejected: f.rejected, candidates: (sw.candidates ?? []).filter((c) => c.w !== w) };
+    renderStop();
+    toast(action === 'add' ? `«${w}» — в стоп${channel ? ` для ${channel}` : ''}; сработает при сборке индекса` : action === 'reject' ? `«${w}» — не стоп, больше не предложим` : `«${w}» убрано`);
+    load();
+  } catch (e) { toast(e.message); }
+}
+$('#sw-add').onclick = () => { const w = $('#sw-new').value.trim(); if (w) { stopAct('add', w, $('#sw-ch').value.trim()); $('#sw-new').value = ''; } };
+$('#run-stale').onclick = () => runStages('stale');
+$('#run-stop').onclick = async () => { try { pipe = await api('api/pipeline/stop', {}); renderPipe(); } catch (e) { toast(e.message); } };
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#drawer, #pipe-btn, #run-stale')) $('#drawer').classList.remove('on');
+  if (!e.target.closest('#stopdrawer, #stop-btn')) $('#stopdrawer').classList.remove('on');
+});
+
+// ─── фильтры: состояние — в адресе страницы (#…), чтобы пережить перезагрузку ─────
+const F = new URLSearchParams(location.hash.slice(1));
+if (!F.get('g')) F.set('g', 'spor');
+const GROUPS = [['spor', 'Спорные'], ['check', 'Без проверки'], ['gap', 'Нашла модель'], ['confirmed', 'С уликой'], ['done', 'Решено'], ['all', 'Все']];
+const FLAG = { wrong: 'другой фильм', notfilm: 'не о фильме', several: 'несколько', franchise: 'о франшизе', person: 'о человеке', unknown: 'нет у нас?', gap: 'нашла фильм', agree: 'согласна', none: 'без мнения', nolabel: 'не размечено' };
+const KIND = { one: 'разбор одного', several: 'несколько', list: 'подборка', news: 'новость', franchise: 'о франшизе', person: 'о человеке', other: 'не о произведении', nolabel: 'не размечено' };
+const TOPIC = { none: 'без темы' };
+const EV = { lore: 'по герою', playlist: 'плейлист', stopword: 'стоп-слово', offfocus: 'вне профиля канала', weakch: 'канал часто ошибается', channel: 'надёжный канал', title: 'по названию', year: 'год', original: 'ориг. название', tag: 'хэштег', link: 'ссылка', human: 'человек', none: 'без привязки' };
+const VD = { none: 'без решения', ok: 'верно', wrong: 'не тот', notfilm: 'не фильм', several: 'несколько', franchise: 'о франшизе', person: 'о человеке', unknown: 'нет у нас' };
+let data = { rows: [], total: 0, page: 1, pages: 1, facets: {} }, page = Number(F.get('page')) || 1, per = 12, sel = 0;
+
+let typeT;
+function setF(k, v) { if (v === '' || v == null) F.delete(k); else F.set(k, v); }
+function saveHash() { const h = new URLSearchParams(F); h.delete('per'); history.replaceState(null, '', `#${h}`); }
+function chips(el, dim, names) {
+  const on = new Set((F.get(dim) ?? '').split(',').filter(Boolean));
+  const counts = data.facets?.[dim] ?? {};
+  const keys = [...new Set([...Object.keys(names), ...Object.keys(counts)])].filter((k) => names[k] || counts[k]);
+  el.innerHTML = keys.map((k) => `<button type="button" data-k="${esc(k)}" class="${on.has(k) ? 'on' : ''} ${counts[k] ? '' : 'zero'}">${esc(names[k] ?? k)}<i>${counts[k] ?? 0}</i></button>`).join('');
+  for (const b of el.querySelectorAll('button')) b.onclick = () => {
+    on.has(b.dataset.k) ? on.delete(b.dataset.k) : on.add(b.dataset.k);
+    setF(dim, [...on].join(',')); page = 1; load();
+  };
+}
+// фильтры столбцов: текст — ft/ff/fn, списки — ev/flag/vd (общие с панелью слева: одно значение
+// видно в списке столбца, несколько — «несколько (n)», меняются чипами слева)
+function colSelect(el, dim, names) {
+  const cur = (F.get(dim) ?? '').split(',').filter(Boolean);
+  const counts = data.facets?.[dim] ?? {};
+  const keys = [...new Set([...Object.keys(names), ...Object.keys(counts)])].filter((k) => names[k] || counts[k]);
+  el.innerHTML = `<option value="">все</option>${cur.length > 1 ? `<option value="__many" selected disabled>несколько (${cur.length})</option>` : ''}${keys.map((k) => `<option value="${esc(k)}" ${cur.length === 1 && cur[0] === k ? 'selected' : ''}>${esc(names[k] ?? k)} (${counts[k] ?? 0})</option>`).join('')}`;
+  el.classList.toggle('on', cur.length > 0);
+}
+function renderColFilters() {
+  colSelect($('#cf-ev'), 'ev', EV);
+  colSelect($('#cf-flag'), 'flag', FLAG);
+  colSelect($('#cf-vd'), 'vd', VD);
+  for (const k of ['ft', 'ff', 'fn']) { const el = $(`#cf-${k}`); if (document.activeElement !== el) el.value = F.get(k) ?? ''; el.classList.toggle('on', Boolean(F.get(k))); }
+  const sort = F.get('sort') ?? '';
+  for (const th of document.querySelectorAll('tr.hd th[data-sort]')) {
+    const on = sort === th.dataset.sort ? '↓' : sort === th.dataset.alt ? '↑' : '';
+    th.innerHTML = `${th.textContent.replace(/[↓↑]/g, '').trim()}${on ? `<span class="arr">${on}</span>` : ''}`;
+  }
+}
+for (const k of ['ft', 'ff', 'fn']) {
+  $(`#cf-${k}`).addEventListener('input', (e) => { clearTimeout(typeT); typeT = setTimeout(() => { setF(k, e.target.value.trim()); page = 1; sel = 0; load(); }, 250); });
+}
+for (const dim of ['ev', 'flag', 'vd']) $(`#cf-${dim}`).onchange = (e) => { setF(dim, e.target.value); page = 1; sel = 0; load(); };
+$('#cf-clear').onclick = () => { for (const k of ['ft', 'ff', 'fn', 'ev', 'flag', 'vd']) F.delete(k); page = 1; sel = 0; load(); };
+for (const th of document.querySelectorAll('tr.hd th[data-sort]')) th.onclick = () => {
+  const cur = F.get('sort') ?? '';
+  setF('sort', cur === th.dataset.sort ? th.dataset.alt : cur === th.dataset.alt ? '' : th.dataset.sort);
+  page = 1; sel = 0; load();
+};
+
+function renderFilters() {
+  renderColFilters();
+  const gc = data.facets?.g ?? {};
+  const allN = Object.values(gc).reduce((a, b) => a + b, 0);
+  $('#f-g').innerHTML = GROUPS.map(([g, t]) => `<button type="button" data-g="${g}" class="${F.get('g') === g ? 'on' : ''}">${t}<span>${g === 'all' ? allN : gc[g] ?? 0}</span></button>`).join('');
+  for (const b of $('#f-g').querySelectorAll('button')) b.onclick = () => { F.set('g', b.dataset.g); page = 1; sel = 0; load(); };
+  const ch = data.facets?.ch ?? [];
+  const cur = F.get('ch') ?? '';
+  $('#f-ch').innerHTML = `<option value="">все каналы</option>${cur && !ch.some(([c]) => c === cur) ? `<option value="${esc(cur)}" selected>${esc(cur)} (0)</option>` : ''}${ch.map(([c, n]) => `<option value="${esc(c)}" ${c === cur ? 'selected' : ''}>${esc(c)} (${n})</option>`).join('')}`;
+  chips($('#f-flag'), 'flag', FLAG);
+  chips($('#f-kind'), 'kind', KIND);
+  chips($('#f-ev'), 'ev', EV);
+  chips($('#f-vd'), 'vd', VD);
+  chips($('#f-topic'), 'topic', TOPIC);
+  $('#f-cmin').value = F.get('cmin') ?? '';
+  $('#f-sort').value = F.get('sort') ?? '';
+  for (const k of ['q', 'dmin', 'dmax', 'from', 'to']) { const el = $(`#f-${k}`); if (document.activeElement !== el) el.value = F.get(k) ?? ''; }
+}
+for (const k of ['q', 'dmin', 'dmax', 'from', 'to']) {
+  $(`#f-${k}`).addEventListener('input', (e) => { clearTimeout(typeT); typeT = setTimeout(() => { setF(k, e.target.value.trim()); page = 1; load(); }, 250); });
+}
+$('#f-ch').onchange = (e) => { setF('ch', e.target.value); page = 1; load(); };
+$('#f-cmin').onchange = (e) => { setF('cmin', e.target.value); page = 1; load(); };
+$('#f-sort').onchange = (e) => { setF('sort', e.target.value); page = 1; load(); };
+for (const b of document.querySelectorAll('#f-dpre button')) b.onclick = () => { const [a, z] = b.dataset.d.split('-'); setF('dmin', a === '0' ? '' : a); setF('dmax', z === '0' ? '' : z); page = 1; load(); };
+$('#f-reset').onclick = () => { for (const k of [...F.keys()]) F.delete(k); F.set('g', 'spor'); page = 1; load(); };
+
+// ─── сколько строк влезает: высота области таблицы / высота строки ───────────────
+function fit() {
+  if (window.innerWidth <= 860) return 15;
+  const area = $('#area');
+  const rowH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--row-h')) || 58;
+  const head = area.querySelector('thead')?.offsetHeight || 32;
+  return Math.max(3, Math.floor((area.clientHeight - head - 2) / rowH));
+}
+
+// ─── строки ──────────────────────────────────────────────────────────────────
+const FLAG_CLASS = { agree: 'ok', wrong: 'bad', notfilm: 'bad', several: 'warn', gap: 'acc', unknown: 'warn', franchise: 'acc', person: 'acc', none: '' };
+const ERR_SHORT = { 'не тот фильм': 'не тот', 'не фильм': 'не фильм', 'несколько фильмов': 'несколько', 'о франшизе': 'франшиза', 'о человеке': 'о человеке' };
+function verdictTag(v) {
+  if (!v) return '';
+  const what = v.key ? (v.film ?? v.key) : v.why === 'нет у нас' ? `нет у нас: ${v.film}`
+    : v.why === 'о франшизе' || v.why === 'о человеке' ? `${v.why}: ${v.aboutTitle ?? '?'}${v.about ? '' : ' (нет у нас)'}` : (v.why ?? 'снято');
+  const n = (v.also?.length ?? 0) + (v.alsoFilms?.length ?? 0);
+  const src = v.from === 'check' ? 'здесь' : v.from === 'desk' ? 'пульт ссылок' : v.from ?? 'таблица';
+  const about = v.why === 'о франшизе' || v.why === 'о человеке';
+  return `<span class="tag ${v.key || about ? 'ok' : 'warn'}" title="${esc(`${src} · ${v.at ?? ''}`)}">${v.guess ? 'догадка: ' : ''}${v.err && !about ? `${esc(ERR_SHORT[v.err] ?? v.err)} → ` : about ? '' : '✓ '}${esc(what)}${n ? ` +${n}` : ''}</span>`;
+}
+function suggestion(r) {
+  const l = r.llm;
+  if (!l) return null;
+  if (l.flag === 'agree' && r.key) return { action: 'ok', text: 'верно' };
+  if (l.flag === 'notfilm') return { action: 'notfilm', text: 'не фильм' };
+  if (l.flag === 'several') return { action: 'several', film: r.film ?? l.label, also: l.also.map((a) => a.label), text: `несколько: + ${l.also.map((a) => a.label).join(', ') || '…'}` };
+  if (l.flag === 'wrong') return { action: 'wrong', film: l.label, text: `не тот → ${l.label}` };
+  if (l.flag === 'gap') return { action: l.also.length ? 'several' : 'set', film: l.label, also: l.also.map((a) => a.label), text: `привязать → ${l.label}${l.also.length ? ` +${l.also.length}` : ''}` };
+  if (l.flag === 'unknown') return { action: r.key ? 'wrong' : 'set', film: l.typed, text: `нет у нас: ${l.typed}` };
+  if ((l.flag === 'franchise' || l.flag === 'person') && l.about) return { action: l.flag, film: l.about.label ?? l.about.title, text: `${l.flag === 'franchise' ? 'франшиза' : 'о человеке'} → ${l.about.title}${l.about.id ? '' : ' (нет у нас)'}` };
+  return null;
+}
+const EV_RU = { lore: 'по герою', playlist: 'плейлист', channel: 'надёжный канал', year: 'год', original: 'ориг. название', tag: 'хэштег', human: 'человек', link: 'ссылка' };
+function rowHtml(r, i) {
+  const l = r.llm, s = suggestion(r), v = r.verdict;
+  const decided = v && !v.guess;
+  const ev = r.weak != null ? `<span class="tag warn" title="у этого канала опознаватель по названию часто ошибается — по вашим решениям">канал ошибается: ${Math.round(r.weak * 100)}% верных</span>` : r.stop ? `<span class="tag bad" title="стоп-слово владельца — при следующей сборке индекса привязки не будет">стоп: ${esc(r.stop)}</span>` : r.offFocus ? '<span class="tag warn" title="канал почти всегда о другой вселенной — проверьте">вне профиля канала</span>' : r.evidence ? `<span class="tag ok">${esc(EV_RU[r.evidence] ?? r.evidence)}</span>` : r.key ? '<span class="tag">по названию</span>' : '';
+  const meta = [r.channel, r.date, r.minutes ? `${r.minutes} мин` : ''].filter(Boolean).join(' · ');
+  return `<tr data-i="${i}" class="${i === sel ? 'sel' : ''} ${decided ? 'done' : ''}">
+    <td class="th"><a href="https://www.youtube.com/watch?v=${r.id}" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/${r.id}/mqdefault.jpg" alt=""></a></td>
+    <td class="vt"><span class="l1" title="${esc(r.title)}"><a href="https://www.youtube.com/watch?v=${r.id}" target="_blank" rel="noopener">${esc(r.title)}</a></span><span class="l2" title="${esc(meta)}">${esc(meta)}</span></td>
+    <td class="cell-film"><span class="l1" title="${esc(r.film ?? '')}">${r.film ? esc(r.film) : '<span class="muted">—</span>'}</span><span class="l2">${ev}</span></td>
+    <td class="cell-llm">${l ? `<span class="l1"><span class="tag ${FLAG_CLASS[l.flag]}">${esc(l.flagRu)}</span>${l.conf != null ? `<span class="tag">${Math.round(l.conf * 100)}%</span>` : ''}</span><span class="l2" title="${esc(l.note)}">${esc(l.note)}</span>` : '<span class="l1 muted">не размечено</span>'}</td>
+    <td class="act">
+      <div class="acts">
+        <button type="button" data-a="ok" ${r.key ? '' : 'disabled'}>Верно<kbd>1</kbd></button>
+        <button type="button" data-a="wrong">${r.key ? 'Не тот' : 'Фильм'}<kbd>2</kbd></button>
+        <button type="button" data-a="notfilm">Не фильм<kbd>3</kbd></button>
+        <button type="button" data-a="several">Неск.<kbd>4</kbd></button>
+        <button type="button" data-a="franchise" title="ролик о франшизе или цикле — на страницу вселенной">Франш.<kbd>5</kbd></button>
+        <button type="button" data-a="person" title="ролик о режиссёре или писателе — на страницу человека">Чел.<kbd>6</kbd></button>
+        ${v?.from === 'check' ? '<button type="button" data-a="undo" title="отменить решение этого сеанса">↶</button>' : ''}
+      </div>
+      ${decided ? `<span class="l2">${verdictTag(v)}</span>` : s ? `<button type="button" class="primary sug" data-a="accept" title="как предлагает модель: ${esc(s.text)}">${esc(s.text)} <kbd>⏎</kbd></button>` : v?.guess ? `<span class="l2">${verdictTag(v)}</span>` : ''}
+    </td></tr>`;
+}
+function render() {
+  renderFilters();
+  const list = data.rows;
+  if (sel >= list.length) sel = Math.max(0, list.length - 1);
+  $('#rows').innerHTML = list.map(rowHtml).join('') || `<tr class="empty"><td colspan="5">${!data.labelled && F.get('g') === 'spor' ? 'Модель ещё ничего не разметила — «Конвейер» → ▶ у «Разметка LLM».' : 'Под фильтры ничего не попало.'}</td></tr>`;
+  for (const tr of document.querySelectorAll('#rows tr[data-i]')) {
+    tr.onclick = (e) => { if (e.target.closest('a')) return; select(Number(tr.dataset.i)); };
+    for (const b of tr.querySelectorAll('[data-a]')) b.onclick = (e) => { e.stopPropagation(); select(Number(tr.dataset.i)); act(b.dataset.a); };
+  }
+  const from = data.total ? (data.page - 1) * data.per + 1 : 0;
+  $('#range').textContent = `${from}–${Math.min(data.total, data.page * data.per)} из ${data.total} · решено в сеансе: ${data.decidedNow ?? 0} · размечено моделью: ${data.labelled ?? 0}`;
+  renderPager();
+}
+function renderPager() {
+  const n = data.pages, p = data.page;
+  const nums = new Set([1, n, p - 2, p - 1, p, p + 1, p + 2].filter((x) => x >= 1 && x <= n));
+  const seq = [...nums].sort((a, b) => a - b);
+  let html = `<button type="button" data-p="${p - 1}" ${p <= 1 ? 'disabled' : ''}>‹</button>`;
+  seq.forEach((x, i) => { if (i && x - seq[i - 1] > 1) html += '<span class="gap">…</span>'; html += `<button type="button" data-p="${x}" class="${x === p ? 'on' : ''}">${x}</button>`; });
+  html += `<button type="button" data-p="${p + 1}" ${p >= n ? 'disabled' : ''}>›</button>`;
+  $('#pager').innerHTML = n > 1 ? html : '';
+  for (const b of $('#pager').querySelectorAll('[data-p]')) b.onclick = () => goPage(Number(b.dataset.p));
+}
+function goPage(p, at = 0) {
+  if (p < 1 || p > data.pages || p === data.page) return;
+  page = p; sel = at === 'last' ? per - 1 : at; load();
+}
+function select(i) {
+  if (i < 0) { if (data.page > 1) goPage(data.page - 1, 'last'); return; }
+  if (i >= data.rows.length) { if (data.page < data.pages) goPage(data.page + 1, 0); return; }
+  closePop();
+  document.querySelector('#rows tr.sel')?.classList.remove('sel');
+  sel = i;
+  document.querySelector(`#rows tr[data-i="${i}"]`)?.classList.add('sel');
+}
+
+let loadSeq = 0;
+async function load() {
+  per = fit();
+  F.set('page', String(page));
+  F.set('per', String(per));
+  saveHash();
+  const seq = ++loadSeq;
+  try {
+    const d = await api(`api/rows?${F}`);
+    if (seq !== loadSeq) return;
+    data = d; page = d.page;
+    render();
+  } catch (e) { $('#rows').innerHTML = `<tr class="empty"><td colspan="5" class="bad">${esc(e.message)}</td></tr>`; }
+}
+// окно поменяло высоту — пересчитать строки, оставив первую видимую строку на месте
+let fitT;
+new ResizeObserver(() => {
+  clearTimeout(fitT);
+  fitT = setTimeout(() => { const n = fit(); if (n === per || !data.total) return; const first = (data.page - 1) * data.per + sel; page = Math.floor(first / n) + 1; sel = first % n; load(); }, 150);
+}).observe($('#area'));
+
+// ─── решение ─────────────────────────────────────────────────────────────────
+let filmsT;
+function closePop() { $('#pop').classList.remove('on'); $('#pop').innerHTML = ''; }
+function editor(kind, r, preset) {
+  const tr = document.querySelector(`#rows tr[data-i="${sel}"]`);
+  if (!tr) return;
+  const several = kind === 'several';
+  const aboutKind = kind === 'franchise' ? 'universe' : kind === 'person' ? 'person' : '';
+  const pop = $('#pop');
+  pop.innerHTML = aboutKind
+    ? `<b>${kind === 'franchise' ? 'О франшизе или цикле' : 'О человеке: режиссёр, писатель'}</b> — ${esc(r.title)}<input class="f-main" list="films" placeholder="${kind === 'franchise' ? 'франшиза: «Чужой», «Ведьмак»…' : 'имя: «Андрей Тарковский», «Стивен Кинг»…'}" value="${esc(preset?.film ?? (r.llm?.about && r.llm.flag === kind ? r.llm.about.label ?? r.llm.about.title : ''))}"><div class="hint">Enter — сохранить, Esc — закрыть. Ролик уйдёт на страницу ${kind === 'franchise' ? 'вселенной' : 'человека'}, привязка к фильму снимется. Нет в справочнике — останется названием.</div>`
+    : several
+    ? `<b>Несколько фильмов</b> — ${esc(r.title)}<input class="f-main" list="films" placeholder="главный фильм" value="${esc(preset?.film ?? r.film ?? r.llm?.label ?? '')}"><input class="f-also" list="films" placeholder="ещё фильмы через ;" value="${esc((preset?.also ?? r.llm?.also?.map((a) => a.label) ?? []).join('; '))}"><div class="hint">Enter — сохранить, Esc — закрыть. «Ещё» — ярлыки «Название (год)» через «;»; незнакомое останется названием.</div>`
+    : `<b>${r.key ? 'Не тот фильм' : 'Привязать фильм'}</b> — ${esc(r.title)}<input class="f-main" list="films" placeholder="«Название (год)»; пусто — просто «не тот»" value="${esc(preset?.film ?? r.llm?.label ?? r.llm?.typed ?? '')}"><div class="hint">Enter — сохранить, Esc — закрыть. Нет в справочнике — запишется «нет у нас», его опознает шаг конвейера «Нет у нас».</div>`;
+  const box = tr.getBoundingClientRect();
+  pop.classList.add('on');
+  const h = pop.offsetHeight;
+  pop.style.top = `${box.bottom + h + 8 < window.innerHeight ? box.bottom + 4 : Math.max(8, box.top - h - 4)}px`;
+  pop.style.left = `${Math.max(16, Math.min(window.innerWidth - pop.offsetWidth - 16, box.right - pop.offsetWidth - 10))}px`;
+  const main = pop.querySelector('.f-main');
+  main.focus(); main.select();
+  for (const inp of pop.querySelectorAll('input')) {
+    inp.oninput = () => { clearTimeout(filmsT); const q = inp.value.split(';').at(-1).trim(); filmsT = setTimeout(() => fillFilms(q, aboutKind), 150); };
+    inp.onkeydown = (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); closePop(); return; }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const also = several ? pop.querySelector('.f-also').value.split(';').map((x) => x.trim()).filter(Boolean) : undefined;
+        closePop();
+        save({ action: aboutKind ? kind : several ? 'several' : r.key ? 'wrong' : 'set', film: main.value, ...(also ? { also } : {}) });
+      }
+    };
+  }
+}
+async function fillFilms(q, aboutKind) {
+  if (q.length < 2) return;
+  try { const list = await api(aboutKind ? `api/about?kind=${aboutKind}&q=${encodeURIComponent(q)}` : `api/films?q=${encodeURIComponent(q)}`); $('#films').innerHTML = list.map((x) => `<option value="${esc(x)}">`).join(''); } catch { /* впишет сам */ }
+}
+async function save(d) {
+  const r = data.rows[sel];
+  if (!r) return;
+  try {
+    const res = await api('api/verdict', { id: r.id, ...d });
+    if (d.action === 'undo') delete r.verdict; else r.verdict = res.verdict;
+    data.decidedNow = res.decidedNow;
+    toast(d.action === 'undo' ? 'Решение отменено' : `Записано: ${res.verdict?.key ? res.verdict.film : res.verdict?.why ?? ''}${res.verdict?.err ? ` (${res.verdict.err})` : ''}`);
+    // строка остаётся на странице до перехода — видно, что сделано; выделение — дальше
+    const keep = sel;
+    render();
+    if (d.action !== 'undo') select(keep + 1); else select(keep);
+  } catch (e) { toast(e.message); }
+}
+function act(a) {
+  const r = data.rows[sel];
+  if (!r) return;
+  if (a === 'ok') return r.key ? save({ action: 'ok' }) : toast('у ролика нет привязки — подтверждать нечего');
+  if (a === 'notfilm') return save({ action: 'notfilm' });
+  if (a === 'wrong') return editor('wrong', r);
+  if (a === 'several') return editor('several', r);
+  if (a === 'franchise' || a === 'person') return editor(a, r);
+  if (a === 'undo') return save({ action: 'undo' });
+  if (a === 'accept') {
+    const s = suggestion(r);
+    if (!s) return toast('у модели нет подсказки');
+    if (s.action === 'ok' || s.action === 'notfilm') return save({ action: s.action });
+    if ((s.action === 'franchise' || s.action === 'person') && !r.llm?.about?.id) return editor(s.action, r, { film: s.film });
+    return save({ action: s.action, film: s.film, ...(s.also ? { also: s.also } : {}) });
+  }
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closePop(); $('#drawer').classList.remove('on'); $('#stopdrawer').classList.remove('on'); }
+  if (e.target.closest('input, textarea, select') || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (k === 'ArrowDown' || k === 'j') { e.preventDefault(); select(sel + 1); }
+  else if (k === 'ArrowUp' || k === 'k') { e.preventDefault(); select(sel - 1); }
+  else if (k === 'ArrowRight' || k === 'PageDown') { e.preventDefault(); goPage(data.page + 1); }
+  else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); goPage(data.page - 1); }
+  else if (k === 'Home') { e.preventDefault(); goPage(1); }
+  else if (k === 'End') { e.preventDefault(); goPage(data.pages); }
+  else if (k === '1') act('ok');
+  else if (k === '2') { e.preventDefault(); act('wrong'); }
+  else if (k === '3') act('notfilm');
+  else if (k === '4') { e.preventDefault(); act('several'); }
+  else if (k === '5') { e.preventDefault(); act('franchise'); }
+  else if (k === '6') { e.preventDefault(); act('person'); }
+  else if (k === 'Enter') { e.preventDefault(); act('accept'); }
+  else if (k === 'Backspace' || k === '0') { e.preventDefault(); act('undo'); }
+  else if (k === 'o' || k === 'щ') { const r = data.rows[sel]; if (r) window.open(`https://www.youtube.com/watch?v=${r.id}`, '_blank', 'noopener'); }
+  else if (k === '/') { e.preventDefault(); $('#f-q').focus(); }
+});
+
+loadPipe();
+requestAnimationFrame(load);
+api('api/stopwords').then((x) => { sw = x; renderStop(); }).catch(() => undefined);
+</script>
+</body>
+</html>

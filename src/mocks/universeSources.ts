@@ -43,7 +43,12 @@ export const universeSources: Record<string, { id: string; ru: string; wiki: str
       "https://awoiaf.westeros.org",
       "https://gameofthrones.fandom.com/ru"
     ],
-    "api": []
+    "api": [
+      {
+        "url": "https://anapioficeandfire.com/api/",
+        "what": "книги, персонажи, дома"
+      }
+    ]
   },
   "Q642878": {
     "id": "mcu",

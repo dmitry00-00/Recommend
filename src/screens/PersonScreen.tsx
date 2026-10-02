@@ -98,6 +98,16 @@ export function PersonScreen() {
             </ul>
           </section>
 
+          {data.about.length ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ru.person.aboutTitle}</h2>
+              <p className="tm-caption">{ru.person.aboutNote}</p>
+              <ul className="tm-person__essays">
+                {data.about.map((a) => <li key={a.url}><ExternalAnalysisLink analysis={a} spoilerLevel={spoilers} /></li>)}
+              </ul>
+            </section>
+          ) : null}
+
           <section className="tm-person__section">
             <h2 className="tm-title-3">{ru.person.essaysTitle}</h2>
             {data.analyses.length ? (

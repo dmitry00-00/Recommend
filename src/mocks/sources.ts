@@ -24,6 +24,11 @@ export interface VoiceSource {
    *  русскоязычной публике, а не через Trakt (там нет нашего кино) и не через Википедию
    *  (она считает читающих, а не смотрящих). Деление 26.09 — со слов владельца. */
   tier?: 'essay' | 'review';
+  /** о чём канал в первую очередь (02.10, профиль канала): элементы Wikidata вселенных (франшиз,
+   *  циклов) или людей. Не привязка, а приоритет: при неоднозначном заголовке побеждает кандидат
+   *  отсюда, совпадение далеко вне фокуса уходит на проверку. Ручное сильнее посчитанного
+   *  (tools/channel-profile.mts) */
+  focus?: string[];
   /** о чём канал: кино или книги. Ярус обзорщика имеет смысл только внутри своего предмета —
    *  книжный обзорщик ничего не говорит о том, посмотрели фильм или нет, поэтому в ось
    *  «массовое внимание к фильму» идут только `medium: 'film'` (значение по умолчанию).
@@ -124,7 +129,6 @@ export const sources: VoiceSource[] = [
   // ── каналы из пульта ссылок: tools/links-desk.mts дописывает сюда ──
   { id: 'src-patchface-project', title: 'PatchFace Project', handle: 'patchface_project', platform: 'youtube', url: 'https://www.youtube.com/@patchface_project', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-recastik', title: 'Recast', handle: 'recastik', platform: 'youtube', url: 'https://www.youtube.com/@recastik', role: 'voice', kind: 'channel', tier: 'review' },
-  { id: 'src-glaz-drakona', title: 'Глаз Дракона', handle: 'глаз_дракона', platform: 'youtube', url: 'https://www.youtube.com/@глаз_дракона', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-doriangrayreview', title: 'DORIAN GRAY', handle: 'doriangrayreview', platform: 'youtube', url: 'https://www.youtube.com/@doriangrayreview', role: 'voice', kind: 'channel', tier: 'review' },
   // Прислано владельцем 01.10: англоязычные обзорщики, преимущественно «Песнь льда и огня» —
   // «Игра престолов», «Дом дракона», «Рыцарь Семи Королевств», книги. Не только о ней, поэтому

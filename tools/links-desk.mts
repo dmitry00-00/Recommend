@@ -13,8 +13,9 @@ import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
 import { oembed, recalled, videosApi, type VideoMeta } from './youtube.mts';
-import { filmOptions, matchFilm, parsePaste, sourceLine, titleMentions, type MarkupError } from './links-desk-lib.mts';
+import { filmOptions, isAboutError, matchFilm, parsePaste, sourceLine, titleMentions, type MarkupError } from './links-desk-lib.mts';
 import { sources } from '../src/mocks/sources.ts';
+import { excludedChannels, isExcluded } from './youtube-channels.mts';
 
 loadEnvFile();
 const YT = process.env.YT_API_KEY;
@@ -31,7 +32,8 @@ const films = filmOptions(worksIndex({ all: true }));
 const byKey = new Map(films.map((f) => [f.key, f]));
 const byLabel = new Map(films.map((f) => [f.label.toLowerCase(), f]));
 
-type Verdict = { key: string | null; film?: string; why?: string; from?: string; guess?: boolean; at?: string; title?: string; err?: MarkupError };
+type Verdict = { key: string | null; film?: string; why?: string; from?: string; guess?: boolean; at?: string; title?: string; err?: MarkupError;
+  aboutKind?: 'universe' | 'person'; aboutTitle?: string };
 const readVerdicts = (): { body: Record<string, unknown>; videos: Record<string, Verdict> } => {
   const body = existsSync(VERDICTS) ? JSON.parse(readFileSync(VERDICTS, 'utf8')) as Record<string, unknown> : {};
   return { body, videos: (body.videos ?? {}) as Record<string, Verdict> };
@@ -177,7 +179,18 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
       saved++;
       continue;
     }
-    if (it.key === undefined || !it.film) continue;
+    if ((it.key === undefined && !isAboutError(it.err)) || !it.film) continue;
+    // о франшизе или человеке (02.10): название из заметок — цель; узнаёт её индекс (tools/about-lib.mts)
+    if (isAboutError(it.err)) {
+      const aboutTitle = it.film.replace(/#[\p{L}\d_]+/gu, ' ').replace(/\s*\((?:сериал,?\s*)?(?:19|20)\d{2}\)\s*$/i, '').replace(/\s+/g, ' ').trim();
+      const v: Verdict = { key: null, why: it.err, err: it.err, aboutKind: it.err === 'о франшизе' ? 'universe' : 'person', aboutTitle, from: 'desk', at: today };
+      const ex = videos[it.id];
+      if (ex && ex.why === v.why && ex.aboutTitle === v.aboutTitle) { it.saved = true; continue; }
+      videos[it.id] = v;
+      it.saved = true;
+      saved++;
+      continue;
+    }
     // «нет у нас» — в виде, который поймёт опознаватель (resolve-markup-films.mts): «Название (год)»;
     // «сериал» из ярлыка и название ролика — в `title`, по ним он выбирает между фильмом и сериалом
     const series = /\(сериал/i.test(it.film);
@@ -205,9 +218,12 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
   if (!src.includes(DESK_MARK)) src = src.replace(LINKS_MARK, `${DESK_MARK}\n${LINKS_MARK}`);
   let added = 0, changed = 0;
   const skipped: string[] = [];
+  const excluded = excludedChannels();
   for (const c of chans.values()) {
     if (c.saved || !c.include) continue;
     if (!c.handle) { skipped.push(c.url); continue; }
+    // убран из выборки владельцем (tools/channels-excluded.json) — не заводим заново
+    if (isExcluded({ handle: c.handle, channelId: c.channelId, title: c.title }, excluded)) { skipped.push(`${c.url} (убран из выборки)`); c.saved = true; continue; }
     const esc = c.handle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const line = new RegExp(`^.*handle: '${esc}'.*platform: 'youtube'.*$`, 'mi');
     const m = line.exec(src);
