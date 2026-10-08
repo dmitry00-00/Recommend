@@ -36,6 +36,10 @@ URL = arg('url', None)
 REF = arg('ref', os.path.join(ROOT, '.cache/markup/film-reviews.json'))
 OUT = os.path.join(ROOT, 'tools/markup-verdicts.json')
 DRY = '--dry' in sys.argv
+# реестр в базе приложения (06.10, tools/registry-lib.mts): писать разметку из таблицы мимо базы нельзя
+_envl = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env.local')
+if os.environ.get('REGISTRY_MODE') == 'server' or (os.path.exists(_envl) and any(l.strip() == 'REGISTRY_MODE=server' for l in open(_envl, encoding='utf-8'))):
+    sys.exit('реестр в базе приложения — импорт из таблицы разметки выключен (ссылки — форма Google, tools/inbox.mts)')
 NOT_A_FILM = '— не про фильм —'
 VIDEO = re.compile(r'(?:v=|youtu\.be/|/shorts/|/live/)([A-Za-z0-9_-]{11})')
 
@@ -99,9 +103,10 @@ TYPED = os.path.join(ROOT, '.cache', 'markup', 'typed.json')
 resolved = json.load(open(RESOLVED, encoding='utf-8')).get('videos', {}) if os.path.exists(RESOLVED) else {}
 typed = []
 
-was = {}
+was, prev = {}, {}
 if os.path.exists(OUT):
-    was = json.load(open(OUT, encoding='utf-8')).get('videos', {})
+    prev = json.load(open(OUT, encoding='utf-8'))
+    was = prev.get('videos', {})
 
 verdicts, stats = dict(was), {'подтвердили': 0, 'поправили': 0, 'не про фильм': 0, 'не тот фильм': 0, 'о франшизе': 0, 'о человеке': 0,
                               'нет у нас': 0, 'пропустили': 0, 'со стороны фильма': 0, 'из корпуса': 0,
@@ -140,9 +145,12 @@ def also_of(text):
         (ks if p in keys else names).append(keys.get(p, p))
     return ks, names
 
-# Вкладка «Проверка» пульта (tools/check-desk.mts, 02.10) пишет решения сразу сюда. Строка таблицы,
-# отданной людям раньше, их не перетирает: решение пульта, принятое в день заливки или позже,
-# новее любой ячейки той таблицы (у ячеек нет своего времени — сравниваем с днём заливки).
+# Вкладка «Проверка» пульта (tools/check-desk.mts, 02.10) пишет решения сразу сюда, как и правки
+# мимо таблицы (пульт ссылок, разборы ошибок — `from`: desk, ops10, tv7…). Строка таблицы, отданной
+# людям раньше, их не перетирает: решение не из таблицы, принятое в день заливки или позже, новее
+# любой её ячейки (у ячеек нет своего времени — сравниваем с днём заливки). 06.10 защита была только
+# у «Проверки», и круг markup-sync вернул 17 исправленных ошибок к прежним ячейкам таблицы.
+FROM_SHEET = (None, 'gap', 'corpus')
 PUSHED_DAY = ''
 if os.path.exists(REF):
     PUSHED_DAY = date.fromtimestamp(os.path.getmtime(REF)).isoformat()
@@ -150,7 +158,7 @@ newer_in_desk = []
 
 def put(vid, v, bucket):
     old = was.get(vid)
-    if old and old.get('from') == 'check' and old.get('at', '') >= PUSHED_DAY and v.get('from') != 'check' \
+    if old and old.get('from') not in FROM_SHEET and old.get('at', '') >= PUSHED_DAY and v.get('from') in FROM_SHEET \
             and any(old.get(k) != v.get(k) for k in SAME):
         newer_in_desk.append(vid)
         return
@@ -281,7 +289,10 @@ for vid, v in list(verdicts.items()):
         typed.append({'video': vid, 'film': v['film'], 'title': v.get('title', ''),
                       'sheet': 'проверка' if v.get('from') == 'check' else 'пульт ссылок'})
 
-body = {'//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
+# прочие разделы файла (posts — решения по постам Telegram) импорт не трогает, но и не теряет:
+# до 06.10 файл переписывался одним разделом videos, и решения по постам пропадали
+body = {**prev,
+        '//': 'Ручная разметка «ролик → фильм». Пишет tools/import-markup.py из film_reviews.xlsx,'
               ' читает tools/build-essay-index.mts. Правда сильнее догадки: перегенерация индекса'
               ' её не сотрёт. Править руками можно, ключ — id ролика на YouTube.',
         'updated': date.today().isoformat(),
@@ -296,9 +307,10 @@ for k, n in stats.items():
     print('  %s: %d' % (k, n))
 print('решений всего в %s: %d%s' % (os.path.relpath(OUT, ROOT), len(verdicts), ' (--dry, файл не тронут)' if DRY else ''))
 if newer_in_desk:
-    print('решения вкладки «Проверка» новее таблицы — оставил их (%d): %s' % (len(newer_in_desk), ', '.join(newer_in_desk[:10])))
+    print('решения не из таблицы («Проверка», пульт, исправления) новее неё — оставил их (%d): %s' % (len(newer_in_desk), ', '.join(newer_in_desk[:10])))
 if gap_channels:
     print('в «Без разбора» ссылки на канал, а не на ролик (%d) — разметкой не считаю: %s' % (len(gap_channels), '; '.join(gap_channels)))
-unknown = [v['film'] for v in verdicts.values() if v.get('why') == 'нет у нас']
+# «нет у нас» без названия бывает: фильм не опознан, но и не наш (исправления ошибок 06.10)
+unknown = [v['film'] for v in verdicts.values() if v.get('why') == 'нет у нас' and v.get('film')]
 if unknown:
     print('фильмов, которых у нас нет (%d): %s' % (len(unknown), ', '.join(sorted(set(unknown))[:10])))

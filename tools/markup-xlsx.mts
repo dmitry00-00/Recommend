@@ -1,7 +1,14 @@
 // Данные для ручной разметки «ролик → фильм»: что смотреть человеку и из чего выбирать.
 // Пишет .cache/markup/film-reviews.json, из которого tools/markup-xlsx.py собирает
 // film_reviews.xlsx (выпадающий список в Excel — это уже не наша часть, её делает openpyxl).
-//   npx tsx tools/markup-xlsx.mts [--min-minutes 5] [--books] [--limit N] [--all-links]
+//   npx tsx tools/markup-xlsx.mts [--batch 1500 | --full] [--min-minutes 5] [--books] [--limit N] [--all-links]
+//
+// Пачка (по умолчанию, 06.10). Таблица — задание, а не реестр: в листы разметки идут только первые
+// --batch строк очереди вкладки «Проверка» (спорные, непроверенные, без привязки с находкой модели — тем
+// же порядком), с подсказкой модели в колонке «Модель». Целиком (48 тысяч строк, 25 МБ листа) таблица
+// на телефоне не открывалась. Решённое в таблицу не возвращается — оно в tools/markup-verdicts.json, а
+// строк, которых в листе нет, импорт не касается. «Без разбора» — первые 500 по упоминаниям и все со
+// ссылками. Прежняя таблица со всеми роликами — --full.
 // Ролики берём из .cache/youtube/videos.json (его наполняет tools/youtube-dump.mts),
 // предмет и ярус канала — из .cache/youtube/channels.json: книжные каналы в таблицу про кино
 // не идут, а обзорщики и эссеисты разъезжаются по разным листам (просьба владельца 26.09:
@@ -24,6 +31,9 @@ const arg = (name: string, def: string): string => {
 const flag = (name: string): boolean => process.argv.includes(`--${name}`);
 
 const MIN_MINUTES = Number(arg('min-minutes', '5'));
+const FULL = flag('full');
+const BATCH = Number(arg('batch', '1500'));
+const MISSING_TOP = 500;
 const LIMIT = Number(arg('limit', '0'));
 
 interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; channelId?: string; minutes?: number }
@@ -68,7 +78,9 @@ for (const [key, list] of Object.entries(essaysAuto)) {
 // роликам считаем здесь, теми же правилами (tools/match-videos.mts). Без неё ~62 тысячи строк
 // приходили с пустым «Фильмом» (30.09).
 const fromLinks = (v: Video) => channels[v.channelId ?? '']?.via === 'links';
-{
+// в пачку ролики каналов из ссылок без привязки не идут (очередь «Проверки» — из индекса и разметки
+// модели), а угадывание по 185 тысячам роликов — почти три минуты: только для --full
+if (FULL) {
   const ordFile = new URL('.cache/ordinary.json', root);
   const ordinary = existsSync(ordFile) ? new Set<string>(JSON.parse(readFileSync(ordFile, 'utf8')).names ?? []) : undefined;
   const todo = videos.filter((v) => fromLinks(v) && (v.minutes ?? 0) >= MIN_MINUTES && !guess.has(v.id));
@@ -200,8 +212,35 @@ const pick = (tier: 'essay' | 'review') => {
     .map(row);
   return LIMIT > 0 ? rows.slice(0, LIMIT) : rows;
 };
-const review = pick('review');
-const essay = pick('essay');
+// Пачка: очередь «Проверки» по порядку, ярус — по каналу ролика
+async function batch(): Promise<{ review: ReturnType<typeof row>[]; essay: ReturnType<typeof row>[] }> {
+  const { checkRows } = await import('./check-desk.mts');
+  const byVid = new Map(videos.map((v) => [v.id, v]));
+  const tierOf = (v: Video | undefined, channel?: string) =>
+    (v ? channels[v.channelId ?? '']?.tier : undefined) ?? (channel && reviewTitles.has(channel) ? 'review' : 'essay');
+  const out = { review: [] as ReturnType<typeof row>[], essay: [] as ReturnType<typeof row>[] };
+  let n = 0;
+  for (const r of checkRows()) {
+    if (n >= BATCH) break;
+    if (r.group !== 'spor' && r.group !== 'check' && r.group !== 'gap') continue;
+    const v = byVid.get(r.id) ?? { id: r.id, title: r.title, channel: r.channel ?? '', publishedAt: r.date };
+    const x = row(v);
+    // без привязки — фильм модели в «Фильм» догадкой («да» в «Проверено» её подтверждает)
+    const modelFilm = r.llm?.key ? labelOf.get(r.llm.key) : undefined;
+    if (!x.film && modelFilm) x.film = modelFilm;
+    const hint = r.llm ? `${r.llm.flagRu}${r.llm.label ? `: ${r.llm.label}` : r.llm.typed ? `: ${r.llm.typed}` : ''}${r.llm.note ? ` — ${r.llm.note}` : ''}` : '';
+    out[tierOf(byVid.get(r.id), r.channel) === 'review' ? 'review' : 'essay'].push({ ...x, ...(hint ? { hint } : {}) });
+    n++;
+  }
+  return out;
+}
+const { review, essay } = FULL ? { review: pick('review'), essay: pick('essay') } : await batch();
+if (!FULL) {
+  const keep = new Set(missing.slice(0, MISSING_TOP).map((m) => m.key));
+  const before = missing.length;
+  missing.splice(0, missing.length, ...missing.filter((m) => keep.has(m.key) || m.links.length));
+  console.log(`пачка: ${review.length + essay.length} строк из очереди «Проверки» (--batch ${BATCH}); «Без разбора» ${missing.length} из ${before}`);
+}
 
 mkdirSync(new URL('.cache/markup/', root), { recursive: true });
 writeFileSync(new URL('.cache/markup/film-reviews.json', root), JSON.stringify({ films, review, essay, missing, corpus }));

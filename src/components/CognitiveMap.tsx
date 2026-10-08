@@ -6,7 +6,7 @@ import { OperationGlyph } from './OperationGlyph';
 import { UncertaintyMark } from './UncertaintyMark';
 import { operations as OPS, opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 
 export interface CognitiveMapProps {
@@ -24,7 +24,7 @@ const RINGS = [2, 4, 6, 8, 10];
 
 /** Слова вместо чисел, пока не включены подробности. */
 function levelWord(level: number): string {
-  const words = ru.map.levelWords;
+  const words = ui.map.levelWords;
   return words[Math.min(words.length - 1, Math.floor(level / (MAX / words.length)))];
 }
 
@@ -42,13 +42,13 @@ export function CognitiveMap({ map, mode = 'field', compact, size, showDetails, 
 
   const table = (
     <table className={cx('tm-maplist', mode === 'field' && 'tm-sr')}>
-      <caption>{ru.map.caption}</caption>
+      <caption>{ui.map.caption}</caption>
       <thead>
         <tr>
-          <th scope="col">{ru.map.colOperation}</th>
-          <th scope="col">{ru.map.colLevel}</th>
-          <th scope="col">{ru.map.colRange}</th>
-          <th scope="col">{ru.map.colData}</th>
+          <th scope="col">{ui.map.colOperation}</th>
+          <th scope="col">{ui.map.colLevel}</th>
+          <th scope="col">{ui.map.colRange}</th>
+          <th scope="col">{ui.map.colData}</th>
         </tr>
       </thead>
       <tbody>
@@ -58,12 +58,12 @@ export function CognitiveMap({ map, mode = 'field', compact, size, showDetails, 
               <div className="tm-row tm-row--gap-1">
                 <OperationGlyph op={o.op} size={16} title={false} />
                 {OPS[o.op].name}
-                {targets.has(o.op) ? <span className="tm-maplist__focus">{ru.map.focus}</span> : null}
+                {targets.has(o.op) ? <span className="tm-maplist__focus">{ui.map.focus}</span> : null}
               </div>
             </th>
             <td>{showDetails ? o.level.toFixed(1) : levelWord(o.level)}</td>
             <td><UncertaintyMark level={o.level} range={o.range} confidence={o.confidence} op={o.op} note={false} /></td>
-            <td>{ru.map.dataAmount[o.confidence]}</td>
+            <td>{ui.map.dataAmount[o.confidence]}</td>
           </tr>
         ))}
       </tbody>
@@ -95,7 +95,7 @@ export function CognitiveMap({ map, mode = 'field', compact, size, showDetails, 
         <li key={o.op} className={cx('tm-map__keyitem', targets.has(o.op) && 'tm-map__keyitem--target')}>
           <OperationGlyph op={o.op} size={14} />
           <span>{OPS[o.op].short}</span>
-          {targets.has(o.op) ? <span className="tm-map__keyfocus">{ru.map.focus}</span> : null}
+          {targets.has(o.op) ? <span className="tm-map__keyfocus">{ui.map.focus}</span> : null}
         </li>
       ))}
     </ul>
@@ -104,7 +104,7 @@ export function CognitiveMap({ map, mode = 'field', compact, size, showDetails, 
   return (
     <div className={cx('tm-map', compact && 'tm-map--compact')}>
       <svg className="tm-map__svg" width={S} height={S} viewBox={`0 0 ${S} ${S}`} role="img"
-           aria-label={ru.map.ariaField}>
+           aria-label={ui.map.ariaField}>
         <defs>
           <pattern id="tm-hatch" width={5} height={5} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
             <line x1={0} y1={0} x2={0} y2={5} className="tm-map__hatchline" />
@@ -169,7 +169,7 @@ export function CognitiveMap({ map, mode = 'field', compact, size, showDetails, 
       {compact ? null : legend}
       {compact ? null : (
         <p className="tm-map__legend">
-          {map.state.overallConfidence === 'low' ? ru.map.legendLow : ru.map.legend}
+          {map.state.overallConfidence === 'low' ? ui.map.legendLow : ui.map.legend}
         </p>
       )}
       {table}

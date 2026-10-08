@@ -12,7 +12,8 @@
     "api": "wrangler dev --local --port 8787",
     "api:init": "wrangler d1 execute recomend --local --file worker/schema.sql",
     "typecheck:worker": "tsc -p tsconfig.worker.json",
-    "build:bothost": "node tools/build-bothost.mjs"
+    "build:bothost": "node tools/build-bothost.mjs",
+    "deploy:github": "node tools/deploy-github.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",

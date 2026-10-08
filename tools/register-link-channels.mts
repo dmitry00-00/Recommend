@@ -6,8 +6,9 @@
 // прогон уже заведённых не трогает.
 //   npx tsx tools/register-link-channels.mts [--dry]      — нужен YT_API_KEY в .env.local
 // Квота: единица на 50 роликов и единица на 50 каналов.
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
+import { saveSourcesText } from './registry-lib.mts';
 import { sources } from '../src/mocks/sources.ts';
 import { excludedChannels } from './youtube-channels.mts';
 import { cachedVideos } from './youtube-channels.mts';
@@ -85,5 +86,6 @@ if (!text.includes(MARK)) {
 }
 const end = text.indexOf('\n];', text.indexOf(MARK));
 text = `${text.slice(0, end)}\n${fresh.map((f) => f.line).join('\n')}${text.slice(end)}`;
-if (existsSync(REGISTRY)) writeFileSync(REGISTRY, text);
+// реестр (06.10): в базу приложения и снимком в sources.ts — tools/registry-lib.mts
+if (existsSync(REGISTRY)) await saveSourcesText(text, 'links');
 console.error(`→ src/mocks/sources.ts: +${fresh.length} каналов (ярус «обзор», via: 'links')`);

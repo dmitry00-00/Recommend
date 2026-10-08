@@ -17,12 +17,24 @@ export interface Candidate {
   what: string;
   /** антология (Е4): кандидат — этот сезон */
   season?: number;
+  /** сколько разборов человек увидит в карточке (ТВ-2): фильм без разборов отвечает только на
+   *  «что посмотреть», а с разбором — ещё и на «как понять». В объяснении не упоминается. */
+  essays?: number;
 }
 
 /** Сериалы в подборе (Е4). Новичок в сериалах — тот, кто у нас их ещё не отмечал: ему только
  *  короткое (мини-сериал, сезон антологии). В слейте сериалов не больше `maxSeries`: лента —
  *  прежде всего вечер, а сериал — обязательство на недели. */
-export interface RecommendOptions { seriesNovice?: boolean; maxSeries?: number }
+export interface RecommendOptions {
+  seriesNovice?: boolean; maxSeries?: number;
+  /** сколько первых мест отдать кадрам с разбором (ТВ-2): новому человеку — три, чтобы первое
+   *  впечатление было не только «что посмотреть», но и «как понять» (замер 06.10: у 6 из 7 первых
+   *  кадров нового человека разборов не было) */
+  essayFirst?: number;
+}
+/** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
+ *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
+export const ESSAY_BONUS = 0.04;
 
 /** Общее время — первый барьер сериала: чем дольше, тем ниже, а без сил — вдвое. Длина
  *  неизвестна — чуть ниже: честнее считать, что это надолго. */
@@ -109,7 +121,11 @@ export function scoreCandidate(state: CognitiveState, work: WorkCard, energy: En
 
 /** Барьеры формы: не «сложнее», а «иначе» — такой кадр честно помечается шагом в сторону. */
 const FORM_BARRIERS = new Set(['Без сюжета в привычном смысле', 'Условная актёрская манера', 'Медленный темп', 'Театральная манера',
-  'Разговорная форма', 'Архаичная речь', 'Открытый финал', 'Смена жанра']);
+  'Разговорная форма', 'Архаичная речь', 'Открытый финал', 'Смена жанра',
+  // у старой классики из топов Википедии (05.10): не сложнее, а непривычнее
+  'Чёрно-белое изображение', 'Немое кино',
+  // индийское кино (ЗП-22, 07.10): песни и танцы посреди сюжета — привычно в Индии, непривычно остальным
+  'Музыкальные номера']);
 
 function slotFor(state: CognitiveState, work: WorkCard, energy: Energy): { slot: RecommendationSlot; stretch: StretchLevel } {
   const gap = work.complexityLevel - state.complexityComfort;
@@ -182,7 +198,7 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
   const scored = candidates
     // новичку в сериалах — только короткий вход
     .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
-    .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) }))
+    .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];
@@ -206,6 +222,7 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
     const other = scored.find((x) => !picked.includes(x) && !likesRegister(state, x.c.work) && !isSeries(x.c.work));
     if (other) picked.splice(picked.length - 1, 1, other);
   }
+  if (options.essayFirst) essaysFirst(picked, scored, options.essayFirst, maxSeries);
   return picked.map(({ c }, i) => {
     const { slot, stretch } = slotFor(state, c.work, energy);
     const ops = targetOps(state, c.work);
@@ -231,6 +248,25 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
       createdAt,
     };
   });
+}
+
+/** Первые `need` мест — кадры с разбором (ТВ-2). Своих с разбором в слейте мало — добираем
+ *  лучших с разбором из оставшихся, вытесняя последних без разбора; потом ставим их вперёд,
+ *  не меняя порядка внутри. Кандидатов с разбором нет вовсе — слейт остаётся как был. */
+export function essaysFirst<T extends { c: Candidate }>(picked: T[], scored: T[], need: number, maxSeries: number): void {
+  const n = Math.min(need, picked.length);
+  const has = (x: T) => (x.c.essays ?? 0) > 0;
+  for (const x of scored) {
+    if (picked.filter(has).length >= n) break;
+    if (picked.includes(x) || !has(x)) continue;
+    const drop = [...picked].reverse().find((p) => !has(p));
+    if (!drop) break;
+    const seriesAfter = picked.filter((p) => p !== drop && isSeries(p.c.work)).length + (isSeries(x.c.work) ? 1 : 0);
+    if (seriesAfter > maxSeries) continue;
+    picked.splice(picked.indexOf(drop), 1, x);
+  }
+  const head = picked.filter(has).slice(0, n);
+  picked.splice(0, picked.length, ...head, ...picked.filter((x) => !head.includes(x)));
 }
 
 /** Строка о времени сериала в объяснении (Е4): сколько это часов и почему именно так. */

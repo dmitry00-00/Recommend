@@ -6,7 +6,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 
 loadEnvFile();
-const server = (process.env.TM_SERVER ?? 'https://recomend.bothost.tech').replace(/\/+$/, '');
+const server = (process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, '');
 const token = process.env.TM_ADMIN_TOKEN;
 if (!token) { console.error('нет TM_ADMIN_TOKEN в .env.local — публиковать нечем'); process.exit(1); }
 

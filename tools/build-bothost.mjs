@@ -29,9 +29,9 @@ const tmp = join(root, 'node_modules', '.cache', 'bothost-seed.mjs');
 run(`npx esbuild tools/bothost-seed.ts --bundle --platform=node --format=esm --alias:@=./src --outfile=${tmp} --log-level=warning`);
 writeFileSync(join(out, 'seed', 'owner.json'), execSync(`node ${tmp}`, { maxBuffer: 64 << 20 }));
 
-// 4. сервер и SQLite (WebAssembly: на хостинге нечего компилировать)
-cpSync(join(root, 'server', 'index.js'), join(out, 'index.js'));
-cpSync(join(root, 'server', 'd1-sqljs.js'), join(out, 'd1-sqljs.js'));
+// 4. сервер и SQLite: node:sqlite из Node 22 (файл, ЗП-4), запасной — sql.js (WebAssembly: на хостинге
+// нечего компилировать) на случай, если хостинг запустит без нашего Dockerfile на Node 20
+for (const f of ['index.js', 'd1-sqlite.js', 'd1-sqljs.js', 'backup.js']) cpSync(join(root, 'server', f), join(out, f));
 for (const f of ['sql-wasm.js', 'sql-wasm.wasm']) cpSync(join(root, 'node_modules', 'sql.js', 'dist', f), join(out, 'vendor', f));
 writeFileSync(join(out, 'package.json'), JSON.stringify({
   name: 'transformative-media-miniapp', version: '0.2.0', private: true, main: 'index.js',
@@ -42,12 +42,13 @@ writeFileSync(join(out, 'bothost.json'), JSON.stringify({ main: 'index.js', lang
 // запускает рядом заглушку http-wrapper.js на том же PORT («Bot is running»), и она отнимает
 // порт у сервера: EADDRINUSE при каждом старте.
 writeFileSync(join(out, 'Dockerfile'), [
-  'FROM node:20-alpine',
+  'FROM node:22-alpine',
   'WORKDIR /app',
   'COPY . .',
   'ENV NODE_ENV=production',
   'EXPOSE 3000',
-  'CMD ["node", "index.js"]',
+  // node:sqlite в Node 22 ещё «экспериментальный» — предупреждение при каждом старте не нужно
+  'CMD ["node", "--disable-warning=ExperimentalWarning", "index.js"]',
   '',
 ].join('\n'));
 

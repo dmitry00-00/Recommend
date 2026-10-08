@@ -1,4 +1,4 @@
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ValidationListProps {
   errors: { path: string; message: string }[];
@@ -8,7 +8,7 @@ export interface ValidationListProps {
 export function ValidationList({ errors }: ValidationListProps) {
   return (
     <div className="tm-valid">
-      <h4 className="tm-valid__title">{ru.curator.validationTitle}</h4>
+      <h4 className="tm-valid__title">{ui.curator.validationTitle}</h4>
       {errors.length ? (
         <ul className="tm-valid__list">
           {errors.map((e, i) => (
@@ -18,7 +18,7 @@ export function ValidationList({ errors }: ValidationListProps) {
             </li>
           ))}
         </ul>
-      ) : <p className="tm-valid__ok">{ru.curator.validationOk}</p>}
+      ) : <p className="tm-valid__ok">{ui.curator.validationOk}</p>}
     </div>
   );
 }

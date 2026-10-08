@@ -3,6 +3,7 @@
 // «любит бытовую драму», и с уровнем сложности почти не связано. Строки — для объяснений
 // («здесь тот самый…»), не для ярлыков на карточке.
 import type { Register } from '@/types/tmdf';
+import ui from '@/i18n';
 
 export interface RegisterMeta {
   name: string;
@@ -22,3 +23,6 @@ export const registers: Record<Register, RegisterMeta> = {
 };
 
 export const registerKeys = Object.keys(registers) as Register[];
+
+// имя и строка — на языке интерфейса (ЗП-20): словарь `ui.registers`, здесь — русский запас и формы
+for (const [k, v] of Object.entries(ui.registers)) Object.assign(registers[k as keyof typeof registers] ?? {}, v);

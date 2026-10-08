@@ -8,13 +8,15 @@
 // Выход — src/mocks/baseMedia.ts: id карточки → обложка, кадр, описание, страны, длительность,
 // регистр (tools/register-tags.mts, теми же жанрами и ключевыми словами TMDb, что у всех).
 // Дополняется, не затирается. Приложение накладывает его на справочник при загрузке.
-import { existsSync, writeFileSync } from 'node:fs';
+import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { analysisKey } from './works-index.mts';
 import { pick, tagSource } from './register-tags.mts';
 import { tmdbFromEnv } from '../src/lib/resolve/index.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
+import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
+import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
@@ -26,12 +28,21 @@ const ALL = process.argv.includes('--all');
 const DRY = process.argv.includes('--dry');
 
 const file = new URL('../src/mocks/baseMedia.ts', import.meta.url);
+// описание — отдельным файлом (07.10): оно нужно только в раскрытой карточке, а с ним справочник обложек весил
+// 3,6 МБ при каждом старте приложения; приложение подгружает его, когда открывают «Сюжет»
+// и разложено на 16 долей по id (src/lib/shard.ts): «Сюжет» подгружает одну, около 60 КБ
+const blurbDir = new URL('../src/mocks/baseBlurbs/', import.meta.url);
+const blurbsBefore: Record<string, string> = {};
+for (let i = 0; i < BLURB_SHARDS; i++) {
+  const f = new URL(`${String(i).padStart(2, '0')}.ts`, blurbDir);
+  if (existsSync(f)) Object.assign(blurbsBefore, (await import(f.href)).blurbs);
+}
 const before: Record<string, Partial<WorkCard>> = existsSync(file)
-  ? (await import('../src/mocks/baseMedia.ts')).baseMedia : {};
+  ? Object.fromEntries(Object.entries((await import('../src/mocks/baseMedia.ts')).baseMedia).map(([id, m]) => [id, { ...m, ...(blurbsBefore[id] ? { blurb: blurbsBefore[id] } : {}) }])) : {};
 const client = tmdbFromEnv(key)!;
 const { tags, save } = tagSource(key, '.cache/tmdb-tags.json');
 
-const targets = [...filmBaseWiki, ...filmBaseMarkup].filter((w) => {
+const targets = [...filmBaseWiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld].filter((w) => {
   const k = analysisKey(w);
   if (!k?.startsWith('tmdb:') || isSeries(w)) return false;
   if (before[w.id]?.coverUrl && before[w.id]?.registers) return false;
@@ -63,6 +74,17 @@ for (const w of targets) {
 save();
 console.error(`обложек ${covers}, с регистром ${targets.filter((w) => out[w.id]?.registers?.length).length} из ${targets.length}`);
 if (DRY) process.exit(0);
+const shards: Record<string, Record<string, string>> = {};
+for (const [id, m] of Object.entries(out)) if (m.blurb) (shards[shardOf(id)] ??= {})[id] = m.blurb;
+for (const m of Object.values(out)) delete m.blurb;
+mkdirSync(blurbDir, { recursive: true });
+for (let i = 0; i < BLURB_SHARDS; i++) {
+  const n = String(i).padStart(2, '0');
+  writeFileSync(new URL(`${n}.ts`, blurbDir), `// Сгенерировано tools/build-base-media.mts: описания карточек справочника (TMDb), доля ${n} из ${BLURB_SHARDS} по id
+// (src/lib/shard.ts) — подгружается, когда раскрывают «Сюжет» (src/api, getPlot). Не править руками.
+export const blurbs: Record<string, string> = ${JSON.stringify(shards[n] ?? {}, null, 1)};
+`);
+}
 writeFileSync(file, `// Сгенерировано tools/build-base-media.mts (${new Date().toISOString().slice(0, 10)}): обложки, кадры, описание и
 // регистр для карточек справочника из Wikidata, у которых их не было. Данные TMDb. Дополняется,
 // не затирается. Не править руками — перегенерировать.

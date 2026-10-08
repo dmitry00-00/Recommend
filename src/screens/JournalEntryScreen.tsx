@@ -5,7 +5,7 @@ import { getJourney, getReflectionPrompts, setBookProgress, setSeriesProgress } 
 import { Button, EmptyState, ErrorState, JourneyEntry, Skeleton, StateChangeNote, useToast } from '@/components';
 import { isSeries } from '@/lib/media';
 import { useMechanics } from '@/lib/settingsStore';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 /** Экран «Запись дневника» (/journal/:entryId): запись, ваши ответы, что изменилось на карте. */
 export function JournalEntryScreen() {
@@ -38,22 +38,22 @@ export function JournalEntryScreen() {
   if (failed) {
     return (
       <main className="tm-shell__main">
-        <ErrorState title={ru.journal.errorOne} text={ru.journal.errorText} onRetry={() => setAttempt(attempt + 1)} />
+        <ErrorState title={ui.journal.errorOne} text={ui.journal.errorText} onRetry={() => setAttempt(attempt + 1)} />
       </main>
     );
   }
   if (missing) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.journal.notFound} text={ru.journal.notFoundText}
-                    action={ru.nav.journal} onAction={() => navigate('/journal')} />
+        <EmptyState title={ui.journal.notFound} text={ui.journal.notFoundText}
+                    action={ui.nav.journal} onAction={() => navigate('/journal')} />
       </main>
     );
   }
   if (!entry) {
     return (
       <main className="tm-shell__main" aria-busy="true">
-        <span className="tm-sr">{ru.journal.loading}</span>
+        <span className="tm-sr">{ui.journal.loading}</span>
         <div className="tm-entry">
           <Skeleton kind="cover" style={{ width: 84, height: 106 }} />
           <div style={{ flex: 1 }}>
@@ -79,7 +79,7 @@ export function JournalEntryScreen() {
           <BookWhere entry={entry} onSaved={setEntry} />
         ) : null}
         <section className="tm-journal__section">
-          <h2 className="tm-title-3">{ru.journal.reflections}</h2>
+          <h2 className="tm-title-3">{ui.journal.reflections}</h2>
           {entry.reflections.length ? (
             <ul className="tm-journal__qa">
               {entry.reflections.map((r) => (
@@ -89,11 +89,11 @@ export function JournalEntryScreen() {
                 </li>
               ))}
             </ul>
-          ) : <p className="tm-caption tm-journal__hint">{entry.work.type === 'book' ? ru.journal.noReflectionsBook : ru.journal.noReflections}</p>}
+          ) : <p className="tm-caption tm-journal__hint">{entry.work.type === 'book' ? ui.journal.noReflectionsBook : ui.journal.noReflections}</p>}
         </section>
         {mechanics && entry.stateChanges.length ? (
           <section className="tm-journal__section">
-            <h2 className="tm-title-3">{ru.journal.changes}</h2>
+            <h2 className="tm-title-3">{ui.journal.changes}</h2>
             {(['refined_estimate', 'observed_growth'] as const).map((kind) => {
               const ops = entry.stateChanges.filter((c) => c.changeType === kind).map((c) => c.op);
               return ops.length ? <StateChangeNote key={kind} changeType={kind} operations={ops} /> : null;
@@ -117,25 +117,25 @@ function SeriesWhere({ entry, onSaved }: { entry: JourneyEntryData; onSaved: (e:
   const save = () => {
     setBusy(true);
     setSeriesProgress(entry.id, season, episode || undefined)
-      .then((e) => { if (e) { onSaved(e); toast({ text: ru.seriesDiary.saved }); } })
-      .catch(() => toast({ text: ru.settings.errorSave }))
+      .then((e) => { if (e) { onSaved(e); toast({ text: ui.seriesDiary.saved }); } })
+      .catch(() => toast({ text: ui.settings.errorSave }))
       .finally(() => setBusy(false));
   };
   const stepper = (label: string, value: number, set: (n: number) => void, min: number, max: number) => (
     <div className="tm-row tm-row--gap-2 tm-serieswhere__row">
       <span className="tm-label tm-serieswhere__label">{label}</span>
-      <Button size="sm" variant="quiet" aria-label={`${label}: ${ru.seriesDiary.less}`} disabled={value <= min} onClick={() => set(value - 1)}>−</Button>
+      <Button size="sm" variant="quiet" aria-label={`${label}: ${ui.seriesDiary.less}`} disabled={value <= min} onClick={() => set(value - 1)}>−</Button>
       <span className="tm-title-3 tm-serieswhere__value" aria-live="polite">{value || '—'}</span>
-      <Button size="sm" variant="quiet" aria-label={`${label}: ${ru.seriesDiary.more}`} disabled={value >= max} onClick={() => set(value + 1)}>+</Button>
+      <Button size="sm" variant="quiet" aria-label={`${label}: ${ui.seriesDiary.more}`} disabled={value >= max} onClick={() => set(value + 1)}>+</Button>
     </div>
   );
   return (
     <section className="tm-journal__section tm-serieswhere">
-      <h2 className="tm-title-3">{ru.seriesDiary.whereTitle}</h2>
-      <p className="tm-caption tm-journal__hint">{ru.seriesDiary.whereHint}</p>
-      {stepper(ru.seriesDiary.season, season, (n) => { setSeason(n); setEpisode(0); }, 1, maxSeason)}
-      {stepper(ru.seriesDiary.episode, episode, setEpisode, 0, 999)}
-      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ru.seriesDiary.save}</Button>
+      <h2 className="tm-title-3">{ui.seriesDiary.whereTitle}</h2>
+      <p className="tm-caption tm-journal__hint">{ui.seriesDiary.whereHint}</p>
+      {stepper(ui.seriesDiary.season, season, (n) => { setSeason(n); setEpisode(0); }, 1, maxSeason)}
+      {stepper(ui.seriesDiary.episode, episode, setEpisode, 0, 999)}
+      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ui.seriesDiary.save}</Button>
     </section>
   );
 }
@@ -153,28 +153,28 @@ function BookWhere({ entry, onSaved }: { entry: JourneyEntryData; onSaved: (e: J
   const save = () => {
     setBusy(true);
     setBookProgress(entry.id, { part: part || undefined, page: page || undefined })
-      .then((e) => { if (e) { onSaved(e); toast({ text: ru.seriesDiary.saved }); } })
-      .catch(() => toast({ text: ru.settings.errorSave }))
+      .then((e) => { if (e) { onSaved(e); toast({ text: ui.seriesDiary.saved }); } })
+      .catch(() => toast({ text: ui.settings.errorSave }))
       .finally(() => setBusy(false));
   };
   return (
     <section className="tm-journal__section tm-serieswhere">
-      <h2 className="tm-title-3">{ru.bookDiary.whereTitle}</h2>
-      <p className="tm-caption tm-journal__hint">{ru.bookDiary.whereHint}</p>
+      <h2 className="tm-title-3">{ui.bookDiary.whereTitle}</h2>
+      <p className="tm-caption tm-journal__hint">{ui.bookDiary.whereHint}</p>
       <div className="tm-row tm-row--gap-2 tm-serieswhere__row">
-        <span className="tm-label tm-serieswhere__label">{ru.bookDiary.part}</span>
-        <Button size="sm" variant="quiet" aria-label={`${ru.bookDiary.part}: ${ru.seriesDiary.less}`} disabled={part <= 0} onClick={() => setPart(part - 1)}>−</Button>
+        <span className="tm-label tm-serieswhere__label">{ui.bookDiary.part}</span>
+        <Button size="sm" variant="quiet" aria-label={`${ui.bookDiary.part}: ${ui.seriesDiary.less}`} disabled={part <= 0} onClick={() => setPart(part - 1)}>−</Button>
         <span className="tm-title-3 tm-serieswhere__value" aria-live="polite">{part || '—'}</span>
-        <Button size="sm" variant="quiet" aria-label={`${ru.bookDiary.part}: ${ru.seriesDiary.more}`} disabled={part >= 99} onClick={() => setPart(part + 1)}>+</Button>
+        <Button size="sm" variant="quiet" aria-label={`${ui.bookDiary.part}: ${ui.seriesDiary.more}`} disabled={part >= 99} onClick={() => setPart(part + 1)}>+</Button>
       </div>
       <label className="tm-row tm-row--gap-2 tm-serieswhere__row">
-        <span className="tm-label tm-serieswhere__label">{ru.bookDiary.page}</span>
+        <span className="tm-label tm-serieswhere__label">{ui.bookDiary.page}</span>
         <input className="tm-input tm-serieswhere__page" type="number" inputMode="numeric" min={0} max={pages ?? 99999}
                value={page || ''} placeholder="—"
                onChange={(ev) => { const n = Math.max(0, Math.min(pages ?? 99999, Math.floor(Number(ev.target.value) || 0))); setPage(n); }} />
-        {pages ? <span className="tm-caption">{ru.bookDiary.pageOf(pages)}</span> : null}
+        {pages ? <span className="tm-caption">{ui.bookDiary.pageOf(pages)}</span> : null}
       </label>
-      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ru.seriesDiary.save}</Button>
+      <Button size="sm" disabled={!changed} loading={busy} onClick={save}>{ui.seriesDiary.save}</Button>
     </section>
   );
 }

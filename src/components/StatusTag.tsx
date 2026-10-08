@@ -1,6 +1,6 @@
 import type { AnnotationStatus } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 const TONE: Record<AnnotationStatus, 'ok' | 'wait' | 'stop'> = {
   queued: 'wait', annotating: 'wait', validation_failed: 'stop', needs_review: 'wait',
@@ -13,7 +13,7 @@ export function StatusTag({ status }: { status: AnnotationStatus }) {
   return (
     <span className={cx('tm-status', `tm-status--${tone}`)}>
       <span className="tm-status__mark" aria-hidden="true" />
-      {ru.annotationStatus[status] ?? status}
+      {ui.annotationStatus[status] ?? status}
     </span>
   );
 }

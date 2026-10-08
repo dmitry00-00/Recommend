@@ -15,7 +15,6 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 96px; }
   h1 { font-size: 22px; margin: 0 0 4px; }
   h2 { font-size: 15px; margin: 28px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
   .sub { color: var(--muted); margin: 0 0 16px; }
@@ -45,19 +44,19 @@
   .x { border: 0; background: none; color: var(--muted); font-size: 18px; padding: 0 6px; }
   .table-wrap { overflow-x: auto; }
   #save-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--panel); border-top: 1px solid var(--line); padding: 10px 16px; }
-  #save-bar .in { max-width: 1100px; margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  main.page { padding-bottom: 96px; }
+  #save-bar .in { max-width: var(--page-w); margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
-  nav.tabs { display: flex; gap: 6px; margin: 0 0 18px; border-bottom: 1px solid var(--line); }
-  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
-  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
 </style>
+<link rel="stylesheet" href="/shell.css">
 </head>
 <body>
-<main>
-  <nav class="tabs"><a href="../links/" class="on">Ссылки</a><a href="../check/" class="">Проверка</a><a href="../kinopoisk/" class="">Оценки Кинопоиска</a></nav>
+<script src="/shell.js"></script>
+<main class="page">
   <h1>Пульт ссылок</h1>
   <p class="sub">Ролики к фильмам и каналы обзорщиков и эссеистов — сразу пачкой, как накопились в заметках. Название фильма строкой выше ссылок или в той же строке («Дюна (2021) — ссылка»); заголовок вроде «Обзорщики:» или «Эссеисты» задаёт ярус каналам ниже. Без названия фильм угадается по названию ролика.</p>
   <p id="env" class="warn"></p>
+  <p id="inbox" class="sub"></p>
 
   <div id="drop">
     <textarea id="text" placeholder="Вставьте сюда заметки со ссылками — или перетащите файлы .txt, .md, .csv"></textarea>
@@ -125,6 +124,10 @@ function render() {
   const c = state.counts;
   $('#env').textContent = state.env.yt ? '' : 'Нет YT_API_KEY в .env.local — названия роликов спрошу по одному (медленнее), каналы по ссылке /channel/… не узнаю.';
   $('#loading').textContent = state.loading ? `узнаю названия роликов: ${state.loading}…` : '';
+  // форма Google (06.10): ссылки из неё встают сюда сами
+  const ib = state.inbox ?? {};
+  $('#inbox').innerHTML = !ib.on ? '' : ib.error ? `<span class="bad">входящие из формы не загрузились: ${esc(ib.error)}</span>`
+    : `Из формы: ${ib.fromForm ?? 0} к разбору${ib.other?.length ? ` · не YouTube, разобрать руками: ${ib.other.map((o) => `<a href="${esc(o.url)}" target="_blank" rel="noreferrer">${esc(o.url)}</a>${o.film ? ` (${esc(o.film)})` : ''}${o.note ? ` — ${esc(o.note)}` : ''}`).join(', ')}` : ''}`;
   $('#vh').textContent = `Ролики · ${c.videos ?? 0}`;
   $('#filters').innerHTML = FILTERS.map(([k, label, f]) => {
     const n = state.items.filter(f).length;
@@ -142,6 +145,7 @@ function render() {
       i.key === null && i.film ? '<span class="tag warn">нет у нас — опознаем по названию при следующей синхронизации</span>' : '',
       i.typed && i.key === null ? `<span class="tag">в заметках: «${esc(i.typed)}»</span>` : '',
       i.existing ? `<span class="tag ${i.saved ? 'ok' : ''}">${i.saved ? 'сохранено' : 'уже в разметке'}: ${esc(i.existing.film ?? '—')}</span>` : '',
+      i.form ? `<span class="tag">из формы${i.form.note ? `: ${esc(i.form.note)}` : ''}</span>` : '',
     ].join('');
     const opts = i.options?.length > 1 || (i.key === null && i.options?.length)
       ? `<div class="opts">${i.options.map((o) => `<button data-pick="${esc(o.label)}">${esc(o.label)}</button>`).join('')}</div>` : '';
@@ -155,7 +159,7 @@ function render() {
   $('#channels').innerHTML = state.channels.length ? `<tr><th>стр.</th><th>Канал</th><th>В реестре</th><th>Ярус</th><th>Предмет</th><th>Сохранить</th><th></th></tr>` + state.channels.map((ch) => `
     <tr data-ch="${esc(ch.id)}"><td class="n">${ch.line}</td>
       <td class="vt"><a href="${esc(ch.url)}" target="_blank" rel="noreferrer">${esc(ch.title ?? (ch.handle ? '@' + ch.handle : ch.url))}<small>${ch.handle ? '@' + esc(ch.handle) : ''}</small></a>${ch.error ? `<small class="bad">${esc(ch.error)}</small>` : ''}</td>
-      <td>${ch.existing ? `есть: ${ch.existing.tier === 'review' ? 'обзор' : 'эссе'}${ch.existing.medium === 'book' ? ', книги' : ''}${ch.existing.via ? ', из ссылок' : ''}` : '<span class="ok">новый</span>'}${ch.saved ? ' <span class="tag ok">сохранено</span>' : ''}</td>
+      <td>${ch.existing ? `есть: ${ch.existing.tier === 'review' ? 'обзор' : 'эссе'}${ch.existing.medium === 'book' ? ', книги' : ''}${ch.existing.via ? ', из ссылок' : ''}` : '<span class="ok">новый</span>'}${ch.saved ? ' <span class="tag ok">сохранено</span>' : ''}${ch.form ? ` <span class="tag">из формы${ch.form.note ? `: ${esc(ch.form.note)}` : ''}</span>` : ''}</td>
       <td><select data-tier><option value="review" ${ch.tier === 'review' ? 'selected' : ''}>обзор</option><option value="essay" ${ch.tier === 'essay' ? 'selected' : ''}>эссе</option></select></td>
       <td><select data-medium><option value="film" ${ch.medium === 'film' ? 'selected' : ''}>кино</option><option value="book" ${ch.medium === 'book' ? 'selected' : ''}>книги</option></select></td>
       <td><input type="checkbox" data-include ${ch.include ? 'checked' : ''} ${ch.handle ? '' : 'disabled'}></td>

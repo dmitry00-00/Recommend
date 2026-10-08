@@ -28,11 +28,8 @@
   kbd { font: 11px ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; background: var(--panel); color: var(--muted); }
 
   /* каркас: шапка, слева фильтры, справа таблица — без прокрутки страницы */
-  .app { height: 100vh; display: flex; flex-direction: column; padding: 0 16px; max-width: 1600px; margin: 0 auto; }
+  .app { height: calc(100vh - var(--nav-h)); display: flex; flex-direction: column; padding: 0 16px; max-width: 1600px; margin: 0 auto; }
   header { flex: none; }
-  nav.tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
-  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
-  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
   .strip { position: relative; display: flex; gap: 10px; align-items: center; padding: 8px 0; flex-wrap: wrap; }
   .strip h1 { font-size: 17px; margin: 0 8px 0 0; }
   .dots { display: inline-flex; gap: 4px; align-items: center; }
@@ -40,12 +37,24 @@
   .dot.ok { background: var(--ok); } .dot.stale, .dot.skipped, .dot.never { background: var(--warn); } .dot.error { background: var(--bad); }
   .dot.blocked { background: transparent; border: 2px solid var(--muted); } .dot.running { background: var(--accent); animation: pulse 1s infinite; }
   @keyframes pulse { 50% { opacity: .3; } }
+  a.pipe-link { display: inline-flex; gap: 6px; align-items: center; padding: 5px 11px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none; background: var(--panel); }
   #pipe-sum { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46vw; }
   .spacer { flex: 1; }
 
   /* конвейер — выпадающая панель поверх таблицы */
-  #drawer { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; max-height: 72vh; overflow: auto; }
-  #drawer.on, #stopdrawer.on { display: block; }
+  #stopdrawer.on, #covdrawer.on { display: block; }
+  #covdrawer { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; max-height: 76vh; overflow: auto; }
+  .cov { width: 100%; border-collapse: collapse; table-layout: auto; font-size: 13px; margin-bottom: 14px; }
+  .cov th { height: auto; text-align: left; font-weight: 600; color: var(--muted); font-size: 12px; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .cov td { height: auto; max-height: none; padding: 3px 12px 3px 0; border-top: 1px solid var(--line); border-bottom: 0; white-space: nowrap; line-height: 18px; }
+  .cov td.t { width: 38%; }
+  .cov td.n, .cov th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .cov td.t { white-space: normal; }
+  .cov button { font-size: 12px; padding: 1px 8px; }
+  .cov .st { font-size: 11px; padding: 1px 6px; border-radius: 8px; border: 1px solid var(--line); }
+  .cov .st.нет { color: #c0392b; border-color: #c0392b; } .cov .st.мало { color: #b9770e; border-color: #b9770e; }
+  .covsum { margin: 0 0 10px; font-size: 13px; line-height: 1.5; }
+  .covtext { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0 0 12px; }
   #stopdrawer { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; max-height: 72vh; overflow: auto; }
   .sw { display: grid; grid-template-columns: minmax(160px, 1.2fr) 110px 3fr auto; gap: 4px 12px; align-items: center; font-size: 13px; }
   .sw > div { padding: 5px 0; border-top: 1px solid var(--line); }
@@ -105,7 +114,7 @@
   td { height: var(--row-h); max-height: var(--row-h); padding: 0 10px; border-bottom: 1px solid var(--line); overflow: hidden; vertical-align: middle; }
   tr.sel td { background: var(--sel); }
   tr.done .vt, tr.done .cell-film, tr.done .cell-llm { opacity: .6; }
-  col.c-th { width: 82px; } col.c-film { width: 20%; } col.c-llm { width: 21%; } col.c-act { width: 392px; }
+  col.c-th { width: 82px; } col.c-film { width: 18%; } col.c-llm { width: 19%; } col.c-act { width: 360px; }
   td.th { padding-right: 0; }
   td.th img { width: 72px; height: 40px; object-fit: cover; border-radius: 5px; background: var(--chip); display: block; }
   .l1, .l2 { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -113,9 +122,13 @@
   .vt .l1 a { color: var(--ink); text-decoration: none; font-weight: 500; } .vt .l1 a:hover { text-decoration: underline; }
   .tag { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 999px; background: var(--chip); color: var(--muted); margin-right: 4px; white-space: nowrap; }
   .tag.ok { color: var(--ok); } .tag.warn { color: var(--warn); } .tag.bad { color: var(--bad); } .tag.acc { color: var(--accent); }
-  .acts { display: flex; gap: 3px; }
-  .acts button { font-size: 12px; padding: 1px 6px; }
-  .acts kbd { border: 0; padding: 0; margin-left: 2px; background: none; }
+  /* кнопки решения — только у выбранной строки (и под мышью): 6 кнопок × 11 строк были шумом и не
+     влезали в 1440 px (06.10); клавиши подписаны внизу и в подсказке кнопки */
+  .acts { display: none; gap: 3px; overflow: hidden; }
+  tr.sel .acts, tr:hover .acts { display: flex; }
+  .acts button { font-size: 12px; padding: 1px 6px; white-space: nowrap; }
+  .acts kbd { display: none; }
+  tr:not(.sel):not(:hover) td.act .l2, tr:not(.sel):not(:hover) td.act .sug { margin-top: 0; }
   .sug { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: left; font-size: 12px; padding: 0 7px; margin-top: 3px; }
   .sug kbd { color: inherit; opacity: .75; border: 0; background: none; padding: 0; }
   .empty td { color: var(--muted); height: 120px; text-align: center; }
@@ -147,19 +160,19 @@
     .tablearea { overflow-x: auto; }
   }
 </style>
+<link rel="stylesheet" href="/shell.css">
 </head>
 <body>
+<script src="/shell.js"></script>
 <div class="app">
   <header>
-    <nav class="tabs"><a href="../links/">Ссылки</a><a href="../check/" class="on">Проверка</a><a href="../kinopoisk/">Оценки Кинопоиска</a></nav>
     <div class="strip">
       <h1>Проверка привязок</h1>
-      <button id="pipe-btn" type="button" title="шаги конвейера: отметки, устаревшее, запуск">Конвейер <span id="pipe-dots" class="dots"></span> ▾</button>
+      <a id="pipe-btn" class="pipe-link" href="/dash/" title="конвейер — в «Сводке»: отметки, устаревшее, запуск">Конвейер <span id="pipe-dots" class="dots"></span> →</a>
       <button id="stop-btn" type="button" title="кандидаты в стоп-слова по решениям разметки">Стоп-слова <span id="stop-n" class="muted"></span> ▾</button>
+      <button id="cov-btn" type="button" title="по каким каналам и фильмам решений людей нет или мало">Покрытие <span id="cov-n" class="muted"></span> ▾</button>
       <span id="pipe-sum"></span>
       <span class="spacer"></span>
-      <button id="run-stale" class="primary" type="button">Обновить устаревшее</button>
-      <button id="run-stop" type="button" disabled>Стоп</button>
       <div id="stopdrawer">
         <div class="swhead"><h2>Стоп-слова</h2><span id="sw-sum" class="muted"></span><span class="spacer"></span>
           <input id="sw-new" placeholder="слово или фраза" style="width:170px"><input id="sw-ch" list="sw-chs" placeholder="только канал" style="width:170px"><button id="sw-add" type="button">В стоп</button></div>
@@ -170,9 +183,20 @@
         <div class="swhead" style="margin-top:12px"><h2>Не стоп</h2></div>
         <div class="swlist" id="sw-rejected"></div>
       </div>
-      <div id="drawer">
-        <div class="groups" id="groups"></div>
-        <div id="log"></div>
+      <div id="covdrawer">
+        <div class="swhead"><h2>Покрытие разметкой</h2><span id="cov-at" class="muted"></span><span class="spacer"></span>
+          <label class="muted"><input id="cov-src" type="checkbox" checked> только наши каналы</label><button id="cov-fresh" type="button">Пересчитать</button></div>
+        <p class="covsum" id="cov-sum"></p>
+        <div class="swhead"><h2>Каналы</h2><span class="muted">первыми — где в непроверенном вероятнее всего сидят ошибки: много без подтверждения × канал ошибается</span></div>
+        <table class="cov" id="cov-ch"></table>
+        <div class="swhead"><h2>Фильмы</h2><span class="muted">ошибки в непроверенном × заметность (просмотры статьи в Википедии)</span></div>
+        <table class="cov" id="cov-films"></table>
+        <div class="swhead"><h2>Telegram</h2></div>
+        <p class="covtext" id="cov-tg"></p>
+        <div class="swhead"><h2>Популярные фильмы без единого материала</h2></div>
+        <p class="covtext" id="cov-silent"></p>
+        <div class="swhead"><h2>Каналы, где почти ничего не опознано</h2></div>
+        <p class="covtext" id="cov-quiet"></p>
       </div>
     </div>
   </header>
@@ -263,41 +287,15 @@ const when = (iso) => {
 
 // ─── конвейер ────────────────────────────────────────────────────────────────
 const STATE_RU = { ok: 'свежий', stale: 'устарел', error: 'ошибка', skipped: 'пропущен', never: 'не запускался', blocked: 'нельзя', running: 'идёт' };
-let pipe = null, pipeTimer = null, sheetText = 'правки в таблице — не проверял';
+let pipe = null, pipeTimer = null;
 function renderPipe() {
   if (!pipe) return;
   const running = pipe.run && !pipe.run.finishedAt;
   $('#pipe-dots').innerHTML = pipe.stages.map((s) => `<i class="dot ${s.state}" title="${esc(s.title)}: ${esc(STATE_RU[s.state])}"></i>`).join('');
-  const groups = {};
-  for (const s of pipe.stages) (groups[s.group] ??= []).push(s);
-  $('#groups').innerHTML = Object.entries(groups).map(([g, list]) => `<div><h2>${esc(g)}</h2>${list.map((s) => `
-    <div class="stage" title="${esc(s.what)}">
-      <span class="dot ${s.state}"></span><span class="t">${esc(s.title)}</span>
-      <button type="button" data-run="${s.id}" ${running || s.state === 'blocked' ? 'disabled' : ''}>▶</button>
-      <span class="m">${esc(STATE_RU[s.state])}${s.lastAt ? ` · ${esc(when(s.lastAt))}` : ''}${s.why && s.why !== 'ещё не запускался' ? ` · ${esc(s.why)}` : ''}${s.pending && s.pending.text !== s.why ? ` · <b>${esc(s.pending.text)}</b>` : ''}${s.last?.summary && s.state === 'ok' ? `<br>${esc(s.last.summary)}` : ''}${s.id === 'sheet' ? `<br>${sheetText} <a href="#" id="sheet-check">проверить</a>` : ''}</span>
-    </div>`).join('')}</div>`).join('');
-  const stale = pipe.stale.length;
-  $('#run-stale').textContent = stale ? `Обновить устаревшее (${stale})` : 'Устаревшего нет';
-  $('#run-stale').disabled = running || !stale;
-  $('#run-stop').disabled = !running;
   const r = pipe.run;
   const t = (id) => pipe.stages.find((s) => s.id === id)?.title ?? id;
   $('#pipe-sum').textContent = running ? `идёт: ${t(r.current)} (${r.results.length + 1} из ${r.ids.length})`
-    : r?.finishedAt ? `прогон ${when(r.finishedAt)}: ${r.results.map((x) => `${t(x.id)} ${x.code === 0 ? '✓' : x.code === 2 ? '–' : '✗'}`).join(', ')}`
-      : stale ? `устарело: ${pipe.stale.map(t).join(', ')}` : 'всё свежее';
-  const log = $('#log');
-  const atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
-  log.textContent = r?.log?.length ? r.log.join('\n') : '';
-  if (atEnd) log.scrollTop = log.scrollHeight;
-  for (const b of document.querySelectorAll('[data-run]')) b.onclick = () => runStages([b.dataset.run]);
-  const sc = $('#sheet-check');
-  if (sc) sc.onclick = (e) => { e.preventDefault(); probe(); };
-}
-async function probe() {
-  sheetText = 'проверяю…'; renderPipe();
-  try { const p = await api('api/sheet?force=1'); sheetText = esc(p.text) + (p.changed ? ' — <b>заберите синхронизацией</b>' : ''); }
-  catch (e) { sheetText = esc(e.message); }
-  renderPipe();
+    : r?.finishedAt ? `прогон ${when(r.finishedAt)}: ${r.results.map((x) => `${t(x.id)} ${x.code === 0 ? '✓' : x.code === 2 ? '–' : '✗'}`).join(', ')}` : '';
 }
 async function loadPipe() {
   const was = pipe?.run && !pipe.run.finishedAt;
@@ -307,14 +305,52 @@ async function loadPipe() {
   clearTimeout(pipeTimer);
   pipeTimer = setTimeout(loadPipe, running ? 1500 : 20000);
 }
-async function runStages(ids) {
-  const st = pipe?.stages.filter((s) => ids === 'stale' ? pipe.stale.includes(s.id) : ids.includes(s.id)) ?? [];
-  for (const s of st) if (s.confirm && !confirm(s.confirm)) return;
-  try { pipe = await api('api/pipeline/run', { ids }); $('#drawer').classList.add('on'); renderPipe(); loadPipe(); }
-  catch (e) { toast(e.message); }
+const DRAWERS = ['#stopdrawer', '#covdrawer'];
+const only = (id) => { for (const d of DRAWERS) if (d !== id) $(d).classList.remove('on'); return $(id).classList.toggle('on'); };
+$('#stop-btn').onclick = () => { if (only('#stopdrawer')) loadStop(); };
+$('#cov-btn').onclick = () => { if (only('#covdrawer')) loadCov(false); };
+
+// ─── покрытие разметкой (03.10): где решений людей нет или мало ─────────────────
+let cov = null;
+const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '—');
+async function loadCov(fresh) {
+  $('#cov-sum').textContent = fresh ? 'пересчитываю…' : (cov ? $('#cov-sum').textContent : 'загружаю…');
+  try { cov = await api(`api/coverage${fresh ? '?fresh=1' : ''}`); if (cov.error) throw new Error(cov.error); renderCov(); }
+  catch (e) { $('#cov-sum').textContent = e.message; }
 }
-$('#pipe-btn').onclick = () => { $('#stopdrawer').classList.remove('on'); $('#drawer').classList.toggle('on'); };
-$('#stop-btn').onclick = () => { $('#drawer').classList.remove('on'); const on = $('#stopdrawer').classList.toggle('on'); if (on) loadStop(); };
+function check(patch) {
+  for (const k of ['ch', 'ff', 'ft', 'q', 'ev', 'flag']) F.delete(k);
+  for (const [k, v] of Object.entries(patch)) setF(k, v);
+  F.set('g', 'open'); F.delete('vd');
+  page = 1; sel = 0; $('#covdrawer').classList.remove('on'); load();
+}
+function renderCov() {
+  const t = cov.totals;
+  $('#cov-n').textContent = t.noMarkup + t.little ? `${t.noMarkup + t.little}` : '';
+  $('#cov-at').textContent = `посчитано ${when(cov.at)}`;
+  $('#cov-sum').innerHTML = `Привязок роликов <b>${t.links}</b>: решено человеком ${t.human} (${pct(t.human, t.links)}), с уликой ${t.evidence} (${pct(t.evidence, t.links)}), без подтверждения <b>${t.none}</b> (${pct(t.none, t.links)}).
+    Ошибок, вероятно, в непроверенном — около <b>${t.expectedErrors}</b> (точность опознавателя ${(cov.globalPrecision * 100).toFixed(1)}%).
+    Каналов без разметки ${t.noMarkup}, с малой ${t.little}. Фильмов без решений человека ${t.filmsNoHuman} из ${t.films}, совсем без подтверждения ${t.filmsUnconfirmed ?? '—'}.`;
+  const src = $('#cov-src').checked;
+  const chs = cov.channels.filter((r) => !src || r.source).filter((r) => r.none > 0 || r.status !== 'есть').slice(0, 40);
+  $('#cov-ch').innerHTML = `<tr><th>канал</th><th class="n">привязок</th><th class="n">решений</th><th class="n">без подтв.</th><th class="n">точность</th><th class="n">~ошибок</th><th>разметка</th><th></th></tr>`
+    + chs.map((r, i) => `<tr><td class="t">${esc(r.channel)}${r.source ? '' : ' <span class="muted">· из ссылок</span>'}</td><td class="n">${r.linked}</td><td class="n">${r.verdicts}</td><td class="n">${r.none}</td>
+      <td class="n" title="${r.measured} решений по каналу">${Math.round(r.precision * 100)}%${r.measured < 10 ? '*' : ''}</td><td class="n">${r.expectedErrors.toFixed(1)}</td>
+      <td><span class="st ${r.status}">${r.status}</span></td><td>${r.none ? `<button type="button" data-cch="${i}">проверить ${r.none}</button>` : ''}</td></tr>`).join('');
+  for (const b of document.querySelectorAll('[data-cch]')) b.onclick = () => check({ ch: chs[Number(b.dataset.cch)].channel });
+  const films = cov.films.slice(0, 30);
+  $('#cov-films').innerHTML = `<tr><th>фильм</th><th class="n">роликов</th><th class="n">постов</th><th class="n">человеком</th><th class="n">без подтв.</th><th class="n">~ошибок</th><th class="n">вики</th><th></th></tr>`
+    + films.map((f, i) => `<tr><td class="t">${esc(f.title)}</td><td class="n">${f.videos}</td><td class="n">${f.posts}</td><td class="n">${f.human}</td><td class="n">${f.none}</td>
+      <td class="n">${f.expectedErrors.toFixed(1)}</td><td class="n">${f.views ? `${Math.round(f.views / 1000)}k` : ''}</td><td><button type="button" data-cf="${i}">проверить ${f.none}</button></td></tr>`).join('');
+  for (const b of document.querySelectorAll('[data-cf]')) b.onclick = () => check({ ff: films[Number(b.dataset.cf)].title.replace(/\s*\(\d{4}\)$/, '') });
+  $('#cov-tg').innerHTML = `Постов, привязанных к фильмам, <b>${t.tgPosts}</b>, решено человеком <b>${t.tgVerified}</b> (${pct(t.tgVerified, t.tgPosts)}): посты пока не размечаются вовсе, их точность не измерена. Больше всех: `
+    + cov.telegram.slice(0, 10).map((x) => `${esc(x.handle)} ${x.posts}`).join(', ') + '.';
+  $('#cov-silent').innerHTML = `${t.silent} фильмов справочника с просмотрами в Википедии — ни ролика, ни поста. Либо о них не говорят наши каналы, либо опознаватель их не узнаёт: `
+    + cov.silent.slice(0, 40).map((x) => esc(x.title)).join(', ') + (cov.silent.length > 40 ? '…' : '.');
+  $('#cov-quiet').innerHTML = cov.quiet?.length ? cov.quiet.map((c) => `${esc(c.channel)} ${c.linked} из ${c.dump}`).join(', ') : 'нет: у всех наших каналов с большой выгрузкой хоть что-то привязано.';
+}
+$('#cov-fresh').onclick = () => loadCov(true);
+$('#cov-src').onchange = () => cov && renderCov();
 
 // ─── стоп-слова: кандидаты по решениям разметки, решает владелец (tools/stopwords.json) ───
 let sw = null;
@@ -351,17 +387,15 @@ async function stopAct(action, w, channel) {
   } catch (e) { toast(e.message); }
 }
 $('#sw-add').onclick = () => { const w = $('#sw-new').value.trim(); if (w) { stopAct('add', w, $('#sw-ch').value.trim()); $('#sw-new').value = ''; } };
-$('#run-stale').onclick = () => runStages('stale');
-$('#run-stop').onclick = async () => { try { pipe = await api('api/pipeline/stop', {}); renderPipe(); } catch (e) { toast(e.message); } };
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('#drawer, #pipe-btn, #run-stale')) $('#drawer').classList.remove('on');
   if (!e.target.closest('#stopdrawer, #stop-btn')) $('#stopdrawer').classList.remove('on');
+  if (!e.target.closest('#covdrawer, #cov-btn')) $('#covdrawer').classList.remove('on');
 });
 
 // ─── фильтры: состояние — в адресе страницы (#…), чтобы пережить перезагрузку ─────
 const F = new URLSearchParams(location.hash.slice(1));
 if (!F.get('g')) F.set('g', 'spor');
-const GROUPS = [['spor', 'Спорные'], ['check', 'Без проверки'], ['gap', 'Нашла модель'], ['confirmed', 'С уликой'], ['done', 'Решено'], ['all', 'Все']];
+const GROUPS = [['spor', 'Спорные'], ['check', 'Без проверки'], ['open', 'Непроверенное'], ['gap', 'Нашла модель'], ['confirmed', 'С уликой'], ['done', 'Решено'], ['all', 'Все']];
 const FLAG = { wrong: 'другой фильм', notfilm: 'не о фильме', several: 'несколько', franchise: 'о франшизе', person: 'о человеке', unknown: 'нет у нас?', gap: 'нашла фильм', agree: 'согласна', none: 'без мнения', nolabel: 'не размечено' };
 const KIND = { one: 'разбор одного', several: 'несколько', list: 'подборка', news: 'новость', franchise: 'о франшизе', person: 'о человеке', other: 'не о произведении', nolabel: 'не размечено' };
 const TOPIC = { none: 'без темы' };
@@ -417,7 +451,7 @@ function renderFilters() {
   renderColFilters();
   const gc = data.facets?.g ?? {};
   const allN = Object.values(gc).reduce((a, b) => a + b, 0);
-  $('#f-g').innerHTML = GROUPS.map(([g, t]) => `<button type="button" data-g="${g}" class="${F.get('g') === g ? 'on' : ''}">${t}<span>${g === 'all' ? allN : gc[g] ?? 0}</span></button>`).join('');
+  $('#f-g').innerHTML = GROUPS.map(([g, t]) => `<button type="button" data-g="${g}" class="${F.get('g') === g ? 'on' : ''}">${t}<span>${g === 'all' ? allN : g === 'open' ? (gc.spor ?? 0) + (gc.check ?? 0) : gc[g] ?? 0}</span></button>`).join('');
   for (const b of $('#f-g').querySelectorAll('button')) b.onclick = () => { F.set('g', b.dataset.g); page = 1; sel = 0; load(); };
   const ch = data.facets?.ch ?? [];
   const cur = F.get('ch') ?? '';
@@ -486,12 +520,12 @@ function rowHtml(r, i) {
     <td class="cell-llm">${l ? `<span class="l1"><span class="tag ${FLAG_CLASS[l.flag]}">${esc(l.flagRu)}</span>${l.conf != null ? `<span class="tag">${Math.round(l.conf * 100)}%</span>` : ''}</span><span class="l2" title="${esc(l.note)}">${esc(l.note)}</span>` : '<span class="l1 muted">не размечено</span>'}</td>
     <td class="act">
       <div class="acts">
-        <button type="button" data-a="ok" ${r.key ? '' : 'disabled'}>Верно<kbd>1</kbd></button>
-        <button type="button" data-a="wrong">${r.key ? 'Не тот' : 'Фильм'}<kbd>2</kbd></button>
-        <button type="button" data-a="notfilm">Не фильм<kbd>3</kbd></button>
-        <button type="button" data-a="several">Неск.<kbd>4</kbd></button>
-        <button type="button" data-a="franchise" title="ролик о франшизе или цикле — на страницу вселенной">Франш.<kbd>5</kbd></button>
-        <button type="button" data-a="person" title="ролик о режиссёре или писателе — на страницу человека">Чел.<kbd>6</kbd></button>
+        <button type="button" data-a="ok" title="верно — 1" ${r.key ? '' : 'disabled'}>Верно<kbd>1</kbd></button>
+        <button type="button" data-a="wrong" title="${r.key ? 'не тот фильм' : 'указать фильм'} — 2">${r.key ? 'Не тот' : 'Фильм'}<kbd>2</kbd></button>
+        <button type="button" data-a="notfilm" title="не о фильме — 3">Не фильм<kbd>3</kbd></button>
+        <button type="button" data-a="several" title="несколько фильмов — 4">Неск.<kbd>4</kbd></button>
+        <button type="button" data-a="franchise" title="ролик о франшизе или цикле — на страницу вселенной — 5">Фр.<kbd>5</kbd></button>
+        <button type="button" data-a="person" title="ролик о режиссёре или писателе — на страницу человека — 6">Чел.<kbd>6</kbd></button>
         ${v?.from === 'check' ? '<button type="button" data-a="undo" title="отменить решение этого сеанса">↶</button>' : ''}
       </div>
       ${decided ? `<span class="l2">${verdictTag(v)}</span>` : s ? `<button type="button" class="primary sug" data-a="accept" title="как предлагает модель: ${esc(s.text)}">${esc(s.text)} <kbd>⏎</kbd></button>` : v?.guess ? `<span class="l2">${verdictTag(v)}</span>` : ''}
@@ -624,7 +658,7 @@ function act(a) {
   }
 }
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { closePop(); $('#drawer').classList.remove('on'); $('#stopdrawer').classList.remove('on'); }
+  if (e.key === 'Escape') { closePop(); $('#stopdrawer').classList.remove('on'); }
   if (e.target.closest('input, textarea, select') || e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key;
   if (k === 'ArrowDown' || k === 'j') { e.preventDefault(); select(sel + 1); }
@@ -648,6 +682,7 @@ document.addEventListener('keydown', (e) => {
 loadPipe();
 requestAnimationFrame(load);
 api('api/stopwords').then((x) => { sw = x; renderStop(); }).catch(() => undefined);
+api('api/coverage').then((x) => { if (!x.error) { cov = x; renderCov(); } }).catch(() => undefined);
 </script>
 </body>
 </html>

@@ -4,7 +4,7 @@ import { Button } from './Button';
 import { Sheet } from './Sheet';
 import { useToast } from './Toast';
 import { tap } from '@/lib/telegram';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface SuggestSheetProps {
   open: boolean;
@@ -40,13 +40,13 @@ export function SuggestSheet({ open, onOpenChange, kind, initial, context }: Sug
     suggest(kind, title, note, context)
       .then((r) => {
         onOpenChange(false);
-        toast({ text: r.ok ? ru.suggest.sent : ru.suggest.offline });
+        toast({ text: r.ok ? ui.suggest.sent : ui.suggest.offline });
       })
-      .catch(() => toast({ text: ru.suggest.failed }))
+      .catch(() => toast({ text: ui.suggest.failed }))
       .finally(() => setBusy(false));
   };
 
-  const t = kind === 'work' ? ru.suggest.work : ru.suggest.voice;
+  const t = kind === 'work' ? ui.suggest.work : ui.suggest.voice;
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title={t.title}>
       <p className="tm-body-sm">{t.lead}</p>
@@ -56,13 +56,13 @@ export function SuggestSheet({ open, onOpenChange, kind, initial, context }: Sug
                placeholder={t.namePlaceholder} onChange={(e) => setTitle(e.target.value)} />
       </label>
       <label className="tm-suggest__field">
-        <span className="tm-label">{ru.suggest.note}</span>
+        <span className="tm-label">{ui.suggest.note}</span>
         <textarea className="tm-refl__area" rows={3} value={note} maxLength={500}
                   placeholder={t.notePlaceholder} onChange={(e) => setNote(e.target.value)} />
       </label>
-      <p className="tm-caption">{ru.suggest.why}</p>
+      <p className="tm-caption">{ui.suggest.why}</p>
       <div className="tm-suggest__acts">
-        <Button onClick={send} disabled={!title.trim() || busy}>{ru.suggest.send}</Button>
+        <Button onClick={send} disabled={!title.trim() || busy}>{ui.suggest.send}</Button>
       </div>
     </Sheet>
   );

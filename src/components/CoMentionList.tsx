@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { CoMention } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface CoMentionListProps {
   items: CoMention[];
@@ -15,8 +15,8 @@ export function CoMentionList({ items, limit = 5 }: CoMentionListProps) {
   if (!items.length) return null;
   return (
     <section className="tm-nearby">
-      <h3 className="tm-title-3 tm-nearby__title">{ru.nearby.title}</h3>
-      <p className="tm-body-sm tm-nearby__why">{ru.nearby.why}</p>
+      <h3 className="tm-title-3 tm-nearby__title">{ui.nearby.title}</h3>
+      <p className="tm-body-sm tm-nearby__why">{ui.nearby.why}</p>
       <ul className="tm-nearby__list">
         {items.slice(0, limit).map((c) => (
           <li key={c.key} className="tm-nearby__item">

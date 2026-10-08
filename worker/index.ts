@@ -5,9 +5,19 @@
 // Чего здесь намеренно нет: каталога, разборов и замеров. Это общие данные, они лежат
 // отдельно (R2) и раздаются как файлы — смешивать их с личными записями в одной базе
 // незачем.
+import { adminWebhook, prepareShare, telegramUpdate } from './inline';
+import { publicPage } from './pages';
+import { adminDigest, followDigest, forgetReference, getFollows, noteFresh, putFollow } from './follow';
+import { getInbox, getRegistry, getRegistryLog, getRegistryVersion, getSources, postInbox, postInboxResult, postRegistry } from './registry';
 import { newId, newToken, verifyInitData } from './auth';
 import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
 import { migrate } from './migrate';
+import { getFunnel, noteVisit, postEvent } from './funnel';
+import { deleteAccount } from './account';
+import { noteInvite } from './invite';
+import { togetherRoute } from './together';
+// сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
+export { forgetMigrations } from './migrate';
 import { loopReport, loopRows } from './loop';
 
 const JSON_HEADERS = { 'content-type': 'application/json; charset=utf-8' };
@@ -27,7 +37,7 @@ function cors(req: Request, env: Env): Record<string, string> {
   return {
     'access-control-allow-origin': origin,
     'access-control-allow-headers': 'content-type, authorization',
-    'access-control-allow-methods': 'GET, PUT, POST, OPTIONS',
+    'access-control-allow-methods': 'GET, PUT, POST, DELETE, OPTIONS',
     'access-control-max-age': '86400',
     vary: 'Origin',
   };
@@ -81,6 +91,8 @@ async function postSession(req: Request, env: Env): Promise<Response> {
     } else {
       await db.prepare('INSERT INTO user (id, tg_id, username, first_name, created_at, seen_at) VALUES (?, ?, ?, ?, ?, ?)')
         .bind(id, tg.id, tg.username ?? null, tg.first_name ?? null, now(), now()).run();
+      // новый участник пришёл по чьей-то ссылке (ЗП-37) — запомнить, кто привёл
+      await noteInvite(db, id, check.startParam);
     }
     const owner = isOwner(env, tg.username);
     if (owner && env.OWNER_SEED) await seedOwner(db, id, env.OWNER_SEED);
@@ -105,6 +117,18 @@ async function postSession(req: Request, env: Env): Promise<Response> {
 
 const isOwner = (env: Env, username?: string): boolean =>
   Boolean(username && env.OWNER_USERNAME && username.toLowerCase() === env.OWNER_USERNAME.replace(/^@/, '').toLowerCase());
+
+/** Категории участников (ТВ-3в, 06.10). Админ — владелец (OWNER_USERNAME): всё, включая статистику и
+ *  механику трансформативного обучения. Тестер — из таблицы `tester`: все полки, без статистики и
+ *  механики. Остальные — участник: полки по доле выката. */
+export type Role = 'admin' | 'tester' | 'user';
+const nick = (s: string) => s.trim().replace(/^@/, '').toLowerCase();
+async function roleOf(env: Env, username?: string | null): Promise<Role> {
+  if (!username) return 'user';
+  if (isOwner(env, username)) return 'admin';
+  const t = await env.DB.prepare('SELECT 1 AS x FROM tester WHERE username = ?').bind(nick(username)).first<{ x: number }>();
+  return t ? 'tester' : 'user';
+}
 
 /** История владельца, которая до сервера жила только в моках фронтенда, переезжает в его
  *  профиль один раз — при первом входе, пока профиль пуст. Дальше это обычные записи: их
@@ -208,11 +232,24 @@ async function postImpressions(req: Request, user: User, db: D1Database): Promis
   return json({ ok: true, n: items.length });
 }
 
-/** Отчёт петли прогноза. По всем участникам — только владельцу; остальным — по себе. */
+/** Открытие материала (ТВ-3г): ролик или пост, его рубрика и откуда открыли. Поля — короткие
+ *  строки из нашего же словаря, поэтому только обрезаем длину. */
+async function postOpen(req: Request, user: User, db: D1Database): Promise<Response> {
+  const b = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  const str = (v: unknown, n = 64) => (typeof v === 'string' && v ? v.slice(0, n) : null);
+  const url = str(b.url, 500);
+  if (!url) return json({ error: 'no_url' }, 400);
+  await db.prepare(
+    'INSERT INTO material_open (id, user_id, url, work_id, platform, lens, lens_also, tier, place, shelf, shelves, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  ).bind(newId('o'), user.id, url, str(b.workId, 120), str(b.platform), str(b.lens), str(b.lensAlso), str(b.tier), str(b.place), str(b.shelf),
+    b.shelves ? 1 : 0, now()).run();
+  return json({ ok: true });
+}
+
+/** Отчёт петли прогноза — статистика, только админу (ТВ-3в, 06.10; раньше остальные видели отчёт по себе). */
 async function getLoopReport(url: URL, user: User, env: Env): Promise<Response> {
-  const me = await env.DB.prepare('SELECT username FROM user WHERE id = ?').bind(user.id).first<{ username: string | null }>();
-  const owner = isOwner(env, me?.username ?? undefined);
-  const all = owner && url.searchParams.get('scope') !== 'me';
+  if (!(await ownerOnly(user, env))) return json({ error: 'owner_only' }, 403);
+  const all = url.searchParams.get('scope') !== 'me';
   return json({ scope: all ? 'all' : 'me', ...loopReport(await loopRows(env.DB, all ? undefined : user.id)) });
 }
 
@@ -243,6 +280,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
       firstName: profile?.first_name ?? undefined,
       telegram: profile?.tg_id != null,
       owner: isOwner(env, profile?.username ?? undefined),
+      role: await roleOf(env, profile?.username),
     },
   });
 }
@@ -417,6 +455,35 @@ async function postSuggestion(req: Request, user: User, db: D1Database): Promise
   return json({ ok: true });
 }
 
+/** Что можно отметить неточным в карточке — иначе в очередь попадёт что угодно. */
+const ISSUE_FIELDS = new Set(['title', 'year', 'people', 'synopsis', 'image', 'duration', 'type', 'watch', 'analyses', 'relations', 'heroes', 'other']);
+
+/** Неточность в карточке произведения (02.10): что не так и, по желанию, как должно быть. */
+async function postWorkIssue(req: Request, user: User, db: D1Database): Promise<Response> {
+  const body = (await req.json().catch(() => ({}))) as { workId?: string; title?: string; fields?: unknown; note?: string; context?: string };
+  const workId = (body.workId ?? '').trim().slice(0, 100);
+  const title = (body.title ?? '').trim().slice(0, 200);
+  const fields = Array.isArray(body.fields) ? [...new Set(body.fields.filter((f): f is string => typeof f === 'string' && ISSUE_FIELDS.has(f)))] : [];
+  const note = (body.note ?? '').trim().slice(0, 500);
+  if (!workId || !title) return json({ error: 'no_work' }, 400);
+  if (!fields.length && !note) return json({ error: 'empty' }, 400);
+  await db.prepare('INSERT INTO work_issue (id, user_id, work_id, title, fields, note, context, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(newId('wi'), user.id, workId, title, (fields.length ? fields : ['other']).join(','), note || null,
+      (body.context ?? '').trim().slice(0, 200) || null, now()).run();
+  return json({ ok: true });
+}
+
+/** Неточности владельцу — по токену администратора, как заявки. */
+async function getWorkIssues(req: Request, env: Env): Promise<Response> {
+  const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('Authorization') ?? '')?.[1];
+  if (!env.ADMIN_TOKEN || !token || !sameToken(token, env.ADMIN_TOKEN)) return json({ error: 'unauthorized' }, 401);
+  const r = await env.DB.prepare(
+    `SELECT i.id, i.work_id, i.title, i.fields, i.note, i.context, i.at, u.username, u.first_name
+       FROM work_issue i LEFT JOIN user u ON u.id = i.user_id ORDER BY i.at DESC LIMIT 500`,
+  ).all();
+  return json({ items: r.results ?? [] });
+}
+
 /** Список заявок владельцу: по токену администратора, как справочники. В приложении их не
  *  показываем никому — это внутренняя очередь, а не лента. */
 async function getSuggestions(req: Request, env: Env): Promise<Response> {
@@ -439,11 +506,107 @@ async function putVerdict(req: Request, user: User, db: D1Database): Promise<Res
   return json({ ok: true });
 }
 
+// ─── разметка владельца с телефона (06.10) ─────────────────────────────────────
+// Очередь «Проверки» и «Рубрик» пульта (tools/owner-queue.mts) лежит рядом со справочниками, но
+// раздаётся только владельцу; его решения — в owner_decision, откуда их забирает tools/owner-pull.mts
+// (по ADMIN_TOKEN) и раскладывает в tools/markup-verdicts.json и tools/lens-verdicts.json.
+const OWNER_QUEUE = 'owner-queue.json';
+const OWNER_KINDS = new Set(['check', 'lens']);
+
+/** Тестеры (ТВ-3в): список и правка — только админу, из настроек приложения. */
+async function getTesters(db: D1Database): Promise<Response> {
+  const rows = await db.prepare('SELECT username, at FROM tester ORDER BY at').all<{ username: string; at: string }>();
+  return json({ testers: rows.results });
+}
+async function putTester(req: Request, db: D1Database): Promise<Response> {
+  const b = (await req.json().catch(() => ({}))) as { username?: unknown; on?: unknown };
+  const u = typeof b.username === 'string' ? nick(b.username) : '';
+  if (!/^[a-z0-9_]{3,32}$/.test(u)) return json({ error: 'username' }, 400);
+  if (b.on === false) await db.prepare('DELETE FROM tester WHERE username = ?').bind(u).run();
+  else await db.prepare('INSERT INTO tester (username, at) VALUES (?, ?) ON CONFLICT(username) DO NOTHING').bind(u, now()).run();
+  return getTesters(db);
+}
+
+async function ownerOnly(user: User, env: Env): Promise<boolean> {
+  const row = await env.DB.prepare('SELECT username FROM user WHERE id = ?').bind(user.id).first<{ username: string | null }>();
+  return isOwner(env, row?.username ?? undefined);
+}
+
+async function getOwnerQueue(env: Env): Promise<Response> {
+  const object = env.REFERENCE ? await env.REFERENCE.get(OWNER_QUEUE) : null;
+  if (!object) return json({ error: 'no_queue' }, 404);
+  return new Response(object.body, { headers: { ...JSON_HEADERS, 'cache-control': 'no-store' } });
+}
+
+async function getOwnerDecisions(db: D1Database): Promise<Response> {
+  const r = await db.prepare('SELECT kind, item_id, body, at FROM owner_decision ORDER BY at').all<{ kind: string; item_id: string; body: string; at: string }>();
+  return json({ items: (r.results ?? []).map((x) => ({ kind: x.kind, id: x.item_id, at: x.at, ...JSON.parse(x.body) })) });
+}
+
+async function putOwnerDecision(req: Request, db: D1Database): Promise<Response> {
+  const body = (await req.json().catch(() => ({}))) as { kind?: string; id?: string; clear?: boolean } & Record<string, unknown>;
+  if (!body.kind || !OWNER_KINDS.has(body.kind) || !body.id || !/^[A-Za-z0-9_:-]{11,16}$/.test(body.id)) return json({ error: 'bad_decision' }, 400);
+  const { kind, id, ...rest } = body;
+  const text = JSON.stringify(rest);
+  if (text.length > 2000) return json({ error: 'too_long' }, 400);
+  // снятое решение — тоже решение: его забирает owner-pull и снимает у себя
+  await db.prepare(
+    `INSERT INTO owner_decision (kind, item_id, body, at) VALUES (?, ?, ?, ?)
+     ON CONFLICT (kind, item_id) DO UPDATE SET body = excluded.body, at = excluded.at`,
+  ).bind(kind, id, text, now()).run();
+  return json({ ok: true });
+}
+
+function adminOk(req: Request, env: Env): boolean {
+  const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('Authorization') ?? '')?.[1];
+  return Boolean(env.ADMIN_TOKEN && token && sameToken(token, env.ADMIN_TOKEN));
+}
+
+async function putOwnerQueue(req: Request, env: Env): Promise<Response> {
+  if (!adminOk(req, env)) return json({ error: 'unauthorized' }, 401);
+  if (!env.REFERENCE) return json({ error: 'no_reference_bucket' }, 500);
+  const text = await req.text();
+  try { JSON.parse(text); } catch { return json({ error: 'bad_json' }, 400); }
+  await env.REFERENCE.put(OWNER_QUEUE, text);
+  return json({ ok: true, bytes: text.length });
+}
+
+// ─── поведение для пульта (06.10) ──────────────────────────────────────────────
+// Вкладка «Поведение» пульта (tools/behavior-desk.mts) забирает отсюда по ADMIN_TOKEN: открытия
+// материалов (material_open — замер рубрик, ТВ-3г) по рубрике, месту, полке и дням, сколько людей,
+// и петлю прогноза по всем. `owner=0` — без владельца: его проверки не путаются с поведением людей.
+async function getBehavior(req: Request, env: Env): Promise<Response> {
+  if (!adminOk(req, env)) return json({ error: 'unauthorized' }, 401);
+  const url = new URL(req.url);
+  const db = env.DB;
+  const owner = env.OWNER_USERNAME?.replace(/^@/, '').toLowerCase();
+  const ownerIds = owner && url.searchParams.get('owner') === '0'
+    ? ((await db.prepare('SELECT id FROM user WHERE lower(username) = ?').bind(owner).all<{ id: string }>()).results ?? []).map((r) => r.id) : [];
+  const not = ownerIds.length ? `AND user_id NOT IN (${ownerIds.map(() => '?').join(',')})` : '';
+  const q = async <T,>(sql: string, ...bind: unknown[]) => ((await db.prepare(sql).bind(...bind, ...ownerIds).all<T>()).results ?? []);
+  type G = { k: string | null; n: number; users: number };
+  const by = (col: string, extra = '') => q<G>(`SELECT ${col} AS k, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM material_open WHERE 1=1 ${extra} ${not} GROUP BY ${col} ORDER BY n DESC`);
+  const since = new Date(Date.now() - 30 * 864e5).toISOString();
+  const [total, lens, place, shelf, shelves, tier, days] = await Promise.all([
+    q<{ n: number; users: number }>(`SELECT COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM material_open WHERE 1=1 ${not}`),
+    by('lens'), by('place'), by('shelf', 'AND shelf IS NOT NULL'), by('shelves'), by('tier'),
+    q<{ k: string; n: number; users: number }>(`SELECT substr(at, 1, 10) AS k, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM material_open WHERE at >= ? ${not} GROUP BY k ORDER BY k`, since),
+  ]);
+  const users = await db.prepare(`SELECT COUNT(*) AS all_users, SUM(CASE WHEN seen_at >= ? THEN 1 ELSE 0 END) AS week FROM user WHERE tg_id IS NOT NULL`)
+    .bind(new Date(Date.now() - 7 * 864e5).toISOString()).first<{ all_users: number; week: number }>();
+  return json({
+    at: now(), withoutOwner: ownerIds.length > 0,
+    opens: { ...(total[0] ?? { n: 0, users: 0 }), lens, place, shelf, shelves, tier, days },
+    users: { all: users?.all_users ?? 0, week: users?.week ?? 0 },
+    loop: loopReport(await loopRows(db)),
+  });
+}
+
 /** Справочники: общие данные (индексы разборов, справочник фильмов), раздаются файлом — из R2
  *  на Cloudflare или из папки данных на bothost. Пишет их сборщик (tools/collect.mts) по
  *  расписанию, приложение читает готовое (трек В1). Нет файла — честный 404, и фронт берёт
  *  запечённое в сборку. */
-export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta']);
+export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages']);
 
 async function getReference(env: Env, name: string): Promise<Response> {
   if (!REFERENCE_NAMES.has(name)) return json({ error: 'unknown_reference', name }, 404);
@@ -461,8 +624,13 @@ async function putReference(req: Request, env: Env, name: string): Promise<Respo
   if (!env.REFERENCE) return json({ error: 'no_reference_bucket' }, 500);
   const text = await req.text();
   try { JSON.parse(text); } catch { return json({ error: 'bad_json' }, 400); }
+  // подписки (06.10): что нового в индексе разборов — сравниваем с прежним файлом до записи
+  const watched = name === 'essaysAuto' || name === 'postsAuto';
+  const before = watched ? await env.REFERENCE.get(`${name}.json`).then((o) => (o ? new Response(o.body).text() : undefined)).catch(() => undefined) : undefined;
   await env.REFERENCE.put(`${name}.json`, text);
-  return json({ ok: true, name, bytes: text.length });
+  forgetReference(name);
+  const fresh = watched ? await noteFresh(env, before, text).catch((err) => { console.error('noteFresh', err); return -1; }) : undefined;
+  return json({ ok: true, name, bytes: text.length, ...(fresh !== undefined ? { fresh } : {}) });
 }
 
 /** Сравнение токенов за постоянное время — как у подписи Telegram. */
@@ -488,26 +656,60 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: head });
     await migrate(env.DB);
     if (path === '/api/health') return json({ ok: true, at: now() }, 200, head);
+    // события Telegram (инлайн-режим, 06.10): без сессии участника, проверка — секретом из токена бота
+    if (path === '/api/telegram' && req.method === 'POST') return telegramUpdate(req, env);
 
     if (path === '/api/session' && req.method === 'POST') {
       const res = await postSession(req, env);
       return new Response(res.body, { status: res.status, headers: { ...JSON_HEADERS, ...head } });
     }
 
-    if (!path.startsWith('/api/')) return json({ error: 'not_found' }, 404, head);
+    // публичные страницы для поисковиков (ЗП-15): /film/…, /author/…, карта сайта, robots.txt
+    if (!path.startsWith('/api/')) return (await publicPage(req, env, path)) ?? json({ error: 'not_found' }, 404, head);
 
     // справочники — общие данные: читать может кто угодно, писать — только сборщик по токену
     const refPath = /^\/api\/reference\/([A-Za-z0-9-]+)$/.exec(path);
     if (refPath && req.method === 'GET') return withHead(await getReference(env, refPath[1]), head);
     if (refPath && req.method === 'PUT') return withHead(await putReference(req, env, refPath[1]), head);
+    // каналы реестра для строки поиска в карточке — общие данные, как справочники
+    if (path === '/api/sources' && req.method === 'GET') return withHead(await getSources(env), head);
     // присланный участником список просмотренного: только запись, наружу не раздаётся
     const seedPath = /^\/api\/admin\/seed\/([A-Za-z0-9_]+)$/.exec(path);
     if (seedPath && req.method === 'PUT') return withHead(await putUserSeed(req, env, seedPath[1]), head);
     // очередь заявок — владельцу по тому же токену, что и справочники
     if (path === '/api/admin/suggestions' && req.method === 'GET') return withHead(await getSuggestions(req, env), head);
+    if (path === '/api/admin/work-issues' && req.method === 'GET') return withHead(await getWorkIssues(req, env), head);
+    // разметка владельца с телефона: очередь кладёт и решения забирает сборщик по тому же токену
+    if (path === '/api/admin/owner-queue' && req.method === 'PUT') return withHead(await putOwnerQueue(req, env), head);
+    if (path === '/api/admin/behavior' && req.method === 'GET') return withHead(await getBehavior(req, env), head);
+    // воронка и удержание (ЗП-3, 07.10) — вкладка «Поведение» пульта
+    if (path === '/api/admin/funnel' && req.method === 'GET') return withHead(await getFunnel(req, env, adminOk(req, env)), head);
+    if (path === '/api/admin/telegram-webhook' && req.method === 'POST') {
+      return withHead(adminOk(req, env) ? await adminWebhook(req, env) : json({ error: 'unauthorized' }, 401), head);
+    }
+    if (path === '/api/admin/follow-digest' && req.method === 'POST') {
+      return withHead(adminOk(req, env) ? await adminDigest(req, env) : json({ error: 'unauthorized' }, 401), head);
+    }
+    if (path === '/api/admin/owner-decisions' && req.method === 'GET') {
+      return withHead(adminOk(req, env) ? await getOwnerDecisions(env.DB) : json({ error: 'unauthorized' }, 401), head);
+    }
+    // реестр каналов и разметки (06.10, worker/registry.ts): снимок и правки — сборщику и пультам по токену
+    if (path.startsWith('/api/admin/registry') || path.startsWith('/api/admin/inbox')) {
+      if (!adminOk(req, env)) return json({ error: 'unauthorized' }, 401, head);
+      if (path === '/api/admin/registry' && req.method === 'GET') return withHead(await getRegistry(url, env), head);
+      if (path === '/api/admin/registry' && req.method === 'POST') return withHead(await postRegistry(req, env), head);
+      if (path === '/api/admin/registry/version' && req.method === 'GET') return withHead(await getRegistryVersion(env), head);
+      if (path === '/api/admin/registry/log' && req.method === 'GET') return withHead(await getRegistryLog(url, env), head);
+      if (path === '/api/admin/inbox' && req.method === 'GET') return withHead(await getInbox(url, env), head);
+      if (path === '/api/admin/inbox' && req.method === 'POST') return withHead(await postInbox(req, env), head);
+      if (path === '/api/admin/inbox/result' && req.method === 'POST') return withHead(await postInboxResult(req, env), head);
+      return json({ error: 'not_found' }, 404, head);
+    }
 
     const user = await whoIs(req, env.DB);
     if (!user) return json({ error: 'unauthorized' }, 401, head);
+    // заход дня (ЗП-3): не записался — не беда, ответ участнику важнее замера
+    await noteVisit(env.DB, user.id).catch((err) => console.error('visit', err));
 
     const reply = async (): Promise<Response> => {
       if (path === '/api/state' && req.method === 'GET') return getState(user, env.DB, env);
@@ -515,6 +717,7 @@ export default {
       if (path === '/api/feedback' && req.method === 'POST') return postFeedback(req, user, env.DB);
       if (path === '/api/verdict' && req.method === 'PUT') return putVerdict(req, user, env.DB);
       if (path === '/api/suggestion' && req.method === 'POST') return postSuggestion(req, user, env.DB);
+      if (path === '/api/work-issue' && req.method === 'POST') return postWorkIssue(req, user, env.DB);
       if (path === '/api/journal/start' && req.method === 'POST') return postStart(req, user, env.DB);
       if (path === '/api/journal/plan' && req.method === 'POST') return postPlan(req, user, env.DB);
       const unstart = /^\/api\/journal\/([^/]+)\/unstart$/.exec(path);
@@ -522,7 +725,31 @@ export default {
       const plan = /^\/api\/journal\/([^/]+)\/plan$/.exec(path);
       if (plan && req.method === 'DELETE') return deletePlan(user, env.DB, decodeURIComponent(plan[1]));
       if (path === '/api/impressions' && req.method === 'POST') return postImpressions(req, user, env.DB);
+      if (path === '/api/open' && req.method === 'POST') return postOpen(req, user, env.DB);
+      if (path === '/api/event' && req.method === 'POST') return postEvent(req, user.id, env.DB);
+      // удаление аккаунта и всех данных участника (ЗП-5, 07.10)
+      if (path === '/api/account' && req.method === 'DELETE') return deleteAccount(user.id, env);
+      if (path === '/api/share' && req.method === 'POST') {
+        const me = await env.DB.prepare('SELECT tg_id FROM user WHERE id = ?').bind(user.id).first<{ tg_id: number | null }>();
+        return prepareShare(req, me?.tg_id, env, user.id);
+      }
       if (path === '/api/report/loop' && req.method === 'GET') return getLoopReport(url, user, env);
+      if (path === '/api/follows' && req.method === 'GET') return getFollows(user.id, env);
+      if (path === '/api/follow' && req.method === 'PUT') return putFollow(req, user.id, env);
+      if (path.startsWith('/api/owner/')) {
+        if (!(await ownerOnly(user, env))) return json({ error: 'owner_only' }, 403);
+        if (path === '/api/owner/queue' && req.method === 'GET') return getOwnerQueue(env);
+        if (path === '/api/owner/decisions' && req.method === 'GET') return getOwnerDecisions(env.DB);
+        if (path === '/api/owner/decision' && req.method === 'PUT') return putOwnerDecision(req, env.DB);
+        if (path === '/api/owner/testers' && req.method === 'GET') return getTesters(env.DB);
+        if (path === '/api/owner/testers' && req.method === 'PUT') return putTester(req, env.DB);
+      }
+
+      // выбор компанией (ЗП-11, 07.10)
+      if (path.startsWith('/api/together')) {
+        const r = await togetherRoute(req, path, user.id, env);
+        if (r) return r;
+      }
 
       const rating = /^\/api\/rating\/(.+)$/.exec(path);
       if (rating && req.method === 'PUT') return putRating(req, user, env.DB, decodeURIComponent(rating[1]));
@@ -544,5 +771,11 @@ export default {
     const headers = new Headers(res.headers);
     for (const [k, v] of Object.entries(head)) headers.set(k, v);
     return new Response(res.body, { status: res.status, headers });
+  },
+  /** По расписанию (Cloudflare cron; на bothost — таймер server/index.js): сводка подписок раз в день. */
+  async scheduled(_event: unknown, env: Env): Promise<void> {
+    await migrate(env.DB);
+    const r = await followDigest(env);
+    if (r.users) console.log(`подписки: ${JSON.stringify(r)}`);
   },
 };

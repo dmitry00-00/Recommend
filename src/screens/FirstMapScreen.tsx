@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { CognitiveMapData, UserSettings } from '@/types/tmdf';
 import { getMap, getSettings } from '@/api';
 import { Button, CognitiveMap, ErrorState, OperationChip, Skeleton } from '@/components';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 import { MechanicsOff } from '@/screens/MechanicsOff';
 
@@ -29,14 +29,14 @@ export function FirstMapScreen() {
 
   return (
     <main className="tm-shell__main">
-      <h1 className="tm-shell__title">{ru.firstMap.title}</h1>
-      <p className="tm-body tm-firstmap__lead">{ru.firstMap.lead}</p>
+      <h1 className="tm-shell__title">{ui.firstMap.title}</h1>
+      <p className="tm-body tm-firstmap__lead">{ui.firstMap.lead}</p>
       {failed ? (
-        <ErrorState title={ru.firstMap.error} text={ru.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} />
+        <ErrorState title={ui.firstMap.error} text={ui.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} />
       ) : null}
       {!data && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ru.firstMap.loading}</span>
+          <span className="tm-sr">{ui.firstMap.loading}</span>
           <Skeleton kind="block" style={{ height: 320, maxWidth: 360 }} />
         </div>
       ) : null}
@@ -45,10 +45,10 @@ export function FirstMapScreen() {
           <div className="tm-firstmap__map">
             <CognitiveMap map={data.map} showDetails={data.settings.showDetails} />
           </div>
-          <p className="tm-body-sm tm-firstmap__rough">{ru.firstMap.rough}</p>
+          <p className="tm-body-sm tm-firstmap__rough">{ui.firstMap.rough}</p>
           {data.map.suggestedTargets.length ? (
             <section className="tm-firstmap__focus">
-              <span className="tm-label">{ru.firstMap.suggested}</span>
+              <span className="tm-label">{ui.firstMap.suggested}</span>
               <ul className="tm-targets">
                 {data.map.suggestedTargets.map((t) => (
                   <li key={t.id}>
@@ -64,8 +64,8 @@ export function FirstMapScreen() {
         </>
       ) : null}
       <div className="tm-row tm-row--gap-2 tm-row--wrap tm-firstmap__actions">
-        <Button variant="primary" onClick={() => navigate('/today')}>{ru.firstMap.toToday}</Button>
-        <Button variant="quiet" onClick={() => navigate('/map')}>{ru.firstMap.toMap}</Button>
+        <Button variant="primary" onClick={() => navigate('/today')}>{ui.firstMap.toToday}</Button>
+        <Button variant="quiet" onClick={() => navigate('/map')}>{ui.firstMap.toMap}</Button>
       </div>
     </main>
   );

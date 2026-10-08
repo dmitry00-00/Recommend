@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-10-02): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-10-08): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -10,7 +10,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Цветок для подопытного Кролика",
     "handle": "transgressivesamourai",
     "url": "https://t.me/transgressivesamourai",
-    "mentions": 88,
+    "mentions": 89,
     "reposts": 27,
     "by": [
       "Tanya in Horrorland",
@@ -21,7 +21,7 @@ export const sourceCandidates: SourceCandidate[] = [
       "Тревожные кассеты",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-29",
+    "lastAt": "2026-10-05",
     "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
@@ -84,7 +84,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "бурый дженкин",
     "handle": "b_jenkin",
     "url": "https://t.me/b_jenkin",
-    "mentions": 88,
+    "mentions": 89,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -97,7 +97,7 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-09-29",
+    "lastAt": "2026-10-05",
     "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
@@ -189,7 +189,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Horror TOSH",
     "handle": "horrortosh",
     "url": "https://t.me/horrortosh",
-    "mentions": 95,
+    "mentions": 96,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -200,7 +200,7 @@ export const sourceCandidates: SourceCandidate[] = [
       "Сеанс в 23:30 📽",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-29",
+    "lastAt": "2026-10-05",
     "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
@@ -252,6 +252,25 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "🫁ПОДБОРКА В ЧЕСТЬ ВСЕМИРНОГО ДНЯ ЛЁГКИХ 🫁"
   },
   {
+    "id": "srcc-alyashorror",
+    "title": "AHK",
+    "handle": "alyashorror",
+    "url": "https://t.me/alyashorror",
+    "mentions": 89,
+    "reposts": 8,
+    "by": [
+      "Tanya in Horrorland",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Невнимательный зритель",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов"
+    ],
+    "lastAt": "2026-10-05",
+    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
+  },
+  {
     "id": "srcc-kinotv",
     "title": "КИНОТВ",
     "handle": "kinotv",
@@ -268,25 +287,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-10-01",
     "sample": "В чём фишка платьев главной героини «Любовного настроения»? С какого сериала сплагиачен…"
-  },
-  {
-    "id": "srcc-alyashorror",
-    "title": "AHK",
-    "handle": "alyashorror",
-    "url": "https://t.me/alyashorror",
-    "mentions": 88,
-    "reposts": 7,
-    "by": [
-      "Tanya in Horrorland",
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Невнимательный зритель",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "Уютный уголок любителя ужасов"
-    ],
-    "lastAt": "2026-09-29",
-    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
   },
   {
     "id": "srcc-maysaltburn",
@@ -400,7 +400,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Полночная Полли пишет",
     "handle": "pollydaily",
     "url": "https://t.me/pollydaily",
-    "mentions": 29,
+    "mentions": 30,
     "reposts": 3,
     "by": [
       "Abramacabre!",
@@ -411,8 +411,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-10-01",
-    "sample": "Новость, о которой я вам рассказываю, вызывает во мне бурю эмоций — от ужаса и тревоги д…"
+    "lastAt": "2026-10-02",
+    "sample": "▪️Кэрри (1976)"
   },
   {
     "id": "srcc-horror_russorosso",
@@ -570,12 +570,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 38,
+    "reposts": 39,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-10-02",
-    "sample": "Что происходит с литературным миром, когда он становится кино? ❤️"
+    "lastAt": "2026-10-05",
+    "sample": "Возомнил себя королем 👑"
   },
   {
     "id": "srcc-nemakarov",

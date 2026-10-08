@@ -29,16 +29,17 @@ const LIST = process.argv.includes('--list');
 type V = { key: string | null; film?: string; why?: string; from?: string; guess?: boolean; err?: MarkupError; also?: string[]; about?: string; aboutTitle?: string };
 const human = read<{ videos?: Record<string, V> }>('tools/markup-verdicts.json', {}).videos ?? {};
 const videos = read<{ id: string; title: string; channelId?: string; description?: string; tags?: string[] }[]>('.cache/youtube/videos.json', []);
-const channels = read<Record<string, { medium?: string }>>('.cache/youtube/channels.json', {});
+const channels = read<Record<string, { medium?: string; language?: string }>>('.cache/youtube/channels.json', {});
 const ordinary = new Set<string>(read<{ names?: string[] }>('.cache/ordinary.json', {}).names ?? []);
+const ordinaryEn = new Set<string>(read<{ namesEn?: string[] }>('.cache/ordinary.json', {}).namesEn ?? []);
 const byId = new Map(videos.map((v) => [v.id, v]));
 const ours = worksIndex().filter((w) => !isBookKey(w.key));
 const label = new Map(worksIndex({ all: true }).map((w) => [w.key, `${w.work.title}${w.work.year ? ` (${w.work.year})` : ''}`]));
 
 const truth = Object.entries(human).filter(([id, v]) => !v.guess && v.from !== 'desk' && byId.has(id) && (v.key || v.why === 'не про фильм'));
-const set = truth.map(([id]) => ({ ...byId.get(id)!, book: channels[byId.get(id)!.channelId ?? '']?.medium === 'book' }));
+const set = truth.map(([id]) => ({ ...byId.get(id)!, book: channels[byId.get(id)!.channelId ?? '']?.medium === 'book', en: channels[byId.get(id)!.channelId ?? '']?.language === 'en' }));
 const t0 = Date.now();
-const got = matchVideos(set, ours, ordinary);
+const got = matchVideos(set, ours, ordinary, { ordinaryEn: process.env.NO_EN_ORDINARY ? undefined : ordinaryEn });
 
 let ok = 0, wrong = 0, miss = 0, fp = 0, tn = 0;
 const wrongs: string[] = [];
@@ -66,6 +67,10 @@ const labels = readLabels().items;
 const resolve = resolver(worksIndex({ all: true }));
 let n = 0, agree = 0, disagree = 0, unresolved = 0, notfilmOk = 0;
 let caught = 0, errs = 0, falseAlarm = 0, oks = 0, gapFound = 0, gaps = 0;
+// OPS-11: точность находок там, где опознаватель промолчал (предложила фильм — сколько верно), и
+// по каким флагам модель спорит: какой флаг годится в индекс, а какой — только подсказка
+let gapProposed = 0, gapRight = 0, gapOne = 0, gapOneRight = 0;
+const byFlag = new Map<string, { caught: number; alarm: number }>();
 for (const [id, v] of truth) {
   const lab = labels[`yt:${id}`];
   if (!lab) continue;
@@ -79,9 +84,13 @@ for (const [id, v] of truth) {
   const g = got.get(id)?.key;
   const s = suggest(g, lab, resolve);
   const flagged = s.flag === 'wrong' || s.flag === 'notfilm' || s.flag === 'unknown';
-  if (g && g !== v.key) { errs++; if (flagged || (s.flag === 'several' && v.key && s.also.every((a) => a.key !== v.key))) caught++; }
-  if (g && g === v.key) { oks++; if (flagged) falseAlarm++; }
+  const f = byFlag.get(s.flag ?? 'ok') ?? { caught: 0, alarm: 0 };
+  if (g && g !== v.key) { errs++; if (flagged || (s.flag === 'several' && v.key && s.also.every((a) => a.key !== v.key))) { caught++; f.caught++; } }
+  if (g && g === v.key) { oks++; if (flagged) { falseAlarm++; f.alarm++; } }
+  byFlag.set(s.flag ?? 'ok', f);
   if (!g && v.key) { gaps++; if (s.key === v.key) gapFound++; }
+  if (!g && s.key) { gapProposed++; if (s.key === v.key) gapRight++; }
+  if (!g && s.key && lab.kind === 'one') { gapOne++; if (s.key === v.key) gapOneRight++; }
 }
 
 // виды ошибок — по спискам владельца и по вердиктам с «Ошибкой»
@@ -109,6 +118,8 @@ if (LIST) console.log(wrongs.join('\n'));
 if (n) {
   console.log(`модель на ${n} из них: согласна ${agree} (${pct(agree, agree + disagree + unresolved)}), не согласна ${disagree}, не узнала в каталоге ${unresolved}, «не фильм» верно ${notfilmOk}`);
   console.log(`  как судья: ловит ${caught} из ${errs} ошибок опознавателя, зря спорит с ${falseAlarm} из ${oks} верных, находит ${gapFound} из ${gaps} пропусков`);
+  console.log(`  находки без опознавателя: предложила ${gapProposed}, верных ${gapRight} (${pct(gapRight, gapProposed)}); разбор одного — ${gapOneRight} из ${gapOne} (${pct(gapOneRight, gapOne)}) — это идёт в индекс`);
+  console.log(`  по флагам (поймано ошибок / зря на верных): ${[...byFlag].filter(([k]) => k !== 'ok').map(([k, x]) => `${k} ${x.caught}/${x.alarm}`).join(', ')}`);
 }
 if (catN) {
   console.log(`  вид ошибки по спискам: угадан ${catHit} из ${catN} (${pct(catHit, catN)})`);

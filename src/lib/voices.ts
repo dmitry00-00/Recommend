@@ -56,16 +56,20 @@ export function creditOf(a: ExternalAnalysis, voice: Voice): string | undefined 
   return a.author;
 }
 
+/** Насколько привязка под вопросом: 0 — подтверждена (человеком или уликой), 1 — по оценке модели
+ *  (OPS-11), 2 — догадка по названию. Порядок в карточке — от надёжного. */
+const doubt = (a: ExternalAnalysis): number => (a.unverified ? 2 : a.evidence === 'model' ? 1 : 0);
 const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
 
 /** Материалы по авторам. Порядок: сначала подтверждённые руками, потом у кого материала
  *  больше, потом свежие. Площадки и студии сюда не попадают — их посты про свои премьеры
  *  разбором не являются (решение владельца 23.09). */
-export function groupByVoice(items: ExternalAnalysis[]): WorkVoice[] {
+export function groupByVoice(items: ExternalAnalysis[], opts: { reviews?: boolean } = {}): WorkVoice[] {
   const groups = new Map<string, WorkVoice>();
   for (const a of items) {
-    // обзоры человеку не показываем (владелец, 29.09): они для подбора, не для чтения
-    if (a.tier === 'review') continue;
+    // обзоры человеку не показываем (владелец, 29.09): они для подбора, не для чтения. С полками
+    // рубрик (ТВ-3г, за флагом) у обзора своё место — рубрика, и он виден наравне с эссе
+    if (a.tier === 'review' && !opts.reviews) continue;
     const voice = voiceOf(a);
     if (voice.role !== 'author') continue;
     const group = groups.get(voice.id) ?? { voice, items: [] };
@@ -73,9 +77,9 @@ export function groupByVoice(items: ExternalAnalysis[]): WorkVoice[] {
     groups.set(voice.id, group);
   }
   for (const g of groups.values()) {
-    g.items.sort((x, y) => Number(!!x.unverified) - Number(!!y.unverified) || stamp(y) - stamp(x));
+    g.items.sort((x, y) => doubt(x) - doubt(y) || stamp(y) - stamp(x));
   }
-  const verified = (g: WorkVoice) => (g.items.some((a) => !a.unverified) ? 0 : 1);
+  const verified = (g: WorkVoice) => Math.min(...g.items.map(doubt));
   return [...groups.values()].sort(
     (a, b) => verified(a) - verified(b) || b.items.length - a.items.length || stamp(b.items[0]) - stamp(a.items[0]),
   );

@@ -173,8 +173,9 @@ export const talksSeries = (text: string): boolean => SERIES_TALK.test(text);
  *  материалов у тёзок). Порядок решений, от сильного к слабому:
  *   1. тёзка, вышедший позже материала больше чем на год, отпадает (`tooEarly`);
  *   2. у кого есть улика (ссылка, год, оригинальное название) — тот; у кого противоречие — отпадает;
- *   3. материал говорит о сериале — сериал, иначе — фильм;
- *   4. дальше как раньше — первый по порядку. Самого свежего не берём нарочно: эссеисты
+ *   3. премьера: материал вышел в год одного тёзки или через год, остальные старше трёх лет — свежий;
+ *   4. материал говорит о сериале — сериал, иначе — фильм;
+ *   5. дальше как раньше — первый по порядку. Просто самого свежего не берём нарочно: эссеисты
  *      разбирают классику, и «ближайший по дате» уводил «Хэллоуин, 1978, реж. Карпентер» к
  *      ремейку 2018-го, а «Мастера» Пола Томаса Андерсона — к «Мастеру» 2025-го. */
 export function pickNamesake<T extends { work: WorkCard }>(cands: T[], text: string, publishedAt?: string, links: string[] = []): T | undefined {
@@ -186,6 +187,12 @@ export function pickNamesake<T extends { work: WorkCard }>(cands: T[], text: str
   if (withEvidence.length === 1) return withEvidence[0];
   const clean = pool.filter((_, i) => verdicts[i] !== 'conflict');
   if (clean.length) pool = clean;
+  // премьера: материал вышел в год тёзки или через год, а остальные тёзки старше трёх лет —
+  // это отклик на новинку: «Матильда» в октябре 2017-го, «На западном фронте…» в 2022-м (OPS-9, 06.10).
+  // Раньше разговора о сериале: «мультсериал» в описании «Мстителей» мая 2012-го — не про сериал 1961-го
+  const pub = publishedAt ? Number(publishedAt.slice(0, 4)) : NaN;
+  const fresh = pool.filter((c) => c.work.year && pub - c.work.year >= 0 && pub - c.work.year <= 1);
+  if (fresh.length === 1 && pool.every((c) => c === fresh[0] || (c.work.year && pub - c.work.year > 3))) return fresh[0];
   const series = SERIES_TALK.test(text);
   const typed = pool.filter((c) => isSeries(c.work) === series);
   return (typed.length ? typed : pool)[0];

@@ -66,8 +66,8 @@ function gitDirty(): number | undefined {
 
 export const STAGES: Stage[] = [
   { id: 'tg', title: 'Посты Telegram', group: 'Сбор и индекс', auto: true, optional: true, maxAgeH: 24,
-    what: 'новые посты каналов из tg-gateway основы (:8710)',
-    cmds: [tsx('tools/telegram-pull.mts')], outputs: ['.cache/telegram/gateway.json'] },
+    what: 'новые посты каналов из tg-gateway основы (:8710) и у каких каналов есть комментарии',
+    cmds: [tsx('tools/telegram-pull.mts'), { ...tsx('tools/telegram-comments.mts'), optional: true }], outputs: ['.cache/telegram/gateway.json', 'src/mocks/telegramComments.ts'] },
   { id: 'yt', title: 'Ролики YouTube', group: 'Сбор и индекс', auto: true, optional: true, maxAgeH: 24,
     what: 'новые ролики каналов (только новое, квота — по новым)',
     cmds: [tsx('tools/youtube-dump.mts'), { ...tsx('tools/youtube-playlists.mts'), optional: true }], outputs: ['.cache/youtube/videos.json'],
@@ -84,7 +84,9 @@ export const STAGES: Stage[] = [
     cmds: [{ ...tsx('tools/build-ordinary.mts'), optional: true }, { ...tsx('tools/channel-profile.mts'), optional: true }, { ...tsx('tools/link-precision.mts'), optional: true }, tsx('tools/build-telegram-index.mts'),
       tsx('tools/build-essay-index.mts'), { ...tsx('tools/build-source-index.mts'), optional: true },
       { ...tsx('tools/build-comention-index.mts'), optional: true }],
-    inputs: ['.cache/youtube/videos.json', '.cache/telegram/*.json', 'tools/markup-verdicts.json', 'tools/markup-resolved.json', 'tools/stopwords.json'],
+    // справочник — тоже вход: новые карточки (filmBasePopular 05.10) ждут своих роликов и постов
+    inputs: ['.cache/youtube/videos.json', '.cache/telegram/*.json', 'tools/markup-verdicts.json', 'tools/markup-resolved.json', 'tools/stopwords.json',
+      'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts'],
     outputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/essaysAbout.ts'],
     pending: () => {
       let snap: Record<string, string> = {};
@@ -94,25 +96,36 @@ export const STAGES: Stage[] = [
       return n && Object.keys(snap).length ? { n, text: `решений после сборки: ${n}` } : undefined;
     } },
   { id: 'llm', title: 'Разметка LLM', group: 'Разметка', auto: true, optional: true,
-    what: 'вид материала и названные произведения — моделью через llm-gateway основы (:8711)',
-    cmds: [tsx('tools/llm-label.mts', '--limit', '300', '--minutes', '20'), { ...tsx('tools/build-media-mentions.mts'), optional: true }],
-    inputs: ['src/mocks/essaysAuto.ts', 'tools/markup-verdicts.json', 'tools/prompts/media-label.md'],
-    outputs: ['.cache/llm/labels.json', 'src/mocks/mediaMentions.ts'],
+    what: 'вид материала и названные произведения, рубрики роликов (ТВ-3) — моделью через llm-gateway основы (:8711)',
+    cmds: [tsx('tools/llm-label.mts', '--limit', '300', '--minutes', '20'), { ...tsx('tools/build-media-mentions.mts'), optional: true },
+      { ...tsx('tools/llm-lens.mts', '--limit', '300', '--minutes', '10'), optional: true },
+      // просьбы «посоветуйте» (ТВ-12а/б): шлюз ищет их в 00:05 UTC, здесь — разметка новых находок и
+      // очередь веток шлюзу (какие разговоры под просьбами забрать завтра)
+      { ...tsx('tools/tg-asks.mts', '--minutes', '15'), optional: true }],
+    inputs: ['src/mocks/essaysAuto.ts', 'tools/markup-verdicts.json', 'tools/prompts/media-label.md', 'tools/prompts/media-lens.md'],
+    outputs: ['.cache/llm/labels.json', 'src/mocks/mediaMentions.ts', 'src/mocks/essayLenses.ts', '.cache/tg-asks/pairs.json'],
     pending: (last) => { const n = lastNumber(last?.summary, /ждут (\d+)/); return n ? { n, text: `ждут разметки: ${n}` } : undefined; } },
   { id: 'eval', title: 'Замер', group: 'Сбор и индекс', auto: true, optional: true,
     what: 'опознаватель и модель на ручной разметке; история — .cache/pipeline/eval.tsv',
-    cmds: [{ ...tsx('tools/rubrics.mts'), optional: true }, { ...tsx('tools/stopwords.mts'), optional: true }, tsx('tools/markup-eval.mts')],
+    cmds: [{ ...tsx('tools/rubrics.mts'), optional: true }, { ...tsx('tools/stopwords.mts'), optional: true }, { ...tsx('tools/record-weights.mts'), optional: true }, { ...tsx('tools/markup-coverage.mts'), optional: true }, tsx('tools/markup-eval.mts')],
     inputs: ['src/mocks/essaysAuto.ts', 'tools/markup-verdicts.json', '.cache/llm/labels.json'],
     outputs: ['.cache/pipeline/eval.tsv'] },
-  { id: 'sheet', title: 'Google-таблица', group: 'Разметка', optional: true,
-    what: 'забрать правки людей из таблицы, опознать, пересобрать и залить тем же файлом',
-    cmds: [{ argv: ['bash', 'deploy/markup-sync.command'], env: { SKIP_DUMP: '1' } }],
-    inputs: ['tools/markup-verdicts.json'], outputs: ['.cache/markup/google.meta.json'],
-    needs: () => (process.env.MARKUP_SHEET_ID ? undefined : 'нет MARKUP_SHEET_ID в .env.local') },
+  // реестр в базе (06.10): таблица разметки больше не источник — только форма ссылок, её забирает inbox.mts
+  process.env.REGISTRY_MODE === 'server'
+    ? { id: 'sheet', title: 'Форма Google', group: 'Разметка', optional: true,
+      what: 'забрать ссылки из формы во входящие базы (разбор — вкладка «Ссылки»); форма чистится сама в 16:00',
+      cmds: [tsx('tools/inbox.mts', 'take')],
+      inputs: [], outputs: ['.cache/inbox/last.json'],
+      needs: () => (process.env.INBOX_SHEET_ID ? undefined : 'нет INBOX_SHEET_ID в .env.local') }
+    : { id: 'sheet', title: 'Google-таблица', group: 'Разметка', optional: true,
+      what: 'забрать правки людей из таблицы, опознать, пересобрать и залить тем же файлом',
+      cmds: [{ argv: ['bash', 'deploy/markup-sync.command'], env: { SKIP_DUMP: '1' } }],
+      inputs: ['tools/markup-verdicts.json'], outputs: ['.cache/markup/google.meta.json'],
+      needs: () => (process.env.MARKUP_SHEET_ID ? undefined : 'нет MARKUP_SHEET_ID в .env.local') },
   { id: 'publish', title: 'Публикация справочника', group: 'Выкладка', optional: true,
     what: 'свежие разборы и справочник — на сервер; приложение подхватит без перезаливки',
     cmds: [tsx('tools/publish-reference.mts')],
-    inputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/comentions.ts', 'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts'],
+    inputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/comentions.ts', 'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts'],
     needs: () => (process.env.TM_ADMIN_TOKEN ? undefined : 'нет TM_ADMIN_TOKEN в .env.local') },
   { id: 'commit', title: 'Коммит данных', group: 'Выкладка', optional: true,
     confirm: 'Закоммитить src/mocks и решения разметки и отправить (git push)?',

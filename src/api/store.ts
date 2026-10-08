@@ -27,7 +27,7 @@ export interface StoredState {
   verdicts: { url: string; verdict: 'about_this' | 'other_work' | 'unsure' }[];
   journal?: { entry_id: string; work_id: ID; work?: WorkCard; status: string; progress?: number | null; started_at?: string | null; finished_at?: string | null; eagerness?: number | null; inferred?: number | null; series?: (SeriesProgress & { kind?: undefined }) | (BookProgress & { kind: 'book' }) | null }[];
   ratings?: { workId: ID; rating: 1 | 2 | 3 | 4 | 5; raw?: number; work?: WorkCard; at: string }[];
-  profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean };
+  profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean; role?: 'admin' | 'tester' | 'user' };
 }
 
 /** Токен сессии хранится отдельно для каждого аккаунта Telegram. localStorage у WebView один
@@ -109,6 +109,52 @@ export async function fetchLoopReport(scope: 'all' | 'me' = 'all'): Promise<unkn
   return res.json();
 }
 
+/** Разметка владельца с телефона (06.10): очередь «Проверки» и «Рубрик» пульта и решения по ней.
+ *  Сервер отдаёт их только владельцу; без сервера (разработка) — undefined. */
+/** Тестеры (ТВ-3в): список и правка — только админу. */
+export async function fetchTesters(change?: { username: string; on: boolean }): Promise<{ testers: { username: string; at: string }[] } | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call('/api/owner/testers', change ? { method: 'PUT', body: JSON.stringify(change) } : {});
+  if (!res || !res.ok) throw new Error(`testers: ${res?.status ?? 'нет ответа'}`);
+  return res.json();
+}
+
+/** Подписки на разборы (06.10): список и изменение — одним ответом, как у тестеров. */
+export interface FollowRow { kind: 'work' | 'character'; ref: string; title: string; at: string }
+export async function fetchFollows(change?: { kind: 'work' | 'character'; ref: string; keys?: string[]; title: string; on: boolean }): Promise<{ follows: FollowRow[]; telegram: boolean } | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call(change ? '/api/follow' : '/api/follows', change ? { method: 'PUT', body: JSON.stringify(change) } : {});
+  if (res && res.status === 400 && change) {
+    const err = ((await res.json().catch(() => ({}))) as { error?: string }).error;
+    throw new Error(err === 'too_many' ? 'too_many' : 'bad_follow');
+  }
+  if (!res || !res.ok) throw new Error(`follows: ${res?.status ?? 'нет ответа'}`);
+  return res.json();
+}
+
+/** «Поделиться» карточкой-сообщением (06.10): сервер готовит сообщение, id — для `WebApp.shareMessage`. */
+export async function prepareShareMessage(card: Record<string, unknown>): Promise<string | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call('/api/share', { method: 'POST', body: JSON.stringify(card) });
+  if (!res || !res.ok) return undefined;
+  return ((await res.json()) as { id?: string }).id;
+}
+
+/** выбор компанией (ЗП-11): запрос к /api/together* — статус и тело; без сервера — undefined */
+export async function togetherCall<T>(path: string, init: RequestInit = {}): Promise<{ status: number; body?: T } | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call(path, init);
+  if (!res) return undefined;
+  return { status: res.status, body: res.ok ? await res.json() as T : undefined };
+}
+
+export async function fetchOwnerDesk(): Promise<{ queue: unknown; decisions: unknown } | undefined> {
+  if (API === undefined) return undefined;
+  const [q, d] = await Promise.all([call('/api/owner/queue'), call('/api/owner/decisions')]);
+  if (!q || !d || !q.ok || !d.ok) throw new Error(`owner desk: ${q?.status ?? '—'}/${d?.status ?? '—'}`);
+  return { queue: await q.json(), decisions: await d.json() };
+}
+
 export const store = {
   onServer,
   watched: (workId: ID, watched: boolean, work?: WorkCard) =>
@@ -125,6 +171,12 @@ export const store = {
   unplan: (entryId: string) => send(`/api/journal/${encodeURIComponent(entryId)}/plan`, 'DELETE', {}),
   impressions: (slateId: string, energy: string, items: { recId: string; workId: ID; slot?: string; rank: number }[]) =>
     send('/api/impressions', 'POST', { slateId, energy, items }),
+  /** открыли материал (ТВ-3г): ролик или пост, рубрика, откуда */
+  open: (event: Record<string, unknown>) => send('/api/open', 'POST', event),
+  /** удалить аккаунт и все данные участника (ЗП-5): после — забыть токен и всё локальное */
+  deleteAccount: () => send('/api/account', 'DELETE', {}),
+  /** открыли карточку произведения или нажали «Смотреть» (ЗП-3): воронка и удержание */
+  event: (event: { kind: 'card' | 'watch'; workId?: ID; place?: string; detail?: string }) => send('/api/event', 'POST', event),
   /** сериал (Е3): «где я сейчас» — сезон и серия */
   progress: (entryId: string, workId: ID, where: { series: SeriesProgress } | { book: BookProgress }) =>
     send(`/api/journal/${encodeURIComponent(entryId)}/progress`, 'POST', { workId, ...where }),
@@ -137,6 +189,12 @@ export const store = {
   /** заявка: «нет такого фильма» или «добавьте этого автора» */
   suggest: (kind: 'work' | 'voice', title: string, note?: string, context?: string) =>
     send('/api/suggestion', 'POST', { kind, title, note, context }),
+  /** неточность в карточке произведения (02.10) */
+  workIssue: (workId: ID, title: string, fields: string[], note?: string, context?: string) =>
+    send('/api/work-issue', 'POST', { workId, title, fields, note, context }),
+  /** решение владельца: привязка ролика (kind 'check') или рубрика (kind 'lens'); clear — снять */
+  ownerDecision: (decision: { kind: 'check' | 'lens'; id: string } & Record<string, unknown>) =>
+    send('/api/owner/decision', 'PUT', decision),
   rating: (workId: ID, rating: number | null, work?: WorkCard) =>
     send(`/api/rating/${encodeURIComponent(workId)}`, 'PUT', { rating, work }),
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { StateHistoryPoint } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TimeScrubberProps {
   history: StateHistoryPoint[];
@@ -30,7 +30,7 @@ export function TimeScrubber({ history, value, onChange }: TimeScrubberProps) {
               key={p.asOf + i} type="button"
               className={cx('tm-scrub__tick', growth && 'tm-scrub__tick--growth', on && 'tm-scrub__tick--on')}
               style={{ left: `${history.length === 1 ? 50 : (i / (history.length - 1)) * 100}%` }}
-              aria-label={`${p.asOf}: ${p.cause.label} — ${growth ? ru.change.growthShort : ru.change.refinedShort}`}
+              aria-label={`${p.asOf}: ${p.cause.label} — ${growth ? ui.change.growthShort : ui.change.refinedShort}`}
               aria-current={on ? 'true' : undefined}
               onClick={() => set(i)}
             >
@@ -43,7 +43,7 @@ export function TimeScrubber({ history, value, onChange }: TimeScrubberProps) {
         <span className="tm-scrub__date">{point?.asOf ?? ''}</span>
         <span className="tm-scrub__cause">{point?.cause.label ?? ''}</span>
         <span className={cx('tm-scrub__kind', point && isGrowth(point) && 'tm-scrub__kind--growth')}>
-          {point && isGrowth(point) ? ru.change.growthShort : ru.change.refinedShort}
+          {point && isGrowth(point) ? ui.change.growthShort : ui.change.refinedShort}
         </span>
       </div>
     </div>

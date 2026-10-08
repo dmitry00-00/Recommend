@@ -1,4 +1,4 @@
-// Очередь заявок участников: «нет такого фильма», «добавьте этого автора».
+// Очередь заявок участников: «нет такого фильма», «добавьте этого автора» и неточности в карточках.
 //   npx tsx tools/suggestions.mts [--json]
 // Берёт их с сервера по токену администратора (TM_SERVER и TM_ADMIN_TOKEN из .env.local) —
 // в приложении заявки не показываются никому: это внутренняя очередь, а не лента.
@@ -32,3 +32,16 @@ for (const [name, list] of [['Фильмы', films], ['Авторы', voices]] a
   }
   console.log('');
 }
+
+// ─── неточности в карточках (02.10): что не так в уже показанном ───────────────
+const ri = await fetch(`${server}/api/admin/work-issues`, { headers: { Authorization: `Bearer ${token}` } });
+if (ri.ok) {
+  const { items: issues } = await ri.json() as { items: { work_id: string; title: string; fields: string; note?: string; context?: string; at: string; username?: string; first_name?: string }[] };
+  const FIELD: Record<string, string> = { title: 'название', year: 'год', people: 'авторы', image: 'кадр', synopsis: 'описание', duration: 'длительность',
+    type: 'вид', watch: 'где смотреть', analyses: 'разбор не о том', relations: 'связи', heroes: 'герои', other: 'другое' };
+  console.log(`## Неточности в карточках: ${issues.length}`);
+  for (const i of issues) {
+    console.log(`  ${i.at.slice(0, 10)}  ${i.title} [${i.work_id}] — ${i.fields.split(',').map((f) => FIELD[f] ?? f).join(', ')}${i.note ? `: ${i.note}` : ''}`);
+    console.log(`      ${i.username ? `@${i.username}` : i.first_name ?? '—'}${i.context ? `, ${i.context}` : ''}`);
+  }
+} else console.log(`неточности: сервер ответил ${ri.status} (воркер ещё не обновлён?)`);

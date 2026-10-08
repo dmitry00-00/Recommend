@@ -11,9 +11,9 @@ import { ReadinessNotice } from './ReadinessNotice';
 import { ReasonPicker } from './ReasonPicker';
 import { StretchIndicator } from './StretchIndicator';
 import { WorkCover } from './WorkCover';
-import { workMeta } from '@/lib/format';
+import { workMeta, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { isScreen } from '@/lib/media';
 
 export interface RecommendationCardProps {
@@ -37,23 +37,23 @@ export function RecommendationCard({
 }: RecommendationCardProps) {
   const [reasonsOpen, setReasonsOpen] = useState(false);
   const work = r.work;
-  const slot = ru.slot[r.slot];
+  const slot = ui.slot[r.slot];
   const hero = r.slot === 'next_step' && variant !== 'compact';
   const size = hero ? 'md' : 'sm';
   return (
     <article className={cx('tm-rec', `tm-rec--${r.slot}`, hero && 'tm-rec--hero')}
-             aria-label={`${slot.label}: ${work.title}`}>
+             aria-label={`${slot.label}: ${titleOf(work)}`}>
       {previous ? (
         <div className="tm-rec__prev">
-          <p className="tm-rec__prevlabel">{ru.explanation.previousFrame}</p>
-          <h4 className="tm-rec__prevtitle">{previous.work.title}</h4>
+          <p className="tm-rec__prevlabel">{ui.explanation.previousFrame}</p>
+          <h4 className="tm-rec__prevtitle">{titleOf(previous.work)}</h4>
           {previous.purpose ? <p className="tm-rec__prevpurpose">{previous.purpose}</p> : null}
         </div>
       ) : null}
       {previous ? (
         <div className="tm-rec__splice">
           <span className="tm-rec__splicemark" aria-hidden="true">+</span>
-          <p className="tm-rec__splicetext">{ru.explanation.splice + r.explanation.whyNow}</p>
+          <p className="tm-rec__splicetext">{ui.explanation.splice + r.explanation.whyNow}</p>
         </div>
       ) : null}
       <div className="tm-rec__slot">
@@ -64,10 +64,10 @@ export function RecommendationCard({
         <WorkCover work={work} size={size} />
         <div className="tm-rec__body">
           <h3 className={cx('tm-rec__title', hero && 'tm-rec__title--hero')}>
-            <Link to={`/works/${work.id}`} className="tm-link--plain">{work.title}</Link>
+            <Link to={`/works/${work.id}`} className="tm-link--plain">{titleOf(work)}</Link>
           </h3>
           {/* антология (Е4): рекомендован сезон — он отдельная история */}
-          <Meta items={[...workMeta(work), r.season ? ru.seriesPart(r.season) : undefined]} />
+          <Meta items={[...workMeta(work), r.season ? ui.seriesPart(r.season) : undefined]} />
           <div className="tm-row tm-row--wrap tm-row--gap-1 tm-rec__ops">
             {work.primaryOperations.slice(0, hero ? 3 : 2).map((o) => (
               <OperationChip key={o.op} op={o.op} size="sm" short={!hero}
@@ -82,13 +82,13 @@ export function RecommendationCard({
         <div className="tm-rec__voices">
           {r.analyses?.length ? (
             <div className="tm-rec__voice">
-              <span className="tm-label tm-rec__voicelabel">{ru.work.analyses}</span>
+              <span className="tm-label tm-rec__voicelabel">{ui.work.analyses}</span>
               {r.analyses.map((a) => <ExternalAnalysisLink key={a.id} analysis={a} spoilerLevel={finished ? 2 : spoilerLevel} />)}
             </div>
           ) : null}
           {r.discussions?.length ? (
             <div className="tm-rec__voice">
-              <span className="tm-label tm-rec__voicelabel">{ru.work.discussions}</span>
+              <span className="tm-label tm-rec__voicelabel">{ui.work.discussions}</span>
               {r.discussions.map((d) => <DiscussionLink key={d.id} discussion={d} locked={d.spoilers && !finished} />)}
             </div>
           ) : null}
@@ -96,12 +96,12 @@ export function RecommendationCard({
       ) : null}
       <div className="tm-rec__actions">
         <Button variant="primary" size={hero ? 'md' : 'sm'} onClick={() => onStart?.(r)}>
-          {isScreen(work) ? ru.actions.startFilm : ru.actions.startBook}
+          {isScreen(work) ? ui.actions.startFilm : ui.actions.startBook}
         </Button>
-        <Button size={hero ? 'md' : 'sm'} onClick={() => onSave?.(r)}>{ru.actions.save}</Button>
+        <Button size={hero ? 'md' : 'sm'} onClick={() => onSave?.(r)}>{ui.actions.save}</Button>
         <Button variant="quiet" size={hero ? 'md' : 'sm'} pressed={reasonsOpen}
                 onClick={() => setReasonsOpen(!reasonsOpen)}>
-          {ru.actions.dismiss}
+          {ui.actions.dismiss}
         </Button>
       </div>
       {reasonsOpen ? <ReasonPicker variant="dismiss" onPick={(reason) => onDismiss?.(r, reason)} /> : null}

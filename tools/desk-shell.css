@@ -1,0 +1,19 @@
+/* Общий каркас пульта (tools/desk.mts, 06.10): верхняя полоса вкладок — одна на всех страницах и на
+   одном месте; страницы-документы — одной ширины. Цвета (--bg, --ink…) задаёт каждая страница сама,
+   они у всех одинаковые. */
+:root { --nav-h: 46px; --page-w: 1200px; }
+.desk-nav { position: sticky; top: 0; z-index: 50; height: var(--nav-h); display: flex; align-items: stretch; gap: 4px;
+  padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.desk-nav::-webkit-scrollbar { display: none; }
+.desk-nav .grp { display: flex; align-items: stretch; gap: 2px; }
+.desk-nav .grp + .grp { margin-left: 10px; padding-left: 12px; border-left: 1px solid var(--line); }
+.desk-nav .lbl { align-self: center; margin-right: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.desk-nav a { display: flex; align-items: center; padding: 0 12px; color: var(--muted); text-decoration: none; font-weight: 500;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.desk-nav a:hover { color: var(--ink); }
+.desk-nav a.on { color: var(--ink); border-bottom-color: var(--accent); }
+.desk-nav .badge { margin-left: 6px; min-width: 18px; padding: 0 6px; border-radius: 9px; background: var(--chip, var(--line)); color: var(--ink);
+  font-size: 11px; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.desk-nav .badge:empty { display: none; }
+.desk-nav .status { margin-left: auto; align-self: center; padding-left: 16px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+main.page { max-width: var(--page-w); margin: 0 auto; padding: 22px 16px 64px; }

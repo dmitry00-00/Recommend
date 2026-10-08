@@ -1,6 +1,7 @@
 import type { Credit, CreditRole, Person, PersonId, WorkCard } from '@/types/tmdf';
 import { isSeries } from '@/lib/media';
 import { primaryKey } from '@/lib/keys';
+import { language } from '@/i18n';
 
 /** Авторы произведения (трек Д, Д1). Карточки бывают двух поколений: с `credits` (резолвер знает
  *  элемент Wikidata и роль) и только со строками `creators`. Экраны и подбор читают авторов
@@ -52,6 +53,8 @@ export const readableName = (n: string): boolean => CYRILLIC.test(n) || FULL_LAT
 
 export function leadName(w: Authored): string | undefined {
   const names = leadCredits(w).map((c) => c.name);
+  // по-английски (ЗП-20) — только полное имя латиницей: кириллица в английской строке хуже пустоты
+  if (language === 'en') return names.find((n) => FULL_LATIN.test(n.trim())) ?? w.creators.find((n) => FULL_LATIN.test(n.trim()));
   const readable = (n: string) => CYRILLIC.test(n) || FULL_LATIN.test(n.trim());
   return names.find((n) => CYRILLIC.test(n)) ?? names.find(readable) ?? w.creators.find(readable);
 }

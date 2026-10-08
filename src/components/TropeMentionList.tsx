@@ -1,5 +1,5 @@
 import type { TropeMention } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TropeMentionListProps {
   items: TropeMention[];
@@ -17,7 +17,7 @@ export function TropeMentionList({ items }: TropeMentionListProps) {
         <li key={t.tropeId} className="tm-tropemention__item">
           <a className="tm-tropemention__name" href={t.url} target="_blank" rel="noreferrer noopener">
             {t.name}
-            <span className="tm-sr">{ru.tropeMentions.linkNote}</span>
+            <span className="tm-sr">{ui.tropeMentions.linkNote}</span>
           </a>
           <span className="tm-tropemention__text">{t.explanation}</span>
         </li>

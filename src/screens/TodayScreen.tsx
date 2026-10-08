@@ -1,23 +1,24 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type {
-  DiscussionPlace, DismissReason, JourneyEntryData, Recommendation, RecommendationSlate,
+  DiscussionPlace, DismissReason, Energy, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
 import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, importHistory, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import {
-  Button, DiscussionLink, EmptyState, ErrorState, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
+  Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
 } from '@/components';
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
-import { useDiary, useMechanics } from '@/lib/settingsStore';
-import { onExternalClick, openExternal, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
-import { formatDuration, pluralRu } from '@/lib/format';
+import { saveSettings, useDiary, useMechanics } from '@/lib/settingsStore';
+import { onExternalClick, openExternal, pick, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
+import { formatDuration, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
-import ru from '@/i18n/ru';
+import { SearchLine, WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
+import ui, { plural } from '@/i18n';
 import { isScreen, isSeries } from '@/lib/media';
 
 const ARCHIVE_ROW = 56;
@@ -33,7 +34,7 @@ export function WatchOptions({ options }: { options?: WatchOption[] }) {
   const rest = options.length - shown.length;
   return (
     <section className="tm-stream__group">
-      <h3 className="tm-label tm-stream__grouplabel">{ru.feed.watch}</h3>
+      <h3 className="tm-label tm-stream__grouplabel">{ui.feed.watch}</h3>
       <div className="tm-row tm-row--gap-2 tm-row--wrap">
         {shown.map((w) => (
           <a key={w.url} className="tm-btn tm-btn--secondary tm-btn--sm" href={w.url} target="_blank" rel="noreferrer noopener"
@@ -41,45 +42,12 @@ export function WatchOptions({ options }: { options?: WatchOption[] }) {
             {w.platform}
           </a>
         ))}
-        {rest > 0 ? <Button variant="quiet" size="sm" onClick={() => setAll(true)}>{ru.feed.more(rest)}</Button> : null}
+        {rest > 0 ? <Button variant="quiet" size="sm" onClick={() => setAll(true)}>{ui.feed.more(rest)}</Button> : null}
       </div>
     </section>
   );
 }
 
-/** Две строки внизу карточки: поиск по каналам авторов (способ найти разбор) и места, где
- *  о кино говорят вообще (список владельца, 22.09). Ни то, ни другое не разбор, поэтому
- *  строками, а не блоками. Экран «Произведение» показывает их же под местами разговора. */
-/** сколько каналов в строке видно сразу: тридцать названий через точку не читают (28.09) */
-const SEARCH_SHOWN = 6;
-
-export function SearchLine({ places }: { places: DiscussionPlace[] }) {
-  const [all, setAll] = useState(false);
-  const groups: { label: string; items: DiscussionPlace[] }[] = [
-    { label: ru.discussion.searchLine, items: places.filter((d) => d.kind !== 'telegram_chat') },
-    { label: ru.discussion.chatsLine, items: places.filter((d) => d.kind === 'telegram_chat') },
-  ];
-  return (
-    <>
-      {groups.filter((g) => g.items.length).map((g) => {
-        const shown = all ? g.items : g.items.slice(0, SEARCH_SHOWN);
-        const hidden = g.items.length - shown.length;
-        return (
-          <p key={g.label} className="tm-caption tm-stream__search">
-            {g.label}
-            {shown.map((d, i) => (
-              <span key={d.id}>
-                {i ? ' · ' : ' '}
-                <a href={d.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(d.url)}>{d.title}</a>
-              </span>
-            ))}
-            {hidden > 0 ? <>{' · '}<button type="button" className="tm-search__link" onClick={() => { tap(); setAll(true); }}>{ru.feed.more(hidden)}</button></> : null}
-          </p>
-        );
-      })}
-    </>
-  );
-}
 
 /** Тело карточки: описание словами, разборы конкретными роликами и постами, места разговора,
  *  строка поиска по каналам, где посмотреть, действия. Всё — из данных рекомендации; экран
@@ -101,9 +69,10 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
       <FilmTabs
         key={`${r.id}:${voiceId ?? ''}`}
         voiceId={voiceId}
+        workId={r.work.id}
         analyses={r.analyses ?? []}
         book={r.work.type === 'book' ? r.work : undefined}
-        workTitle={r.work.title}
+        workTitle={titleOf(r.work)}
         spoilerLevel={allowed}
         watch={r.work.watch}
         onWatch={onWatch}
@@ -112,7 +81,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
           <>
             {places.length ? (
               <section className="tm-stream__group">
-                <h3 className="tm-label tm-stream__grouplabel">{ru.feed.telegram}</h3>
+                <h3 className="tm-label tm-stream__grouplabel">{ui.feed.telegram}</h3>
                 {places.map((d) => <DiscussionLink key={d.id} discussion={d} locked={d.spoilers && !finished} />)}
               </section>
             ) : null}
@@ -123,8 +92,8 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
         // сейчас» — в правом углу текста под кадром материала, причины — под материалом
         corner={(
           <>
-            <Button size="sm" onClick={onSave}>{ru.actions.save}</Button>
-            <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ru.actions.dismiss}</Button>
+            <Button size="sm" onClick={onSave}>{ui.actions.save}</Button>
+            <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
           </>
         )}
         actions={reasons ? <ReasonPicker variant="dismiss" onPick={onDismiss} /> : undefined}
@@ -220,27 +189,27 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
       {asking ? (
         <div className="tm-stream__ask" data-noswipe>
           <ReasonPicker variant="dismiss" onPick={onDismiss} />
-          <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ru.feed.keep}</Button>
+          <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ui.feed.keep}</Button>
         </div>
       ) : side === 'voices' ? (
         <div className="tm-stream__voices" data-noswipe>
-          <p className="tm-label tm-stream__voicestitle">{ru.feed.voicesTitle(r.work.title)}</p>
+          <p className="tm-label tm-stream__voicestitle">{ui.feed.voicesTitle(titleOf(r.work))}</p>
           <VoiceStrip groups={voices} onPick={(id) => { tap(); setSide('none'); onVoice(id); }} />
           <div className="tm-stream__voicesfoot">
-            <span className="tm-caption">{ru.feed.voicesHint}</span>
-            <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ru.feed.voicesBack}</Button>
+            <span className="tm-caption">{ui.feed.voicesHint}</span>
+            <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ui.feed.voicesBack}</Button>
           </div>
         </div>
       ) : (
         <span className={cx('tm-stream__hint', right ? 'tm-stream__hint--voices' : 'tm-stream__hint--dismiss',
                             (showing || dropping) && 'tm-stream__hint--on')}
               style={{ '--fill': fill } as CSSProperties} aria-hidden="true">
-          {!right ? ru.actions.dismiss : voices.length ? (
+          {!right ? ui.actions.dismiss : voices.length ? (
             <span className="tm-stream__pile">
               {voices.slice(0, PILE).map((g) => <Avatar key={g.voice.id} voice={g.voice} size="sm" />)}
               {rest > 0 ? <span className="tm-stream__pilemore">+{rest}</span> : null}
             </span>
-          ) : ru.feed.noVoices}
+          ) : ui.feed.noVoices}
         </span>
       )}
       <FilmEdge work={r.work} no={no} />
@@ -267,6 +236,12 @@ export function TodayScreen() {
   const [spoilerLevel, setSpoilerLevel] = useState<SpoilerLevel>(0);
   const [finishedIds, setFinishedIds] = useState<Set<string>>(new Set());
   const [archived, setArchived] = useState(0);
+  // настраиваемая лента (ТВ-11): сила — переключателем над лентой, «Ещё фильмы» — в конце
+  const [energy, setEnergy] = useState<Energy>('normal');
+  const [moreBusy, setMoreBusy] = useState(false);
+  const [moreDone, setMoreDone] = useState(false);
+  // всё, что уже было в ленте (в том числе убранное и отложенное), — добор их не повторяет
+  const shownIds = useRef(new Set<string>());
   const [current, setCurrent] = useState<JourneyEntryData[]>([]);
   const [open, setOpen] = useState<string | null>(null);
   // автор, на чьём материале открыть карточку: приходит из ленты тапом по логотипу канала
@@ -293,6 +268,9 @@ export function TodayScreen() {
       .then(([nextSlate, journal, settings]) => {
         if (!alive) return;
         setSlate(nextSlate);
+        setEnergy(settings.energy ?? 'normal');
+        setMoreDone(false);
+        shownIds.current = new Set(nextSlate.items.map((r) => r.work.id));
         setSpoilerLevel(settings.spoilerLevel);
         setFinishedIds(new Set(journal.filter((e) => e.status === 'finished').map((e) => e.work.id)));
         setArchived(journal.length);
@@ -303,6 +281,27 @@ export function TodayScreen() {
       .catch((err) => alive && setFailed(err instanceof OfflineError ? 'offline' : 'error'));
     return () => { alive = false; };
   }, [attempt]);
+
+  const changeEnergy = (e: Energy) => {
+    if (e === energy) return;
+    pick();
+    setEnergy(e);
+    saveSettings({ energy: e }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
+  };
+  const loadMore = () => {
+    if (!slate || moreBusy) return;
+    tap();
+    setMoreBusy(true);
+    getSlate(energy, [...shownIds.current])
+      .then((next) => {
+        const fresh = next.items.filter((r) => !shownIds.current.has(r.work.id));
+        fresh.forEach((r) => shownIds.current.add(r.work.id));
+        if (!fresh.length) setMoreDone(true);
+        setSlate((s) => (s ? { ...s, items: [...s.items, ...fresh] } : s));
+      })
+      .catch(() => toast({ text: ui.feed.moreFailed }))
+      .finally(() => setMoreBusy(false));
+  };
 
   // Архив спрятан над лентой: как только лента отрисована, прокручиваем на его высоту.
   useLayoutEffect(() => {
@@ -324,16 +323,16 @@ export function TodayScreen() {
       .then((entryId) => {
         setArchived((n) => n + 1);
         toast({
-          text: ru.toast.savedPlain,
-          action: ru.actions.undo,
+          text: ui.toast.savedPlain,
+          action: ui.actions.undo,
           onAction: () => {
             setSlate(before);
             setArchived((n) => Math.max(0, n - 1));
-            if (entryId) unplanWork(entryId).catch(() => toast({ text: ru.settings.errorSave }));
+            if (entryId) unplanWork(entryId).catch(() => toast({ text: ui.settings.errorSave }));
           },
         });
       })
-      .catch(() => { setSlate(before); toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => save(r) }); });
+      .catch(() => { setSlate(before); toast({ text: ui.settings.errorSave, action: ui.actions.retry, onAction: () => save(r) }); });
   };
   const dismiss = (r: Recommendation, reason: DismissReason) => {
     if (!slate) return;
@@ -342,8 +341,8 @@ export function TodayScreen() {
     setSlate({ ...slate, items: slate.items.filter((i) => i.id !== r.id) });
     setOpen(null);
     sendRecommendationFeedback(r.id, { action: 'dismiss', reason })
-      .then(() => toast({ text: ru.toast.dismissed, action: ru.actions.undo, onAction: () => setSlate(before) }))
-      .catch(() => { setSlate(before); toast({ text: ru.settings.errorSave }); });
+      .then(() => toast({ text: ui.toast.dismissed, action: ui.actions.undo, onAction: () => setSlate(before) }))
+      .catch(() => { setSlate(before); toast({ text: ui.settings.errorSave }); });
   };
 
   // Переход в онлайн-кинотеатр из «Смотреть» — это и есть «начал смотреть» (24.09): отдельной
@@ -353,15 +352,15 @@ export function TodayScreen() {
   const watchFrom = (r: Recommendation) => {
     sendRecommendationFeedback(r.id, { action: 'start' }).catch(() => undefined);
     startWork(r.work.id, undefined, { inferred: true })
-      .then(() => { setRestart(true); toast({ text: ru.toast.watchInferred }); })
+      .then(() => { setRestart(true); toast({ text: ui.toast.watchInferred }); })
       .catch(() => undefined);
   };
   const closeSheet = () => { setOpen(null); setOpenVoice(undefined); if (restart) { setRestart(false); setAttempt((a) => a + 1); } };
   const notYet = (e: JourneyEntryData) => {
     tap();
     notWatched(e.id)
-      .then(() => { setOpen(null); setCurrent((list) => list.filter((x) => x.id !== e.id)); toast({ text: ru.toast.notWatched }); })
-      .catch(() => toast({ text: ru.settings.errorSave }));
+      .then(() => { setOpen(null); setCurrent((list) => list.filter((x) => x.id !== e.id)); toast({ text: ui.toast.notWatched }); })
+      .catch(() => toast({ text: ui.settings.errorSave }));
   };
   // облегчённый учёт (02.10): «посмотрел» с оценкой и «бросил» прямо в ленте, без экрана чек-ина
   const quickDone = (e: JourneyEntryData) => {
@@ -371,25 +370,26 @@ export function TodayScreen() {
   };
   const answers = (e: JourneyEntryData, big = false) => (!diary ? (
     <QuickMark work={e.work} primary={big} onDone={() => quickDone(e)}
-               extra={<Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ru.feed.notYetRead : ru.feed.notYet}</Button>} />
+               extra={<Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ui.feed.notYetRead : ui.feed.notYet}</Button>} />
   ) : (
     <>
       <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in`); }}>
-        {isSeries(e.work) ? ru.seriesDiary.finishSeason(e.seriesProgress?.season ?? 1)
-          : e.work.type === 'book' && e.bookProgress?.part ? ru.bookDiary.finishPart(e.bookProgress.part)
-          : isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
+        {isSeries(e.work) ? ui.seriesDiary.finishSeason(e.seriesProgress?.season ?? 1)
+          : e.work.type === 'book' && e.bookProgress?.part ? ui.bookDiary.finishPart(e.bookProgress.part)
+          : isScreen(e.work) ? ui.actions.finishFilm : ui.actions.finishBook}
       </Button>
-      <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?abandon=1`); }}>{ru.feed.gaveUp}</Button>
-      <Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ru.feed.notYetRead : ru.feed.notYet}</Button>
+      <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?abandon=1`); }}>{ui.feed.gaveUp}</Button>
+      <Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ui.feed.notYetRead : ui.feed.notYet}</Button>
       {/* сериал и книга — долгие: где человек (сезон, часть, страница) — на странице записи */}
       {isSeries(e.work) || e.work.type === 'book' ? (
-        <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}`); }}>{ru.feed.whereNow}</Button>
+        <Button variant="quiet" size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}`); }}>{ui.feed.whereNow}</Button>
       ) : null}
     </>
   ));
 
   const items = slate?.items ?? [];
   const openEntry = current.find((e) => e.id === open) ?? null;
+  const entryPlaces = usePlaces(openEntry?.work.id);
   const openRec = items.find((r) => r.id === open) ?? null;
   const recMeta = (r: Recommendation) =>
     [r.work.year, leadName(r.work), formatDuration(r.work.durationMinutes)].filter(Boolean).join(' · ');
@@ -398,13 +398,13 @@ export function TodayScreen() {
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
     <main className="tm-shell__main tm-stream" ref={mainRef}>
-      <h1 className="tm-sr">{ru.nav.today}</h1>
+      <h1 className="tm-sr">{ui.nav.today}</h1>
       <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
         <span className="tm-stream__archiveicon" aria-hidden="true" />
         <span className="tm-stream__archivetext">
-          {ru.feed.archive}
+          {ui.feed.archive}
           {archived ? <span className="tm-stream__archivecount">
-            {` · ${archived} ${pluralRu(archived, ru.feed.entryOne, ru.feed.entryFew, ru.feed.entryMany)}`}
+            {` · ${archived} ${plural(archived, ui.feed.entryOne, ui.feed.entryFew, ui.feed.entryMany)}`}
           </span> : null}
         </span>
         <span className="tm-stream__archivechevron" aria-hidden="true">›</span>
@@ -413,24 +413,24 @@ export function TodayScreen() {
       <div className="tm-stream__body">
         {scale ? (
           <section className="tm-stream__pad tm-import__norm">
-            <h2 className="tm-label">{ru.today.normTitle}</h2>
-            <p className="tm-caption tm-import__normwhy">{ru.today.normWhy(scale.count, scale.median)}</p>
+            <h2 className="tm-label">{ui.today.normTitle}</h2>
+            <p className="tm-caption tm-import__normwhy">{ui.today.normWhy(scale.count, scale.median)}</p>
             <div className="tm-row tm-row--gap-2 tm-row--wrap">
               {scale.options.map((n) => (
                 <Button key={n} size="sm" variant={n === scale.median ? 'primary' : undefined} onClick={() => answerScale(n)}>{String(n)}</Button>
               ))}
-              <Button size="sm" variant="quiet" onClick={() => answerScale(scale.median)}>{ru.today.normKeep(scale.median)}</Button>
+              <Button size="sm" variant="quiet" onClick={() => answerScale(scale.median)}>{ui.today.normKeep(scale.median)}</Button>
             </div>
           </section>
         ) : null}
         {failed ? (
-          <ErrorState title={failed === 'offline' ? ru.state.offlineTitle : ru.state.errorSlate}
-                      text={failed === 'offline' ? ru.state.offlineText : ru.state.errorSlateText}
+          <ErrorState title={failed === 'offline' ? ui.state.offlineTitle : ui.state.errorSlate}
+                      text={failed === 'offline' ? ui.state.offlineText : slate ? ui.state.errorSlateText : ui.state.errorText}
                       className="tm-stream__pad" onRetry={() => setAttempt(attempt + 1)} />
         ) : null}
         {!slate && !failed ? (
           <div aria-busy="true">
-            <span className="tm-sr">{ru.today.loading}</span>
+            <span className="tm-sr">{ui.today.loading}</span>
             {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 200, marginTop: i ? 2 : 0 }} />)}
           </div>
         ) : null}
@@ -440,33 +440,45 @@ export function TodayScreen() {
             и что это за приложение, и как получить первую ленту, и кому писать */}
         {slate?.coldStart ? (
           <section className="tm-stream__pad tm-coldstart">
-            <h1 className="tm-title-2 tm-coldstart__title">{ru.today.introTitle}</h1>
-            <p className="tm-body tm-coldstart__text">{ru.today.introText}</p>
+            <h1 className="tm-title-2 tm-coldstart__title">{ui.today.introTitle}</h1>
+            <p className="tm-body tm-coldstart__text">{ui.today.introText}</p>
             <p className="tm-body-sm tm-coldstart__text">
-              {`${ru.today.coldText(slate.coldStart.needed)} ${ru.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
+              {`${ui.today.coldText(slate.coldStart.needed)} ${ui.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
             </p>
             <div className="tm-row tm-row--gap-2 tm-row--wrap">
               <Button variant="primary" onClick={() => { tap('medium'); navigate('/rate'); }}>
-                {slate.coldStart.rated ? ru.today.coldMore : ru.today.coldAction}
+                {slate.coldStart.rated ? ui.today.coldMore : ui.today.coldAction}
               </Button>
-              <Button variant="quiet" onClick={() => { tap(); setImporting(true); }}>{ru.today.coldImport}</Button>
+              <Button variant="quiet" onClick={() => { tap(); setImporting(true); }}>{ui.today.coldImport}</Button>
             </div>
-            <p className="tm-caption tm-coldstart__hint">{ru.today.coldImportHint}</p>
+            <p className="tm-caption tm-coldstart__hint">{ui.today.coldImportHint}</p>
+            {/* уведомление о рекомендательных технологиях и политике данных (ЗП-5) — там, где человек их впервые встречает */}
+            <p className="tm-caption tm-coldstart__legal">
+              {ui.legal.consentLead} <Link to="/legal/rules">{ui.legal.consentRules}</Link> {ui.legal.consentAnd}{' '}
+              <Link to="/legal/privacy">{ui.legal.consentPrivacy}</Link>.
+            </p>
             <p className="tm-caption tm-coldstart__early">
-              {ru.today.early}{' '}
-              <button type="button" className="tm-coldstart__link" onClick={() => openExternal(writeAuthorUrl)}>{ru.social.write}</button>
+              {ui.today.early}{' '}
+              <button type="button" className="tm-coldstart__link" onClick={() => openExternal(writeAuthorUrl)}>{ui.social.write}</button>
             </p>
           </section>
         ) : null}
         {slate && !items.length && !slate.coldStart ? (
           <div className="tm-stream__pad">
-            <EmptyState title={ru.today.empty} text={ru.today.emptyText} action={ru.actions.retry} onAction={() => setAttempt(attempt + 1)} />
+            <EmptyState title={ui.today.empty} text={ui.today.emptyText} action={ui.actions.retry} onAction={() => setAttempt(attempt + 1)} />
           </div>
         ) : null}
         {hint && items.length ? (
           <div className="tm-stream__swipehint" role="note">
-            <span className="tm-caption">{ru.feed.swipeHint}</span>
-            <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ru.feed.swipeHintOk}</Button>
+            <span className="tm-caption">{ui.feed.swipeHint}</span>
+            <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ui.feed.swipeHintOk}</Button>
+          </div>
+        ) : null}
+        {slate && !slate.coldStart && (items.length || current.length) ? (
+          <div className="tm-stream__pad tm-stream__energy">
+            <EnergySwitch value={energy} onChange={changeEnergy} />
+            {/* ЗП-16: то же, но словами — «тихое про семью, не грустное» */}
+            <Button variant="quiet" size="sm" className="tm-stream__mood" onClick={() => { tap(); navigate('/mood'); }}>{ui.mood.entry}</Button>
           </div>
         ) : null}
         {current.length || items.length ? <div className="tm-filmstrip">
@@ -474,29 +486,43 @@ export function TodayScreen() {
         {current.map((e, i) => (
           <article key={e.id} className={cx('tm-stream__item', 'tm-stream__item--current')}>
             <FilmEdge work={e.work} no={i + 1} short />
-            <WorkBanner work={e.work} size="sm" tag={ru.feed.watching} meta={entryMeta(e)} onClick={() => setOpen(e.id)} />
+            <WorkBanner work={e.work} size="sm" tag={ui.feed.watching} meta={entryMeta(e)} onClick={() => setOpen(e.id)} />
             {/* сверка в один тап прямо из ленты: «посмотрели?». «Ещё не смотрел» — нормальный
                 ответ: переход в кинотеатр ещё не просмотр, человека могли отвлечь */}
             <div className="tm-stream__quick">
               <span className="tm-caption tm-stream__quicklabel">{e.work.type === 'book'
-                ? (age(e) < FRESH_MS ? ru.feed.readingNow : ru.feed.didYouRead)
-                : (age(e) < FRESH_MS ? ru.feed.watchingNow : ru.feed.didYouWatch)}</span>
+                ? (age(e) < FRESH_MS ? ui.feed.readingNow : ui.feed.didYouRead)
+                : (age(e) < FRESH_MS ? ui.feed.watchingNow : ui.feed.didYouWatch)}</span>
               <span className="tm-stream__quickbtns">{answers(e)}</span>
             </div>
           </article>
         ))}
         {items.map((r, i) => (
-          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' ? ru.slot[r.slot].label : undefined}
+          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' ? ui.slot[r.slot].label : undefined}
                     onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
                     onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
         ))}
         </div> : null}
+        {items.length && slate && !slate.coldStart ? (
+          <div className="tm-stream__pad tm-stream__more">
+            {moreDone
+              ? <p className="tm-caption">{ui.feed.moreNone}</p>
+              : <Button variant="secondary" onClick={loadMore} disabled={moreBusy}>{moreBusy ? ui.feed.moreLoading : ui.feed.moreFilms}</Button>}
+          </div>
+        ) : null}
+        {/* выбор компанией (ЗП-11): тот, кто долистал, — кандидат собрать вечер на двоих и больше */}
+        {items.length && slate && !slate.coldStart ? (
+          <p className="tm-caption tm-stream__pad tm-coldstart__share">
+            {ui.together.entry}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/together'); }}>{ui.together.entryAction}</button>
+          </p>
+        ) : null}
         {/* позвать друга — под лентой, тихо: тот, кто долистал, лентой доволен (02.10) */}
         {items.length ? (
           <p className="tm-caption tm-stream__pad tm-coldstart__share">
-            {ru.today.shareLead}{' '}
-            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); openExternal(shareUrl(ru.social.shareText)); }}>{ru.social.share}</button>
+            {ui.today.shareLead}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</button>
           </p>
         ) : null}
       </div>
@@ -514,18 +540,19 @@ export function TodayScreen() {
 
       {/* Карточка того, что смотрите сейчас: описание и чек-ин */}
       <WorkSheet work={openEntry?.work ?? null} open={openEntry != null} onOpenChange={(o) => !o && closeSheet()}
-                 tag={ru.feed.watching} meta={openEntry ? entryMeta(openEntry) : undefined}>
+                 tag={ui.feed.watching} meta={openEntry ? entryMeta(openEntry) : undefined} context="лента: смотрю">
         {openEntry ? (
           <div className="tm-stream__panel tm-stream__panel--tabs">
-            <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} workTitle={openEntry.work.title} spoilerLevel={spoilerLevel} watch={openEntry.work.watch}
+            <FilmTabs key={openEntry.id} workId={openEntry.work.id} analyses={openEntry.analyses ?? []} workTitle={titleOf(openEntry.work)} spoilerLevel={spoilerLevel} watch={openEntry.work.watch}
+                      discussionsCount={placesCount(entryPlaces)} discussions={<WorkPlaces places={entryPlaces} finished={false} />}
                       book={openEntry.work.type === 'book' ? openEntry.work : undefined} corner={answers(openEntry, true)} />
           </div>
         ) : null}
       </WorkSheet>
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
-                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ru.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
-                 plot={openRec?.explanation?.what || undefined}>
+                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
+                 plot={openRec?.explanation?.what || undefined} context="лента: рекомендация">
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />

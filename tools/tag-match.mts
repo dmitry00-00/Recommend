@@ -40,6 +40,29 @@ export function tagIndex(ours: IndexedWork[]): Map<string, IndexedWork[]> {
   return out;
 }
 
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/** Заголовок сопоставитель отверг, а тег вернул бы фильм (ЗП-23, 07.10): имя дважды подряд — сиквел
+ *  («Beetlejuice Beetlejuice»); латинское имя — подзаголовок другого нашего названия («Resident Evil:
+ *  Retribution» — не «Возмездие» 1969 года, «GTA VI: Pulp Fiction»). Перед двоеточием должно стоять
+ *  название из каталога: рубрика канала («Boots To ReBoots: Night Of The Living Dead») не в счёт, своё полное
+ *  название («The Lord of the Rings: The Two Towers») — тоже; и фильм старше ролика лет на пять —
+ *  «Star Wars: Andor» о самом «Андоре». */
+function otherTitle(title: string, name: string, own: string[], known: (s: string) => boolean, year?: number, publishedAt?: string): boolean {
+  const n = name.trim();
+  if (!n) return false;
+  if (new RegExp(`(?<![\\p{L}])${esc(n)}\\s+${esc(n)}(?![\\p{L}])`, 'iu').test(title)) return true;
+  if (!/^[A-Za-z]/.test(n)) return false;
+  const pub = publishedAt ? Number(publishedAt.slice(0, 4)) : NaN;
+  if (!year || !Number.isFinite(pub) || pub - year < 5) return false;
+  const lead = new RegExp(`((?:[A-Za-z0-9'’-]+\\s+){0,4}[A-Za-z0-9'’-]+)\\s*:\\s*${esc(n)}(?![\\p{L}])`, 'iu').exec(title)?.[1];
+  if (!lead) return false;
+  const words = lead.split(/\s+/);
+  const before = (k: number) => words.slice(-k).join(' ');
+  if (own.some((o) => o.toLowerCase().includes(`${words[words.length - 1].toLowerCase()}:`))) return false;
+  for (let k = 1; k <= words.length; k++) if (known(before(k))) return true;
+  return false;
+}
+
 /** Запасной путь, когда заголовок не назвал ни одного нашего фильма: хэштег в заголовке или описании
  *  с ровно одним фильмом, иначе тег YouTube с ровно одним фильмом, если слово его названия есть и в
  *  заголовке и в заголовке это не начало сиквела («Мстители: Финал», «Стражи галактики 3»). */
@@ -57,6 +80,8 @@ function partOfLonger(title: string, names: string[]): boolean {
       // «DEADPOOL AND WOLVERINE», «Дэдпул и Росомаха» — тоже продолжение; скобка сразу после —
       // подпись к чужому названию («ДРУГОЙ ЧЕЛОВЕК (МУЖСКАЯ СУБСТАНЦИЯ)»)
       if (/\p{L}$/u.test(before) || /^\s*(?::|\.\s*\d|\d)/u.test(after) || /^\s*(?:and|и|&)\s+\p{L}/iu.test(after)) return true;
+      // римская цифра — номер части: «Гладиатор II», «Creed III» (ЗП-23, 07.10)
+      if (/^\s*(?:ii|iii|iv|vi|vii|viii|ix)(?!\p{L})/u.test(after)) return true;
     }
   }
   return false;
@@ -65,7 +90,7 @@ function partOfLonger(title: string, names: string[]): boolean {
 /** Запасной путь, когда заголовок не назвал ни одного нашего фильма: хэштег в заголовке или описании
  *  с ровно одним фильмом, иначе тег YouTube с ровно одним фильмом, если его название целиком есть и
  *  в заголовке. В обоих случаях — не начало сиквела или чужого названия («Мстители: Финал»). */
-export function byTags(v: { title: string; description?: string; tags?: string[] }, index: Map<string, IndexedWork[]>):
+export function byTags(v: { title: string; description?: string; tags?: string[]; publishedAt?: string }, index: Map<string, IndexedWork[]>):
   { work: IndexedWork; via: 'hashtag' | 'tags' } | undefined {
   const one = (keys: string[]) => {
     const found = new Map<string, IndexedWork>();
@@ -74,7 +99,7 @@ export function byTags(v: { title: string; description?: string; tags?: string[]
   };
   const namesOf = (w: IndexedWork) => [w.work.title, w.work.originalTitle ?? '', ...w.names].filter(Boolean);
   const h = one(hashtagsOf(`${v.title}\n${v.description ?? ''}`));
-  const off = (w: IndexedWork) => partOfLonger(v.title, namesOf(w)) || namesOf(w).some((n) => compared(v.title, n));
+  const off = (w: IndexedWork) => partOfLonger(v.title, namesOf(w)) || namesOf(w).some((n) => compared(v.title, n) || otherTitle(v.title, n, namesOf(w), (x) => (index.get(compact(x)) ?? []).some((o) => o.key !== w.key), w.work.year, v.publishedAt));
   // и хэштег, и тег — только подтверждение: название должно стоять и в заголовке, с большой буквы.
   // Без этого на всей выгрузке хэштег франшизы уводил чужие ролики: «#кирпич» — к «Кирпичу»,
   // «#starwars» — к «Новой надежде», «время» в обычной фразе — ко «Времени» (замер 02.10)
@@ -86,6 +111,8 @@ export function byTags(v: { title: string; description?: string; tags?: string[]
     // одно слово — с большой буквы в самом заголовке
     const re = new RegExp(`(?:^|[^\\p{L}])(${n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ё/gi, '[её]')})`, 'iu');
     const m = re.exec(v.title);
+    // и не продолжается предлогом: «The Rigged Election of Jon Snow» — не «Выскочка» (Election) (OPS-9, 06.10)
+    if (m && /^\s+(?:of|the|and|in|on|at|to|from|for|with)(?![\p{L}])/iu.test(v.title.slice(m.index + m[0].length))) return false;
     return Boolean(m && m[1][0] !== m[1][0].toLocaleLowerCase('ru'));
   });
   if (h && !off(h) && inTitle(h)) return { work: h, via: 'hashtag' };

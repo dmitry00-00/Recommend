@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { ValueCharge } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ChargePickerProps {
   value?: ValueCharge;
   onPick?: (charge: ValueCharge) => void;
 }
 
-const CHARGES = Object.keys(ru.charge) as ValueCharge[];
+const CHARGES = Object.keys(ui.charge) as ValueCharge[];
 
 /** Ценностный заряд приёма — четыре позиции квадрата — по образцу TropeUsagePicker: те же
  *  кнопки-строки системы, подсказка в title. Вторая ось к способу использования. */
@@ -19,10 +19,10 @@ export function ChargePicker({ value, onPick }: ChargePickerProps) {
       {CHARGES.map((c) => {
         const on = val === c;
         return (
-          <button key={c} type="button" title={ru.chargeNote[c]}
+          <button key={c} type="button" title={ui.chargeNote[c]}
                   className={cx('tm-usage__opt', on && 'tm-usage__opt--on')} aria-pressed={on ? 'true' : 'false'}
                   onClick={() => { setVal(c); onPick?.(c); }}>
-            {ru.charge[c]}
+            {ui.charge[c]}
           </button>
         );
       })}

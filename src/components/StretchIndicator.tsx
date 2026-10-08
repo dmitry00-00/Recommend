@@ -1,6 +1,6 @@
 import type { StretchLevel } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 
 export interface StretchIndicatorProps {
@@ -15,7 +15,7 @@ export function StretchIndicator({ level, size, label, variant }: StretchIndicat
   // Механика выключена в настройках — знака нет вовсе, не пустая рамка (21.09).
   const mechanics = useMechanics();
   if (!mechanics) return null;
-  const meta = ru.stretch[level];
+  const meta = ui.stretch[level];
   if (variant === 'caps') {
     return (
       <span className={cx('tm-stretchcaps', `tm-stretchcaps--${level}`)} title={meta.note}>
@@ -34,7 +34,7 @@ export function StretchIndicator({ level, size, label, variant }: StretchIndicat
         ))}
       </span>
       {label === false ? null : <span className="tm-stretch__label">{meta.label}</span>}
-      <span className="tm-sr">{`уровень усилия: ${meta.label}, ${meta.note}`}</span>
+      <span className="tm-sr">{ui.a11y.stretch(meta.label, meta.note)}</span>
     </span>
   );
 }

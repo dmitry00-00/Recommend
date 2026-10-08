@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from './Button';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ConsentCardProps {
   title?: string;
@@ -14,7 +14,7 @@ export interface ConsentCardProps {
 
 /** Согласие на участие в исследовании: четыре ответа до галочки, кнопка закрыта без неё. */
 export function ConsentCard({
-  title = ru.consent.title, points = ru.consent.points, checkLabel = ru.consent.check, busy, onAccept, onLater,
+  title = ui.consent.title, points = ui.consent.points, checkLabel = ui.consent.check, busy, onAccept, onLater,
 }: ConsentCardProps) {
   const [on, setOn] = useState(false);
   return (
@@ -28,8 +28,8 @@ export function ConsentCard({
         <span>{checkLabel}</span>
       </label>
       <div className="tm-row tm-row--gap-2">
-        <Button variant="primary" disabled={!on || busy} loading={busy} onClick={onAccept}>{ru.consent.accept}</Button>
-        <Button variant="quiet" disabled={busy} onClick={onLater}>{ru.consent.later}</Button>
+        <Button variant="primary" disabled={!on || busy} loading={busy} onClick={onAccept}>{ui.consent.accept}</Button>
+        <Button variant="quiet" disabled={busy} onClick={onLater}>{ui.consent.later}</Button>
       </div>
     </section>
   );

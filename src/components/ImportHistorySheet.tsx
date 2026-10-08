@@ -1,19 +1,20 @@
 import { useMemo, useState } from 'react';
 import type { ImportedRecord } from '@/lib/import';
-import { parseExports } from '@/lib/import';
+import { parseExports, type ExportFile } from '@/lib/import';
+import { isZip, unzipTexts } from '@/lib/import/zip';
 import { Sheet } from './Sheet';
 import { Button } from './Button';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ImportHistorySheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   /** отдаёт тексты файлов слою данных; возвращает, сколько записей легло и сколько нашлось вовне */
-  onImport: (texts: string[], ratingNorm?: number) => Promise<{ added: number; resolved: number } | undefined>;
+  onImport: (texts: ExportFile[], ratingNorm?: number) => Promise<{ added: number; resolved: number } | undefined>;
 }
 
 interface Preview {
-  texts: string[];
+  texts: ExportFile[];
   sources: string[];
   records: ImportedRecord[];
   unrecognized: number;
@@ -41,10 +42,16 @@ export function ImportHistorySheet({ open, onOpenChange, onImport }: ImportHisto
     return Math.round(sorted[Math.floor(sorted.length / 2)]);
   }, [rated]);
 
-  const [fileTexts, setFileTexts] = useState<string[]>([]);
+  const [fileTexts, setFileTexts] = useState<ExportFile[]>([]);
 
   const read = async (files: FileList | null, text = pasted) => {
-    const fromFiles = files ? await Promise.all([...files].map((f) => f.text())) : fileTexts;
+    // с именем: watched.csv и watchlist.csv Letterboxd различает только оно (ЗП-25)
+    // архив выгрузки (Letterboxd, Trakt) — раскрываем в его текстовые файлы
+    const read1 = async (f: File): Promise<ExportFile[]> => {
+      const bytes = new Uint8Array(await f.arrayBuffer());
+      return isZip(bytes) ? unzipTexts(bytes) : [{ name: f.name, text: new TextDecoder('utf-8').decode(bytes) }];
+    };
+    const fromFiles = files ? (await Promise.all([...files].map(read1))).flat() : fileTexts;
     if (files) setFileTexts(fromFiles);
     const texts = [...fromFiles, ...(text.trim() ? [text] : [])];
     if (!texts.length) { setPreview(null); return; }
@@ -66,43 +73,43 @@ export function ImportHistorySheet({ open, onOpenChange, onImport }: ImportHisto
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange} title={ru.importSheet.title}>
-      <p className="tm-body-sm tm-import__lead">{ru.importSheet.lead}</p>
-      <p className="tm-caption tm-import__privacy">{ru.importSheet.privacy}</p>
+    <Sheet open={open} onOpenChange={onOpenChange} title={ui.importSheet.title}>
+      <p className="tm-body-sm tm-import__lead">{ui.importSheet.lead}</p>
+      <p className="tm-caption tm-import__privacy">{ui.importSheet.privacy}</p>
 
       <label className="tm-import__file">
-        <span className="tm-label">{ru.importSheet.files}</span>
-        <input type="file" multiple accept=".csv,.html,.htm,.txt,.md" onChange={(e) => void read(e.target.files)} />
+        <span className="tm-label">{ui.importSheet.files}</span>
+        <input type="file" multiple accept=".zip,.csv,.json,.html,.htm,.txt,.md" onChange={(e) => void read(e.target.files)} />
       </label>
 
       <label className="tm-import__paste">
-        <span className="tm-label">{ru.importSheet.paste}</span>
+        <span className="tm-label">{ui.importSheet.paste}</span>
         {/* разбираем сразу при вводе, а не по потере фокуса: иначе «Импортировать» остаётся
             неактивной ровно в тот момент, когда человек вставил список и тянется к кнопке */}
-        <textarea className="tm-refl__area" rows={4} value={pasted} placeholder={ru.importSheet.pastePlaceholder}
+        <textarea className="tm-refl__area" rows={4} value={pasted} placeholder={ui.importSheet.pastePlaceholder}
                   onChange={(e) => { setPasted(e.target.value); void read(null, e.target.value); }} />
       </label>
 
       {preview ? (
         <section className="tm-import__report">
-          <p className="tm-body-sm">{ru.importSheet.found(preview.records.length)}</p>
+          <p className="tm-body-sm">{ui.importSheet.found(preview.records.length)}</p>
           <ul className="tm-import__list">
-            {films ? <li>{ru.importSheet.films(films)}</li> : null}
-            {books ? <li>{ru.importSheet.books(books)}</li> : null}
-            {series ? <li>{ru.importSheet.series(series)}</li> : null}
-            {rated.length ? <li>{ru.importSheet.rated(rated.length)}</li> : null}
-            {preview.unrecognized ? <li className="tm-import__skip">{ru.importSheet.unrecognized(preview.unrecognized)}</li> : null}
+            {films ? <li>{ui.importSheet.films(films)}</li> : null}
+            {books ? <li>{ui.importSheet.books(books)}</li> : null}
+            {series ? <li>{ui.importSheet.series(series)}</li> : null}
+            {rated.length ? <li>{ui.importSheet.rated(rated.length)}</li> : null}
+            {preview.unrecognized ? <li className="tm-import__skip">{ui.importSheet.unrecognized(preview.unrecognized)}</li> : null}
           </ul>
           {preview.sources.length ? (
-            <p className="tm-caption">{ru.importSheet.sources}{preview.sources.map((s) => ru.importSource[s as keyof typeof ru.importSource] ?? s).join(', ')}</p>
+            <p className="tm-caption">{ui.importSheet.sources}{preview.sources.map((s) => ui.importSource[s as keyof typeof ui.importSource] ?? s).join(', ')}</p>
           ) : null}
         </section>
       ) : null}
 
       {rated.length >= 5 ? (
         <section className="tm-import__norm">
-          <h3 className="tm-label">{ru.importSheet.normTitle}</h3>
-          <p className="tm-caption tm-import__normwhy">{ru.importSheet.normWhy}</p>
+          <h3 className="tm-label">{ui.importSheet.normTitle}</h3>
+          <p className="tm-caption tm-import__normwhy">{ui.importSheet.normWhy}</p>
           <div className="tm-row tm-row--gap-2 tm-row--wrap">
             {NORMS.map((n) => (
               <Button key={n} size="sm" variant={(norm ?? median) === n ? 'primary' : undefined} onClick={() => setNorm(n)}>
@@ -114,14 +121,14 @@ export function ImportHistorySheet({ open, onOpenChange, onImport }: ImportHisto
       ) : null}
 
       {done ? (
-        <p className="tm-body-sm tm-import__done">{ru.importSheet.done(done.added, done.resolved)}</p>
+        <p className="tm-body-sm tm-import__done">{ui.importSheet.done(done.added, done.resolved)}</p>
       ) : null}
 
       <div className="tm-row tm-row--gap-2 tm-import__actions">
         <Button variant="primary" size="sm" loading={busy} disabled={!preview || busy} onClick={run}>
-          {ru.importSheet.run}
+          {ui.importSheet.run}
         </Button>
-        <Button variant="quiet" size="sm" onClick={() => onOpenChange(false)}>{ru.actions.close}</Button>
+        <Button variant="quiet" size="sm" onClick={() => onOpenChange(false)}>{ui.actions.close}</Button>
       </div>
     </Sheet>
   );

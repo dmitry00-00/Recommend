@@ -17,7 +17,7 @@
 import { writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { readCache, resolveWorkQids, sleep, sparql, writeCache } from './wikidata-lib.mts';
-import { characterWorks, charactersSource, mergeSeeded, pickCharacters, type CharBinding, type CharInfo } from './characters-lib.mts';
+import { characterWorks, charactersSource, dropCameos, mergeSeeded, pickCharacters, type CharBinding, type CharInfo } from './characters-lib.mts';
 import { seededHeroes, type WesterosSeed } from './westeros-lib.mts';
 import { essays } from '../src/mocks/essays.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
@@ -114,7 +114,14 @@ if (westeros) {
 }
 // разборы с ключом произведения: своё произведение героя называет его любым именем, чужое — только «широким»
 const analyses = [essays, essaysAuto, postsAuto].flatMap((src) => Object.entries(src).flatMap(([key, list]) => list.map((a) => ({ key, title: a.title }))));
-const { kept, dropped } = pickCharacters(byChar, infoMap, analyses);
+const picked = pickCharacters(byChar, infoMap, analyses);
+// камео в сборных фильмах («Космический джем 2», «Лего Фильм: Бэтмен») — не произведения этих героев;
+// семьи считаем по отобранным героям: безымянная массовка Wikidata склеивала бы что угодно
+const heroWorks = new Map(picked.kept.map((c) => [c.q, new Set(c.works)]));
+const cameos = dropCameos(heroWorks);
+console.error(`камео в сборных произведениях снято: ${cameos.length} (${[...new Set(cameos.map((c) => c.work))].join(', ')})`);
+const kept = picked.kept.map((c) => ({ ...c, works: [...heroWorks.get(c.q)!].sort() })).filter((c) => c.works.length >= 2);
+const dropped = [...picked.dropped, ...picked.kept.filter((c) => heroWorks.get(c.q)!.size < 2).map((c) => ({ ...c, why: 'одно произведение без камео' }))];
 writeFileSync(new URL('../.cache/characters-dropped.tsv', import.meta.url),
   ['герой\tэлемент\tпроизведений\tразборов\tпочему', ...dropped.filter((d) => d.works.length >= 2 || d.said)
     .sort((a, b) => b.works.length - a.works.length).map((d) => [d.n, d.q, d.works.length, d.said, d.why].join('\t'))].join('\n') + '\n');

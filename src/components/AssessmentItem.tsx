@@ -3,7 +3,7 @@ import type { AssessmentAnswer, AssessmentItemData, FamiliarityLevel, ID } from 
 import { AssessmentProgress, type AssessmentProgressProps } from './AssessmentProgress';
 import { WorkCover } from './WorkCover';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface AssessmentItemProps {
   item: AssessmentItemData;
@@ -53,7 +53,7 @@ export function AssessmentItem({ item, progress, onChange }: AssessmentItemProps
                             setLevels(next);
                             onChange?.({ type: 'familiarity_grid', levels: next });
                           }}>
-                    {ru.familiarity[f]}
+                    {ui.familiarity[f]}
                   </button>
                 );
               })}
@@ -96,9 +96,9 @@ export function AssessmentItem({ item, progress, onChange }: AssessmentItemProps
             <span className="tm-aorder__n">{i + 1}</span>
             <span className="tm-aorder__label">{it.label}</span>
             <span className="tm-aorder__btns">
-              <button type="button" className="tm-aorder__btn" aria-label={`${ru.assessment.up}: ${it.label}`}
+              <button type="button" className="tm-aorder__btn" aria-label={`${ui.assessment.up}: ${it.label}`}
                       disabled={i === 0} onClick={() => move(i, -1)}>↑</button>
-              <button type="button" className="tm-aorder__btn" aria-label={`${ru.assessment.down}: ${it.label}`}
+              <button type="button" className="tm-aorder__btn" aria-label={`${ui.assessment.down}: ${it.label}`}
                       disabled={i === order.length - 1} onClick={() => move(i, 1)}>↓</button>
             </span>
           </li>
@@ -110,7 +110,7 @@ export function AssessmentItem({ item, progress, onChange }: AssessmentItemProps
     for (let v = r.min; v <= r.max; v++) {
       steps.push(
         <button key={v} type="button" role="radio" aria-checked={scale === v ? 'true' : 'false'}
-                aria-label={`${ru.assessment.position} ${v} ${ru.assessment.of} ${r.max}`}
+                aria-label={`${ui.assessment.position} ${v} ${ui.assessment.of} ${r.max}`}
                 className={cx('tm-ascale__p', scale === v && 'tm-ascale__p--on')}
                 onClick={() => { setScale(v); onChange?.({ type: 'scale', value: v }); }} />,
       );
@@ -128,7 +128,7 @@ export function AssessmentItem({ item, progress, onChange }: AssessmentItemProps
     body = (
       <div>
         <textarea className="tm-refl__area" rows={4} maxLength={r.maxLength}
-                  placeholder={ru.assessment.textPlaceholder} value={text}
+                  placeholder={ui.assessment.textPlaceholder} value={text}
                   aria-label={item.prompt}
                   onChange={(e) => {
                     setText(e.target.value);

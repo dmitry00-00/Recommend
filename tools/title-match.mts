@@ -42,8 +42,15 @@ export const REVIEW = /обзор|разбор|смысл|плохбастер|�
 /** Не ролик о кино вовсе: прохождение игры, стрим (замер 01.10 — «МЕТРО ИСХОД ПРОХОЖДЕНИЕ |
  *  … БОЛОТО, АДМИРАЛ» уходил к «Болоту» и «Адмиралу»); англоязычные новости («INSANE HORROR NEWS!
  *  … American Psycho»); выпуск подкаста из нескольких тем через «||», от четырёх тем («№64 Новый Голый пистолет ||
- *  Сэр Кристофер Нолан || Снова Бесконечная история»). */
-export const NOT_FILM = /прохождени|летсплей|let'?s\s*play|walkthrough|gameplay|геймплей|(?<!\p{L})dlc(?!\p{L})|(?<!\p{L})news(?!\p{L})|(?:\|\|[^|]*){3}/iu;
+ *  Сэр Кристофер Нолан || Снова Бесконечная история»).
+ *  06.10 (OPS-9): партии в Crusader Kings по «Игре престолов» (мод AGOT) — 55 из 124 ошибок замера;
+ *  «Проходим … RPG», «Con Plays The Last Of Us - EP 3», «флеш игры по…», «игры про…». Не сюда: стримы
+ *  и Q&A по сериалу (владелец привязывает их к сериалу), «AGOT» (это и книга), «Игро-Мыло» (к фильму). */
+export const NOT_FILM = new RegExp([
+  "прохождени|летсплей|let'?s\\s*play|walkthrough|gameplay|геймплей|(?<!\\p{L})dlc(?!\\p{L})|(?<!\\p{L})news(?!\\p{L})|(?:\\|\\|[^|]*){3}",
+  "crusader\\s*kings|(?<!\\p{L})(?:ck[23]|elder\\s+kings)(?!\\p{L})|(?<!\\p{L})(?:проходим|играем)(?!\\p{L})|(?<!\\p{L})rpg(?!\\p{L})",
+  "(?<!\\p{L})plays\\s.+\\bep\\.?\\s*\\d|флеш[-\\s]игр|(?<!\\p{L})игр[ыу]?\\s+(?:про|по)\\s",
+].join('|'), 'iu');
 
 export function isDigest(title: string, names: string[] = []): boolean {
   let rest = title;
@@ -73,13 +80,20 @@ export const RIVALS: [RegExp, RegExp][] = [
   [/^легенда$/i, /ламборгини|человек[\s-]легенда|(?<!\p{L})я\s*[-—–]?\s*легенд/iu],
   [/^убийца$/i, /цветочн|the killer|кодекс|прирожд[её]нн/iu],
   [/^посылка$/i, /изгой/iu],
+  // основа «менял» ловит «как менялась/менялись/менялся» — рубрику «Уголка Акра» (ТВ-7, 06.10)
+  [/^менялы$/i, /менял(?:ась|ись|ся|о)(?!\p{L})/iu],
 ];
 
 /** Эти каналы пишут название после ярлыка: «смысл ПРИБЫТИЕ», «разбор фильма ИЗГОЙ». Если
  *  ярлык есть, а наше название стоит не при нём — разбирают не нас: «ЧТО лежит В ПОСЫЛКЕ?! |
  *  разбор фильма ИЗГОЙ» это про «Изгоя», а «ИГРА — это НАЧАЛО наоборот | смысл ИГРА» — про
  *  «Игру». Это тот же приём require-в-окне, что у сторожей в recruit, только окно — после ярлыка. */
-const LABELLED = /(?:скрыт\p{L}*\s+)?(?:смысл|разбор|обзор|анализ)(?:\s+фильма)?\s+(?!фильма|кино|сериала)([^|,!?]{3,45})/iu;
+// цепочкой «обзор и анализ АРКЕЙН», «Обзор на фильм Ущелье»; до конца предложения: «СМЫСЛ ФИЛЬМА Довод. Часть 3. Аннигиляция…» — о «Доводе» (OPS-9, 06.10); многоточие — не конец
+const LABELLED = /(?:скрыт\p{L}*\s+)?(?:смысл|разбор|обзор|анализ)(?:\s+(?:и|&)\s+(?:смысл|разбор|обзор|анализ))?(?:\s+(?:на\s+)?(?:фильма?|сериала?|мультфильма?))?\s+(?!фильма|кино|сериала)([^|,!?]{3,45}?)(?=(?<!\.)\.\s|[|,!?]|$)/iu;
+
+/** Английская подпись вплотную к названию — после него или перед ним через двоеточие (ЗП-23). */
+const EN_LABEL_AFTER = /^\s*[-–—:|]?\s*(?:\(\d{4}\)\s*[-–—:|]?\s*)?(?:book\s+vs\.?\s+(?:movie|film|show)|(?:movie|film|book|spoiler|non-spoiler)\s+review|review|explained|ending explained|analysis|breakdown|video essay)\b/i;
+const EN_LABEL_BEFORE = /\b(?:review|analysis|explained|breakdown|essay)\s*:\s*["“]?$/i;
 
 const CYR = 'А-Яа-яЁёЇїІіЄєҐґ';
 /** Основа названия: у русского слова отрезаем окончание, чтобы поймать склонение.
@@ -90,12 +104,33 @@ export function stemOf(name: string): string {
     // «Однажды в... Голливуде» и «Однажды в Голливуде» у них. Замер 26.09: шесть наших
     // названий с многоточием, 14 роликов ловятся только так, и «Однажды в… Голливуде»
     // возглавлял список фильмов без единого разбора — при десяти разборах в кэше
-    .replace(/\s*(?:…|\\\.\\\.\\\.)\s*/g, '[\\s.…]*');
+    .replace(/\s*(?:…|\\\.\\\.\\\.)\s*/g, '[\\s.…]*')
+    // запятую внутри названия каналы опускают: «Девушка подающая надежды», «Удачи веселья не сдохни» (06.10, OPS-9),
+    .replace(/,\s+/g, ',?\\s+')
+    // и двоеточие: «Темный мир РАВНОВЕСИЕ» — «Тёмный мир: Равновесие»
+    .replace(/:\s+/g, ':?\\s+');
   const oneWord = !/\s/.test(name);
+  // первое слово женского рода тоже склоняется: «Игры престолов», «Войны и мира» (OPS-9, 06.10)
+  if (!oneWord && !/ться$|ть$/i.test(name)) {
+    const m = new RegExp(`^([${CYR}]{3,})([ая])(?=\\s)`).exec(esc);
+    if (m) return `${m[1]}${m[2].toLowerCase() === 'а' ? '(?:а|ы|е|у|ой|ою)' : '(?:я|и|е|ю|ей|ею)'}${esc.slice(m[0].length)}`;
+  }
   // инфинитив не отрезаем: «Помнить» → «Помнит» + хвост ловит «Помните, я обещал…»
   if (/ться$|ть$/i.test(name)) return esc;
   if (oneWord && new RegExp(`^[${CYR}]{6,}$`).test(name)) return esc.slice(0, -1);
   return esc;
+}
+
+/** Окончание после основы (06.10, OPS-9): у отрезанной основы — сама отрезанная буква с падежным
+ *  окончанием или окончание вместо неё («Джокер» → «Джокера», «Дракула» → «Дракулы»), а не любые три
+ *  буквы: «Персона» ловила «ПЕРСОНАЖИ», «Персонажа». У неотрезанной — как было, до трёх букв. */
+const ENDING = 'а|я|у|ю|ы|и|е|о|ь|й|ой|ей|ою|ею|ом|ем|ём|ам|ям|ах|ях|ами|ями|ов|ев|ью';
+export function tailOf(name: string): string {
+  const cut = stemOf(name);
+  const esc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ё/gi, '[её]');
+  if (cut === esc || !/^[\p{L}]+$/u.test(name)) return `[${CYR}]{0,3}`;
+  const last = name.slice(-1).replace(/ё/gi, '[её]');
+  return `(?:${last}(?:${ENDING})?|${ENDING})?`;
 }
 
 /** Длина совпадения или 0. Возвращаем длину, чтобы из нескольких выбрать самое длинное:
@@ -120,16 +155,24 @@ export interface MatchOptions {
    *  Thrones Season 8 Review», «Why the Game of Thrones Ending Failed». Слово перед названием здесь
    *  не в счёт (кроме притяжательного «Ridley Scott's»), а после — только слово-подпись (`EN_RUBRIC`). */
   english?: boolean;
+  /** «X и Y» — пара названий: вернуть X с пометкой `andNext`, а не выбросить (отбор в match-videos) */
+  pairs?: boolean;
 }
 
 /** Слова, которыми англоязычные каналы подписывают ролик после названия. */
-const EN_RUBRIC = /^(?:seasons?|episodes?|s\d{1,2}(?:e\d{1,3})?|ep|reviews?|explained|explanation|theor(?:y|ies)|endings?|finale|breakdown|recap|reactions?|lore|analysis|trailers?|teaser|characters?|books?|show|tv|series|part|prequels?|spin-?offs?|fans?|predictions?|timeline|history|easter|retrospective|critique|opening|scenes?|spoilers?|discussion|podcast|live|deep|dive|maps?|myster(?:y|ies)|secrets?|foreshadowing|symbolism|vs\.?|is|was|were|are|has|had|have|will|did|does|do|should|could|would|can|actually|really|just|still|never|finally|isn['’]t|wasn['’]t|didn['’]t|doesn['’]t)$/i;
+const EN_RUBRIC = /^(?:movies?|films?|seasons?|episodes?|s\d{1,2}(?:e\d{1,3})?|ep|reviews?|explained|explanation|theor(?:y|ies)|endings?|finale|breakdown|recap|reactions?|lore|analysis|trailers?|teaser|characters?|books?|show|tv|series|part|prequels?|spin-?offs?|fans?|predictions?|timeline|history|easter|retrospective|critique|opening|scenes?|spoilers?|discussion|podcast|live|previews?|promos?|leaks?|clips?|featurettes?|premieres?|news|specials?|full|showrunners?|cast|soundtrack|official|deep|dive|maps?|myster(?:y|ies)|secrets?|foreshadowing|symbolism|vs\.?|is|was|were|are|has|had|have|will|did|does|do|should|could|would|can|actually|really|just|still|never|finally|isn['’]t|wasn['’]t|didn['’]t|doesn['’]t)$/i;
 
 /** То же, что `latinContinues`, для англоязычного заголовка. */
 function englishContinues(hit: string, before: string, after: string): boolean {
   if (/^\s+(?:of|the|and|in|on|at|to|from|for|with|a|an)(?![A-Za-z])/i.test(after)) return true;
-  if (/^['’]s?(?:\s|$)/.test(after) && /^['’]s(?![A-Za-z])/.test(after)) return false;
-  const next = /^\s*[:—–-]?\s*([A-Za-z][A-Za-z'’-]*)/.exec(after)?.[1];
+  // притяжательное: «Dune's Ending» — о «Дюне»; «The Queen's Justice», «Dead Man's Chest» — чужое название (OPS-9, 06.10)
+  if (/^['’]s?(?:\s|$)/.test(after) && /^['’]s(?![A-Za-z])/.test(after)) {
+    const pos = /^['’]s\s+([A-Za-z][A-Za-z0-9'’-]*)/.exec(after)?.[1];
+    return Boolean(pos && /^[A-Z]/.test(pos) && !EN_RUBRIC.test(pos));
+  }
+  // слово с цифрами целиком: «A Knight of the Seven Kingdoms S1E01 Explained» — от «S1E01» бралась одна
+  // «S», ярлыком сезона она не считалась, и название объявлялось чужим (OPS-9, 06.10)
+  const next = /^\s*[:—–-]?\s*([A-Za-z][A-Za-z0-9'’-]*)/.exec(after)?.[1];
   if (next && /^[A-Z]/.test(next) && !EN_RUBRIC.test(next)) return true;
   return /['’]s\s*$/.test(before) && !/^\s*$/.test(hit);
 }
@@ -181,7 +224,7 @@ const PREP = '(?:на|в|во|и|с|со|из|для|под|над|от|до|б�
  *  «(НОВЫЙ АСТРАЛ?)». Нужно запасному пути по тегам (tools/tag-match.mts): тег франшизы есть, а ролик
  *  о другом фильме, который на неё похож. */
 export function compared(title: string, name: string): boolean {
-  const re = new RegExp(`(^|[^\\p{L}])(${stemOf(name)})([${CYR}]{0,3})(?![\\p{L}])`, 'giu');
+  const re = new RegExp(`(^|[^\\p{L}])(${stemOf(name)})(${tailOf(name)})(?![\\p{L}])`, 'giu');
   for (const m of title.matchAll(re)) {
     const pre = title.slice(0, m.index + m[1].length);
     const prev = /(?:^|[^\p{L}\p{N}-])((?:[\p{L}\p{N}]+-)*[\p{L}\p{N}]+)\s+$/u.exec(pre)?.[1];
@@ -263,12 +306,34 @@ export function listItems(title: string, skip?: { at: number; len: number }): nu
 }
 
 /** То же, что `nameMatch`, с местом совпадения — чтобы найти в заголовке несколько разных названий. */
-export function nameMatchAt(videoTitle: string, name: string, options: MatchOptions = {}): { len: number; at: number } | undefined {
-  const rival = RIVALS.find(([n]) => n.test(name));
-  if (rival && rival[1].test(videoTitle)) return undefined;
+// Скорость (07.10): посты и ролики сверяются с каждым из ~15 тыс. произведений, и на каждую пару строилось
+// регулярное выражение — после пополнения справочника 05.10 шаг «разборы в постах» шёл больше трёх часов.
+// Первые три буквы названия выражение требует буквально (основа режет только конец, «ё» — это [её]),
+// поэтому без них в тексте сверять незачем. Скомпилированные выражения не кэшируем: 15 тыс. штук
+// с \p{L} не помещаются в память, а после отсева компилируется единица из сотни.
+const fold = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
+const prefixes = new Map<string, { prefix?: string; rival?: RegExp }>();
+function prefixOf(name: string) {
+  let c = prefixes.get(name);
+  if (!c) {
+    const p = fold(name.trim()).slice(0, 3);
+    c = { prefix: /^[\p{L}\p{N}]{3}$/u.test(p) ? p : undefined, rival: RIVALS.find(([n]) => n.test(name))?.[1] };
+    prefixes.set(name, c);
+  }
+  return c;
+}
+let foldedFor = '';
+let folded = '';
+const foldedText = (t: string) => { if (t !== foldedFor) { foldedFor = t; folded = fold(t); } return folded; };
+
+export function nameMatchAt(videoTitle: string, name: string, options: MatchOptions = {}): { len: number; at: number; exact?: boolean; tail?: number; andNext?: boolean } | undefined {
+  const { prefix, rival } = prefixOf(name);
+  if (prefix && !foldedText(videoTitle).includes(prefix)) return undefined;
+  if (rival && rival.test(videoTitle)) return undefined;
   // флаг `i` обязателен: у этих каналов название пишут капсом («смысл ПРИБЫТИЯ»), а отбор
   // по заглавной букве делается ниже, на самом совпадении
-  const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})([${CYR}]{0,3})(?![A-Za-z0-9_${CYR}])()`, 'giu');
+  // дефис с буквой после — продолжение слова: «Мастер-класс» не «Мастер» (06.10, OPS-9)
+  const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})(${tailOf(name)})(?![A-Za-z0-9_${CYR}])(?!-\\p{L})()`, 'giu');
   for (const m of videoTitle.matchAll(re)) {
     const hit = m[2];
     const first = hit[0];
@@ -281,20 +346,46 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
     // «Легенда №17» — номер тоже продолжение, как «Джокер 2» (30.09)
     // Тире с ярлыком после — подпись, а не продолжение: «ГЕОШТОРМ - ФИЛЬМ БЕЗ ГЕОШТОРМА», «Матильда — Обзор» (01.10)
     const dashNext = /^\s*[—–-]\s*([\p{L}]+)/u.exec(after)?.[1];
+    // тире с пробелами после названия из нескольких слов — разделитель («Дьявол носит Prada - Самые
+    // интересные факты»): чужое название с нашим началом через « - » почти не встречается (06.10, OPS-9)
+    const multiWord = /\s/.test(name.trim());
     const dashLabel = dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext) || (Boolean(options.english) && EN_RUBRIC.test(dashNext)));
     // «Астрал: 4 Последний ключ» — после двоеточия номер части, тоже продолжение (02.10)
-    if (/^\s*№?\s*\d(?<!\s(?:19|20)\d{2}(?!\d))/.test(after) && !/^\s*(?:19|20)\d{2}(?!\d)/.test(after) || (!dashLabel && /^\s*[:—-]\s*[А-ЯЁA-Z]/.test(after)) || /^\s*:\s*\d{1,2}\s+[А-ЯЁA-Z]/u.test(after) || /^\s+и\s+[А-ЯЁ]/.test(after)) continue;
+    // римская цифра — тоже номер части: «Jurassic Park III», «Rocky IV» (ЗП-23, 07.10)
+    if (/^\s*(?:II|III|IV|V|VI|VII|VIII|IX)(?![\p{L}\p{N}])/u.test(after)) continue;
+    if (/^\s*№?\s*\d(?<!\s(?:19|20)\d{2}(?!\d))/.test(after) && !/^\s*(?:19|20)\d{2}(?!\d)/.test(after) || (!dashLabel && (multiWord ? /^(?:\s*:|[—-])\s*[А-ЯЁA-Z]/ : /^\s*[:—-]\s*[А-ЯЁA-Z]/).test(after)) || /^\s*:\s*\d{1,2}\s+[А-ЯЁA-Z]/u.test(after)) continue;
+    // «Мастер и Маргарита» — продолжение; но «Лучше звоните Солу и Во все тяжкие» — два названия. С `pairs`
+    // название из нескольких слов возвращается с пометкой `andNext`: отбор оставит его, только если сразу
+    // после «и» стоит другое наше название (06.10, OPS-9)
+    const andNext = /^\s+и\s+[А-ЯЁ]/.test(after);
+    if (andNext && !(options.pairs && multiWord)) continue;
     // «Бэтмен: Начало», «Джокер 2: Безумие на двоих» — наше слово идёт частью чужого названия
     const before = videoTitle.slice(0, m.index + m[1].length).trimEnd();
-    if (/[А-ЯЁA-Z][^\s:]*:$/.test(before)) continue;
+    // подпись перед двоеточием — не начало чужого названия: «Podcast Special: House of the Dragon»,
+    // «Обзор: Папины дочки» (OPS-9, 06.10)
+    const colonWord = /(\p{L}+):$/u.exec(before)?.[1];
+    const colonLabel = colonWord !== undefined && ((options.english && EN_RUBRIC.test(colonWord))
+      || RUBRIC.has(colonWord.toUpperCase()) || /^(?:обзор\p{L}*|разбор\p{L}*|рецензи\p{L}*|мнение|ликбез|треш)$/iu.test(colonWord));
+    // капс после рубрики строчными — само название: «Криминальный Голливуд: ЭМОДЖИ ФИЛЬМ»; английское из трёх
+    // слов и больше — тоже: «Zuko vs Azula: Avatar The Last Airbender» (OPS-9, 06.10)
+    const capsAfter = /\p{L}{2}/u.test(hit) && hit === hit.toLocaleUpperCase('ru') && colonWord !== undefined && colonWord !== colonWord.toLocaleUpperCase('ru');
+    const longEn = Boolean(options.english) && name.trim().split(/\s+/).length >= 3;
+    if (/[А-ЯЁA-Z][^\s:]*:$/.test(before) && !colonLabel && !capsAfter && !longEn) continue;
     const numbered = /([А-ЯЁA-Z][\p{L}]*)\s+\d{1,2}:$/u.exec(before)?.[1];
     if (numbered && !/^(?:эпизод|выпуск|часть|серия|глава|episode|part|ep)$/iu.test(numbered)) continue;
     if (!options.loose && strayHit(videoTitle, m.index + m[1].length, hit, after, name, options.ordinary?.has(name) ?? false)) continue;
     if (/^[A-Za-z]/.test(hit) && (options.english ? englishContinues(hit, videoTitle.slice(0, m.index + m[1].length), after)
       : latinContinues(hit, videoTitle.slice(0, m.index + m[1].length), after))) continue;
     // название после ярлыка должно быть нашим, иначе разбирают другой фильм
-    const labelled = LABELLED.exec(videoTitle)?.[1];
-    if (labelled && !labelled.toLowerCase().includes(hit.toLowerCase())) continue;
+    // (06.10, OPS-9): название перед ярлыком само бывает предметом («ДОСТАТЬ НОЖИ – обзор детектива +
+    // ХОЛОДНОЕ СЕРДЦЕ 2»), а ярлык над словом-рубрикой («Оби-Ван Кеноби РАЗБОР Персонажа») — не о другом фильме
+    const lab = LABELLED.exec(videoTitle);
+    // ярлык после нашего названия в счёт, только если за ним тоже название — с заглавной: «МЫ ВСЕ - МАРИОНЕТКИ |
+    // смысл ДЖОННИ МНЕМОНИК» — о «Джонни-мнемонике»; «обзор детектива + …» — подпись к названию перед ним
+    const labNext = lab?.[1].trim().split(/\s+/)[0] ?? '';
+    const labTitled = /^[«"„]?\p{Lu}/u.test(labNext) && !new RegExp(`^(?:${PREP}|а|но|или|сцен\\p{L}*|момент\\p{L}*|кадр\\p{L}*|трейлер\\p{L}*|эпизод\\p{L}*)$`, 'iu').test(labNext) && !LEAD.test(labNext);
+    const labelled = lab && (lab.index < m.index + m[1].length || labTitled) ? lab[1] : undefined;
+    if (labelled && !LEAD.test(labelled.trim().split(/\s+/)[0] ?? '') && !labelled.toLowerCase().includes(hit.toLowerCase())) continue;
     // В кавычках название стоит целиком. «Призрак» и «Призрак в доспехах» — разные фильмы, и
     // отбор «побеждает самое длинное совпадение» тут не спасает: второго фильма у нас может
     // не быть вовсе, и тогда ролик достаётся первому. А вот «Прочь/Get Out» — тот же фильм
@@ -346,10 +437,16 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
       // у повседневного названия капс в заголовке, набранном капсом целиком, ничего не выделяет
       const caps = hit === hit.toLocaleUpperCase('ru') && !(ordinary && shouting(videoTitle));
       const quoted = /["«]$/.test(m[1]);
-      const labelled = LABEL.test(videoTitle.replace(hit, ' '));
+      const labelled = LABEL.test(videoTitle.replace(hit, ' '))
+        // английский ярлык — только вплотную: «The Player Book vs Movie», «Children of Men - Movie Review»,
+        // «Review: The Player»; «review» где-то дальше в заголовке названием слово не делает (ЗП-23, 07.10)
+        || (Boolean(options.english) && (EN_LABEL_AFTER.test(after) || EN_LABEL_BEFORE.test(videoTitle.slice(0, m.index + m[1].length))));
       if (!caps && !quoted && !labelled) continue;
     }
-    return { len: hit.length, at: m.index + m[1].length };
+    // слово в заголовке совпало с названием целиком, без отрезанного окончания: «ВЕДЬМЫ» — это «Ведьмы», а
+    // не «Ведьма», «Хищник.» — «Хищник», а не «Хищники» (06.10, OPS-9); отбор берёт его из равных
+    const exact = `${hit}${m[3] ?? ''}`.toLowerCase().replace(/ё/g, 'е') === name.toLowerCase().replace(/ё/g, 'е');
+    return { len: hit.length, at: m.index + m[1].length, ...(exact ? { exact } : {}), ...(m[3] ? { tail: m[3].length } : {}), ...(andNext ? { andNext } : {}) };
   }
   return undefined;
 }
@@ -358,7 +455,7 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
  *  упоминание в перечислении — ровно один; на этом и отличаем тему от упоминания. */
 export function nameHits(text: string, name: string): number {
   try {
-    const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})([${CYR}]{0,3})(?![A-Za-z0-9_${CYR}])`, 'giu');
+    const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})(${tailOf(name)})(?![A-Za-z0-9_${CYR}])(?!-\\p{L})`, 'giu');
     return [...text.matchAll(re)].length;
   } catch {
     return 0;

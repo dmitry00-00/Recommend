@@ -3,8 +3,9 @@ import type { WorkCard } from '@/types/tmdf';
 import { Meta } from './Meta';
 import { OperationChip } from './OperationChip';
 import { WorkCover } from './WorkCover';
-import { workMeta } from '@/lib/format';
+import { workMeta, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
+import { countryName } from '@/lib/countries';
 
 export interface WorkHeaderProps {
   work: WorkCard;
@@ -22,9 +23,9 @@ export function WorkHeader({ work, compact, cover, showDetails, children }: Work
     <header className={cx('tm-workhead', compact && 'tm-workhead--compact')}>
       {cover === false ? null : <WorkCover work={work} size={compact ? 'md' : 'lg'} />}
       <div className="tm-workhead__body">
-        <h1 className="tm-workhead__title">{work.title}</h1>
+        <h1 className="tm-workhead__title">{titleOf(work)}</h1>
         {work.originalTitle ? <p className="tm-workhead__original">{work.originalTitle}</p> : null}
-        <Meta items={[...workMeta(work), (work.countries ?? []).join(', ')]} />
+        <Meta items={[...workMeta(work), (work.countries ?? []).map(countryName).join(', ')]} />
         <div className="tm-row tm-row--wrap tm-row--gap-1 tm-workhead__ops">
           {work.primaryOperations.slice(0, 3).map((o) => (
             <OperationChip key={o.op} op={o.op} intensity={o.intensity} showDetails={showDetails} short />

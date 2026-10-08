@@ -11,7 +11,10 @@ import { sources } from '../src/mocks/sources.ts';
 import { isDigest } from './title-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { worksIndex } from './works-index.mts';
+import { readLabels, resolver, suggest } from './llm-lib.mts';
 import { evidenceFor, tooEarly } from './evidence.mts';
+import { franchiseHeads, franchiseTalk } from './franchise-head.mts';
+import { longerTitle, nearNamesake, save as saveTmdbTitles } from './tmdb-titles.mts';
 import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
 import { focusFromProfiles, bestByTitle } from './match-videos.mts';
@@ -124,12 +127,15 @@ if (askOutside.length) writeFileSync(OUTSIDE, JSON.stringify(outsideCache));
 if (outside.length) console.error(`ролики с других каналов из ручной разметки: ${outside.length}, нашлось в YouTube ${videos.filter((v) => outside.includes(v.id)).length}`);
 // ручная привязка может указать и на фильм с коротким названием, которого в `ours` нет
 const byKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
+const heads = franchiseHeads(worksIndex({ all: true }));
 
 // названия-ловушки (tools/build-ordinary.mts): в заголовке ролика им нужен капс, кавычки или
 // ярлык рядом — то же правило, что односложным, только список берётся из корпуса
 const ordFile = new URL('../.cache/ordinary.json', import.meta.url);
 const ordinary = existsSync(ordFile)
   ? new Set<string>(JSON.parse(readFileSync(ordFile, 'utf8')).names ?? []) : undefined;
+// английские ловушки (OPS-9, 06.10) — только для роликов англоязычных каналов
+const ordinaryEn = existsSync(ordFile) ? new Set<string>(JSON.parse(readFileSync(ordFile, 'utf8')).namesEn ?? []) : undefined;
 
 const out: Record<string, ExternalAnalysis[]> = {};
 const rows: string[] = [];
@@ -139,7 +145,7 @@ const rows: string[] = [];
 // (проверено на 2,5 тыс. роликов дампа — ни одного расхождения)
 const listStats: { lists: number; pairs: number; focusPicked?: number; offFocus?: number } = { lists: 0, pairs: 0 };
 // профиль канала (tools/channel-profile.mts, 02.10): тёзки — в пользу фокуса канала, вне фокуса — без улики
-const best = bestByTitle(videos, ours, { ordinary, loose: process.env.TITLE_LOOSE === '1', stats: listStats, focusOf: focusFromProfiles() });
+const best = bestByTitle(videos, ours, { ordinary, ordinaryEn, loose: process.env.TITLE_LOOSE === '1', stats: listStats, focusOf: focusFromProfiles() });
 let early = 0;
 // поверх догадок — решения людей
 let confirmed = 0;
@@ -183,6 +189,8 @@ const prec = readPrecision();
 const precision = { trusted: new Set(prec?.trusted ?? []), weak: new Set(prec?.weak ?? []) };
 const stopWord = stopMatcher();
 let digests = 0;
+let franchise = 0;
+let tmdbOther = 0, tmdbMoved = 0;
 let adaptations = 0;
 let moved = 0;
 let conflicts = 0;
@@ -241,6 +249,33 @@ for (const [videoId, found] of pairs) {
     : precision.weak.has(pk) ? (raw ? (weakened += 1, undefined) : undefined)
       : !raw && !found.offFocus && precision.trusted.has(pk) ? (trustedUp += 1, 'channel' as const) : raw;
   if (verdict === 'conflict') { conflicts += 1; continue; }
+  // имя франшизы в позднем английском ролике (ЗП-23, tools/franchise-head.mts): «STAR WARS Easter Eggs» в
+  // разборе «The Bad Batch» — не фильм 1977 года. Оригинальное название и тег у английского ролика ничего не
+  // доказывают — он и так пишет по-английски; доказывают год, словарь вселенной, плейлист
+  const head = heads.get(key);
+  if (!said && head && (v.en || englishChannels.has(v.channel)) && verdict !== 'year' && verdict !== 'link' && verdict !== 'lore' && verdict !== 'playlist'
+    && franchiseTalk(head, work.year, v.title, v.description ?? '', v.publishedAt)) { franchise += 1; continue; }
+  // чужое название по TMDb (ЗП-23, tools/tmdb-titles.mts): тёзка, вышедший около даты ролика («Missing - Movie
+  // Review» 2023 — не фильм 1982 года), или слова перед нашим названием — другое название («Captain America
+  // Brave New World» — не «О дивный новый мир»). Тёзка есть у нас — ролик переезжает к нему, нет — мимо
+  if (!said && (v.en || englishChannels.has(v.channel)) && verdict !== 'year' && verdict !== 'link' && verdict !== 'lore' && verdict !== 'playlist') {
+    const own = byKey.get(key);
+    const names = [...new Set([work.originalTitle ?? '', ...(own?.names ?? [])])].filter((n) => /^[A-Za-z0-9]/.test(n));
+    const tv = work.type === 'series';
+    const ids = [key.startsWith('tmdb:') ? (tv ? `tmdb:tv/${key.slice(5)}` : key) : '', work.externalIds?.tmdb != null ? `tmdb:${tv ? 'tv/' : ''}${work.externalIds.tmdb}` : ''].filter(Boolean);
+    const kind = work.type === 'book' ? 'book' as const : tv ? 'series' as const : 'film' as const;
+    let other: Awaited<ReturnType<typeof nearNamesake>>;
+    for (const n of names) {
+      other = await nearNamesake(n, work.year, v.publishedAt, ids, { title: v.title, description: v.description, kind })
+        ?? await longerTitle(v.title, n, [work.title, ...names], ids);
+      if (other) break;
+    }
+    if (other) {
+      const to = byKey.get(other.id);
+      if (to && to.key !== key) { key = to.key; work = to.work; tmdbMoved += 1; }
+      else { tmdbOther += 1; continue; }
+    }
+  }
   // ролик вышел раньше фильма больше чем на год — не про него
   if (!said && tooEarly(work, v.publishedAt)) { early += 1; continue; }
   (out[key] ??= []).push({
@@ -257,11 +292,52 @@ for (const [videoId, found] of pairs) {
 }
 console.error(`перечней из трёх и больше названий (не разбор ни одного): ${listStats.lists}, роликов о двух фильмах: ${listStats.pairs}`);
 console.error(`стоп-слова владельца сняли привязок: ${stopped}`);
+console.error(`имя франшизы в позднем английском ролике (ЗП-23) — мимо: ${franchise}`);
+console.error(`чужое название по TMDb (ЗП-23): мимо ${tmdbOther}, к тёзке из каталога ${tmdbMoved}`);
+saveTmdbTitles();
 console.error(`точность по каналам: подтверждено надёжным каналом ${trustedUp}, улика снята у слабого ${weakened}`);
 console.error(`профиль канала: тёзка выбран по фокусу ${listStats.focusPicked ?? 0}, совпадений вне фокуса (без улики) ${listStats.offFocus ?? 0}`);
 console.error(`коротких (меньше пяти минут) отброшено: ${short}, сборников и новостей: ${digests}, разборов экранизаций под книгой: ${adaptations} (переехали к экранизации: ${moved}), снято противоречием года: ${conflicts}, раньше фильма: ${early}`);
 console.error(`книжные каналы: сборников ${bookLists}, фильм → книга ${toBook}, мимо (книга вне каталога) ${outsideCatalog}`);
 console.error(`с уликой: ${Object.values(out).flat().filter((a) => a.evidence).length} из ${Object.values(out).flat().length}`);
+// Модель после опознавателя (OPS-11, решение владельца 06.10): ролик канала, к которому опознаватель
+// по названию ничего не привязал, а модель (.cache/llm/labels.json) назвала его разбором одного
+// нашего произведения, — в индекс с пометкой `evidence: 'model'` («по оценке модели» в карточке).
+// Замер на ручной разметке: такие находки верны в 86% (у опознавателя — 93%), и они закрывают
+// часть пропусков — а их у опознавателя почти треть. Подборки и «несколько фильмов» — нет: это не
+// разбор одного (OPS-8). Слово человека сильнее: любой вердикт по ролику — модель молчит.
+// Сторожа те же, что у догадки по названию: короткие, стоп-слова, сборники, раньше фильма.
+const labels = readLabels().items;
+const resolveLabel = resolver(worksIndex({ all: true }));
+const boundUrls = new Set([...known, ...Object.values(out).flat()].map((a) => a.url));
+let modelAdded = 0, modelGuarded = 0;
+for (const v of videos) {
+  if (best.has(v.id) || human[v.id]) continue;
+  const lab = labels[`yt:${v.id}`];
+  if (!lab || lab.kind !== 'one') continue;
+  const s = suggest(undefined, lab, resolveLabel);
+  if (s.flag !== 'gap' || !s.key) continue;
+  const url = `https://www.youtube.com/watch?v=${v.id}`;
+  if (boundUrls.has(url)) continue;
+  const work = byKey.get(s.key)?.work;
+  if (!work) continue;
+  const minutes = durations.get(v.id);
+  if ((minutes != null && minutes < 5) || stopWord(v.title, v.channel) || isDigest(v.title, namesFor(byKey.get(s.key)!, Boolean(v.book)))
+    || tooEarly(work, v.publishedAt)) { modelGuarded += 1; continue; }
+  boundUrls.add(url);
+  (out[s.key] ??= []).push({
+    id: `yta-${v.id}`, title: v.title, author: v.channel, platform: 'youtube', url,
+    language: v.en || englishChannels.has(v.channel) ? 'en' : 'ru', spoilerLevel: 2, evidence: 'model',
+    ...(reviewers.has(v.channel) ? { tier: 'review' as const } : {}),
+    previewUrl: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+    ...(minutes ? { durationMinutes: minutes } : {}),
+    ...(v.publishedAt ? { publishedAt: v.publishedAt } : {}),
+    ...(isSeries(work) ? seriesPart(v.title) : {}),
+  });
+  rows.push(`[model] ${work.title} (${work.year}) ← ${v.channel}: ${v.title}`);
+  modelAdded += 1;
+}
+console.error(`модель после опознавателя: +${modelAdded} привязок (разбор одного, опознаватель молчал), сторожа сняли ${modelGuarded}`);
 // «Несколько фильмов» (02.10): человек назвал в таблице и остальные фильмы ролика — разбор идёт
 // и к ним, той же записью. Автоматически несколько фильмов опознаватель пока не находит (OPS-8)
 let alsoAdded = 0;

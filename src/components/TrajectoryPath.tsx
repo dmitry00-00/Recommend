@@ -2,10 +2,10 @@ import type { Trajectory, TrajectoryStepData } from '@/types/tmdf';
 import { Meta } from './Meta';
 import { ReplanNote } from './ReplanNote';
 import { TrajectoryStep } from './TrajectoryStep';
-import { pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui, { plural } from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
+import { titleOf } from '@/lib/format';
 
 export interface TrajectoryPathProps {
   trajectory: Trajectory;
@@ -25,7 +25,7 @@ export function TrajectoryPath({ trajectory: t, variant }: TrajectoryPathProps) 
   const current = currentStep(t);
   const next = t.steps.find((s) => s.status === 'locked' || s.status === 'available');
   const isPeak = t.kind === 'peak_path';
-  const progress = `${ru.trajectory.step}${done + 1}${ru.trajectory.of}${t.steps.length}`;
+  const progress = `${ui.trajectory.step}${done + 1}${ui.trajectory.of}${t.steps.length}`;
 
   if (variant === 'compact') {
     return (
@@ -39,16 +39,16 @@ export function TrajectoryPath({ trajectory: t, variant }: TrajectoryPathProps) 
             <li key={s.order}
                 className={cx('tm-traj__dot', `tm-traj__dot--${s.status}`,
                               isPeak && s.order === t.steps.length && 'tm-traj__dot--peak')}>
-              <span className="tm-sr">{`${s.order}. ${s.work.title} — ${ru.stepStatus[s.status].label}`}</span>
+              <span className="tm-sr">{`${s.order}. ${titleOf(s.work)} — ${ui.stepStatus[s.status].label}`}</span>
             </li>
           ))}
         </ol>
         {current ? (
           <p className="tm-traj__cnow">
             <span className="tm-traj__clabel">
-              {current.status === 'in_progress' ? ru.trajectory.now : ru.trajectory.next}
+              {current.status === 'in_progress' ? ui.trajectory.now : ui.trajectory.next}
             </span>
-            {current.work.title}
+            {titleOf(current.work)}
           </p>
         ) : null}
       </div>
@@ -61,13 +61,13 @@ export function TrajectoryPath({ trajectory: t, variant }: TrajectoryPathProps) 
       <header className="tm-traj__head">
         <h3 className="tm-traj__title">{t.title}</h3>
         <Meta items={[
-          isPeak ? ru.trajectory.kindPeak : ru.trajectory.kindDevelopment,
+          isPeak ? ui.trajectory.kindPeak : ui.trajectory.kindDevelopment,
           progress,
-          mechanics && t.target ? ru.trajectory.focus + t.target.label : null,
+          mechanics && t.target ? ui.trajectory.focus + t.target.label : null,
         ]} />
         {isPeak && t.peakWork ? (
           <p className="tm-traj__peaknote">
-            {`${ru.trajectory.peakNoteBefore}${t.peakWork.title}${ru.trajectory.peakNoteAfter}${left} ${pluralRu(left, ru.trajectory.stepsOne, ru.trajectory.stepsFew, ru.trajectory.stepsMany)}`}
+            {`${ui.trajectory.peakNoteBefore}${t.peakWork.title}${ui.trajectory.peakNoteAfter}${left} ${plural(left, ui.trajectory.stepsOne, ui.trajectory.stepsFew, ui.trajectory.stepsMany)}`}
           </p>
         ) : null}
       </header>
@@ -77,7 +77,7 @@ export function TrajectoryPath({ trajectory: t, variant }: TrajectoryPathProps) 
         ))}
       </ol>
       {t.replanHistory.map((r, i) => <ReplanNote key={i} at={r.at} reason={r.reason} />)}
-      <span className="tm-sr">{next ? ru.trajectory.srNext + next.work.title : ru.trajectory.srDone}</span>
+      <span className="tm-sr">{next ? ui.trajectory.srNext + titleOf(next.work) : ui.trajectory.srDone}</span>
     </section>
   );
 }

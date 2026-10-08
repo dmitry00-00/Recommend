@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { RecommendationExplanation } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ExplanationBlockProps {
   explanation: RecommendationExplanation;
@@ -25,14 +25,14 @@ export function ExplanationBlock({ explanation, defaultOpen, always, omitWhyNow 
   const shown = open || always;
   return (
     <div className="tm-expl">
-      <Block title={ru.explanation.what} text={explanation.what} />
-      <Block title={ru.explanation.why} text={explanation.why} />
-      {shown && !omitWhyNow ? <Block title={ru.explanation.whyNow} text={explanation.whyNow} /> : null}
-      {shown ? <Block title={ru.explanation.whatNext} text={explanation.whatNext} /> : null}
+      <Block title={ui.explanation.what} text={explanation.what} />
+      <Block title={ui.explanation.why} text={explanation.why} />
+      {shown && !omitWhyNow ? <Block title={ui.explanation.whyNow} text={explanation.whyNow} /> : null}
+      {shown ? <Block title={ui.explanation.whatNext} text={explanation.whatNext} /> : null}
       {always ? null : (
         <button type="button" className="tm-expl__more" aria-expanded={open ? 'true' : 'false'}
                 onClick={() => setOpen(!open)}>
-          <span>{open ? ru.actions.collapse : ru.actions.whatNext}</span>
+          <span>{open ? ui.actions.collapse : ui.actions.whatNext}</span>
           <span className="tm-expl__sign" aria-hidden="true">{open ? '−' : '+'}</span>
         </button>
       )}

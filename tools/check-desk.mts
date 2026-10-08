@@ -13,8 +13,9 @@
 // Над таблицей — конвейер (tools/pipeline.mts): шаги от сбора каналов до архива для bothost,
 // отметки, «устарел», кнопки и лог прогона.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { existsSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { worksIndex } from './works-index.mts';
 import { filmOptions, matchFilm, type FilmOption } from './links-desk-lib.mts';
 import { FLAG_RU, KIND_RU, readLabels, resolver, suggest, LABELS_FILE, TYPE_RU, type Flag, type MarkupError, type Suggestion } from './llm-lib.mts';
@@ -24,8 +25,21 @@ import { aboutByLabel, resolveAbout, searchAbout, type AboutKind } from './about
 import { inFocusKey, readProfiles, PROFILES } from './channel-profile.mts';
 import { readStop, stopMatcher, STOP_FILE, tokens, writeStop } from './stopwords-lib.mts';
 import { pairKey, PRECISION, readPrecision } from './link-precision.mts';
+import { saveVerdicts } from './registry-lib.mts';
 
 const ROOT = new URL('../', import.meta.url);
+
+/** Покрытие разметкой (tools/markup-coverage.mts): из кеша; нет кеша или просят свежее — пересчёт
+ *  на месте (около трёх секунд), решения людей между тем могли прибавиться. */
+const COVERAGE = new URL('.cache/markup-coverage.json', ROOT);
+function coverage(fresh: boolean): unknown {
+  if (fresh || !existsSync(COVERAGE)) {
+    const r = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--yes', 'tsx', 'tools/markup-coverage.mts'],
+      { cwd: new URL('.', ROOT).pathname, encoding: 'utf8', timeout: 120_000 });
+    if (r.status !== 0 && !existsSync(COVERAGE)) return { error: (r.stderr || r.stdout || 'не посчиталось').trim().split('\n').slice(-3).join(' ') };
+  }
+  try { return JSON.parse(readFileSync(COVERAGE, 'utf8')); } catch (e) { return { error: (e as Error).message }; }
+}
 /** TM_VERDICTS — другой файл решений (проверки пульта без порчи настоящей разметки) */
 const VERDICTS = process.env.TM_VERDICTS ? pathToFileURL(process.env.TM_VERDICTS) : new URL('tools/markup-verdicts.json', ROOT);
 const ESSAYS = new URL('src/mocks/essaysAuto.ts', ROOT);
@@ -76,6 +90,9 @@ function readVerdicts(): { body: Record<string, unknown>; videos: Record<string,
   const body = existsSync(VERDICTS) ? JSON.parse(readFileSync(VERDICTS, 'utf8')) as Record<string, unknown> : {};
   return { body, videos: (body.videos ?? {}) as Record<string, Verdict> };
 }
+
+/** Очередь «Проверки» — она же пачка Google-таблицы (tools/markup-xlsx.mts, 06.10). */
+export function checkRows(): Row[] { return rows(); }
 
 function rows(): Row[] {
   const sig = [mt(ESSAYS), mt(VERDICTS), mt(LABELS_FILE), mt(PROFILES), mt(STOP_FILE), mt(PRECISION)].join(':');
@@ -172,23 +189,27 @@ function filmFrom(text: string): { key: string; film: string } | { key: null; fi
   return { key: null, film: t.replace(/\s*\((?:сериал,?\s*)?((?:19|20)\d{2})?\)\s*$/i, (_, y) => (y ? ` (${y})` : '')).trim() };
 }
 
-interface Decision { id: string; action: 'ok' | 'wrong' | 'notfilm' | 'several' | 'set' | 'franchise' | 'person' | 'undo'; film?: string; also?: string[] }
+export interface Decision { id: string; action: 'ok' | 'wrong' | 'notfilm' | 'several' | 'set' | 'franchise' | 'person' | 'undo' | 'clear'; film?: string; also?: string[] }
 
-function decide(d: Decision): { ok: true; verdict?: Verdict } | { ok: false; error: string } {
+/** Решение по ролику. `from` — откуда оно: 'check' (пульт) или 'phone' (экран владельца в приложении,
+ *  tools/owner-pull.mts); `clear` снимает решение целиком. */
+export async function decide(d: Decision, from = 'check'): Promise<{ ok: true; verdict?: Verdict } | { ok: false; error: string }> {
   if (!/^[A-Za-z0-9_-]{11}$/.test(d.id)) return { ok: false, error: 'id ролика' };
   const { body, videos } = readVerdicts();
   const row = rows().find((r) => r.id === d.id);
   const today = new Date().toISOString().slice(0, 10);
   const title = row?.title;
   let v: Verdict | null;
-  if (d.action === 'undo') {
+  if (d.action === 'clear') {
+    v = null;
+  } else if (d.action === 'undo') {
     if (!undo.has(d.id)) return { ok: false, error: 'в этом сеансе решения по ролику не было' };
     v = undo.get(d.id)!;
     undo.delete(d.id);
     decidedNow = Math.max(0, decidedNow - 1);
   } else {
     if (!undo.has(d.id)) { undo.set(d.id, videos[d.id] ?? null); decidedNow += 1; }
-    const base = { from: 'check', at: today };
+    const base = { from, at: today };
     const also = (d.also ?? []).map(filmFrom).filter(Boolean) as { key: string | null; film: string }[];
     const alsoPart = also.length ? {
       ...(also.some((x) => x.key) ? { also: also.filter((x) => x.key).map((x) => x.key!) } : {}),
@@ -220,9 +241,8 @@ function decide(d: Decision): { ok: true; verdict?: Verdict } | { ok: false; err
   if (v) videos[d.id] = v; else delete videos[d.id];
   body.updated = today;
   body.videos = Object.fromEntries(Object.entries(videos).sort(([a], [b]) => a.localeCompare(b)));
-  const tmp = `${VERDICTS.pathname}.tmp`;
-  writeFileSync(tmp, JSON.stringify(body, null, 1) + '\n');
-  renameSync(tmp, VERDICTS.pathname);     // индекс, читающий файл посреди записи, не увидит половину
+  // реестр (06.10): в базу приложения и снимком в файл — tools/registry-lib.mts
+  await saveVerdicts(body, from);
   cache = undefined;
   return { ok: true, ...(v ? { verdict: v } : {}) };
 }
@@ -266,7 +286,9 @@ const valueOf: Record<Exclude<Dim, 'rest'>, (r: Row) => string> = {
 
 function filters(p: URLSearchParams): Record<Dim, (r: Row) => boolean> {
   const set = (k: string) => { const v = p.get(k); return v ? new Set(v.split(',').filter(Boolean)) : undefined; };
-  const sets = Object.fromEntries(DIMS.map((d) => [d, d === 'g' ? (p.get('g') && p.get('g') !== 'all' ? new Set([p.get('g')!]) : undefined) : set(d)]));
+  // g=open — всё нерешённое без улики: спорные и без проверки (из «Покрытия», 03.10)
+  const g = p.get('g');
+  const sets = Object.fromEntries(DIMS.map((d) => [d, d === 'g' ? (g === 'open' ? new Set(['spor', 'check']) : g && g !== 'all' ? new Set([g]) : undefined) : set(d)]));
   const q = lower(p.get('q') ?? '').trim();
   const dmin = Number(p.get('dmin')) || 0, dmax = Number(p.get('dmax')) || 0;
   const from = p.get('from') ?? '', to = p.get('to') ?? '';
@@ -345,13 +367,15 @@ export async function checkRoute(req: IncomingMessage, res: ServerResponse, path
     const kind = url.searchParams.get('kind') === 'person' ? 'person' : 'universe';
     return send(res, 200, searchAbout(kind, url.searchParams.get('q') ?? ''));
   }
+  // покрытие разметкой (03.10): tools/markup-coverage.mts; ?fresh — пересчитать сейчас (секунды)
+  if (req.method === 'GET' && url.pathname === '/api/coverage') return send(res, 200, coverage(url.searchParams.has('fresh')));
   if (req.method === 'GET' && url.pathname === '/api/pipeline') return send(res, 200, pipeline());
   if (req.method === 'GET' && url.pathname === '/api/sheet') return send(res, 200, probeSheet(url.searchParams.has('force')));
   if (req.method !== 'POST') return send(res, 404, { error: 'not_found' });
   try {
     const body = JSON.parse((await readBody(req)) || '{}') as Record<string, unknown>;
     if (url.pathname === '/api/verdict') {
-      const r = decide(body as unknown as Decision);
+      const r = await decide(body as unknown as Decision);
       if (!r.ok) return send(res, 400, r);
       return send(res, 200, { ...r, decidedNow });
     }

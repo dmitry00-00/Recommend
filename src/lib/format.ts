@@ -1,35 +1,56 @@
 import type { WorkCard } from '@/types/tmdf';
 import { isSeries } from '@/lib/media';
 import { leadCredits, leadName } from '@/lib/credits';
+import ui, { language, plural } from '@/i18n';
+
+type Titled = { title: string; originalTitle?: string; id?: string; type?: string; externalIds?: { tmdb?: number; imdb?: string } };
+
+/** Ключ английского названия (src/mocks/titlesEn.ts, tools/titles-en.mts): `m<tmdb>` / `t<tmdb>`, без TMDb — `imdb:tt…`. */
+export function enTitleKey(w: Titled): string | undefined {
+  const t = w.externalIds?.tmdb;
+  if (t != null) return `${w.type === 'series' ? 't' : 'm'}${t}`;
+  return w.externalIds?.imdb ? `imdb:${w.externalIds.imdb}` : undefined;
+}
+
+// английские названия грузятся только в английском интерфейсе (main.tsx) — русскому они ни к чему
+let titlesEn: Readonly<Record<string, string>> = {};
+export function setTitlesEn(map: Readonly<Record<string, string>>) { titlesEn = map; }
+const LATIN = /^[\p{Script=Latin}\p{N}\p{P}\p{Zs}\p{S}]+$/u;
+
+/** Название на языке интерфейса (ЗП-20). По-английски — английское из TMDb, если оригинала нет или он не
+ *  латиницей («기생충» → «Parasite», «Сталкер» → «Stalker»); иначе оригинальное; не нашлось — как есть. */
+export function titleOf(w: Titled): string {
+  if (language !== 'en') return w.title;
+  const key = enTitleKey(w);
+  const en = key ? titlesEn[key] : undefined;
+  if (en) return en;
+  return w.originalTitle && LATIN.test(w.originalTitle) ? w.originalTitle : w.title;
+}
 
 export function formatDuration(minutes?: number): string | undefined {
   if (!minutes) return undefined;
-  const tail = minutes % 10;
-  const teen = minutes % 100 >= 10 && minutes % 100 <= 20;
-  const word = !teen && tail === 1 ? 'минута' : !teen && tail > 1 && tail < 5 ? 'минуты' : 'минут';
-  return `${minutes} ${word}`;
+  return `${minutes} ${plural(minutes, ...ui.units.minute)}`;
 }
 
 /** Сериал: «3 сезона», «8 серий по 50 мин» — что известно (Е1). */
 function seriesLength(work: WorkCard): string | undefined {
   const s = work.series;
   // у старых карточек сериала вместо сведений — длина серии в durationMinutes
-  if (!s) return work.durationMinutes ? `серия ${formatDuration(work.durationMinutes)}` : undefined;
-  const plural = (n: number, one: string, few: string, many: string) =>
-    `${n} ${n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many}`;
-  if (s.seasons && s.seasons > 1) return plural(s.seasons, 'сезон', 'сезона', 'сезонов');
-  if (s.episodes) return `${plural(s.episodes, 'серия', 'серии', 'серий')}${s.episodeMinutes ? ` по ${s.episodeMinutes} мин` : ''}`;
+  if (!s) return work.durationMinutes ? ui.units.episodeLength(formatDuration(work.durationMinutes)!) : undefined;
+  if (s.seasons && s.seasons > 1) return `${s.seasons} ${plural(s.seasons, ...ui.units.season)}`;
+  if (s.episodes) return `${s.episodes} ${plural(s.episodes, ...ui.units.episode)}${s.episodeMinutes ? ui.units.episodeOf(s.episodeMinutes) : ''}`;
   return undefined;
 }
 
 /** Порядок метаданных кадра: что это · кто · сколько длится. Год живёт на обложке. */
 export function workMeta(work: WorkCard): (string | undefined)[] {
   return [
-    isSeries(work) ? 'Сериал' : work.type === 'book' ? 'Книга' : 'Фильм',
-    // по-русски из справочника; нет — leadName решит, показывать ли пришедшее с карточкой (02.10)
-    leadCredits(work).map((c) => c.name).filter((n) => /[А-Яа-яЁё]/.test(n)).join(', ') || leadName(work),
+    isSeries(work) ? ui.units.series : work.type === 'book' ? ui.units.book : ui.units.film,
+    // по-русски из справочника; нет — leadName решит, показывать ли пришедшее с карточкой (02.10).
+    // По-английски — имена латиницей, как пришли (ЗП-20)
+    leadCredits(work).map((c) => c.name).filter((n) => (language === 'ru') === /[А-Яа-яЁё]/.test(n)).join(', ') || leadName(work),
     isSeries(work) ? seriesLength(work)
-      : work.type !== 'book' ? formatDuration(work.durationMinutes) : work.pages ? `${work.pages} страниц` : undefined,
+      : work.type !== 'book' ? formatDuration(work.durationMinutes) : work.pages ? ui.units.pages(work.pages) : undefined,
   ];
 }
 
@@ -46,7 +67,6 @@ export function pluralRu(n: number, one: string, few: string, many: string): str
   return !teen && tail === 1 ? one : !teen && tail > 1 && tail < 5 ? few : many;
 }
 
-const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
 /** ISO-дата → «2 ноября 2025»; год опускается, если он текущий. Не дата — как есть. */
 export function formatDate(iso?: string, today = new Date()): string | undefined {
@@ -55,5 +75,5 @@ export function formatDate(iso?: string, today = new Date()): string | undefined
   if (!m) return iso;
   const [, y, mo, d] = m;
   const year = Number(y) === today.getFullYear() ? '' : ` ${y}`;
-  return `${Number(d)} ${MONTHS[Number(mo) - 1]}${year}`;
+  return ui.units.date(Number(d), ui.units.months[Number(mo) - 1], year.trim());
 }

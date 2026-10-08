@@ -14,7 +14,7 @@ import {
 } from '@/components';
 import type { PacketExportInput } from '@/components/PacketExport';
 import { useNavigate } from 'react-router-dom';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 /** Загрузка одного набора данных для простого экрана: скелет, ошибка с повтором, содержимое. */
 function useLoad<T>(load: () => Promise<T>) {
@@ -39,7 +39,7 @@ function Page({ title, lead, failed, retry, ready, children }: {
     <main className="tm-shell__main">
       <h1 className="tm-shell__title">{title}</h1>
       {lead ? <p className="tm-body-sm tm-curator__lead">{lead}</p> : null}
-      {failed ? <ErrorState title={ru.curator.errorLoad} text={ru.curator.errorText} onRetry={retry} /> : null}
+      {failed ? <ErrorState title={ui.curator.errorLoad} text={ui.curator.errorText} onRetry={retry} /> : null}
       {!ready && !failed ? <div aria-busy="true"><Skeleton kind="block" style={{ height: 280 }} /></div> : null}
       {ready ? children : null}
     </main>
@@ -50,7 +50,7 @@ function Page({ title, lead, failed, retry, ready, children }: {
 export function TaxonomyScreen() {
   const { data, failed, retry } = useLoad<TropeTreeNode[]>(getTaxonomy);
   return (
-    <Page title={ru.curator.taxonomyTitle} lead={ru.curator.taxonomyLead} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.taxonomyTitle} lead={ui.curator.taxonomyLead} failed={failed} retry={retry} ready={!!data}>
       {data ? <TropeTree tree={data} /> : null}
     </Page>
   );
@@ -60,7 +60,7 @@ export function TaxonomyScreen() {
 export function RunsScreen() {
   const { data, failed, retry } = useLoad<AnnotationRun[]>(getRuns);
   return (
-    <Page title={ru.curator.runsTitle} lead={ru.curator.runsLead} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.runsTitle} lead={ui.curator.runsLead} failed={failed} retry={retry} ready={!!data}>
       <div className="tm-curator__stack">{data?.map((r) => <RunProgress key={r.id} run={r} />)}</div>
     </Page>
   );
@@ -88,8 +88,8 @@ export function PacketsScreen() {
   const doExport = (input: PacketExportInput) => {
     setBusy('export');
     exportAnnotationPacket({ workIds: pick(input), layers: input.layers })
-      .then((r) => { setPacketId(r.packetId); toast({ text: ru.curator.exported(r.packetId) }); })
-      .catch(() => toast({ text: ru.settings.errorSave }))
+      .then((r) => { setPacketId(r.packetId); toast({ text: ui.curator.exported(r.packetId) }); })
+      .catch(() => toast({ text: ui.settings.errorSave }))
       .finally(() => setBusy(null));
   };
   const doImport = async (files: FileList | null) => {
@@ -99,22 +99,22 @@ export function PacketsScreen() {
       const texts = await Promise.all([...files].map((f) => f.text()));
       setReport(await importAnnotationResults(packetId ?? 'pk-2026-09-14', texts));
     } catch {
-      toast({ text: ru.settings.errorSave });
+      toast({ text: ui.settings.errorSave });
     } finally {
       setBusy(null);
       if (fileRef.current) fileRef.current.value = '';
     }
   };
   return (
-    <Page title={ru.curator.packetsTitle} failed={failed} retry={retry} ready={!!queue}>
+    <Page title={ui.curator.packetsTitle} failed={failed} retry={retry} ready={!!queue}>
       <div className="tm-curator__stack">
         <PacketExport counts={counts} busy={busy === 'export'} onExport={doExport} onPreview={(i) => toast({ text: `${pick(i).length} · ${i.layers.join(', ')} · ${i.format}` })} />
         <section className="tm-packet">
-          <h4 className="tm-packet__title">{ru.curator.importTitle}</h4>
-          <p className="tm-body-sm tm-curator__lead">{ru.curator.importNote}</p>
+          <h4 className="tm-packet__title">{ui.curator.importTitle}</h4>
+          <p className="tm-body-sm tm-curator__lead">{ui.curator.importNote}</p>
           <input ref={fileRef} className="tm-curator__file" type="file" multiple accept=".json,.jsonl,application/json"
                  onChange={(e) => doImport(e.target.files)} />
-          <Button size="sm" loading={busy === 'import'} disabled={busy != null} onClick={() => fileRef.current?.click()}>{ru.curator.importPick}</Button>
+          <Button size="sm" loading={busy === 'import'} disabled={busy != null} onClick={() => fileRef.current?.click()}>{ui.curator.importPick}</Button>
         </section>
         {report ? <PacketImportReport report={report} /> : null}
       </div>
@@ -127,8 +127,8 @@ export function GoldScreen() {
   const navigate = useNavigate();
   const { data, failed, retry } = useLoad<AnnotationReviewItem[]>(getGoldSet);
   return (
-    <Page title={ru.curator.goldTitle} lead={ru.curator.goldLead} failed={failed} retry={retry} ready={!!data}>
-      {data ? <ReviewTable items={data} caption={ru.curator.goldTitle} onOpen={(it) => navigate(`/curator/annotations/${it.annotationId}`)} /> : null}
+    <Page title={ui.curator.goldTitle} lead={ui.curator.goldLead} failed={failed} retry={retry} ready={!!data}>
+      {data ? <ReviewTable items={data} caption={ui.curator.goldTitle} onOpen={(it) => navigate(`/curator/annotations/${it.annotationId}`)} /> : null}
     </Page>
   );
 }
@@ -137,7 +137,7 @@ export function GoldScreen() {
 export function EvaluationScreen() {
   const { data, failed, retry } = useLoad<[QualityMetric[], AgreementCeilingData]>(() => Promise.all([getQualityMetrics(), getAgreementCeiling()]));
   return (
-    <Page title={ru.curator.evaluationTitle} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.evaluationTitle} failed={failed} retry={retry} ready={!!data}>
       {data ? <div className="tm-curator__stack"><MetricsTable rows={data[0]} /><AgreementCeiling {...data[1]} /></div> : null}
     </Page>
   );
@@ -147,7 +147,7 @@ export function EvaluationScreen() {
 export function ContributorsScreen() {
   const { data, failed, retry } = useLoad<[ContributorProfile[], Record<ID, string>]>(() => Promise.all([getContributors(), getContributorReliability()]));
   return (
-    <Page title={ru.curator.contributorsTitle} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.contributorsTitle} failed={failed} retry={retry} ready={!!data}>
       {data ? <ContributorTable contributors={data[0]} reliability={data[1]} /> : null}
     </Page>
   );
@@ -157,8 +157,8 @@ export function ContributorsScreen() {
 export function AgreementScreen() {
   const { data, failed, retry } = useLoad<[AgreementReport[], AgreementCeilingData]>(() => Promise.all([getAgreement(), getAgreementCeiling()]));
   return (
-    <Page title={ru.curator.agreementTitle} failed={failed} retry={retry} ready={!!data}>
-      {data ? <div className="tm-curator__stack"><AgreementMatrix rows={data[0]} example={ru.curator.matrixExample} /><AgreementCeiling {...data[1]} /></div> : null}
+    <Page title={ui.curator.agreementTitle} failed={failed} retry={retry} ready={!!data}>
+      {data ? <div className="tm-curator__stack"><AgreementMatrix rows={data[0]} example={ui.curator.matrixExample} /><AgreementCeiling {...data[1]} /></div> : null}
     </Page>
   );
 }
@@ -167,7 +167,7 @@ export function AgreementScreen() {
 export function MappingsScreen() {
   const { data, failed, retry } = useLoad<TvTropesMapping[]>(getTvTropesMappings);
   return (
-    <Page title={ru.curator.mappingsTitle} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.mappingsTitle} failed={failed} retry={retry} ready={!!data}>
       {data ? <MappingTable rows={data} /> : null}
     </Page>
   );
@@ -177,9 +177,9 @@ export function MappingsScreen() {
 export function SourcesScreen() {
   const { data, failed, retry } = useLoad<SourceCandidate[]>(getSourceCandidates);
   return (
-    <Page title={ru.curator.sourcesTitle} lead={ru.curator.sourcesLead} failed={failed} retry={retry} ready={!!data}>
+    <Page title={ui.curator.sourcesTitle} lead={ui.curator.sourcesLead} failed={failed} retry={retry} ready={!!data}>
       {data && data.length ? <SourceTable rows={data} /> : null}
-      {data && !data.length ? <EmptyState title={ru.curator.sourcesEmpty} text={ru.curator.sourcesEmptyText} /> : null}
+      {data && !data.length ? <EmptyState title={ui.curator.sourcesEmpty} text={ui.curator.sourcesEmptyText} /> : null}
     </Page>
   );
 }

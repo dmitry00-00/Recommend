@@ -4,7 +4,7 @@ import { Button } from './Button';
 import { WorkCover } from './WorkCover';
 import { operations } from '@/lib/operations';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 type Choice = Extract<ContributorAnswer, { kind: 'pairwise' }>['choice'];
 export type PairwiseTask = ContributorTask & { payload: Extract<ContributorTask['payload'], { kind: 'pairwise' }> };
@@ -38,7 +38,7 @@ export function PairwiseCompare({ task, value, onAnswer, onSkip }: PairwiseCompa
     <section className="tm-pair">
       <h3 className="tm-pair__q">{t.question}</h3>
       <details className="tm-pair__def">
-        <summary>{ru.contribute.whatCounts(meta.name.toLowerCase())}</summary>
+        <summary>{ui.contribute.whatCounts(meta.name.toLowerCase())}</summary>
         <p>{`${meta.line}.`}</p>
       </details>
       <div className="tm-pair__sides">
@@ -46,11 +46,11 @@ export function PairwiseCompare({ task, value, onAnswer, onSkip }: PairwiseCompa
         {side(t.right, 'right', '→')}
       </div>
       <div className="tm-row tm-row--gap-2 tm-row--wrap tm-pair__rest">
-        <Button size="sm" variant={val === 'equal' ? 'primary' : 'secondary'} onClick={() => pick('equal')}>{ru.contribute.equal}</Button>
-        <Button size="sm" variant={val === 'cant_judge' ? 'primary' : 'secondary'} onClick={() => pick('cant_judge')}>{ru.contribute.cantJudge}</Button>
-        <Button size="sm" variant="quiet" onClick={onSkip}>{ru.actions.skip}</Button>
+        <Button size="sm" variant={val === 'equal' ? 'primary' : 'secondary'} onClick={() => pick('equal')}>{ui.contribute.equal}</Button>
+        <Button size="sm" variant={val === 'cant_judge' ? 'primary' : 'secondary'} onClick={() => pick('cant_judge')}>{ui.contribute.cantJudge}</Button>
+        <Button size="sm" variant="quiet" onClick={onSkip}>{ui.actions.skip}</Button>
       </div>
-      <p className="tm-pair__note">{ru.contribute.independent}</p>
+      <p className="tm-pair__note">{ui.contribute.independent}</p>
     </section>
   );
 }

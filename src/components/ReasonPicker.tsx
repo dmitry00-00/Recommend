@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { AbandonReason, DismissReason } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 interface ReasonPickerBase { title?: string }
 
@@ -14,7 +14,7 @@ export type ReasonPickerProps =
 export function ReasonPicker(props: ReasonPickerProps) {
   const [value, setValue] = useState<string | null>(props.value ?? null);
   const abandon = props.variant === 'abandon';
-  const list: [string, string][] = Object.entries(abandon ? ru.abandonReason : ru.dismissReason);
+  const list: [string, string][] = Object.entries(abandon ? ui.abandonReason : ui.dismissReason);
   const pick = (id: string) => {
     setValue(id);
     if (props.variant === 'abandon') props.onPick?.(id as AbandonReason);
@@ -23,7 +23,7 @@ export function ReasonPicker(props: ReasonPickerProps) {
   return (
     <div className="tm-reasons">
       <p className="tm-reasons__title">
-        {props.title ?? (abandon ? ru.reasons.abandonTitle : ru.reasons.dismissTitle)}
+        {props.title ?? (abandon ? ui.reasons.abandonTitle : ui.reasons.dismissTitle)}
       </p>
       <div className="tm-row tm-row--wrap tm-row--gap-1">
         {list.map(([id, label]) => {

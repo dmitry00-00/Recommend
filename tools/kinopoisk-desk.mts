@@ -112,7 +112,7 @@ function state() {
     env: {
       tmdb: Boolean(process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY),
       admin: Boolean(process.env.TM_ADMIN_TOKEN),
-      server: (process.env.TM_SERVER ?? 'https://recomend.bothost.tech').replace(/\/+$/, ''),
+      server: (process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, ''),
     },
     groups: [...groups.values()].map((g) => {
       const records = mergeRecords(g.pages);

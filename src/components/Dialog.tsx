@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import * as RD from '@radix-ui/react-dialog';
 import { Button } from './Button';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface DialogProps {
   open: boolean;
@@ -28,10 +28,10 @@ export function Dialog({ open, onOpenChange, title, children, confirm, cancel, d
           <div className="tm-dialog__body">{children}</div>
           <div className="tm-row tm-row--gap-2 tm-dialog__actions">
             <Button variant={destructive ? 'danger' : 'primary'} loading={busy} disabled={busy} onClick={onConfirm}>
-              {confirm ?? ru.dialog.confirm}
+              {confirm ?? ui.dialog.confirm}
             </Button>
             <Button variant="quiet" disabled={busy} onClick={() => onOpenChange(false)}>
-              {cancel ?? ru.dialog.cancel}
+              {cancel ?? ui.dialog.cancel}
             </Button>
           </div>
         </RD.Content>

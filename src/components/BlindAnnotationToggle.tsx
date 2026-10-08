@@ -1,6 +1,6 @@
 import { Button } from './Button';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface BlindAnnotationToggleProps {
   blind: boolean;
@@ -13,11 +13,11 @@ export function BlindAnnotationToggle({ blind, onChange }: BlindAnnotationToggle
   return (
     <div className={cx('tm-blind', blind && 'tm-blind--on')}>
       <div>
-        <p className="tm-blind__title">{blind ? ru.curator.blindOn : ru.curator.blindOff}</p>
-        <p className="tm-blind__note">{blind ? ru.curator.blindOnNote : ru.curator.blindOffNote}</p>
+        <p className="tm-blind__title">{blind ? ui.curator.blindOn : ui.curator.blindOff}</p>
+        <p className="tm-blind__note">{blind ? ui.curator.blindOnNote : ui.curator.blindOffNote}</p>
       </div>
       <Button size="sm" pressed={blind} onClick={() => onChange?.(!blind)}>
-        {blind ? ru.curator.blindShowAfter : ru.curator.blindEnable}
+        {blind ? ui.curator.blindShowAfter : ui.curator.blindEnable}
       </Button>
     </div>
   );

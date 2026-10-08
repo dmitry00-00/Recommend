@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import type { CognitiveOperation, Confidence } from '@/types/tmdf';
 import { opVar } from '@/lib/operations';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 
 export interface UncertaintyMarkProps {
@@ -33,10 +33,10 @@ export function UncertaintyMark({ level, range, confidence, op, max = 10, showDe
   } as CSSProperties;
   const stakeStyle = { left: `${at}%`, '--stake-ink': op ? opVar(op) : 'var(--tm-color-ink)' } as CSSProperties;
   const words = low
-    ? ru.state.lowData
+    ? ui.state.lowData
     : showDetails
-      ? `${level.toFixed(1)}${ru.uncertainty.of}${max}${ru.uncertainty.range}${range[0].toFixed(1)}–${range[1].toFixed(1)}`
-      : ru.uncertainty.refining;
+      ? `${level.toFixed(1)}${ui.uncertainty.of}${max}${ui.uncertainty.range}${range[0].toFixed(1)}–${range[1].toFixed(1)}`
+      : ui.uncertainty.refining;
   return (
     <div className={cx('tm-unc', low && 'tm-unc--low', className)}>
       <div className="tm-unc__track">
@@ -45,7 +45,7 @@ export function UncertaintyMark({ level, range, confidence, op, max = 10, showDe
       </div>
       {note === false ? null : <p className="tm-unc__note">{words}</p>}
       <span className="tm-sr">
-        {`${ru.uncertainty.srRange}${range[0].toFixed(1)}${ru.uncertainty.srTo}${range[1].toFixed(1)}${ru.uncertainty.of}${max}${low ? ru.uncertainty.srLowData : ''}`}
+        {`${ui.uncertainty.srRange}${range[0].toFixed(1)}${ui.uncertainty.srTo}${range[1].toFixed(1)}${ui.uncertainty.of}${max}${low ? ui.uncertainty.srLowData : ''}`}
       </span>
     </div>
   );

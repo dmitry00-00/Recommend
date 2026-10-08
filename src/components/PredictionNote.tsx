@@ -1,5 +1,5 @@
 import type { DifficultyPrediction, PerceivedDifficulty } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface PredictionNoteProps {
   prediction: DifficultyPrediction;
@@ -15,17 +15,17 @@ const ORDER: Record<PerceivedDifficulty, number> = { too_easy: 0, just_right: 1,
  *  только для нас: мы обещали попадание, значит промах наш. */
 export function PredictionNote({ prediction, actual, showModel }: PredictionNoteProps) {
   if (!actual) return null;
-  const t = ru.prediction;
+  const t = ui.prediction;
   const diff = ORDER[actual] - ORDER[prediction.expected];
-  const text = diff === 0 ? t.hit(ru.difficulty[prediction.expected])
-    : diff > 0 ? t.harder(ru.difficulty[prediction.expected])
-    : t.easier(ru.difficulty[prediction.expected]);
+  const text = diff === 0 ? t.hit(ui.difficulty[prediction.expected])
+    : diff > 0 ? t.harder(ui.difficulty[prediction.expected])
+    : t.easier(ui.difficulty[prediction.expected]);
   return (
     <p className="tm-prednote">
       {text}
       {showModel && prediction.model ? (
         <span className="tm-prednote__model">
-          {prediction.model === actual ? t.modelHit : t.modelMiss(ru.difficulty[prediction.model])}
+          {prediction.model === actual ? t.modelHit : t.modelMiss(ui.difficulty[prediction.model])}
         </span>
       ) : null}
     </p>

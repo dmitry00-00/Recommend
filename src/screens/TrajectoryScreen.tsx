@@ -4,8 +4,9 @@ import type { PerceivedDifficulty, Trajectory } from '@/types/tmdf';
 import { getTrajectory, startWork } from '@/api';
 import { Button, EmptyState, ErrorState, PredictionSheet, Skeleton, TrajectoryPath } from '@/components';
 import { currentStep } from '@/components/TrajectoryPath';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { isScreen } from '@/lib/media';
+import { titleOf } from '@/lib/format';
 
 /** Экран «Маршрут» (/trajectories/:id): полный путь и действие для текущей станции. */
 export function TrajectoryScreen() {
@@ -36,7 +37,7 @@ export function TrajectoryScreen() {
   if (failed) {
     return (
       <main className="tm-shell__main">
-        <ErrorState title={ru.trajectories.errorOne} text={ru.trajectories.errorText} onRetry={() => setAttempt(attempt + 1)} />
+        <ErrorState title={ui.trajectories.errorOne} text={ui.trajectories.errorText} onRetry={() => setAttempt(attempt + 1)} />
       </main>
     );
   }
@@ -44,8 +45,8 @@ export function TrajectoryScreen() {
   if (missing) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.trajectories.notFound} text={ru.trajectories.notFoundText}
-                    action={ru.nav.trajectories} onAction={() => navigate('/trajectories')} />
+        <EmptyState title={ui.trajectories.notFound} text={ui.trajectories.notFoundText}
+                    action={ui.nav.trajectories} onAction={() => navigate('/trajectories')} />
       </main>
     );
   }
@@ -53,7 +54,7 @@ export function TrajectoryScreen() {
   if (!trajectory) {
     return (
       <main className="tm-shell__main" aria-busy="true">
-        <span className="tm-sr">{ru.trajectories.loading}</span>
+        <span className="tm-sr">{ui.trajectories.loading}</span>
         <Skeleton kind="title" style={{ width: '70%' }} />
         <Skeleton kind="line" style={{ width: '50%', marginTop: 8 }} />
         <div className="tm-trajscreen__actions">
@@ -78,14 +79,14 @@ export function TrajectoryScreen() {
       {current ? (
         <div className="tm-trajscreen__actions">
           <p className="tm-meta tm-trajscreen__cur">
-            <span className="tm-trajscreen__curlabel">{ru.trajectories.currentStep}</span>
-            <span>{`${current.order}. ${current.work.title}`}</span>
+            <span className="tm-trajscreen__curlabel">{ui.trajectories.currentStep}</span>
+            <span>{`${current.order}. ${titleOf(current.work)}`}</span>
           </p>
           <div className="tm-row tm-row--gap-2 tm-row--wrap">
             <Button variant="primary" loading={starting} onClick={() => setAsking(true)}>
-              {isScreen(current.work) ? ru.actions.startFilm : ru.actions.startBook}
+              {isScreen(current.work) ? ui.actions.startFilm : ui.actions.startBook}
             </Button>
-            <Link to={`/works/${current.work.id}`} className="tm-btn tm-btn--secondary">{ru.trajectories.toWork}</Link>
+            <Link to={`/works/${current.work.id}`} className="tm-btn tm-btn--secondary">{ui.trajectories.toWork}</Link>
           </div>
         </div>
       ) : null}

@@ -254,7 +254,7 @@ export interface Published { watched: number; ratings: number; known: boolean }
 
 /** seeds/<ник>.json → сервер (как tools/publish-seed.mts). Время отправки пишется в файл. */
 export async function publishSeed(name: string): Promise<Published> {
-  const server = (process.env.TM_SERVER ?? 'https://recomend.bothost.tech').replace(/\/+$/, '');
+  const server = (process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, '');
   const token = process.env.TM_ADMIN_TOKEN;
   if (!token) throw new Error('нет TM_ADMIN_TOKEN в .env.local — отправлять нечем');
   const path = `${SEEDS}/${name}.json`;

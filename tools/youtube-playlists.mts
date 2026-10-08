@@ -20,10 +20,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { channelMeta, excludedChannels, isExcluded } from './youtube-channels.mts';
-import { resolveAbout } from './about-lib.mts';
+import { resolveAbout, universeHasKind, universeOfKey, universeTitle } from './about-lib.mts';
 import { resolver } from './llm-lib.mts';
 import { worksIndex } from './works-index.mts';
-import { PLAYLISTS, type PlaylistFile } from './playlists-lib.mts';
+import { PLAYLISTS, type Playlist, type PlaylistFile } from './playlists-lib.mts';
 
 loadEnvFile();
 const argv = process.argv.slice(2);
@@ -93,29 +93,66 @@ if (!OFFLINE) {
 }
 
 // ─── разбор: название плейлиста → цель ────────────────────────────────────────
-const GENERIC = /(?<![\p{L}\p{N}])(?:обзоры?|разборы?|рецензи[ия]|эссе|анализ|теори[ия]|фильмы?|кино|сериалы?|мультфильмы?|аниме|книги?|все|серии|эпизоды|выпуски|сезон\s*\d*|часть\s*\d*|\d+\s*сезон|reviews?|analysis|explained|theories|movies?|films?|series|season\s*\d*|episodes?|lore|playlist|плейлист|про|о|об|по|и|the|of|and)(?![\p{L}\p{N}])/giu;
+// Общие слова плейлистов: «обзор фильмов и персонажей», «теории, факты, мнения», «и всё, что с ним связано»
+const GENERIC = /(?<![\p{L}\p{N}])(?:(?:детальный\s+)?(?:обзоры?|разборы?|рецензи[ияй]|эссе|анализ|теори[ияй]|факты|мнени[яе]|истори[ия]|ролики|видео|репортаж[иа]?|расследовани[яе]|подкаст[ыа]?|стрим[ыа]?|клип[ыа]?|новости|топ(?:ы|\s*\d+)?|подборк[иа])(?:\s+(?:на|о|об|по))?|фильм(?:ы|а|ов)?|кино|сериал(?:ы|а|ов)?|мультфильм(?:ы|а|ов)?|мультсериал(?:ы|а|ов)?|аниме|книг[иа]?|персонаж(?:и|а|ей)?|франшиз[ауы]|вселенн(?:ая|ой)|трилоги[ия]|экранизаци[ия]|все|вся|весь|серии|эпизоды|выпуски|сезон\s*\d*|часть\s*\d*|\d+\s*сезон|всё,?\s+что\s+с\s+(?:ним|ней|ними)\s+связано|в\s+кино|reviews?|analysis|explained|theories|movies?|films?|series|season\s*\d*|episodes?|lore|playlist|плейлист|про|о|об|по|и|с|на|the|of|and)(?![\p{L}\p{N}])/giu;
+// «Oбитeли 3лa»: латиница и тройка внутри русского слова — подделка под кириллицу (обход фильтров)
+const LAT: Record<string, string> = { a: 'а', e: 'е', o: 'о', p: 'р', c: 'с', x: 'х', y: 'у', k: 'к', m: 'м', t: 'т', h: 'н', b: 'в', A: 'А', E: 'Е', O: 'О', P: 'Р', C: 'С', X: 'Х', K: 'К', M: 'М', T: 'Т', H: 'Н', B: 'В' };
+const decoy = (s: string): string => s.replace(/[\p{L}\d]+/gu, (w) => (/\p{Script=Cyrillic}/u.test(w) && /[a-zA-Z3]/.test(w)
+  ? w.replace(/[a-zA-Z]/g, (c) => LAT[c] ?? c).replace(/3/g, (_, i: number) => (i === 0 || /\p{Script=Cyrillic}/u.test(w[i - 1]) ? 'З' : '3')) : w));
+const stem = (w: string) => (w.length > 4 ? w.replace(/(?:ами|ями|ого|его|ому|ему|ом|ем|ой|ей|ою|ая|яя|а|я|у|ю|е|ы|и)$/u, '') : w);
+const soft = (w: string) => (w.length > 4 ? w.replace(/(?:а|я|у|ю|е|ом|ем)$/u, '') : w);
+const clean = (s: string) => s.replace(/[«»"“”'‘’|:()[\]#№!?.,—–/]+|\s-\s/g, ' ').replace(GENERIC, ' ').replace(/\s+/g, ' ').trim();
+
+/** Что пробовать по порядку: в кавычках → до двоеточия/черты → остальные части → всё название. */
+function segments(title: string): string[] {
+  const t = decoy(title);
+  const quoted = [...t.matchAll(/[«"“'‘]([^«»"“”'‘’]{3,})[»"”'’]/gu)].map((m) => m[1]);
+  const parts = t.split(/\s*(?:[:|/]|\s[-–—]\s|\s[-–—]|[-–—]\s)\s*/u);
+  // целиком без чистки — раньше частей: «Аватар: Легенда об Аанге» — это одно название, а не «Аватар»
+  const raw = t.replace(/[«»"“”'‘’|()[\]#№!?]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return [...new Set([...quoted.map(clean), raw, clean(t), ...parts.map(clean)].filter((x) => x.length >= 3))];
+}
+
 const resolve = resolver(worksIndex({ all: true }));
+type Target = NonNullable<Playlist['target']>;
+function targetOf(title: string): Target | undefined {
+  const year = Number(title.match(/(?<!\d)(19[0-9]{2}|20[0-9]{2})(?!\d)/)?.[1]) || undefined;
+  // «Бэтмен и всё, что с ним связано», «франшиза», «сага», «цикл» — плейлист о вселенной, а не о фильме:
+  // нашлось произведение — берём его вселенную, вселенной нет — цели нет
+  const broad = /всё,?\s+что\s+с\s+\S+\s+связано|франшиз|вселенн|(?<![\p{L}])саг[аиу]?(?![\p{L}])|(?<![\p{L}])цикл|(?<![\p{L}])(?:все|вся|весь)\s/iu.test(title);
+  // «разбор сериала» — тёзку-фильм не берём («Пацаны» 1983 и «Пацаны» 2019)
+  const type = /сериал/iu.test(title) && !/фильм/iu.test(title) ? 'series' : /фильм/iu.test(title) && !/сериал/iu.test(title) ? 'film' : undefined;
+  const asWork = (key: string, label: string): Target | undefined => {
+    if (!broad) return { kind: 'work', id: key, title: label };
+    const hub = universeOfKey(key);
+    return hub ? { kind: 'universe', id: hub, title: universeTitle(hub) ?? label } : undefined;
+  };
+  for (const seg of segments(title)) {
+    const core = year ? seg.replace(String(year), ' ').replace(/\s+/g, ' ').trim() : seg;
+    if (core.length < 3 || /^\d+$/.test(core)) continue;
+    // «Разборы Ведьмака» → «Ведьмак»: падежные окончания — только после точного названия
+    const words = core.split(' ');
+    for (const v of [...new Set([core, words.map(stem).join(' '), words.map(soft).join(' ')])]) {
+      const u = resolveAbout('universe', v);
+      if (u && (!type || universeHasKind(u.id, type))) return { kind: 'universe', id: u.id, title: u.title };
+      const p = resolveAbout('person', v);
+      if (p) return { kind: 'person', id: p.id, title: p.title };
+      const w = resolve({ title: v, ...(year ? { year } : {}), ...(type ? { type } : {}) });
+      // тёзка другого вида не годится: у «сериала „Аватар“» фильм 2009 года — не он
+      const kind = w.options.find((o) => o.key === w.key)?.kind;
+      if (w.key && (!type || !kind || kind === type)) { const t = asWork(w.key, w.label ?? v); if (t) return t; }
+    }
+  }
+  return undefined;
+}
+
 let withTarget = 0, total = 0;
 for (const ch of Object.values(file.channels)) {
   for (const pl of ch.playlists) {
     total += 1;
     delete pl.target;
-    let core = pl.title.replace(/[«»"“”|:()[\]#№!?.,—–-]+/g, ' ').replace(GENERIC, ' ').replace(/\s+/g, ' ').trim();
-    const year = Number(core.match(/(?<!\d)(19[0-9]{2}|20[0-9]{2})(?!\d)/)?.[1]) || undefined;
-    if (year) core = core.replace(String(year), ' ').replace(/\s+/g, ' ').trim();
-    if (core.length < 3) continue;
-    // «Разборы Ведьмака» → «Ведьмак»: падежные окончания пробуем только после точного названия
-    const stem = (w: string) => w.length > 4 ? w.replace(/(?:ами|ями|ого|его|ому|ему|ом|ем|ой|ей|ою|ая|яя|а|я|у|ю|е|ы|и)$/u, '') : w;
-    const variants = [core, ...new Set([core.split(' ').map(stem).join(' '), core.split(' ').map((w) => w.length > 4 ? w.replace(/(?:а|я|у|ю|е|ом|ем)$/u, '') : w).join(' ')])].filter((v, i, a) => a.indexOf(v) === i);
-    for (const v of variants) {
-      const u = resolveAbout('universe', v);
-      if (u) { pl.target = { kind: 'universe', id: u.id, title: u.title }; break; }
-      const p = resolveAbout('person', v);
-      if (p) { pl.target = { kind: 'person', id: p.id, title: p.title }; break; }
-      const w = resolve({ title: v, ...(year ? { year } : {}) });
-      if (w.key) { pl.target = { kind: 'work', id: w.key, title: w.label ?? v }; break; }
-    }
-    if (pl.target) withTarget++;
+    const t = targetOf(pl.title);
+    if (t) { pl.target = t; withTarget++; }
   }
 }
 if (!process.env.TM_PLAYLISTS) mkdirSync(new URL('../.cache/youtube/', import.meta.url), { recursive: true });

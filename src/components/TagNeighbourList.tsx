@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { TagNeighbour } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TagNeighbourListProps {
   items: TagNeighbour[];
@@ -16,8 +16,8 @@ export function TagNeighbourList({ items, limit = 5 }: TagNeighbourListProps) {
   if (!items.length) return null;
   return (
     <section className="tm-tagnear">
-      <h3 className="tm-title-3 tm-tagnear__title">{ru.tagNeighbours.title}</h3>
-      <p className="tm-body-sm tm-tagnear__why">{ru.tagNeighbours.why}</p>
+      <h3 className="tm-title-3 tm-tagnear__title">{ui.tagNeighbours.title}</h3>
+      <p className="tm-body-sm tm-tagnear__why">{ui.tagNeighbours.why}</p>
       <ul className="tm-tagnear__list">
         {items.slice(0, limit).map((t) => (
           <li key={t.key} className="tm-tagnear__item">
@@ -26,7 +26,7 @@ export function TagNeighbourList({ items, limit = 5 }: TagNeighbourListProps) {
           </li>
         ))}
       </ul>
-      <p className="tm-caption tm-tagnear__credit">{ru.tagNeighbours.credit}</p>
+      <p className="tm-caption tm-tagnear__credit">{ui.tagNeighbours.credit}</p>
     </section>
   );
 }

@@ -17,7 +17,6 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
   h1 { font-size: 22px; margin: 0 0 4px; }
   h2 { font-size: 15px; margin: 32px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
   .sub { color: var(--muted); margin: 0 0 18px; }
@@ -52,14 +51,12 @@
   td.num { font-variant-numeric: tabular-nums; }
   .table-wrap { overflow-x: auto; }
   #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
-  nav.tabs { display: flex; gap: 6px; margin: 0 0 18px; border-bottom: 1px solid var(--line); }
-  nav.tabs a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500; }
-  nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
 </style>
+<link rel="stylesheet" href="/shell.css">
 </head>
 <body>
-<main>
-  <nav class="tabs"><a href="../links/" class="">Ссылки</a><a href="../check/" class="">Проверка</a><a href="../kinopoisk/" class="on">Оценки Кинопоиска</a></nav>
+<script src="/shell.js"></script>
+<main class="page">
   <h1>Импорт оценок с Кинопоиска</h1>
   <p class="sub">Страницы профилей → профили участников на сервере. Файлы разбираются здесь, на этом компьютере, и никуда не уходят — на сервер попадает только список фильмов с оценками.</p>
   <p id="env" class="warn"></p>

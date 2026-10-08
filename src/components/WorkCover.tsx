@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { WorkCard } from '@/types/tmdf';
 import { opVar } from '@/lib/operations';
-import { seedOf } from '@/lib/format';
+import { seedOf, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
 
 export interface WorkCoverProps {
@@ -22,7 +22,7 @@ export function WorkCover({ work, size = 'md', className }: WorkCoverProps) {
   const style = { width, height, '--cover-line': opVar(op) } as CSSProperties;
   return (
     <div className={cx('tm-cover', `tm-cover--${size}`, `tm-cover--${work.type}`, className)}
-         style={style} role="img" aria-label={`${work.title}, ${work.year}`}>
+         style={style} role="img" aria-label={`${titleOf(work)}, ${work.year}`}>
       {work.stillUrl || work.coverUrl ? (
         <img className="tm-cover__still" src={work.stillUrl ?? work.coverUrl} alt="" loading="lazy" decoding="async" />
       ) : null}
@@ -31,7 +31,7 @@ export function WorkCover({ work, size = 'md', className }: WorkCoverProps) {
           {Array.from({ length: 9 }, (_, i) => <span key={i} className="tm-cover__hole" />)}
         </span>
       ) : null}
-      <span className="tm-cover__title">{work.title}</span>
+      <span className="tm-cover__title">{titleOf(work)}</span>
       <span className="tm-cover__foot">
         <span>{work.year}</span>
         {size !== 'sm' ? (

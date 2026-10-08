@@ -30,6 +30,8 @@ function same(a: string, b: string): boolean {
 export interface VerifiedInitData {
   ok: boolean;
   user?: TgUser;
+  /** параметр `startapp`, с которым открыли приложение, — подписан вместе с остальным (ЗП-37: кто привёл) */
+  startParam?: string;
   reason?: 'no_hash' | 'bad_hash' | 'stale' | 'no_user';
 }
 
@@ -52,7 +54,7 @@ export async function verifyInitData(raw: string, botToken: string, maxAgeSecond
   try {
     const user = JSON.parse(params.get('user') ?? 'null') as TgUser | null;
     if (!user || typeof user.id !== 'number') return { ok: false, reason: 'no_user' };
-    return { ok: true, user };
+    return { ok: true, user, ...(params.get('start_param') ? { startParam: params.get('start_param')! } : {}) };
   } catch {
     return { ok: false, reason: 'no_user' };
   }

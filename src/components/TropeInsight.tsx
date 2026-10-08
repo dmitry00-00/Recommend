@@ -1,7 +1,7 @@
 import type { TropeInsightData } from '@/types/tmdf';
 import { OperationChip } from './OperationChip';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TropeInsightProps {
   insight: TropeInsightData;
@@ -15,11 +15,11 @@ export function TropeInsight({ insight: t, showPath }: TropeInsightProps) {
     <article className="tm-trope">
       <div className="tm-trope__head">
         <h4 className="tm-trope__name">{t.name}</h4>
-        <span className="tm-trope__usage">{ru.tropeUsage[t.usage]}</span>
+        <span className="tm-trope__usage">{ui.tropeUsage[t.usage]}</span>
         {t.charge ? (
-          <span className={cx('tm-trope__charge', `tm-trope__charge--${t.charge}`)} title={ru.chargeNote[t.charge]}>
-            {ru.charge[t.charge]}
-            <span className="tm-sr">{` — ${ru.chargeNote[t.charge]}`}</span>
+          <span className={cx('tm-trope__charge', `tm-trope__charge--${t.charge}`)} title={ui.chargeNote[t.charge]}>
+            {ui.charge[t.charge]}
+            <span className="tm-sr">{` — ${ui.chargeNote[t.charge]}`}</span>
           </span>
         ) : null}
       </div>

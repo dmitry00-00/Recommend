@@ -52,7 +52,12 @@ export interface CharacterView {
   elsewhere: { workId: ID; title: string; year?: number; type: MediaType }[];
   /** сколько заголовков разборов его называют */
   said: number;
+  /** изображение (src/mocks/characterImages.ts): исполнитель роли в этом произведении, иначе Commons */
+  image?: CharacterImageView;
 }
+
+/** Изображение героя: файл Wikimedia Commons или фото актёра в роли (TMDB) с его именем */
+export interface CharacterImageView { url: string; actor?: string; source: 'commons' | 'tmdb' }
 
 /** director — режиссёр, writer — сценарист, creator — создатель сериала (шоураннер),
  *  author — автор книги */
@@ -258,7 +263,9 @@ export interface ExternalAnalysis {
    *  `unverified`. `human` — сильнее всех: пару подтвердил человек в таблице разметки
    *  (tools/markup-verdicts.json), догадкам машины эта привязка больше не подчиняется. */
   /** `channel` — догадка по названию у канала, где опознаватель почти не ошибается (точность по каналу, 02.10) */
-  evidence?: 'link' | 'year' | 'original' | 'human' | 'tag' | 'channel' | 'lore' | 'playlist';
+  /** `model` — опознаватель по названию молчал, а модель назвала ролик разбором этого произведения
+   *  (OPS-11, 06.10; верно в 86% на ручной разметке) — в карточке с пометкой «по оценке модели» */
+  evidence?: 'link' | 'year' | 'original' | 'human' | 'tag' | 'channel' | 'lore' | 'playlist' | 'model';
   /** ярус канала (src/mocks/sources.ts): `review` — обзорщик. Обзоры в приложении не
    *  показываем (решение владельца 29.09): они нужны подбору — широкий спектр параметров
    *  фильма и поправки к модели, — а не человеку; иначе лента скатывается в каталог
@@ -268,7 +275,14 @@ export interface ExternalAnalysis {
    *  разметки — сезон (Е2), и разбор относится к нему. Нет поля — о сериале целиком */
   season?: number;
   episode?: number;
+  /** рубрика ролика (ТВ-3, src/lib/lenses.ts): с какой стороны автор смотрит на произведение;
+   *  `lensAlso` — второй угол. Размечает модель (tools/llm-lens.mts). В карточке полками —
+   *  только за флагом `lensShelves`, поэтапно (ТВ-3в); в событиях открытия — всегда */
+  lens?: MaterialLens;
+  lensAlso?: MaterialLens;
 }
+
+export type MaterialLens = 'meaning' | 'domain' | 'specialist' | 'facts' | 'sins' | 'compare' | 'book' | 'history' | 'author' | 'character' | 'franchise' | 'opinion' | 'other';
 
 /** Выход автора: где его ещё можно читать, смотреть и спрашивать. Один автор ведёт канал
  *  на YouTube, канал в Telegram и чат при нём — в карточке это одно лицо с несколькими
@@ -613,6 +627,14 @@ export interface UserSettings {
    *  просмотра. По умолчанию выключен — порог входа ниже: «посмотрел» с оценкой в одно касание,
    *  «бросил» без вопросов, «в планы» (`markWork`). Данные и экраны те же, спрятаны за флагом. */
   diary?: boolean;
+  /** на каких языках показывать разборы и обзоры (06.10): нет — только русские. Англоязычные
+   *  ролики (каналы с `language: 'en'` в sources.ts, в основном «Игра престолов» и «Дом дракона»)
+   *  собираются для своего канала по сериалу и книгам и участнику видны, только если он выбрал
+   *  английский. Хотя бы один язык. */
+  materialLanguages?: ('ru' | 'en')[];
+  /** полки рубрик в карточке (ТВ-3г): ручной переключатель владельца поверх доли выката
+   *  (src/lib/flags.ts). Нет поля — решает доля */
+  lensShelves?: boolean;
 }
 
 // ---------- вход ----------

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ContributorProfile } from '@/types/tmdf';
 import { Button } from './Button';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 type Consent = ContributorProfile['creditConsent'];
 type Link = ContributorProfile['links'][number];
@@ -26,13 +26,13 @@ export function CreditSettings({ contributor: c, onChange }: CreditSettingsProps
   const addLink = () => { const next = [...links, { label: '', url: '' }]; setLinks(next); emit(consent, next); };
   const removeLink = (i: number) => { const next = links.filter((_, j) => j !== i); setLinks(next); emit(consent, next); };
   const options: { id: Consent; label: string; note: string }[] = [
-    { id: 'public_name', label: ru.contribute.byName, note: c.displayName },
-    { id: 'anonymous', label: ru.contribute.anonymous, note: ru.contribute.noMention },
+    { id: 'public_name', label: ui.contribute.byName, note: c.displayName },
+    { id: 'anonymous', label: ui.contribute.anonymous, note: ui.contribute.noMention },
   ];
   return (
     <section className="tm-credit">
-      <h3 className="tm-credit__title">{ru.contribute.howToCredit}</h3>
-      <div className="tm-credit__opts" role="radiogroup" aria-label={ru.contribute.creditLabel}>
+      <h3 className="tm-credit__title">{ui.contribute.howToCredit}</h3>
+      <div className="tm-credit__opts" role="radiogroup" aria-label={ui.contribute.creditLabel}>
         {options.map((o) => {
           const on = consent === o.id;
           return (
@@ -45,17 +45,17 @@ export function CreditSettings({ contributor: c, onChange }: CreditSettingsProps
         })}
       </div>
       <div className="tm-credit__links">
-        <p className="tm-credit__sub">{ru.contribute.yourLinks}</p>
+        <p className="tm-credit__sub">{ui.contribute.yourLinks}</p>
         {links.map((l, i) => (
           <div key={i} className="tm-row tm-row--gap-2">
-            <input className="tm-input" value={l.label} placeholder={ru.contribute.linkLabel} aria-label={ru.contribute.linkLabel}
+            <input className="tm-input" value={l.label} placeholder={ui.contribute.linkLabel} aria-label={ui.contribute.linkLabel}
                    onChange={(e) => setLink(i, { label: e.target.value })} />
-            <input className="tm-input" type="url" value={l.url} placeholder="https://" aria-label={ru.contribute.linkUrl}
+            <input className="tm-input" type="url" value={l.url} placeholder="https://" aria-label={ui.contribute.linkUrl}
                    onChange={(e) => setLink(i, { url: e.target.value })} />
-            <Button variant="quiet" size="sm" onClick={() => removeLink(i)}>{ru.actions.remove}</Button>
+            <Button variant="quiet" size="sm" onClick={() => removeLink(i)}>{ui.actions.remove}</Button>
           </div>
         ))}
-        <div><Button variant="quiet" size="sm" onClick={addLink}>{ru.contribute.addLink}</Button></div>
+        <div><Button variant="quiet" size="sm" onClick={addLink}>{ui.contribute.addLink}</Button></div>
       </div>
     </section>
   );

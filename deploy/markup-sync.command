@@ -8,6 +8,12 @@
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$(dirname "$0")/.." || exit 1
 set -e
+# реестр в базе приложения (06.10): таблица разметки больше не пишет в разметку — иначе она затёрла бы
+# правки пульта и телефона своими старыми значениями. Ссылки — через форму: deploy/inbox.command
+if grep -qs '^REGISTRY_MODE=server' .env.local || [ "${REGISTRY_MODE:-}" = "server" ]; then
+  echo "Реестр уже в базе приложения — синхронизация таблицы разметки выключена. Ссылки: форма Google (deploy/inbox.command)."
+  exit 1
+fi
 
 VENV=.cache/venv
 [ -x "$VENV/bin/python" ] || python3 -m venv "$VENV"

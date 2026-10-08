@@ -34,6 +34,8 @@ import { baseMedia } from '../src/mocks/baseMedia.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isFilm, isSeries } from '../src/lib/media.ts';
+import { enTitleKey } from '../src/lib/format.ts';
+import { titlesEn } from '../src/mocks/titlesEn.ts';
 
 // 300, а не 150 (30.09): с каноном верх списка шире, и Г1 размечает по нему с запасом
 const TOP = Number(process.argv[process.argv.indexOf('--top') + 1]) || 300;
@@ -234,4 +236,83 @@ ${deck.map((d) => `  ${JSON.stringify(d.id).replace(/"/g, "'")}, // ${d.title} �
 `;
   writeDeck(new URL('../src/mocks/ratingDeck.ts', import.meta.url), body);
   console.error(`→ src/mocks/ratingDeck.ts: ${deck.length} фильмов; по уровням ${JSON.stringify(Object.fromEntries(Object.entries(deck.reduce((m, d) => { m[d.level] = (m[d.level] ?? 0) + 1; return m; }, {} as Record<number, number>))))}${noReg.length ? `; без регистра: ${noReg.join(', ')}` : ''}${noCover.length ? `; без обложки (npx tsx tools/build-base-media.mts): ${noCover.length}` : ''}`);
+}
+
+// ─── английская колода /rate (ЗП-20, 08.10): --deck-en пишет src/mocks/ratingDeckEn.ts ─────────
+// Русская колода ранжирована русской аудиторией (участники, русские обзорщики, русская Википедия) и
+// для англоязычного новичка полна незнакомого («Брат 2», «Иван Васильевич…»). Здесь порядок — по числу
+// смотрящих на Trakt (англоязычная аудитория), без фильмов с русским оригинальным названием; потолки по
+// уровню — те же; опоры уровня 7+ — самые смотримые на Trakt, а не авторский выбор владельца.
+if (process.argv.includes('--deck-en')) {
+  const SIZE = 45;
+  const CAP: Record<number, number> = { 1: 4, 2: 8, 3: 10, 4: 10, 5: 8 };
+  const works = new Map(worksIndex({ all: true }).map((x) => [x.key, x.work]));
+  const idFor = new Map<string, string>();
+  for (const w of [...userWorks, ...worksIndex({ all: true }).map((x) => x.work), ...filmBase, ...filmBaseWiki, ...watchedWorks]) {
+    const k = analysisKey(w);
+    if (k && !idFor.has(k)) idFor.set(k, w.id);
+  }
+  const foreign = (r: Row) => {
+    const w = works.get(r.key);
+    const orig = w?.originalTitle ?? '';
+    return Boolean(w) && !/[А-Яа-яЁё]/.test(orig) && !(w!.countries ?? []).some((c) => /^(?:Россия|СССР|Russia|Soviet Union|RU|SU)$/i.test(c));
+  };
+  // название, которое увидит английский интерфейс (как titleOf): английское из TMDb, иначе латинский оригинал
+  const LATIN = /^[\p{Script=Latin}\p{N}\p{P}\p{Zs}\p{S}]+$/u;
+  const enTitle = (r: Row): string | undefined => {
+    const w = works.get(r.key);
+    if (!w) return undefined;
+    const key = enTitleKey(w);
+    return (key && titlesEn[key]) || (w.originalTitle && LATIN.test(w.originalTitle) ? w.originalTitle : undefined);
+  };
+  // франшиза — название до двоеточия, «and the», номера части: пять «Гарри Поттеров» колоде не нужны
+  const FRANCHISE_CAP = 2;
+  // сначала — вселенная Wikidata (.cache/universe-members.json, tools/seed-universes.mts): «Iron Man» и
+  // «Black Panther» — одна MCU, по названию не видно
+  const universeOf = new Map<string, string>();
+  const membersFile = new URL('../.cache/universe-members.json', import.meta.url);
+  const members: Record<string, { tmdb?: string | number; imdb?: string }[]> = existsSync(membersFile) ? JSON.parse(readFileSync(membersFile, 'utf8')) : {};
+  for (const [q, list] of Object.entries(members)) for (const m of list) {
+    if (m.tmdb != null) universeOf.set(`tmdb:${m.tmdb}`, q);
+    if (m.imdb) universeOf.set(`imdb:${m.imdb}`, q);
+  }
+  const franchiseOf = (r: Row): string => {
+    const ids = works.get(r.key)?.externalIds;
+    const u = (ids?.tmdb != null && universeOf.get(`tmdb:${ids.tmdb}`)) || (ids?.imdb && universeOf.get(`imdb:${ids.imdb}`));
+    return u || enTitle(r)!.toLowerCase().split(/:| and the | & | part | chapter /)[0]
+      .replace(/\s+(?:\d+|[ivx]+)$/, '').replace(/^the /, '').trim();
+  };
+  const pool = all.filter((r) => r.annotated && r.level != null && r.trakt > 0 && idFor.has(r.key) && foreign(r) && enTitle(r))
+    .sort((a, b) => b.trakt - a.trakt);
+  const perFranchise: Record<string, number> = {};
+  const take = (r: Row) => {
+    const f = franchiseOf(r);
+    if ((perFranchise[f] ?? 0) >= FRANCHISE_CAP) return false;
+    perFranchise[f] = (perFranchise[f] ?? 0) + 1;
+    return true;
+  };
+  const perLevel: Record<number, number> = {};
+  const deck: { id: string; title: string; level: number; trakt: number }[] = [];
+  for (const r of pool) {
+    if (deck.length >= SIZE) break;
+    if ((perLevel[r.level!] ?? 0) >= (CAP[r.level!] ?? 0) || !take(r)) continue;
+    perLevel[r.level!] = (perLevel[r.level!] ?? 0) + 1;
+    deck.push({ id: idFor.get(r.key)!, title: enTitle(r)!, level: r.level!, trakt: r.trakt });
+  }
+  for (const r of pool.filter((x) => (x.level ?? 0) >= 7).slice(0, 7)) {
+    if (deck.some((d) => d.id === idFor.get(r.key)) || !take(r)) continue;
+    deck.push({ id: idFor.get(r.key)!, title: enTitle(r)!, level: r.level!, trakt: r.trakt });
+  }
+  const body = `// Колода первых оценок для английского интерфейса (ЗП-20). Собирает tools/profile-deck.mts --deck-en
+// (${new Date().toISOString().slice(0, 10)}), не руками: размеченные фильмы по числу смотрящих на Trakt, без
+// фильмов с русским оригинальным названием и без английского названия, не больше ${FRANCHISE_CAP} из одной франшизы;
+// потолок на уровень (${Object.entries(CAP).map(([l, n]) => `${l}: ${n}`).join(', ')});
+// в конце — самые смотримые уровня 7+. Русская колода — ratingDeck.ts.
+
+export const ratingDeckEn: string[] = [
+${deck.map((d) => `  ${JSON.stringify(d.id).replace(/"/g, "'")}, // ${d.title} · ${d.level} · trakt ${Math.round(d.trakt / 1000)}k`).join('\n')}
+];
+`;
+  writeDeck(new URL('../src/mocks/ratingDeckEn.ts', import.meta.url), body);
+  console.error(`→ src/mocks/ratingDeckEn.ts: ${deck.length} фильмов; по уровням ${JSON.stringify(Object.fromEntries(Object.entries(deck.reduce((m, d) => { m[d.level] = (m[d.level] ?? 0) + 1; return m; }, {} as Record<number, number>))))}`);
 }

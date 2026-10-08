@@ -1,6 +1,6 @@
 import { Button } from './Button';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ErrorStateProps {
   title?: string;
@@ -15,7 +15,7 @@ export interface ErrorStateProps {
 /** Ошибка как карточка с меткой «стоп»: что случилось, что делать. Без причин не бывает:
  *  тексты по умолчанию — про соединение и последнее сохранённое. */
 export function ErrorState({
-  title = ru.state.errorSlate, text = ru.state.errorSlateText, action = ru.actions.retry,
+  title = ui.state.errorSlate, text = ui.state.errorText, action = ui.actions.retry,
   onRetry, secondary, onSecondary, className,
 }: ErrorStateProps) {
   return (

@@ -100,9 +100,17 @@ const adIndex = adaptationIndex(worksIndex({ all: true }));
 // книжные каналы (З6): книги ищем и по мосту с кино, фильм без разговора о кино — к книге
 const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
 const oursByKey = new Map(ours.map((w) => [w.key, w]));
+// Ручные вердикты по постам (ТВ-7, 06.10) — раздел `posts` в tools/markup-verdicts.json, ключ —
+// адрес материала (пост, статья или ролик по ссылке из поста), как его видит карточка. `key: null`
+// — пост мимо, другой ключ — пост к этому произведению. Правда сильнее догадки, как у роликов.
+const postVerdicts: Record<string, { key: string | null; why?: string; film?: string }> = (() => {
+  const f = new URL('./markup-verdicts.json', import.meta.url);
+  return existsSync(f) ? (JSON.parse(readFileSync(f, 'utf8')).posts ?? {}) : {};
+})();
+const anyByKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
 const bookStats = { lists: 0, toBook: 0, outside: 0, adaptation: 0 };
 const found: { key: string; analysis: ExternalAnalysis; row: string; weight: number }[] = [];
-const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0, early: 0, namesake: 0 };
+const stats = { posts: 0, picture: 0, news: 0, thin: 0, crowded: 0, passing: 0, matched: 0, seen: 0, early: 0, namesake: 0, human: 0 };
 const evidenceStats: Record<Evidence, number> = { link: 0, year: 0, original: 0 };
 const conflicts: string[] = [];
 const rubricReport: string[] = [];
@@ -139,6 +147,12 @@ for (const { username, path, role } of args) {
     // одинаково длинное совпадение у нескольких — тёзки («Пацаны» 1983-го и сериал 2019-го):
     // выбирает pickNamesake (tools/evidence.mts), а не порядок справочников
     let headLen = 0;
+    // человек назвал произведение (markup-verdicts, раздел posts) — правда сильнее догадки и когда
+    // опознаватель нашёл другое, и когда не находит ничего: 06.10 посты о Succession висели на
+    // «Наследниках» 2008, сторож тёзок их снял, и без этого вердикт было не к чему применить
+    const said = postVerdicts[target(p, username).url]?.key;
+    const saidWork = said ? anyByKey.get(said) : undefined;
+    if (saidWork) best = { key: saidWork.key, work: saidWork.work, len: 0 };
     let heads: { work: typeof ours[number]['work']; key: string }[] = [];
     const series = talksSeries(p.text);
     for (const w of ours) {
@@ -151,7 +165,7 @@ for (const { username, path, role } of args) {
       if (len > headLen) { headLen = len; heads = []; }
       heads.push({ work, key });
     }
-    if (heads.length) {
+    if (heads.length && !best) {
       if (book) heads = preferBooks(heads);
       const pick = pickNamesake(heads, p.text, p.date, links);
       if (!pick) { stats.early += 1; continue; }
@@ -211,15 +225,19 @@ for (const { username, path, role } of args) {
     const where = target(p, username);
     const vid = where.platform === 'youtube' ? videoId(where.url) : undefined;
     if (vid && knownVideos.has(vid)) { stats.seen += 1; continue; }
+    const human = postVerdicts[where.url];
+    if (human && !human.key) { stats.human += 1; continue; }
+    const moved = human?.key ? anyByKey.get(human.key) : undefined;
+    if (moved) { best = { key: moved.key, work: moved.work, len: best.len }; stats.human += 1; }
     // улика: ссылка на страницу фильма, год рядом с названием, оригинальное название (В3);
     // противоречие (рядом чужой год — ремейк или тёзка) снимает привязку совсем
-    const verdict = evidenceFor(best.work, p.text, p.links.map((l) => l.url));
+    const verdict = moved ? 'human' : evidenceFor(best.work, p.text, p.links.map((l) => l.url));
     if (verdict === 'conflict') { conflicts.push(`${best.work.title} (${best.work.year}) ✗ ${channel}: ${firstLine(p.text)}`); continue; }
     // пост вышел раньше фильма больше чем на год — не про него (tools/evidence.mts tooEarly)
-    if (tooEarly(best.work, p.date)) { stats.early += 1; continue; }
+    if (!moved && tooEarly(best.work, p.date)) { stats.early += 1; continue; }
     const evidence = verdict;
     stats.matched += 1;
-    if (evidence) evidenceStats[evidence] += 1;
+    if (evidence && evidence !== 'human') evidenceStats[evidence] += 1;
     // у ролика автор — его канал, а не тот, кто принёс ссылку; имя спросим ниже у YouTube
     const author = p.forwardedFrom ?? (where.platform === 'article' ? (p.preview?.site || channel) : channel);
     found.push({
@@ -281,12 +299,15 @@ for (const f of found) {
   f.analysis.author = [...spelling.get(f.analysis.author.toLowerCase())!].sort((a, b) => b[1] - a[1])[0][0];
 }
 
-// самые содержательные, без повторов заголовка, не больше трёх на произведение
+// самые содержательные, без повторов заголовка, не больше трёх на произведение. Подтверждённые
+// человеком — первыми: иначе три длинных догадки вытесняли их (06.10, Succession: три поста с
+// вердиктом проиграли трём постам без него)
 const out: Record<string, ExternalAnalysis[]> = {};
 const rows: string[] = [];
+const byHuman = (f: { analysis: ExternalAnalysis }) => (f.analysis.evidence === 'human' ? 1 : 0);
 for (const key of [...new Set(found.map((f) => f.key))]) {
   const seenTitle = new Set<string>();
-  for (const f of found.filter((x) => x.key === key).sort((a, b) => b.weight - a.weight)) {
+  for (const f of found.filter((x) => x.key === key).sort((a, b) => byHuman(b) - byHuman(a) || b.weight - a.weight)) {
     const title = f.analysis.title.toLowerCase().replace(/[^a-zа-я0-9]+/g, ' ').trim();
     if (seenTitle.has(title)) continue;
     seenTitle.add(title);
@@ -310,7 +331,7 @@ console.error(rubricReport.join('\n'));
 console.error(`постов длиннее 120 знаков: ${stats.posts}`);
 console.error(`отсеяно: рубрика-картинка ${stats.picture}, новость и анонс ${stats.news},`
   + ` слишком коротко ${stats.thin}, названо несколько фильмов ${stats.crowded},`
-  + ` названо мельком ${stats.passing}, ролик уже известен ${stats.seen}, раньше фильма ${stats.early}`);
+  + ` названо мельком ${stats.passing}, ролик уже известен ${stats.seen}, раньше фильма ${stats.early}, ручных вердиктов ${stats.human}`);
 console.error(`тёзки: выбран не первый по справочнику — ${stats.namesake}`);
 console.error(`книжные каналы: сборников ${bookStats.lists}, фильм → книга ${bookStats.toBook}, мимо (книга вне каталога) ${bookStats.outside}, экранизаций ${bookStats.adaptation}`);
 console.error(`→ ${file.pathname}: ${rows.length} совпадений к ${Object.keys(out).length} произведениям (найдено ${stats.matched})`);

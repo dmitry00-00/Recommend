@@ -2,7 +2,8 @@
 // `npm run build:bothost` (tools/build-bothost.mjs) в deploy/bothost/, без npm-зависимостей:
 //   · раздаёт собранный фронт из ./public;
 //   · /api/* — тот же воркер, что и для Cloudflare (worker/index.ts, собран в ./worker.cjs),
-//     только D1 здесь — SQLite в файле DATA_DIR/tm.sqlite (./d1-sqljs.js);
+//     только D1 здесь — SQLite в файле DATA_DIR/tm.sqlite: ./d1-sqlite.js (node:sqlite, Node 22.13+),
+//     без него — ./d1-sqljs.js (база в памяти, выгрузка в тот же файл); ночные копии — ./backup.js;
 //   · /kp-api/* — прокси Кинопоиска с ключом из окружения (в сборку он не попадает).
 //
 //   PORT            — порт из панели bothost (по умолчанию 3000)
@@ -11,11 +12,16 @@
 //   KP_API_KEY      — ключ kinopoiskapiunofficial.tech; без него /kp-api отвечает 503
 //   OWNER_USERNAME  — ник владельца: его профиль при первом входе получает историю из seed/owner.json
 //   ALLOW_DEMO      — «0» закрывает гостевой вход вне Telegram (по умолчанию открыт)
+//   ADMIN_TOKEN     — токен сборщика и пультов; им же — копии базы (/api/admin/backups, /api/admin/restore)
+//   DB_ENGINE       — «sqljs» — база в памяти, как до 06.10 (по умолчанию node:sqlite, если он есть)
+//   BACKUP_KEEP     — сколько копий базы держать в DATA_DIR/backups (по умолчанию 14)
 'use strict';
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
+const crypto = require('crypto');
+const { createBackups } = require('./backup');
 
 const PORT = Number(process.env.PORT) || 3000;
 const ROOT = path.join(__dirname, 'public');
@@ -25,25 +31,46 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 
 // ---------- API: воркер + D1 на SQLite ----------
 let api = null;
+let backups = null;
+const DB_FILE = path.join(DATA_DIR, 'tm.sqlite');
+
+function sqliteBuiltin() {
+  if (process.env.DB_ENGINE === 'sqljs') return false;
+  try { require('node:sqlite'); return true; } catch { return false; }
+}
+function openDb() {
+  const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
+  return sqliteBuiltin()
+    ? require('./d1-sqlite').openD1({ file: DB_FILE, schema })
+    : require('./d1-sqljs').openD1({ file: DB_FILE, schema, wasmDir: path.join(__dirname, 'vendor') });
+}
+
 async function startApi() {
-  const { openD1 } = require('./d1-sqljs');
-  const worker = require('./worker.cjs').default;
-  const DB = await openD1({
-    file: path.join(DATA_DIR, 'tm.sqlite'),
-    schema: fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8'),
-    wasmDir: path.join(__dirname, 'vendor'),
-  });
+  const workerModule = require('./worker.cjs');
+  const worker = workerModule.default;
+  // База за прослойкой: после восстановления из копии подменяется сама база, а env.DB у воркера
+  // остаётся тем же объектом
+  let current = await openDb();
+  const DB = {
+    prepare: (sql) => current.prepare(sql),
+    batch: (statements) => current.batch(statements),
+    exec: (sql) => current.exec(sql),
+  };
   let seed;
   try { seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', 'owner.json'), 'utf8')); } catch { seed = undefined; }
   // справочники (индексы разборов и т. п.) — файлами в папке данных: тот же интерфейс, что у R2
   const refDir = path.join(DATA_DIR, 'reference');
+  const refFiles = new Map();
   const REFERENCE = {
     async get(key) {
       const file = path.join(refDir, path.basename(key));
       if (!fs.existsSync(file)) return null;
-      const buf = fs.readFileSync(file);
+      // файл меняется раз в сутки, а читают его все при каждом старте — держим в памяти до смены
       const st = fs.statSync(file);
-      return { body: new Blob([buf]).stream(), httpEtag: `"${st.size.toString(36)}-${st.mtimeMs.toString(36)}"`, size: buf.length };
+      const httpEtag = `"${st.size.toString(36)}-${st.mtimeMs.toString(36)}"`;
+      let hit = refFiles.get(file);
+      if (!hit || hit.etag !== httpEtag) refFiles.set(file, (hit = { etag: httpEtag, buf: fs.readFileSync(file) }));
+      return { body: new Blob([hit.buf]).stream(), httpEtag, size: hit.buf.length };
     },
     async put(key, value) {
       fs.mkdirSync(refDir, { recursive: true });
@@ -58,15 +85,35 @@ async function startApi() {
     ADMIN_TOKEN: process.env.ADMIN_TOKEN || '',
     BOT_TOKEN: process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || '',
     ALLOW_DEMO: process.env.ALLOW_DEMO === '0' ? '' : '1',
+    // публичные страницы для поисковиков (ЗП-15): выключены, пока не PUBLIC_PAGES=1
+    PUBLIC_PAGES: process.env.PUBLIC_PAGES || '',
+    PUBLIC_ORIGIN: process.env.PUBLIC_ORIGIN || '',
     ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || '',
     OWNER_USERNAME: process.env.OWNER_USERNAME || 'Tacticheskiy_Enot',
     OWNER_SEED: seed,
   };
-  const stop = () => { try { DB.flush(); } finally { process.exit(0); } };
+  const stop = () => { try { current.close(); } finally { process.exit(0); } };
   process.on('SIGTERM', stop);
   process.on('SIGINT', stop);
-  api = { worker, env };
-  console.log(`api: база ${path.join(DATA_DIR, 'tm.sqlite')}, бот ${env.BOT_TOKEN ? 'есть' : 'НЕТ — вход через Telegram не заработает'}, `
+  backups = createBackups({
+    getDb: () => current,
+    dir: path.join(DATA_DIR, 'backups'),
+    keep: Number(process.env.BACKUP_KEEP) || 14,
+    inspect: require('./d1-sqlite').inspect,
+  });
+  backups.schedule();
+  /** подмена базы при восстановлении: закрыть, заменить файл, открыть заново */
+  const reopen = async (swap) => {
+    current.close();
+    try { swap(); } finally { current = await openDb(); }
+    workerModule.forgetMigrations?.();
+  };
+  api = { worker, env, reopen, engine: () => current.engine };
+  // сводка подписок (06.10): раз в день после 10:00 по Москве — воркер сам смотрит, кому сегодня уже слали
+  const tick = () => Promise.resolve(worker.scheduled?.({}, env)).catch((err) => console.error('подписки:', err));
+  setTimeout(tick, 60e3);
+  setInterval(tick, 15 * 60e3).unref();
+  console.log(`api: база ${DB_FILE} (${current.engine === 'sqlite' ? 'node:sqlite, файл' : 'sql.js, в памяти'}), бот ${env.BOT_TOKEN ? 'есть' : 'НЕТ — вход через Telegram не заработает'}, `
     + `владелец @${env.OWNER_USERNAME}${seed ? ` (история: ${seed.journal.length} в дневнике, ${seed.ratings.length} оценок, ${seed.watched.length} в списке)` : ''}`);
 }
 
@@ -86,17 +133,107 @@ function readBody(req) {
   });
 }
 
+// ---------- копии базы (ЗП-4): ручки сервера, а не воркера — воркер о файлах не знает ----------
+function adminOk(req) {
+  const token = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || '')?.[1] || '';
+  const want = process.env.ADMIN_TOKEN || '';
+  if (!want || !token) return false;
+  const a = Buffer.from(token);
+  const b = Buffer.from(want);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+const sendJson = (res, status, body) => res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' })
+  .end(JSON.stringify(body));
+// копия для восстановления может быть больше справочника
+const MAX_RESTORE = 512 << 20;
+
+async function handleBackups(req, res, p) {
+  if (!adminOk(req)) return sendJson(res, 401, { error: 'unauthorized' });
+  if (!backups) return sendJson(res, 503, { error: 'starting' });
+  if (p === '/api/admin/backups' && req.method === 'GET') return sendJson(res, 200, { engine: api.engine(), backups: backups.list() });
+  if (p === '/api/admin/backups' && req.method === 'POST') return sendJson(res, 200, await backups.make('manual'));
+  const one = /^\/api\/admin\/backups\/([^/]+)$/.exec(p);
+  if (one && req.method === 'GET') {
+    const file = backups.pathOf(decodeURIComponent(one[1]));
+    if (!file) return sendJson(res, 404, { error: 'not_found' });
+    res.writeHead(200, {
+      'content-type': 'application/gzip', 'content-length': fs.statSync(file).size,
+      'content-disposition': `attachment; filename="${path.basename(file)}"`, 'cache-control': 'no-store',
+    });
+    fs.createReadStream(file).pipe(res);
+    return;
+  }
+  if (p === '/api/admin/restore' && req.method === 'POST') {
+    let source;
+    if ((req.headers['content-type'] || '').startsWith('application/json')) {
+      const { backup } = JSON.parse((await readBody(req)).toString('utf8') || '{}');
+      source = backup && backups.pathOf(backup);
+      if (!source) return sendJson(res, 404, { error: 'no_backup', backup });
+    } else {
+      if (Number(req.headers['content-length'] || 0) > MAX_RESTORE) return sendJson(res, 413, { error: 'too_large' });
+      source = req;
+    }
+    return sendJson(res, 200, await backups.restore(source, { file: DB_FILE, reopen: api.reopen }));
+  }
+  return sendJson(res, 404, { error: 'not_found' });
+}
+
+// ---------- сжатие ответов API (ЗП-4): справочники — 6 МБ JSON на первый вход, сжатые — около мегабайта ----------
+const acceptEncoding = (req) => {
+  const ae = String(req.headers['accept-encoding'] || '');
+  return /\bbr\b/.test(ae) ? 'br' : /\bgzip\b/.test(ae) ? 'gzip' : null;
+};
+// сжатое по версии справочника: жмём один раз и сильно; остальное — на лету и быстро
+const compressed = new Map();
+function compressApi(buf, enc, key) {
+  const k = key && `${key}|${enc}`;
+  if (k && compressed.has(k)) return compressed.get(k);
+  const strong = Boolean(k);
+  const z = enc === 'br'
+    ? zlib.brotliCompressSync(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: strong ? 9 : 4, [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buf.length } })
+    : zlib.gzipSync(buf, { level: strong ? 9 : 6 });
+  if (k) {
+    // прежние версии того же справочника больше не нужны
+    const prefix = `${key.split('|')[0]}|`;
+    for (const old of compressed.keys()) if (old.startsWith(prefix) && !old.startsWith(`${key}|`)) compressed.delete(old);
+    compressed.set(k, z);
+  }
+  return z;
+}
+
 async function handleApi(req, res) {
   if (!api) { res.writeHead(503, { 'content-type': 'application/json' }).end('{"error":"starting"}'); return; }
   try {
+    const p = (req.url || '/').split('?')[0].replace(/\/+$/, '');
+    if (p.startsWith('/api/admin/backups') || p === '/api/admin/restore') {
+      await handleBackups(req, res, p).catch((err) => {
+        console.error('копии базы:', err && (err.stack || err.message));
+        if (!res.headersSent) sendJson(res, 500, { error: String(err && err.message || err) });
+        else res.destroy();
+      });
+      return;
+    }
     const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : await readBody(req);
     const headers = new Headers();
     for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
     const request = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { method: req.method, headers, body });
     const response = await api.worker.fetch(request, api.env);
-    const out = Buffer.from(await response.arrayBuffer());
+    let out = Buffer.from(await response.arrayBuffer());
     const head = { 'cache-control': 'no-store' };
     response.headers.forEach((v, k) => { head[k] = v; });
+    // справочник не менялся — телефон берёт свою копию (etag тот же, что у файла)
+    const etag = response.headers.get('etag');
+    if (etag && response.status === 200 && req.headers['if-none-match'] === etag) {
+      res.writeHead(304, { etag, 'cache-control': head['cache-control'] });
+      res.end();
+      return;
+    }
+    const enc = response.status === 200 && out.length > 1024 && /json|text/.test(head['content-type'] || '') ? acceptEncoding(req) : null;
+    if (enc) {
+      out = compressApi(out, enc, etag && req.method === 'GET' ? `${p}|${etag}` : null);
+      head['content-encoding'] = enc;
+      head.vary = 'Accept-Encoding';
+    }
     head['content-length'] = out.length;
     res.writeHead(response.status, head);
     res.end(out);
@@ -193,6 +330,8 @@ const server = http.createServer((req, res) => {
   if (p === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }).end('ok'); return; }
   if (p.startsWith('/kp-api/')) { proxyKinopoisk(req, res, p, url.search); return; }
   if (p.startsWith('/api/')) { handleApi(req, res); return; }
+  // публичные страницы для поисковиков (ЗП-15, worker/pages.ts) — их рисует тот же воркер; выключены, пока не PUBLIC_PAGES=1
+  if (process.env.PUBLIC_PAGES === '1' && (p === '/robots.txt' || p === '/sitemap.xml' || p.startsWith('/film/') || p.startsWith('/author/'))) { handleApi(req, res); return; }
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405).end(); return; }
 
   const file = path.normalize(path.join(ROOT, p));

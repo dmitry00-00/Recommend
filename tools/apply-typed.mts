@@ -9,6 +9,7 @@
 // решениям пультов; строки таблицы в typed.json не трогаются (их перепишет следующий импорт).
 // Правило применения — то же, что у import-markup.py: выбор из тёзок без уверенности — `guess`.
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { saveVerdicts } from './registry-lib.mts';
 import { spawnSync } from 'node:child_process';
 
 const root = new URL('../', import.meta.url);
@@ -21,7 +22,7 @@ const SHEET_OF: Record<string, string> = { desk: 'пульт ссылок', chec
 type V = { key: string | null; why?: string; film?: string; title?: string; from?: string; at?: string; guess?: boolean; err?: string };
 const today = new Date().toISOString().slice(0, 10);
 
-function apply(): { applied: number; waiting: { video: string; film: string; title: string; sheet: string }[] } {
+async function apply(): Promise<{ applied: number; waiting: { video: string; film: string; title: string; sheet: string }[] }> {
   const body = JSON.parse(readFileSync(VERDICTS, 'utf8')) as { updated?: string; videos: Record<string, V> };
   const resolved = existsSync(RESOLVED) ? (JSON.parse(readFileSync(RESOLVED, 'utf8')).videos ?? {}) as Record<string, { typed: string; key: string; label: string; sure: boolean }> : {};
   let applied = 0;
@@ -36,12 +37,12 @@ function apply(): { applied: number; waiting: { video: string; film: string; tit
   }
   if (applied) {
     body.updated = today;
-    writeFileSync(VERDICTS, JSON.stringify(body, null, 1) + '\n');
+    await saveVerdicts(body, 'typed');
   }
   return { applied, waiting };
 }
 
-let { applied, waiting } = apply();
+let { applied, waiting } = await apply();
 if (waiting.length) {
   // строки таблицы оставляем как есть, строки пультов — свежие
   const prev = existsSync(TYPED) ? (JSON.parse(readFileSync(TYPED, 'utf8')).rows ?? []) as { sheet?: string }[] : [];
@@ -52,7 +53,7 @@ if (waiting.length) {
     const r = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--yes', 'tsx', 'tools/resolve-markup-films.mts'],
       { cwd: root, stdio: ['ignore', 'inherit', 'inherit'], env: process.env });
     if (r.status !== 0) { console.log(`«нет у нас»: опознаватель упал (код ${r.status}), применено ${applied}, ждут ${waiting.length}`); process.exit(1); }
-    const second = apply();
+    const second = await apply();
     applied += second.applied;
     waiting = second.waiting;
   }

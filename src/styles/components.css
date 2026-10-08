@@ -377,6 +377,8 @@
 .tm-entry__status--in_progress { color: var(--tm-color-accent-ink); border-color: var(--tm-color-accent); }
 .tm-entry--abandoned { opacity: 0.92; }
 .tm-entry__reason { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-muted); }
+/* ЗП-17: вышел сезон, которого человек ждал */
+.tm-entry__news { margin: var(--tm-space-2) 0 0; color: var(--tm-color-accent-ink); font-weight: 600; }
 .tm-entry__quote { margin: var(--tm-space-2) 0 0; padding-left: var(--tm-space-3); border-left: 2px solid var(--tm-color-line-strong); color: var(--tm-color-ink-muted); font-style: italic; }
 .tm-entry__change { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tm-space-2); margin: var(--tm-space-3) 0 0; color: var(--tm-color-ink-faint); }
 .tm-entry__changemark { width: 14px; height: 0; border-bottom: 2px dashed var(--tm-color-line-strong); }

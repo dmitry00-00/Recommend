@@ -10966,5 +10966,338 @@ export const filmBaseMarkup: WorkCard[] = [
       "tmdb": 38237,
       "imdb": "tt0117497"
     }
+  },
+  {
+    "id": "f-wd4264074",
+    "type": "film",
+    "title": "Лифт",
+    "originalTitle": "Lift",
+    "year": 2006,
+    "creators": [
+      "Всеволод Яковлевич Плоткин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 65626,
+      "imdb": "tt0833448"
+    }
+  },
+  {
+    "id": "f-wd1247476",
+    "type": "film",
+    "title": "Спартак",
+    "originalTitle": "Spartacus",
+    "year": 2004,
+    "creators": [
+      "Роберт Дорнхельм"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 167,
+    "externalIds": {
+      "tmdb": 32528,
+      "imdb": "tt0361240"
+    }
+  },
+  {
+    "id": "f-wd4256934",
+    "type": "film",
+    "title": "Легенда острова Двид",
+    "originalTitle": "Legend of the island of Dvid",
+    "year": 2010,
+    "creators": [],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 386911,
+      "imdb": "tt1620523"
+    }
+  },
+  {
+    "id": "f-wd506400",
+    "type": "film",
+    "title": "Красный рассвет",
+    "originalTitle": "Red Dawn",
+    "year": 1984,
+    "creators": [
+      "Джон Милиус"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 114,
+    "externalIds": {
+      "tmdb": 1880,
+      "imdb": "tt0087985"
+    }
+  },
+  {
+    "id": "f-wd2533337",
+    "type": "film",
+    "title": "Жара",
+    "originalTitle": "Heat",
+    "year": 2006,
+    "creators": [
+      "Реваз Давидович Гигинеишвили"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 95,
+    "externalIds": {
+      "tmdb": 71381,
+      "imdb": "tt0913446"
+    }
+  },
+  {
+    "id": "f-wd127605787",
+    "type": "film",
+    "title": "Миньоны и монстры",
+    "originalTitle": "Minions & Monsters",
+    "year": 2026,
+    "creators": [
+      "Пьер Коффин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 90,
+    "externalIds": {
+      "tmdb": 1315772,
+      "imdb": "tt32890033"
+    }
+  },
+  {
+    "id": "f-wd959853",
+    "type": "film",
+    "title": "Хэллоуин 4: Возвращение Майкла Майерса",
+    "originalTitle": "Halloween 4: The Return of Michael Myers",
+    "year": 1988,
+    "creators": [
+      "Дуайт Х. Литтл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 88,
+    "externalIds": {
+      "tmdb": 11357,
+      "imdb": "tt0095271"
+    }
+  },
+  {
+    "id": "f-wd1051702",
+    "type": "film",
+    "title": "Новые Мстители",
+    "originalTitle": "Ultimate Avengers",
+    "year": 2006,
+    "creators": [
+      "Курт Геда"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 72,
+    "externalIds": {
+      "tmdb": 14609,
+      "imdb": "tt0491703"
+    }
+  },
+  {
+    "id": "f-wd136565785",
+    "type": "film",
+    "title": "Обитель зла",
+    "originalTitle": "Resident Evil",
+    "year": 2026,
+    "creators": [
+      "Зак Креггер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 95,
+    "externalIds": {
+      "tmdb": 1423191,
+      "imdb": "tt35538033"
+    }
+  },
+  {
+    "id": "f-wd129027448",
+    "type": "film",
+    "title": "Смешарики. Сквозь вселенные",
+    "year": 2026,
+    "creators": [
+      "Максимов, Илья Михайлович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "tmdb": 1427128,
+      "imdb": "tt33054647"
+    }
+  },
+  {
+    "id": "f-wd729794",
+    "type": "film",
+    "title": "Плезантвиль",
+    "originalTitle": "Pleasantville",
+    "year": 1998,
+    "creators": [
+      "Гэри Росс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 120,
+    "externalIds": {
+      "tmdb": 2657,
+      "imdb": "tt0120789"
+    }
+  },
+  {
+    "id": "f-wd7117022",
+    "type": "film",
+    "title": "Пикей",
+    "originalTitle": "PK",
+    "year": 2014,
+    "creators": [
+      "Раджкумар Хирани"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 153,
+    "externalIds": {
+      "tmdb": 297222,
+      "imdb": "tt2338151"
+    }
+  },
+  {
+    "id": "f-wd107558781",
+    "type": "film",
+    "title": "Нападение на Рио Браво",
+    "originalTitle": "Gunfight at Rio Bravo",
+    "year": 2023,
+    "creators": [
+      "Joe Cornet"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 80,
+    "externalIds": {
+      "tmdb": 835767,
+      "imdb": "tt14388612"
+    }
+  },
+  {
+    "id": "f-wd23999306",
+    "type": "film",
+    "title": "Эмоджи фильм",
+    "originalTitle": "The Emoji Movie",
+    "year": 2017,
+    "creators": [
+      "Тони Леондис"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 86,
+    "externalIds": {
+      "tmdb": 378236,
+      "imdb": "tt4877122"
+    }
+  },
+  {
+    "id": "f-wd3280057",
+    "type": "film",
+    "title": "Джиперс Криперс 3",
+    "originalTitle": "Jeepers Creepers 3",
+    "year": 2017,
+    "creators": [
+      "Виктор Сальва"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 100,
+    "externalIds": {
+      "tmdb": 55341,
+      "imdb": "tt1139592"
+    }
+  },
+  {
+    "id": "f-wd4316322",
+    "type": "series",
+    "title": "Незнайка на Луне",
+    "originalTitle": "Neznaika on the Moon",
+    "year": 1997,
+    "creators": [
+      "Юрий Бутырин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 151,
+    "externalIds": {
+      "imdb": "tt0219207"
+    }
+  },
+  {
+    "id": "f-wd87220906",
+    "type": "film",
+    "title": "Страна чудес Вилли",
+    "originalTitle": "Willy's Wonderland",
+    "year": 2021,
+    "creators": [
+      "Кевин Льюис"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 88,
+    "externalIds": {
+      "tmdb": 643586,
+      "imdb": "tt8114980"
+    }
   }
 ];

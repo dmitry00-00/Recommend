@@ -2,7 +2,7 @@ import { useMemo, useState, type CSSProperties } from 'react';
 import type { TropeTreeNode } from '@/types/tmdf';
 import { OperationGlyph } from './OperationGlyph';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TropeTreeProps {
   tree: TropeTreeNode[];
@@ -35,10 +35,10 @@ export function TropeTree({ tree }: TropeTreeProps) {
   );
   return (
     <div className="tm-tree">
-      <input className="tm-input" type="search" placeholder={ru.curator.taxonomySearch} aria-label={ru.curator.taxonomySearch}
+      <input className="tm-input" type="search" placeholder={ui.curator.taxonomySearch} aria-label={ui.curator.taxonomySearch}
              value={query} onChange={(e) => setQuery(e.target.value)} />
       {shown.length ? <ul className="tm-tree__list">{shown.map((n) => node(n, 0))}</ul>
-        : <p className="tm-tree__empty">{ru.curator.taxonomyEmpty}</p>}
+        : <p className="tm-tree__empty">{ui.curator.taxonomyEmpty}</p>}
     </div>
   );
 }

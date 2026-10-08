@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { JourneyEntryData } from '@/types/tmdf';
 import { Button } from './Button';
@@ -6,10 +7,12 @@ import { OperationChip } from './OperationChip';
 import { PredictionNote } from './PredictionNote';
 import { WorkCover } from './WorkCover';
 import { cx } from '@/lib/cx';
-import { formatDate } from '@/lib/format';
-import ru from '@/i18n/ru';
+import { formatDate, titleOf } from '@/lib/format';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 import { isScreen, isSeries } from '@/lib/media';
+import { getSeriesSeasons } from '@/api';
+import { seasonKey, seasonNote, type SeasonNote } from '@/lib/seasons';
 
 export interface JourneyEntryProps {
   entry: JourneyEntryData;
@@ -29,6 +32,7 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
   // сериал (Е3): где человек, какие сезоны досмотрены, на каком бросил
   const sp = isSeries(e.work) ? e.seriesProgress : undefined;
   const doneSeasons = sp?.done?.map((d) => d.season) ?? [];
+  const season = useSeasonNote(e);
   // книга (З5): часть и страница, дочитанные части
   const bp = e.work.type === 'book' ? e.bookProgress : undefined;
   const doneParts = bp?.done?.map((d) => d.part) ?? [];
@@ -37,25 +41,27 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
       <WorkCover work={e.work} size="sm" />
       <div className="tm-entry__body">
         <div className="tm-row tm-row--gap-2 tm-entry__head">
-          <h4 className="tm-entry__title"><Link to={href} className="tm-link--plain">{e.work.title}</Link></h4>
-          <span className={cx('tm-entry__status', `tm-entry__status--${e.status}`)}>{ru.journeyStatus[e.status]}</span>
+          <h4 className="tm-entry__title"><Link to={href} className="tm-link--plain">{titleOf(e.work)}</Link></h4>
+          <span className={cx('tm-entry__status', `tm-entry__status--${e.status}`)}>{ui.journeyStatus[e.status]}</span>
         </div>
         <Meta items={[
           // дата по-человечески: свежая запись хранит полное время ISO, и оно выходило как есть (01.10)
           formatDate(e.finishedAt ?? e.startedAt),
-          e.perceivedDifficulty ? ru.difficulty[e.perceivedDifficulty].toLowerCase() : null,
+          e.perceivedDifficulty ? ui.difficulty[e.perceivedDifficulty].toLowerCase() : null,
           inProgress && e.progress != null ? `${Math.round(e.progress * 100)}%` : null,
-          inProgress && sp ? ru.seriesDiary.now(sp.season, sp.episode) : null,
-          doneSeasons.length ? ru.seriesDiary.done(doneSeasons) : null,
-          inProgress && bp && (bp.part || bp.page) ? ru.bookDiary.now(bp.part, bp.page, e.work.pages) : null,
-          doneParts.length ? ru.bookDiary.done(doneParts) : null,
+          inProgress && sp ? ui.seriesDiary.now(sp.season, sp.episode) : null,
+          doneSeasons.length ? ui.seriesDiary.done(doneSeasons) : null,
+          season?.kind === 'next' ? ui.seriesDiary.nextSeason(season.n, formatDate(season.at) ?? season.at) : null,
+          inProgress && bp && (bp.part || bp.page) ? ui.bookDiary.now(bp.part, bp.page, e.work.pages) : null,
+          doneParts.length ? ui.bookDiary.done(doneParts) : null,
         ]} />
+        {season?.kind === 'out' ? <p className="tm-entry__news">{ui.seriesDiary.newSeason(season.n)}</p> : null}
         {e.status === 'abandoned' && e.abandonReason ? (
           <p className="tm-entry__reason">
-            {(sp ? ru.seriesDiary.stoppedAt(sp.season) : bp && (bp.part || bp.page) ? ru.bookDiary.stoppedAt(bp.part, bp.page) : ru.entry.abandoned) + (ru.abandonReason[e.abandonReason] ?? ru.entry.otherReason).toLowerCase()}
+            {(sp ? ui.seriesDiary.stoppedAt(sp.season) : bp && (bp.part || bp.page) ? ui.bookDiary.stoppedAt(bp.part, bp.page) : ui.entry.abandoned) + (ui.abandonReason[e.abandonReason] ?? ui.entry.otherReason).toLowerCase()}
           </p>
-        ) : e.status === 'abandoned' && sp ? <p className="tm-entry__reason">{ru.seriesDiary.stoppedAtBare(sp.season)}</p>
-          : e.status === 'abandoned' && bp && (bp.part || bp.page) ? <p className="tm-entry__reason">{ru.bookDiary.stoppedAtBare(bp.part, bp.page)}</p> : null}
+        ) : e.status === 'abandoned' && sp ? <p className="tm-entry__reason">{ui.seriesDiary.stoppedAtBare(sp.season)}</p>
+          : e.status === 'abandoned' && bp && (bp.part || bp.page) ? <p className="tm-entry__reason">{ui.bookDiary.stoppedAtBare(bp.part, bp.page)}</p> : null}
         {e.prediction ? (
           <PredictionNote prediction={e.prediction} actual={e.perceivedDifficulty} showModel={mechanics} />
         ) : null}
@@ -64,7 +70,7 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
           <p className="tm-entry__change">
             <span className={cx('tm-entry__changemark', change.changeType === 'observed_growth' && 'tm-entry__changemark--growth')}
                   aria-hidden="true" />
-            {change.changeType === 'observed_growth' ? ru.state.growth : ru.state.refined}
+            {change.changeType === 'observed_growth' ? ui.state.growth : ui.state.refined}
             <span className="tm-entry__changeops">
               {e.stateChanges.map((ch) => <OperationChip key={ch.op} op={ch.op} size="sm" short />)}
             </span>
@@ -80,14 +86,27 @@ export function JourneyEntry({ entry: e, linkTo = 'entry', onFinish, onAbandon }
         {inProgress ? (
           <div className="tm-row tm-row--gap-2 tm-entry__actions">
             <Button size="sm" variant="primary" onClick={() => onFinish?.(e)}>
-              {isSeries(e.work) ? ru.seriesDiary.finishSeason(sp?.season ?? 1)
-                : bp?.part ? ru.bookDiary.finishPart(bp.part)
-                : isScreen(e.work) ? ru.actions.finishFilm : ru.actions.finishBook}
+              {isSeries(e.work) ? ui.seriesDiary.finishSeason(sp?.season ?? 1)
+                : bp?.part ? ui.bookDiary.finishPart(bp.part)
+                : isScreen(e.work) ? ui.actions.finishFilm : ui.actions.finishBook}
             </Button>
-            <Button size="sm" variant="quiet" onClick={() => onAbandon?.(e)}>{ru.actions.abandon}</Button>
+            <Button size="sm" variant="quiet" onClick={() => onAbandon?.(e)}>{ui.actions.abandon}</Button>
           </div>
         ) : null}
       </div>
     </article>
   );
+}
+
+/** Новый сезон у сериала из дневника (ЗП-17): справочник сезонов с сервера, правило — `seasonNote`. */
+function useSeasonNote(e: JourneyEntryData): SeasonNote | undefined {
+  const key = isSeries(e.work) ? seasonKey(e.work) : undefined;
+  const [note, setNote] = useState<SeasonNote>();
+  useEffect(() => {
+    if (!key) return;
+    let live = true;
+    void getSeriesSeasons().then((all) => { if (live) setNote(seasonNote(e.status, e.seriesProgress, e.finishedAt, all[key])); });
+    return () => { live = false; };
+  }, [key, e.status, e.seriesProgress, e.finishedAt]);
+  return note;
 }

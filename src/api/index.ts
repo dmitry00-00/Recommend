@@ -1,10 +1,12 @@
 // Слой данных: сигнатуры под будущие эндпоинты. Возвращает моки с задержкой,
 // чтобы состояния загрузки были видны в разработке. Бизнес-логики здесь нет:
 // уровень усилия, готовность, спойлерность и тексты приходят как данные.
-import ru from '@/i18n/ru';
-import { parseExports, toJourneyEntries, type ImportOutcome, type ImportSource } from '@/lib/import';
+import type { SeasonInfo } from '@/lib/seasons';
+import ui, { language } from '@/i18n';
+import { parseExports, toJourneyEntries, type ExportFile, type ImportOutcome, type ImportSource } from '@/lib/import';
 import { kinopoiskFromEnv, resolveRecords, toWorkCard, tmdbFromEnv, withImages } from '@/lib/resolve';
 import { ratingDeck } from '@/mocks/ratingDeck';
+import { ratingDeckEn } from '@/mocks/ratingDeckEn';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
@@ -13,8 +15,12 @@ import { hubWeight, listLike } from '@/lib/relations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
-import { knownVoice, voiceOf } from '@/lib/voices';
-import { apiBase, fetchLoopReport, loadState, store, type StoredState } from './store';
+import { moodFit, parseMood } from '@/lib/mood';
+import { shardOf } from '@/lib/shard';
+import { groupByVoice, knownVoice, voiceOf } from '@/lib/voices';
+import { attachLenses } from '@/lib/lenses';
+import { weightOf } from '@/lib/weights';
+import { apiBase, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, prepareShareMessage, store, type FollowRow, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
 import type { LoopReport as LoopReportCore, WorkSignal } from '../../worker/loop';
 export type LoopReportData = LoopReportCore & { scope: 'all' | 'me' };
@@ -25,7 +31,8 @@ import type {
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
-  CharacterView, CreditRole, MediaType, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  CharacterView, CharacterImageView, CreditRole, MediaType, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
+  WatchOption,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
@@ -46,8 +53,10 @@ type Mod<T extends () => Promise<unknown>> = Awaited<ReturnType<T>>;
 const coreImports = () => Promise.all([
   import('@/mocks'), import('@/mocks/workDetails'), import('@/mocks/externalIds'), import('@/mocks/userAnnotations'),
   import('@/mocks/candidates'), import('@/mocks/workRegisters'), import('@/mocks/registerBase'), import('@/mocks/candidateMedia'),
-  import('@/mocks/catalogMedia'), import('@/mocks/sources'), import('@/mocks/essays'), import('@/mocks/essaysAuto'), import('@/mocks/postsAuto'),
+  import('@/mocks/catalogMedia'), import('@/mocks/sources'), import('@/mocks/essays'),
 ]);
+type EssaysAuto = typeof import('@/mocks/essaysAuto')['essaysAuto'];
+type PostsAuto = typeof import('@/mocks/postsAuto')['postsAuto'];
 let mocks!: Mod<typeof coreImports>[0];
 let bare!: Mod<typeof coreImports>[1]['bare'];
 let workDetail!: Mod<typeof coreImports>[1]['workDetail'];
@@ -61,8 +70,9 @@ let candidateMedia!: Mod<typeof coreImports>[7]['candidateMedia'];
 let catalogMedia!: Mod<typeof coreImports>[8]['catalogMedia'];
 let searchLinks!: Mod<typeof coreImports>[9]['searchLinks'];
 let essays!: Mod<typeof coreImports>[10]['essays'];
-let essaysAuto!: Mod<typeof coreImports>[11]['essaysAuto'];
-let postsAuto!: Mod<typeof coreImports>[12]['postsAuto'];
+let essaysAuto!: EssaysAuto;
+let postsAuto!: PostsAuto;
+let essayLenses: Record<string, string> = {};
 /** Свежий справочник с сервера: его раз в сутки пишет сборщик (tools/collect.mts, трек В1).
  *  Нет сервера, нет файла или сервер думает дольше четырёх секунд — берём запечённое в сборку. */
 async function serverRef<T>(name: string): Promise<T | undefined> {
@@ -79,20 +89,56 @@ async function serverRef<T>(name: string): Promise<T | undefined> {
   }
 }
 
+/** Сезоны сериалов (ЗП-17): справочник сервера, один раз за сеанс; без сервера — пусто (пометок нет). */
+let seasonsLoading: Promise<Record<string, SeasonInfo>> | undefined;
+export const getSeriesSeasons = (): Promise<Record<string, SeasonInfo>> =>
+  (seasonsLoading ??= serverRef<Record<string, SeasonInfo>>('seriesSeasons').then((x) => x ?? {}));
+
+/** Каналы реестра из базы приложения (06.10, GET /api/sources): правка канала доходит до карточки без
+ *  пересборки. Нет сервера или он молчит дольше четырёх секунд — снимок из сборки. */
+async function serverSources(): Promise<Mod<typeof coreImports>[9]['sources'] | undefined> {
+  if (!store.onServer) return undefined;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4000);
+  try {
+    const res = await fetch(`${apiBase}/api/sources`, { signal: ctrl.signal });
+    const list = res.ok ? await res.json() as unknown : undefined;
+    return Array.isArray(list) ? list as Mod<typeof coreImports>[9]['sources'] : undefined;
+  } catch {
+    return undefined;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /** Ядро — один раз: справочнику (catalog) нужны externalIds из ядра, и если ядро ждёт ответа
  *  сервера (serverRef), справочник успевал раньше и падал на пустых externalIds (найдено 01.10). */
 let coreLoading: Promise<void> | undefined;
 const core = (): Promise<void> => (coreLoading ??= loadCore());
 async function loadCore(): Promise<void> {
-  const [[m, wd, ei, ua, cs, wr, rb, cm, ctm, src, es, ea, pa], freshEssays, freshPosts] = await Promise.all([
+  const [[m, wd, ei, ua, cs, wr, rb, cm, ctm, src, es], freshEssays, freshPosts, freshLenses, freshSources] = await Promise.all([
     coreImports(),
-    serverRef<Mod<typeof coreImports>[11]['essaysAuto']>('essaysAuto'),
-    serverRef<Mod<typeof coreImports>[12]['postsAuto']>('postsAuto'),
+    serverRef<EssaysAuto>('essaysAuto'),
+    serverRef<PostsAuto>('postsAuto'),
+    serverRef<Record<string, string>>('essayLenses'),
+    serverSources(),
   ]);
+  // запечённые в сборку индексы (~1,3 МБ сжатыми) — только если сервер свежих не дал (07.10): раньше они
+  // качались всегда, и с сервером приложение тянуло их дважды
+  const [ea, pa, el] = await Promise.all([
+    freshEssays ? undefined : import('@/mocks/essaysAuto'),
+    freshPosts ? undefined : import('@/mocks/postsAuto'),
+    freshLenses ? undefined : import('@/mocks/essayLenses'),
+  ]);
+  if (freshSources) src.replaceSources(freshSources);
   mocks = m; bare = wd.bare; workDetail = wd.workDetail; externalIds = ei.externalIds; userAnnotations = ua.userAnnotations;
   candidateSeeds = cs.candidateSeeds; seedToCard = cs.seedToCard; workRegisters = wr.workRegisters; registerBase = rb.registerBase;
   candidateMedia = cm.candidateMedia; catalogMedia = ctm.catalogMedia; searchLinks = src.searchLinks;
-  essays = es.essays; essaysAuto = freshEssays ?? ea.essaysAuto; postsAuto = freshPosts ?? pa.postsAuto;
+  essays = es.essays; essaysAuto = freshEssays ?? ea!.essaysAuto; postsAuto = freshPosts ?? pa!.postsAuto;
+  // рубрики роликов (ТВ-3г) — один раз при загрузке, на все источники: в карточке, у автора,
+  // у человека и во вселенной материал один и тот же объект
+  essayLenses = freshLenses ?? el!.essayLenses;
+  for (const src of [essays, essaysAuto]) for (const list of Object.values(src)) attachLenses(list, essayLenses);
   settings = { ...mocks.settings, ...settings };
   contributor ??= mocks.contributors[0];
 }
@@ -122,18 +168,28 @@ let bookBridge: BookWorks = {};
 let bookMedia: Record<string, Partial<WorkCard>> = {};
 /** ручная разметка книг (З4, калибровка владельца): ключ произведения или `t:<название>` */
 let bookAnnotations: Record<string, FirstPassAnnotation> = {};
+/** черновики книг (З4, 08.10): по знанию книги, на проверке; калибровка владельца главнее */
+let bookDrafts: Record<string, FirstPassAnnotation> = {};
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
 const loadCatalog = (): Promise<void> => catalog();
+/** Превью без сервера как новый человек (ТВ-7): `?fresh` в адресе или `tm.fresh=1` в localStorage.
+ *  Без сервера приложение живёт на истории владельца и демо-дневнике — холодный старт, первые
+ *  ленты и правило «новичку — с разбором» там не видны. С сервером не действует. */
+const freshStart: boolean = !store.onServer && (() => {
+  try { return new URLSearchParams(location.search).has('fresh') || localStorage.getItem('tm.fresh') === '1'; } catch { return false; }
+})();
+
 /** Справочник фильмов и история владельца. Повторный вызов ждёт ту же загрузку. */
 function catalog(): Promise<void> {
   catalogLoad ??= Promise.all([
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
     import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
-    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'), import('@/mocks/bookAnnotations'),
-  ]).then(async (mods) => { await core(); return mods; }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba]) => {
-    bookMedia = bmd.bookMedia; bookAnnotations = ba.bookAnnotations;
+    import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'), import('@/mocks/bookAnnotations'), import('@/mocks/bookDrafts'),
+    import('@/mocks/filmBasePopular'), import('@/mocks/filmBaseWorld'),
+  ]).then(async (mods) => { await core(); return mods; }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba, bd, fp, fwo]) => {
+    bookMedia = bmd.bookMedia; bookAnnotations = ba.bookAnnotations; bookDrafts = bd.bookDrafts;
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
     for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
@@ -148,6 +204,8 @@ function catalog(): Promise<void> {
     });
     userWorks = norm(uh.userWorks); userJournal = uh.userJournal; userRatings = ur.userRatings;
     watchedWorks = norm(uw.watchedWorks); filmBase = norm(fb.filmBase);
+    // «чистый новичок» (ТВ-7): без истории владельца — справочник тот же, человек пустой
+    if (freshStart) { userWorks = []; userJournal = []; userRatings = {}; watchedWorks = []; }
     filmBaseWiki = norm(freshWiki ?? [...fw.filmBaseWiki, ...fm.filmBaseMarkup]);
     // полки по просьбам людей (shelves.ts) едут со сборкой, а не с сервером: их мало и они размечены
     const seen = new Set(filmBaseWiki.map((w) => w.id));
@@ -159,6 +217,14 @@ function catalog(): Promise<void> {
     // книги через мост с кино (З2, tools/build-book-base.mts): поиск, страницы, связи «экранизация
     // книги» ведут на карточку; в подбор без разметки не идут (З4)
     for (const w of sb.seriesBase) seen.add(w.id);
+    // что люди ищут (05.10, tools/grow-film-base.mts): топы русской Википедии и классика. Сервер
+    // отдаёт их в справочнике, но сборка несёт и свою копию — на случай, если сервер старее
+    for (const w of filmBaseWiki) seen.add(w.id);
+    filmBaseWiki = [...filmBaseWiki, ...norm(fp.filmBasePopular).filter((w) => !seen.has(w.id))];
+    for (const w of fp.filmBasePopular) seen.add(w.id);
+    // популярное в Индии и англоязычных странах (ЗП-22, tools/grow-film-base.mts --world) — так же
+    filmBaseWiki = [...filmBaseWiki, ...norm(fwo.filmBaseWorld).filter((w) => !seen.has(w.id))];
+    for (const w of fwo.filmBaseWorld) seen.add(w.id);
     filmBaseWiki = [...filmBaseWiki, ...bb.bookBase.filter((w) => !seen.has(w.id))];
     // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
@@ -231,6 +297,19 @@ let charactersByKey = new Map<string, string[]>();
 /** Герои произведения, которые есть и в других наших произведениях: по ним — ссылки на те
  *  произведения. Сначала самые обсуждаемые; героев не больше шести, произведений у героя — восьми
  *  с хвостом «и ещё N». Своё произведение (по любому ключу) в «ещё в» не попадает. */
+/** Изображения героев (tools/character-images.mts) — отдельным куском, со страницами произведения и героя. */
+let characterImages: Mod<typeof characterImagesImport>['characterImages'] = {};
+const characterImagesImport = () => import('@/mocks/characterImages');
+let characterImagesLoad: Promise<void> | undefined;
+const loadCharacterImages = () => (characterImagesLoad ??= characterImagesImport().then((m) => { characterImages = m.characterImages; }).catch(() => undefined));
+/** Своего исполнителя в этом произведении — первым: Джокер в «Джокере» — Феникс, а не Леджер. */
+function characterImage(id: string, keys: readonly string[] = []): CharacterImageView | undefined {
+  const c = characterImages[id];
+  if (!c) return undefined;
+  const own = keys.map((k) => c.byWork?.[k]).find(Boolean);
+  if (own) return { url: own.img, actor: own.actor, source: 'tmdb' };
+  return { url: c.img, ...(c.actor ? { actor: c.actor } : {}), source: c.src };
+}
 function heroesFor(work: WorkCard): CharacterView[] {
   const own = workKeys(work, work.externalIds ?? externalIds[work.id]);
   const qs = [...new Set(own.flatMap((k) => charactersByKey.get(k) ?? []))];
@@ -244,7 +323,8 @@ function heroesFor(work: WorkCard): CharacterView[] {
       .filter((w): w is WorkCard => Boolean(w && !seenIds.has(w.id) && seenIds.add(w.id)))
       .sort((a, b) => (a.year || 9999) - (b.year || 9999))
       .map((w) => ({ workId: w.id, title: w.title, ...(w.year ? { year: w.year } : {}), type: w.type }));
-    if (elsewhere.length) out.push({ id: q, name: c.n, elsewhere, said: c.said });
+    const image = characterImage(q, own);
+    if (elsewhere.length) out.push({ id: q, name: c.n, elsewhere, said: c.said, ...(image ? { image } : {}) });
   }
   return out.sort((a, b) => b.said - a.said || b.elsewhere.length - a.elsewhere.length).slice(0, 6);
 }
@@ -254,6 +334,7 @@ function heroesFor(work: WorkCard): CharacterView[] {
 export interface CharacterPage {
   id: string;
   name: string;
+  image?: CharacterImageView;
   /** в оригинале, если отличается: «Sherlock Holmes» */
   original?: string;
   aka: string[];
@@ -261,6 +342,8 @@ export interface CharacterPage {
   byKind: { kind: MediaType; works: { work: WorkCard; seen: boolean; analyses: number }[] }[];
   /** самое раннее из наших — часто книга, с которой герой пришёл */
   first?: WorkCard;
+  /** кто играл (06.10): актёр и его кадр в роли по произведениям, по году; один актёр — один раз */
+  cast: { actor: string; image: string; work: WorkCard }[];
   /** с чего начать: непросмотренное с разметкой — ближе всего к «чуть выше привычного» */
   startWith?: { work: WorkCard; level: number };
   /** разборы, называющие героя в заголовке: по его произведениям и по любым другим; обзоры не
@@ -271,7 +354,7 @@ export interface CharacterPage {
 
 export async function getCharacter(id: string): Promise<CharacterPage | undefined> {
   await delay(200);
-  await Promise.all([catalog(), workRefs()]);
+  await Promise.all([catalog(), workRefs(), loadCharacterImages()]);
   const c = characters[id];
   if (!c) return undefined;
   const byKey = worksByAnalysisKey();
@@ -297,7 +380,10 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
         for (const a of list) {
           const own = ownKeys.has(k);
           const match = own ? re : reOther;
-          if (a.tier === 'review' || seenUrl.has(a.url) || !match?.test(a.title) || linkVerdicts.get(a.url) === 'other_work') continue;
+          // обзоры не показываем (29.09) — кроме размеченных «О персонаже» (ТВ-3ж, 06.10): разбор героя
+          // у обзорного канала — ровно то, за чем пришли на его страницу
+          const about = a.lens === 'character' || a.lensAlso === 'character';
+          if ((a.tier === 'review' && !about) || seenUrl.has(a.url) || !match?.test(a.title) || linkVerdicts.get(a.url) === 'other_work') continue;
           const w = card(k);
           if (!w) continue;
           seenUrl.add(a.url);
@@ -308,13 +394,26 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
     }
   }
   const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
+  const isAbout = (a: ExternalAnalysis) => Number(a.lens === 'character') * 2 + Number(a.lensAlso === 'character');
   analyses.sort((x, y) => Number(Boolean(x.analysis.unverified)) - Number(Boolean(y.analysis.unverified))
-    || Number(y.own) - Number(x.own) || stamp(y.analysis) - stamp(x.analysis));
+    || isAbout(y.analysis) - isAbout(x.analysis) || Number(y.own) - Number(x.own) || stamp(y.analysis) - stamp(x.analysis));
 
-  const works = [...new Map(c.works.map((k) => card(k)).filter((w): w is WorkCard => Boolean(w)).map((w) => [w.id, w])).values()]
+  // постеры — как у страницы автора: справочник картинок и TMDb (06.10; раньше у героя были одни буквы)
+  const own = [...new Map(c.works.map((k) => card(k)).filter((w): w is WorkCard => Boolean(w)).map((w) => [w.id, w])).values()];
+  const works = (await pictured(own.slice(0, 40)).then((p) => [...p, ...own.slice(40)]))
     .map((work) => ({ work, seen: isSeen(work), analyses: perWork.get(work.id) ?? 0 }))
     .sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
   if (!works.length) return undefined;
+  const byWork = characterImages[id]?.byWork ?? {};
+  const workOf = new Map(works.map((x) => [x.work.id, x.work]));
+  const cast: CharacterPage['cast'] = [];
+  for (const k of c.works) {
+    const role = byWork[k];
+    const raw = role && card(k);
+    const work = raw && (workOf.get(raw.id) ?? raw);
+    if (work && !cast.some((x) => x.actor === role.actor)) cast.push({ actor: role.actor, image: role.img, work });
+  }
+  cast.sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
   const ORDER: MediaType[] = ['book', 'film', 'series'];
   const byKind = ORDER.map((kind) => ({ kind, works: works.filter((x) => x.work.type === kind) })).filter((g) => g.works.length);
 
@@ -331,7 +430,8 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
     .filter((d) => (seenLink.has(d.url) ? false : (seenLink.add(d.url), true))).slice(0, 10);
   return {
     id, name: c.n, ...(c.en && c.en !== c.n ? { original: c.en } : {}), aka: (c.aka ?? []).filter((x) => x !== c.n),
-    byKind, ...(works[0]?.work.year ? { first: works[0].work } : {}),
+    ...(characterImage(id) ? { image: characterImage(id) } : {}),
+    byKind, cast, ...(works[0]?.work.year ? { first: works[0].work } : {}),
     ...(pick ? { startWith: { work: pick.work, level: pick.work.complexityLevel } } : {}),
     analyses: analyses.slice(0, 15), discussions,
   };
@@ -622,12 +722,15 @@ const ownAnnotationByTmdb = (): Map<number, FirstPassAnnotation> => {
   return map;
 };
 /** Разметка книги (З4): ручная калибровка владельца — по ключу произведения, а если книги в
- *  справочнике не было — по названию. Черновиков книг пока нет: они — после калибровки. */
+ *  справочнике не было — по названию; без неё — черновик (08.10, кроме отклонённых куратором). */
 const bookDraftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
-  const byKey = workKeys(w, w.externalIds ?? externalIds[w.id]).map((k) => bookAnnotations[k]).find(Boolean);
+  const keys = workKeys(w, w.externalIds ?? externalIds[w.id]);
+  const byKey = keys.map((k) => bookAnnotations[k]).find(Boolean);
   if (byKey) return byKey;
   const t = (s?: string) => s?.toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-  return [w.title, w.originalTitle].map((x) => x && bookAnnotations[`t:${t(x)}`]).find(Boolean) || undefined;
+  const byTitle = [w.title, w.originalTitle].map((x) => x && bookAnnotations[`t:${t(x)}`]).find(Boolean);
+  if (byTitle) return byTitle;
+  return keys.filter((k) => reviewMarks()[`draft:${k}`]?.status !== 'rejected').map((k) => bookDrafts[k]).find(Boolean);
 };
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
   if (w.type === 'book') return bookDraftFor(w);
@@ -672,7 +775,7 @@ const entryKey = (e: JourneyEntryData): string => {
  *  участника она пуста, пока он не оценит хоть что-то. */
 const serverJournal: JourneyEntryData[] = [];
 let profile: StoredState['profile'];
-const baseJournal = (): JourneyEntryData[] => (store.onServer ? serverJournal : [...userJournal, ...mocks.journal]);
+const baseJournal = (): JourneyEntryData[] => (store.onServer || freshStart ? serverJournal : [...userJournal, ...mocks.journal]);
 const baseWatched = (): WorkCard[] => (store.onServer ? [] : watchedWorks);
 
 /** Оценки уже виденного: с сервера или поставленные в этой вкладке. Без сервера под ними
@@ -708,6 +811,8 @@ export async function getScaleQuestion(): Promise<{ median: number; count: numbe
 // 02.10: первая лента — после пяти оценок, а не десяти (порог входа); модели состояния хватает
 // трёх досмотренных (deriveState), дальше подбор уточняется по ходу
 export const MIN_RATED = 5;
+/** Новый человек для подбора (ТВ-2): пока оценок меньше, первые три кадра — с разбором. */
+export const NOVICE_RATED = 20;
 
 const history = (): RatedEntry[] => {
   const seenKey = new Set<string>();
@@ -760,7 +865,7 @@ export async function loginWithTelegram(raw: string): Promise<Session> {
 /** Вход без Telegram: смотреть можно, но это демонстрация — сессии на сервере нет. */
 export async function loginAsDemo(): Promise<Session> {
   await delay(160);
-  session = { user: { id: 'demo', name: ru.login.demoName, source: 'demo' }, verified: false, startedAt: new Date().toISOString() };
+  session = { user: { id: 'demo', name: ui.login.demoName, source: 'demo' }, verified: false, startedAt: new Date().toISOString() };
   return session;
 }
 
@@ -808,8 +913,13 @@ function candidates(): Candidate[] {
     for (const x of k) inPool.add(x);
     return true;
   });
-  return [...catalog, ...pool, ...extra].filter((c) => !seen(c.work, keys));
+  // сколько авторов человек увидит во вкладке «Обзоры» (ТВ-2): та же группировка, что у карточки
+  // (`useVoices`): только авторы, без яруса review и без постов — посты во вкладке «Обсуждения»
+  return [...catalog, ...pool, ...extra].filter((c) => !seen(c.work, keys))
+    .map((c) => ({ ...c, essays: visibleAuthors(analysesFor(c.work, workDetail(c.work.id)?.externalAnalyses)) }));
 }
+const visibleAuthors = (list: ExternalAnalysis[]): number =>
+  groupByVoice(list).filter((g) => g.items.some((a) => a.platform !== 'telegram')).length;
 /** Черновая разметка (Г1) — тоже в подбор (решение 30.09): ~400 размеченных фильмов списка
  *  первых оценок и истории владельца. Проверяем не вручную заранее, а по тому, как люди их
  *  принимают: петля прогноза считает промахи по фильму (worker/loop.ts, `byWork`), кураторская
@@ -832,7 +942,7 @@ function seriesCandidate(d: DraftSource): Candidate {
 }
 const timeBarrier = (w: WorkCard): string[] => {
   const h = seriesHours(w);
-  return h != null && h > 10 ? [ru.seriesDiary.hours(h)] : [];
+  return h != null && h > 10 ? [ui.seriesDiary.hours(h)] : [];
 };
 /** Новичок в сериалах: ни одного сериала в дневнике и в просмотренном — ему только короткое. */
 const seriesNovice = (): boolean =>
@@ -940,33 +1050,40 @@ const slateWorks = new Map<ID, ID>();
 const ratedCount = (): number =>
   history().filter((e) => e.status === 'finished' && e.work.complexityLevel > 0 && e.work.primaryOperations.length).length;
 
-export async function getSlate(energy: Energy = 'normal'): Promise<RecommendationSlate> {
+/** Лента. `more` (ТВ-11, «Ещё фильмы»): уже показанные фильмы — следующая шестёрка той же
+ *  модели без них; без вставок «фокус» и «дальше во вселенной» и без правила «первые три с
+ *  разбором» — это продолжение ленты, а не её начало. */
+export async function getSlate(energy: Energy = 'normal', more?: ID[]): Promise<RecommendationSlate> {
   await delay(240);
   await reconnect();
   // Новый участник: подбирать не от чего. Честно говорим, сколько оценок не хватает, а не
   // подсовываем чужую ленту — моки сценария годятся для разработки, но не для живого человека.
   const rated = ratedCount();
-  if (store.onServer && rated < MIN_RATED) {
+  if ((store.onServer || freshStart) && rated < MIN_RATED) {
     return { id: 's-cold', generatedAt: new Date().toISOString(), energy, items: [], coldStart: { rated, needed: MIN_RATED } };
   }
   // справочник с полками и черновой разметкой: на сервере он грузится фоном, а пул без него беднее
   await catalog();
   const state = ownState();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
+  const shown = new Set(more ?? []);
+  const pool = more ? candidates().filter((c) => !shown.has(c.work.id)) : candidates();
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, candidates(), energy, 6, today(), { seriesNovice: seriesNovice() }) }
-    : mocks.slates[energy];
+    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}) }) }
+    : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const keys = seenKeys();
   // отложенное в планы, начатое и брошенное — тоже не предлагаем: планы лежат в архиве,
   // начатое стоит над лентой, брошенное человек уже попробовал
   for (const e of history()) if (e.status !== 'finished') [e.work.id, ...keyList(e.work)].forEach((k) => keys.add(k));
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
   // фокус на полке: одно место в ленте — лучшее с выбранных полок, если такого там ещё нет
-  const focus = state ? await focusPick(state, energy, items, keys) : undefined;
+  const focus = state && !more ? await focusPick(state, energy, items, keys) : undefined;
   if (focus) items.splice(Math.min(items.length, 5), 1, focus);
   // «дальше во вселенной» (Ж3) — отдельным местом, сверх слотов развития: одно не подменяет другое
-  const next = state ? await universePick(state, energy, items, keys) : undefined;
-  if (next) items.splice(Math.min(items.length, 2), 0, next);
+  const next = state && !more ? await universePick(state, energy, items, keys) : undefined;
+  // новичку первые три — с разбором (ТВ-2): вставка встаёт за ними, а не третьей — продолжение
+  // вселенной часто без разборов («Хоббит», «В поисках Дори»: прогон профилей 06.10, ТВ-7)
+  if (next) items.splice(Math.min(items.length, rated < NOVICE_RATED ? 3 : 2), 0, next);
   const works = await pictured(items.map((r) => r.work));
   for (const r of items) slateWorks.set(r.id, r.work.id);
   // показы — знаменатель «принятия слейта» (трек Б2); не ответил сервер — лента важнее
@@ -982,6 +1099,50 @@ export async function getSlate(energy: Energy = 'normal'): Promise<Recommendatio
       discussions: placesFor(works[i]),
     })),
   };
+}
+
+/** Подбор по настроению (ЗП-16): что понято из запроса и до шести фильмов под него. */
+export interface MoodSlate { query: string; understood: string[]; like?: WorkCard; items: { work: WorkCard; what: string; fit: number }[]; /** сколько кандидатов подошло под запрос */ matched?: number; pool?: number }
+
+/** «Что-то тихое про семью, не грустное» → лента. Словарь (`parseMood`) отсеивает и ранжирует кандидатов по запросу;
+ *  если вкус человека известен, из сорока лучших по запросу модель берёт то, что по силам ему (`recommend`), — так
+ *  запрос решает «что», а модель — «какое из этого». Без вкуса (новичок) — лучшие по запросу, при равенстве —
+ *  с большим числом разборов. Образец («по типу …») ищется в справочнике: его регистры — в запрос, сам он — мимо. */
+export async function getMoodSlate(text: string, energy: Energy = 'normal'): Promise<MoodSlate> {
+  await delay(160);
+  await reconnect();
+  await catalog();
+  const q = parseMood(text);
+  const out: MoodSlate = { query: text, understood: q.understood, items: [] };
+  if (!q.understood.length) return out;
+  let like: WorkCard | undefined;
+  if (q.like) {
+    like = (await searchWorks(q.like, 5)).map((h) => h.work).find((w) => w.type !== 'book');
+    if (like) {
+      const regs = withRegisters(annotated(like)).registers ?? [];
+      for (const r of regs) q.registers[r] = (q.registers[r] ?? 0) + 0.8;
+      out.like = like;
+    }
+  }
+  const skip = new Set(like ? [like.id, ...keyList(like)] : []);
+  for (const e of history()) if (e.status !== 'finished') [e.work.id, ...keyList(e.work)].forEach((k) => skip.add(k));
+  const fits = candidates()
+    .filter((c) => !skip.has(c.work.id) && !keyList(c.work).some((k) => skip.has(k)))
+    .map((c) => ({ c, fit: moodFit(q, c) + (q.canon ? Math.min(1, (c.essays ?? 0) / 6) * 0.3 : 0) }))
+    .filter((x) => x.fit >= 0.25)
+    .sort((a, b) => b.fit - a.fit || (b.c.essays ?? 0) - (a.c.essays ?? 0));
+  const fitOf = new Map(fits.map((x) => [x.c.work.id, x.fit]));
+  out.matched = fits.length;
+  const state = ownState();
+  const picked = state && ratedCount() >= MIN_RATED
+    ? recommend(state, fits.slice(0, 40).map((x) => x.c), q.energy ?? energy, 6, today(), { seriesNovice: seriesNovice(), maxSeries: q.kind === 'series' ? 6 : 2 })
+      .map((r) => ({ work: r.work, what: r.explanation.what }))
+    : [];
+  // модель отсеяла всё (не по силам) или вкуса ещё нет — лучшие по запросу
+  const list = picked.length >= 3 ? picked : fits.slice(0, 6).map((x) => ({ work: x.c.work, what: x.c.what }));
+  const works = await pictured(list.map((x) => x.work));
+  out.items = list.map((x, i) => ({ work: works[i], what: x.what, fit: Math.round((fitOf.get(x.work.id) ?? 0) * 100) / 100 }));
+  return out;
 }
 
 /** «Дальше во вселенной» (Ж3): продолжение того, что человек видел и досмотрел. Сначала — прямое
@@ -1014,7 +1175,7 @@ async function universePick(state: CognitiveState, energy: Energy, items: Recomm
     if (!rec) continue;
     const universe = relationNodes[hub]?.t ?? '';
     return { ...rec, id: `rec-universe-${pick.id}`, slot: 'universe',
-      explanation: { ...rec.explanation, why: `${sequel ? ru.today.universeSequel(w.title) : ru.today.universeMore(universe, w.title)} ${rec.explanation.why}` } };
+      explanation: { ...rec.explanation, why: `${sequel ? ui.today.universeSequel(w.title) : ui.today.universeMore(universe, w.title)} ${rec.explanation.why}` } };
   }
   return undefined;
 }
@@ -1033,7 +1194,7 @@ async function focusPick(state: CognitiveState, energy: Energy, items: Recommend
   const [pick] = recommend(state, pool, energy, 1, today());
   if (!pick) return undefined;
   const shelf = shelves[onShelf.get(keyList(pick.work).find((k) => onShelf.has(k))!)!];
-  return { ...pick, explanation: { ...pick.explanation, why: ru.today.fromShelf(shelf.title) + pick.explanation.why } };
+  return { ...pick, explanation: { ...pick.explanation, why: ui.today.fromShelf(shelf.title) + pick.explanation.why } };
 }
 
 // ---------- первые оценки (холодный старт) ----------
@@ -1069,12 +1230,30 @@ export async function getRatingDeck(): Promise<RatingDeck> {
   // что уже есть в своём списке. Сериалы — отдельным рядом (Е4): их оценки тоже идут в модель.
   const own = watchedNow().filter(isFilm).map(annotated);
   const keys = new Set(own.flatMap((w) => [w.id, ...keyList(w)]));
-  const common = ratingDeck
+  // английскому интерфейсу — своя колода (ЗП-20): русская ранжирована русской аудиторией
+  const common = (language === 'en' ? ratingDeckEn : ratingDeck)
     .map((id) => deckCard(id))
     .filter((w): w is WorkCard => Boolean(w) && !keys.has(w!.id) && !keyList(w!).some((k) => keys.has(k)));
   const withRating = (work: WorkCard) => ({ work, ...(ratingOf(work.id) ? { rating: ratingOf(work.id)!.rating } : {}) });
-  const items = [...own, ...common].map(withRating);
+  const items = [...own, ...partsInOrder(common)].map(withRating);
   return { items, series: seriesDeck().map(withRating), rated: ratedCount(), needed: MIN_RATED };
+}
+
+/** Части одной серии в колоде — по году (ТВ-9, 06.10): «Две крепости» стояли раньше «Братства
+ *  Кольца». Серия — общее начало названия до двоеточия или номера части («Властелин колец: …»,
+ *  «Брат 2», «Джокер: Безумие на двоих»). Части встают по году на места, которые серия уже
+ *  занимала, — остальной порядок колоды (самые смотримые сверху) не трогаем. */
+function partsInOrder(list: WorkCard[]): WorkCard[] {
+  const stem = (t: string) => t.toLowerCase().replace(/ё/g, 'е').split(/[:.—–]/)[0].replace(/\s+\d+\s*$/, '').trim();
+  const groups = new Map<string, number[]>();
+  list.forEach((w, i) => groups.set(stem(w.title), [...(groups.get(stem(w.title)) ?? []), i]));
+  const out = [...list];
+  for (const at of groups.values()) {
+    if (at.length < 2) continue;
+    const parts = at.map((i) => list[i]).sort((a, b) => (a.year || 9999) - (b.year || 9999));
+    at.forEach((i, n) => { out[i] = parts[n]; });
+  }
+  return out;
 }
 
 /** Ряд сериалов в /rate (Е4): своё просмотренное первым, дальше размеченные (не low) с обложкой —
@@ -1119,10 +1298,143 @@ export async function sendRecommendationFeedback(id: ID, feedback: Recommendatio
   return { ok: true } as const;
 }
 
+/** Где открыли материал: шторка (лента, архив, поиск), страница фильма, автора, человека,
+ *  вселенной, героя. */
+export type OpenPlace = 'sheet' | 'work' | 'voice' | 'person' | 'universe' | 'character';
+export interface MaterialOpen {
+  url: string; workId?: ID; platform: ExternalAnalysis['platform']; lens?: string; lensAlso?: string; tier?: string;
+  place: OpenPlace; shelf?: string; shelves: boolean; at: string;
+}
+/** Открытия этого запуска — без сервера ими проверяется, что замер пишется (ТВ-3г). */
+export const openLog: MaterialOpen[] = [];
+
+/** Открыли материал (ТВ-3г). Рубрика пишется всегда, и когда полок не видно: этап 1 выката —
+ *  замер, что открывают по рубрикам, без их показа (ТВ-3в). `shelf` — полка, на которой стоял
+ *  человек (нет — «все»), `shelves` — видел ли он полки вообще. Не дошло — не беда: замер, не учёт. */
+export function noteOpen(a: ExternalAnalysis, ctx: { place: OpenPlace; workId?: ID; shelf?: string; shelves?: boolean }): void {
+  const event: MaterialOpen = {
+    url: a.url, platform: a.platform, place: ctx.place, shelves: Boolean(ctx.shelves), at: new Date().toISOString(),
+    ...(ctx.workId ? { workId: ctx.workId } : {}), ...(a.lens ? { lens: a.lens } : {}), ...(a.lensAlso ? { lensAlso: a.lensAlso } : {}),
+    ...(a.tier ? { tier: a.tier } : {}), ...(ctx.shelf ? { shelf: ctx.shelf } : {}),
+  };
+  openLog.push(event);
+  if (openLog.length > 200) openLog.shift();
+  store.open({ ...event }).catch(() => undefined);
+}
+
+/** Удалить аккаунт (ЗП-5): на сервере — всё о участнике, здесь — токен и всё локальное приложения (`tm.*`).
+ *  Без сервера (разработка) стирать нечего, кроме локального. Не удалось на сервере — бросаем: локальное не трогаем,
+ *  иначе человек решит, что всё стёрто, а на сервере останется. */
+export async function deleteAccount(): Promise<void> {
+  if (store.onServer) await store.deleteAccount();
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k?.startsWith('tm.')) keys.push(k); }
+    keys.forEach((k) => localStorage.removeItem(k));
+    sessionStorage.clear();
+  } catch { /* хранилище недоступно — на сервере уже стёрто */ }
+}
+
+// ---------- выбор компанией (ЗП-11) ----------
+
+export interface TogetherCard { id: ID; title: string; year?: number; image?: string; about?: string; essays?: number; kind?: 'film' | 'series'; watch?: WatchOption[] }
+export type TogetherVote = 'yes' | 'no' | 'seen';
+export interface TogetherRow { workId: ID; yes: number; no: number; seen: number; yesNames: string[]; seenNames: string[]; fit: number | null; match: boolean }
+export interface TogetherState {
+  id: string; createdAt: string; open: boolean; mineSession: boolean; owner: string | null;
+  deck: TogetherCard[]; votes: Record<ID, TogetherVote>; people: { name: string; n: number; me: boolean }[]; tally: TogetherRow[];
+}
+const TOGETHER_SIZE = 10;
+
+/** Десятка на вечер: подбор по профилю того, кто собирает (та же модель, что у ленты, обычная сила),
+ *  только фильмы. Вперёд — те, у которых есть «где смотреть» и разборы: компании нужно куда нажать, а
+ *  нам — показать, чем мы не «топ-10 недели». Отложенное в планы не убираем: это как раз то, что хотелось. */
+async function togetherDeck(): Promise<TogetherCard[]> {
+  await catalog();
+  const pool = candidates().filter((c) => isScreen(c.work) && !isSeries(c.work));
+  const byId = new Map(pool.map((c) => [c.work.id, c]));
+  const state = ownState();
+  // истории нет — модели не от чего считать: десятка из самых обсуждаемых
+  const ranked = state ? recommend(state, pool, 'normal', 40, today(), { maxSeries: 0 }).map((r) => byId.get(r.work.id) ?? { work: r.work, what: '', essays: 0 }) : [];
+  // модель могла отдать меньше — добираем самыми обсуждаемыми
+  const rest = pool.filter((c) => !ranked.some((r) => r.work.id === c.work.id)).sort((a, b) => (b.essays ?? 0) - (a.essays ?? 0));
+  const bonus = (c: Candidate) => (c.work.watch?.length ? 2 : 0) + ((c.essays ?? 0) > 0 ? 1 : 0);
+  const pick = [...ranked, ...rest].map((c, i) => ({ c, i })).sort((a, b) => bonus(b.c) - bonus(a.c) || a.i - b.i).slice(0, TOGETHER_SIZE).map((x) => x.c);
+  const works = await pictured(pick.map((c) => c.work));
+  return pick.map((c, i) => {
+    const w = works[i];
+    const about = (draftFor(w)?.what ?? c.what ?? workDetail(w.id)?.synopsis ?? '').slice(0, 300);
+    return {
+      id: w.id, title: w.title, ...(w.year ? { year: w.year } : {}),
+      ...((w.stillUrl ?? w.coverUrl) ? { image: w.stillUrl ?? w.coverUrl } : {}),
+      ...(about ? { about } : {}), essays: c.essays ?? 0,
+      ...(w.watch?.length ? { watch: w.watch.slice(0, 3).map((o) => ({ platform: o.platform, url: o.url, source: o.source })) } : {}),
+    };
+  });
+}
+
+/** Собрать десятку и завести сессию; вернуть её id. Без сервера выбирать не с кем — ошибка. */
+export async function createTogether(): Promise<string> {
+  if (!store.onServer) throw new Error('no_server');
+  const deck = await togetherDeck();
+  const r = await togetherCall<{ id: string }>('/api/together', { method: 'POST', body: JSON.stringify({ deck }) });
+  if (!r?.body?.id) throw new Error(`together: ${r?.status ?? 'нет ответа'}`);
+  return r.body.id;
+}
+
+export async function getTogether(id: string): Promise<TogetherState | 'missing'> {
+  const r = await togetherCall<TogetherState>(`/api/together/${encodeURIComponent(id)}`);
+  if (r?.status === 404) return 'missing';
+  if (!r?.body) throw new Error(`together: ${r?.status ?? 'нет ответа'}`);
+  return r.body;
+}
+
+/** Что эта десятка значит для меня: насколько фильм подходит моему профилю (модель, 0..1 — это мой вклад
+ *  в «пересечение вкусов») и видел ли я его уже. У нового участника (меньше MIN_RATED оценок) вкуса ещё
+ *  нет — `fit` не отправляем, чтобы не тянуть итог к случайному. */
+export async function togetherMine(deck: TogetherCard[]): Promise<Record<ID, { fit?: number; seen: boolean }>> {
+  await catalog();
+  const keys = seenKeys();
+  const state = ratedCount() >= MIN_RATED ? ownState() : undefined;
+  const out: Record<ID, { fit?: number; seen: boolean }> = {};
+  for (const c of deck) {
+    const w = deckCard(c.id) ?? candidates().find((x) => x.work.id === c.id)?.work;
+    const fit = state && w?.complexityLevel ? Math.max(0, Math.min(1, scoreCandidate(state, w, settings.energy ?? 'normal'))) : undefined;
+    out[c.id] = { seen: Boolean(w && (seen(w, keys) || keys.has(w.id))), ...(fit != null && Number.isFinite(fit) ? { fit } : {}) };
+  }
+  return out;
+}
+
+export async function voteTogether(id: string, workId: ID, vote: TogetherVote, fit?: number): Promise<void> {
+  const r = await togetherCall<{ ok: true }>(`/api/together/${encodeURIComponent(id)}/vote`, {
+    method: 'PUT', body: JSON.stringify({ workId, vote, ...(fit != null ? { fit } : {}) }),
+  });
+  if (!r?.body) throw new Error(`vote: ${r?.status ?? 'нет ответа'}`);
+}
+
+/** Где человек: первый сегмент адреса (`#/today`, `#/journal`, `#/works/…`) — для замера, не для логики. */
+const placeNow = (): string => (typeof location === 'undefined' ? '' : location.hash.replace(/^#\/?/, '').split(/[/?]/)[0] || 'today');
+/** Карточка, уже отмеченная в этот запуск: шторка перерисовывается при каждой смене вкладки, а
+ *  воронке нужно «открыл карточку», а не «перерисовал». Сервер всё равно считает пары «человек — фильм — день». */
+const cardsNoted = new Map<ID, number>();
+
+/** Открыли карточку произведения (ЗП-3): знаменатель для «Смотреть» и «открыл разбор». Не дошло — не беда. */
+export function noteCard(workId: ID, place = placeNow()): void {
+  const last = cardsNoted.get(workId);
+  if (last && Date.now() - last < 30 * 60e3) return;
+  cardsNoted.set(workId, Date.now());
+  store.event({ kind: 'card', workId, place }).catch(() => undefined);
+}
+
+/** Нажали «Смотреть в …» (ЗП-3): переход в онлайн-кинотеатр. */
+export function noteWatch(workId: ID | undefined, platform: string): void {
+  store.event({ kind: 'watch', ...(workId ? { workId } : {}), place: placeNow(), detail: platform }).catch(() => undefined);
+}
+
 /** Страница произведения. Неизвестный id — undefined, экран показывает «нет такого». */
 export async function getWork(id: ID): Promise<WorkDetail | undefined> {
   await delay(200);
-  await Promise.all([catalog(), workRefs()]);
+  await Promise.all([catalog(), workRefs(), loadCharacterImages()]);
   // карточка ищется везде, где мы знаем произведения: дневник, пул, присланное просмотренное,
   // справочник. Просмотренного тут раньше не было, и ссылка на него (например из «рядом
   // называют») упиралась в «такого произведения нет» (23.09)
@@ -1151,6 +1463,53 @@ export async function getWork(id: ID): Promise<WorkDetail | undefined> {
     ...(heroes.length ? { heroes } : {}),
     ...(tropeMentions.length ? { tropeMentions } : {}),
   };
+}
+
+/** Описания карточек справочника (07.10): 16 долей по id (src/lib/shard.ts), подгружаются по одной — при старте
+ *  их не грузим (было 1,4 МБ из 3,6 МБ справочника обложек). */
+const blurbShards = import.meta.glob<{ blurbs: Record<string, string> }>('../mocks/baseBlurbs/*.ts');
+async function baseBlurb(id: ID): Promise<string | undefined> {
+  const load = blurbShards[`../mocks/baseBlurbs/${shardOf(id)}.ts`];
+  return load ? (await load()).blurbs[id] : undefined;
+}
+
+/** «Сюжет» в карточке: описание из подробностей, иначе — из справочника (TMDb). Раньше у карточек справочника
+ *  описание лежало в сборке, но в «Сюжет» не попадало — там было «описания нет». */
+export async function getPlot(id: ID): Promise<string | undefined> {
+  const d = await getWork(id);
+  return d?.synopsis?.trim() || d?.blurb?.trim() || (d ? await baseBlurb(d.id) : undefined) || undefined;
+}
+
+/** «Поделиться» (05.10): у друга нет карточки с нашим id (у истории свои `u-kp…`), поэтому в ссылку
+ *  идёт внешний ключ произведения — тот же, что у разборов (`tmdb:`, `imdb:` у сериала, `wd:`/`olw:`/`isbn:`
+ *  у книги), без ключа — Кинопоиск, и только в крайнем случае id карточки. Параметр запуска Telegram
+ *  (`startapp`) знает лишь буквы, цифры, `_` и `-`: двоеточие становится `_`. */
+export function shareParam(work: WorkCard): string | undefined {
+  const ids = work.externalIds ?? externalIds[work.id];
+  const key = primaryKey(work, ids) ?? (ids?.kinopoisk != null ? `kp:${ids.kinopoisk}` : undefined);
+  const param = key ? `w-${key.replace(':', '_')}` : `c-${work.id}`;
+  return /^[A-Za-z0-9_-]{1,64}$/.test(param) ? param : undefined;
+}
+
+/** Карточка-сообщение для «Поделиться» (06.10): постер, название, строка о произведении и кнопка. */
+export interface ShareCard { param: string; title: string; year?: number; kind?: 'film' | 'series' | 'book' | 'character' | 'together'; by?: string; about?: string; image?: string }
+export async function prepareShare(card: ShareCard): Promise<string | undefined> {
+  return store.onServer ? prepareShareMessage({ ...card }).catch(() => undefined) : undefined;
+}
+
+/** Карточка по параметру из ссылки «Поделиться»: id, который знает `getWork`, или undefined. */
+export async function openShared(param: string): Promise<ID | undefined> {
+  await Promise.all([catalog(), workRefs()]);
+  const byId = /^c-(.+)$/.exec(param)?.[1];
+  const m = /^w-([a-z]+)_(.+)$/.exec(param);
+  const all = [...history().map((e) => e.work), ...candidates().map((c) => c.work), ...watchedNow(), ...filmBase, ...filmBaseWiki];
+  if (byId) return all.find((w) => w.id === byId)?.id ?? candidateCard(byId)?.id;
+  if (!m) return undefined;
+  const key = `${m[1]}:${m[2]}`;
+  return all.find((w) => {
+    const ids = w.externalIds ?? externalIds[w.id];
+    return m[1] === 'kp' ? String(ids?.kinopoisk ?? '') === m[2] : workKeys(w, ids).includes(key);
+  })?.id;
 }
 
 /** Поиск по всему, что мы знаем: каталог, история, пул, просмотренное и справочник фильмов.
@@ -1384,7 +1743,7 @@ export async function markWork(workId: ID, outcome: { status: 'finished' | 'aban
 /** Сколько оценок не хватает до первой ленты (0 — лента есть; без сервера порога нет). */
 export async function coldStartLeft(): Promise<number> {
   await delay(0);
-  return store.onServer ? Math.max(0, MIN_RATED - ratedCount()) : 0;
+  return store.onServer || freshStart ? Math.max(0, MIN_RATED - ratedCount()) : 0;
 }
 
 async function markWorkInner(workId: ID, outcome: { status: 'finished' | 'abandoned'; rating?: 1 | 2 | 3 | 4 | 5 }): Promise<{ rated: number; needed: number }> {
@@ -1619,17 +1978,72 @@ export async function completeAssessment(id: ID): Promise<CognitiveMapData> {
 // Настройки в моке живут в памяти: экран «Профиль» меняет их, остальные экраны видят.
 // заполняется при загрузке core (mocks.settings) и поверх — с сервера
 let settings: UserSettings = {} as UserSettings;
+/** Разбор на языке, который участник выбрал в настройках (`materialLanguages`, по умолчанию
+ *  только русский). Вес обсуждения в рейтинге (`weightsByKey`) язык не учитывает: это сигнал
+ *  о произведении, а не то, что показываем. */
+const shownLanguage = (a: ExternalAnalysis): boolean => (settings.materialLanguages ?? ['ru']).includes(a.language === 'en' ? 'en' : 'ru');
+
+/** Категория участника (ТВ-3в, 06.10): админ (владелец) — всё; тестер — все полки, без статистики и
+ *  механики; участник — полки по доле выката. Без сервера в разработке — админ: превью показывает всё. */
+export type Role = 'admin' | 'tester' | 'user';
+export function sessionRole(): Role {
+  if (profile?.role) return profile.role;
+  if (profile?.owner) return 'admin';
+  return !store.onServer && import.meta.env.DEV ? 'admin' : 'user';
+}
+/** Механика (карта операций, уровни, прогноз) — данные трансформативного обучения, только админу:
+ *  остальным переключатель выключен, что бы ни лежало в сохранённых настройках. */
+const visibleSettings = (s: UserSettings): UserSettings => (sessionRole() === 'admin' ? s : { ...s, showDetails: false });
 
 export async function getSettings(): Promise<UserSettings> {
   await delay(140);
-  return settings;
+  return visibleSettings(settings);
 }
 
 export async function updateSettings(patch: Partial<UserSettings>): Promise<UserSettings> {
   await delay(160);
   settings = { ...settings, ...patch };
   await store.settings(patch);
-  return settings;
+  return visibleSettings(settings);
+}
+
+/** Тестеры (ТВ-3в): список ведёт админ в настройках. Без сервера — пусто. */
+export interface Tester { username: string; at: string }
+// ─── подписки на разборы (06.10) ─────────────────────────────────────────────
+/** Подписка: герой — элемент Wikidata; произведение — ключ разборов и все ключи карточки. */
+export type FollowTarget = { kind: 'work'; ref: string; keys: string[]; title: string } | { kind: 'character'; ref: string; title: string };
+export type Follow = FollowRow;
+/** Следить можно только на сервере: сводку присылает бот. */
+export const followsAvailable = (): boolean => store.onServer;
+let followList: Promise<Follow[]> | undefined;
+const followListeners = new Set<(list: Follow[]) => void>();
+export function getFollows(): Promise<Follow[]> {
+  followList ??= fetchFollows().then((r) => r?.follows ?? []).catch(() => { followList = undefined; return []; });
+  return followList;
+}
+export function onFollowsChange(fn: (list: Follow[]) => void): () => void {
+  followListeners.add(fn);
+  return () => { followListeners.delete(fn); };
+}
+/** Подписаться или отписаться; для отписки хватает вида и ссылки — строка из списка подписок подходит. */
+export async function setFollow(t: FollowTarget | Follow, on: boolean): Promise<Follow[]> {
+  const r = await fetchFollows({ kind: t.kind, ref: t.ref, title: t.title, ...('keys' in t ? { keys: t.keys } : {}), on });
+  const list = r?.follows ?? [];
+  followList = Promise.resolve(list);
+  for (const fn of followListeners) fn(list);
+  return list;
+}
+/** Подписка на произведение: ключи, по которым к карточке приходят разборы. */
+export function followOfWork(work: WorkCard): FollowTarget | undefined {
+  const keys = workKeys(work, work.externalIds ?? externalIds[work.id]).filter((k) => /^[a-z]{2,10}:[A-Za-z0-9_.-]{1,40}$/.test(k));
+  return keys.length ? { kind: 'work', ref: keys[0], keys, title: work.title } : undefined;
+}
+
+export async function getTesters(): Promise<Tester[]> {
+  return (await fetchTesters())?.testers ?? [];
+}
+export async function setTester(username: string, on: boolean): Promise<Tester[]> {
+  return (await fetchTesters({ username, on }))?.testers ?? [];
 }
 
 /** Решения куратора в сессии: статус поверх мока. Самое неуверенное — первым. */
@@ -1689,10 +2103,10 @@ async function loadLoopSignals(): Promise<void> {
 const loopText = (s: WorkSignal | undefined): string | undefined => {
   if (!s?.score) return undefined;
   const parts = [
-    s.harder ? ru.curator.loopHarder(s.harder) : '', s.easier ? ru.curator.loopEasier(s.easier) : '',
-    s.abandonFit ? ru.curator.loopAbandon(s.abandonFit) : '', s.dismissFit ? ru.curator.loopDismiss(s.dismissFit) : '',
+    s.harder ? ui.curator.loopHarder(s.harder) : '', s.easier ? ui.curator.loopEasier(s.easier) : '',
+    s.abandonFit ? ui.curator.loopAbandon(s.abandonFit) : '', s.dismissFit ? ui.curator.loopDismiss(s.dismissFit) : '',
   ].filter(Boolean);
-  return `${parts.join(' · ')} (${ru.curator.loopChecks(s.checks)})`;
+  return `${parts.join(' · ')} (${ui.curator.loopChecks(s.checks)})`;
 };
 
 interface DraftSource { id: ID; key?: string; annotation: FirstPassAnnotation; work: WorkCard; own: boolean;
@@ -1747,7 +2161,7 @@ function draftItem(d: DraftSource): AnnotationReviewItem {
   const low = d.annotation.confidence === 'low';
   return {
     annotationId: d.id,
-    work: { id: d.work.id, type: d.work.type, title: d.season ? ru.curator.seasonOf(d.work.title, d.season) : d.work.title,
+    work: { id: d.work.id, type: d.work.type, title: d.season ? ui.curator.seasonOf(d.work.title, d.season) : d.work.title,
       year: d.season ? (d.seasons?.[d.season]?.year ?? (d.annotation as SeasonDraft).year ?? d.work.year) : d.work.year, creators: d.work.creators ?? [] },
     status: reviewMarks()[d.id]?.status ?? 'needs_review',
     tmdfVersion: draftMeta?.tmdfVersion ?? '0.3.1',
@@ -1851,17 +2265,17 @@ export async function getAnnotationDiff(id: ID): Promise<AnnotationDiffRow[]> {
   if (d) {
     const a = d.annotation;
     const conf = a.confidence;
-    const opName = (op: CognitiveOperation) => ru.operations[op]?.short ?? op;
+    const opName = (op: CognitiveOperation) => ui.operations[op]?.short ?? op;
     return [
-      { path: ru.curator.draftFields.what, draft: a.what, current: null, confidence: conf },
-      { path: ru.curator.draftFields.level, draft: String(a.level), current: null, confidence: conf },
-      { path: ru.curator.draftFields.ops, draft: a.ops.map(([op, x]) => `${opName(op)} ${x.toFixed(1)}`).join(', '), current: null, confidence: conf },
-      { path: ru.curator.draftFields.barriers, draft: a.barriers.join(', ') || '—', current: null },
-      { path: ru.curator.draftFields.warnings, draft: a.warnings.join(', ') || '—', current: null },
-      { path: ru.curator.draftFields.niche, draft: a.niche ? ru.curator.draftFields.yes : ru.curator.draftFields.no, current: null },
+      { path: ui.curator.draftFields.what, draft: a.what, current: null, confidence: conf },
+      { path: ui.curator.draftFields.level, draft: String(a.level), current: null, confidence: conf },
+      { path: ui.curator.draftFields.ops, draft: a.ops.map(([op, x]) => `${opName(op)} ${x.toFixed(1)}`).join(', '), current: null, confidence: conf },
+      { path: ui.curator.draftFields.barriers, draft: a.barriers.join(', ') || '—', current: null },
+      { path: ui.curator.draftFields.warnings, draft: a.warnings.join(', ') || '—', current: null },
+      { path: ui.curator.draftFields.niche, draft: a.niche ? ui.curator.draftFields.yes : ui.curator.draftFields.no, current: null },
       // поправки сезонов обычного сериала (Е2): что в сезоне иначе, чем в сериале
       ...Object.entries(d.seasons ?? {}).map(([n, x]) => ({
-        path: ru.curator.draftFields.season(Number(n)), draft: `${ru.curator.draftFields.level.toLowerCase()} ${x.level} · ${x.what}`, current: null, confidence: x.confidence,
+        path: ui.curator.draftFields.season(Number(n)), draft: `${ui.curator.draftFields.level.toLowerCase()} ${x.level} · ${x.what}`, current: null, confidence: x.confidence,
       })),
     ];
   }
@@ -2053,13 +2467,14 @@ function analysesFor(work: WorkCard, detail?: ExternalAnalysis[]): ExternalAnaly
   const haveUrl = new Set((detail ?? []).map((a) => a.url));
   const haveTitle = new Set((detail ?? []).map((a) => norm(a.title)));
   const out: ExternalAnalysis[] = [...(detail ?? [])];
+  attachLenses(out, essayLenses);
   for (const a of extra) {
     if (haveUrl.has(a.url) || haveTitle.has(norm(a.title))) continue;
     haveUrl.add(a.url);
     haveTitle.add(norm(a.title));
     out.push(a);
   }
-  return out;
+  return out.filter(shownLanguage);
 }
 
 /** Все разборы одного автора по фильмам, которые мы знаем. Собирается из тех же трёх
@@ -2096,8 +2511,12 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
   }
   const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
   const items = [...byKey.values()]
-    .map((i) => ({ ...i, analyses: [...i.analyses].sort((x, y) => stamp(y) - stamp(x)) }))
+    .map((i) => ({ ...i, work: withMedia(i.work), analyses: [...i.analyses].sort((x, y) => stamp(y) - stamp(x)) }))
     .sort((a, b) => stamp(b.analyses[0]) - stamp(a.analyses[0]));
+  // обложки (ТВ-10): свои — всем, недостающие у TMDb — первым сорока, что видны сразу; у
+  // эссеиста бывают сотни разборов, и спрашивать про каждый незачем
+  const head = await pictured(items.slice(0, 40).map((i) => i.work));
+  head.forEach((w, n) => { items[n].work = w; });
   // профиль по всем каналам автора: доли складываются с весом объёма канала
   const authors = new Set(items.flatMap((i) => i.analyses.map((a) => a.author)));
   const { channelProfiles } = await import('@/mocks/channelProfiles');
@@ -2122,6 +2541,8 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
  *  `/voice/:id` — там эссеист, который разбирает. */
 export interface PersonPage {
   person: Person;
+  /** лицо и пара слов (06.10, tools/resolve-people-info.mts): фото Commons, описание, годы жизни */
+  info?: { image?: string; description?: string; born?: number; died?: number };
   /** есть элемент Wikidata — иначе человек опознан только по имени в карточках */
   wikidata: boolean;
   roles: CreditRole[];
@@ -2135,6 +2556,10 @@ export interface PersonPage {
   startWith?: { work: WorkCard; why: 'near' | 'entry'; level: number };
   trajectories: { id: ID; title: string }[];
 }
+
+// лицо и пара слов об авторе — отдельным куском: 270 КБ нужны только странице автора
+let peopleInfoCache: Promise<Record<string, { img?: string; d?: string; b?: number; x?: number }>> | undefined;
+const peopleInfoLoad = () => (peopleInfoCache ??= import('@/mocks/peopleInfo').then((m) => m.peopleInfo).catch(() => ({} as Record<string, never>)));
 
 export async function getPerson(ref: string): Promise<PersonPage | undefined> {
   await delay(200);
@@ -2158,10 +2583,15 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
     if (!item.work.complexityLevel && w.complexityLevel) item.work = w;
     byWork.set(id, item);
   }
-  const about = aboutOrder(isPersonId(ref) ? (await aboutVideos()).person[ref] ?? [] : []);
+  let about = aboutOrder(isPersonId(ref) ? (await aboutVideos()).person[ref] ?? [] : []);
   // человек без работ в каталоге, но с роликами о нём — страница всё равно есть
   if ((!byWork.size && !about.length) || !name) return undefined;
+  // ролики рубрики «Об авторе» (ТВ-3, 06.10) у его работ — тоже о нём: в «о нём», а не в разборы
+  // фильма; и у обзорного канала — рубрика уже сказала, что ролик об авторе, а не обзор фильма
+  const authorish: ExternalAnalysis[] = [];
   const person: Person = known ?? { id: ref, name };
+  const pi = isPersonId(ref) ? (await peopleInfoLoad())[ref] : undefined;
+  const info = pi ? { ...(pi.img ? { image: pi.img } : {}), ...(pi.d ? { description: pi.d } : {}), ...(pi.b ? { born: pi.b } : {}), ...(pi.x ? { died: pi.x } : {}) } : undefined;
 
   const analyses: PersonPage['analyses'] = [];
   const count = new Map<string, number>();
@@ -2171,12 +2601,18 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
     const seenUrl = new Set<string>();
     for (const src of [essays, essaysAuto, postsAuto]) {
       for (const a of src[key] ?? []) {
-        if (a.tier === 'review' || seenUrl.has(a.url) || linkVerdicts.get(a.url) === 'other_work') continue;
+        if (seenUrl.has(a.url) || linkVerdicts.get(a.url) === 'other_work') continue;
+        if (a.lens === 'author' || a.lensAlso === 'author') { seenUrl.add(a.url); authorish.push(a); continue; }
+        if (a.tier === 'review') continue;
         seenUrl.add(a.url);
         analyses.push({ work, analysis: a, seen });
       }
     }
     count.set(key, seenUrl.size);
+  }
+  if (authorish.length) {
+    const have = new Set(about.map((a) => a.url));
+    about = aboutOrder([...about, ...authorish.filter((a) => !have.has(a.url) && (have.add(a.url), true))]);
   }
   const stamp = (a: ExternalAnalysis) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
   analyses.sort((x, y) => Number(Boolean(x.analysis.unverified)) - Number(Boolean(y.analysis.unverified)) || stamp(y.analysis) - stamp(x.analysis));
@@ -2202,7 +2638,7 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
   const roleOrder: CreditRole[] = ['director', 'creator', 'author', 'writer'];
   const roles = roleOrder.filter((r) => works.some((x) => x.roles.includes(r)));
   return {
-    person, wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24), about,
+    person, ...(info ? { info } : {}), wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24), about,
     ...(pick ? { startWith: { work: pick.work, why: comfort != null ? 'near' as const : 'entry' as const, level: pick.work.complexityLevel } } : {}),
     trajectories,
   };
@@ -2212,7 +2648,7 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
 let aboutLoad: Promise<{ universe: Record<string, ExternalAnalysis[]>; person: Record<string, ExternalAnalysis[]> }> | undefined;
 const aboutVideos = () => (aboutLoad ??= import('@/mocks/essaysAbout').then((m) => m.essaysAbout));
 /** эссе первыми, обзоры за ними; внутри — свежие первыми */
-const aboutOrder = (list: ExternalAnalysis[]): ExternalAnalysis[] => [...list].sort((a, b) =>
+const aboutOrder = (list: ExternalAnalysis[]): ExternalAnalysis[] => list.filter(shownLanguage).sort((a, b) =>
   Number(a.tier === 'review') - Number(b.tier === 'review') || (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
 
 /** Вердикты по автонайденным разборам: ключ — ссылка на ролик. */
@@ -2255,7 +2691,11 @@ function placesFor(work: WorkCard): DiscussionPlace[] {
 
 export async function getDiscussions(workId: ID): Promise<DiscussionPlace[]> {
   await delay(180);
-  const work = mocks.works[workId] ?? history().find((e) => e.work.id === workId)?.work;
+  await catalog();
+  // карточка ищется там же, где у getWork: справочник и пул тоже (ТВ-5г) — раньше у них была
+  // только ручная подборка мест, без поиска по каналам и чатам
+  const work = mocks.works[workId] ?? history().find((e) => e.work.id === workId)?.work ?? candidateCard(workId)
+    ?? watchedNow().find((w) => w.id === workId) ?? filmBase.find((w) => w.id === workId) ?? filmBaseWiki.find((w) => w.id === workId);
   return work ? placesFor(work) : mocks.discussions.filter((d) => d.workId === workId);
 }
 
@@ -2275,7 +2715,7 @@ export async function updateContributorProfile(patch: Partial<ContributorProfile
  *  несколько файлов одного человека. Разбор на клиенте; сюда — уже текст файлов. Каталог с внешними ID — как его вернёт
  *  резолвер. Неразобранный формат — undefined. Записи в дневник пока не сохраняются:
  *  эндпоинта нет, экран показывает результат сопоставления. */
-export async function importHistory(files: string | string[]): Promise<(ImportOutcome & { sources: ImportSource[]; resolved: number }) | undefined> {
+export async function importHistory(files: ExportFile | ExportFile[]): Promise<(ImportOutcome & { sources: ImportSource[]; resolved: number }) | undefined> {
   await delay(300);
   await loadCatalog();
   const parsed = parseExports(Array.isArray(files) ? files : [files]);
@@ -2324,12 +2764,55 @@ export async function suggest(kind: 'work' | 'voice', title: string, note?: stri
   return { ok: true };
 }
 
+/** Что не так в карточке (02.10): поля — ключи `WorkIssueField`. Без сервера — `ok: false`, как у заявок:
+ *  в разработке сообщить некуда, и человек должен это узнать, а не думать, что отправил. */
+export type WorkIssueField = 'title' | 'year' | 'people' | 'synopsis' | 'image' | 'duration' | 'type' | 'watch' | 'analyses' | 'relations' | 'heroes' | 'other';
+export async function reportWorkIssue(work: Pick<WorkCard, 'id' | 'title' | 'year'>, fields: WorkIssueField[], note?: string, context?: string): Promise<{ ok: boolean }> {
+  if (!store.onServer) { await delay(120); return { ok: false }; }
+  await store.workIssue(work.id, work.year ? `${work.title} (${work.year})` : work.title, fields, note?.trim() || undefined, context);
+  return { ok: true };
+}
+
 export async function isOwnerSession(): Promise<boolean> {
   await delay(0);
   return Boolean(profile?.owner);
 }
 
 /** Отчёт петли: калибровка, совпадения, отказы, принятие слейта. Без сервера — нечего считать. */
+// ─── разметка владельца с телефона (06.10) ────────────────────────────────────
+// Очередь собирает tools/owner-queue.mts из вкладок «Проверка» и «Рубрики» пульта, решения
+// забирает tools/owner-pull.mts. Здесь только показ и запись.
+export interface OwnerCheckItem {
+  id: string; title: string; channel?: string; date?: string; minutes?: number; group: 'spor' | 'check' | 'gap';
+  film?: string; evidence?: string;
+  model?: { flag: string; says: string; film?: string; typed?: string; note?: string; conf?: number;
+    also?: string[]; about?: { kind: 'universe' | 'person'; title: string } };
+}
+export interface OwnerLensItem { id: string; title: string; channel?: string; lens: string; also?: string; conf?: number; works: string[] }
+export interface OwnerDesk {
+  at: string;
+  lenses: { id: string; name: string; weak: boolean }[];
+  check: OwnerCheckItem[]; lens: OwnerLensItem[]; films: string[];
+  /** решения, уже лежащие на сервере: ключ `${kind}:${id}` */
+  decided: Set<string>;
+}
+export type OwnerCheckAction = 'ok' | 'set' | 'wrong' | 'notfilm' | 'several' | 'franchise' | 'person';
+
+/** undefined — без сервера; null — очереди ещё нет (не отправлена с Mac). */
+export async function getOwnerDesk(): Promise<OwnerDesk | null | undefined> {
+  const r = await fetchOwnerDesk().catch((e: Error) => { if (/^owner desk: 404/.test(e.message)) return null; throw e; });
+  if (!r) return r;
+  const q = r.queue as Omit<OwnerDesk, 'decided'>;
+  const items = (r.decisions as { items: { kind: string; id: string; clear?: boolean }[] }).items;
+  return { ...q, decided: new Set(items.filter((x) => !x.clear).map((x) => `${x.kind}:${x.id}`)) };
+}
+
+export const decideOwnerCheck = (id: string, action: OwnerCheckAction, film?: string, also?: string[]) =>
+  store.ownerDecision({ kind: 'check', id, action, ...(film ? { film } : {}), ...(also?.length ? { also } : {}) });
+export const decideOwnerLens = (id: string, lens: string, also?: string) =>
+  store.ownerDecision({ kind: 'lens', id, lens, ...(also ? { also } : {}) });
+export const clearOwnerDecision = (kind: 'check' | 'lens', id: string) => store.ownerDecision({ kind, id, clear: true });
+
 export async function getLoopReport(scope: 'all' | 'me' = 'all'): Promise<LoopReportData | undefined> {
   await delay(120);
   return (await fetchLoopReport(scope)) as LoopReportData | undefined;
@@ -2360,9 +2843,13 @@ export interface StatsPage {
     /** ролики о вселенной или человеке целиком (решения разметки) */
     about: number;
     first?: ISODate; last?: ISODate;
+    /** вес обсуждения (src/lib/weights.ts): доверие × содержательность, по каналу с насыщением */
+    weight: number;
+    /** он же с затуханием — полвеса за полгода: о чём говорят сейчас */
+    weightNow: number;
   };
-  /** место по числу материалов среди произведений (или вселенных), у которых они есть */
-  rank?: { place: number; of: number };
+  /** место по весу обсуждения среди произведений (или вселенных) с материалами; `now` — по свежему весу */
+  rank?: { place: number; of: number; now?: number };
   /** по годам; если материалы укладываются в два года — по кварталам */
   timeline: { period: string; videos: number; posts: number }[];
   channels: StatsChannel[];
@@ -2384,7 +2871,7 @@ function materialsOf(keys: Iterable<string>): { key: string; a: ExternalAnalysis
     for (const src of [essays, essaysAuto, postsAuto]) {
       for (const raw of src[key] ?? []) {
         const verdict = linkVerdicts.get(raw.url);
-        if (verdict === 'other_work' || seenUrl.has(raw.url)) continue;
+        if (verdict === 'other_work' || seenUrl.has(raw.url) || !shownLanguage(raw)) continue;
         seenUrl.add(raw.url);
         out.push({ key, a: verdict === 'about_this' ? { ...raw, unverified: undefined } : raw });
       }
@@ -2393,23 +2880,30 @@ function materialsOf(keys: Iterable<string>): { key: string; a: ExternalAnalysis
   return out;
 }
 
-/** Число материалов по каждому ключу — для места в рейтинге; считается один раз. */
-let materialCounts: Map<string, number> | undefined;
-function countsByKey(): Map<string, number> {
-  if (materialCounts) return materialCounts;
-  const urls = new Map<string, Set<string>>();
+/** Вес обсуждения по каждому ключу — для места в рейтинге (src/lib/weights.ts): за всё время и
+ *  «сейчас» (полвеса за полгода). Считается один раз. */
+let keyWeights: Map<string, { all: number; now: number }> | undefined;
+const recordTrustImport = () => import('@/mocks/recordTrust');
+let trust: Awaited<ReturnType<typeof recordTrustImport>>['recordTrust'] = {};
+const voiceKey = (a: ExternalAnalysis) => voiceOf(a).id;
+function weightsByKey(): Map<string, { all: number; now: number }> {
+  if (keyWeights) return keyWeights;
+  const lists = new Map<string, ExternalAnalysis[]>();
   for (const src of [essays, essaysAuto, postsAuto]) {
     for (const [key, list] of Object.entries(src)) {
-      const set = urls.get(key) ?? urls.set(key, new Set()).get(key)!;
-      for (const a of list) if (linkVerdicts.get(a.url) !== 'other_work') set.add(a.url);
+      const have = lists.get(key) ?? lists.set(key, []).get(key)!;
+      for (const a of list) if (linkVerdicts.get(a.url) !== 'other_work' && !have.some((x) => x.url === a.url)) have.push(a);
     }
   }
-  materialCounts = new Map([...urls].map(([k, s]) => [k, s.size]));
-  return materialCounts;
+  keyWeights = new Map([...lists].map(([k, l]) => [k, { all: weightOf(l, voiceKey, { trust }), now: weightOf(l, voiceKey, { trust, fresh: true }) }]));
+  return keyWeights;
 }
 
-const rankOf = (value: number, all: number[]): { place: number; of: number } | undefined =>
-  value > 0 ? { place: all.filter((n) => n > value).length + 1, of: all.filter((n) => n > 0).length } : undefined;
+function rankWith(mine: { all: number; now: number }, all: { all: number; now: number }[]): StatsPage['rank'] {
+  if (!(mine.all > 0)) return undefined;
+  return { place: all.filter((x) => x.all > mine.all).length + 1, of: all.filter((x) => x.all > 0).length,
+    ...(mine.now > 0.05 ? { now: all.filter((x) => x.now > mine.now).length + 1 } : {}) };
+}
 
 /** Ключи разборов у произведения вселенной: по карточке (у книги их несколько), иначе — ключ узла. */
 function memberKeys(q: string, byKey: Map<string, WorkCard>): string[] {
@@ -2425,7 +2919,7 @@ const mediaMentions = () => (mentionsLoad ??= mentionsImport());
 
 export async function getStats(kind: StatsKind, id: string): Promise<StatsPage | undefined> {
   await delay(150);
-  await Promise.all([catalog(), workRefs()]);
+  await Promise.all([catalog(), workRefs(), recordTrustImport().then((m) => { if (trust !== m.recordTrust) { trust = m.recordTrust; keyWeights = undefined; } })]);
   const byKey = worksByAnalysisKey();
   let title: string;
   let back: string;
@@ -2441,8 +2935,9 @@ export async function getStats(kind: StatsKind, id: string): Promise<StatsPage |
     back = `/works/${id}`;
     const keys = workKeys(work, work.externalIds ?? externalIds[work.id]);
     groups.set(id, { workId: id, title: work.title, ...(work.year ? { year: work.year } : {}), keys });
-    const counts = countsByKey();
-    rank = rankOf(Math.max(0, ...keys.map((k) => counts.get(k) ?? 0)), [...counts.values()]);
+    const ws = weightsByKey();
+    const mine = keys.map((k) => ws.get(k)).filter(Boolean).sort((a, b) => b!.all - a!.all)[0];
+    rank = mine ? rankWith(mine, [...ws.values()]) : undefined;
   } else if (kind === 'universe') {
     const { members } = universeIndex();
     const list = members.get(id);
@@ -2458,11 +2953,13 @@ export async function getStats(kind: StatsKind, id: string): Promise<StatsPage |
       const card = byKey.get(keys[0]) ?? byKey.get(n.key!);
       groups.set(q, { ...(card ? { workId: card.id } : {}), title: n.t, ...(n.y ? { year: n.y } : {}), keys });
     }
-    // место среди вселенных: сумма материалов по произведениям
-    const counts = countsByKey();
-    const sum = (qs: string[]) => qs.reduce((s, q) => s + (relationNodes[q]?.key ? counts.get(relationNodes[q]!.key!) ?? 0 : 0), 0);
-    const sums = [...members.values()].filter((qs) => qs.length >= 3).map(sum);
-    rank = rankOf(sum(list), sums);
+    // место среди вселенных: сумма весов по произведениям
+    const ws = weightsByKey();
+    const sum = (qs: string[]) => qs.reduce((s, q) => {
+      const w = relationNodes[q]?.key ? ws.get(relationNodes[q]!.key!) : undefined;
+      return { all: s.all + (w?.all ?? 0), now: s.now + (w?.now ?? 0) };
+    }, { all: 0, now: 0 });
+    rank = rankWith(sum(list), [...members.values()].filter((qs) => qs.length >= 3).map(sum));
   } else {
     const known = isPersonId(id) ? people[id] : undefined;
     let name = known?.name;
@@ -2572,6 +3069,8 @@ export async function getStats(kind: StatsKind, id: string): Promise<StatsPage |
       channels: channels.length,
       about: about.length,
       ...(dates.length ? { first: dates[0], last: dates[dates.length - 1] } : {}),
+      weight: Math.round(weightOf(all, voiceKey, { trust }) * 10) / 10,
+      weightNow: Math.round(weightOf(all, voiceKey, { trust, fresh: true }) * 10) / 10,
     },
     ...(rank ? { rank } : {}),
     timeline: [...tl.values()],

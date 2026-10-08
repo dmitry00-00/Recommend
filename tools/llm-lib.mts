@@ -101,11 +101,11 @@ export async function gatewayUp(): Promise<boolean> {
   try { return (await fetch(`${GATEWAY}/health`, { signal: AbortSignal.timeout(4000) })).ok; } catch { return false; }
 }
 
-export async function classify(items: { id: string; text: string }[], opts: { prompt: string; model: string; batch: number; maxChars: number }): Promise<{ results: GwResult[]; stats: GwStats }> {
+export async function classify(items: { id: string; text: string }[], opts: { prompt: string; model: string; batch: number; maxChars: number; labels?: readonly string[] }): Promise<{ results: GwResult[]; stats: GwStats }> {
   const r = await fetch(`${GATEWAY}/v1/classify`, {
     method: 'POST',
     headers: { 'content-type': 'application/json', authorization: 'Bearer recomend', 'x-priority': 'batch' },
-    body: JSON.stringify({ model: opts.model, prompt: opts.prompt, labels: KINDS, items, batch: opts.batch, max_chars: opts.maxChars }),
+    body: JSON.stringify({ model: opts.model, prompt: opts.prompt, labels: opts.labels ?? KINDS, items, batch: opts.batch, max_chars: opts.maxChars }),
   });
   if (!r.ok) throw new Error(`шлюз: HTTP ${r.status} ${(await r.text()).slice(0, 300)}`);
   return r.json() as Promise<{ results: GwResult[]; stats: GwStats }>;

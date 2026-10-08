@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { ContributorAnswer, ContributorTask } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
+import { titleOf } from '@/lib/format';
 
 export type DesireCheckTask = ContributorTask & { payload: Extract<ContributorTask['payload'], { kind: 'desire_check' }> };
 type Verdict = 'agree' | 'disagree' | 'unsure';
@@ -30,14 +31,14 @@ export function DesireCheck({ task, onChange }: DesireCheckProps) {
   };
   return (
     <section className="tm-tropecheck">
-      <h3 className="tm-tropecheck__title">{ru.contribute.whichDesires(t.work.title)}</h3>
+      <h3 className="tm-tropecheck__title">{ui.contribute.whichDesires(titleOf(t.work))}</h3>
       <ul className="tm-tropecheck__list">
         {t.candidates.map((c) => (
           <li key={c.character} className="tm-tropecheck__row">
             <p className="tm-tropecheck__name">{c.character}</p>
             <p className="tm-tropecheck__def">
-              <span className="tm-label">{ru.desire.explicit}</span>{` ${c.explicit}`}
-              {c.suppressed ? <><br /><span className="tm-label">{ru.desire.suppressed}</span>{` ${c.suppressed}`}</> : null}
+              <span className="tm-label">{ui.desire.explicit}</span>{` ${c.explicit}`}
+              {c.suppressed ? <><br /><span className="tm-label">{ui.desire.suppressed}</span>{` ${c.suppressed}`}</> : null}
             </p>
             <div className="tm-row tm-row--gap-1 tm-row--wrap">
               {VERDICTS.map((v) => {
@@ -46,13 +47,13 @@ export function DesireCheck({ task, onChange }: DesireCheckProps) {
                   <button key={v} type="button" className={cx('tm-tropecheck__v', on && 'tm-tropecheck__v--on')}
                           aria-pressed={on ? 'true' : 'false'}
                           onClick={() => { const nv = { ...verdicts, [c.character]: v }; setVerdicts(nv); emit(nv, alternatives); }}>
-                    {ru.contribute.desireVerdict[v]}
+                    {ui.contribute.desireVerdict[v]}
                   </button>
                 );
               })}
             </div>
             {verdicts[c.character] === 'disagree' ? (
-              <input className="tm-input" placeholder={ru.contribute.alternativePlaceholder} value={alternatives[c.character] ?? ''}
+              <input className="tm-input" placeholder={ui.contribute.alternativePlaceholder} value={alternatives[c.character] ?? ''}
                      onChange={(e) => { const na = { ...alternatives, [c.character]: e.target.value }; setAlternatives(na); emit(verdicts, na); }} />
             ) : null}
           </li>

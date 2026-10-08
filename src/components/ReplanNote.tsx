@@ -1,5 +1,5 @@
 import type { ISODate } from '@/types/tmdf';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ReplanNoteProps {
   at?: ISODate;
@@ -13,7 +13,7 @@ export function ReplanNote({ at, reason }: ReplanNoteProps) {
     <div className="tm-replan">
       <span className="tm-replan__mark" aria-hidden="true" />
       <div>
-        <p className="tm-replan__title">{ru.trajectory.replannedAt + (at ?? '')}</p>
+        <p className="tm-replan__title">{ui.trajectory.replannedAt + (at ?? '')}</p>
         <p className="tm-replan__text">{reason}</p>
       </div>
     </div>

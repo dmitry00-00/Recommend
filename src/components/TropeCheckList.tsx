@@ -4,7 +4,8 @@ import { Button } from './Button';
 import { TropeUsagePicker } from './TropeUsagePicker';
 import { ChargePicker } from './ChargePicker';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
+import { titleOf } from '@/lib/format';
 
 export type TropeCheckTask = ContributorTask & { payload: Extract<ContributorTask['payload'], { kind: 'trope_check' }> };
 type Verdict = 'present' | 'absent' | 'unsure';
@@ -46,7 +47,7 @@ export function TropeCheckList({ task, onChange }: TropeCheckListProps) {
 
   return (
     <section className="tm-tropecheck">
-      <h3 className="tm-tropecheck__title">{ru.contribute.whichTropes(t.work.title)}</h3>
+      <h3 className="tm-tropecheck__title">{ui.contribute.whichTropes(titleOf(t.work))}</h3>
       <ul className="tm-tropecheck__list">
         {t.candidates.map((c) => (
           <li key={c.tropeId} className="tm-tropecheck__row">
@@ -58,7 +59,7 @@ export function TropeCheckList({ task, onChange }: TropeCheckListProps) {
                 return (
                   <button key={v} type="button" className={cx('tm-tropecheck__v', on && 'tm-tropecheck__v--on')}
                           aria-pressed={on ? 'true' : 'false'} onClick={() => setVerdict(c.tropeId, v)}>
-                    {ru.contribute.verdict[v]}
+                    {ui.contribute.verdict[v]}
                   </button>
                 );
               })}
@@ -74,18 +75,18 @@ export function TropeCheckList({ task, onChange }: TropeCheckListProps) {
         {missing.map((name) => (
           <li key={`m-${name}`} className="tm-tropecheck__row">
             <p className="tm-tropecheck__name">{name}</p>
-            <p className="tm-tropecheck__def">{ru.contribute.addedByYou}</p>
+            <p className="tm-tropecheck__def">{ui.contribute.addedByYou}</p>
           </li>
         ))}
       </ul>
       {adding ? (
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <input className="tm-input" value={draft} placeholder={ru.contribute.missingPlaceholder} autoFocus
+          <input className="tm-input" value={draft} placeholder={ui.contribute.missingPlaceholder} autoFocus
                  onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && addMissing()} />
-          <Button size="sm" onClick={addMissing}>{ru.contribute.add}</Button>
+          <Button size="sm" onClick={addMissing}>{ui.contribute.add}</Button>
         </div>
       ) : (
-        <Button variant="quiet" size="sm" onClick={() => setAdding(true)}>{ru.contribute.addMissing}</Button>
+        <Button variant="quiet" size="sm" onClick={() => setAdding(true)}>{ui.contribute.addMissing}</Button>
       )}
     </section>
   );

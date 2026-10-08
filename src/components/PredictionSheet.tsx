@@ -3,7 +3,8 @@ import type { PerceivedDifficulty, WorkCard } from '@/types/tmdf';
 import { Button } from './Button';
 import { DifficultyPicker } from './DifficultyPicker';
 import { Sheet } from './Sheet';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
+import { titleOf } from '@/lib/format';
 
 export interface PredictionStepProps {
   /** начать просмотр; `expected` пустой, если прогноз пропустили */
@@ -18,13 +19,13 @@ export function PredictionStep({ onStart, busy }: PredictionStepProps) {
   const [expected, setExpected] = useState<PerceivedDifficulty | undefined>();
   return (
     <div className="tm-pred">
-      <DifficultyPicker label={ru.prediction.label} value={expected} onPick={setExpected} />
-      <p className="tm-body-sm tm-pred__why">{ru.prediction.why}</p>
+      <DifficultyPicker label={ui.prediction.label} value={expected} onPick={setExpected} />
+      <p className="tm-body-sm tm-pred__why">{ui.prediction.why}</p>
       <div className="tm-row tm-row--gap-2">
         <Button variant="primary" size="sm" loading={busy} disabled={!expected} onClick={() => onStart(expected)}>
-          {ru.prediction.start}
+          {ui.prediction.start}
         </Button>
-        <Button variant="quiet" size="sm" onClick={() => onStart(undefined)}>{ru.prediction.skip}</Button>
+        <Button variant="quiet" size="sm" onClick={() => onStart(undefined)}>{ui.prediction.skip}</Button>
       </div>
     </div>
   );
@@ -39,7 +40,7 @@ export interface PredictionSheetProps extends PredictionStepProps {
 /** Тот же шаг шторкой — там, где карточка не открыта (экран произведения, маршрут). */
 export function PredictionSheet({ work, open, onOpenChange, onStart, busy }: PredictionSheetProps) {
   return (
-    <Sheet open={open} onOpenChange={onOpenChange} title={work ? work.title : ru.prediction.title}>
+    <Sheet open={open} onOpenChange={onOpenChange} title={work ? titleOf(work) : ui.prediction.title}>
       <PredictionStep onStart={onStart} busy={busy} />
     </Sheet>
   );

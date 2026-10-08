@@ -1,116 +1,98 @@
-// Сгенерировано tools/channel-profile.mts (2026-10-02): о каких вселенных и людях говорит канал.
+// Сгенерировано tools/channel-profile.mts (2026-10-08): о каких вселенных и людях говорит канал.
 // Ключ — название канала, как у разбора (author). Доля — от всего, что о канале известно; непроверенные
 // привязки идут с весом 0,25. Не править руками — перегенерировать.
 export const channelProfiles: Record<string, { n: number; top: { id: string; kind: 'universe' | 'person'; title: string; share: number }[]; focus: string[] }> = {
  "elcinema": {
-  "n": 13.3,
+  "n": 25,
   "top": [
    {
     "id": "Q2138108",
     "kind": "universe",
-    "share": 0.17,
+    "share": 0.12,
     "title": "Хищник"
    },
    {
     "id": "Q56005",
     "kind": "person",
-    "share": 0.17,
+    "share": 0.12,
     "title": "Ридли Скотт"
    },
    {
     "id": "Q42759035",
     "kind": "universe",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Джокер"
    },
    {
     "id": "Q362824",
     "kind": "person",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Тодд Филлипс"
    },
    {
     "id": "Q129079",
     "kind": "person",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Пол Верховен"
    },
    {
-    "id": "Q722682",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Ганнибал"
-   }
-  ],
-  "focus": []
- },
- "Скрытый смысл": {
-  "n": 52.8,
-  "top": [
-   {
-    "id": "Q853",
+    "id": "Q2001",
     "kind": "person",
     "share": 0.08,
-    "title": "Андрей Тарковский"
-   },
-   {
-    "id": "Q548823",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Дени Вильнёв"
+    "title": "Стэнли Кубрик"
    }
   ],
   "focus": []
  },
  "4то за Персонаж?": {
-  "n": 150.8,
+  "n": 192.3,
   "top": [
    {
     "id": "Q113461786",
     "kind": "universe",
-    "share": 0.24,
+    "share": 0.19,
     "title": "Во все тяжкие"
    },
    {
     "id": "Q45875",
     "kind": "universe",
-    "share": 0.2,
+    "share": 0.16,
     "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q3772",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Квентин Тарантино"
+   },
+   {
+    "id": "Q2352966",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Пацаны"
    },
    {
     "id": "Q503997",
     "kind": "person",
-    "share": 0.1,
+    "share": 0.08,
     "title": "Дэвид Бениофф"
    },
    {
     "id": "Q1151388",
     "kind": "person",
-    "share": 0.1,
+    "share": 0.08,
     "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q4500",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Винс Гиллиган"
-   },
-   {
-    "id": "Q7174311",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Питер Гулд"
    }
   ],
   "focus": []
  },
  "SokoL[off] TV": {
-  "n": 204.8,
+  "n": 305.3,
   "top": [
    {
     "id": "Q642878",
     "kind": "universe",
-    "share": 0.18,
+    "share": 0.21,
     "title": "Кинематографическая вселенная Marvel"
    },
    {
@@ -122,8 +104,160 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "Heavy Spoilers": {
+  "n": 847.3,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Песнь льда и огня"
+   }
+  ],
+  "focus": []
+ },
+ "PAXTON": {
+  "n": 126.5,
+  "top": [
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.41,
+    "title": "Хищник"
+   },
+   {
+    "id": "Q726126",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Шейн Блэк"
+   },
+   {
+    "id": "Q620588",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Терминатор"
+   },
+   {
+    "id": "Q771774",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Нимрод Антал"
+   }
+  ],
+  "focus": [
+   "Q2138108"
+  ]
+ },
+ "RubiRey": {
+  "n": 11.5,
+  "top": [
+   {
+    "id": "Q220260",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Обитель зла"
+   },
+   {
+    "id": "Q380608",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Пол Уильям Скотт Андерсон"
+   },
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Хищник"
+   },
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q111328790",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Tomb Raider"
+   },
+   {
+    "id": "Q5439920",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Феде Альварес"
+   }
+  ],
+  "focus": []
+ },
+ "BadObzor ": {
+  "n": 6.5,
+  "top": [
+   {
+    "id": "Q73966879",
+    "kind": "universe",
+    "share": 0.15,
+    "title": "Аватар"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q42574",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Джеймс Кэмерон"
+   }
+  ],
+  "focus": []
+ },
+ "New Rockstars": {
+  "n": 610.5,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.24,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "Jeremy Jahns": {
+  "n": 556.8,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "Film Stocked": {
+  "n": 233,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
  "КИНОКРИТИКА": {
-  "n": 284.5,
+  "n": 409,
   "top": [
    {
     "id": "Q642878",
@@ -134,13 +268,3586 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "Lessons from the Screenplay": {
+  "n": 8.5,
+  "top": [
+   {
+    "id": "Q223233",
+    "kind": "person",
+    "share": 0.24,
+    "title": "Сэм Мендес"
+   },
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.15,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q295964",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Джон Фавро"
+   }
+  ],
+  "focus": []
+ },
  "Павел Усачёв": {
+  "n": 25.8,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.23,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q38222",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Джордж Лукас"
+   },
+   {
+    "id": "Q13563071",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Лесли Хэдланд"
+   },
+   {
+    "id": "Q35160",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Одиссея"
+   },
+   {
+    "id": "Q28062624",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Одни из нас"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Кристофер Нолан"
+   }
+  ],
+  "focus": []
+ },
+ "Red Cynic": {
+  "n": 72.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Хищник"
+   }
+  ],
+  "focus": []
+ },
+ "Маркус Рулл": {
+  "n": 93.3,
+  "top": [
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Хищник"
+   }
+  ],
+  "focus": []
+ },
+ "DanyaLord channel": {
+  "n": 17.3,
+  "top": [
+   {
+    "id": "Q125679809",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "28 дней спустя"
+   },
+   {
+    "id": "Q134867",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Дэнни Бойл"
+   }
+  ],
+  "focus": []
+ },
+ "The Back Focus": {
+  "n": 19.3,
+  "top": [
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q59129",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Майкл Чимино"
+   }
+  ],
+  "focus": []
+ },
+ "FilmSpeak": {
+  "n": 175,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.16,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": []
+ },
+ "Rocklin Graves Productions": {
+  "n": 41,
+  "top": [
+   {
+    "id": "Q120382889",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Ужасающий"
+   },
+   {
+    "id": "Q104867022",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Дэмиен Леоне"
+   },
+   {
+    "id": "Q41542",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Дракула"
+   },
+   {
+    "id": "Q20826736",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Роберт Эггерс"
+   }
+  ],
+  "focus": []
+ },
+ "Artashvel": {
+  "n": 13.3,
+  "top": [
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Хищник"
+   },
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q5214505",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Дэн Трахтенберг"
+   },
+   {
+    "id": "Q106603131",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Мортал Комбат"
+   },
+   {
+    "id": "Q3143548",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Хван Дон Хёк"
+   },
+   {
+    "id": "Q2031292",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Пол Фиг"
+   }
+  ],
+  "focus": []
+ },
+ "Thomas Thorogood": {
+  "n": 49.3,
+  "top": [
+   {
+    "id": "Q125679809",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "28 дней спустя"
+   }
+  ],
+  "focus": []
+ },
+ "Что Посмотреть": {
+  "n": 119,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.25,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Джордж Р. Р. Мартин"
+   }
+  ],
+  "focus": []
+ },
+ "Сергей Романов ": {
+  "n": 8.8,
+  "top": [
+   {
+    "id": "Q41148",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Мартин Скорсезе"
+   }
+  ],
+  "focus": []
+ },
+ "RocketMan": {
+  "n": 25.3,
+  "top": [
+   {
+    "id": "Q2071",
+    "kind": "person",
+    "share": 0.37,
+    "title": "Дэвид Линч"
+   },
+   {
+    "id": "Q23971551",
+    "kind": "universe",
+    "share": 0.34,
+    "title": "Твин Пикс"
+   },
+   {
+    "id": "Q778585",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Марк Фрост"
+   }
+  ],
+  "focus": []
+ },
+ "Disparu": {
+  "n": 122.3,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.25,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q13563071",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Лесли Хэдланд"
+   },
+   {
+    "id": "Q18763959",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Дебора Чоу"
+   }
+  ],
+  "focus": []
+ },
+ "Кубрик": {
+  "n": 17.5,
+  "top": [
+   {
+    "id": "Q350405",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Адам Маккей"
+   }
+  ],
+  "focus": []
+ },
+ "Уголок Акра": {
+  "n": 89.8,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "ЧЕРНЫЙ КАБИНЕТ": {
+  "n": 82,
+  "top": [
+   {
+    "id": "Q22126305",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Атака титанов"
+   }
+  ],
+  "focus": []
+ },
+ "Звездный Капитан": {
+  "n": 115.8,
+  "top": [
+   {
+    "id": "Q219124",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Гильермо дель Торо"
+   },
+   {
+    "id": "Q3715071",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Как приручить дракона"
+   },
+   {
+    "id": "Q60851000",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Тихоокеанский рубеж"
+   }
+  ],
+  "focus": []
+ },
+ "Скандально Неизвестная Сценаристка": {
+  "n": 33.5,
+  "top": [
+   {
+    "id": "Q3177580",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Ходячие мертвецы"
+   },
+   {
+    "id": "Q295445",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Фрэнк Дарабонт"
+   }
+  ],
+  "focus": []
+ },
+ "Cut The Crap": {
+  "n": 143.8,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.34,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": []
+ },
+ "My Little Thought Tree": {
+  "n": 168.3,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.22,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q28062624",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Одни из нас"
+   }
+  ],
+  "focus": []
+ },
+ "Телеканал КИНОТВ": {
+  "n": 70.3,
+  "top": [
+   {
+    "id": "Q313566",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Александр Пэйн"
+   }
+  ],
+  "focus": []
+ },
+ "Faust21century": {
+  "n": 5.5,
+  "top": [
+   {
+    "id": "Q42759035",
+    "kind": "universe",
+    "share": 0.18,
+    "title": "Джокер"
+   },
+   {
+    "id": "Q362824",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Тодд Филлипс"
+   }
+  ],
+  "focus": []
+ },
+ "Lovely Cinematography": {
+  "n": 36,
+  "top": [
+   {
+    "id": "Q7374",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Альфред Хичкок"
+   }
+  ],
+  "focus": []
+ },
+ "Marvel/DC: Geek Movies": {
+  "n": 75.3,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.48,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.16,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": [
+   "Q642878"
+  ]
+ },
+ "ЧБУ": {
+  "n": 19.3,
+  "top": [
+   {
+    "id": "Q13014087",
+    "kind": "universe",
+    "share": 0.21,
+    "title": "Матрица"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.21,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q9544977",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Лилли Вачовски"
+   },
+   {
+    "id": "Q9545711",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Лана Вачовски"
+   },
+   {
+    "id": "Q184903",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Дэвид Финчер"
+   },
+   {
+    "id": "Q13595531",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Итан Коэн"
+   }
+  ],
+  "focus": []
+ },
+ "TerlKabot channel": {
+  "n": 104.3,
+  "top": [
+   {
+    "id": "Q220260",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Обитель зла"
+   }
+  ],
+  "focus": []
+ },
+ "AnimaTES": {
+  "n": 16.3,
+  "top": [
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Хищник"
+   }
+  ],
+  "focus": []
+ },
+ "Андрей Сомния": {
+  "n": 11.5,
+  "top": [
+   {
+    "id": "Q617871",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Кошмар на улице Вязов"
+   },
+   {
+    "id": "Q95008",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Джон Карпентер"
+   },
+   {
+    "id": "Q558806",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Скотт Дерриксон"
+   },
+   {
+    "id": "Q96471323",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Нечто"
+   },
+   {
+    "id": "Q1364022",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Хэллоуин"
+   },
+   {
+    "id": "Q7561043",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Пункт назначения"
+   }
+  ],
+  "focus": []
+ },
+ "FeileR": {
+  "n": 23.3,
+  "top": [
+   {
+    "id": "Q558806",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Скотт Дерриксон"
+   }
+  ],
+  "focus": []
+ },
+ "The Vile Eye": {
+  "n": 44.3,
+  "top": [
+   {
+    "id": "Q113461786",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Во все тяжкие"
+   },
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q38222",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Джордж Лукас"
+   }
+  ],
+  "focus": []
+ },
+ "Психология кино": {
+  "n": 26.8,
+  "top": [
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Хаяо Миядзаки"
+   }
+  ],
+  "focus": []
+ },
+ "Movie Overload": {
+  "n": 40.3,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.3,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q38222",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джордж Лукас"
+   }
+  ],
+  "focus": []
+ },
+ "OneTake": {
+  "n": 111.8,
+  "top": [
+   {
+    "id": "Q113461786",
+    "kind": "universe",
+    "share": 0.33,
+    "title": "Во все тяжкие"
+   },
+   {
+    "id": "Q4500",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Винс Гиллиган"
+   },
+   {
+    "id": "Q7174311",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Питер Гулд"
+   }
+  ],
+  "focus": []
+ },
+ "Простые числа": {
+  "n": 6.8,
+  "top": [
+   {
+    "id": "Q48724847",
+    "kind": "universe",
+    "share": 0.15,
+    "title": "Бегущий по лезвию"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q23822013",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Дрю Хэриот"
+   }
+  ],
+  "focus": []
+ },
+ "wolfcrow": {
+  "n": 12,
+  "top": [
+   {
+    "id": "Q103474",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "2001 год: Космическая одиссея"
+   },
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q1364022",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Хэллоуин"
+   },
+   {
+    "id": "Q193695",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Волшебник страны Оз"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q2296698",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Дэвид Гордон Грин"
+   }
+  ],
+  "focus": []
+ },
+ "Nerdwriter1": {
+  "n": 5.8,
+  "top": [
+   {
+    "id": "Q2316015",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "История игрушек"
+   },
+   {
+    "id": "Q22073999",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Джош Кули"
+   },
+   {
+    "id": "Q621818",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Райан Джонсон"
+   },
+   {
+    "id": "Q2446029",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Эрик Бресс"
+   },
+   {
+    "id": "Q3156821",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Дж. Макки Грубер"
+   }
+  ],
+  "focus": []
+ },
+ "Spikima Movies": {
+  "n": 14.8,
+  "top": [
+   {
+    "id": "Q20826736",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Роберт Эггерс"
+   }
+  ],
+  "focus": []
+ },
+ "Super Eyepatch Wolf": {
+  "n": 5.3,
+  "top": [
+   {
+    "id": "Q236821",
+    "kind": "universe",
+    "share": 0.19,
+    "title": "Сайлент Хилл"
+   }
+  ],
+  "focus": []
+ },
+ "Ирина-Тарантино": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q186341",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Сияние"
+   },
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q21078321",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Хлоя Чжао"
+   },
+   {
+    "id": "Q295445",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Фрэнк Дарабонт"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q15270267",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Святослав Подгаевский"
+   }
+  ],
+  "focus": []
+ },
+ "Александр Аммосов": {
+  "n": 52.8,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q38222",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Джордж Лукас"
+   }
+  ],
+  "focus": []
+ },
+ "Lucas Blue": {
+  "n": 70.3,
+  "top": [
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Кристофер Нолан"
+   }
+  ],
+  "focus": []
+ },
+ "Screened": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q16884492",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Экзорцист"
+   },
+   {
+    "id": "Q975410",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Йоргос Лантимос"
+   },
+   {
+    "id": "Q51582",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Уильям Фридкин"
+   },
+   {
+    "id": "Q28028",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Альфонсо Куарон"
+   }
+  ],
+  "focus": []
+ },
+ "Александр Шебанов": {
+  "n": 19,
+  "top": [
+   {
+    "id": "Q542634",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Алекс Гарленд"
+   }
+  ],
+  "focus": []
+ },
+ "Николай Жаринов": {
+  "n": 8,
+  "top": [
+   {
+    "id": "Q35160",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Одиссея"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q557323",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Алексей Балабанов"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Мартин Макдонах"
+   }
+  ],
+  "focus": []
+ },
+ "KINOM": {
+  "n": 15,
+  "top": [
+   {
+    "id": "Q25132",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Пол Томас Андерсон"
+   }
+  ],
+  "focus": []
+ },
+ "Еврейский музей и центр толерантности": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q191755",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джим Джармуш"
+   },
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q53001",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Жан-Люк Годар"
+   },
+   {
+    "id": "Q223687",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Уэс Андерсон"
+   },
+   {
+    "id": "Q13595531",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Итан Коэн"
+   },
+   {
+    "id": "Q13595311",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Джоэл Коэн"
+   }
+  ],
+  "focus": []
+ },
+ "InspiriT studio": {
+  "n": 6,
+  "top": [
+   {
+    "id": "Q18124780",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Love trilogy"
+   },
+   {
+    "id": "Q53001",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Жан-Люк Годар"
+   },
+   {
+    "id": "Q223687",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Уэс Андерсон"
+   },
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Хаяо Миядзаки"
+   },
+   {
+    "id": "Q55431",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Вонг Карвай"
+   },
+   {
+    "id": "Q53009",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Бернардо Бертолуччи"
+   }
+  ],
+  "focus": []
+ },
+ "Свободное кино": {
+  "n": 10.3,
+  "top": [
+   {
+    "id": "Q61197370",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Соколов, Кирилл Сергеевич"
+   }
+  ],
+  "focus": []
+ },
+ "Macabre Storytelling": {
+  "n": 32.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.49,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Д. Б. Уайс"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Радио Долин": {
+  "n": 25.5,
+  "top": [
+   {
+    "id": "Q2071",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Дэвид Линч"
+   },
+   {
+    "id": "Q122425",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Андрей Звягинцев"
+   }
+  ],
+  "focus": []
+ },
+ "Black Meat Plate": {
+  "n": 8.5,
+  "top": [
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.24,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q1405126",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Американский психопат"
+   },
+   {
+    "id": "Q109135",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "На игле"
+   },
+   {
+    "id": "Q2071",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Дэвид Линч"
+   },
+   {
+    "id": "Q348868",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Мэри Хэррон"
+   },
+   {
+    "id": "Q134867",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Дэнни Бойл"
+   }
+  ],
+  "focus": []
+ },
+ "KRYLATY": {
+  "n": 24.5,
+  "top": [
+   {
+    "id": "Q8877",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Стивен Спилберг"
+   }
+  ],
+  "focus": []
+ },
+ "Кинолист": {
+  "n": 14.5,
+  "top": [
+   {
+    "id": "Q3143548",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Хван Дон Хёк"
+   }
+  ],
+  "focus": []
+ },
+ "Like Stories of Old": {
+  "n": 22.3,
+  "top": [
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q215478",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Терренс Малик"
+   }
+  ],
+  "focus": []
+ },
+ "R1d": {
+  "n": 10.5,
+  "top": [
+   {
+    "id": "Q3177580",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Ходячие мертвецы"
+   },
+   {
+    "id": "Q295445",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Фрэнк Дарабонт"
+   }
+  ],
+  "focus": []
+ },
+ "Киноведы": {
+  "n": 7,
+  "top": [
+   {
+    "id": "Q55431",
+    "kind": "person",
+    "share": 0.57,
+    "title": "Вонг Карвай"
+   },
+   {
+    "id": "Q18124780",
+    "kind": "universe",
+    "share": 0.29,
+    "title": "Love trilogy"
+   },
+   {
+    "id": "Q191755",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Джим Джармуш"
+   },
+   {
+    "id": "Q21078321",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Хлоя Чжао"
+   },
+   {
+    "id": "Q27044648",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Рейнальдо Маркус Грин"
+   }
+  ],
+  "focus": []
+ },
+ "КИНОДИССЕЯ": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q314287",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Томас Винтерберг"
+   },
+   {
+    "id": "Q975410",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Йоргос Лантимос"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q542634",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Алекс Гарленд"
+   },
+   {
+    "id": "Q116286260",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Селин Сон"
+   }
+  ],
+  "focus": []
+ },
+ "Rudin & Stuk": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q1045388",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Ночной дозор"
+   },
+   {
+    "id": "Q314287",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Томас Винтерберг"
+   },
+   {
+    "id": "Q18350026",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Дэмьен Шазелл"
+   },
+   {
+    "id": "Q3506296",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Баскова, Светлана Юрьевна"
+   },
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q344854",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Тимур Бекмамбетов"
+   }
+  ],
+  "focus": []
+ },
+ "Кино Диван": {
+  "n": 6,
+  "top": [
+   {
+    "id": "Q546900",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Суспирия"
+   },
+   {
+    "id": "Q314287",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Томас Винтерберг"
+   },
+   {
+    "id": "Q18350026",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Дэмьен Шазелл"
+   },
+   {
+    "id": "Q1335528",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Лука Гуаданьино"
+   },
+   {
+    "id": "Q433893",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Джеймс Мэнголд"
+   },
+   {
+    "id": "Q313566",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Александр Пэйн"
+   }
+  ],
+  "focus": []
+ },
+ "КИНО БЛОГ ЛАРЁК": {
+  "n": 5.3,
+  "top": [
+   {
+    "id": "Q276186",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Аки Каурисмяки"
+   },
+   {
+    "id": "Q53001",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Жан-Люк Годар"
+   }
+  ],
+  "focus": []
+ },
+ "Thomas Flight": {
+  "n": 15.3,
+  "top": [
+   {
+    "id": "Q41148",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Мартин Скорсезе"
+   },
+   {
+    "id": "Q223687",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Уэс Андерсон"
+   }
+  ],
+  "focus": []
+ },
+ "The House of Tabula": {
+  "n": 6,
+  "top": [
+   {
+    "id": "Q41148",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Мартин Скорсезе"
+   },
+   {
+    "id": "Q56094",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Фрэнсис Форд Коппола"
+   }
+  ],
+  "focus": []
+ },
+ "КиноБлог": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q722682",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Ганнибал"
+   },
+   {
+    "id": "Q20685410",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Сэм Эсмэйл"
+   },
+   {
+    "id": "Q55424",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Питер Уир"
+   },
+   {
+    "id": "Q18350026",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Дэмьен Шазелл"
+   },
+   {
+    "id": "Q48987",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джонатан Демми"
+   },
+   {
+    "id": "Q187364",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Роберт Земекис"
+   }
+  ],
+  "focus": []
+ },
+ "Канал Ламполоджи": {
+  "n": 16,
+  "top": [
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Ридли Скотт"
+   }
+  ],
+  "focus": []
+ },
+ "Maximum Movie (by Pavel Gremyachev) ": {
+  "n": 16.3,
+  "top": [
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Ридли Скотт"
+   }
+  ],
+  "focus": []
+ },
+ "proчтение": {
+  "n": 14,
+  "top": [
+   {
+    "id": "Q512103",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Кэри Фукунага"
+   },
+   {
+    "id": "Q116258731",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Егор Анашкин"
+   }
+  ],
+  "focus": []
+ },
+ "А стоит ли": {
+  "n": 7.8,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.26,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q15972939",
+    "kind": "person",
+    "share": 0.26,
+    "title": "Дестин Дэниел Креттон"
+   },
+   {
+    "id": "Q35160",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Одиссея"
+   },
+   {
+    "id": "Q106603131",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Мортал Комбат"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q67171585",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Саймон Маккуойд"
+   }
+  ],
+  "focus": []
+ },
+ "Юнона": {
+  "n": 7.8,
+  "top": [
+   {
+    "id": "Q2352966",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Пацаны"
+   }
+  ],
+  "focus": []
+ },
+ "In Deep Geek": {
+  "n": 166.3,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.91,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.29,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.29,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "HARMONICA ": {
+  "n": 7.5,
+  "top": [
+   {
+    "id": "Q125131076",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Закулисье реальности"
+   },
+   {
+    "id": "Q921605",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Зловещие мертвецы"
+   },
+   {
+    "id": "Q236821",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Сайлент Хилл"
+   },
+   {
+    "id": "Q111653356",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Кейн Парсонс"
+   },
+   {
+    "id": "Q123371488",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Sébastien Vaniček"
+   },
+   {
+    "id": "Q136345455",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Карри Баркер"
+   }
+  ],
+  "focus": []
+ },
+ "Archer Green": {
+  "n": 7,
+  "top": [
+   {
+    "id": "Q20826736",
+    "kind": "person",
+    "share": 0.43,
+    "title": "Роберт Эггерс"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q931613",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Мэтт Ривз"
+   },
+   {
+    "id": "Q16935094",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Дэвид Лоури"
+   },
+   {
+    "id": "Q25132",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Пол Томас Андерсон"
+   }
+  ],
+  "focus": []
+ },
+ "Ася Занегина": {
+  "n": 22.8,
+  "top": [
+   {
+    "id": "Q56094",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Фрэнсис Форд Коппола"
+   },
+   {
+    "id": "Q41542",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Дракула"
+   }
+  ],
+  "focus": []
+ },
+ "Что хотел сказать автор | Сторителлинг": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q2001",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Стэнли Кубрик"
+   },
+   {
+    "id": "Q975410",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Йоргос Лантимос"
+   },
+   {
+    "id": "Q129079",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Пол Верховен"
+   }
+  ],
+  "focus": []
+ },
+ "Толкователи": {
+  "n": 14.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.22,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "morgana": {
+  "n": 9,
+  "top": [
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Кристофер Нолан"
+   }
+  ],
+  "focus": []
+ },
+ "Кинопоиск": {
+  "n": 13,
+  "top": [
+   {
+    "id": "Q13014087",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Матрица"
+   },
+   {
+    "id": "Q23971551",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Твин Пикс"
+   },
+   {
+    "id": "Q92580",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Призрак в доспехах"
+   },
+   {
+    "id": "Q98112763",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Назад в будущее"
+   },
+   {
+    "id": "Q1045388",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Ночной дозор"
+   },
+   {
+    "id": "Q136770863",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "The Devil Wears Prada"
+   }
+  ],
+  "focus": []
+ },
+ "Да, Лермонтов.": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q2388576",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Тайка Вайтити"
+   }
+  ],
+  "focus": []
+ },
+ "Tale Foundry": {
+  "n": 11,
+  "top": [
+   {
+    "id": "Q2316684",
+    "kind": "universe",
+    "share": 0.18,
+    "title": "Шерлок Холмс"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q192990",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Гай Ричи"
+   }
+  ],
+  "focus": []
+ },
+ "Кинокарма": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.4,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q53001",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Жан-Люк Годар"
+   },
+   {
+    "id": "Q18350026",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Дэмьен Шазелл"
+   },
+   {
+    "id": "Q191755",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джим Джармуш"
+   }
+  ],
+  "focus": []
+ },
+ "Курага Медиа": {
+  "n": 7,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.29,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q15972939",
+    "kind": "person",
+    "share": 0.29,
+    "title": "Дестин Дэниел Креттон"
+   }
+  ],
+  "focus": []
+ },
+ "Лучше 100 раз услышать - о кино и сериалах": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q21078321",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Хлоя Чжао"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q27044648",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Рейнальдо Маркус Грин"
+   },
+   {
+    "id": "Q7506788",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Шан Хейдер"
+   },
+   {
+    "id": "Q230448",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джейн Кэмпион"
+   }
+  ],
+  "focus": []
+ },
+ "Pavlov RUN": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q21078321",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Хлоя Чжао"
+   },
+   {
+    "id": "Q41148",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Мартин Скорсезе"
+   },
+   {
+    "id": "Q16207879",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Эмиральд Феннелл"
+   },
+   {
+    "id": "Q191755",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джим Джармуш"
+   },
+   {
+    "id": "Q65321",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Вольфганг Петерсен"
+   }
+  ],
+  "focus": []
+ },
+ "Елизавета Корабельникова": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q55424",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Питер Уир"
+   },
+   {
+    "id": "Q192762",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Даррен Аронофски"
+   }
+  ],
+  "focus": []
+ },
+ "Правое полушарие Интроверта": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q136770863",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "The Devil Wears Prada"
+   },
+   {
+    "id": "Q55424",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Питер Уир"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Хаяо Миядзаки"
+   },
+   {
+    "id": "Q934964",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Дэвид Френкель"
+   },
+   {
+    "id": "Q323074",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Бернард Роуз"
+   }
+  ],
+  "focus": []
+ },
+ "NONETICH": {
+  "n": 7,
+  "top": [
+   {
+    "id": "Q2444076",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Джозеф Косински"
+   },
+   {
+    "id": "Q135818756",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Смешарики"
+   }
+  ],
+  "focus": []
+ },
+ "Chuck Review": {
+  "n": 73.5,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "КиноСоветник": {
+  "n": 13,
+  "top": [
+   {
+    "id": "Q23971551",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Твин Пикс"
+   },
+   {
+    "id": "Q35160",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Одиссея"
+   },
+   {
+    "id": "Q106603131",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Мортал Комбат"
+   },
+   {
+    "id": "Q29554576",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Джон Уик"
+   },
+   {
+    "id": "Q620588",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Терминатор"
+   },
+   {
+    "id": "Q3772",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Квентин Тарантино"
+   }
+  ],
+  "focus": []
+ },
+ "Вслушивание": {
+  "n": 18.5,
+  "top": [
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.66,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q18011049",
+    "kind": "universe",
+    "share": 0.16,
+    "title": "Дюна"
+   },
+   {
+    "id": "Q548823",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Дени Вильнёв"
+   }
+  ],
+  "focus": [
+   "Q25191"
+  ]
+ },
+ "Nuke": {
+  "n": 50.3,
+  "top": [
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": []
+ },
+ "Вышел за хлебом": {
+  "n": 15,
+  "top": [
+   {
+    "id": "Q113461786",
+    "kind": "universe",
+    "share": 0.33,
+    "title": "Во все тяжкие"
+   }
+  ],
+  "focus": []
+ },
+ "Lestar | фильмы и сериалы": {
+  "n": 24.8,
+  "top": [
+   {
+    "id": "Q2352966",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Пацаны"
+   },
+   {
+    "id": "Q2901452",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Король Лев"
+   },
+   {
+    "id": "Q295964",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Джон Фавро"
+   }
+  ],
+  "focus": []
+ },
+ "СмыслКадра": {
+  "n": 19,
+  "top": [
+   {
+    "id": "Q2352966",
+    "kind": "universe",
+    "share": 0.26,
+    "title": "Пацаны"
+   },
+   {
+    "id": "Q3177580",
+    "kind": "universe",
+    "share": 0.21,
+    "title": "Ходячие мертвецы"
+   },
+   {
+    "id": "Q295445",
+    "kind": "person",
+    "share": 0.21,
+    "title": "Фрэнк Дарабонт"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q220308",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Сет Роген"
+   },
+   {
+    "id": "Q336075",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Эрик Крипке"
+   }
+  ],
+  "focus": []
+ },
+ "Implicitly Pretentious": {
+  "n": 24.5,
+  "top": [
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.34,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.24,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q295964",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Джон Фавро"
+   },
+   {
+    "id": "Q456910",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Пэтти Дженкинс"
+   },
+   {
+    "id": "Q6385039",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Энди Мускетти"
+   }
+  ],
+  "focus": []
+ },
+ "The Nando Cut": {
+  "n": 52.8,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.21,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.15,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": []
+ },
+ "Культас": {
+  "n": 33.5,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Кинематографическая вселенная Marvel"
+   }
+  ],
+  "focus": []
+ },
+ "Sheev Talks": {
+  "n": 24.5,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.28,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q13563071",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Лесли Хэдланд"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q188137",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Джей Джей Абрамс"
+   }
+  ],
+  "focus": []
+ },
+ "Josh Beaty": {
+  "n": 32,
+  "top": [
+   {
+    "id": "Q113956747",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Головоломка"
+   }
+  ],
+  "focus": []
+ },
+ "Kolo Kino": {
+  "n": 10,
+  "top": [
+   {
+    "id": "Q3772",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Квентин Тарантино"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.28,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q42574",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Джеймс Кэмерон"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q620588",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Терминатор"
+   },
+   {
+    "id": "Q184903",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Дэвид Финчер"
+   }
+  ],
+  "focus": []
+ },
+ "Канал Кшиштовского": {
+  "n": 19.5,
+  "top": [
+   {
+    "id": "Q642878",
+    "kind": "universe",
+    "share": 0.15,
+    "title": "Кинематографическая вселенная Marvel"
+   },
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Вселенная DC"
+   }
+  ],
+  "focus": []
+ },
+ "(не) одна в темноте": {
+  "n": 24.3,
+  "top": [
+   {
+    "id": "Q125679809",
+    "kind": "universe",
+    "share": 0.08,
+    "title": "28 дней спустя"
+   },
+   {
+    "id": "Q1379066",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Оз Перкинс"
+   }
+  ],
+  "focus": []
+ },
+ "Миры Экрана | Мастерская Калинина В.С.": {
+  "n": 6.3,
+  "top": [
+   {
+    "id": "Q125472432",
+    "kind": "universe",
+    "share": 0.16,
+    "title": "Буратино"
+   },
+   {
+    "id": "Q109113462",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Михаил Локшин"
+   },
+   {
+    "id": "Q3772",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Квентин Тарантино"
+   },
+   {
+    "id": "Q2031292",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Пол Фиг"
+   },
+   {
+    "id": "Q4124084",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Волошин, Игорь Павлович"
+   },
+   {
+    "id": "Q8003",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Сергей Михайлович Эйзенштейн"
+   }
+  ],
+  "focus": []
+ },
+ "Вирон Кинон": {
+  "n": 14.5,
+  "top": [
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Ридли Скотт"
+   }
+  ],
+  "focus": []
+ },
+ "Accented Cinema": {
+  "n": 8.8,
+  "top": [
+   {
+    "id": "Q29554576",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Джон Уик"
+   }
+  ],
+  "focus": []
+ },
+ "Patrick Tomasso": {
+  "n": 8.3,
+  "top": [
+   {
+    "id": "Q1152150",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Вселенная DC"
+   },
+   {
+    "id": "Q28062624",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Одни из нас"
+   },
+   {
+    "id": "Q55696373",
+    "kind": "universe",
+    "share": 0.12,
+    "title": "Топ Ган"
+   },
+   {
+    "id": "Q931613",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Мэтт Ривз"
+   },
+   {
+    "id": "Q56604143",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Джош Сафди"
+   },
+   {
+    "id": "Q1379066",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Оз Перкинс"
+   }
+  ],
+  "focus": []
+ },
+ "Обзор во время чумы": {
+  "n": 10.5,
+  "top": [
+   {
+    "id": "Q35160",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Одиссея"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q11835640",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Ведьмак"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q8877",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Стивен Спилберг"
+   },
+   {
+    "id": "Q6758800",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Марек Бродский"
+   }
+  ],
+  "focus": []
+ },
+ "Movie Facts RU": {
+  "n": 102.8,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.68,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q15228",
+    "kind": "universe",
+    "share": 0.24,
+    "title": "Властелин колец"
+   },
+   {
+    "id": "Q315441",
+    "kind": "person",
+    "share": 0.23,
+    "title": "Ральф Бакши"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.23,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.23,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Джордж Р. Р. Мартин"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Братство Кольца": {
+  "n": 21.3,
+  "top": [
+   {
+    "id": "Q15228",
+    "kind": "universe",
+    "share": 0.96,
+    "title": "Властелин колец"
+   },
+   {
+    "id": "Q315441",
+    "kind": "person",
+    "share": 0.81,
+    "title": "Ральф Бакши"
+   }
+  ],
+  "focus": [
+   "Q15228",
+   "Q315441"
+  ]
+ },
+ "Sloan Stowe": {
+  "n": 6,
+  "top": [
+   {
+    "id": "Q104623150",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Тетрадь смерти"
+   },
+   {
+    "id": "Q357998",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Марк Уэбб"
+   },
+   {
+    "id": "Q4679987",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Адам Вингард"
+   }
+  ],
+  "focus": []
+ },
+ "Alt Shift X": {
+  "n": 121,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.82,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.22,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.22,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Preston Jacobs": {
+  "n": 276,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.95,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.36,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.36,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Литература Просто": {
+  "n": 7.5,
+  "top": [
+   {
+    "id": "Q5410773",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Волшебный мир Гарри Поттера"
+   }
+  ],
+  "focus": []
+ },
+ "Запах Книг": {
+  "n": 5.8,
+  "top": [
+   {
+    "id": "Q126323171",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Chris Nash"
+   }
+  ],
+  "focus": []
+ },
+ "ДКино": {
+  "n": 10,
+  "top": [
+   {
+    "id": "Q115676286",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Достать ножи"
+   },
+   {
+    "id": "Q136770863",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "The Devil Wears Prada"
+   },
+   {
+    "id": "Q621818",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Райан Джонсон"
+   },
+   {
+    "id": "Q41148",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Мартин Скорсезе"
+   },
+   {
+    "id": "Q25191",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Кристофер Нолан"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Ридли Скотт"
+   }
+  ],
+  "focus": []
+ },
+ "КИНОНИСТ": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q115676286",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Достать ножи"
+   },
+   {
+    "id": "Q621818",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Райан Джонсон"
+   },
+   {
+    "id": "Q16207879",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Эмиральд Феннелл"
+   },
+   {
+    "id": "Q191755",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джим Джармуш"
+   },
+   {
+    "id": "Q7506788",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Шан Хейдер"
+   },
+   {
+    "id": "Q5042294",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Карлос Лопес Эстрада"
+   }
+  ],
+  "focus": []
+ },
+ "Etoyakirill": {
+  "n": 6.8,
+  "top": [
+   {
+    "id": "Q318712",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Ренни Харлин"
+   },
+   {
+    "id": "Q363402",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Стивен Соммерс"
+   },
+   {
+    "id": "Q56008",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Тим Бёртон"
+   }
+  ],
+  "focus": []
+ },
+ "Чабби": {
+  "n": 16.8,
+  "top": [
+   {
+    "id": "Q271967",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Грета Гервиг"
+   }
+  ],
+  "focus": []
+ },
+ "Hairy Ice Cream": {
+  "n": 10,
+  "top": [
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q41542",
+    "kind": "universe",
+    "share": 0.1,
+    "title": "Дракула"
+   },
+   {
+    "id": "Q18350026",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Дэмьен Шазелл"
+   },
+   {
+    "id": "Q897115",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Брэди Корбет"
+   },
+   {
+    "id": "Q20826736",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Роберт Эггерс"
+   },
+   {
+    "id": "Q315484",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Пак Чхан Ук"
+   }
+  ],
+  "focus": []
+ },
+ "Constantine_ James ": {
+  "n": 123.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.55,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Цифровая история": {
+  "n": 58.8,
+  "top": [
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q7024302",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Ник Пиццолатто"
+   },
+   {
+    "id": "Q512103",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Кэри Фукунага"
+   }
+  ],
+  "focus": []
+ },
+ "КиноТопище": {
+  "n": 5.8,
+  "top": [
+   {
+    "id": "Q3772",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Квентин Тарантино"
+   },
+   {
+    "id": "Q113461786",
+    "kind": "universe",
+    "share": 0.09,
+    "title": "Во все тяжкие"
+   }
+  ],
+  "focus": []
+ },
+ "FRAME": {
+  "n": 8,
+  "top": [
+   {
+    "id": "Q184903",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Дэвид Финчер"
+   }
+  ],
+  "focus": []
+ },
+ "PatchFace Project": {
+  "n": 80,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.94,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.16,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.15,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Quinn The GM": {
+  "n": 156.8,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.93,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Fantasy Haven": {
+  "n": 88,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.85,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.28,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.25,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Glidus": {
+  "n": 35.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 1,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.26,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.26,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.26,
+    "title": "Мигель Сапочник"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Д. Б. Уайс"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "David Lightbringer": {
+  "n": 276.3,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.93,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.21,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.21,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "FeeL": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 1,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.5,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.5,
+    "title": "Д. Б. Уайс"
+   }
+  ],
+  "focus": []
+ },
+ "RedTeamReview": {
+  "n": 303.5,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.92,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.3,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.3,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Crusader Chris": {
+  "n": 13.8,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.95,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Aveonius": {
+  "n": 13.3,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.85,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.42,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.42,
+    "title": "Д. Б. Уайс"
+   }
+  ],
+  "focus": [
+   "Q45875",
+   "Q503997",
+   "Q1151388"
+  ]
+ },
+ "Michael Talks About Stuff": {
+  "n": 54.3,
+  "top": [
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.85,
+    "title": "Песнь льда и огня"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.22,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.22,
+    "title": "Д. Б. Уайс"
+   },
+   {
+    "id": "Q181677",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Джордж Р. Р. Мартин"
+   },
+   {
+    "id": "Q106720695",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Райан Кондал"
+   },
+   {
+    "id": "Q6844804",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Мигель Сапочник"
+   }
+  ],
+  "focus": [
+   "Q45875"
+  ]
+ },
+ "Osim Hayim": {
+  "n": 17,
+  "top": [
+   {
+    "id": "Q28062624",
+    "kind": "universe",
+    "share": 0.35,
+    "title": "Одни из нас"
+   },
+   {
+    "id": "Q1138605",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Крэйг Мэйзин"
+   },
+   {
+    "id": "Q13655731",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Нил Дракманн"
+   },
+   {
+    "id": "Q30346628",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Кантемир Балагов"
+   }
+  ],
+  "focus": []
+ },
+ "Super Intellectual": {
+  "n": 9.3,
+  "top": [
+   {
+    "id": "Q125131076",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Закулисье реальности"
+   },
+   {
+    "id": "Q27660145",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Белоснежка"
+   },
+   {
+    "id": "Q41542",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Дракула"
+   },
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Хищник"
+   },
+   {
+    "id": "Q111653356",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Кейн Парсонс"
+   },
+   {
+    "id": "Q357998",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Марк Уэбб"
+   }
+  ],
+  "focus": []
+ },
+ "NoisyFrames": {
+  "n": 14,
+  "top": [
+   {
+    "id": "Q125679809",
+    "kind": "universe",
+    "share": 0.21,
+    "title": "28 дней спустя"
+   },
+   {
+    "id": "Q134867",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Дэнни Бойл"
+   },
+   {
+    "id": "Q114415604",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Паркер Финн"
+   }
+  ],
+  "focus": []
+ },
+ "Под Другим Углом": {
+  "n": 5.3,
+  "top": [
+   {
+    "id": "Q113461786",
+    "kind": "universe",
+    "share": 0.19,
+    "title": "Во все тяжкие"
+   }
+  ],
+  "focus": []
+ },
+ "Катерина Ардженто": {
+  "n": 12,
+  "top": [
+   {
+    "id": "Q3143548",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Хван Дон Хёк"
+   }
+  ],
+  "focus": []
+ },
+ "Jack Saint": {
+  "n": 5.5,
+  "top": [
+   {
+    "id": "Q2712648",
+    "kind": "universe",
+    "share": 0.18,
+    "title": "Грязный Гарри"
+   },
+   {
+    "id": "Q51559",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Сидни Люмет"
+   },
+   {
+    "id": "Q358322",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Дон Сигел"
+   }
+  ],
+  "focus": []
+ },
+ "Mina Le": {
+  "n": 7.5,
+  "top": [
+   {
+    "id": "Q60518601",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Аватар (Nickelodeon)"
+   },
+   {
+    "id": "Q193628",
+    "kind": "person",
+    "share": 0.13,
+    "title": "София Коппола"
+   }
+  ],
+  "focus": []
+ },
+ "Patrick (H) Willems": {
   "n": 12.3,
   "top": [
    {
     "id": "Q462",
     "kind": "universe",
-    "share": 0.31,
+    "share": 0.33,
     "title": "Звёздные войны"
    },
    {
@@ -150,1366 +3857,202 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "title": "Джордж Лукас"
    },
    {
-    "id": "Q2138108",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Хищник"
-   },
-   {
-    "id": "Q2080591",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Робокоп"
-   },
-   {
-    "id": "Q28062624",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Одни из нас"
-   },
-   {
-    "id": "Q5439920",
+    "id": "Q18030214",
     "kind": "person",
     "share": 0.08,
-    "title": "Феде Альварес"
+    "title": "Отто Баферст"
+   },
+   {
+    "id": "Q34816",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Кэтрин Бигелоу"
+   },
+   {
+    "id": "Q621818",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Райан Джонсон"
    }
   ],
   "focus": []
  },
- "Red Cynic": {
-  "n": 56,
+ "Lindsay Ellis": {
+  "n": 5.8,
   "top": [
    {
-    "id": "Q45875",
+    "id": "Q16155122",
     "kind": "universe",
-    "share": 0.18,
-    "title": "Песнь льда и огня"
+    "share": 0.17,
+    "title": "Beauty and the Beast"
    },
    {
-    "id": "Q2138108",
+    "id": "Q21527684",
     "kind": "universe",
-    "share": 0.1,
-    "title": "Хищник"
+    "share": 0.17,
+    "title": "Вселенная монстров"
    },
    {
-    "id": "Q503997",
+    "id": "Q361336",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Билл Кондон"
+   },
+   {
+    "id": "Q1159073",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Дэн Гилрой"
+   },
+   {
+    "id": "Q446427",
     "kind": "person",
     "share": 0.09,
-    "title": "Дэвид Бениофф"
+    "title": "Мериан К. Купер"
    },
    {
-    "id": "Q1151388",
+    "id": "Q1117163",
     "kind": "person",
     "share": 0.09,
-    "title": "Д. Б. Уайс"
+    "title": "Эрнест Шедзак"
    }
   ],
   "focus": []
  },
- "Подкасты Кинопоиска": {
-  "n": 5,
+ "REY MARU": {
+  "n": 7.3,
   "top": [
    {
-    "id": "Q2138108",
-    "kind": "universe",
-    "share": 0.2,
-    "title": "Хищник"
-   },
-   {
-    "id": "Q5439920",
+    "id": "Q271967",
     "kind": "person",
-    "share": 0.2,
-    "title": "Феде Альварес"
-   },
-   {
-    "id": "Q975410",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Йоргос Лантимос"
-   },
-   {
-    "id": "Q55400",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Хаяо Миядзаки"
-   },
-   {
-    "id": "Q315484",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Пак Чхан Ук"
-   },
-   {
-    "id": "Q116286260",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Селин Сон"
+    "share": 0.14,
+    "title": "Грета Гервиг"
    }
   ],
   "focus": []
  },
- "Что Посмотреть": {
-  "n": 27.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.23,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q642878",
-    "kind": "universe",
-    "share": 0.09,
-    "title": "Кинематографическая вселенная Marvel"
-   },
-   {
-    "id": "Q56005",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Ридли Скотт"
-   }
-  ],
-  "focus": []
- },
- "GreenGrass": {
-  "n": 21.5,
-  "top": [
-   {
-    "id": "Q56005",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Ридли Скотт"
-   },
-   {
-    "id": "Q709076",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Стивен Хопкинс"
-   }
-  ],
-  "focus": []
- },
- "Обзор во время чумы": {
-  "n": 6.3,
-  "top": [
-   {
-    "id": "Q11835640",
-    "kind": "universe",
-    "share": 0.2,
-    "title": "Ведьмак"
-   },
-   {
-    "id": "Q6758800",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Марек Бродский"
-   },
-   {
-    "id": "Q35160",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Одиссея"
-   },
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q25191",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Кристофер Нолан"
-   },
-   {
-    "id": "Q49760",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Питер Брук"
-   }
-  ],
-  "focus": []
- },
- "КИНОЛИКБЕЗ KINOLIKBEZ": {
-  "n": 132,
-  "top": [
-   {
-    "id": "Q2071",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Дэвид Линч"
-   }
-  ],
-  "focus": []
- },
- "Woodmark": {
-  "n": 44.5,
-  "top": [
-   {
-    "id": "Q652599",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Сумерки"
-   },
-   {
-    "id": "Q229598",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Кэтрин Хардвик"
-   }
-  ],
-  "focus": []
- },
- "Мефисто": {
+ "Философия Кино": {
   "n": 10,
   "top": [
    {
-    "id": "Q106603131",
+    "id": "Q125472432",
     "kind": "universe",
     "share": 0.1,
-    "title": "Мортал Комбат"
+    "title": "Буратино"
    },
    {
-    "id": "Q1576873",
+    "id": "Q165318",
     "kind": "universe",
     "share": 0.1,
-    "title": "Форсаж"
+    "title": "Преступление и наказание"
    },
    {
-    "id": "Q3062086",
-    "kind": "universe",
-    "share": 0.1,
-    "title": "Неудержимые"
-   },
-   {
-    "id": "Q67171585",
+    "id": "Q4124084",
     "kind": "person",
     "share": 0.1,
-    "title": "Саймон Маккуойд"
+    "title": "Волошин, Игорь Павлович"
    },
    {
-    "id": "Q551876",
+    "id": "Q1962784",
     "kind": "person",
     "share": 0.1,
-    "title": "Джастин Лин"
-   },
-   {
-    "id": "Q3015088",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Данила Козловский"
+    "title": "Дмитрий Иосифович Светозаров"
    }
   ],
   "focus": []
  },
- "Радио Долин": {
-  "n": 17.8,
+ "Книжный поезд": {
+  "n": 8.5,
   "top": [
    {
-    "id": "Q642878",
+    "id": "Q11885031",
     "kind": "universe",
-    "share": 0.08,
-    "title": "Кинематографическая вселенная Marvel"
+    "share": 0.12,
+    "title": "Голодные игры"
    },
    {
-    "id": "Q41148",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Мартин Скорсезе"
-   }
-  ],
-  "focus": []
- },
- "Уголок Акра": {
-  "n": 36,
-  "top": [
-   {
-    "id": "Q642878",
+    "id": "Q652599",
     "kind": "universe",
-    "share": 0.19,
-    "title": "Кинематографическая вселенная Marvel"
-   }
-  ],
-  "focus": []
- },
- "ЧЕРНЫЙ КАБИНЕТ": {
-  "n": 44.8,
-  "top": [
-   {
-    "id": "Q22126305",
-    "kind": "universe",
-    "share": 0.19,
-    "title": "Атака титанов"
+    "share": 0.12,
+    "title": "Сумерки"
    },
    {
     "id": "Q15228",
     "kind": "universe",
-    "share": 0.08,
+    "share": 0.12,
     "title": "Властелин колец"
    },
    {
-    "id": "Q315441",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Ральф Бакши"
-   }
-  ],
-  "focus": []
- },
- "My Little Thought Tree": {
-  "n": 74.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.28,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q28062624",
-    "kind": "universe",
-    "share": 0.1,
-    "title": "Одни из нас"
-   },
-   {
-    "id": "Q311263",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Джон Хьюз"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Джордж Р. Р. Мартин"
-   }
-  ],
-  "focus": []
- },
- "ЧБУ": {
-  "n": 16.3,
-  "top": [
-   {
-    "id": "Q13014087",
-    "kind": "universe",
-    "share": 0.25,
-    "title": "Матрица"
-   },
-   {
-    "id": "Q25191",
-    "kind": "person",
-    "share": 0.15,
-    "title": "Кристофер Нолан"
-   },
-   {
-    "id": "Q9544977",
+    "id": "Q598675",
     "kind": "person",
     "share": 0.12,
-    "title": "Лилли Вачовски"
+    "title": "Гэри Росс"
    },
    {
-    "id": "Q9545711",
+    "id": "Q229598",
     "kind": "person",
     "share": 0.12,
-    "title": "Лана Вачовски"
+    "title": "Кэтрин Хардвик"
    },
    {
-    "id": "Q184903",
-    "kind": "person",
-    "share": 0.12,
-    "title": "Дэвид Финчер"
-   },
-   {
-    "id": "Q13595531",
-    "kind": "person",
+    "id": "Q462",
+    "kind": "universe",
     "share": 0.09,
-    "title": "Итан Коэн"
+    "title": "Звёздные войны"
    }
   ],
   "focus": []
  },
- "TerlKabot channel": {
-  "n": 87.3,
-  "top": [
-   {
-    "id": "Q220260",
-    "kind": "universe",
-    "share": 0.11,
-    "title": "Обитель зла"
-   }
-  ],
-  "focus": []
- },
- "Вслушивание": {
-  "n": 14,
-  "top": [
-   {
-    "id": "Q25191",
-    "kind": "person",
-    "share": 0.71,
-    "title": "Кристофер Нолан"
-   }
-  ],
-  "focus": [
-   "Q25191"
-  ]
- },
- "KINOM": {
-  "n": 8,
-  "top": [
-   {
-    "id": "Q103474",
-    "kind": "universe",
-    "share": 0.13,
-    "title": "2001 год: Космическая одиссея"
-   },
-   {
-    "id": "Q7506788",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Шан Хейдер"
-   },
-   {
-    "id": "Q2388576",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Тайка Вайтити"
-   },
-   {
-    "id": "Q25132",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Пол Томас Андерсон"
-   },
-   {
-    "id": "Q54864392",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Ари Астер"
-   },
-   {
-    "id": "Q26821227",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Барри Дженкинс"
-   }
-  ],
-  "focus": []
- },
- "Канал Ламполоджи": {
-  "n": 10.3,
-  "top": [
-   {
-    "id": "Q1152150",
-    "kind": "universe",
-    "share": 0.15,
-    "title": "Вселенная DC"
-   },
-   {
-    "id": "Q931613",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Мэтт Ривз"
-   }
-  ],
-  "focus": []
- },
- "Black Meat Plate": {
+ "Екатерина Васильева": {
   "n": 6,
   "top": [
    {
-    "id": "Q2001",
-    "kind": "person",
-    "share": 0.21,
-    "title": "Стэнли Кубрик"
-   },
-   {
-    "id": "Q109135",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "На игле"
-   },
-   {
-    "id": "Q163038",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Психо"
-   },
-   {
-    "id": "Q2071",
+    "id": "Q2031292",
     "kind": "person",
     "share": 0.17,
-    "title": "Дэвид Линч"
+    "title": "Пол Фиг"
    },
    {
-    "id": "Q134867",
+    "id": "Q118504431",
     "kind": "person",
     "share": 0.17,
-    "title": "Дэнни Бойл"
+    "title": "Кристоффер Боргли"
+   }
+  ],
+  "focus": []
+ },
+ "letsgetducks": {
+  "n": 5.3,
+  "top": [
+   {
+    "id": "Q271967",
+    "kind": "person",
+    "share": 0.19,
+    "title": "Грета Гервиг"
    },
    {
     "id": "Q333643",
     "kind": "person",
-    "share": 0.17,
+    "share": 0.1,
     "title": "Сатоси Кон"
    }
   ],
   "focus": []
  },
- "In Deep Geek": {
-  "n": 83.8,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.88,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.35,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.35,
-    "title": "Д. Б. Уайс"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Кинопоиск": {
-  "n": 6,
-  "top": [
-   {
-    "id": "Q13014087",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Матрица"
-   },
-   {
-    "id": "Q92580",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Призрак в доспехах"
-   },
-   {
-    "id": "Q98112763",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Назад в будущее"
-   },
-   {
-    "id": "Q55424",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Питер Уир"
-   },
-   {
-    "id": "Q175062",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Руперт Сандерс"
-   },
-   {
-    "id": "Q187364",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Роберт Земекис"
-   }
-  ],
-  "focus": []
- },
- "Культас": {
-  "n": 8.3,
-  "top": [
-   {
-    "id": "Q642878",
-    "kind": "universe",
-    "share": 0.21,
-    "title": "Кинематографическая вселенная Marvel"
-   },
-   {
-    "id": "Q18148065",
-    "kind": "universe",
-    "share": 0.15,
-    "title": "Холодное сердце"
-   },
-   {
-    "id": "Q156596",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Крис Бак"
-   },
-   {
-    "id": "Q5929198",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Дженнифер Ли"
-   }
-  ],
-  "focus": []
- },
- "Nuke": {
-  "n": 35.3,
-  "top": [
-   {
-    "id": "Q1152150",
-    "kind": "universe",
-    "share": 0.18,
-    "title": "Вселенная DC"
-   },
-   {
-    "id": "Q135818756",
-    "kind": "universe",
-    "share": 0.09,
-    "title": "Смешарики"
-   }
-  ],
-  "focus": []
- },
- "Chuck Review": {
-  "n": 21.3,
-  "top": [
-   {
-    "id": "Q642878",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Кинематографическая вселенная Marvel"
-   },
-   {
-    "id": "Q1152150",
-    "kind": "universe",
-    "share": 0.09,
-    "title": "Вселенная DC"
-   }
-  ],
-  "focus": []
- },
- "Preston Jacobs": {
-  "n": 116.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.89,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.3,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.3,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Constantine_ James ": {
-  "n": 42.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.36,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q28062624",
-    "kind": "universe",
-    "share": 0.21,
-    "title": "Одни из нас"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q642878",
-    "kind": "universe",
-    "share": 0.08,
-    "title": "Кинематографическая вселенная Marvel"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Джордж Р. Р. Мартин"
-   }
-  ],
-  "focus": []
- },
- "КиноСоветник": {
-  "n": 6.3,
-  "top": [
-   {
-    "id": "Q106603131",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Мортал Комбат"
-   },
-   {
-    "id": "Q35160",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Одиссея"
-   },
-   {
-    "id": "Q29554576",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Джон Уик"
-   },
-   {
-    "id": "Q620588",
-    "kind": "universe",
-    "share": 0.16,
-    "title": "Терминатор"
-   },
-   {
-    "id": "Q67171585",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Саймон Маккуойд"
-   },
-   {
-    "id": "Q3772",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Квентин Тарантино"
-   }
-  ],
-  "focus": []
- },
- "Alt Shift X": {
-  "n": 32.8,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.89,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.43,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.43,
-    "title": "Д. Б. Уайс"
-   }
-  ],
-  "focus": [
-   "Q45875",
-   "Q503997",
-   "Q1151388"
-  ]
- },
- "RedTeamReview": {
-  "n": 89,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.93,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.34,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.34,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.09,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Quinn The GM": {
-  "n": 84.8,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.93,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.21,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.21,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.18,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Fantasy Haven": {
-  "n": 49.8,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.79,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.28,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.23,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.23,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "David Lightbringer": {
-  "n": 110.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.9,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.21,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.19,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.19,
-    "title": "Мигель Сапочник"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Д. Б. Уайс"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Michael Talks About Stuff": {
-  "n": 17.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.8,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.16,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.13,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": [
-   "Q45875"
-  ]
- },
- "Glidus": {
-  "n": 5.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 1,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.23,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.23,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.18,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.18,
-    "title": "Райан Кондал"
-   },
-   {
-    "id": "Q6844804",
-    "kind": "person",
-    "share": 0.18,
-    "title": "Мигель Сапочник"
-   }
-  ],
-  "focus": []
- },
- "Crusader Chris": {
-  "n": 7,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.86,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.25,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.25,
-    "title": "Д. Б. Уайс"
-   },
-   {
-    "id": "Q740758",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Хирокадзу Корээда"
-   },
-   {
-    "id": "Q181677",
-    "kind": "person",
-    "share": 0.12,
-    "title": "Джордж Р. Р. Мартин"
-   },
-   {
-    "id": "Q106720695",
-    "kind": "person",
-    "share": 0.12,
-    "title": "Райан Кондал"
-   }
-  ],
-  "focus": []
- },
- "Chim": {
-  "n": 6.8,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 1,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.5,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.5,
-    "title": "Д. Б. Уайс"
-   }
-  ],
-  "focus": []
- },
- "BerdenGus (АРХИВ)": {
-  "n": 20.5,
-  "top": [
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.99,
-    "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.49,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.49,
-    "title": "Д. Б. Уайс"
-   }
-  ],
-  "focus": [
-   "Q45875",
-   "Q503997",
-   "Q1151388"
-  ]
- },
- "КАРО.АРТ": {
-  "n": 7,
-  "top": [
-   {
-    "id": "Q41148",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Мартин Скорсезе"
-   },
-   {
-    "id": "Q542634",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Алекс Гарленд"
-   },
-   {
-    "id": "Q17220313",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Рюсукэ Хамагути"
-   },
-   {
-    "id": "Q40039676",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Когонада"
-   },
-   {
-    "id": "Q223687",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Уэс Андерсон"
-   },
-   {
-    "id": "Q129079",
-    "kind": "person",
-    "share": 0.14,
-    "title": "Пол Верховен"
-   }
-  ],
-  "focus": []
- },
- "UglyJoke": {
-  "n": 5.8,
-  "top": [
-   {
-    "id": "Q2138108",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Хищник"
-   },
-   {
-    "id": "Q111328790",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Tomb Raider"
-   },
-   {
-    "id": "Q124758294",
-    "kind": "universe",
-    "share": 0.17,
-    "title": "Последний богатырь"
-   },
-   {
-    "id": "Q5214505",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Дэн Трахтенберг"
-   },
-   {
-    "id": "Q136746677",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Илья Алексеевич Учитель"
-   },
-   {
-    "id": "Q1780665",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Роар Утхауг"
-   }
-  ],
-  "focus": []
- },
- "Иван Диденко ": {
+ "НЕОНУАР": {
   "n": 5,
   "top": [
    {
-    "id": "Q55400",
-    "kind": "person",
-    "share": 0.4,
-    "title": "Хаяо Миядзаки"
-   },
-   {
-    "id": "Q244963",
-    "kind": "universe",
-    "share": 0.2,
-    "title": "Рэмбо: Первая кровь"
-   },
-   {
-    "id": "Q92580",
-    "kind": "universe",
-    "share": 0.2,
-    "title": "Призрак в доспехах"
-   },
-   {
-    "id": "Q725520",
+    "id": "Q136345455",
     "kind": "person",
     "share": 0.2,
-    "title": "Тед Котчефф"
+    "title": "Карри Баркер"
    },
    {
-    "id": "Q8877",
+    "id": "Q54864392",
     "kind": "person",
     "share": 0.2,
-    "title": "Стивен Спилберг"
-   },
-   {
-    "id": "Q285084",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Мамору Осии"
-   }
-  ],
-  "focus": []
- },
- "15 минут про кино (чаще больше)": {
-  "n": 10,
-  "top": [
-   {
-    "id": "Q48672651",
-    "kind": "universe",
-    "share": 0.1,
-    "title": "Приключения Паддингтона"
-   },
-   {
-    "id": "Q8877",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Стивен Спилберг"
-   },
-   {
-    "id": "Q542634",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Алекс Гарленд"
-   },
-   {
-    "id": "Q4231887",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Борис Хлебников"
-   },
-   {
-    "id": "Q55400",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Хаяо Миядзаки"
-   },
-   {
-    "id": "Q315484",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Пак Чхан Ук"
-   }
-  ],
-  "focus": []
- },
- "OSCAR OBZOR": {
-  "n": 6,
-  "top": [
-   {
-    "id": "Q8877",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Стивен Спилберг"
-   },
-   {
-    "id": "Q315484",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Пак Чхан Ук"
-   },
-   {
-    "id": "Q116286260",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Селин Сон"
-   },
-   {
-    "id": "Q313566",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Александр Пэйн"
-   },
-   {
-    "id": "Q55294",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Кеннет Брана"
-   },
-   {
-    "id": "Q1646482",
-    "kind": "person",
-    "share": 0.17,
-    "title": "Лин-Мануэль Миранда"
-   }
-  ],
-  "focus": []
- },
- "Александр Шебанов": {
-  "n": 5,
-  "top": [
-   {
-    "id": "Q542634",
-    "kind": "person",
-    "share": 0.2,
-    "title": "Алекс Гарленд"
+    "title": "Ари Астер"
    },
    {
     "id": "Q975410",
@@ -1518,22 +4061,403 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "title": "Йоргос Лантимос"
    },
    {
-    "id": "Q295463",
+    "id": "Q5236475",
     "kind": "person",
     "share": 0.2,
-    "title": "Гор Вербински"
+    "title": "Дэвид Литч"
+   },
+   {
+    "id": "Q457493",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Андреа Арнольд"
+   }
+  ],
+  "focus": []
+ },
+ "ZAUR Khubulov Live": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q136345455",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Карри Баркер"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q7383978",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Райан Куглер"
+   },
+   {
+    "id": "Q187364",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Роберт Земекис"
+   },
+   {
+    "id": "Q522057",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Эдгар Райт"
+   }
+  ],
+  "focus": []
+ },
+ "OSCAR OBZOR": {
+  "n": 13,
+  "top": [
+   {
+    "id": "Q897115",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Брэди Корбет"
+   },
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q7383978",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Райан Куглер"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Мартин Макдонах"
    },
    {
     "id": "Q315484",
     "kind": "person",
-    "share": 0.2,
+    "share": 0.08,
     "title": "Пак Чхан Ук"
    },
    {
-    "id": "Q17220313",
+    "id": "Q8877",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Стивен Спилберг"
+   }
+  ],
+  "focus": []
+ },
+ "UglyJoke": {
+  "n": 15,
+  "top": [
+   {
+    "id": "Q2138108",
+    "kind": "universe",
+    "share": 0.27,
+    "title": "Хищник"
+   },
+   {
+    "id": "Q726126",
     "kind": "person",
     "share": 0.2,
-    "title": "Рюсукэ Хамагути"
+    "title": "Шейн Блэк"
+   },
+   {
+    "id": "Q124758294",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Последний богатырь"
+   },
+   {
+    "id": "Q4171916",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Дмитрий Дьяченко"
+   }
+  ],
+  "focus": []
+ },
+ "SWEROK": {
+  "n": 40.8,
+  "top": [
+   {
+    "id": "Q462",
+    "kind": "universe",
+    "share": 0.87,
+    "title": "Звёздные войны"
+   },
+   {
+    "id": "Q18763959",
+    "kind": "person",
+    "share": 0.41,
+    "title": "Дебора Чоу"
+   },
+   {
+    "id": "Q13563071",
+    "kind": "person",
+    "share": 0.3,
+    "title": "Лесли Хэдланд"
+   },
+   {
+    "id": "Q38222",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Джордж Лукас"
+   }
+  ],
+  "focus": [
+   "Q462",
+   "Q18763959"
+  ]
+ },
+ "КОРОТКО О КИНО": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q25132",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Пол Томас Андерсон"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q8877",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Стивен Спилберг"
+   },
+   {
+    "id": "Q522057",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Эдгар Райт"
+   }
+  ],
+  "focus": []
+ },
+ "Олег Дорожинский": {
+  "n": 7,
+  "top": [
+   {
+    "id": "Q25132",
+    "kind": "person",
+    "share": 0.29,
+    "title": "Пол Томас Андерсон"
+   },
+   {
+    "id": "Q382389",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Жак Одиар"
+   },
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q315484",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Пак Чхан Ук"
+   },
+   {
+    "id": "Q4231887",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Борис Хлебников"
+   },
+   {
+    "id": "Q446580",
+    "kind": "person",
+    "share": 0.14,
+    "title": "Тодд Хейнс"
+   }
+  ],
+  "focus": []
+ },
+ "Иван Диденко ": {
+  "n": 9,
+  "top": [
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.33,
+    "title": "Хаяо Миядзаки"
+   },
+   {
+    "id": "Q92580",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Призрак в доспехах"
+   },
+   {
+    "id": "Q244963",
+    "kind": "universe",
+    "share": 0.11,
+    "title": "Рэмбо: Первая кровь"
+   },
+   {
+    "id": "Q8877",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Стивен Спилберг"
+   },
+   {
+    "id": "Q56005",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Ридли Скотт"
+   },
+   {
+    "id": "Q350405",
+    "kind": "person",
+    "share": 0.11,
+    "title": "Адам Маккей"
+   }
+  ],
+  "focus": []
+ },
+ "Уголок Твистера": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q16207879",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Эмиральд Феннелл"
+   },
+   {
+    "id": "Q26821227",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Барри Дженкинс"
+   },
+   {
+    "id": "Q2388576",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Тайка Вайтити"
+   },
+   {
+    "id": "Q28746830",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Дэн Кван"
+   },
+   {
+    "id": "Q28746848",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Дэниэл Шайнерт"
+   }
+  ],
+  "focus": []
+ },
+ "Иван Бочарников": {
+  "n": 11,
+  "top": [
+   {
+    "id": "Q542634",
+    "kind": "person",
+    "share": 0.27,
+    "title": "Алекс Гарленд"
+   },
+   {
+    "id": "Q372394",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Мартин Макдонах"
+   },
+   {
+    "id": "Q3574497",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Зак Креггер"
+   },
+   {
+    "id": "Q5236475",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Дэвид Литч"
+   },
+   {
+    "id": "Q313566",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Александр Пэйн"
+   },
+   {
+    "id": "Q1703182",
+    "kind": "person",
+    "share": 0.09,
+    "title": "Джонатан Глэйзер"
+   }
+  ],
+  "focus": []
+ },
+ "Попкорновый клуб": {
+  "n": 6,
+  "top": [
+   {
+    "id": "Q1356213",
+    "kind": "universe",
+    "share": 0.17,
+    "title": "Миссия невыполнима"
+   },
+   {
+    "id": "Q54864392",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Ари Астер"
+   },
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Хаяо Миядзаки"
+   },
+   {
+    "id": "Q3574497",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Зак Креггер"
+   },
+   {
+    "id": "Q189526",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Брайан Де Пальма"
+   },
+   {
+    "id": "Q1703182",
+    "kind": "person",
+    "share": 0.17,
+    "title": "Джонатан Глэйзер"
    }
   ],
   "focus": []

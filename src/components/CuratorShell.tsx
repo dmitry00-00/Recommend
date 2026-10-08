@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ToastViewport } from './Toast';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
-export interface CuratorNavItem { id: keyof typeof ru.curator.nav; to: string }
+export interface CuratorNavItem { id: keyof typeof ui.curator.nav; to: string }
 
 export const CURATOR_NAV: CuratorNavItem[] = [
   { id: 'queue', to: '/curator' },
@@ -24,19 +24,19 @@ export const CURATOR_NAV: CuratorNavItem[] = [
 export function CuratorShell({ children }: { children: ReactNode }) {
   return (
     <div className="tm-shell tm-shell--desktop tm-shell--app">
-      <nav className="tm-nav tm-nav--desktop" aria-label={ru.curator.navLabel}>
-        <p className="tm-nav__brand">{ru.curator.brand}</p>
+      <nav className="tm-nav tm-nav--desktop" aria-label={ui.curator.navLabel}>
+        <p className="tm-nav__brand">{ui.curator.brand}</p>
         <ul className="tm-nav__list">
           {CURATOR_NAV.map((item) => (
             <li key={item.id}>
               <NavLink to={item.to} end={item.to === '/curator'}
                        className={({ isActive }) => cx('tm-nav__item', isActive && 'tm-nav__item--on')}>
-                <span>{ru.curator.nav[item.id]}</span>
+                <span>{ui.curator.nav[item.id]}</span>
               </NavLink>
             </li>
           ))}
         </ul>
-        <NavLink to="/today" className="tm-nav__item tm-curator__toapp">{ru.curator.toApp}</NavLink>
+        <NavLink to="/today" className="tm-nav__item tm-curator__toapp">{ui.curator.toApp}</NavLink>
       </nav>
       <div className="tm-curator__body">
         {children}

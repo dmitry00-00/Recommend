@@ -1,4 +1,6 @@
 // D1 поверх SQLite в памяти (sql.js, WebAssembly — без нативной сборки на хостинге).
+// С 06.10 (ЗП-4) — запасной путь: основной — ./d1-sqlite.js (настоящий файл, Node 22.13+); этот
+// берётся, когда node:sqlite нет (Node 20) или явно попросили `DB_ENGINE=sqljs`.
 // Воркер (worker/index.ts) написан под Cloudflare D1; здесь ровно та часть интерфейса,
 // которой он пользуется: prepare → bind → first / all / run, batch и exec.
 //
@@ -76,7 +78,10 @@ async function openD1({ file, schema, wasmDir }) {
     };
   }
 
+  let closed = false;
   return {
+    engine: 'sqljs',
+    file,
     prepare: (sql) => statement(sql),
     async batch(statements) {
       db.run('BEGIN');
@@ -97,6 +102,19 @@ async function openD1({ file, schema, wasmDir }) {
     },
     /** выгрузить на диск сейчас — перед остановкой процесса */
     flush,
+    /** копия — та же выгрузка всей базы, только в другой файл */
+    backup(dest) {
+      const data = db.export();
+      db.run('PRAGMA foreign_keys = ON');
+      fs.writeFileSync(dest, Buffer.from(data));
+    },
+    close() {
+      if (closed) return;
+      if (timer) clearTimeout(timer);
+      flush();
+      db.close();
+      closed = true;
+    },
   };
 }
 

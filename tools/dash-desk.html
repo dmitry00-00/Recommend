@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сводка</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da; --grid: #eeebe5;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8; --bar: #2f5fd0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d; --grid: #2a2926;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926; --bar: #7ea2ff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .muted { color: var(--muted); } a { color: var(--accent); }
+  button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; cursor: pointer; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 0 0 18px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .tile i { font-style: normal; font-size: 13px; color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+  .card.wide { grid-column: 1 / -1; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .st { display: inline-flex; gap: 5px; align-items: center; font-size: 13px; white-space: nowrap; }
+  .st::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .st.ok::before { background: var(--ok); } .st.stale::before, .st.never::before { background: var(--warn); } .st.error::before { background: var(--bad); }
+  .st.running::before { background: var(--accent); } .st.blocked::before, .st.skipped::before { background: var(--line); }
+  .warnline { color: var(--warn); margin: 4px 0; } .badline { color: var(--bad); margin: 4px 0; }
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart .axis { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .chart .grid { stroke: var(--grid); stroke-width: 1; }
+  .chart .line { fill: none; stroke: var(--bar); stroke-width: 2; }
+  .chart .dot { fill: var(--bar); stroke: var(--panel); stroke-width: 2; }
+  .chart .barr { fill: var(--bar); }
+  .chart .hit { fill: transparent; }
+  .chart .cross { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; padding: 5px 8px; border-radius: 6px; white-space: nowrap; display: none; z-index: 2; transform: translate(-50%, -110%); }
+  .hb { display: grid; grid-template-columns: minmax(0, 130px) minmax(0, 1fr) 96px; gap: 8px; align-items: center; font-size: 14px; margin: 4px 0; }
+  .hb .track { height: 8px; background: var(--chip); border-radius: 4px; overflow: hidden; }
+  .hb .track i { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+  .hb .v { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+  details summary { cursor: pointer; color: var(--muted); margin: 8px 0; }
+  .delta-up { color: var(--ok); } .delta-down { color: var(--bad); }
+  /* «ждёт тебя» (06.10): дела наверху, по одному в строке */
+  .todo { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 16px; margin: 0 0 18px; }
+  .todo .it { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .todo .it:last-child { border-bottom: 0; }
+  .todo .it b { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+  .todo .it.info b, .todo .it.info span { color: var(--muted); }
+  .todo .it a.go, .todo .it button { white-space: nowrap; }
+  a.go { display: inline-block; padding: 5px 11px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); background: var(--panel); }
+  .todo .none { color: var(--muted); padding: 8px 0; }
+  /* конвейер: «устарел» без дела за ним — серым, это не тревога */
+  .st.soft::before { background: var(--line); }
+  .st.soft { color: var(--muted); }
+  button.run { padding: 1px 8px; font-size: 13px; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .5; cursor: default; }
+  #pipelog { max-height: 220px; overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px; font: 12px/1.4 ui-monospace, Menlo, monospace; white-space: pre-wrap; margin: 10px 0 0; }
+  #pipelog:empty { display: none; }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><h1>Сводка</h1><span class="muted" id="when"></span><span style="flex:1"></span><button id="fresh">Обновить</button></div>
+  <p class="sub">Состояние данных одним экраном: ночной сбор, разметка людьми, точность опознавателя, каналы и разметка для подбора.</p>
+  <h2>Ждёт тебя</h2>
+  <div class="todo" id="todo"><div class="none">Считаю…</div></div>
+  <div id="view"><p class="muted">Считаю…</p></div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (n, d = 0) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('ru-RU', { maximumFractionDigits: d }));
+const pct = (x) => (x == null ? '—' : `${Math.round(x * 100)}%`);
+const dt = (s) => (s ? new Date(s).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—');
+const day = (s) => new Date(s).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+const ST = { ok: 'в порядке', stale: 'устарел', error: 'ошибка', skipped: 'пропущен', never: 'не запускался', blocked: 'не может идти', running: 'идёт' };
+const EV = { human: 'человек', title: 'по названию', year: 'год', original: 'ориг. название', tag: 'хэштег', lore: 'по герою', playlist: 'плейлист' };
+const FROM = { check: 'Проверка', desk: 'Ссылки', 'таблица': 'таблица', sheet: 'таблица', gap: 'со стороны фильма', corpus: 'Корпус' };
+
+/** Линия с одной осью и подсказкой у ближайшей точки. points: [{x: подпись, y, tip}] */
+function lineChart(points, { yfmt = (v) => fmt(v), h = 170, zero = false } = {}) {
+  if (points.length < 2) return '<p class="muted">мало точек</p>';
+  const W = 380, H = h, L = 44, R = 10, T = 10, B = 22;
+  const ys = points.map((p) => p.y);
+  let lo = zero ? 0 : Math.min(...ys), hi = Math.max(...ys);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const pad = (hi - lo) * 0.08; if (!zero) lo -= pad; hi += pad;
+  const x = (i) => L + (i / (points.length - 1)) * (W - L - R);
+  const y = (v) => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+  const ticks = [0, 0.5, 1].map((t) => lo + t * (hi - lo));
+  const step = Math.max(1, Math.ceil(points.length / 4));
+  const id = `c${Math.random().toString(36).slice(2, 8)}`;
+  setTimeout(() => wireLine(id, points, x, y, W), 0);
+  return `<div class="chart" id="${id}"><svg viewBox="0 0 ${W} ${H}" role="img">
+    ${ticks.map((t) => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}"/><text class="axis" x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${esc(yfmt(t))}</text>`).join('')}
+    ${points.map((p, i) => ((i % step === 0 && points.length - 1 - i >= step / 2) || i === points.length - 1 ? `<text class="axis" x="${x(i)}" y="${H - 6}" text-anchor="middle">${esc(p.x)}</text>` : '')).join('')}
+    <polyline class="line" points="${points.map((p, i) => `${x(i)},${y(p.y)}`).join(' ')}" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle class="dot" cx="${x(points.length - 1)}" cy="${y(points.at(-1).y)}" r="4"/>
+    <line class="cross" x1="0" x2="0" y1="${T}" y2="${H - B}" style="display:none"/><circle class="dot hover" r="4" style="display:none"/>
+    <rect class="hit" x="${L}" y="0" width="${W - L - R}" height="${H}"/></svg><div class="tip"></div></div>`;
+}
+function wireLine(id, points, x, y, W) {
+  const el = document.getElementById(id); if (!el) return;
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), cross = el.querySelector('.cross'), dot = el.querySelector('.hover');
+  const move = (e) => {
+    const r = svg.getBoundingClientRect();
+    const sx = (e.clientX - r.left) * (W / r.width);
+    let i = 0; for (let k = 1; k < points.length; k++) if (Math.abs(x(k) - sx) < Math.abs(x(i) - sx)) i = k;
+    cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.style.display = '';
+    dot.setAttribute('cx', x(i)); dot.setAttribute('cy', y(points[i].y)); dot.style.display = '';
+    tip.innerHTML = points[i].tip; tip.style.display = 'block';
+    tip.style.left = `${(x(i) / W) * r.width}px`; tip.style.top = `${(y(points[i].y) / svg.viewBox.baseVal.height) * r.height}px`;
+  };
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerleave', () => { tip.style.display = 'none'; cross.style.display = 'none'; dot.style.display = 'none'; });
+}
+/** Столбики по дням: один ряд, подсказка на столбике. */
+function barChart(items, { h = 170 } = {}) {
+  if (!items.length) return '<p class="muted">нет данных</p>';
+  const W = 380, H = h, L = 44, R = 10, T = 10, B = 22;
+  const hi = Math.max(...items.map((d) => d.n)) || 1;
+  const bw = (W - L - R) / items.length;
+  const y = (v) => T + (1 - v / hi) * (H - T - B);
+  const step = Math.max(1, Math.ceil(items.length / 5));
+  const id = `c${Math.random().toString(36).slice(2, 8)}`;
+  setTimeout(() => {
+    const el = document.getElementById(id); if (!el) return;
+    const svg = el.querySelector('svg'), tip = el.querySelector('.tip');
+    for (const r of el.querySelectorAll('.hit')) {
+      r.addEventListener('pointerenter', () => { const d = items[Number(r.dataset.i)]; const b = svg.getBoundingClientRect(); tip.innerHTML = d.tip; tip.style.display = 'block';
+        tip.style.left = `${((L + (Number(r.dataset.i) + 0.5) * bw) / W) * b.width}px`; tip.style.top = `${(y(d.n) / H) * b.height}px`; });
+      r.addEventListener('pointerleave', () => { tip.style.display = 'none'; });
+    }
+  }, 0);
+  const barW = Math.max(2, bw - 2);
+  return `<div class="chart" id="${id}"><svg viewBox="0 0 ${W} ${H}" role="img">
+    ${[0, 0.5, 1].map((t) => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(hi * t)}" y2="${y(hi * t)}"/><text class="axis" x="${L - 6}" y="${y(hi * t) + 4}" text-anchor="end">${fmt(hi * t)}</text>`).join('')}
+    ${items.map((d, i) => {
+      const x0 = L + i * bw + 1, top = y(d.n), base = H - B, hgt = Math.max(0, base - top), r = Math.min(4, barW / 2, hgt);
+      return `${hgt > 0 ? `<path class="barr" d="M${x0},${base} V${top + r} Q${x0},${top} ${x0 + r},${top} H${x0 + barW - r} Q${x0 + barW},${top} ${x0 + barW},${top + r} V${base} Z"/>` : ''}
+        ${(i % step === 0 && items.length - 1 - i >= step / 2) || i === items.length - 1 ? `<text class="axis" x="${x0 + barW / 2}" y="${H - 6}" text-anchor="middle">${esc(d.x)}</text>` : ''}
+        <rect class="hit" data-i="${i}" x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}"/>`;
+    }).join('')}</svg><div class="tip"></div></div>`;
+}
+const hbars = (rows, max) => rows.map((r) => `<div class="hb"><span title="${esc(r.title)}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.title)}</span>
+  <span class="track" title="${esc(r.tip ?? '')}"><i style="width:${max ? Math.max(2, (r.n / max) * 100) : 0}%"></i></span><span class="v">${esc(r.v)}</span></div>`).join('');
+
+async function load(fresh) {
+  $('#fresh').disabled = true;
+  const d = await (await fetch(`api/summary${fresh ? '?fresh=1' : ''}`)).json();
+  $('#fresh').disabled = false;
+  $('#when').textContent = `на ${dt(d.at)}`;
+  render(d);
+  renderPipe();   // карточка конвейера пересоздаётся вместе со сводкой
+}
+function render(d) {
+  const c = d.collect, h = d.history, snap = h.snaps.at(-1)?.metrics ?? {}, prev = h.snaps.at(-2)?.metrics ?? {};
+  const delta = (k, digits = 0, unit = '') => {
+    if (snap[k] == null || prev[k] == null) return '';
+    const v = snap[k] - prev[k];
+    return v ? `<i>${v > 0 ? '+' : '−'}${fmt(Math.abs(v), digits)}${unit} за сутки</i>` : '<i>без изменений</i>';
+  };
+  const a = d.annotation, ft = a.totals?.film, cov = d.coverage;
+  const bad = d.stages.filter((s) => s.state === 'error'), stale = d.stages.filter((s) => s.state === 'stale' || s.state === 'never');
+  const v = d.verdicts;
+  const runPts = h.runs.map((r) => ({ x: day(r.at), y: r.films, tip: `${dt(r.at)}<br>фильмов с материалом: <b>${fmt(r.films)}</b>` }));
+  const sharePts = h.runs.map((r) => ({ x: day(r.at), y: r.share, tip: `${dt(r.at)}<br>не подтверждено: <b>${fmt(r.share)}%</b> (${fmt(r.unverified)})` }));
+  const vdays = v.days.map((x) => ({ x: day(x.day), n: x.n, tip: `${day(x.day)}: <b>${fmt(x.n)}</b> решений<br>${Object.entries(x.by).map(([k, n]) => `${esc(FROM[k] ?? k)} ${fmt(n)}`).join(' · ')}` }));
+  const methods = d.methods ? Object.entries(d.methods.method).sort((x, y) => (y[1].right + y[1].wrong) - (x[1].right + x[1].wrong)) : [];
+  $('#view').innerHTML = `
+    <div class="tiles">
+      <div class="tile"><b>${fmt(snap.films)}</b><span>фильмов с материалом</span><br>${delta('films')}</div>
+      <div class="tile"><b>${fmt(snap.items)}</b><span>материалов всего</span><br>${delta('items')}</div>
+      <div class="tile"><b>${fmt(snap.unverified, 1)}%</b><span>не проверено</span><br>${delta('unverified', 1, ' п.')}</div>
+      <div class="tile"><b>${fmt(v.total)}</b><span>решений людей</span><br>${delta('verdicts')}</div>
+      <div class="tile"><b>${ft ? pct(ft.annotated / ft.all) : '—'}</b><span>фильмов размечено для подбора</span><br><i>${ft ? `${fmt(ft.annotated)} из ${fmt(ft.all)}` : ''}</i></div>
+      <div class="tile"><b>${fmt(d.channels.essay)}</b><span>каналов-эссеистов</span><br><i>обзоров ${fmt(d.channels.review)}, из ссылок ${fmt(d.channels.links)}</i></div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h2>Ночной сбор</h2>
+        ${c ? `<p style="margin:0 0 8px"><b>${dt(c.at)}</b> <span class="muted">· шагов ${c.steps.length}, ${Math.round(c.secs / 60)} мин</span>
+          ${c.failed.length ? `<span class="st error">упали: ${esc(c.failed.join(', '))}</span>` : '<span class="st ok">все шаги прошли</span>'}</p>
+          ${c.warnings.map((w) => `<div class="warnline">⚠ ${esc(w)}</div>`).join('') || '<div class="muted">предупреждений нет</div>'}
+          <details><summary>контрольные замеры (${c.metrics.length})</summary><table><thead><tr><th>Число</th><th class="n">Было</th><th class="n">Стало</th><th class="n">Разница</th></tr></thead><tbody>
+          ${c.metrics.map((m) => `<tr><td>${esc(m.label)}</td><td class="n">${esc(m.was)}</td><td class="n">${esc(m.now)}</td><td class="n ${/^\+/.test(m.delta) ? 'delta-up' : /^-/.test(m.delta) ? 'delta-down' : 'muted'}">${esc(m.delta)}</td></tr>`).join('')}</tbody></table></details>
+          <details><summary>шаги</summary><table><tbody>${c.steps.map((s) => `<tr><td>${esc(s.name)}</td><td><span class="st ${s.ok ? 'ok' : 'error'}">${s.ok ? 'готово' : `ошибка ${esc(s.code ?? '')}`}</span></td><td class="n muted">${fmt(s.secs)} с</td></tr>`).join('')}</tbody></table></details>
+          <p class="muted" style="font-size:13px;margin:8px 0 0">${esc(c.file)}</p>` : '<p class="muted">логов сбора нет</p>'}
+      </div>
+      <div class="card wide">
+        <div style="display:flex;gap:8px;align-items:center;margin:0 0 10px"><h2 style="margin:0">Конвейер</h2><span style="flex:1"></span>
+          <button id="run-stale" class="primary" type="button">Обновить устаревшее</button><button id="run-stop" type="button" disabled>Стоп</button></div>
+        <div id="pipe"><p class="muted">…</p></div>
+        <pre id="pipelog"></pre>
+        <p class="muted" style="font-size:13px;margin:8px 0 0">git: ${d.git.dirty != null ? `не закоммичено файлов ${fmt(d.git.dirty)}` : 'нет данных'}${d.git.lastCommit ? ` · последний коммит ${esc(d.git.lastCommit.split(' ')[0])} ${dt(d.git.lastCommit.split(' ')[1])}` : ''}</p>
+      </div>
+      <div class="card"><h2>Фильмов с материалом, по сборам</h2>${lineChart(runPts)}</div>
+      <div class="card"><h2>Доля «не подтверждено», %, по сборам</h2>${lineChart(sharePts, { yfmt: (x) => `${fmt(x)}%`, zero: true })}</div>
+      <div class="card"><h2>Решения людей по дням</h2>${barChart(vdays)}
+        <p class="muted" style="font-size:13px;margin:8px 0 0">всего ${fmt(v.total)}: фильм ${fmt(v.kinds.film)}, не о фильме ${fmt(v.kinds.notFilm)}, о франшизе или человеке ${fmt(v.kinds.about)}, другое ${fmt(v.kinds.other)}
+          · откуда: ${Object.entries(v.from).sort((x, y) => y[1] - x[1]).map(([k, n]) => `${esc(FROM[k] ?? k)} ${fmt(n)}`).join(', ')}</p></div>
+      <div class="card"><h2>Точность опознавателя по способу</h2>
+        ${methods.length ? hbars(methods.map(([k, s]) => ({ title: EV[k] ?? k, n: s.p, v: `${pct(s.p)} · ${fmt(s.right + s.wrong)}`, tip: `верно ${s.right}, ошибок ${s.wrong}, нижняя граница ${pct(s.lb)}` })), 1)
+          + `<p class="muted" style="font-size:13px;margin:8px 0 0">надёжных пар «канал × способ» ${fmt(d.methods.trusted)}, слабых ${fmt(d.methods.weak)} · замер ${dt(d.methods.at)}</p>` : '<p class="muted">замера нет</p>'}</div>
+      <div class="card"><h2>Покрытие разметкой</h2>
+        ${cov ? `<table><tbody>
+          <tr><td>привязок роликов</td><td class="n">${fmt(cov.links)}</td></tr>
+          <tr><td>решено человеком</td><td class="n">${fmt(cov.human)} · ${pct(cov.human / cov.links)}</td></tr>
+          <tr><td>с уликой</td><td class="n">${fmt(cov.evidence)} · ${pct(cov.evidence / cov.links)}</td></tr>
+          <tr><td>без подтверждения</td><td class="n">${fmt(cov.none)} · ${pct(cov.none / cov.links)}</td></tr>
+          <tr><td>~ошибок в непроверенном</td><td class="n">${fmt(cov.expectedErrors)}</td></tr>
+          <tr><td>каналов без решений / мало решений</td><td class="n">${fmt(cov.noMarkup)} / ${fmt(cov.little)}</td></tr>
+          <tr><td>постов Telegram / проверено</td><td class="n">${fmt(cov.tgPosts)} / ${fmt(cov.tgVerified)}</td></tr>
+          <tr><td>популярных фильмов без материала</td><td class="n">${fmt(cov.silent)}</td></tr></tbody></table>
+          <p class="muted" style="font-size:13px;margin:8px 0 0">точность в среднем ${pct(cov.precision)} · замер ${dt(cov.at)} · <a href="../channels/">каналы →</a></p>` : '<p class="muted">замера нет</p>'}</div>
+      <div class="card wide"><h2>Разметка для подбора</h2>
+        ${a.error ? `<p class="badline">${esc(a.error)}</p>` : `
+        <p style="margin:0 0 10px">Без уровня и операций фильм в ленту не попадает, сколько бы о нём ни говорили.
+          Фильмов: размечено ${fmt(ft.annotated)}, черновик low ${fmt(ft.low)} (в подбор не идёт), без разметки ${fmt(ft.missing)}, из них с материалами ${fmt(ft.missingWithRecords)}.
+          Сериалов без разметки ${fmt(a.totals.series.missing)}, книг ${fmt(a.totals.book.missing)} из ${fmt(a.totals.book.all)}.</p>
+        <p class="muted" style="margin:0 0 10px">Без разметки по весу записей: ${a.bands.map((b) => `от ${String(b.th).replace('.', ',')} — ${fmt(b.n)}`).join(' · ')}. Разметить следующих: <code>npx tsx tools/draft-annotate.mts --weighted --run</code></p>
+        <table><thead><tr><th>Произведение</th><th class="n">Вес</th><th class="n">Записей</th><th class="n">Каналов</th></tr></thead><tbody>
+          ${a.top.map((r) => `<tr><td>${esc(r.title)}${r.year ? ` (${r.year})` : ''}${r.original ? ` <span class="muted">/ ${esc(r.original)}</span>` : ''}${r.kind !== 'film' ? ` <span class="muted">· ${r.kind === 'series' ? 'сериал' : 'книга'}</span>` : ''}</td>
+            <td class="n">${fmt(r.weight, 1)}</td><td class="n">${fmt(r.records)}</td><td class="n">${fmt(r.channels)}</td></tr>`).join('') || '<tr><td class="muted">все, о ком говорят, размечены</td></tr>'}</tbody></table>
+        <p class="muted" style="font-size:13px;margin:8px 0 0">посчитано ${dt(a.at)}</p>`}</div>
+    </div>`;
+}
+$('#fresh').onclick = () => { load(true); loadTodo(); };
+
+// ─── ждёт тебя ───────────────────────────────────────────────────────────────
+async function loadTodo() {
+  try {
+    const t = await (await fetch('api/todo')).json();
+    $('#todo').innerHTML = t.items.length ? t.items.map((x) => `<div class="it ${x.level}"><b>${x.n ? fmt(x.n) : ''}</b><span>${esc(x.text)}</span>
+      <span>${x.href ? `<a class="go" href="${esc(x.href)}">Открыть →</a>` : x.run ? `<button type="button" data-run="${esc(x.run)}">▶ Запустить</button>` : ''}</span></div>`).join('')
+      : '<div class="none">Ничего не ждёт — всё размечено и свежее.</div>';
+    for (const b of $('#todo').querySelectorAll('[data-run]')) b.onclick = () => runStages([b.dataset.run]);
+  } catch (e) { $('#todo').innerHTML = `<div class="none">${esc(e.message)}</div>`; }
+}
+
+// ─── конвейер (06.10 — переехал сюда из «Проверки»): те же адреса /check/api/pipeline… ──────
+// «устарел» тревожит, только когда за ним дело (ждут разметки, решения после сборки, сбор старше
+// суток); устаревшее по одним входам — серым «можно обновить»
+let pipe = null, pipeTimer = null;
+const api = async (path, body) => {
+  const r = await fetch(`/check/${path}`, body ? { method: 'POST', headers: { 'content-type': 'application/json', 'x-desk': '1' }, body: JSON.stringify(body) } : {});
+  const j = await r.json(); if (!r.ok) throw new Error(j.error ?? r.status); return j;
+};
+const soft = (s) => s.state === 'stale' && !s.pending && !/суток|сутки|ч назад|старше/.test(s.why ?? '');
+function renderPipe() {
+  if (!pipe) return;
+  const running = pipe.run && !pipe.run.finishedAt;
+  const t = (id) => pipe.stages.find((s) => s.id === id)?.title ?? id;
+  $('#pipe').innerHTML = `${running ? `<p style="margin:0 0 8px"><span class="st running">идёт: ${esc(t(pipe.run.current))} (${pipe.run.results.length + 1} из ${pipe.run.ids.length})</span></p>` : ''}
+    <table><tbody>${pipe.stages.map((s) => `<tr title="${esc(s.what ?? '')}"><td>${esc(s.title)}${s.pending ? `<br><span class="muted" style="font-size:13px">${esc(s.pending.text)}</span>` : ''}</td>
+      <td><span class="st ${soft(s) ? 'soft' : s.state}" title="${esc(s.why ?? '')}">${soft(s) ? 'можно обновить' : ST[s.state] ?? s.state}</span></td>
+      <td class="n muted">${s.lastAt ? dt(s.lastAt) : ''}${s.id === 'sheet' ? `<br><a href="#" id="sheet-check" style="font-size:13px">${sheetText}</a>` : ''}</td>
+      <td class="n"><button class="run" type="button" data-run="${s.id}" title="запустить шаг" ${running || s.state === 'blocked' ? 'disabled' : ''}>▶</button></td></tr>`).join('')}</tbody></table>`;
+  const stale = pipe.stale.length;
+  $('#run-stale').textContent = stale ? `Обновить устаревшее (${stale})` : 'Устаревшего нет';
+  $('#run-stale').disabled = running || !stale;
+  $('#run-stop').disabled = !running;
+  const log = $('#pipelog');
+  const atEnd = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+  log.textContent = pipe.run?.log?.length ? pipe.run.log.join('\n') : '';
+  if (atEnd) log.scrollTop = log.scrollHeight;
+  for (const b of $('#pipe').querySelectorAll('[data-run]')) b.onclick = () => runStages([b.dataset.run]);
+  const sc = $('#sheet-check');
+  if (sc) sc.onclick = async (e) => {
+    e.preventDefault(); sheetText = 'проверяю…'; renderPipe();
+    try { const p = await api('api/sheet?force=1'); sheetText = esc(p.text) + (p.changed ? ' — заберите синхронизацией' : ''); } catch (err) { sheetText = esc(err.message); }
+    renderPipe();
+  };
+}
+let sheetText = 'правки в Google — проверить';
+async function loadPipe() {
+  const was = pipe?.run && !pipe.run.finishedAt;
+  try { pipe = await api('api/pipeline'); renderPipe(); } catch (e) { if ($('#pipe')) $('#pipe').textContent = e.message; }
+  const running = pipe?.run && !pipe.run.finishedAt;
+  if (was && !running) { load(false); loadTodo(); }
+  clearTimeout(pipeTimer);
+  pipeTimer = setTimeout(loadPipe, running ? 1500 : 20000);
+}
+async function runStages(ids) {
+  const st = pipe?.stages.filter((s) => ids === 'stale' ? pipe.stale.includes(s.id) : ids.includes(s.id)) ?? [];
+  for (const s of st) if (s.confirm && !confirm(s.confirm)) return;
+  try { pipe = await api('api/pipeline/run', { ids }); renderPipe(); loadPipe(); } catch (e) { alert(e.message); }
+}
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'run-stale') runStages('stale');
+  if (e.target.id === 'run-stop') api('api/pipeline/stop', {}).then((p) => { pipe = p; renderPipe(); }, (err) => alert(err.message));
+});
+load(false).then(loadPipe);
+loadTodo();
+</script>
+</body>
+</html>

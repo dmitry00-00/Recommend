@@ -40,6 +40,9 @@
     {"username": "hotdgreenteam", "paths": [".cache/telegram/hotdgreenteam.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
     {"username": "thenortherners", "paths": [".cache/telegram/thenortherners.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
     {"username": "planetoshotd", "paths": [".cache/telegram/planetoshotd.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "greenconcilium", "paths": [".cache/telegram/greenconcilium.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"}
+    {"username": "greenconcilium", "paths": [".cache/telegram/greenconcilium.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
+    {"username": "iron_wind", "paths": [".cache/telegram/iron_wind.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"},
+    {"username": "avtorskayakomnata", "paths": [".cache/telegram/avtorskayakomnata.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"},
+    {"username": "PiratskiyHronist", "paths": [".cache/telegram/PiratskiyHronist.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"}
   ]
 }

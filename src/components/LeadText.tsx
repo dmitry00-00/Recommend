@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface LeadTextProps {
   children: ReactNode;
@@ -23,7 +23,7 @@ export function LeadText({ children }: LeadTextProps) {
       <div ref={ref} className={cx('tm-lead__body', open && 'tm-lead__body--open')}>{children}</div>
       {long ? (
         <button type="button" className="tm-lead__more" onClick={() => setOpen(!open)}>
-          {open ? ru.feed.leadLess : ru.feed.lead}
+          {open ? ui.feed.leadLess : ui.feed.lead}
         </button>
       ) : null}
     </div>

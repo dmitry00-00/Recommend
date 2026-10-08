@@ -8,7 +8,8 @@
 // Запуск двойным щелчком — deploy/desk.command (или deploy/links-desk.command — сразу на эту вкладку).
 // Хост и заголовок x-desk проверяет общий пульт.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { mode, registryApi, saveSourcesText, saveVerdicts } from './registry-lib.mts';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
@@ -54,12 +55,15 @@ interface Item {
   saved?: boolean;
   /** вид ошибки опознавателя — из раздела заметок или хэштега (02.10) */
   err?: MarkupError;
+  /** пришла из формы Google (06.10): адрес строки во входящих базы, заметка владельца */
+  form?: { url: string; note?: string };
 }
 interface Chan {
   id: string; handle?: string; channelId?: string; url: string; line: number;
   title?: string; tier: 'essay' | 'review'; medium: 'film' | 'book'; include: boolean;
   existing?: { title: string; tier?: string; medium?: string; via?: string };
   error?: string; saved?: boolean;
+  form?: { url: string; note?: string };
 }
 const items = new Map<string, Item>();
 const chans = new Map<string, Chan>();
@@ -159,8 +163,52 @@ function addText(text: string): { videos: number; channels: number; other: strin
   return { videos: fresh.length, channels: p.channels.length, other: p.other, known };
 }
 
+// ─── входящие из формы Google (06.10) ─────────────────────────────────────────
+// Ссылки, которые владелец вставил в форму (tools/inbox.mts забирает их в базу), встают в пульт сами —
+// как вставленные заметки. «Сохранить» помечает их во входящих разобранными; ссылки не с YouTube пульт не
+// разбирает — они видны списком «из формы, не разобрано» и остаются во входящих.
+let inboxAt = 0;
+let inboxError: string | undefined;
+const formOther = new Map<string, { url: string; film?: string; note?: string }>();
+async function refreshInbox(force = false): Promise<void> {
+  if (mode() !== 'server' || (!force && Date.now() - inboxAt < 60_000)) return;
+  inboxAt = Date.now();
+  try {
+    const r = await registryApi<{ rows: { url: string; film: string | null; note: string | null }[] }>('GET', '/api/admin/inbox?status=new');
+    inboxError = undefined;
+    for (const row of r.rows) {
+      const form = { url: row.url, ...(row.note ? { note: row.note } : {}) };
+      const p = parsePaste(row.url);
+      const v = p.videos[0];
+      const c = p.channels[0];
+      if (!v && !c) { formOther.set(row.url, { url: row.url, ...(row.film ? { film: row.film } : {}), ...(row.note ? { note: row.note } : {}) }); continue; }
+      const id = v ? v.id : (c.channelId ?? c.handle ?? '').toLowerCase();
+      if (v ? items.has(id) : chans.has(id)) continue;
+      addText(`${row.film ?? ''} ${row.url}`.trim());
+      const it = v ? items.get(id) : chans.get(id);
+      if (it) it.form = form;
+    }
+  } catch (err) {
+    inboxError = (err as Error).message;
+  }
+}
+
+/** Разобранное из формы — во входящих базы: `done` с тем, что записано. */
+async function markInbox(): Promise<number> {
+  if (mode() !== 'server') return 0;
+  const done = [
+    ...[...items.values()].filter((i) => i.saved && i.form).map((i) => ({ url: i.form!.url, status: 'done', result: { video: i.id, key: i.key ?? null, film: i.film ?? null } })),
+    ...[...chans.values()].filter((c) => c.saved && c.form).map((c) => ({ url: c.form!.url, status: 'done', result: { channel: c.handle ?? c.channelId, tier: c.tier, medium: c.medium, ...(c.include ? {} : { skipped: true }) } })),
+  ];
+  if (!done.length) return 0;
+  await registryApi('POST', '/api/admin/inbox/result', { items: done });
+  for (const i of items.values()) if (i.saved && i.form) delete i.form;
+  for (const c of chans.values()) if (c.saved && c.form) delete c.form;
+  return done.length;
+}
+
 // ─── сохранение ───────────────────────────────────────────────────────────────
-function save(): { videos: number; unknown: number; channels: number; changed: number; skipped: string[] } {
+async function save(): Promise<{ videos: number; unknown: number; channels: number; changed: number; skipped: string[] }> {
   const today = new Date().toISOString().slice(0, 10);
   const { body, videos } = readVerdicts();
   let saved = 0, unknown = 0;
@@ -210,7 +258,7 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
   if (saved) {
     body.updated = today;
     body.videos = Object.fromEntries(Object.entries(videos).sort(([a], [b]) => a.localeCompare(b)));
-    writeFileSync(VERDICTS, JSON.stringify(body, null, 1) + '\n');
+    await saveVerdicts(body, 'desk');
   }
 
   // каналы: новые — строкой в реестр, известные — ярус и предмет в своей строке
@@ -239,14 +287,16 @@ function save(): { videos: number; unknown: number; channels: number; changed: n
     }
     c.saved = true;
   }
-  if (added || changed) writeFileSync(REGISTRY, src);
+  if (added || changed) await saveSourcesText(src, 'desk');
   return { videos: saved, unknown, channels: added, changed, skipped };
 }
 
 // ─── состояние для страницы ───────────────────────────────────────────────────
 function state() {
+  void refreshInbox();
   const list = [...items.values()];
   return {
+    inbox: { on: mode() === 'server', error: inboxError, other: [...formOther.values()], fromForm: list.filter((i) => i.form).length + [...chans.values()].filter((c) => c.form).length },
     env: { yt: Boolean(YT) },
     loading: metaBusy + chanBusy,
     films: films.length,
@@ -286,7 +336,11 @@ export async function linksRoute(req: IncomingMessage, res: ServerResponse, path
   try {
     const body = JSON.parse((await readBody(req)) || '{}') as Record<string, unknown>;
     if (url.pathname === '/api/text') return send(res, 200, { added: addText(String(body.text ?? '')), state: state() });
-    if (url.pathname === '/api/save') return send(res, 200, { saved: save(), state: state() });
+    if (url.pathname === '/api/save') {
+      const saved = await save();
+      return send(res, 200, { saved: { ...saved, inbox: await markInbox() }, state: state() });
+    }
+    if (url.pathname === '/api/inbox') { await refreshInbox(true); return send(res, 200, { state: state() }); }
     if (url.pathname === '/api/clear-saved') {
       for (const [id, it] of items) if (it.saved) items.delete(id);
       for (const [id, c] of chans) if (c.saved) chans.delete(id);

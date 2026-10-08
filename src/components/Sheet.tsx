@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import * as RD from '@radix-ui/react-dialog';
 import { Button } from './Button';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface SheetProps {
   open: boolean;
@@ -21,7 +21,7 @@ export function Sheet({ open, onOpenChange, title, children }: SheetProps) {
           <span className="tm-sheet__grip" aria-hidden="true" />
           <header className="tm-sheet__head">
             <RD.Title className="tm-sheet__title">{title}</RD.Title>
-            <Button variant="quiet" size="sm" onClick={() => onOpenChange(false)}>{ru.actions.close}</Button>
+            <Button variant="quiet" size="sm" onClick={() => onOpenChange(false)}>{ui.actions.close}</Button>
           </header>
           <div className="tm-sheet__body">{children}</div>
         </RD.Content>

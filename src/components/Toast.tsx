@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react';
 import * as RT from '@radix-ui/react-toast';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ToastProps {
   text: string;
@@ -39,7 +39,7 @@ const ToastContext = createContext<Show>(() => undefined);
 
 /** Место, где тосты появляются: оболочка ставит его прямо над нижней навигацией. */
 export function ToastViewport() {
-  return <RT.Viewport className="tm-toastview" hotkey={['F8']} label={ru.toast.viewport} />;
+  return <RT.Viewport className="tm-toastview" hotkey={['F8']} label={ui.toast.viewport} />;
 }
 
 /** Очередь тостов; `useToast()` отдаёт `show`. Тост живёт четыре секунды или до свайпа
@@ -56,7 +56,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   return (
     <ToastContext.Provider value={show}>
-      <RT.Provider swipeDirection="down" duration={4000} label={ru.toast.label}>
+      <RT.Provider swipeDirection="down" duration={4000} label={ui.toast.label}>
         {children}
         {items.map((t) => (
           <Toast key={t.id} text={t.text} action={t.action} duration={t.duration}

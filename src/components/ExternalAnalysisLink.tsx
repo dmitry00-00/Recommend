@@ -3,7 +3,8 @@ import { Meta } from './Meta';
 import { onExternalClick } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { formatDuration } from '@/lib/format';
-import ru from '@/i18n/ru';
+import { useNoteOpen } from '@/lib/openContext';
+import ui from '@/i18n';
 
 export interface ExternalAnalysisLinkProps {
   analysis: ExternalAnalysis;
@@ -18,6 +19,7 @@ export interface ExternalAnalysisLinkProps {
  *  У закрытого превью поверх штриховка — видно, что там что-то есть, но не видно что. */
 export function ExternalAnalysisLink({ analysis: a, spoilerLevel }: ExternalAnalysisLinkProps) {
   const blocked = spoilerLevel != null && a.spoilerLevel > spoilerLevel;
+  const noteOpen = useNoteOpen();
   return (
     <a
       className={cx('tm-extlink', a.previewUrl && 'tm-extlink--preview', blocked && 'tm-extlink--blocked')}
@@ -25,7 +27,7 @@ export function ExternalAnalysisLink({ analysis: a, spoilerLevel }: ExternalAnal
       rel="noreferrer noopener"
       target="_blank"
       aria-disabled={blocked ? 'true' : undefined}
-      onClick={blocked ? (e) => e.preventDefault() : onExternalClick(a.url)}
+      onClick={blocked ? (e) => e.preventDefault() : (e) => { noteOpen(a); onExternalClick(a.url)(e); }}
     >
       {a.previewUrl ? (
         <span className="tm-extlink__thumb">
@@ -37,14 +39,14 @@ export function ExternalAnalysisLink({ analysis: a, spoilerLevel }: ExternalAnal
       <Meta items={[
         a.author,
         // разбор сезона или серии (Е6): у антологии это другая история, а не «ещё про сериал»
-        ru.seriesPart(a.season, a.episode),
-        a.durationMinutes ? formatDuration(a.durationMinutes) : ru.platform[a.platform],
+        ui.seriesPart(a.season, a.episode),
+        a.durationMinutes ? formatDuration(a.durationMinutes) : ui.platform[a.platform],
         // рубрика канала: «#спгс» объясняет, что это за пост, короче любого нашего описания
         a.tags?.length ? `#${a.tags[0]}` : undefined,
-        a.language === 'ru' ? ru.lang.ru : ru.lang.en,
-        a.spoilerLevel > 0 ? ru.spoilers.with : ru.spoilers.without,
+        a.language === 'ru' ? ui.lang.ru : ui.lang.en,
+        a.spoilerLevel > 0 ? ui.spoilers.with : ui.spoilers.without,
       ]} />
-      {blocked ? <span className="tm-extlink__lock">{ru.spoiler.lockedAnalysis}</span> : null}
+      {blocked ? <span className="tm-extlink__lock">{ui.spoiler.lockedAnalysis}</span> : null}
     </a>
   );
 }

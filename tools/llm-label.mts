@@ -1,5 +1,5 @@
 // Разметка роликов и постов моделью через llm-gateway основы (02.10).
-//   npx tsx tools/llm-label.mts [--limit 300] [--minutes 20] [--model local-model|cheap]
+//   npx tsx tools/llm-label.mts [--limit 300] [--minutes 20] [--model qwen|local-model|cheap]
 //                               [--only yt|tg] [--ids id,id] [--days 30] [--relabel] [--dry]
 //
 // Что делает. Для каждого материала модель говорит, какой он (разбор одного произведения,
@@ -15,7 +15,8 @@
 //   4. свежие ролики каналов (--days);
 //   5. посты, попавшие в индекс постов, и свежие посты.
 // Размеченное с тем же текстом и тем же промптом не повторяется; шлюз к тому же кеширует
-// каждый элемент сам. Модель по умолчанию — локальная (бесплатно, общая очередь с recruit,
+// каждый элемент сам. Модель по умолчанию — qwen (Ollama, qwen2.5:14b; с 07.10 — LM Studio с gemma
+// бывает выключен, решение владельца), `--model local-model` — gemma в LM Studio (общая очередь с recruit,
 // фоновый приоритет); `--model cheap` — DeepSeek в пределах суточного бюджета recomend ($0.5).
 //
 // Шлюз не отвечает — код 2: шаг необязательный, остальной конвейер идёт без него.
@@ -31,7 +32,7 @@ const argv = process.argv.slice(2);
 const opt = (n: string) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : undefined; };
 const LIMIT = Number(opt('--limit') ?? 300);
 const MINUTES = Number(opt('--minutes') ?? 20);
-const MODEL = opt('--model') ?? process.env.LLM_LABEL_MODEL ?? 'local-model';
+const MODEL = opt('--model') ?? process.env.LLM_LABEL_MODEL ?? 'qwen';
 const ONLY = opt('--only') as 'yt' | 'tg' | undefined;
 const DAYS = Number(opt('--days') ?? 30);
 const IDS = opt('--ids')?.split(',').map((s) => s.trim()).filter(Boolean);
@@ -143,16 +144,32 @@ const started = Date.now();
 const take = todo.slice(0, LIMIT);
 let labelled = 0, cached = 0, failed = 0, cost = 0, model = MODEL, stopped: string | null = null;
 const kinds = new Map<Kind, number>();
-for (let i = 0; i < take.length; i += CHUNK) {
+// Запрос держится, пока шлюз размечает всю пачку, а fetch в Node рвёт ответ через 300 с без заголовков.
+// Локальная модель на 40 роликах не успевала (02.10: «fetch failed» на 303-й секунде, 0 размечено) —
+// у локальных (gemma, qwen) пачка меньше, а обрыв делит пачку пополам: что шлюз успел, вернётся из его кеша мгновенно
+const LOCAL = MODEL === 'local-model' || MODEL === 'qwen';
+let size = LOCAL ? BATCH : CHUNK;
+let fails = 0;
+for (let i = 0; i < take.length;) {
   if (Date.now() - started > MINUTES * 60e3) { stopped = `время (${MINUTES} мин)`; break; }
-  const chunk = take.slice(i, i + CHUNK);
+  const chunk = take.slice(i, i + size);
   let res;
+  const t0 = Date.now();
   try {
     res = await classify(chunk.map((it) => ({ id: it.id, text: it.text })), { prompt, model: MODEL, batch: BATCH, maxChars: 1600 });
+    fails = 0;
   } catch (e) {
-    stopped = (e as Error).message;
+    const msg = (e as Error).message;
+    if (/fetch failed|timeout|terminated|socket/i.test(msg) && fails < 3) {
+      fails += 1;
+      size = Math.max(1, Math.floor(chunk.length / 2));
+      console.log(`  обрыв через ${Math.round((Date.now() - t0) / 1000)} с (${msg}) — пачка ${chunk.length} → ${size}, повтор`);
+      continue;
+    }
+    stopped = msg;
     break;
   }
+  i += chunk.length;
   const at = new Date().toISOString().slice(0, 10);
   model = res.stats.model;
   cost += res.stats.cost_usd;
@@ -172,7 +189,7 @@ for (let i = 0; i < take.length; i += CHUNK) {
   }
   file.prompt = phash;
   writeLabels(file);
-  const done = Math.min(i + CHUNK, take.length);
+  const done = Math.min(i, take.length);
   const rate = (labelled + cached) / Math.max(1, (Date.now() - started) / 60e3);
   console.error(`  ${done}/${take.length} · ${Math.round(rate)} в минуту · ошибок ${failed}${res.stats.cost_usd ? ` · $${res.stats.cost_usd.toFixed(4)}` : ''}`);
   if (res.stats.stopped) { stopped = res.stats.stopped === 'budget' ? 'кончился суточный бюджет recomend' : 'шлюз: отказы подряд (предохранитель)'; break; }

@@ -14,7 +14,7 @@ import { Skeleton } from './Skeleton';
 import { StateChangeNote } from './StateChangeNote';
 import { TropeInsight } from './TropeInsight';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { isScreen } from '@/lib/media';
 
 export interface CheckInFlowProps {
@@ -51,7 +51,7 @@ export function CheckInFlow({
   const [last, setLast] = useState(false);
   const [difficulty, setDifficulty] = useState<PerceivedDifficulty | undefined>();
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const steps = ru.checkin.steps;
+  const steps = ui.checkin.steps;
   const shown = step === ABANDON ? 1 : step;
 
   const submit = (status: CheckInRequest['status'], abandonReason?: AbandonReason) => {
@@ -70,34 +70,34 @@ export function CheckInFlow({
   if (step === 0 && season) {
     body = (
       <div>
-        <p className="tm-checkin__q">{ru.seriesDiary.q(season)}</p>
+        <p className="tm-checkin__q">{ui.seriesDiary.q(season)}</p>
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ru.seriesDiary.finishedSeason(season)}</Button>
-          <Button onClick={() => { setLast(true); setStep(1); }}>{ru.seriesDiary.finishedAll}</Button>
-          <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
+          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ui.seriesDiary.finishedSeason(season)}</Button>
+          <Button onClick={() => { setLast(true); setStep(1); }}>{ui.seriesDiary.finishedAll}</Button>
+          <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>
         </div>
       </div>
     );
   } else if (step === 0 && part) {
     body = (
       <div>
-        <p className="tm-checkin__q">{ru.bookDiary.q(part)}</p>
+        <p className="tm-checkin__q">{ui.bookDiary.q(part)}</p>
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ru.bookDiary.finishedPart(part)}</Button>
-          <Button onClick={() => { setLast(true); setStep(1); }}>{ru.bookDiary.finishedAll}</Button>
-          <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
+          <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ui.bookDiary.finishedPart(part)}</Button>
+          <Button onClick={() => { setLast(true); setStep(1); }}>{ui.bookDiary.finishedAll}</Button>
+          <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>
         </div>
       </div>
     );
   } else if (step === 0) {
     body = (
       <div>
-        <p className="tm-checkin__q">{isScreen(work) ? ru.checkin.qFilm : ru.checkin.qBook}</p>
+        <p className="tm-checkin__q">{isScreen(work) ? ui.checkin.qFilm : ui.checkin.qBook}</p>
         <div className="tm-row tm-row--gap-2">
           <Button variant="primary" onClick={() => setStep(1)}>
-            {isScreen(work) ? ru.checkin.finishedFilm : ru.checkin.finishedBook}
+            {isScreen(work) ? ui.checkin.finishedFilm : ui.checkin.finishedBook}
           </Button>
-          <Button onClick={() => setStep(ABANDON)}>{ru.actions.abandon}</Button>
+          <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>
         </div>
       </div>
     );
@@ -105,7 +105,7 @@ export function CheckInFlow({
     body = (
       <div>
         <DifficultyPicker onPick={(d) => { setDifficulty(d); setStep(2); }} />
-        <Button variant="quiet" size="sm" onClick={() => setStep(2)}>{ru.actions.skip}</Button>
+        <Button variant="quiet" size="sm" onClick={() => setStep(2)}>{ui.actions.skip}</Button>
       </div>
     );
   } else if (step === 2) {
@@ -116,7 +116,7 @@ export function CheckInFlow({
                             onAnswer={(v) => setAnswers({ ...answers, [pr.id]: v })}
                             onSkip={() => { const next = { ...answers }; delete next[pr.id]; setAnswers(next); }} />
         ))}
-        <Button variant="primary" onClick={() => submit('finished')}>{ru.actions.next}</Button>
+        <Button variant="primary" onClick={() => submit('finished')}>{ui.actions.next}</Button>
       </div>
     );
   } else if (step === ABANDON) {
@@ -124,7 +124,7 @@ export function CheckInFlow({
   } else {
     body = (
       <div className="tm-checkin__debrief" aria-busy={debrief ? undefined : 'true'}>
-        <h3 className="tm-checkin__dtitle">{ru.checkin.debrief}</h3>
+        <h3 className="tm-checkin__dtitle">{ui.checkin.debrief}</h3>
         {debrief ? (
           <>
             <p className="tm-prose">{debrief.summary}</p>
@@ -133,21 +133,21 @@ export function CheckInFlow({
             <StateChangeNote changeType="refined_estimate" operations={changedOperations} />
             {debrief.externalAnalyses.length ? (
               <div className="tm-checkin__ext">
-                <h4 className="tm-checkin__exttitle">{ru.work.analyses}</h4>
+                <h4 className="tm-checkin__exttitle">{ui.work.analyses}</h4>
                 {debrief.externalAnalyses.map((a) => <ExternalAnalysisLink key={a.id} analysis={a} />)}
               </div>
             ) : null}
             {discussions.length ? (
               <div className="tm-checkin__ext">
-                <h4 className="tm-checkin__exttitle">{ru.work.discussions}</h4>
+                <h4 className="tm-checkin__exttitle">{ui.work.discussions}</h4>
                 {discussions.map((d) => <DiscussionLink key={d.id} discussion={d} />)}
-                <p className="tm-checkin__note">{ru.work.discussionsNote}</p>
+                <p className="tm-checkin__note">{ui.work.discussionsNote}</p>
               </div>
             ) : null}
           </>
         ) : (
           <>
-            <span className="tm-sr">{ru.checkin.debriefLoading}</span>
+            <span className="tm-sr">{ui.checkin.debriefLoading}</span>
             <Skeleton kind="line" style={{ width: '90%' }} />
             <Skeleton kind="line" style={{ width: '70%', marginTop: 8 }} />
             <Skeleton kind="block" style={{ height: 96, marginTop: 16 }} />
@@ -168,7 +168,7 @@ export function CheckInFlow({
             </li>
           ))}
         </ol>
-        <p className="tm-checkin__note">{ru.checkin.note}</p>
+        <p className="tm-checkin__note">{ui.checkin.note}</p>
       </div>
       {body}
     </section>

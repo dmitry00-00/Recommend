@@ -14,6 +14,8 @@ import { filmBase } from '../src/mocks/filmBase.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
+import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
+import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
 import { bookBase } from '../src/mocks/bookBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
@@ -53,6 +55,18 @@ export function analysisKeys(work: WorkCard): string[] {
   return workKeys(work, idsOf(work));
 }
 
+/** Как название пишут в заголовках (OPS-9, 06.10): без кавычек внутри — «Поколение Ви» вместо
+ *  «Поколение «Ви»»; английское без начального A/An, если после него хотя бы три слова — «Knight of
+ *  the Seven Kingdoms». The не снимаем: «The Batman» → «Batman» — другое. */
+function variants(name: string): string[] {
+  const out = [name];
+  const unquoted = name.replace(/[«»"“”„]/g, '').replace(/\s+/g, ' ').trim();
+  if (unquoted !== name && unquoted.length >= 4) out.push(unquoted);
+  const m = /^(?:A|An)\s+(.+)$/.exec(name);
+  if (m && m[1].split(/\s+/).length >= 3) out.push(m[1]);
+  return out;
+}
+
 /** Все известные произведения без повторов: кто попал в список раньше, тот и остаётся.
  *  Справочник фильмов идёт последним — если фильм уже есть в истории или каталоге,
  *  побеждает он (у него есть разметка, у справочника её нет). */
@@ -78,23 +92,34 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     // сериалы с черновой разметкой из присланных профилей (Е2, 30.09); с одним словом в названии
     // ищутся только в разговоре о сериале (Е6): «Офис», «Счастье», «Начало» — обычные слова и тёзки фильмов
     ...seriesBase,
+    // что люди ищут: месячные топы русской Википедии и классика, опознано в Wikidata (05.10)
+    ...filmBasePopular,
+    // популярное в Индии и англоязычных странах: суточные топы Википедии по странам и классика (ЗП-22, 07.10)
+    ...filmBaseWorld,
     // книги через мост с кино (З2) — только с ключом: в чужом тексте их не ищем («Платформа», «Память»,
     // «Солярис» — тёзки фильмов и обычные слова); в книжных каналах — ищем (`bookNames`, З6)
     ...bookBase,
   ];
   const bookOnly = new Set(bookBase.map((w) => w.id));
-  const fromProfiles = new Set(seriesBase.map((w) => w.id));
+  // английские и индийские названия в одно слово («Animal», «War», «Fighter», «Война») в русских текстах
+  // чаще значат другое: такие карточки ищутся в тексте только по названию из двух значимых слов и длиннее
+  const worldOnly = new Set(filmBaseWorld.map((w) => w.id));
+  // артикль и номер части словом не считаются: «The Bear», «Война 2», «Stree 2» — по сути одно слово
+  const worldNameOk = (t: string) => t.split(/\s+/).filter((x) => !/^(the|a|an|\d+)$/i.test(x)).length > 1;
+  // сериалы из топов Википедии («Метод», «Кухня», «Мажор») — то же правило Е6, что у сериалов из профилей
+  const fromProfiles = new Set([...seriesBase, ...filmBasePopular.filter((w) => w.type === 'series')].map((w) => w.id));
   // названия, которые чаще значат другое: группа, роман, другая экранизация того же романа
   // (замер 30.09 по дампу роликов: песни «Короля и Шута», разборы романа Достоевского и сериала
   // 2024-го, фильм «Граф Монте-Кристо» 2024-го уходили к сериалам из профилей)
-  const ALSO_ELSEWHERE = new Set(['король и шут', 'преступление и наказание', 'граф монте-кристо']);
+  // 06.10: «гарри поттер» — сериал HBO 2026 из топов Википедии собирал ролики обо всей саге
+  const ALSO_ELSEWHERE = new Set(['король и шут', 'преступление и наказание', 'граф монте-кристо', 'гарри поттер']);
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
     const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
     if (!key || out.has(key)) continue;
-    const searchable = [work.title, work.originalTitle].filter((t): t is string => Boolean(t))
+    const searchable = [...new Set([work.title, work.originalTitle].filter((t): t is string => Boolean(t)).flatMap(variants))]
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
-    const names = bookOnly.has(work.id) ? [] : searchable;
+    const names = bookOnly.has(work.id) ? [] : worldOnly.has(work.id) ? searchable.filter(worldNameOk) : searchable;
     const bookNames = bookOnly.has(work.id) && searchable.length ? searchable : undefined;
     const needsSeriesTalk = fromProfiles.has(work.id)
       && (work.title.trim().split(/\s+/).length === 1 || ALSO_ELSEWHERE.has(work.title.trim().toLowerCase()));

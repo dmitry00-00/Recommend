@@ -165,3 +165,7 @@ export function universeCore(hub: string): ReadonlySet<string> {
 /** Принадлежит ли произведение вселенной: по графу связей или по её ядру людей. */
 export const inUniverse = (key: string, hub: string): boolean =>
   universeOfKey(key) === hub || allPeopleOfKey(key).some((p) => universeCore(hub).has(p));
+/** Есть ли во вселенной произведение такого вида: «2-й сезон сериала „Аватар“» — не о вселенной
+ *  Кэмерона, где сериалов нет. */
+export const universeHasKind = (hub: string, kind: string): boolean =>
+  Object.entries(relationNodes).some(([q, n]) => n.k === kind && universes().hubOfQ.get(q) === hub);

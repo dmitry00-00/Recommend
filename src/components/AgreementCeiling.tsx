@@ -1,6 +1,6 @@
 import type { AgreementCeilingData } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export type AgreementCeilingProps = AgreementCeilingData;
 
@@ -11,11 +11,11 @@ export function AgreementCeiling({ selfAgreement, ceiling, weeks, marks }: Agree
   const cap = ceiling ?? selfAgreement;
   return (
     <div className="tm-ceiling">
-      <h4 className="tm-ceiling__title">{ru.curator.ceilingTitle}</h4>
-      <p className="tm-ceiling__text">{ru.curator.ceilingText(weeks, selfAgreement.toFixed(2))}</p>
+      <h4 className="tm-ceiling__title">{ui.curator.ceilingTitle}</h4>
+      <p className="tm-ceiling__text">{ui.curator.ceilingText(weeks, selfAgreement.toFixed(2))}</p>
       <div className="tm-ceiling__scale">
         <span className="tm-ceiling__cap" style={{ left: `${cap * 100}%` }}>
-          <span className="tm-ceiling__caplabel">{ru.curator.ceilingCap(cap.toFixed(2))}</span>
+          <span className="tm-ceiling__caplabel">{ui.curator.ceilingCap(cap.toFixed(2))}</span>
         </span>
         {[...marks].sort((a, b) => a.alpha - b.alpha).map((m, i) => (
           <span key={m.label} className={cx('tm-ceiling__mark', i % 2 === 1 && 'tm-ceiling__mark--alt')} style={{ left: `${m.alpha * 100}%` }}>

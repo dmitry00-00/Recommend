@@ -5,8 +5,7 @@ import {
   Button, CognitiveMap, ErrorState, OperationChip, Skeleton, StateChangeNote, TimeScrubber, UncertaintyMark,
 } from '@/components';
 import { operations as OPS } from '@/lib/operations';
-import { pluralRu } from '@/lib/format';
-import ru from '@/i18n/ru';
+import ui, { plural } from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 import { MechanicsOff } from '@/screens/MechanicsOff';
 
@@ -41,18 +40,18 @@ function OpDetail({ map, op, showDetails, isTarget, onFocus }: {
     <div className="tm-opdetail" aria-live="polite">
       <div className="tm-row tm-row--wrap tm-row--gap-2">
         <OperationChip op={op} tone="wash" />
-        <span className="tm-caption tm-opdetail__facts">{ru.trend[est.trend]}</span>
+        <span className="tm-caption tm-opdetail__facts">{ui.trend[est.trend]}</span>
       </div>
       <p className="tm-body-sm tm-opdetail__line">{OPS[op].line}</p>
       <UncertaintyMark level={est.level} range={est.range} confidence={est.confidence} op={op} showDetails={showDetails} />
       <p className="tm-caption tm-opdetail__facts">
         {traces
-          ? `${traces} ${pluralRu(traces, ru.mapScreen.tracesOne, ru.mapScreen.tracesFew, ru.mapScreen.tracesMany)}`
-          : ru.mapScreen.noTraces}
+          ? `${traces} ${plural(traces, ui.mapScreen.tracesOne, ui.mapScreen.tracesFew, ui.mapScreen.tracesMany)}`
+          : ui.mapScreen.noTraces}
       </p>
       {isTarget
-        ? <span className="tm-label tm-maplist__focus">{ru.mapScreen.isFocus}</span>
-        : <div><Button size="sm" onClick={onFocus}>{ru.actions.makeFocus}</Button></div>}
+        ? <span className="tm-label tm-maplist__focus">{ui.mapScreen.isFocus}</span>
+        : <div><Button size="sm" onClick={onFocus}>{ui.actions.makeFocus}</Button></div>}
     </div>
   );
 }
@@ -93,8 +92,8 @@ export function MapScreen() {
   if (failed) {
     return (
       <main className="tm-shell__main">
-        <h1 className="tm-shell__title">{ru.nav.map}</h1>
-        <ErrorState title={ru.mapScreen.errorMap} text={ru.mapScreen.errorMapText} onRetry={() => setAttempt(attempt + 1)} />
+        <h1 className="tm-shell__title">{ui.nav.map}</h1>
+        <ErrorState title={ui.mapScreen.errorMap} text={ui.mapScreen.errorMapText} onRetry={() => setAttempt(attempt + 1)} />
       </main>
     );
   }
@@ -102,8 +101,8 @@ export function MapScreen() {
   if (!map || !settings || point === null) {
     return (
       <main className="tm-shell__main" aria-busy="true">
-        <h1 className="tm-shell__title">{ru.nav.map}</h1>
-        <span className="tm-sr">{ru.mapScreen.loading}</span>
+        <h1 className="tm-shell__title">{ui.nav.map}</h1>
+        <span className="tm-sr">{ui.mapScreen.loading}</span>
         <div className="tm-mapscreen__field">
           <Skeleton kind="block" style={{ width: 300, height: 300, borderRadius: 'var(--tm-radius-full)' }} />
         </div>
@@ -127,17 +126,17 @@ export function MapScreen() {
 
   return (
     <main className="tm-shell__main">
-      <h1 className="tm-shell__title">{ru.nav.map}</h1>
+      <h1 className="tm-shell__title">{ui.nav.map}</h1>
       {map.state.overallConfidence === 'low' ? (
-        <p className="tm-body-sm tm-mapscreen__rough">{ru.state.roughMap}</p>
+        <p className="tm-body-sm tm-mapscreen__rough">{ui.state.roughMap}</p>
       ) : null}
       <div className="tm-mapscreen__head">
-        <span className="tm-meta">{ru.mapScreen.asOf + shown.state.asOf}</span>
+        <span className="tm-meta">{ui.mapScreen.asOf + shown.state.asOf}</span>
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button size="sm" variant="quiet" pressed={mode === 'list'}
-                  onClick={() => setMode(mode === 'list' ? 'field' : 'list')}>{ru.mapScreen.asList}</Button>
+                  onClick={() => setMode(mode === 'list' ? 'field' : 'list')}>{ui.mapScreen.asList}</Button>
           <Button size="sm" variant="quiet" pressed={showDetails}
-                  onClick={() => setShowDetails(!showDetails)}>{ru.actions.showDetails}</Button>
+                  onClick={() => setShowDetails(!showDetails)}>{ui.actions.showDetails}</Button>
         </div>
       </div>
 
@@ -150,38 +149,38 @@ export function MapScreen() {
         {selected
           ? <OpDetail map={shown} op={selected} showDetails={showDetails} isTarget={targetOps.has(selected)}
                       onFocus={() => focusOp(selected)} />
-          : mode === 'field' ? <p className="tm-caption tm-mapscreen__hint">{ru.mapScreen.pickOp}</p> : null}
+          : mode === 'field' ? <p className="tm-caption tm-mapscreen__hint">{ui.mapScreen.pickOp}</p> : null}
 
         {map.history.length ? (
           <section className="tm-mapscreen__section tm-mapscreen__history">
-            <h2 className="tm-title-3">{ru.mapScreen.history}</h2>
+            <h2 className="tm-title-3">{ui.mapScreen.history}</h2>
             <TimeScrubber history={map.history} value={point} onChange={setPoint} />
             {historyPoint ? <StateChangeNote changeType={historyPoint.cause.changeType} /> : null}
           </section>
         ) : null}
 
         <section className="tm-mapscreen__section">
-          <h2 className="tm-title-3">{ru.mapScreen.focusTitle}</h2>
+          <h2 className="tm-title-3">{ui.mapScreen.focusTitle}</h2>
           <ul className="tm-targets">
             {shown.targets.map((t) => (
               <li key={t.id}>
                 <div className="tm-row tm-row--wrap tm-row--gap-1">
                   {t.operations.map((op) => <OperationChip key={op} op={op} tone="wash" />)}
                 </div>
-                <span className="tm-label tm-targets__label">{ru.mapScreen.yourFocus}</span>
+                <span className="tm-label tm-targets__label">{ui.mapScreen.yourFocus}</span>
               </li>
             ))}
             {suggested.map((t) => (
               <li key={t.id}>
                 <div className="tm-row tm-row--wrap tm-row--gap-1">
                   {t.operations.map((op) => <OperationChip key={op} op={op} />)}
-                  <span className="tm-label tm-targets__label">{ru.mapScreen.suggested}</span>
+                  <span className="tm-label tm-targets__label">{ui.mapScreen.suggested}</span>
                 </div>
-                <Button size="sm" onClick={() => focus(t)}>{ru.actions.makeFocus}</Button>
+                <Button size="sm" onClick={() => focus(t)}>{ui.actions.makeFocus}</Button>
               </li>
             ))}
           </ul>
-          <p className="tm-caption tm-mapscreen__hint">{ru.mapScreen.focusNote}</p>
+          <p className="tm-caption tm-mapscreen__hint">{ui.mapScreen.focusNote}</p>
         </section>
       </div>
     </main>

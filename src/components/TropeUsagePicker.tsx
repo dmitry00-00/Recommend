@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { TropeUsageType } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface TropeUsagePickerProps {
   value?: TropeUsageType;
   onPick?: (usage: TropeUsageType) => void;
 }
 
-const USAGES = Object.keys(ru.tropeUsage) as TropeUsageType[];
+const USAGES = Object.keys(ui.tropeUsage) as TropeUsageType[];
 
 /** Как использован приём: напрямую, деконструкция, обман ожидания, реконструкция, осмысление.
  *  Подсказка к каждому — в title, чтобы не загромождать строку. */
@@ -19,10 +19,10 @@ export function TropeUsagePicker({ value, onPick }: TropeUsagePickerProps) {
       {USAGES.map((u) => {
         const on = val === u;
         return (
-          <button key={u} type="button" title={ru.tropeUsageNote[u]}
+          <button key={u} type="button" title={ui.tropeUsageNote[u]}
                   className={cx('tm-usage__opt', on && 'tm-usage__opt--on')} aria-pressed={on ? 'true' : 'false'}
                   onClick={() => { setVal(u); onPick?.(u); }}>
-            {ru.tropeUsage[u]}
+            {ui.tropeUsage[u]}
           </button>
         );
       })}

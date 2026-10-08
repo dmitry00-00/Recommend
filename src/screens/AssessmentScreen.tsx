@@ -5,7 +5,7 @@ import { answerAssessment, completeAssessment, getAssessment, getSettings, pause
 import {
   AssessmentItem, Button, CognitiveMap, ConsentCard, EmptyState, ErrorState, Skeleton, StateChangeNote,
 } from '@/components';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
 
 interface AssessmentScreenProps {
@@ -85,17 +85,17 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
       .finally(() => setBusy(false));
   };
 
-  const title = checkpoint ? ru.checkpoint.title
-    : session?.mode === 'full' ? ru.onboarding.fullTitle : ru.onboarding.quickTitle;
+  const title = checkpoint ? ui.checkpoint.title
+    : session?.mode === 'full' ? ui.onboarding.fullTitle : ui.onboarding.quickTitle;
 
   if (failed === 'load') {
-    return <main className="tm-shell__main"><ErrorState title={ru.assessment.errorLoad} text={ru.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} /></main>;
+    return <main className="tm-shell__main"><ErrorState title={ui.assessment.errorLoad} text={ui.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} /></main>;
   }
   if (missing) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.assessment.notFound} text={ru.assessment.notFoundText}
-                    action={checkpoint ? ru.checkpoint.toToday : ru.assessment.startOver}
+        <EmptyState title={ui.assessment.notFound} text={ui.assessment.notFoundText}
+                    action={checkpoint ? ui.checkpoint.toToday : ui.assessment.startOver}
                     onAction={() => navigate(checkpoint ? '/today' : '/onboarding')} />
       </main>
     );
@@ -103,7 +103,7 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
   if (!session) {
     return (
       <main className="tm-shell__main" aria-busy="true">
-        <span className="tm-sr">{ru.assessment.loading}</span>
+        <span className="tm-sr">{ui.assessment.loading}</span>
         <Skeleton kind="title" style={{ width: '50%' }} />
         <Skeleton kind="block" style={{ height: 160, marginTop: 24 }} />
       </main>
@@ -115,7 +115,7 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
     return (
       <main className="tm-shell__main">
         <h1 className="tm-shell__title">{title}</h1>
-        <p className="tm-body tm-assessment__lead">{ru.checkpoint.consentLead}</p>
+        <p className="tm-body tm-assessment__lead">{ui.checkpoint.consentLead}</p>
         <ConsentCard busy={busy} onAccept={consent} onLater={() => navigate('/today')} />
       </main>
     );
@@ -135,18 +135,18 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
       .map((o) => o.op) ?? [];
     return (
       <main className="tm-shell__main">
-        <h1 className="tm-shell__title">{mechanics ? ru.checkpoint.done : ru.checkpoint.thanks}</h1>
+        <h1 className="tm-shell__title">{mechanics ? ui.checkpoint.done : ui.checkpoint.thanks}</h1>
         {!mechanics
-          ? <p className="tm-body tm-assessment__lead">{ru.checkpoint.thanksText}</p>
+          ? <p className="tm-body tm-assessment__lead">{ui.checkpoint.thanksText}</p>
           : last && ops.length
             ? <StateChangeNote changeType={last.cause.changeType} operations={ops} />
-            : <p className="tm-body tm-assessment__lead">{ru.checkpoint.noChange}</p>}
+            : <p className="tm-body tm-assessment__lead">{ui.checkpoint.noChange}</p>}
         <div className="tm-assessment__map">
           <CognitiveMap map={result} showDetails={settings?.showDetails} />
         </div>
         <div className="tm-row tm-row--gap-2 tm-row--wrap tm-assessment__actions">
-          {mechanics ? <Button variant="primary" onClick={() => navigate('/map')}>{ru.checkpoint.toMap}</Button> : null}
-          <Button variant={mechanics ? 'quiet' : 'primary'} onClick={() => navigate('/today')}>{ru.checkpoint.toToday}</Button>
+          {mechanics ? <Button variant="primary" onClick={() => navigate('/map')}>{ui.checkpoint.toMap}</Button> : null}
+          <Button variant={mechanics ? 'quiet' : 'primary'} onClick={() => navigate('/today')}>{ui.checkpoint.toToday}</Button>
         </div>
       </main>
     );
@@ -157,8 +157,8 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
       <main className="tm-shell__main" aria-busy={finishing ? 'true' : undefined}>
         <h1 className="tm-shell__title">{title}</h1>
         {failed === 'complete'
-          ? <ErrorState title={ru.firstMap.error} text={ru.assessment.errorText} onRetry={finish} />
-          : <p className="tm-body tm-assessment__lead">{ru.assessment.finishing}</p>}
+          ? <ErrorState title={ui.firstMap.error} text={ui.assessment.errorText} onRetry={finish} />
+          : <p className="tm-body tm-assessment__lead">{ui.assessment.finishing}</p>}
       </main>
     );
   }
@@ -168,15 +168,15 @@ export function AssessmentScreen({ checkpoint }: AssessmentScreenProps) {
     <main className="tm-shell__main">
       <h1 className="tm-shell__title">{title}</h1>
       {checkpoint && session.progress.answered === 0
-        ? <p className="tm-body tm-assessment__lead">{ru.checkpoint.lead}</p>
+        ? <p className="tm-body tm-assessment__lead">{ui.checkpoint.lead}</p>
         : null}
-      {failed === 'answer' ? <ErrorState title={ru.assessment.errorAnswer} text={ru.assessment.errorText} onRetry={() => send(answer)} /> : null}
+      {failed === 'answer' ? <ErrorState title={ui.assessment.errorAnswer} text={ui.assessment.errorText} onRetry={() => send(answer)} /> : null}
       <AssessmentItem key={item.id} item={item}
                       progress={{ progress: session.progress, onPause: pause, onSkip: () => send(null) }}
                       onChange={setAnswer} />
       <div className="tm-row tm-row--gap-2 tm-assessment__actions">
         <Button variant="primary" disabled={!answer || busy} loading={busy} onClick={() => send(answer)}>
-          {ru.actions.next}
+          {ui.actions.next}
         </Button>
       </div>
     </main>

@@ -1,7 +1,7 @@
 import type { SourceCandidate } from '@/types/tmdf';
 import { formatDate } from '@/lib/format';
 import { onExternalClick } from '@/lib/telegram';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface SourceTableProps {
   rows: SourceCandidate[];
@@ -15,8 +15,8 @@ export function SourceTable({ rows }: SourceTableProps) {
   return (
     <div className="tm-table__wrap">
       <table className="tm-table">
-        <caption>{ru.curator.sourcesCaption}</caption>
-        <thead><tr>{ru.curator.sourceCols.map((t) => <th key={t} scope="col">{t}</th>)}</tr></thead>
+        <caption>{ui.curator.sourcesCaption}</caption>
+        <thead><tr>{ui.curator.sourceCols.map((t) => <th key={t} scope="col">{t}</th>)}</tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.id}>
@@ -24,7 +24,7 @@ export function SourceTable({ rows }: SourceTableProps) {
                 {r.url
                   ? <a href={r.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(r.url)}>{r.title}</a>
                   : r.title}
-                {r.handle ? null : <span className="tm-table__sub"> {ru.curator.sourceNoHandle}</span>}
+                {r.handle ? null : <span className="tm-table__sub"> {ui.curator.sourceNoHandle}</span>}
                 {r.sample ? <span className="tm-table__sub">{r.sample}</span> : null}
               </th>
               <td>{r.reposts || '—'}</td>

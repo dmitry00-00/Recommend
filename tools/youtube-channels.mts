@@ -109,7 +109,9 @@ export async function fetchChannelVideos(key: string, log: (s: string) => void =
     let found = full ? undefined : byHandle.get(src.handle.toLowerCase());
     if (!found) {
       askedHandles += 1;
-      const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', { part: 'snippet', forHandle: `@${src.handle}` });
+      // канал без ника — по id (`UC…`, 24 знака): у части каналов в ссылках только он (06.10, ТВ-3д)
+      const byId = /^UC[\w-]{22}$/.test(src.handle);
+      const j = await get<{ items?: { id?: string; snippet?: { title?: string } }[] }>('channels', byId ? { part: 'snippet', id: src.handle } : { part: 'snippet', forHandle: `@${src.handle}` });
       const it = j?.items?.[0];
       if (it?.id) found = { id: it.id, title: it.snippet?.title ?? src.title };
     }

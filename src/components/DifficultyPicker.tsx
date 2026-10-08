@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { PerceivedDifficulty } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface DifficultyPickerProps {
   value?: PerceivedDifficulty;
@@ -14,7 +14,7 @@ const ORDER: PerceivedDifficulty[] = ['too_easy', 'just_right', 'too_hard'];
 /** Три ступени: склон растёт слева направо. Ответ — данные о человеке, а не оценка произведения. */
 export function DifficultyPicker({ value, label, onPick }: DifficultyPickerProps) {
   const [picked, setPicked] = useState<PerceivedDifficulty | null>(value ?? null);
-  const text = label ?? ru.difficultyPicker.label;
+  const text = label ?? ui.difficultyPicker.label;
   return (
     <div className="tm-diff" role="radiogroup" aria-label={text}>
       <p className="tm-diff__q">{text}</p>
@@ -28,7 +28,7 @@ export function DifficultyPicker({ value, label, onPick }: DifficultyPickerProps
               <span className="tm-diff__slope" aria-hidden="true">
                 {[0, 1, 2].map((k) => <span key={k} className={cx('tm-diff__b', k <= i && 'tm-diff__b--on')} />)}
               </span>
-              {ru.difficulty[id]}
+              {ui.difficulty[id]}
             </button>
           );
         })}

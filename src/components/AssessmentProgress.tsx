@@ -1,8 +1,7 @@
 import type { AssessmentSession } from '@/types/tmdf';
 import { Button } from './Button';
-import { pluralRu } from '@/lib/format';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui, { plural } from '@/i18n';
 
 export interface AssessmentProgressProps {
   progress: AssessmentSession['progress'];
@@ -24,11 +23,11 @@ export function AssessmentProgress({ progress, onPause, onSkip }: AssessmentProg
         ))}
       </span>
       <span className="tm-aprog__text">
-        {`${ru.assessment.about} ${m} ${pluralRu(m, ru.assessment.minuteOne, ru.assessment.minuteFew, ru.assessment.minuteMany)}`}
+        {`${ui.assessment.about} ${m} ${plural(m, ui.assessment.minuteOne, ui.assessment.minuteFew, ui.assessment.minuteMany)}`}
       </span>
       <div className="tm-row tm-row--gap-2">
-        <Button variant="quiet" size="sm" onClick={onPause}>{ru.actions.pause}</Button>
-        <Button variant="quiet" size="sm" onClick={onSkip}>{ru.actions.skip}</Button>
+        <Button variant="quiet" size="sm" onClick={onPause}>{ui.actions.pause}</Button>
+        <Button variant="quiet" size="sm" onClick={onSkip}>{ui.actions.skip}</Button>
       </div>
     </div>
   );

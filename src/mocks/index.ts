@@ -3912,7 +3912,9 @@ export const settings: UserSettings = {
   "spoilerLevel": 0,
   "excludedWarnings": [],
   "showDetails": false,
-  "researchConsent": true,
+  // согласие даёт только сам человек (ТВ-8а, 06.10): раньше новый участник видел «Вы участвуете»,
+  // ни на что не соглашаясь. Сервер хранит лишь то, что человек менял, — поэтому это и есть умолчание
+  "researchConsent": false,
   "theme": "system"
 };
 

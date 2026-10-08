@@ -5,9 +5,10 @@ import { getJourney, startWork, unplanWork } from '@/api';
 import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
 import { useDiary } from '@/lib/settingsStore';
 import { tap } from '@/lib/telegram';
-import { formatDate } from '@/lib/format';
+import { formatDate, titleOf } from '@/lib/format';
 import { leadName } from '@/lib/credits';
-import ru from '@/i18n/ru';
+import { WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
+import ui from '@/i18n';
 
 /** Архив (/journal): всё просмотренное и прочитанное лентой баннеров, как архив чатов в
  *  Telegram; открывается из строки над лентой. Тап по записи — карточка в модальном окне
@@ -32,12 +33,13 @@ export function JournalScreen() {
 
   const meta = (e: JourneyEntryData) => [
     formatDate(e.finishedAt ?? e.startedAt),
-    ru.journeyStatus[e.status].toLowerCase(),
-    e.status === 'planned' && e.eagerness ? ru.feed.wantMeta(e.eagerness) : null,
-    e.perceivedDifficulty ? ru.difficulty[e.perceivedDifficulty].toLowerCase() : null,
+    ui.journeyStatus[e.status].toLowerCase(),
+    e.status === 'planned' && e.eagerness ? ui.feed.wantMeta(e.eagerness) : null,
+    e.perceivedDifficulty ? ui.difficulty[e.perceivedDifficulty].toLowerCase() : null,
   ].filter(Boolean).join(' · ');
 
   const openEntry = entries?.find((e) => e.id === open) ?? null;
+  const places = usePlaces(openEntry?.work.id);
   // переход в кинотеатр из отложенного — «вероятно, смотрит», как в ленте; список перечитаем,
   // когда карточку закроют
   const [restart, setRestart] = useState(false);
@@ -45,40 +47,40 @@ export function JournalScreen() {
   const watchFrom = (e: JourneyEntryData) => {
     if (e.status !== 'planned') return;
     startWork(e.work.id, undefined, { inferred: true })
-      .then(() => { setRestart(true); toast({ text: ru.toast.watchInferred }); })
+      .then(() => { setRestart(true); toast({ text: ui.toast.watchInferred }); })
       .catch(() => undefined);
   };
   const unplan = (e: JourneyEntryData) => {
     tap();
     unplanWork(e.id)
-      .then(() => { close(); setEntries((list) => list?.filter((x) => x.id !== e.id) ?? null); toast({ text: ru.toast.unplanned }); })
-      .catch(() => toast({ text: ru.settings.errorSave }));
+      .then(() => { close(); setEntries((list) => list?.filter((x) => x.id !== e.id) ?? null); toast({ text: ui.toast.unplanned }); })
+      .catch(() => toast({ text: ui.settings.errorSave }));
   };
   return (
     <main className="tm-shell__main tm-archive">
       <div className="tm-archive__head">
-        <Link to="/today" className="tm-archive__back">{ru.feed.toFeed}</Link>
-        <h1 className="tm-title-3 tm-archive__title">{ru.feed.archiveTitle}</h1>
+        <Link to="/today" className="tm-archive__back">{ui.feed.toFeed}</Link>
+        <h1 className="tm-title-3 tm-archive__title">{ui.feed.archiveTitle}</h1>
       </div>
-      <p className="tm-caption tm-archive__lead">{ru.feed.archiveLead}</p>
+      <p className="tm-caption tm-archive__lead">{ui.feed.archiveLead}</p>
 
       {failed ? (
         <div className="tm-stream__pad">
-          <ErrorState title={ru.journal.errorList} text={ru.journal.errorText} onRetry={() => setAttempt(attempt + 1)} />
+          <ErrorState title={ui.journal.errorList} text={ui.journal.errorText} onRetry={() => setAttempt(attempt + 1)} />
         </div>
       ) : null}
 
       {!entries && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ru.journal.loading}</span>
+          <span className="tm-sr">{ui.journal.loading}</span>
           {[0, 1, 2, 3].map((i) => <Skeleton key={i} kind="block" style={{ height: 110, marginTop: i ? 2 : 0 }} />)}
         </div>
       ) : null}
 
       {entries && !entries.length ? (
         <div className="tm-stream__pad">
-          <EmptyState title={ru.state.emptyJournal} text={ru.state.emptyJournalText}
-                      action={ru.nav.today} onAction={() => navigate('/today')} />
+          <EmptyState title={ui.state.emptyJournal} text={ui.state.emptyJournalText}
+                      action={ui.nav.today} onAction={() => navigate('/today')} />
         </div>
       ) : null}
 
@@ -86,20 +88,22 @@ export function JournalScreen() {
         <div key={e.id} className="tm-archive__item">
           <FilmEdge work={e.work} no={i + 1} short />
           <WorkBanner work={e.work} size="sm" meta={meta(e)}
-                      tag={e.status === 'in_progress' || e.status === 'planned' ? ru.journeyStatus[e.status] : undefined}
+                      tag={e.status === 'in_progress' || e.status === 'planned' ? ui.journeyStatus[e.status] : undefined}
                       onClick={() => setOpen(e.id)} />
         </div>
       ))}</div> : null}
 
       <WorkSheet work={openEntry?.work ?? null} open={openEntry != null} onOpenChange={(o) => !o && close()}
+                 context="архив"
                  meta={openEntry ? [openEntry.work.year, leadName(openEntry.work),
-                                    openEntry.status === 'planned' && openEntry.eagerness ? ru.feed.wantMeta(openEntry.eagerness) : null,
+                                    openEntry.status === 'planned' && openEntry.eagerness ? ui.feed.wantMeta(openEntry.eagerness) : null,
                                    ].filter(Boolean).join(' · ') : undefined}
-                 tag={openEntry?.status === 'in_progress' || openEntry?.status === 'planned' ? ru.journeyStatus[openEntry.status] : undefined}>
+                 tag={openEntry?.status === 'in_progress' || openEntry?.status === 'planned' ? ui.journeyStatus[openEntry.status] : undefined}>
         {openEntry ? (
           <div className="tm-stream__panel tm-stream__panel--tabs">
-            <FilmTabs key={openEntry.id} analyses={openEntry.analyses ?? []} workTitle={openEntry.work.title} spoilerLevel={openEntry.status === 'finished' ? 2 : 0}
+            <FilmTabs key={openEntry.id} workId={openEntry.work.id} analyses={openEntry.analyses ?? []} workTitle={titleOf(openEntry.work)} spoilerLevel={openEntry.status === 'finished' ? 2 : 0}
                       watch={openEntry.work.watch} onWatch={() => watchFrom(openEntry)}
+                      discussionsCount={placesCount(places)} discussions={<WorkPlaces places={places} finished={openEntry.status === 'finished'} />}
                       book={openEntry.work.type === 'book' ? openEntry.work : undefined}
                       // Карточка архива статична (24.09): ни строки статуса, ни «Открыть запись»,
                       // ни «Начать смотреть». У отложенного — только «Убрать из планов», в углу
@@ -107,12 +111,12 @@ export function JournalScreen() {
                       corner={!diary && (openEntry.status === 'planned' || openEntry.status === 'in_progress') ? (
                         <QuickMark work={openEntry.work} onDone={() => { setOpen(null); setAttempt((a) => a + 1); }}
                                    extra={openEntry.status === 'planned'
-                                     ? <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ru.feed.unplan}</Button> : undefined} />
+                                     ? <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ui.feed.unplan}</Button> : undefined} />
                       ) : openEntry.status === 'planned' ? (
-                        <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ru.feed.unplan}</Button>
+                        <Button variant="quiet" size="sm" onClick={() => unplan(openEntry)}>{ui.feed.unplan}</Button>
                       ) : openEntry.status === 'in_progress' && (openEntry.work.type === 'book' || openEntry.work.type === 'series') ? (
                         // сериал и книга в процессе — сезон, часть, страница на странице записи (Е3, З5)
-                        <Button variant="quiet" size="sm" onClick={() => navigate(`/journal/${openEntry.id}`)}>{ru.feed.whereNow}</Button>
+                        <Button variant="quiet" size="sm" onClick={() => navigate(`/journal/${openEntry.id}`)}>{ui.feed.whereNow}</Button>
                       ) : undefined} />
           </div>
         ) : null}

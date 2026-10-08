@@ -19,3 +19,7 @@ ALLOW_DEMO = "1"
 ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4178,http://127.0.0.1:5173,http://127.0.0.1:4178"
 
 # BOT_TOKEN — секрет, не переменная: npx wrangler secret put BOT_TOKEN
+
+# сводка подписок на разборы (06.10, worker/follow.ts): воркер сам решает, пора ли (после 10:00 МСК, раз в день)
+[triggers]
+crons = ["*/30 * * * *"]

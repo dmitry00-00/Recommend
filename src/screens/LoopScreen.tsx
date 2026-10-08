@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getLoopReport, type LoopReportData } from '@/api';
 import { ErrorState, Skeleton } from '@/components';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 type Diff = 'too_easy' | 'just_right' | 'too_hard';
 const DIFFS: Diff[] = ['too_easy', 'just_right', 'too_hard'];
@@ -25,7 +25,7 @@ export function LoopScreen() {
     return () => { alive = false; };
   }, [attempt]);
 
-  const L = ru.loop;
+  const L = ui.loop;
   return (
     <main className="tm-shell__main tm-settings tm-loop">
       <Link to="/settings" className="tm-archive__back">{L.back}</Link>
@@ -67,11 +67,11 @@ export function LoopScreen() {
             {(['model', 'human'] as const).map((who) => (
               <table key={who} className="tm-loop__table tm-loop__table--matrix">
                 <caption>{L.who[who]}</caption>
-                <thead><tr><th>{L.predicted}</th>{DIFFS.map((d) => <th key={d}>{ru.difficulty[d]}</th>)}</tr></thead>
+                <thead><tr><th>{L.predicted}</th>{DIFFS.map((d) => <th key={d}>{ui.difficulty[d]}</th>)}</tr></thead>
                 <tbody>
                   {DIFFS.map((row) => (
                     <tr key={row}>
-                      <th scope="row">{ru.difficulty[row]}</th>
+                      <th scope="row">{ui.difficulty[row]}</th>
                       {DIFFS.map((col) => (
                         <td key={col} className={row === col ? 'tm-loop__hit' : undefined}>{report.confusion[who][row][col]}</td>
                       ))}
@@ -93,7 +93,7 @@ export function LoopScreen() {
             </dl>
             {Object.keys(report.dismiss).length ? (
               <p className="tm-caption tm-settings__note">
-                {L.dismissReasons}: {Object.entries(report.dismiss).map(([k, v]) => `${(ru.dismissReason as Record<string, string>)[k] ?? k} — ${v}`).join(', ')}
+                {L.dismissReasons}: {Object.entries(report.dismiss).map(([k, v]) => `${(ui.dismissReason as Record<string, string>)[k] ?? k} — ${v}`).join(', ')}
               </p>
             ) : null}
           </section>
@@ -128,7 +128,7 @@ export function LoopScreen() {
             </dl>
             {Object.keys(report.abandon.reasons).length ? (
               <p className="tm-caption tm-settings__note">
-                {Object.entries(report.abandon.reasons).map(([k, v]) => `${(ru.abandonReason as Record<string, string>)[k] ?? k} — ${v}`).join(', ')}
+                {Object.entries(report.abandon.reasons).map(([k, v]) => `${(ui.abandonReason as Record<string, string>)[k] ?? k} — ${v}`).join(', ')}
               </p>
             ) : null}
           </section>

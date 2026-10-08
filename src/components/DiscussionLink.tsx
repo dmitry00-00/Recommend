@@ -1,7 +1,7 @@
 import type { DiscussionPlace } from '@/types/tmdf';
 import { Meta } from './Meta';
 import { onExternalClick } from '@/lib/telegram';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface DiscussionLinkProps {
   discussion: DiscussionPlace;
@@ -14,14 +14,14 @@ export interface DiscussionLinkProps {
 export function DiscussionLink({ discussion: d, locked }: DiscussionLinkProps) {
   const body = (
     <>
-      <span className="tm-disc__kind">{ru.discussionKind[d.kind] ?? ru.discussionKind.other}</span>
+      <span className="tm-disc__kind">{ui.discussionKind[d.kind] ?? ui.discussionKind.other}</span>
       <span className="tm-disc__title">{d.title}</span>
       <p className="tm-disc__why">{d.why}</p>
       <Meta items={[
-        d.lastTalkedAt ? ru.discussion.talked + d.lastTalkedAt : null,
-        d.language === 'ru' ? ru.lang.ru : ru.lang.en,
-        d.spoilers ? ru.spoilers.with : ru.spoilers.without,
-        d.curatedBy ? ru.discussion.broughtBy + d.curatedBy : null,
+        d.lastTalkedAt ? ui.discussion.talked + d.lastTalkedAt : null,
+        d.language === 'ru' ? ui.lang.ru : ui.lang.en,
+        d.spoilers ? ui.spoilers.with : ui.spoilers.without,
+        d.curatedBy ? ui.discussion.broughtBy + d.curatedBy : null,
       ]} />
     </>
   );
@@ -30,7 +30,7 @@ export function DiscussionLink({ discussion: d, locked }: DiscussionLinkProps) {
       <div className="tm-disc tm-disc--locked">
         <span className="tm-disc__hatch" aria-hidden="true" />
         {body}
-        <p className="tm-disc__lock">{ru.spoiler.lockedDiscussion}</p>
+        <p className="tm-disc__lock">{ui.spoiler.lockedDiscussion}</p>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export function DiscussionLink({ discussion: d, locked }: DiscussionLinkProps) {
        onClick={onExternalClick(d.url)}>
       {body}
       <span className="tm-disc__out" aria-hidden="true" />
-      <span className="tm-sr">{ru.spoiler.externalLink}</span>
+      <span className="tm-sr">{ui.spoiler.externalLink}</span>
     </a>
   );
 }

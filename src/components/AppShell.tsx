@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { initTelegram, isTelegram, showBackButton } from '@/lib/telegram';
 import { ToastViewport } from './Toast';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export type ShellVariant = 'mobile' | 'telegram';
 
@@ -68,7 +68,7 @@ export function AppShell({ variant, nav, children }: AppShellProps) {
     <div className={cx('tm-shell', 'tm-shell--mobile', 'tm-shell--app', inTelegram && 'tm-shell--telegram')}>
       {children}
       <ToastViewport />
-      <nav className="tm-nav tm-nav--mobile" aria-label={ru.shell.navLabel}>
+      <nav className="tm-nav tm-nav--mobile" aria-label={ui.shell.navLabel}>
         <ul className="tm-nav__list">
           {nav.map((item) => (
             <li key={item.id}>
@@ -93,7 +93,7 @@ export function AppShell({ variant, nav, children }: AppShellProps) {
               {({ isActive }) => (
                 <>
                   <NavMark id="profile" active={isActive} />
-                  <span>{ru.nav.profile}</span>
+                  <span>{ui.nav.profile}</span>
                 </>
               )}
             </NavLink>

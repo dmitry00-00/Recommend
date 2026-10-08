@@ -1,5 +1,8 @@
 // Черновая разметка новых фильмов списка первых оценок (трек Г4, 30.09).
 //   npx tsx tools/draft-annotate.mts            — что ждёт разметки (список, без сети)
+//   npx tsx tools/draft-annotate.mts --weighted [--min-weight 1]
+//                                                — кто без разметки, а о нём говорят: по весу записей
+//                                                  (tools/annotation-gap.mts), а не по списку первых оценок
 //   npx tsx tools/draft-annotate.mts --run [--limit 40] [--dry]
 //                                                — разметить через Anthropic API: ключ ANTHROPIC_API_KEY
 //                                                  в .env.local, модель — ANTHROPIC_MODEL (по умолчанию
@@ -27,16 +30,28 @@ const DRY = argv.includes('--dry');
 const LIMIT = Number(argv[argv.indexOf('--limit') + 1]) || 40;
 const BATCH = 20;
 
-const TSV = '.cache/profile-deck.tsv';
-if (!existsSync(TSV)) { console.error(`нет ${TSV} — сначала npx tsx tools/profile-deck.mts`); process.exit(1); }
-const rows = readFileSync(TSV, 'utf8').trim().split('\n').slice(1).map((l) => l.split('\t'));
+const WEIGHTED = argv.includes('--weighted');
+const MIN_WEIGHT = argv.includes('--min-weight') ? Number(argv[argv.indexOf('--min-weight') + 1]) : 1;
 const index = worksIndex({ all: true }).filter((w) => w.key.startsWith('tmdb:'));
-const byTitle = new Map(index.map((w) => [`${w.work.title}|${w.work.year}`, w]));
-const todo = rows
-  .filter((r) => r[8] !== 'да')
-  .map((r) => byTitle.get(`${r[1]}|${r[2]}`))
-  .filter((w): w is NonNullable<typeof w> => Boolean(w))
-  .filter((w) => !draftAnnotations[w.key] || draftReview[`draft:${w.key}`]?.status === 'rejected');
+const waiting = (w: (typeof index)[number]) => !draftAnnotations[w.key] || draftReview[`draft:${w.key}`]?.status === 'rejected';
+let todo: typeof index;
+if (WEIGHTED) {
+  // 04.10: о ком говорят, а разметки нет — подбор их не видит вовсе (оценка 0 без уровня и операций)
+  const { annotationGap } = await import('./annotation-gap.mts');
+  const byKey = new Map(index.map((w) => [w.key, w]));
+  todo = annotationGap().rows.filter((r) => r.kind === 'film' && r.weight >= MIN_WEIGHT)
+    .map((r) => byKey.get(r.key)).filter((w): w is NonNullable<typeof w> => Boolean(w)).filter(waiting);
+} else {
+  const TSV = '.cache/profile-deck.tsv';
+  if (!existsSync(TSV)) { console.error(`нет ${TSV} — сначала npx tsx tools/profile-deck.mts`); process.exit(1); }
+  const rows = readFileSync(TSV, 'utf8').trim().split('\n').slice(1).map((l) => l.split('\t'));
+  const byTitle = new Map(index.map((w) => [`${w.work.title}|${w.work.year}`, w]));
+  todo = rows
+    .filter((r) => r[8] !== 'да')
+    .map((r) => byTitle.get(`${r[1]}|${r[2]}`))
+    .filter((w): w is NonNullable<typeof w> => Boolean(w))
+    .filter(waiting);
+}
 console.error(`ждут черновой разметки: ${todo.length}`);
 for (const w of todo.slice(0, 60)) console.error(`  ${w.key}  ${w.work.title} (${w.work.year})${w.work.originalTitle ? ` / ${w.work.originalTitle}` : ''}`);
 if (!RUN || !todo.length) process.exit(0);
@@ -112,7 +127,7 @@ for (const [k, a, t] of done) console.error(`+ ${t}: уровень ${a.level}, 
 if (DRY || !done.length) process.exit(0);
 
 const q = (s: string) => `'${s.replace(/\\/g, '\\\\').replace(/'/g, '’')}'`;
-const section = `\n  // ── Г4: автоматическая черновая разметка (${new Date().toISOString().slice(0, 10)}, tools/draft-annotate.mts, ${model}) ──\n`
+const section = `\n  // ── ${WEIGHTED ? 'по весу записей' : 'Г4'}: автоматическая черновая разметка (${new Date().toISOString().slice(0, 10)}, tools/draft-annotate.mts, ${model}) ──\n`
   + done.map(([k, a, t]) => `  // ${t}\n  ${q(k)}: a([${a.ops.map(([op, x]) => `[${q(op)}, ${x}]`).join(', ')}], ${a.level}, [${a.barriers.map(q).join(', ')}], [${a.warnings.map(q).join(', ')}], ${a.niche}, ${q(a.confidence)},\n    ${q(a.what)}),`).join('\n');
 const file = new URL('../src/mocks/draftAnnotations.ts', import.meta.url);
 const src = readFileSync(file, 'utf8');

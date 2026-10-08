@@ -1,7 +1,7 @@
 import type { AnnotationRun } from '@/types/tmdf';
 import { StatusTag } from './StatusTag';
 import { Meta } from './Meta';
-import ru from '@/i18n/ru';
+import ui, { locale } from '@/i18n';
 
 export interface RunProgressProps {
   run: AnnotationRun;
@@ -20,10 +20,10 @@ export function RunProgress({ run: r }: RunProgressProps) {
         <span className="tm-run__fill" style={{ width: `${pct}%` }} />
       </div>
       <Meta items={[
-        ru.curator.runOf(r.done, r.total),
-        ru.annotationProvider[r.provider],
-        r.tokens ? `${r.tokens.toLocaleString('ru')} ${ru.curator.tokens}` : null,
-        r.seconds ? `${r.seconds} ${ru.curator.seconds}` : null,
+        ui.curator.runOf(r.done, r.total),
+        ui.annotationProvider[r.provider],
+        r.tokens ? `${r.tokens.toLocaleString(locale)} ${ui.curator.tokens}` : null,
+        r.seconds ? `${r.seconds} ${ui.curator.seconds}` : null,
         r.costUsd ? `$${r.costUsd.toFixed(2)}` : null,
       ]} />
       {r.errors?.length ? <ul className="tm-run__errors">{r.errors.map((e, i) => <li key={i}>{e}</li>)}</ul> : null}

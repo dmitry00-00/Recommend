@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Trajectory } from '@/types/tmdf';
 import { createTrajectory, getTrajectories } from '@/api';
 import { Button, EmptyState, ErrorState, Skeleton, TrajectoryPath } from '@/components';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 /** Экран «Маршруты» (/trajectories): компактные карточки, каждая ведёт на свой маршрут. */
 export function TrajectoriesScreen() {
@@ -31,19 +31,19 @@ export function TrajectoriesScreen() {
 
   return (
     <main className="tm-shell__main">
-      <h1 className="tm-shell__title">{ru.nav.trajectories}</h1>
-      {failed ? <ErrorState title={ru.trajectories.errorList} text={ru.trajectories.errorText} onRetry={() => setAttempt(attempt + 1)} /> : null}
+      <h1 className="tm-shell__title">{ui.nav.trajectories}</h1>
+      {failed ? <ErrorState title={ui.trajectories.errorList} text={ui.trajectories.errorText} onRetry={() => setAttempt(attempt + 1)} /> : null}
 
       {!list && !failed ? (
         <div className="tm-trajlist" aria-busy="true">
-          <span className="tm-sr">{ru.trajectories.loading}</span>
+          <span className="tm-sr">{ui.trajectories.loading}</span>
           {[0, 1].map((i) => <Skeleton key={i} kind="block" style={{ height: 104 }} />)}
         </div>
       ) : null}
 
       {list && !list.length ? (
-        <EmptyState title={ru.trajectories.empty} text={ru.trajectories.emptyText}
-                    action={ru.trajectories.build} onAction={build} />
+        <EmptyState title={ui.trajectories.empty} text={ui.trajectories.emptyText}
+                    action={ui.trajectories.build} onAction={build} />
       ) : null}
 
       {list?.length ? (
@@ -56,7 +56,7 @@ export function TrajectoriesScreen() {
             ))}
           </div>
           <div className="tm-trajscreen__build">
-            <Button size="sm" variant="quiet" loading={building} onClick={build}>{ru.trajectories.build}</Button>
+            <Button size="sm" variant="quiet" loading={building} onClick={build}>{ui.trajectories.build}</Button>
           </div>
         </>
       ) : null}

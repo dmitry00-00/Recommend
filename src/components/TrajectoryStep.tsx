@@ -3,8 +3,9 @@ import type { TrajectoryStepData } from '@/types/tmdf';
 import { OperationChip } from './OperationChip';
 import { StretchIndicator } from './StretchIndicator';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 import { useMechanics } from '@/lib/settingsStore';
+import { titleOf } from '@/lib/format';
 
 export interface TrajectoryStepProps {
   step: TrajectoryStepData;
@@ -16,7 +17,7 @@ export interface TrajectoryStepProps {
  *  какие операции вводит и какие закрепляет. */
 export function TrajectoryStep({ step: s, peak }: TrajectoryStepProps) {
   const mechanics = useMechanics();
-  const status = ru.stepStatus[s.status];
+  const status = ui.stepStatus[s.status];
   return (
     <li className={cx('tm-step', `tm-step--${s.status}`, peak && 'tm-step--peak')}>
       <div className="tm-step__rail" aria-hidden="true">
@@ -27,9 +28,9 @@ export function TrajectoryStep({ step: s, peak }: TrajectoryStepProps) {
         <div className="tm-step__head">
           <span className="tm-step__order">{s.order}</span>
           <h4 className="tm-step__title">
-            <Link to={`/works/${s.work.id}`} className="tm-link--plain">{s.work.title}</Link>
+            <Link to={`/works/${s.work.id}`} className="tm-link--plain">{titleOf(s.work)}</Link>
           </h4>
-          {peak ? <span className="tm-step__peak">{ru.trajectory.peak}</span> : null}
+          {peak ? <span className="tm-step__peak">{ui.trajectory.peak}</span> : null}
           <span className={cx('tm-step__status', `tm-step__status--${s.status}`)} title={status.note || undefined}>
             {status.label}
           </span>
@@ -41,13 +42,13 @@ export function TrajectoryStep({ step: s, peak }: TrajectoryStepProps) {
             <>
           {s.operationsIntroduced.length ? (
             <span className="tm-step__op">
-              <span className="tm-step__opkind">{ru.trajectory.introduces}</span>
+              <span className="tm-step__opkind">{ui.trajectory.introduces}</span>
               {s.operationsIntroduced.map((op) => <OperationChip key={`i-${op}`} op={op} size="sm" short />)}
             </span>
           ) : null}
           {s.operationsReinforced.length ? (
             <span className="tm-step__op">
-              <span className="tm-step__opkind">{ru.trajectory.reinforces}</span>
+              <span className="tm-step__opkind">{ui.trajectory.reinforces}</span>
               {s.operationsReinforced.map((op) => <OperationChip key={`r-${op}`} op={op} size="sm" short tone="plain" />)}
             </span>
           ) : null}

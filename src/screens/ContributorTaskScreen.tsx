@@ -5,7 +5,7 @@ import { getContributorTasks, submitContributorAnswer } from '@/api';
 import {
   BarrierVote, Button, DesireCheck, EmptyState, ErrorState, LinkCheck, MechanismNote, PairwiseCompare, Skeleton, TropeCheckList, useToast,
 } from '@/components';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 /** Задание участника (/contribute/tasks/:id): компонент по виду задания, ответ — одним
  *  запросом, дальше — следующее задание из очереди или обратно в кабинет. Сравнение, заметка
@@ -37,16 +37,16 @@ export function ContributorTaskScreen() {
     if (!task || busy) return;
     setBusy(true);
     submitContributorAnswer(task.id, a)
-      .then(() => { toast({ text: next ? ru.contribute.sent : ru.contribute.allDone }); goOn(); })
-      .catch(() => toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => submit(a) }))
+      .then(() => { toast({ text: next ? ui.contribute.sent : ui.contribute.allDone }); goOn(); })
+      .catch(() => toast({ text: ui.settings.errorSave, action: ui.actions.retry, onAction: () => submit(a) }))
       .finally(() => setBusy(false));
   };
-  const skip = () => { toast({ text: ru.contribute.skipped }); goOn(); };
+  const skip = () => { toast({ text: ui.contribute.skipped }); goOn(); };
 
   if (failed) {
     return (
       <main className="tm-shell__main">
-        <ErrorState title={ru.contribute.errorTasks} text={ru.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} />
+        <ErrorState title={ui.contribute.errorTasks} text={ui.assessment.errorText} onRetry={() => setAttempt(attempt + 1)} />
       </main>
     );
   }
@@ -60,8 +60,8 @@ export function ContributorTaskScreen() {
   if (!task) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.contribute.errorTask} text={ru.contribute.errorTaskText}
-                    action={ru.contribute.title} onAction={() => navigate('/contribute')} />
+        <EmptyState title={ui.contribute.errorTask} text={ui.contribute.errorTaskText}
+                    action={ui.contribute.title} onAction={() => navigate('/contribute')} />
       </main>
     );
   }
@@ -70,8 +70,8 @@ export function ContributorTaskScreen() {
   const needsFooter = p.kind === 'trope_check' || p.kind === 'barrier_vote' || p.kind === 'desire_check';
   return (
     <main className="tm-shell__main tm-contribute">
-      <Link to="/contribute" className="tm-contribute__back">{ru.contribute.toCabinet}</Link>
-      <p className="tm-meta tm-contribute__count">{`${ru.contribute.taskOf(index + 1, tasks.length)} · ${ru.contributorTaskKind[task.kind]}`}</p>
+      <Link to="/contribute" className="tm-contribute__back">{ui.contribute.toCabinet}</Link>
+      <p className="tm-meta tm-contribute__count">{`${ui.contribute.taskOf(index + 1, tasks.length)} · ${ui.contributorTaskKind[task.kind]}`}</p>
       <p className="tm-body-sm tm-contribute__lead">{task.instructions}</p>
 
       {p.kind === 'pairwise' ? (
@@ -98,9 +98,9 @@ export function ContributorTaskScreen() {
       {needsFooter ? (
         <div className="tm-row tm-row--gap-2 tm-contribute__actions">
           <Button variant="primary" size="sm" loading={busy} disabled={busy || !answer} onClick={() => answer && submit(answer)}>
-            {ru.contribute.submit}
+            {ui.contribute.submit}
           </Button>
-          <Button variant="quiet" size="sm" disabled={busy} onClick={skip}>{ru.actions.skip}</Button>
+          <Button variant="quiet" size="sm" disabled={busy} onClick={skip}>{ui.actions.skip}</Button>
         </div>
       ) : null}
     </main>

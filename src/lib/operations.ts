@@ -2,6 +2,7 @@
 // Формы выгружены из дизайн-системы — они и есть вторая, независимая от цвета
 // половина идентичности операции.
 import type { CognitiveOperation } from '@/types/tmdf';
+import ui from '@/i18n';
 
 export interface OperationMeta {
   name: string;
@@ -71,3 +72,6 @@ export const operationKeys = Object.keys(operations) as CognitiveOperation[];
 
 export const opVar = (op: CognitiveOperation, suffix?: 'ink' | 'wash') =>
   `var(--tm-op-${op}${suffix ? '-' + suffix : ''})`;
+
+// имя и строка — на языке интерфейса (ЗП-20): словарь `ui.operations`, здесь — русский запас и формы
+for (const [k, v] of Object.entries(ui.operations)) Object.assign(operations[k as keyof typeof operations] ?? {}, v);

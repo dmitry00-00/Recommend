@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import type { AssessmentMode } from '@/types/tmdf';
 import { startAssessment } from '@/api';
 import { Button, ErrorState } from '@/components';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 const MODES: { mode: AssessmentMode; title: string; text: string }[] = [
-  { mode: 'quick', title: ru.onboarding.quickTitle, text: ru.onboarding.quickText },
-  { mode: 'full', title: ru.onboarding.fullTitle, text: ru.onboarding.fullText },
+  { mode: 'quick', title: ui.onboarding.quickTitle, text: ui.onboarding.quickText },
+  { mode: 'full', title: ui.onboarding.fullTitle, text: ui.onboarding.fullText },
 ];
 
 /** Выбор диагностики (/onboarding): быстрый старт или полная. Сессию создаёт сервер,
@@ -27,10 +27,10 @@ export function OnboardingScreen() {
 
   return (
     <main className="tm-shell__main">
-      <h1 className="tm-shell__title">{ru.onboarding.title}</h1>
-      <p className="tm-body tm-onboarding__lead">{ru.onboarding.lead}</p>
+      <h1 className="tm-shell__title">{ui.onboarding.title}</h1>
+      <p className="tm-body tm-onboarding__lead">{ui.onboarding.lead}</p>
       {failed ? (
-        <ErrorState title={ru.onboarding.errorStart} text={ru.assessment.errorText} onRetry={() => start(failed)} />
+        <ErrorState title={ui.onboarding.errorStart} text={ui.assessment.errorText} onRetry={() => start(failed)} />
       ) : null}
       <ul className="tm-onboarding__modes">
         {MODES.map((m) => (
@@ -40,7 +40,7 @@ export function OnboardingScreen() {
             <Button variant={m.mode === 'quick' ? 'primary' : 'secondary'}
                     loading={starting === m.mode} disabled={starting !== null}
                     onClick={() => start(m.mode)}>
-              {starting === m.mode ? ru.onboarding.starting : ru.onboarding.choose}
+              {starting === m.mode ? ui.onboarding.starting : ui.onboarding.choose}
             </Button>
           </li>
         ))}

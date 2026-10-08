@@ -1,7 +1,7 @@
 // Экспорты, которые человек скачивает сам из своего аккаунта. Форматы — по актуальным
 // заголовкам файлов; определяются по заголовку, а не по имени файла.
 import { parseCsv, type CsvTable } from './csv';
-import type { ImportSource, ImportedRecord } from './types';
+import type { ExportFile, ImportSource, ImportedRecord } from './types';
 
 const num = (v: string | undefined): number | undefined => {
   const n = Number((v ?? '').replace(',', '.'));
@@ -31,10 +31,11 @@ export function detectFormat(table: CsvTable): ImportSource | undefined {
   return undefined;
 }
 
-function letterboxd(t: CsvTable): ImportedRecord[] {
-  // ratings.csv, watched.csv, diary.csv — «просмотрено»; watchlist.csv — «в планах»
-  const watchlist = !t.header.includes('Rating') && !t.header.includes('Watched Date') && t.header.length <= 4 && t.header.includes('Date')
-    && !t.header.includes('Rewatch');
+function letterboxd(t: CsvTable, name?: string): ImportedRecord[] {
+  // ratings.csv, watched.csv, diary.csv — «просмотрено»; watchlist.csv — «в планах». У watched.csv и
+  // watchlist.csv одни и те же колонки (Date, Name, Year, Letterboxd URI) — различает только имя файла;
+  // без имени — «просмотрено»: до 07.10 весь watched.csv уходил в «в планах» (ЗП-25)
+  const watchlist = Boolean(name && /watchlist/i.test(name));
   return t.rows.map((r) => {
     const rating = num(r['Rating']);
     return {
@@ -220,8 +221,50 @@ function storygraph(t: CsvTable): ImportedRecord[] {
   });
 }
 
-// «кинопоиск» и «просто список» разбираются не таблицей, поэтому в карту не входят
-const PARSERS: Record<Exclude<ImportSource, 'kinopoisk' | 'plain_list'>, (t: CsvTable) => ImportedRecord[]> = {
+/** Выгрузка Trakt (ЗП-25, 07.10): «Settings → Data → Export» отдаёт архив JSON-файлов в форме их API —
+ *  `watched-movies.json` / `watched-shows.json` ({plays, last_watched_at, movie|show}), `ratings-*.json`
+ *  ({rated_at, rating 1–10, type, movie|show}), `watchlist-*.json` ({listed_at, type, movie|show}),
+ *  `history-*.json` ({watched_at, type, movie|episode+show}). У каждого фильма — ids с IMDb и TMDb: по ним
+ *  и сопоставляем. Серии и сезоны не берём: оценка серии — не оценка сериала (как у IMDb), а просмотр
+ *  серии из истории не говорит, досмотрен ли сериал — его скажет `watched-shows.json`. */
+interface TraktMedia { title?: string; year?: number; ids?: { imdb?: string; tmdb?: number } }
+interface TraktItem {
+  type?: string; movie?: TraktMedia; show?: TraktMedia; episode?: unknown; season?: unknown;
+  rating?: number; plays?: number; rated_at?: string; last_watched_at?: string; watched_at?: string; listed_at?: string;
+}
+export function parseTrakt(items: TraktItem[]): ImportedRecord[] {
+  return items.flatMap((it) => {
+    if (it.type === 'episode' || it.type === 'season' || it.episode || it.season) return [];
+    const media = it.movie ?? it.show;
+    if (!media) return [];
+    // в списке «посмотреть» нет ни просмотров, ни оценки, ни даты просмотра — только дата добавления
+    const planned = Boolean(it.listed_at) && it.plays == null && it.rating == null && !it.watched_at && !it.last_watched_at;
+    const ids = media.ids ?? {};
+    return [{
+      source: 'trakt', type: it.show ? 'series' : 'film',
+      title: media.title ?? '', year: typeof media.year === 'number' ? media.year : undefined,
+      status: planned ? 'planned' : 'finished',
+      rating: typeof it.rating === 'number' ? it.rating : undefined,
+      date: iso(it.rated_at ?? it.last_watched_at ?? it.watched_at ?? it.listed_at),
+      // у сериала plays — число просмотренных серий, не пересмотров
+      rewatch: it.movie && (it.plays ?? 0) > 1 ? true : undefined,
+      externalIds: ids.imdb || ids.tmdb != null ? { imdb: ids.imdb || undefined, tmdb: ids.tmdb ?? undefined } : undefined,
+    } satisfies ImportedRecord];
+  });
+}
+
+/** JSON-массив в форме Trakt: хотя бы у одного элемента есть movie или show. */
+function traktItems(text: string): TraktItem[] | undefined {
+  const t = text.replace(/^\uFEFF/, '').trim();
+  if (!t.startsWith('[')) return undefined;
+  try {
+    const data: unknown = JSON.parse(t);
+    return Array.isArray(data) && data.some((x) => x && typeof x === 'object' && ('movie' in x || 'show' in x)) ? data as TraktItem[] : undefined;
+  } catch { return undefined; }
+}
+
+// «кинопоиск», «просто список» и Trakt разбираются не таблицей, поэтому в карту не входят
+const PARSERS: Record<Exclude<ImportSource, 'kinopoisk' | 'plain_list' | 'trakt'>, (t: CsvTable, name?: string) => ImportedRecord[]> = {
   letterboxd, letterboxd_import: letterboxdImport, imdb, goodreads, storygraph,
 };
 
@@ -254,7 +297,7 @@ function looksLikePlainList(text: string): boolean {
 }
 
 /** Текст файла → записи. Неизвестный формат — undefined, а не пустой список: это разные состояния. */
-export function parseExport(text: string): { source: ImportSource; records: ImportedRecord[] } | undefined {
+export function parseExport(text: string, name?: string): { source: ImportSource; records: ImportedRecord[] } | undefined {
   if (/<div class="profileFilmsList"|ur_data\.push\(/.test(text)) {
     return { source: 'kinopoisk', records: parseKinopoiskHtml(text).filter(usable) };
   }
@@ -264,11 +307,13 @@ export function parseExport(text: string): { source: ImportSource; records: Impo
   if (/^##\s|Идентификатор на Кинопоиске:/m.test(text)) {
     return { source: 'kinopoisk', records: parseKinopoiskText(text).filter(usable) };
   }
+  const trakt = traktItems(text);
+  if (trakt) return { source: 'trakt', records: parseTrakt(trakt).filter(usable) };
   const table = parseCsv(text);
   const source = detectFormat(table);
   // «просто список» detectFormat не возвращает — он про таблицы; проверка нужна типам
-  if (source && source !== 'kinopoisk' && source !== 'plain_list') {
-    return { source, records: PARSERS[source](table).filter(usable) };
+  if (source && source !== 'kinopoisk' && source !== 'plain_list' && source !== 'trakt') {
+    return { source, records: PARSERS[source](table, name).filter(usable) };
   }
   // формат не узнан таблицей — может быть просто список названий
   if (looksLikePlainList(text)) {
@@ -278,21 +323,33 @@ export function parseExport(text: string): { source: ImportSource; records: Impo
   return undefined;
 }
 
-/** Несколько файлов одного человека (страницы профиля, CSV + список «не найдено»): записи
- *  склеиваются, повторы по внешнему ID или названию с годом убираются — первый выигрывает. */
-export function parseExports(texts: string[]): { sources: ImportSource[]; records: ImportedRecord[]; unrecognized: number } {
+/** Несколько файлов одного человека (страницы профиля, CSV + список «не найдено», файлы Trakt): записи
+ *  склеиваются, повторы по внешнему ID или названию с годом — одна запись. Первая остаётся, но берёт у
+ *  повтора то, чего у неё нет (оценку из ratings-файла к просмотру из watched-файла), а «посмотрел»
+ *  главнее «в планах» (07.10, ЗП-25). */
+export function parseExports(files: ExportFile[]): { sources: ImportSource[]; records: ImportedRecord[]; unrecognized: number } {
   const sources: ImportSource[] = [];
   const records: ImportedRecord[] = [];
-  const seen = new Set<string>();
+  const seen = new Map<string, number>();
   let unrecognized = 0;
-  for (const text of texts) {
-    const parsed = parseExport(text);
+  for (const file of files) {
+    const parsed = typeof file === 'string' ? parseExport(file) : parseExport(file.text, file.name);
     if (!parsed) { unrecognized++; continue; }
     if (!sources.includes(parsed.source)) sources.push(parsed.source);
     for (const r of parsed.records) {
       const keys = dedupKeys(r);
-      if (keys.some((k) => seen.has(k))) continue;
-      keys.forEach((k) => seen.add(k));
+      const at = keys.map((k) => seen.get(k)).find((i) => i != null);
+      if (at != null) {
+        const kept = records[at];
+        records[at] = {
+          ...r, ...Object.fromEntries(Object.entries(kept).filter(([, v]) => v !== undefined && v !== '')),
+          status: kept.status === 'planned' ? r.status : kept.status,
+          externalIds: kept.externalIds || r.externalIds ? { ...r.externalIds, ...kept.externalIds } : undefined,
+        } as ImportedRecord;
+        dedupKeys(records[at]).forEach((k) => seen.set(k, at));
+        continue;
+      }
+      keys.forEach((k) => seen.set(k, records.length));
       records.push(r);
     }
   }

@@ -18,12 +18,21 @@ export interface CharacterEntry { q: string; n: string; en?: string; aka?: strin
 
 const qid = (s: string) => s.split('/').pop()!;
 
-/** Исходный герой: по «основано на» вверх, пока тот вымышленный и известен; до трёх шагов. */
+/** Слова имён героя (ru, en, синонимы) от четырёх букв: по ним видно, версия ли это того же героя. */
+const nameWords = (c?: CharInfo): Set<string> => new Set([c?.ru, c?.en, ...(c?.aka ?? [])].filter((x): x is string => Boolean(x))
+  .flatMap((x) => x.toLowerCase().replace(/ё/g, 'е').split(/[^\p{L}\p{N}]+/u)).filter((w) => w.length >= 4));
+
+/** Исходный герой: по «основано на» вверх, пока тот вымышленный и известен; до трёх шагов. Шаг — только
+ *  если у версии и исходного есть общее имя («Шерлок Холмс (Шерлок)» → Шерлок Холмс): «основано на»
+ *  бывает и у пародии — Ригган Томсон из «Бёрдмэна» «основан на» Бэтмене, и «Бёрдмэн» уходил в фильмы
+ *  Бэтмена, да ещё первым в «С чего начать» (06.10). Версия без имён сводится, как раньше. */
 export function rootOf(q: string, info: ReadonlyMap<string, CharInfo>): string {
   let cur = q;
   for (let i = 0; i < 3; i++) {
     const r = info.get(cur)?.root;
     if (!r || r === cur || !info.get(r)?.fictional) break;
+    const own = nameWords(info.get(cur));
+    if (own.size && ![...nameWords(info.get(r))].some((w) => own.has(w))) break;
     cur = r;
   }
   return cur;
@@ -68,6 +77,50 @@ export function mergeSeeded(byChar: Map<string, Set<string>>, info: Map<string, 
     for (const k of h.works) if (!set.has(k)) { set.add(k); added++; }
   }
   return added;
+}
+
+/** Камео в сборных фильмах (06.10): «Космический джем 2» числил своими Нео, Годзиллу, Гарри Поттера и
+ *  Безумного Макса, «Лего Фильм: Бэтмен» — Саурона и Кинг-Конга, и эти фильмы вставали на их страницы.
+ *  Герои произведения делятся на семьи — связанные другими общими произведениями. Если семей три и
+ *  больше и одна заметно крупнее (не меньше трёх героев и вдвое больше следующей), остальные семьи
+ *  здесь гости: пару «герой — произведение» снимаем. «Однажды в сказке» (сказки поровну) не трогаем.
+ *  Возвращает снятые пары. */
+export function dropCameos(byChar: Map<string, Set<string>>): CharBinding[] {
+  const hosts = new Map<string, string[]>();
+  for (const [c, works] of byChar) if (works.size >= 2) for (const w of works) hosts.set(w, [...(hosts.get(w) ?? []), c]);
+  // гости сборного произведения при уже известных сборных `cross`: через них семьи не связываются
+  // (иначе Годзиллу с Бэтменом роднил бы «Лего Фильм»)
+  const guestsOf = (w: string, chars: string[], cross: ReadonlySet<string>): string[] => {
+    const family = new Map<string, number>();
+    let next = 0;
+    for (const c of chars) {
+      if (family.has(c)) continue;
+      const id = next++;
+      const stack = [c];
+      family.set(c, id);
+      while (stack.length) {
+        const a = byChar.get(stack.pop()!)!;
+        for (const b of chars) if (!family.has(b) && [...byChar.get(b)!].some((x) => x !== w && !cross.has(x) && a.has(x))) { family.set(b, id); stack.push(b); }
+      }
+    }
+    const size = new Map<number, number>();
+    for (const id of family.values()) size.set(id, (size.get(id) ?? 0) + 1);
+    const [first, second = 0] = [...size.values()].sort((x, y) => y - x);
+    if (size.size < 3 || first < 3 || first < 2 * second) return [];
+    const main = [...size].find(([, n]) => n === first)![0];
+    return chars.filter((c) => family.get(c) !== main);
+  };
+  // проходы до неподвижной точки: найденные сборные больше не связывают семьи в других сборных
+  let cross = new Set<string>();
+  let guests = new Map<string, string[]>();
+  for (let pass = 0; pass < 5; pass++) {
+    guests = new Map([...hosts].filter(([, chars]) => chars.length >= 4).map(([w, chars]) => [w, guestsOf(w, chars, cross)] as const).filter(([, g]) => g.length));
+    if (guests.size === cross.size && [...guests.keys()].every((w) => cross.has(w))) break;
+    cross = new Set(guests.keys());
+  }
+  const removed: CharBinding[] = [];
+  for (const [w, list] of guests) for (const c of list) { byChar.get(c)!.delete(w); removed.push({ work: w, char: c }); }
+  return removed;
 }
 
 /** Разбор: ключ произведения, к которому он привязан, и заголовок. */

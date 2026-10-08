@@ -5,8 +5,8 @@ import { getAnnotation, getAnnotationDiff, nextInBatch, reviewAnnotation } from 
 import {
   BlindAnnotationToggle, Button, DiffView, EmptyState, ErrorState, FieldConfidence, Skeleton, StatusTag, ValidationList, useToast,
 } from '@/components';
-import { formatDate } from '@/lib/format';
-import ru from '@/i18n/ru';
+import { formatDate, titleOf } from '@/lib/format';
+import ui, { locale } from '@/i18n';
 
 /** Ревью аннотации (/curator/annotations/:id): шапка с фактами о прогоне, слепой режим,
  *  ошибки валидации, разница черновика и публикации, решение. Для эталона слепой режим
@@ -43,20 +43,20 @@ export function AnnotationReviewScreen() {
       // поток (Г3): после решения — следующий черновик сегодняшней порции, а не возврат в таблицу
       .then(() => nextInBatch())
       .then((next) => {
-        toast({ text: decision === 'approve' ? ru.curator.approved : ru.curator.rejected });
+        toast({ text: decision === 'approve' ? ui.curator.approved : ui.curator.rejected });
         navigate(next ? `/curator/annotations/${encodeURIComponent(next)}` : '/curator');
       })
-      .catch(() => toast({ text: ru.settings.errorSave, action: ru.actions.retry, onAction: () => decide(decision) }))
+      .catch(() => toast({ text: ui.settings.errorSave, action: ui.actions.retry, onAction: () => decide(decision) }))
       .finally(() => setBusy(false));
   };
 
   if (failed) {
-    return <main className="tm-shell__main"><ErrorState title={ru.curator.errorLoad} text={ru.curator.errorText} onRetry={() => setAttempt(attempt + 1)} /></main>;
+    return <main className="tm-shell__main"><ErrorState title={ui.curator.errorLoad} text={ui.curator.errorText} onRetry={() => setAttempt(attempt + 1)} /></main>;
   }
   if (missing) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.curator.notFound} text={ru.curator.notFoundText} action={ru.curator.nav.queue} onAction={() => navigate('/curator')} />
+        <EmptyState title={ui.curator.notFound} text={ui.curator.notFoundText} action={ui.curator.nav.queue} onAction={() => navigate('/curator')} />
       </main>
     );
   }
@@ -68,27 +68,27 @@ export function AnnotationReviewScreen() {
   const decided = item.status === 'approved' || item.status === 'published' || item.status === 'rejected';
   return (
     <main className="tm-shell__main">
-      <Link to="/curator" className="tm-curator__back">{ru.curator.toQueue}</Link>
+      <Link to="/curator" className="tm-curator__back">{ui.curator.toQueue}</Link>
       <div className="tm-curator__head">
-        <h1 className="tm-shell__title">{item.work.title}</h1>
+        <h1 className="tm-shell__title">{titleOf(item.work)}</h1>
         <span className="tm-meta">{`${item.work.year} · ${item.work.creators.join(', ')}`}</span>
         <StatusTag status={item.status} />
-        {item.isGold ? <span className="tm-table__gold">{ru.curator.gold}</span> : null}
+        {item.isGold ? <span className="tm-table__gold">{ui.curator.gold}</span> : null}
       </div>
       <dl className="tm-curator__facts">
-        <div><dt className="tm-label">{ru.curator.filterProvider}</dt><dd>{ru.annotationProvider[item.provider]}</dd></div>
-        <div><dt className="tm-label">{ru.curator.model}</dt><dd>{`${item.model} · ${ru.curator.tier[item.modelTier]} · TMDF ${item.tmdfVersion}`}</dd></div>
-        <div><dt className="tm-label">{ru.curator.knowledgeLabel}</dt><dd>{ru.curator.knowledge[item.knowledgeSufficiency]}</dd></div>
-        <div><dt className="tm-label">{ru.curator.queueCols[3]}</dt><dd><FieldConfidence confidence={item.overallConfidence} /></dd></div>
+        <div><dt className="tm-label">{ui.curator.filterProvider}</dt><dd>{ui.annotationProvider[item.provider]}</dd></div>
+        <div><dt className="tm-label">{ui.curator.model}</dt><dd>{`${item.model} · ${ui.curator.tier[item.modelTier]} · TMDF ${item.tmdfVersion}`}</dd></div>
+        <div><dt className="tm-label">{ui.curator.knowledgeLabel}</dt><dd>{ui.curator.knowledge[item.knowledgeSufficiency]}</dd></div>
+        <div><dt className="tm-label">{ui.curator.queueCols[3]}</dt><dd><FieldConfidence confidence={item.overallConfidence} /></dd></div>
         <div>
-          <dt className="tm-label">{ru.curator.queueCols[7]}</dt>
-          <dd>{tokens ? ru.curator.usage(tokens.toLocaleString('ru'), Math.round(item.usage.durationMs / 1000), `$${item.usage.costUsd.toFixed(2)}`) : '—'}</dd>
+          <dt className="tm-label">{ui.curator.queueCols[7]}</dt>
+          <dd>{tokens ? ui.curator.usage(tokens.toLocaleString(locale), Math.round(item.usage.durationMs / 1000), `$${item.usage.costUsd.toFixed(2)}`) : '—'}</dd>
         </div>
-        <div><dt className="tm-label">{ru.curator.created}</dt><dd>{formatDate(item.createdAt)}</dd></div>
-        <div><dt className="tm-label">{ru.curator.loopLabel}</dt><dd>{item.loop ?? ru.curator.loopNone}</dd></div>
+        <div><dt className="tm-label">{ui.curator.created}</dt><dd>{formatDate(item.createdAt)}</dd></div>
+        <div><dt className="tm-label">{ui.curator.loopLabel}</dt><dd>{item.loop ?? ui.curator.loopNone}</dd></div>
         <div>
-          <dt className="tm-label">{ru.curator.queueCols[6]}</dt>
-          <dd>{item.signals?.length ? item.signals.map((s) => `${ru.curator.signalKind[s.kind]} · ${s.source} (${s.license})`).join(', ') : ru.curator.signalsNone}</dd>
+          <dt className="tm-label">{ui.curator.queueCols[6]}</dt>
+          <dd>{item.signals?.length ? item.signals.map((s) => `${ui.curator.signalKind[s.kind]} · ${s.source} (${s.license})`).join(', ') : ui.curator.signalsNone}</dd>
         </div>
       </dl>
 
@@ -100,8 +100,8 @@ export function AnnotationReviewScreen() {
 
       {!decided ? (
         <div className="tm-row tm-row--gap-2 tm-curator__actions">
-          <Button variant="primary" size="sm" loading={busy} disabled={busy || item.validationErrors.length > 0} onClick={() => decide('approve')}>{ru.curator.approve}</Button>
-          <Button variant="danger" size="sm" disabled={busy} onClick={() => decide('reject')}>{ru.curator.reject}</Button>
+          <Button variant="primary" size="sm" loading={busy} disabled={busy || item.validationErrors.length > 0} onClick={() => decide('approve')}>{ui.curator.approve}</Button>
+          <Button variant="danger" size="sm" disabled={busy} onClick={() => decide('reject')}>{ui.curator.reject}</Button>
         </div>
       ) : null}
     </main>

@@ -16,7 +16,7 @@ export type TelegramEvent =
 export interface TelegramWebApp {
   initData: string;
   /** то же самое, уже разобранное самим Telegram: показывать можно, доверять — нет */
-  initDataUnsafe?: { user?: { id: number; first_name?: string; username?: string } };
+  initDataUnsafe?: { user?: { id: number; first_name?: string; username?: string }; start_param?: string };
   platform: string;
   version: string;
   colorScheme: 'light' | 'dark';
@@ -36,6 +36,10 @@ export interface TelegramWebApp {
   disableVerticalSwipes?(): void;
   openLink(url: string, options?: { try_instant_view?: boolean }): void;
   openTelegramLink(url: string): void;
+  /** Bot API 8.0+: штатный выбор чата для сообщения, подготовленного сервером (savePreparedInlineMessage) */
+  shareMessage?(msgId: string, callback?: (sent: boolean) => void): void;
+  /** Bot API 6.9+: разрешить боту писать участнику первым — для сводки подписок */
+  requestWriteAccess?(callback?: (granted: boolean) => void): void;
   onEvent(event: TelegramEvent, handler: () => void): void;
   offEvent(event: TelegramEvent, handler: () => void): void;
   /** Bot API 6.1+: отклик вибрацией. У старых клиентов объекта нет, поэтому всё опционально */
@@ -48,6 +52,15 @@ export interface TelegramWebApp {
     isVisible: boolean;
     show(): void;
     hide(): void;
+    onClick(handler: () => void): void;
+    offClick(handler: () => void): void;
+  };
+  /** Bot API 6.0+: большая кнопка внизу экрана мессенджера */
+  MainButton?: {
+    setText(text: string): void;
+    show(): void;
+    hide(): void;
+    enable(): void;
     onClick(handler: () => void): void;
     offClick(handler: () => void): void;
   };
@@ -78,6 +91,35 @@ export const writeAuthorUrl = `https://t.me/${AUTHOR_USERNAME}`;
 /** «Позвать друга»: штатное окно Telegram «переслать» со ссылкой на бота. */
 export const shareUrl = (text: string) =>
   `https://t.me/share/url?url=${encodeURIComponent(`https://t.me/${BOT_USERNAME}`)}&text=${encodeURIComponent(text)}`;
+
+/** Ссылка, которая открывает мини-приложение сразу с параметром (05.10, «Поделиться» карточкой):
+ *  `startapp` работает, когда у бота в BotFather включено главное мини-приложение (Main Mini App). */
+export const appLink = (param: string) => `https://t.me/${BOT_USERNAME}?startapp=${encodeURIComponent(param)}`;
+
+/** Параметр, с которым открыли мини-приложение: из initData или из адреса (`tgWebAppStartParam`). */
+export function startParam(): string | undefined {
+  // хвосты `--r<код>` (кто поделился, ЗП-37) и `--s<метка>` (источник, посев) читает сервер из подписанного
+  // initData (worker/invite.ts) — экранам они не нужны
+  const strip = (p: string | null | undefined) => p?.replace(/(?:--(?:r[0-9a-f]{16}|s[a-z0-9_]{1,24}))+$/, '') || undefined;
+  const fromInit = webApp()?.initDataUnsafe?.start_param;
+  if (fromInit) return strip(fromInit);
+  try { return strip(new URLSearchParams(window.location.search).get('tgWebAppStartParam')); } catch { return undefined; }
+}
+
+/** «Поделиться»: в Telegram — штатное окно «переслать» со ссылкой на приложение; в браузере —
+ *  системное «Поделиться», а без него — копия ссылки в буфер. Возвращает, что произошло, —
+ *  экран скажет об этом тостом. */
+export async function shareLink(url: string, text: string): Promise<'telegram' | 'shared' | 'copied' | 'failed'> {
+  if (webApp()) {
+    openExternal(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
+    return 'telegram';
+  }
+  const nav = navigator as Navigator & { share?: (d: { title?: string; text?: string; url?: string }) => Promise<void> };
+  if (nav.share) {
+    try { await nav.share({ text, url }); return 'shared'; } catch (e) { if ((e as Error).name === 'AbortError') return 'shared'; }
+  }
+  try { await navigator.clipboard.writeText(`${text}\n${url}`); return 'copied'; } catch { return 'failed'; }
+}
 
 const root = () => document.documentElement;
 
@@ -167,17 +209,57 @@ export function openExternal(url: string) {
   else wa.openLink(url);
 }
 
-/** Кнопка «Назад» в шапке мессенджера. Возвращает отписку; вне Telegram — no-op. */
+/** Кнопка «Назад» в шапке мессенджера. Возвращает отписку; вне Telegram — no-op.
+ *  Обработчики — стеком (06.10): открытая карточка ставит свой «Назад» поверх «Назад» экрана,
+ *  и нажатие закрывает карточку, а не уводит со страницы; закрылась — снова работает экранный.
+ *  Кнопка прячется, только когда стек пуст. */
+const backStack: (() => void)[] = [];
+let backBound = false;
+const onBackTop = () => backStack[backStack.length - 1]?.();
 export function showBackButton(onBack: () => void): () => void {
   const wa = webApp();
   if (!wa) return () => {};
-  wa.BackButton.onClick(onBack);
+  backStack.push(onBack);
+  if (!backBound) { wa.BackButton.onClick(onBackTop); backBound = true; }
   wa.BackButton.show();
   return () => {
-    wa.BackButton.offClick(onBack);
-    wa.BackButton.hide();
+    const i = backStack.lastIndexOf(onBack);
+    if (i >= 0) backStack.splice(i, 1);
+    if (!backStack.length) wa.BackButton.hide();
   };
 }
+
+/** Главная кнопка Telegram (ТВ-11, 06.10): главное действие экрана — внизу, где его ждёт
+ *  палец. Стек, как у «Назад»: шторка поверх ленты ставит свою («Смотреть в …»), закрылась —
+ *  кнопка снова экрана под ней или прячется. Вне Telegram ничего не делает: тогда главное
+ *  действие — обычная кнопка на странице (`isTelegram()` решает, показывать ли её). */
+const mainStack: { text: string; onClick: () => void }[] = [];
+let mainBound = false;
+const onMainTop = () => mainStack[mainStack.length - 1]?.onClick();
+const showMainTop = () => {
+  const mb = webApp()?.MainButton;
+  if (!mb) return;
+  const top = mainStack[mainStack.length - 1];
+  if (!top) { mb.hide(); return; }
+  mb.setText(top.text);
+  mb.enable();
+  mb.show();
+};
+export function showMainButton(text: string, onClick: () => void): () => void {
+  const mb = webApp()?.MainButton;
+  if (!mb) return () => {};
+  const entry = { text, onClick };
+  mainStack.push(entry);
+  if (!mainBound) { mb.onClick(onMainTop); mainBound = true; }
+  showMainTop();
+  return () => {
+    const i = mainStack.lastIndexOf(entry);
+    if (i >= 0) mainStack.splice(i, 1);
+    showMainTop();
+  };
+}
+/** Есть ли у мессенджера главная кнопка: тогда дублировать её кнопкой на странице незачем. */
+export const hasMainButton = (): boolean => Boolean(webApp()?.MainButton);
 
 /** onClick для `<a target="_blank">`: в браузере ссылка ведёт себя как ссылка (средняя
  *  кнопка, «копировать адрес» работают), внутри Telegram переход перехватывается и

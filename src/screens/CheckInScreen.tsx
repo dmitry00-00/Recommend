@@ -8,7 +8,8 @@ import {
 import { useMechanics } from '@/lib/settingsStore';
 import { isSeries } from '@/lib/media';
 import { outcome } from '@/lib/telegram';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
+import { titleOf } from '@/lib/format';
 
 interface Loaded { entry: JourneyEntryData; prompts: ReflectionPromptData[]; discussions: DiscussionPlace[] }
 
@@ -53,7 +54,7 @@ export function CheckInScreen() {
   if (failed) {
     return (
       <main className="tm-shell__main">
-        <ErrorState title={failed === 'submit' ? ru.journal.errorCheckIn : ru.journal.errorOne} text={ru.journal.errorText}
+        <ErrorState title={failed === 'submit' ? ui.journal.errorCheckIn : ui.journal.errorOne} text={ui.journal.errorText}
                     onRetry={() => (failed === 'submit' && lastRequest ? submit(lastRequest) : setAttempt(attempt + 1))} />
       </main>
     );
@@ -61,15 +62,15 @@ export function CheckInScreen() {
   if (missing) {
     return (
       <main className="tm-shell__main">
-        <EmptyState title={ru.journal.notFound} text={ru.journal.notFoundText}
-                    action={ru.nav.journal} onAction={() => navigate('/journal')} />
+        <EmptyState title={ui.journal.notFound} text={ui.journal.notFoundText}
+                    action={ui.nav.journal} onAction={() => navigate('/journal')} />
       </main>
     );
   }
   if (!data) {
     return (
       <main className="tm-shell__main" aria-busy="true">
-        <span className="tm-sr">{ru.journal.loading}</span>
+        <span className="tm-sr">{ui.journal.loading}</span>
         <Skeleton kind="title" style={{ width: '60%' }} />
         <Skeleton kind="block" style={{ height: 120, marginTop: 24 }} />
       </main>
@@ -87,27 +88,27 @@ export function CheckInScreen() {
   const partDone = part != null && result?.entry.status === 'in_progress' ? result.entry.bookProgress?.part : undefined;
   return (
     <main className="tm-shell__main">
-      <h1 className="tm-shell__title">{entry.work.title}</h1>
+      <h1 className="tm-shell__title">{titleOf(entry.work)}</h1>
       <CheckInFlow work={entry.work} prompts={prompts} discussions={discussions}
                    step={params.get('abandon') ? 9 : 0} debrief={result?.debrief}
                    prediction={result?.entry.prediction ?? entry.prediction} showModel={mechanics}
                    changedOperations={changed} onSubmit={submit} season={season} part={part} />
       {result ? (
         <div className="tm-checkinscreen__after">
-          {seasonDone && season ? <p className="tm-body tm-checkinscreen__season">{ru.seriesDiary.seasonDone(season, seasonDone)}</p> : null}
-          {partDone && part ? <p className="tm-body tm-checkinscreen__season">{ru.bookDiary.partDone(part, partDone)}</p> : null}
+          {seasonDone && season ? <p className="tm-body tm-checkinscreen__season">{ui.seriesDiary.seasonDone(season, seasonDone)}</p> : null}
+          {partDone && part ? <p className="tm-body tm-checkinscreen__season">{ui.bookDiary.partDone(part, partDone)}</p> : null}
           {result.trajectoryUpdate?.replanned && result.trajectoryUpdate.reason ? (
             <ReplanNote reason={result.trajectoryUpdate.reason} />
           ) : null}
           {result.nextRecommendation ? (
             <>
-              <h2 className="tm-title-3">{ru.checkin.nextFrame}</h2>
+              <h2 className="tm-title-3">{ui.checkin.nextFrame}</h2>
               <RecommendationCard recommendation={result.nextRecommendation} variant="compact" />
             </>
           ) : null}
           <div className="tm-row tm-row--gap-2 tm-row--wrap">
-            <Button onClick={() => navigate('/journal')}>{ru.checkin.toJournal}</Button>
-            <Button variant="quiet" onClick={() => navigate('/map')}>{ru.checkin.toMap}</Button>
+            <Button onClick={() => navigate('/journal')}>{ui.checkin.toJournal}</Button>
+            <Button variant="quiet" onClick={() => navigate('/map')}>{ui.checkin.toMap}</Button>
           </div>
         </div>
       ) : null}

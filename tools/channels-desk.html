@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Каналы</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8; --bar: #2f5fd0; --bar-soft: #c9d5f2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926; --bar: #7ea2ff; --bar-soft: #34405e; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 13px; margin: 26px 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  a { color: var(--accent); }
+  button, select, input[type=text], input[type=search], textarea { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; }
+  button { cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button.danger { color: var(--bad); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.chip { border-radius: 999px; padding: 3px 11px; font-size: 14px; }
+  button.chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
+  .spacer { flex: 1; }
+  .table-wrap { overflow-x: auto; }
+  /* список каналов: шапка прилипает под полосой вкладок; ради этого на широком экране без прокрутки вбок */
+  @media (min-width: 900px) { .table-wrap.list { overflow: visible; } .table-wrap.list table { overflow: visible; } }
+  .table-wrap.list thead th { position: sticky; top: var(--nav-h); z-index: 2; background: var(--panel); box-shadow: 0 1px 0 var(--line); }
+  .pager { display: flex; gap: 4px; align-items: center; justify-content: flex-end; margin: 10px 0 0; }
+  .pager button { min-width: 34px; }
+  .pager button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .legend { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  th[data-sort] { cursor: pointer; user-select: none; } th[data-sort]:hover { color: var(--ink); }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: 0; }
+  tbody tr { cursor: pointer; } tbody tr:hover td { background: var(--chip); }
+  .tag { display: inline-block; font-size: 12px; padding: 1px 7px; border-radius: 999px; background: var(--chip); color: var(--muted); margin: 2px 4px 0 0; white-space: nowrap; }
+  .tag.essay { color: var(--ok); } .tag.review { color: var(--muted); } .tag.warn { color: var(--warn); } .tag.bad { color: var(--bad); } .tag.ok { color: var(--ok); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .tile b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 22px; align-items: start; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .form .row { margin: 0 0 14px; }
+  .form label.t { display: block; color: var(--muted); font-size: 13px; margin: 0 0 5px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; padding: 6px 14px; background: var(--panel); }
+  .seg button.on { background: var(--ink); color: var(--bg); }
+  .check { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; }
+  .check small { display: block; color: var(--muted); }
+  textarea { width: 100%; min-height: 60px; resize: vertical; }
+  .focus span { display: inline-flex; gap: 4px; align-items: center; }
+  .focus button { border: 0; background: none; color: var(--muted); padding: 0 4px; }
+  .hb { display: grid; grid-template-columns: minmax(0, 1fr) 110px 44px; gap: 8px; align-items: center; font-size: 14px; margin: 3px 0; }
+  .hb .track { height: 8px; background: var(--chip); border-radius: 4px; overflow: hidden; }
+  .hb .track i { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+  .hb .v { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .hb .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .effect { background: var(--chip); border-radius: 10px; padding: 10px 12px; font-size: 14px; margin: 0 0 14px; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; z-index: 9; }
+  pre.log { max-height: 220px; overflow: auto; font: 12px/1.4 ui-monospace, Menlo, monospace; background: var(--chip); padding: 8px; border-radius: 8px; white-space: pre-wrap; }
+  .vt small { display: block; color: var(--muted); }
+  .back { text-decoration: none; color: var(--muted); }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div id="view"></div>
+</main>
+<div id="toast"></div>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (n) => (n == null ? '—' : Number(n).toLocaleString('ru-RU'));
+const pct = (x) => (x == null ? '—' : `${Math.round(x * 100)}%`);
+const plural = (n, one, few, many) => `${fmt(n)} ${n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many}`;
+const TIER = { essay: 'эссе', review: 'обзор' };
+const EV = { human: 'решение человека', none: 'без подтверждения', title: 'по названию', year: 'год', original: 'ориг. название', tag: 'хэштег', lore: 'по герою', playlist: 'плейлист', channel: 'надёжный канал', link: 'ссылка' };
+function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => { el.style.display = 'none'; }, 6000); }
+async function get(p) { const r = await fetch(p); return r.json(); }
+async function post(p, body) {
+  const r = await fetch(p, { method: 'POST', headers: { 'content-type': 'application/json', 'x-desk': '1' }, body: JSON.stringify(body) });
+  const d = await r.json(); if (d.error) toast(d.error); return d;
+}
+
+// ─── список ───────────────────────────────────────────────────────────────────
+const S = { q: '', tier: 'all', src: 'all', sort: 'linked', dir: -1 };
+let data;
+const EVR = { title: 'по названию', year: 'год', original: 'ориг. название', tag: 'хэштег', lore: 'по герою', playlist: 'плейлист', human: 'человек', channel: 'надёжный канал' };
+const FILTERS = {
+  tier: [['all', 'все'], ['essay', 'эссе'], ['review', 'обзор']],
+  src: [['all', 'все'], ['voice', 'голоса'], ['links', 'из ссылок'], ['book', 'книги'], ['en', 'англ.'], ['weak', 'ошибается'], ['nomark', 'нет решений']],
+};
+const SRC = { all: () => true, voice: (c) => !c.via, links: (c) => c.via, book: (c) => c.medium === 'book', en: (c) => c.language === 'en',
+  weak: (c) => c.weak || (c.precision != null && c.precision < 0.85), nomark: (c) => c.linked && !c.human };
+function rowsOf() {
+  const q = S.q.trim().toLowerCase();
+  return data.channels.filter((c) => (S.tier === 'all' || c.tier === S.tier) && SRC[S.src](c)
+    && (!q || `${c.title} ${c.handle ?? ''} ${c.note ?? ''}`.toLowerCase().includes(q)))
+    .sort((a, b) => {
+      const x = a[S.sort], y = b[S.sort];
+      if (typeof x === 'string' || typeof y === 'string') return S.dir * String(x ?? '').localeCompare(String(y ?? ''), 'ru');
+      return S.dir * ((x ?? -1) - (y ?? -1));
+    });
+}
+async function showList() {
+  document.title = 'Каналы';
+  if (!data) data = await get('api/list');
+  const all = data.channels;
+  const count = (k, v) => all.filter((c) => (k === 'tier' ? (v === 'all' || c.tier === v) : SRC[v](c))).length;
+  const rows = rowsOf();
+  const PER = 100, pages = Math.max(1, Math.ceil(rows.length / PER));
+  S.page = Math.min(Math.max(1, S.page ?? 1), pages);
+  const shownRows = rows.slice((S.page - 1) * PER, S.page * PER);
+  const pager = pages > 1 ? `<div class="pager"><button data-pg="${S.page - 1}" ${S.page <= 1 ? 'disabled' : ''}>‹</button>${Array.from({ length: pages }, (_, i) => i + 1)
+    .map((n) => `<button data-pg="${n}" class="${n === S.page ? 'on' : ''}">${n}</button>`).join('')}<button data-pg="${S.page + 1}" ${S.page >= pages ? 'disabled' : ''}>›</button></div>` : '';
+  const head = [['title', 'Канал'], ['tier', 'Ярус'], ['dump', 'Роликов', 'n'], ['linked', 'Привязано', 'n'], ['shown', 'В «Разборах»', 'n'],
+    ['human', 'Решено людьми', 'n'], ['precision', 'Точность', 'n'], ['expectedErrors', '~ошибок', 'n']];
+  $('#view').innerHTML = `
+    <h1>Каналы</h1>
+    <p class="sub">YouTube-каналы реестра и обхода: ${plural(all.length, 'канал', 'канала', 'каналов')}, эссе ${count('tier', 'essay')}, обзоров ${count('tier', 'review')}.
+      Щелчок по строке — профиль канала: там ярус и остальное меняются.${data.dumpReady ? '' : ' <span class="warn">Выгрузка YouTube ещё читается — число роликов из замера покрытия.</span>'}</p>
+    <div class="bar"><input type="search" id="q" placeholder="название, ник или заметка" value="${esc(S.q)}" style="min-width:260px">
+      ${FILTERS.tier.map(([v, l]) => `<button class="chip ${S.tier === v ? 'on' : ''}" data-tier="${v}">${l} ${count('tier', v)}</button>`).join('')}</div>
+    <div class="bar">${FILTERS.src.map(([v, l]) => `<button class="chip ${S.src === v ? 'on' : ''}" data-src="${v}">${l} ${count('src', v)}</button>`).join('')}
+      <span class="spacer"></span><span class="muted">${rows.length > PER ? `${(S.page - 1) * PER + 1}–${Math.min(rows.length, S.page * PER)} из ${rows.length}` : `показано ${rows.length}`}</span></div>
+    <p class="legend">Точность: <span class="bad">красная</span> — ниже 85% по решениям людей; <span class="warn">оранжевая</span> — в целом хорошая, но один из способов опознания у канала ошибается (какой — в подсказке у числа). «В „Разборах“» — сколько привязанных роликов видно на вкладке «Разборы»; обзоры показываются отдельно, у обзорщиков там «—».</p>
+    <div class="table-wrap list"><table><thead><tr>${head.map(([k, l, n]) => `<th class="${n ?? ''}" data-sort="${k}">${l}${S.sort === k ? (S.dir < 0 ? ' ↓' : ' ↑') : ''}</th>`).join('')}</tr></thead>
+    <tbody>${shownRows.map((c) => `<tr data-id="${esc(c.id)}">
+      <td class="vt">${esc(c.title)}<small>${c.handle ? '@' + esc(c.handle) : ''}${c.note ? ` · ${esc(c.note)}` : ''}</small></td>
+      <td><span class="tag ${c.tier}">${TIER[c.tier]}</span>${c.via ? '<span class="tag">из ссылок</span>' : ''}${c.medium === 'book' ? '<span class="tag">книги</span>' : ''}${c.language === 'en' ? '<span class="tag">англ.</span>' : ''}${c.lists ? '<span class="tag">подборки</span>' : ''}${c.inRegistry ? '' : '<span class="tag warn">нет в реестре</span>'}</td>
+      <td class="n">${fmt(c.dump)}</td><td class="n">${fmt(c.linked)}</td>
+      <td class="n">${c.tier === 'review' ? '<span class="muted" title="обзоры показываются отдельно, не в «Разборах»">—</span>' : fmt(c.shown)}</td><td class="n">${fmt(c.human)}</td>
+      <td class="n ${c.precision != null && c.precision < 0.85 ? 'bad' : c.weak ? 'warn' : ''}" title="${c.weakHow?.length ? `ошибается способ: ${esc(c.weakHow.map((m) => EVR[m] ?? m).join(', '))}` : ''}">${pct(c.precision)}</td><td class="n">${c.expectedErrors != null ? c.expectedErrors.toFixed(1) : '—'}</td></tr>`).join('')}</tbody></table></div>${pager}`;
+  for (const b of document.querySelectorAll('[data-pg]')) b.onclick = () => { S.page = Number(b.dataset.pg); showList(); window.scrollTo(0, 0); };
+  $('#q').oninput = (e) => { S.q = e.target.value; S.page = 1; const pos = e.target.selectionStart; showList().then(() => { const i = $('#q'); i.focus(); i.setSelectionRange(pos, pos); }); };
+  for (const b of document.querySelectorAll('[data-tier]')) b.onclick = () => { S.tier = b.dataset.tier; S.page = 1; showList(); };
+  for (const b of document.querySelectorAll('[data-src]')) b.onclick = () => { S.src = b.dataset.src; S.page = 1; showList(); };
+  for (const th of document.querySelectorAll('th[data-sort]')) th.onclick = () => { const k = th.dataset.sort; S.dir = S.sort === k ? -S.dir : (k === 'title' || k === 'tier' ? 1 : -1); S.sort = k; showList(); };
+  for (const tr of document.querySelectorAll('tbody tr')) tr.onclick = () => { location.hash = `id=${encodeURIComponent(tr.dataset.id)}`; };
+  if (!data.dumpReady) setTimeout(async () => { if (!location.hash) { data = await get('api/list'); showList(); } }, 4000);
+}
+
+// ─── профиль ──────────────────────────────────────────────────────────────────
+let P, form;
+const hbars = (items, max) => items.map((x) => `<div class="hb"><span class="name" title="${esc(x.title)}">${x.href ? `<a href="${esc(x.href)}" target="_blank" rel="noreferrer">${esc(x.title)}</a>` : esc(x.title)}</span>
+  <span class="track" title="${esc(x.tip ?? x.v)}"><i style="width:${max ? Math.max(2, (x.n / max) * 100) : 0}%"></i></span><span class="v">${esc(x.v ?? fmt(x.n))}</span></div>`).join('');
+async function showChannel(id) {
+  P = await get(`api/channel?id=${encodeURIComponent(id)}`);
+  if (P.error) { $('#view').innerHTML = '<p>Канал не найден. <a href="#">К списку</a></p>'; return; }
+  const c = P.channel;
+  document.title = `${c.title} — каналы`;
+  form = { tier: c.tier, medium: c.medium, voice: !c.via, lists: Boolean(c.lists), language: c.language === 'en', focus: P.focusTitles.map((f) => f), note: c.note ?? '' };
+  render();
+  if (!P.dumpReady) setTimeout(() => { if (location.hash.includes(encodeURIComponent(id))) showChannel(id); }, 4000);
+}
+function dirty() {
+  const c = P.channel;
+  return form.tier !== c.tier || form.medium !== c.medium || form.voice !== !c.via || form.lists !== Boolean(c.lists) || form.language !== (c.language === 'en')
+    || form.note !== (c.note ?? '') || form.focus.map((f) => f.id).join() !== c.focus.join();
+}
+function render() {
+  const c = P.channel, cov = P.cov ?? {};
+  const seg = (k, opts) => `<span class="seg">${opts.map(([v, l]) => `<button type="button" data-seg="${k}" data-v="${v}" class="${form[k] === v ? 'on' : ''}">${l}</button>`).join('')}</span>`;
+  const ev = Object.entries(P.evidence).sort((a, b) => b[1] - a[1]);
+  const evMax = Math.max(0, ...ev.map(([, n]) => n));
+  const dec = Object.entries(P.decided).sort((a, b) => b[1] - a[1]);
+  const prof = P.profile;
+  const profItems = prof ? [...prof.universes.map((u) => ({ ...u, k: 'вселенная' })), ...prof.persons.map((u) => ({ ...u, k: 'человек' }))].sort((a, b) => b.share - a.share).slice(0, 10) : [];
+  const willShow = form.tier === 'essay' ? P.linked : 0;
+  const effect = form.tier !== c.tier || form.voice !== !c.via
+    ? `<div class="effect">${form.tier !== c.tier ? (form.tier === 'essay'
+        ? `Станет эссеистом: его ролики появятся в карточках фильмов — сейчас видно ${fmt(P.shown)} из ${fmt(P.linked)} привязок, станет ${fmt(willShow)}.`
+        : `Станет обзорщиком: его ролики уйдут из карточек (сейчас видно ${fmt(P.shown)}), но останутся в подборе как массовое внимание.`) : ''}
+      ${form.voice !== !c.via ? (form.voice ? ' Полноценный голос: индекс разборов начнёт обходить его загрузки и ставить в поиск карточки.' : ' «Из ссылок»: загрузки не обходим, в индексе — только ролики, которые вы принесли сами.') : ''}
+      <br><span class="muted">Сработает после «Индекса разборов» (кнопка ниже) и публикации справочника.</span></div>` : '';
+  $('#view').innerHTML = `
+    <p><a class="back" href="#">← все каналы</a></p>
+    <h1>${esc(c.title)}</h1>
+    <p class="sub"><a href="${esc(c.url)}" target="_blank" rel="noreferrer">${c.handle ? '@' + esc(c.handle) : esc(c.url)}</a>
+      · <span class="tag ${c.tier}">${TIER[c.tier]}</span>${c.via ? '<span class="tag">из ссылок</span>' : '<span class="tag">голос</span>'}${c.medium === 'book' ? '<span class="tag">книги</span>' : ''}${c.language === 'en' ? '<span class="tag">англ.</span>' : ''}${c.lists ? '<span class="tag">подборки</span>' : ''}
+      ${c.registry ? `<span class="muted">· sources.ts, строка ${c.registry.line}</span>` : '<span class="tag warn">нет в реестре — сохранение заведёт строку</span>'}</p>
+    <div class="cols">
+      <div>
+        <div class="grid">
+          <div class="tile"><b>${fmt(P.dump?.n ?? cov.dump)}</b><span>роликов в выгрузке${P.dump?.first ? `<br>${P.dump.first.slice(0, 4)}–${P.dump.last.slice(0, 4)}` : ''}</span></div>
+          <div class="tile"><b>${fmt(P.linked)}</b><span>привязано к произведениям</span></div>
+          <div class="tile"><b>${fmt(P.shown)}</b><span>видно в приложении</span></div>
+          <div class="tile"><b>${fmt(P.evidence.human ?? 0)}</b><span>привязок решено людьми</span></div>
+          <div class="tile"><b class="${cov.precision != null && cov.precision < 0.85 ? 'bad' : ''}">${pct(cov.precision)}</b><span>точность опознавателя${cov.measured ? ` (по ${fmt(cov.measured)})` : ''}</span></div>
+          <div class="tile"><b>${cov.expectedErrors != null ? cov.expectedErrors.toFixed(1) : '—'}</b><span>~ошибок в непроверенном</span></div>
+          <div class="tile"><b>${P.dump?.medianMinutes ? `${Math.round(P.dump.medianMinutes)} мин` : '—'}</b><span>медиана длительности</span></div>
+        </div>
+        <div class="bar">${cov.none || P.linked ? `<a href="../check/#g=open&ch=${encodeURIComponent(c.title)}">Проверить привязки в «Проверке» →</a>` : ''}</div>
+
+        <h2>Как подтверждены привязки</h2>
+        ${ev.length ? hbars(ev.map(([k, n]) => ({ title: EV[k] ?? k, n, v: fmt(n) })), evMax) : '<p class="muted">привязок нет</p>'}
+        ${P.pairs.length ? `<h2>Точность по способу опознания</h2><div class="table-wrap"><table><thead><tr><th>Способ</th><th class="n">Верно</th><th class="n">Ошибок</th><th class="n">Доля</th><th></th></tr></thead><tbody>
+          ${P.pairs.map((p) => `<tr><td>${esc(EV[p.method] ?? p.method)}</td><td class="n">${p.right}</td><td class="n">${p.wrong}</td><td class="n">${pct(p.p)}</td><td>${p.trusted ? '<span class="tag ok">надёжный</span>' : ''}${p.weak ? '<span class="tag bad">часто ошибается</span>' : ''}</td></tr>`).join('')}</tbody></table></div>` : ''}
+        ${dec.length ? `<h2>Решения людей по роликам канала</h2>${hbars(dec.map(([k, n]) => ({ title: k, n, v: fmt(n) })), Math.max(...dec.map(([, n]) => n)))}` : ''}
+
+        <h2>О чём говорит</h2>
+        ${prof ? `${hbars(profItems.map((x) => ({ title: `${x.title} · ${x.k}`, n: x.share, v: pct(x.share) })), Math.max(...profItems.map((x) => x.share), 0))}
+          <p class="muted">Вес известного ${prof.n.toFixed(1)}${prof.dominant.length ? ' · преобладание: ' + esc(prof.dominant.map((q) => profItems.find((x) => x.id === q)?.title ?? q).join(', ')) : ''}</p>` : '<p class="muted">профиля нет — мало привязок</p>'}
+
+        <h2>Фильмы канала</h2>
+        ${P.topFilms.length ? hbars(P.topFilms.map((f) => ({ title: f.title, n: f.n, v: fmt(f.n) })), P.topFilms[0].n) : '<p class="muted">нет</p>'}
+
+        ${P.rubrics.length ? `<h2>Рубрики</h2><p>${P.rubrics.map(([r, n]) => `<span class="tag">${esc(r)} · ${n}</span>`).join('')}</p>` : ''}
+        ${P.playlists.length ? `<h2>Плейлисты</h2><p>${P.playlists.map((p) => `<span class="tag ${p.target ? 'ok' : ''}" title="${p.target ? 'цель: ' + esc(p.target) : 'без цели'}">${esc(p.title)} · ${p.count}${p.target ? ' → ' + esc(p.target) : ''}</span>`).join('')}</p>` : ''}
+
+        <h2>Последние ролики</h2>
+        ${P.recent.length ? `<div class="table-wrap"><table><thead><tr><th>Дата</th><th>Ролик</th><th>Привязка</th></tr></thead><tbody>
+          ${P.recent.map((r) => `<tr><td class="muted" style="white-space:nowrap">${esc(r.date ?? '')}</td><td class="vt"><a href="https://www.youtube.com/watch?v=${esc(r.id)}" target="_blank" rel="noreferrer">${esc(r.title)}</a>${r.minutes ? `<small>${Math.round(r.minutes)} мин</small>` : ''}</td>
+          <td>${r.film ? esc(r.film) + ` <span class="tag">${esc(EV[r.evidence] ?? r.evidence)}</span>` : '<span class="muted">—</span>'}${r.verdict ? ` <span class="tag ok">${esc(r.verdict)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>`
+          : `<p class="muted">${P.dumpReady ? 'в выгрузке нет роликов канала' : 'выгрузка YouTube читается…'}</p>`}
+      </div>
+
+      <div class="card form">
+        <h2 style="margin-top:0">Статус канала</h2>
+        ${effect}
+        <div class="row"><label class="t">Ярус</label>${seg('tier', [['essay', 'эссе'], ['review', 'обзор']])}
+          <small class="muted" style="display:block;margin-top:4px">Эссе показываем в карточках, обзоры — только для подбора (AUTHORS.md).</small></div>
+        <div class="row"><label class="t">Предмет</label>${seg('medium', [['film', 'кино'], ['book', 'книги']])}</div>
+        <div class="row">
+          <label class="check"><input type="checkbox" data-ck="voice" ${form.voice ? 'checked' : ''}><span>Полноценный голос<small>обходить загрузки и ставить в поиск карточки; снято — канал «из ссылок»</small></span></label>
+          <label class="check"><input type="checkbox" data-ck="lists" ${form.lists ? 'checked' : ''}><span>Канал подборок<small>ролики — списки «что посмотреть»</small></span></label>
+          <label class="check"><input type="checkbox" data-ck="language" ${form.language ? 'checked' : ''}><span>Англоязычный<small>ролики помечаются «англ.», заголовок читается по-английски</small></span></label>
+        </div>
+        <div class="row focus"><label class="t">Фокус — вселенные и люди, о ком канал в первую очередь</label>
+          <div>${form.focus.map((f, i) => `<span class="tag">${esc(f.title)}<button type="button" data-unfocus="${i}" title="убрать">×</button></span>`).join('') || '<span class="muted">не задан — считается сам</span>'}</div>
+          <input type="text" id="focus-in" list="about" placeholder="добавить: начните вводить" style="width:100%;margin-top:6px"><datalist id="about"></datalist></div>
+        <div class="row"><label class="t">Причина решения — комментарием в sources.ts</label><textarea id="note" placeholder="например: интерпретация с проверкой, разбирает кадр">${esc(form.note)}</textarea></div>
+        <div class="bar"><button class="primary" id="save" ${dirty() ? '' : 'disabled'}>Сохранить</button><button id="reset" ${dirty() ? '' : 'disabled'}>Вернуть</button>
+          <span class="spacer"></span><button id="reindex">Пересобрать индекс</button></div>
+        <pre class="log" id="runlog" hidden></pre>
+        <details style="margin-top:16px"><summary class="muted">Убрать канал из выборки</summary>
+          <p class="muted" style="font-size:13px">Не обходится, ролики уходят из выгрузки, индекса и «Проверки»; строка реестра удаляется, запись — в tools/channels-excluded.json.</p>
+          <input type="text" id="why" placeholder="почему" style="width:100%"><div class="bar"><button class="danger" id="exclude">Убрать из выборки</button></div></details>
+      </div>
+    </div>`;
+  for (const b of document.querySelectorAll('[data-seg]')) b.onclick = () => { form[b.dataset.seg] = b.dataset.v; render(); };
+  for (const b of document.querySelectorAll('[data-ck]')) b.onchange = () => { form[b.dataset.ck] = b.checked; render(); };
+  for (const b of document.querySelectorAll('[data-unfocus]')) b.onclick = () => { form.focus.splice(Number(b.dataset.unfocus), 1); render(); };
+  $('#note').oninput = (e) => { form.note = e.target.value; $('#save').disabled = $('#reset').disabled = !dirty(); };
+  let ft;
+  $('#focus-in').oninput = (e) => {
+    const v = e.target.value; clearTimeout(ft);
+    const opt = [...$('#about').options].find((o) => o.value === v);
+    if (opt) { form.focus.push({ id: v, title: v }); render(); $('#focus-in').focus(); return; }
+    ft = setTimeout(async () => { $('#about').innerHTML = (await get(`api/about?q=${encodeURIComponent(v)}`)).map((l) => `<option value="${esc(l)}">`).join(''); }, 200);
+  };
+  $('#reset').onclick = () => showChannel(c.id);
+  $('#save').onclick = async () => {
+    const r = await post('api/save', { id: c.id, tier: form.tier, medium: form.medium, voice: form.voice, lists: form.lists, language: form.language,
+      focus: form.focus.map((f) => (/^Q\d+$/.test(f.id) ? f.id : f.title)), note: form.note });
+    if (r.error) return;
+    toast(r.changed ? `Сохранено в sources.ts${r.added ? ' (новая строка)' : ''} и channels.json. Чтобы увидеть в приложении — «Пересобрать индекс», затем публикация.` : 'Нечего сохранять');
+    data = undefined;
+    showChannel(c.id);
+  };
+  $('#reindex').onclick = async () => { const r = await post('api/reindex', {}); if (!r.error) pollRun(); };
+  $('#exclude').onclick = async () => {
+    if (!confirm(`Убрать «${c.title}» из выборки совсем?`)) return;
+    const r = await post('api/exclude', { id: c.id, why: $('#why').value });
+    if (r.ok) { toast('Убран. Индекс без него — после «Пересобрать индекс».'); data = undefined; location.hash = ''; }
+  };
+}
+async function pollRun() {
+  const { run } = await get('api/run');
+  const el = $('#runlog');
+  if (!el || !run) return;
+  el.hidden = false;
+  el.textContent = run.log.slice(-40).join('\n');
+  el.scrollTop = el.scrollHeight;
+  const btn = $('#reindex');
+  if (btn) btn.disabled = !run.finishedAt;
+  if (!run.finishedAt) setTimeout(pollRun, 1500);
+  else { toast(run.results.every((x) => x.code === 0 || x.code === 2) ? 'Индекс пересобран' : 'Индекс упал — смотрите лог'); data = undefined; }
+}
+
+function route() {
+  const id = new URLSearchParams(location.hash.slice(1)).get('id');
+  if (id) showChannel(id); else showList();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

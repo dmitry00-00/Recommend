@@ -3,7 +3,7 @@ import type { ReflectionPromptData } from '@/types/tmdf';
 import { Button } from './Button';
 import { OperationGlyph } from './OperationGlyph';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface ReflectionPromptProps {
   prompt: ReflectionPromptData;
@@ -35,13 +35,13 @@ export function ReflectionPrompt({ prompt: pr, maxLength = 600, onAnswer, onSkip
       ) : (
         <div>
           <textarea id={id} className="tm-refl__area" rows={3} maxLength={maxLength}
-                    placeholder={ru.reflection.placeholder} value={value}
+                    placeholder={ui.reflection.placeholder} value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={() => value && onAnswer?.(value)} />
           <p className="tm-refl__count">{`${value.length} / ${maxLength}`}</p>
         </div>
       )}
-      <Button variant="quiet" size="sm" onClick={onSkip}>{ru.actions.skip}</Button>
+      <Button variant="quiet" size="sm" onClick={onSkip}>{ui.actions.skip}</Button>
     </div>
   );
 }

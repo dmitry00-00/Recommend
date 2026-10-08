@@ -1,6 +1,6 @@
 import type { AgreementReport } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
-import ru from '@/i18n/ru';
+import ui from '@/i18n';
 
 export interface AgreementMatrixProps {
   rows: AgreementReport[];
@@ -17,11 +17,11 @@ export function AgreementMatrix({ rows, caption, example }: AgreementMatrixProps
   return (
     <div className="tm-table__wrap">
       <table className="tm-table tm-table--matrix">
-        <caption>{caption ?? ru.curator.matrixCaption}</caption>
+        <caption>{caption ?? ui.curator.matrixCaption}</caption>
         <thead>
           <tr>
-            <th scope="col">{ru.curator.matrixField}</th>
-            {GROUPS.map((g) => <th key={g} scope="col">{ru.curator.raterGroup[g]}</th>)}
+            <th scope="col">{ui.curator.matrixField}</th>
+            {GROUPS.map((g) => <th key={g} scope="col">{ui.curator.raterGroup[g]}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@ export function AgreementMatrix({ rows, caption, example }: AgreementMatrixProps
                 return (
                   <td key={g} className="tm-table__num">
                     <span className={cx('tm-alpha', `tm-alpha--${TONE[cell.status]}`)}>{cell.alpha.toFixed(2)}</span>
-                    <span className="tm-table__sub">{`${ru.curator.agreementStatus[cell.status]} · ${cell.raters}`}</span>
+                    <span className="tm-table__sub">{`${ui.curator.agreementStatus[cell.status]} · ${cell.raters}`}</span>
                   </td>
                 );
               })}
