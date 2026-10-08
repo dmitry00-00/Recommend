@@ -1,0 +1,1 @@
+import{r as s,j as r}from"./index-DOR-u4yD.js";function c({src:e,name:t,alt:a=""}){const[o,n]=s.useState(!1);return o?r.jsx("span",{className:"tm-hero__noface","aria-hidden":"true",children:t.trim().charAt(0).toUpperCase()}):r.jsx("img",{src:e,alt:a,loading:"lazy",decoding:"async",referrerPolicy:"no-referrer",onError:()=>n(!0)})}export{c as F};

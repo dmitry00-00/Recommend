@@ -1,0 +1,1 @@
+import{q as a,j as e,t as i,u as t}from"./index-DOR-u4yD.js";function c(){const s=a();return e.jsx("main",{className:"tm-shell__main",children:e.jsx(i,{title:t.mechanics.offTitle,text:t.mechanics.offText,action:t.mechanics.openSettings,onAction:()=>s("/settings")})})}export{c as M};
