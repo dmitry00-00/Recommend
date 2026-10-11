@@ -165,6 +165,8 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-settings__h { display: block; margin: 0 0 var(--tm-space-3); }
 .tm-settings__note { display: block; margin: 0 0 var(--tm-space-3); max-width: 56ch; color: var(--tm-color-ink-muted); }
 .tm-settings__switch { display: flex; align-items: flex-start; gap: var(--tm-space-3); cursor: pointer; }
+/* «Только без доплаты» под списком кинотеатров (ЗП-42) */
+.tm-achoice + .tm-settings__switch { margin-top: var(--tm-space-4); }
 /* переключатель вместо системного флажка (28.09): белый квадрат в 20 px выбивался из экрана */
 .tm-settings__switch input { flex: none; appearance: none; position: relative; width: 36px; height: 20px; margin: 2px 0 0;
   border: 1px solid var(--tm-color-line-strong); border-radius: 999px; background: var(--tm-color-surface-200); cursor: pointer;
@@ -411,6 +413,12 @@ button.tm-banner { cursor: pointer; }
 .tm-voice__corner .tm-btn--quiet { color: var(--tm-color-ink-muted); }
 .tm-voice__none--corner, .tm-film__pane--reviews > .tm-stream__group.tm-voice__none--corner { display: flex; flex-direction: row; align-items: flex-start; gap: var(--tm-space-3); }
 .tm-voice__none--corner .tm-voice__corner { padding: 0; }
+/* шкала «Как вам?» в углу (10.10, «Видел» в минимальной редакции): пять слов не влезают рядом с
+   названием автора — угол уходит на всю ширину под текст, кнопки делят строку */
+.tm-voice__text:has(.tm-voice__corner .tm-quick[role="group"]), .tm-voice__none--corner:has(.tm-quick[role="group"]) { flex-wrap: wrap; }
+.tm-voice__corner:has(.tm-quick[role="group"]) { flex: 1 1 100%; padding-left: var(--tm-space-3); }
+.tm-voice__none--corner .tm-voice__corner:has(.tm-quick[role="group"]) { padding-left: 0; }
+.tm-voice__corner .tm-quick__scale .tm-btn { flex: 1 1 auto; }
 .tm-voice__name { height: 40px; margin: var(--tm-space-3) var(--tm-space-3) 0; font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .tm-voice__meta { height: 18px; margin: 2px var(--tm-space-3) 0; color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tm-voice__outlets { display: flex; align-items: center; gap: var(--tm-space-2); height: 36px; margin: 0 var(--tm-space-3); overflow: hidden; }
@@ -581,6 +589,15 @@ button.tm-banner { cursor: pointer; }
 .tm-rate__swipe--right { right: 0; }
 .tm-rate__swipe--on { color: var(--tm-color-accent-ink); }
 .tm-rate__gesture { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
+/* полки вкуса новичка (ЗП-45): над колодой — таблетки в несколько рядов, колода не должна уехать за экран */
+.tm-rate__picks { padding: var(--tm-space-3) var(--tm-space-5) var(--tm-space-2); }
+.tm-rate__picks-title { margin: 0; font-weight: 600; }
+.tm-rate__pick-list { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); margin-top: var(--tm-space-2); }
+.tm-rate__pick { min-height: 36px; padding: 0 var(--tm-space-3); border: 1px solid var(--tm-color-line-strong); border-radius: 999px;
+  background: var(--tm-color-surface-200); color: var(--tm-color-ink); font: inherit; font-size: 14px; cursor: pointer; }
+.tm-rate__pick--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash); }
+.tm-rate__pick:disabled { opacity: 0.6; cursor: default; }
+.tm-rate__pick:focus-visible { outline: 2px solid var(--tm-color-accent); outline-offset: 2px; }
 @media (pointer: fine) { .tm-rate__gesture { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tm-rate__item > .tm-search__open, .tm-rate__item > .tm-rate__scale { transition: none; } }
 .tm-rate__scale { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tm-space-1); }
@@ -611,6 +628,8 @@ button.tm-banner { cursor: pointer; }
 .tm-film__count { font-size: 11px; font-weight: 400; opacity: 0.75; }
 .tm-film__cinema { align-items: center; text-align: center; padding: var(--tm-space-5) 0 var(--tm-space-2); }
 .tm-film__cinemaname { margin: var(--tm-space-2) 0 var(--tm-space-2); }
+/* вид площадки под названием (ЗП-42): «В вашей подписке», «Бесплатно», «Аренда» */
+.tm-film__kind { margin: calc(-1 * var(--tm-space-1)) 0 var(--tm-space-3); color: var(--tm-color-ink-faint); }
 .tm-film__hint { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-faint); }
 .tm-film__logo { background: var(--tm-color-surface-200); }
 /* «Обзоры» — статичная страница без прокрутки (24.09): карточка занимает ровно окно, а если
@@ -915,3 +934,7 @@ button.tm-banner { cursor: pointer; }
 .tm-together__row { display: flex; flex-direction: column; gap: 2px; padding: var(--tm-space-2) 0; border-bottom: 1px solid var(--tm-color-line); }
 .tm-together__row:last-child { border-bottom: 0; }
 .tm-together__row .tm-caption { color: var(--tm-color-ink-faint); }
+
+/* новичок по ссылке из поста (10.10): под шапкой фильма — что это за приложение и путь к своей ленте */
+.tm-work__landing { margin: var(--tm-space-4) 0 0; padding: var(--tm-space-4); border: 1px solid var(--tm-color-line, var(--tm-color-surface-300)); display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-work__landingtext { color: var(--tm-color-ink-muted); }

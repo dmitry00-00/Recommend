@@ -15,6 +15,7 @@ import { compact, hashtagsOf } from './tag-match.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { latinContinues } from './title-match.mts';
 import { isSeries } from '../src/lib/media.ts';
+import { filmGenres } from '../src/mocks/filmGenres.ts';
 
 /** Слова с большой буквы после названия, которые не имя: «"Бессонница" Часть 2». */
 const NOT_NAME = new Set(['часть', 'серия', 'сезон', 'эпизод', 'глава', 'фильм', 'сериал', 'обзор', 'разбор',
@@ -190,9 +191,32 @@ export function pickNamesake<T extends { work: WorkCard }>(cands: T[], text: str
   // премьера: материал вышел в год тёзки или через год, а остальные тёзки старше трёх лет —
   // это отклик на новинку: «Матильда» в октябре 2017-го, «На западном фронте…» в 2022-м (OPS-9, 06.10).
   // Раньше разговора о сериале: «мультсериал» в описании «Мстителей» мая 2012-го — не про сериал 1961-го
+  // заголовок сам говорит, что это: «аниме» — сериал («Атака титанов»), «о фильме» без «сериала» — фильм
+  // («Мистер и миссис Смит … о фильме» не про сериал 2024-го) (OPS-9, 10.10)
+  const title = text.split('\n')[0];
+  if (/(?<!\p{L})аниме/iu.test(title)) { const s = pool.filter((c) => isSeries(c.work)); if (s.length === 1) return s[0]; }
+  if (/(?<!\p{L})(?:о|об|про|обзор\p{L}*|разбор\p{L}*|смысл)\s+фильм/iu.test(title) && !SERIES_TALK.test(title)) { const f = pool.filter((c) => !isSeries(c.work)); if (f.length && f.length < pool.length) pool = f; if (pool.length === 1) return pool[0]; }
   const pub = publishedAt ? Number(publishedAt.slice(0, 4)) : NaN;
   const fresh = pool.filter((c) => c.work.year && pub - c.work.year >= 0 && pub - c.work.year <= 1);
-  if (fresh.length === 1 && pool.every((c) => c === fresh[0] || (c.work.year && pub - c.work.year > 3))) return fresh[0];
+  // свежий тёзка без режиссёра, обложки и русского названия — заготовка из Wikidata, а не премьера, на которую
+  // откликаются: «Fight Club» 2023-го против Финчера (OPS-9, 10.10)
+  const thin = (c: T) => !c.work.creators?.length && !c.work.coverUrl && !/[А-Яа-яЁё]/.test(c.work.title);
+  const known = !fresh[0] || !thin(fresh[0]) || pool.every(thin);
+  if (fresh.length === 1 && known && pool.every((c) => c === fresh[0] || (c.work.year && pub - c.work.year > 3))) return fresh[0];
+  // «мульт» в заголовке — из тёзок только анимация: «Призрак В Доспехах, что это? [Про Мультики]» —
+  // аниме 2015-го, а не игровой фильм 2017-го (OPS-9, 11.10). Жанр — TMDb (`filmGenres`), только у фильмов. После премьеры:
+  // «НОВЫЙ „КАК ПРИРУЧИТЬ ДРАКОНА“ против СТАРОГО МУЛЬТФИЛЬМА», «„Призрак в доспехах“ — Аниме на минималках» — о новом.
+  // «Аниме» не в счёт: «Аниме на минималках» — насмешка над игровым; аниме-сериал выбирает правило выше
+  if (/(?<!\p{L})мульт/iu.test(title)) {
+    const drawn = pool.filter((c) => !isSeries(c.work) && (filmGenres[`tmdb:${c.work.externalIds?.tmdb}`] ?? []).includes('мультфильм'));
+    if (drawn.length && drawn.length < pool.length && !pool.some((c) => isSeries(c.work))) {
+      pool = drawn;
+      if (pool.length === 1) return pool[0];
+      // среди анимации — вышедший в год ролика или годом раньше: «[Про Мультики]» ноября 2016-го — аниме 2015-го
+      const recent = pool.filter((c) => c.work.year && pub - c.work.year >= 0 && pub - c.work.year <= 1);
+      if (recent.length === 1) return recent[0];
+    }
+  }
   const series = SERIES_TALK.test(text);
   const typed = pool.filter((c) => isSeries(c.work) === series);
   return (typed.length ? typed : pool)[0];

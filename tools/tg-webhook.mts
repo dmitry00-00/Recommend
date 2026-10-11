@@ -1,7 +1,8 @@
 // Инлайн-режим бота (06.10): куда Telegram шлёт инлайн-запросы. Сервер сам зовёт Telegram своим токеном
 // (/api/admin/telegram-webhook, worker/inline.ts) — здесь только TM_SERVER и TM_ADMIN_TOKEN из .env.local.
 //   npx tsx tools/tg-webhook.mts           — что стоит сейчас: адрес, ошибки, включён ли инлайн у бота
-//   npx tsx tools/tg-webhook.mts --set     — направить инлайн-запросы на <TM_SERVER>/api/telegram
+//   npx tsx tools/tg-webhook.mts --set     — направить инлайн-запросы и сообщения боту (команда /together, 11.10) на
+//                                            <TM_SERVER>/api/telegram; заодно бот получает команду в подсказках
 //   npx tsx tools/tg-webhook.mts --delete  — снять адрес
 // Инлайн-режим включается у бота отдельно, в BotFather: /setinline → подсказка в поле ввода.
 import { loadEnvFile } from './env-file.mts';

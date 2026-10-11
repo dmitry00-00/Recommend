@@ -14,7 +14,8 @@ import { nameForms, nameRegex, sharedWords } from '@/lib/characters';
 import { hubWeight, listLike } from '@/lib/relations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
-import { difficultyOdds, expectedDifficulty, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
+import { difficultyOdds, expectedDifficulty, heaviness, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
+import { contentFit, contentWeight, deriveContentTaste, onPickedShelf } from '@/lib/model/taste';
 import { moodFit, parseMood } from '@/lib/mood';
 import { shardOf } from '@/lib/shard';
 import { groupByVoice, knownVoice, voiceOf } from '@/lib/voices';
@@ -32,11 +33,12 @@ import type {
   JourneyStatus, PacketReport, Recommendation, RecommendationFeedback, RecommendationSlate, ReflectionPromptData, CognitiveState,
   DifficultyPrediction, Eagerness, PerceivedDifficulty, ISODate,
   CharacterView, CharacterImageView, CreditRole, MediaType, ExternalIds, Person, PersonId, RelationKind, RelationNodeKind, Session, WorkRelationView, SourceCandidate, Trajectory, TvTropesMapping, UserSettings, Voice, WorkCard, WorkDetail,
-  WatchOption,
+  WatchOption, DismissReason,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
 import { primaryKey, withBookWork, workKeys, type BookWorks } from '@/lib/keys';
+import { cinemaSlug, freeFor, regionOptions, RU_CINEMAS, type WatchProviders } from '@/lib/cinemas';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -93,6 +95,68 @@ async function serverRef<T>(name: string): Promise<T | undefined> {
 let seasonsLoading: Promise<Record<string, SeasonInfo>> | undefined;
 export const getSeriesSeasons = (): Promise<Record<string, SeasonInfo>> =>
   (seasonsLoading ??= serverRef<Record<string, SeasonInfo>>('seriesSeasons').then((x) => x ?? {}));
+
+/** Где смотреть по подписке (ЗП-42): справочник сервера (tools/watch-providers.mts), один раз за сеанс. Без
+ *  сервера в разработке — кэш сборщика; нет и его — у карточек остаётся то, что они знали сами. */
+const WATCH_REGION = 'RU';
+let watchRef: WatchProviders | undefined;
+let watchLoading: Promise<void> | undefined;
+const loadWatch = (): Promise<void> => (watchLoading ??= (async () => {
+  watchRef = await serverRef<WatchProviders>('watchProviders')
+    ?? (import.meta.env.DEV ? await fetch('/.cache/watch-providers.json').then((r) => (r.ok ? r.json() as Promise<WatchProviders> : undefined)).catch(() => undefined) : undefined);
+})());
+/** Бесплатная легальная классика (ЗП-43): справочник `freeWatch` (tools/free-watch.mts) — правообладатель на YouTube,
+ *  Викисклад, Internet Archive. Грузится, когда функция включена; в разработке — кэш сборщика. */
+type FreeSource = { n: string; u: string; v: 'studio' | 'commons' | 'archive'; part?: number };
+let freeRef: Record<string, FreeSource[]> | undefined;
+let freeLoading: Promise<void> | undefined;
+const loadFree = (): Promise<void> => (freeLoading ??= (async () => {
+  const ref = await serverRef<{ works: Record<string, FreeSource[]> }>('freeWatch')
+    ?? (import.meta.env.DEV ? await fetch('/.cache/free-watch.json').then((r) => (r.ok ? r.json() as Promise<{ works: Record<string, FreeSource[]> }> : undefined)).catch(() => undefined) : undefined);
+  freeRef = ref?.works;
+})());
+/** Бесплатные источники фильма: по одному на правообладателя (у двухсерийного — первая серия). */
+const freeFor_ = (c: WorkCard): FreeSource[] => {
+  const key = freeRef ? tmdbKey(c) : undefined;
+  const list = key ? freeRef![key] ?? [] : [];
+  return list.filter((f, i) => list.findIndex((x) => x.n === f.n) === i);
+};
+const tmdbKey = (c: WorkCard): string | undefined => workKeys(c, c.externalIds ?? externalIds[c.id]).find((k) => k.startsWith('tmdb:'));
+/** Ключ справочника наличия: у фильма — TMDb, у сериала — IMDb (номер /tv/ у TMDb свой, 11.10). */
+const watchKey = (c: WorkCard): string | undefined =>
+  c.type === 'series' ? workKeys(c, c.externalIds ?? externalIds[c.id]).find((k) => k.startsWith('imdb:')) : tmdbKey(c);
+/** Площадки справочника у карточки: к ссылкам, что у неё уже есть, — вид («по подписке»), недостающие — ссылкой
+ *  TMDb на страницу «где смотреть» (там ссылки JustWatch на сами кинотеатры). */
+function withWatch(c: WorkCard): WorkCard {
+  // бесплатное от правообладателя — первым: прямая ссылка на сам фильм (ЗП-43)
+  const free = freeFor_(c).map((f): WatchOption => ({ platform: f.n, url: f.u, source: 'wikidata', kind: 'free' }));
+  const key = watchRef ? watchKey(c) : undefined;
+  const r = key ? watchRef!.works[key]?.[WATCH_REGION] : undefined;
+  if (!r && !free.length) return c;
+  const own = [...free, ...(c.watch ?? []).filter((o) => !free.some((f) => f.url === o.url))];
+  if (!r) return { ...c, watch: own };
+  for (const { slug, kind } of regionOptions(r)) {
+    const i = own.findIndex((o) => cinemaSlug(o.platform) === slug);
+    if (i >= 0) { if (!own[i].kind) own[i] = { ...own[i], kind }; continue; }
+    own.push({ platform: watchRef!.names[slug] ?? slug, url: r.l ?? `https://www.themoviedb.org/movie/${key!.slice(5)}/watch?locale=${WATCH_REGION}`, source: 'tmdb', kind });
+  }
+  return { ...c, watch: own };
+}
+/** Кинотеатры для «Моих подписок»: российские площадки (src/lib/cinemas.ts), которые в справочнике хоть сколько-то
+ *  раз бывают по подписке; справочника нет — весь список. Иностранные из данных JustWatch по России (Sun Nxt,
+ *  Artiflix) не предлагаем. Отмеченные раньше остаются в списке. */
+export async function getCinemaChoices(): Promise<{ slug: string; name: string }[]> {
+  await loadWatch();
+  if (!watchRef) return RU_CINEMAS;
+  const count = new Map<string, number>();
+  for (const w of Object.values(watchRef.works)) for (const slug of w[WATCH_REGION]?.s ?? []) count.set(slug, (count.get(slug) ?? 0) + 1);
+  const chosen = settings.subscriptions ?? [];
+  const list = RU_CINEMAS.filter((c) => (count.get(c.slug) ?? 0) >= 10 || chosen.includes(c.slug));
+  return list.length ? list : RU_CINEMAS;
+}
+
+/** Можно смотреть без доплаты — по справочнику, до картинок и живых запросов: для отбора ленты. */
+const noExtra = (c: WorkCard, subscriptions: readonly string[]): boolean => freeFor(withWatch(c).watch ?? [], subscriptions);
 
 /** Каналы реестра из базы приложения (06.10, GET /api/sources): правка канала доходит до карточки без
  *  пересборки. Нет сервера или он молчит дольше четырёх секунд — снимок из сборки. */
@@ -188,7 +252,13 @@ function catalog(): Promise<void> {
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
     import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookBase'), import('@/mocks/bookMedia'), import('@/mocks/bookAnnotations'), import('@/mocks/bookDrafts'),
     import('@/mocks/filmBasePopular'), import('@/mocks/filmBaseWorld'),
-  ]).then(async (mods) => { await core(); return mods; }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba, bd, fp, fwo]) => {
+  ]).then(async (mods) => {
+    await core();
+    // фильмы из загрузок каналов (6 тыс. карточек, ~250 КБ сжатыми) сервер отдаёт в справочнике — копию
+    // из сборки грузим, только если сервер не ответил (и в разработке)
+    const fch = mods[6] ? { filmBaseChannels: [] as WorkCard[] } : await import('@/mocks/filmBaseChannels');
+    return [...mods, fch] as const;
+  }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, bb, bmd, ba, bd, fp, fwo, fch]) => {
     bookMedia = bmd.bookMedia; bookAnnotations = ba.bookAnnotations; bookDrafts = bd.bookDrafts;
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
@@ -225,6 +295,9 @@ function catalog(): Promise<void> {
     // популярное в Индии и англоязычных странах (ЗП-22, tools/grow-film-base.mts --world) — так же
     filmBaseWiki = [...filmBaseWiki, ...norm(fwo.filmBaseWorld).filter((w) => !seen.has(w.id))];
     for (const w of fwo.filmBaseWorld) seen.add(w.id);
+    // фильмы из загрузок каналов студий и агрегаторов (tools/grow-from-channels.mts, 10.10) — так же
+    filmBaseWiki = [...filmBaseWiki, ...norm(fch.filmBaseChannels).filter((w) => !seen.has(w.id))];
+    for (const w of fch.filmBaseChannels) seen.add(w.id);
     filmBaseWiki = [...filmBaseWiki, ...bb.bookBase.filter((w) => !seen.has(w.id))];
     // обложки, кадры и регистр карточкам из Wikidata (tools/build-base-media.mts, 30.09): без них
     // в колоде /rate и в ленте пустая плитка, а подбор не видит регистра
@@ -589,6 +662,16 @@ export async function getUniverse(id: string): Promise<UniversePage | undefined>
 }
 
 let filmForm: Record<string, FilmForm> = {};
+/** жанры фильмов TMDb (09.10) — для якоря вкуса новичка; грузятся вместе с первой лентой */
+let filmGenres: Record<string, string[]> = {};
+let genresLoad: Promise<void> | undefined;
+const loadGenres = (): Promise<void> =>
+  (genresLoad ??= import('@/mocks/filmGenres').then((m) => { filmGenres = m.filmGenres; }).catch(() => { genresLoad = undefined; }));
+const genresOf = (work: WorkCard): string[] => {
+  if (!isFilm(work)) return [];
+  const tmdb = (work.externalIds ?? externalIds[work.id])?.tmdb;
+  return tmdb != null ? filmGenres[`tmdb:${tmdb}`] ?? [] : [];
+};
 let tagNeighbours: Record<string, TagNeighbour[]> = {};
 let filmTropes: Record<string, TropeMention[]> = {};
 let comentions: Record<string, CoMention[]> = {};
@@ -670,7 +753,7 @@ const kp = import.meta.env.VITE_KP_PROXY === '1' && typeof location !== 'undefin
 // а результат осядет в кэше к следующему разу.
 // авторы из справочника (Д3) — сразу при карточке: подпись под названием берёт оттуда русское имя
 // режиссёра, а не то, что пришло с карточкой («Miller», «陆川»; 02.10)
-const withMedia = (c: WorkCard): WorkCard => withCredits(withBookMedia({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] }));
+const withMedia = (c: WorkCard): WorkCard => withWatch(withCredits(withBookMedia({ ...c, ...catalogMedia[c.id], externalIds: c.externalIds ?? catalogMedia[c.id]?.externalIds ?? externalIds[c.id] })));
 /** Книге — метаданные Wikidata и Open Library (З3) по любому её ключу. Своё главнее: заполняем
  *  пустое; название — русским, если у карточки оно не по-русски (из экспорта Goodreads приходит
  *  английское), а прежнее уходит в оригинальное. */
@@ -1050,10 +1133,22 @@ const slateWorks = new Map<ID, ID>();
 const ratedCount = (): number =>
   history().filter((e) => e.status === 'finished' && e.work.complexityLevel > 0 && e.work.primaryOperations.length).length;
 
+/** Сколько оценок до первой ленты (10.10): страница фильма зовёт новичка собрать ленту. Без сервера на
+ *  истории владельца — лента есть всегда (`needed: 0`). */
+export async function getTasteProgress(): Promise<{ rated: number; needed: number }> {
+  await ready;
+  if (!store.onServer && !freshStart) return { rated: ratedCount(), needed: 0 };
+  await catalog();
+  return { rated: ratedCount(), needed: MIN_RATED };
+}
+
 /** Лента. `more` (ТВ-11, «Ещё фильмы»): уже показанные фильмы — следующая шестёрка той же
  *  модели без них; без вставок «фокус» и «дальше во вселенной» и без правила «первые три с
  *  разбором» — это продолжение ленты, а не её начало. */
-export async function getSlate(energy: Energy = 'normal', more?: ID[]): Promise<RecommendationSlate> {
+/** Лента с учётом подписок (ЗП-42): экран передаёт, только если функция включена. */
+export interface SlateOptions { subscriptions?: boolean; /** полка бесплатной классики (ЗП-43) */ freeClassics?: boolean }
+
+export async function getSlate(energy: Energy = 'normal', more?: ID[], opts: SlateOptions = {}): Promise<RecommendationSlate> {
   await delay(240);
   await reconnect();
   // Новый участник: подбирать не от чего. Честно говорим, сколько оценок не хватает, а не
@@ -1066,16 +1161,38 @@ export async function getSlate(energy: Energy = 'normal', more?: ID[]): Promise<
   await catalog();
   const state = ownState();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
-  const shown = new Set(more ?? []);
-  const pool = more ? candidates().filter((c) => !shown.has(c.work.id)) : candidates();
+  // уже показанное в этой ленте («Ещё фильмы») и отказанное на срок — до подбора, чтобы шестёрка была полной
+  const shown = new Set([...(more ?? []), ...hiddenFromFeed()]);
+  // мои подписки (ЗП-42): «только доступное» — отбор из того, что можно смотреть без доплаты
+  const subs = opts.subscriptions ? settings.subscriptions ?? [] : [];
+  const subsOnly = opts.subscriptions && settings.subscriptionsOnly;
+  // справочник грузим, когда функция включена: вид площадки («по подписке», «бесплатно») нужен и карточке без подписок
+  if (opts.subscriptions) await loadWatch();
+  if (opts.freeClassics) await loadFree();
+  const pool = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
+  // якорь вкуса (09.10): пока оценок мало, первая лента держится ближе к оценённому — по жанру,
+  // стране и авторам; с ростом истории вес гаснет, и подбор идёт по уровню и операциям
+  const anchorWeight = contentWeight(rated, MIN_RATED);
+  if (anchorWeight) await loadGenres();
+  // и полки вкуса, выбранные на экране первых оценок (ЗП-45)
+  const anchor = anchorWeight ? deriveContentTaste(history().filter((e) => e.status === 'finished'), genresOf, settings.ratingNorm, settings.tasteShelves) : undefined;
+  const content = anchor ? { weight: anchorWeight, fit: (w: WorkCard) => contentFit(anchor, w, genresOf) } : undefined;
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}) }) }
+    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}) }) }
     : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const keys = seenKeys();
   // отложенное в планы, начатое и брошенное — тоже не предлагаем: планы лежат в архиве,
   // начатое стоит над лентой, брошенное человек уже попробовал
   for (const e of history()) if (e.status !== 'finished') [e.work.id, ...keyList(e.work)].forEach((k) => keys.add(k));
+  // отказанное — и для вставок («фокус», «дальше во вселенной»)
+  for (const id of shown) keys.add(id);
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
+  // доступное без доплаты — вперёд, порядок внутри групп прежний (ЗП-42); новичку первые три с разбором
+  // важнее — их не двигаем
+  if (subs.length && !subsOnly && rated >= NOVICE_RATED) {
+    const ok = items.filter((r) => noExtra(r.work, subs));
+    items.splice(0, items.length, ...ok, ...items.filter((r) => !ok.includes(r)));
+  }
   // фокус на полке: одно место в ленте — лучшее с выбранных полок, если такого там ещё нет
   const focus = state && !more ? await focusPick(state, energy, items, keys) : undefined;
   if (focus) items.splice(Math.min(items.length, 5), 1, focus);
@@ -1084,6 +1201,9 @@ export async function getSlate(energy: Energy = 'normal', more?: ID[]): Promise<
   // новичку первые три — с разбором (ТВ-2): вставка встаёт за ними, а не третьей — продолжение
   // вселенной часто без разборов («Хоббит», «В поисках Дори»: прогон профилей 06.10, ТВ-7)
   if (next) items.splice(Math.min(items.length, rated < NOVICE_RATED ? 3 : 2), 0, next);
+  // бесплатная классика (ЗП-43) — одно место, тоже сверх слотов развития, ближе к концу шестёрки
+  const free = state && !more && opts.freeClassics ? freePick(state, energy, items, keys) : undefined;
+  if (free) items.splice(Math.min(items.length, 4), 0, free);
   const works = await pictured(items.map((r) => r.work));
   for (const r of items) slateWorks.set(r.id, r.work.id);
   // показы — знаменатель «принятия слейта» (трек Б2); не ответил сервер — лента важнее
@@ -1160,7 +1280,11 @@ async function universePick(state: CognitiveState, energy: Energy, items: Recomm
   const cardOf = (q: string) => { const k = relationNodes[q]?.key; const w = k ? byKey.get(k) : undefined; return w && (isSeries(w) ? withSeriesDraft(w) : annotated(w)); };
   const open = (w: WorkCard | undefined): w is WorkCard => Boolean(w && w.complexityLevel && w.primaryOperations.length
     && !seen(w, keys) && !keys.has(w.id) && !taken.has(w.id) && !keyList(w).some((k) => taken.has(k)) && (isScreen(w))
-    && scoreCandidate(state, w, energy) >= 0.3);
+    && scoreCandidate(state, w, energy) >= 0.3
+    // продолжение тоже подчиняется силе (10.10): «Полегче» — без слишком трудного и без тяжёлого по настроению,
+    // «Готов к сложному» — без слишком простого. Раньше «Ганнибал» уровня 3 стоял во всех трёх лентах
+    && !(energy === 'low' && (expectedDifficulty(state, w, energy) === 'too_hard' || heaviness(w) >= 0.4))
+    && !(energy === 'high' && expectedDifficulty(state, w, energy) === 'too_easy'));
   // от свежего к старому: досмотренное из дневника, потом просмотренное списком
   const done = [...history().filter((e) => e.status === 'finished').sort((a, b) => (b.finishedAt ?? '').localeCompare(a.finishedAt ?? '')).map((e) => e.work), ...watchedNow()];
   for (const w of done) {
@@ -1178,6 +1302,15 @@ async function universePick(state: CognitiveState, energy: Energy, items: Recomm
       explanation: { ...rec.explanation, why: `${sequel ? ui.today.universeSequel(w.title) : ui.today.universeMore(universe, w.title)} ${rec.explanation.why}` } };
   }
   return undefined;
+}
+
+/** Полка бесплатной легальной классики (ЗП-43): лучший по модели фильм из тех, что выложены правообладателем или
+ *  лежат в общественном достоянии, — если в ленте такого ещё нет. Порог модели тот же, что у остальных. */
+function freePick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Recommendation | undefined {
+  if (!freeRef || items.some((r) => freeFor_(r.work).length)) return undefined;
+  const pool = candidates().filter((c) => freeFor_(c.work).length && !seen(c.work, keys) && !keys.has(c.work.id) && !items.some((r) => r.work.id === c.work.id));
+  const [rec] = recommend(state, pool, energy, 1, today());
+  return rec ? { ...rec, id: `rec-free-${rec.work.id}`, slot: 'free' } : undefined;
 }
 
 /** Лучшее с полок, выбранных участником, — если в ленте с них ещё ничего нет. Порог модели
@@ -1235,7 +1368,12 @@ export async function getRatingDeck(): Promise<RatingDeck> {
     .map((id) => deckCard(id))
     .filter((w): w is WorkCard => Boolean(w) && !keys.has(w!.id) && !keyList(w!).some((k) => keys.has(k)));
   const withRating = (work: WorkCard) => ({ work, ...(ratingOf(work.id) ? { rating: ratingOf(work.id)!.rating } : {}) });
-  const items = [...own, ...partsInOrder(common)].map(withRating);
+  // полки вкуса (ЗП-45): фильмы выбранных полок — вперёд, порядок внутри («самые смотримые сверху») прежний
+  const picks = settings.tasteShelves ?? [];
+  if (picks.length) await loadGenres();
+  const ordered = partsInOrder(common);
+  const mine = picks.length ? ordered.filter((w) => onPickedShelf(w, picks, genresOf)) : [];
+  const items = [...own, ...mine, ...ordered.filter((w) => !mine.includes(w))].map(withRating);
   return { items, series: seriesDeck().map(withRating), rated: ratedCount(), needed: MIN_RATED };
 }
 
@@ -1290,8 +1428,26 @@ export async function rateWork(workId: ID, rating: 1 | 2 | 3 | 4 | 5 | null): Pr
   return { rated: ratedCount(), needed: MIN_RATED };
 }
 
+/** Отказы на фильмы ленты (10.10, решение владельца): «Не сейчас» раньше ничего не значило для подбора — с
+ *  той же историей фильм возвращался при следующей сборке ленты, и кнопка казалась сломанной. Теперь фильм
+ *  уходит на срок по причине: «Не моё» и «Уже знаю» — насовсем, «Недоступно» — на 30 дней, «Тяжело сейчас»
+ *  и без причины — на 14. Последний отказ по фильму приходит с сервера в профиле. */
+const dismissals = new Map<ID, { reason?: DismissReason; at: string }>();
+const HIDE_DAYS: Record<DismissReason, number> = { not_interested: Infinity, already_know: Infinity, unavailable: 30, too_heavy_now: 14, other: 14 };
+function hiddenFromFeed(now = Date.now()): Set<ID> {
+  const out = new Set<ID>();
+  for (const [id, d] of dismissals) {
+    const days = HIDE_DAYS[d.reason ?? 'other'] ?? 14;
+    if (days === Infinity || now - Date.parse(d.at) < days * 864e5) out.add(id);
+  }
+  return out;
+}
+
 export async function sendRecommendationFeedback(id: ID, feedback: RecommendationFeedback): Promise<{ ok: true }> {
   await delay(160);
+  const workId = slateWorks.get(id);
+  // «Видел» тоже уходит отказом с причиной «уже знаю», но его держит история просмотренного
+  if (feedback.action === 'dismiss' && workId) dismissals.set(workId, { reason: feedback.reason, at: new Date().toISOString() });
   // принял / отложил / отказался и почему — это половина ответа на вопрос «работает ли
   // подбор»; пока отклики нигде не копились, сравнивать его было не с чем
   await store.feedback(id, slateWorks.get(id), feedback.action, feedback.reason, feedback.eagerness);
@@ -1374,12 +1530,14 @@ async function togetherDeck(): Promise<TogetherCard[]> {
 }
 
 /** Собрать десятку и завести сессию; вернуть её id. Без сервера выбирать не с кем — ошибка. */
-export async function createTogether(): Promise<string> {
+/** Собрать десятку. `chat` — ключ из команды /together в чате (ЗП-11, 11.10): тогда сервер сам публикует туда
+ *  приглашение голосовать; `posted` — название чата (null — личка с ботом), если приглашение ушло. */
+export async function createTogether(chat?: string): Promise<{ id: string; posted?: string | null }> {
   if (!store.onServer) throw new Error('no_server');
   const deck = await togetherDeck();
-  const r = await togetherCall<{ id: string }>('/api/together', { method: 'POST', body: JSON.stringify({ deck }) });
+  const r = await togetherCall<{ id: string; chat?: string | null }>('/api/together', { method: 'POST', body: JSON.stringify({ deck, ...(chat ? { chat } : {}) }) });
   if (!r?.body?.id) throw new Error(`together: ${r?.status ?? 'нет ответа'}`);
-  return r.body.id;
+  return { id: r.body.id, ...(r.body.chat !== undefined ? { posted: r.body.chat } : {}) };
 }
 
 export async function getTogether(id: string): Promise<TogetherState | 'missing'> {
@@ -1620,6 +1778,7 @@ function hydrate(state: StoredState | undefined): void {
     });
   }
   for (const v of state.verdicts) linkVerdicts.set(v.url, v.verdict);
+  for (const d of state.dismissals ?? []) dismissals.set(d.workId, { reason: d.reason as DismissReason | undefined, at: d.at });
 }
 
 export async function setWatched(workId: ID, watched: boolean): Promise<{ ok: true }> {

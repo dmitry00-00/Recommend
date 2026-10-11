@@ -52,10 +52,17 @@ export const NOT_FILM = new RegExp([
   "(?<!\\p{L})plays\\s.+\\bep\\.?\\s*\\d|флеш[-\\s]игр|(?<!\\p{L})игр[ыу]?\\s+(?:про|по)\\s",
 ].join('|'), 'iu');
 
+/** Перечень по заголовку (OPS-9, 10.10): «(Биониклы, Лего фильм и т.д.)», «9 Детективных триллеров, которые вы пропустили»;
+ *  («27 ошибок фильма "Мстители: Финал"», «10 Отличий Фильма… от Книги» — не перечень); новостная рубрика «… - события кино» («Что там в кино:» — нет: бывает выпуском об одном фильме). */
+const DIGEST_MORE = /(?<!\p{L})и\s+т\.\s*[дп]\.|событи\p{L}*\s+кино|^\d+\s+(?:\p{L}+\s+)?(?:(?:фильм|триллер|сериал|ужастик|хоррор|мультфильм|детектив|боевик)(?:ов|ы)|комеди[йи])(?!\p{L})/iu;
+/** Музыка из фильма, а не фильм: саундтрек, OST (OPS-9, 10.10). «Theme» — нет: «KEEPER EXPLAINED: Every Symbol, Theme…». */
+const MUSIC = /(?<!\p{L})(?:OST|[Ss]oundtrack|SOUNDTRACK|[Сс]аундтрек|САУНДТРЕК)(?!\p{L})/u;
+
 export function isDigest(title: string, names: string[] = []): boolean {
   let rest = title;
   for (const n of names) if (n.length > 1) rest = rest.split(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'iu')).join(' ');
   if (DIGEST.test(rest) || NOT_FILM.test(rest)) return true;
+  if (DIGEST_MORE.test(rest) || MUSIC.test(rest)) return true;
   return DIGEST_SOFT.test(rest) && !REVIEW.test(rest);
 }
 
@@ -255,6 +262,8 @@ function strayHit(title: string, at: number, hit: string, after: string, name: s
   const prev = /(?:^|[^\p{L}\p{N}-])((?:[\p{L}\p{N}]+-)*[\p{L}\p{N}]+)\s+$/u.exec(pre)?.[1];
   if (prev && COMPARE.test(prev)) return true;
   if (/^\s*по-(?:русски|нашему|советски)|^\s+на\s+минималках|^\s+для\s+бедных/iu.test(after)) return true;
+  // название с числа после предлога меры — срок, а не фильм: «100 КМ ПЕШКОМ за 24 ЧАСА»; «Обзор на 451 градус…» — фильм (OPS-9, 10.10)
+  if (/^\d/.test(name) && prev && /^(?:за|через|в|во|до|после)$/iu.test(prev)) return true;
   if (/\s/.test(name) && !ordinary) return false;
   // односложное или повседневное: начало фразы или ярлык перед ним. Вопрос о фильме, которым
   // название и кончается, — тоже: «Что скрывает Субстанция?», «Кого боится ОНО?»
@@ -279,6 +288,9 @@ export function nameMatch(videoTitle: string, name: string, options: MatchOption
   return nameMatchAt(videoTitle, name, options)?.len ?? 0;
 }
 
+/** Сегмент из одних слов-рубрик: «Разбор», «Пасхалки и Отсылки», «История персонажа», «Объяснение концовки». */
+const RUBRIC_SEGMENT = /^(?:(?:разбор\p{L}*|обзор\p{L}*|истори\p{L}*|персонаж\p{L}*|пасхалк\p{L}*|отсылк\p{L}*|и|теори\p{L}*|объяснени\p{L}*|концовк\p{L}*|не|смысл|анализ|трейлер\p{L}*)\s*)+$/iu;
+
 /** Перечень в заголовке (02.10, OPS-8): сколько названий перечислено — в кавычках подряд или
  *  короткими пунктами через запятую или точку с запятой. «Хирург разбирает сцены из фильмов
  *  «Доктор Стрэндж», «Доктор Хаус», «Клиника»» — три; «Крэйвен в Marvel, Форсаж, Джон Уик, Соник» —
@@ -300,8 +312,10 @@ export function listItems(title: string, skip?: { at: number; len: number }): nu
   // косая черта и «|» — перечень, только когда пунктов четыре и больше: «ФОРСАЖ 9 / СОКОЛ И ЗИМНИЙ
   // СОЛДАТ / ГОДЗИЛЛА ПРОТИВ КОНГА / Анонс…», «Подкаст №233 Аркейн | Гладиатор 2 | Конклав | …»;
   // три — это рубрики и подписи («Почему… | смысл ИРОНИЯ СУДЬБЫ | разбор СПГС»)
+  // рубрика канала — не пункт: «Вечные - Кто такой Икарис | Марвел | История персонажа | Разбор» (OPS-9, 10.10)
   const slashed = t.split(/\s*(?:\/|\|)\s*/u).map((x) => x.trim()).filter(Boolean);
-  if (slashed.length >= 4 && slashed.every((x) => x.split(/\s+/).length <= 6)) best = Math.max(best, slashed.length);
+  const points = slashed.filter((x) => !RUBRIC_SEGMENT.test(x));
+  if (points.length >= 4 && slashed.every((x) => x.split(/\s+/).length <= 6)) best = Math.max(best, points.length);
   return Math.max(quoted > 1 ? quoted : 0, best);
 }
 
@@ -349,7 +363,11 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
     // тире с пробелами после названия из нескольких слов — разделитель («Дьявол носит Prada - Самые
     // интересные факты»): чужое название с нашим началом через « - » почти не встречается (06.10, OPS-9)
     const multiWord = /\s/.test(name.trim());
-    const dashLabel = dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext) || (Boolean(options.english) && EN_RUBRIC.test(dashNext)));
+    // одно слово в начале заголовка, затем « - » и описание: «МАТИЛЬДА - САМАЯ СМЕШНАЯ КОМЕДИЯ», «Добыча - Хищник
+    // против феминизма» — разделитель, а не продолжение названия (OPS-9, 10.10)
+    const startDash = /^\s*$/.test(videoTitle.slice(0, m.index + m[1].length).replace(/^.*[|]/u, '')) && /^\s+[—–-]\s+/.test(after);
+    const leadDash = !multiWord && startDash;
+    const dashLabel = leadDash || dashNext !== undefined && (RUBRIC.has(dashNext.toUpperCase()) || LEAD.test(dashNext) || (Boolean(options.english) && EN_RUBRIC.test(dashNext)));
     // «Астрал: 4 Последний ключ» — после двоеточия номер части, тоже продолжение (02.10)
     // римская цифра — тоже номер части: «Jurassic Park III», «Rocky IV» (ЗП-23, 07.10)
     if (/^\s*(?:II|III|IV|V|VI|VII|VIII|IX)(?![\p{L}\p{N}])/u.test(after)) continue;
@@ -385,7 +403,8 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
     const labNext = lab?.[1].trim().split(/\s+/)[0] ?? '';
     const labTitled = /^[«"„]?\p{Lu}/u.test(labNext) && !new RegExp(`^(?:${PREP}|а|но|или|сцен\\p{L}*|момент\\p{L}*|кадр\\p{L}*|трейлер\\p{L}*|эпизод\\p{L}*)$`, 'iu').test(labNext) && !LEAD.test(labNext);
     const labelled = lab && (lab.index < m.index + m[1].length || labTitled) ? lab[1] : undefined;
-    if (labelled && !LEAD.test(labelled.trim().split(/\s+/)[0] ?? '') && !labelled.toLowerCase().includes(hit.toLowerCase())) continue;
+    // ярлык захватывает текст до «. », а название бывает с точкой внутри: «Обзор на плохое - Гоголь. Начало» (11.10)
+    if (labelled && !LEAD.test(labelled.trim().split(/\s+/)[0] ?? '') && !labelled.toLowerCase().includes(hit.toLowerCase().split(/\.\s/)[0])) continue;
     // В кавычках название стоит целиком. «Призрак» и «Призрак в доспехах» — разные фильмы, и
     // отбор «побеждает самое длинное совпадение» тут не спасает: второго фильма у нас может
     // не быть вовсе, и тогда ролик достаётся первому. А вот «Прочь/Get Out» — тот же фильм
@@ -435,13 +454,30 @@ export function nameMatchAt(videoTitle: string, name: string, options: MatchOpti
     // Повседневному названию из нескольких слов нужно то же самое
     if (!/\s/.test(name) || ordinary) {
       // у повседневного названия капс в заголовке, набранном капсом целиком, ничего не выделяет
-      const caps = hit === hit.toLocaleUpperCase('ru') && !(ordinary && shouting(videoTitle));
+      // «NOBODY understands this…» — капсом выделено слово фразы, а не название (OPS-9, 10.10)
+      const enSentence = Boolean(options.english) && /^\s+[a-z]/.test(after) && !EN_RUBRIC.test(/^\s+([a-z]+)/.exec(after)?.[1] ?? '');
+      const caps = hit === hit.toLocaleUpperCase('ru') && !(ordinary && shouting(videoTitle)) && !enSentence;
       const quoted = /["«]$/.test(m[1]);
       const labelled = LABEL.test(videoTitle.replace(hit, ' '))
         // английский ярлык — только вплотную: «The Player Book vs Movie», «Children of Men - Movie Review»,
         // «Review: The Player»; «review» где-то дальше в заголовке названием слово не делает (ЗП-23, 07.10)
         || (Boolean(options.english) && (EN_LABEL_AFTER.test(after) || EN_LABEL_BEFORE.test(videoTitle.slice(0, m.index + m[1].length))));
-      if (!caps && !quoted && !labelled) continue;
+      // повседневному слову ярлык где-то в заголовке не помогает — только прямо перед ним: «Завтра обзор, а сегодня
+      // провожаем этот год» не о фильме «Завтра» (OPS-9, 10.10)
+      const before0 = /(?:^|[^\p{L}])(\p{L}+)[\s:|—–-]+$/u.exec(videoTitle.slice(0, m.index + m[1].length))?.[1];
+      // а название в начале заголовка перед « - » стоит как название: «Главный герой - Шоу Трумана… (обзор фильма)»;
+      // ярлык после, через знак, точку или скобку, — тоже: «Пацаны (сериал, 2019) ✪ КинОбзор», «МАСТЕР #КИНОЛИКБЕЗ»,
+      // «Following (1998) - Movie Review», «Убийца 2023. Обзор и смысл фильма»; через пробел — нет: «Завтра обзор, а сегодня…»
+      const labelAfter = /^\s*(?:\([^)]*\)|(?:19|20)\d{2})?\s*(?:[.|#✪:—–-]|\()\s*[\p{L}\s]{0,30}?(?:обзор|разбор|смысл|ликбез|анализ|фильм|review|explained|analysis|breakdown|essay)/iu.test(after)
+        || (Boolean(options.english) && (EN_LABEL_AFTER.test(after) || EN_LABEL_BEFORE.test(videoTitle.slice(0, m.index + m[1].length))));
+      const ownLabel = labelled && (!ordinary || startDash || labelAfter || Boolean(before0 && (LEAD.test(before0) || RUBRIC.has(before0.toUpperCase()))));
+      if (!caps && !quoted && !ownLabel) continue;
+      // в чужой форме и не капсом («Горизонты времени в кинофантастике» при «Горизонте») ярлык где-то в заголовке
+      // не в счёт: нужны кавычки или ярлык прямо перед словом (OPS-9, 10.10). Капс оставляем: «КТО ПОНЯЛ СУПЕРМЕНА»,
+      // «что не так с МАТЕРИАЛИСТКОЙ» — названия, хотя и «ПОЧЕМУ КИНО СТОИТ ДОРОГО» проходит
+      const own = `${hit}${m[3] ?? ''}`.toLowerCase().replace(/ё/g, 'е') === name.toLowerCase().replace(/ё/g, 'е');
+      const lead = /(?:^|[^\p{L}])(\p{L}+)[\s:|—–-]+$/u.exec(videoTitle.slice(0, m.index + m[1].length))?.[1];
+      if (!own && !quoted && !(lead && (LEAD.test(lead) || RUBRIC.has(lead.toUpperCase()))) && !caps) continue;
     }
     // слово в заголовке совпало с названием целиком, без отрезанного окончания: «ВЕДЬМЫ» — это «Ведьмы», а
     // не «Ведьма», «Хищник.» — «Хищник», а не «Хищники» (06.10, OPS-9); отбор берёт его из равных

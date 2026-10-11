@@ -19,13 +19,17 @@ export interface QuickMarkProps {
   extra?: ReactNode;
   /** класс ряда кнопок вместо обычного переносящегося ряда — карточка ставит их сеткой в одну линию */
   rowClassName?: string;
+  /** «Бросил» в ряду (по умолчанию да). Для фильма из ленты его нет: он ещё не начат — только «Видел» */
+  abandon?: boolean;
+  /** подпись главной кнопки вместо «Посмотрел» — у фильма из ленты «Видел» */
+  label?: string;
   onDone?: (status: 'finished' | 'abandoned') => void;
 }
 
 /** Облегчённый учёт (02.10): «Посмотрел» раскрывает шкалу из пяти слов — одно касание, и
  *  записано; «Бросил» — без вопросов. Подробный дневник (чек-ин, части, сезоны) — за настройкой
  *  `diary`; эта кнопка — то, что видит новый человек. */
-export function QuickMark({ work, primary, disabled, extra, rowClassName, onDone }: QuickMarkProps) {
+export function QuickMark({ work, primary, disabled, extra, rowClassName, abandon = true, label, onDone }: QuickMarkProps) {
   const toast = useToast();
   const navigate = useNavigate();
   const [step, setStep] = useState<'idle' | 'rate'>('idle');
@@ -76,12 +80,14 @@ export function QuickMark({ work, primary, disabled, extra, rowClassName, onDone
     <div className={rowClassName ?? 'tm-row tm-row--gap-2 tm-row--wrap tm-quick'}>
       <Button variant={primary ? 'primary' : 'secondary'} size={primary ? 'md' : 'sm'} disabled={disabled || busy}
               onClick={() => { tap(); setStep('rate'); }}>
-        {book ? ui.quick.read : ui.quick.watched}
+        {label ?? (book ? ui.quick.read : ui.quick.watched)}
       </Button>
-      <Button variant="quiet" size={primary ? 'md' : 'sm'} disabled={disabled || busy} loading={busy}
-              onClick={() => { tap(); send('abandoned'); }}>
-        {ui.feed.gaveUp}
-      </Button>
+      {abandon ? (
+        <Button variant="quiet" size={primary ? 'md' : 'sm'} disabled={disabled || busy} loading={busy}
+                onClick={() => { tap(); send('abandoned'); }}>
+          {ui.feed.gaveUp}
+        </Button>
+      ) : null}
       {extra}
     </div>
   );

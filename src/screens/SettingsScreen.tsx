@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useFeature } from '@/lib/flags';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import type { MediaType, Session, SpoilerLevel, UserSettings } from '@/types/tmdf';
-import { deleteAccount, followsAvailable, getFollows, getSession, getShelves, getTesters, importHistory, isOwnerSession, logout, onFollowsChange, setFollow, setTester, type Follow, type Tester } from '@/api';
+import { deleteAccount, followsAvailable, getCinemaChoices, getFollows, getSession, getShelves, getTesters, importHistory, isOwnerSession, logout, onFollowsChange, setFollow, setTester, type Follow, type Tester } from '@/api';
 import { loadSettings, saveSettings } from '@/lib/settingsStore';
 import { Button, ConsentCard, Dialog, EnergySwitch, ErrorState, ImportHistorySheet, Skeleton, useToast } from '@/components';
 import { applyTheme } from '@/lib/theme';
@@ -122,11 +123,57 @@ function FollowsSection() {
 
 /** Экран «Профиль и настройки» (/settings). Каждое изменение уходит на сервер сразу и
  *  подтверждается тостом; отзыв согласия — через диалог, потому что данные удаляются. */
+/** Мои подписки (ЗП-42, 10.10): кинотеатры, за которые человек уже платит, и «только без доплаты» для ленты.
+ *  Список — из справочника наличия (что там бывает по подписке), без него — общий список России. */
+function SubscriptionsSection({ settings, saving, save }: { settings: UserSettings; saving: boolean; save: (patch: Partial<UserSettings>) => void }) {
+  const [choices, setChoices] = useState<{ slug: string; name: string }[] | null>(null);
+  useEffect(() => { getCinemaChoices().then(setChoices).catch(() => setChoices([])); }, []);
+  const chosen = settings.subscriptions ?? [];
+  return (
+    <section className="tm-settings__section">
+      <h2 className="tm-title-3 tm-settings__h">{ui.settings.subs}</h2>
+      <p className="tm-body-sm tm-settings__note">{ui.settings.subsText}</p>
+      {choices ? (
+        <div className="tm-achoice" role="group" aria-label={ui.settings.subs}>
+          {choices.map((c) => {
+            const on = chosen.includes(c.slug);
+            return (
+              <button key={c.slug} type="button" aria-pressed={on ? 'true' : 'false'}
+                      className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving}
+                      onClick={() => save({ subscriptions: on ? chosen.filter((x) => x !== c.slug) : [...chosen, c.slug] })}>
+                <span className="tm-achoice__mark" aria-hidden="true" />
+                {c.name}
+              </button>
+            );
+          })}
+        </div>
+      ) : <Skeleton kind="block" style={{ height: 40 }} />}
+      {chosen.length ? (
+        <label className="tm-settings__switch">
+          <input type="checkbox" role="switch" checked={settings.subscriptionsOnly ?? false} disabled={saving}
+                 onChange={(e) => save({ subscriptionsOnly: e.target.checked })} />
+          <span>
+            <span className="tm-body tm-settings__h">{ui.settings.subsOnly}</span>
+            <span className="tm-body-sm tm-settings__note">{ui.settings.subsOnlyText}</span>
+          </span>
+        </label>
+      ) : null}
+      <p className="tm-caption tm-settings__note">{ui.settings.subsNote}</p>
+    </section>
+  );
+}
+
 export function SettingsScreen() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const toast = useToast();
   const [owner, setOwner] = useState(false);
+  // редакция (10.10): в минимуме нет силы, подробного дневника и подписок
+  const energyOn = useFeature('energy');
+  const diaryOn = useFeature('diary');
+  const follows = useFeature('follows');
+  const together = useFeature('together');
+  const subsOn = useFeature('subscriptions');
   useEffect(() => { isOwnerSession().then(setOwner).catch(() => undefined); }, []);
   const [settings, setSettings] = useState<UserSettings | null>(null);
   const [failed, setFailed] = useState(false);
@@ -247,8 +294,22 @@ export function SettingsScreen() {
         </section>
       ) : null}
 
+      {/* редакция (10.10): владелец смотрит минимум глазами участника */}
+      {owner ? (
+        <section className="tm-settings__section">
+          <label className="tm-settings__switch">
+            <input type="checkbox" role="switch" checked={settings.edition === 'minimum'} disabled={saving}
+                   onChange={(e) => save({ edition: e.target.checked ? 'minimum' : 'full' })} />
+            <span>
+              <span className="tm-title-3 tm-settings__h">{ui.settings.edition}</span>
+              <span className="tm-body-sm tm-settings__note">{ui.settings.editionText}</span>
+            </span>
+          </label>
+        </section>
+      ) : null}
+
       {/* подписки на разборы (06.10): сводка от бота раз в день */}
-      {followsAvailable() ? <FollowsSection /> : null}
+      {follows && followsAvailable() ? <FollowsSection /> : null}
 
       {/* тестеры (ТВ-3в): все полки, без статистики и механики; список ведёт админ */}
       {owner ? <TestersSection /> : null}
@@ -269,22 +330,28 @@ export function SettingsScreen() {
                 onPick={(theme) => save({ theme })} />
       </section>
 
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.energy}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.energyText}</p>
-        <EnergySwitch value={settings.energy ?? 'normal'} onChange={(energy) => save({ energy })} />
-      </section>
+      {energyOn ? (
+        <section className="tm-settings__section">
+          <h2 className="tm-title-3 tm-settings__h">{ui.settings.energy}</h2>
+          <p className="tm-body-sm tm-settings__note">{ui.settings.energyText}</p>
+          <EnergySwitch value={settings.energy ?? 'normal'} onChange={(energy) => save({ energy })} />
+        </section>
+      ) : null}
 
-      <section className="tm-settings__section">
-        <label className="tm-settings__switch">
-          <input type="checkbox" role="switch" checked={settings.diary ?? false} disabled={saving}
-                 onChange={(e) => save({ diary: e.target.checked })} />
-          <span>
-            <span className="tm-title-3 tm-settings__h">{ui.settings.diary}</span>
-            <span className="tm-body-sm tm-settings__note">{ui.settings.diaryText}</span>
-          </span>
-        </label>
-      </section>
+      {subsOn ? <SubscriptionsSection settings={settings} saving={saving} save={save} /> : null}
+
+      {diaryOn ? (
+        <section className="tm-settings__section">
+          <label className="tm-settings__switch">
+            <input type="checkbox" role="switch" checked={settings.diary ?? false} disabled={saving}
+                   onChange={(e) => save({ diary: e.target.checked })} />
+            <span>
+              <span className="tm-title-3 tm-settings__h">{ui.settings.diary}</span>
+              <span className="tm-body-sm tm-settings__note">{ui.settings.diaryText}</span>
+            </span>
+          </label>
+        </section>
+      ) : null}
 
       {/* механика — данные трансформативного обучения, только админу (ТВ-3в) */}
       {owner ? (
@@ -428,7 +495,7 @@ export function SettingsScreen() {
         <p className="tm-body-sm tm-settings__note">{ui.social.text}</p>
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button size="sm" onClick={() => openExternal(writeAuthorUrl)}>{ui.social.write}</Button>
-          <Button size="sm" variant="quiet" onClick={() => navigate('/together')}>{ui.together.entryAction}</Button>
+          {together ? <Button size="sm" variant="quiet" onClick={() => navigate('/together')}>{ui.together.entryAction}</Button> : null}
           <Button size="sm" variant="quiet" onClick={() => openExternal(shareUrl(ui.social.shareText))}>{ui.social.share}</Button>
         </div>
       </section>

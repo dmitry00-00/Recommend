@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-essay-index.mts (2026-10-08): ролики о франшизе (вселенной) и о
+// Сгенерировано tools/build-essay-index.mts (2026-10-11): ролики о франшизе (вселенной) и о
 // человеке — по решениям людей во вкладке «Проверка» пульта. Ключ — элемент Wikidata вселенной или человека.
 // Не править руками — перегенерировать.
 import type { ExternalAnalysis } from '@/types/tmdf';
@@ -21,6 +21,21 @@ export const essaysAbout: { universe: Record<string, ExternalAnalysis[]>; person
         "publishedAt": "2022-10-03"
       }
     ],
+    "Q1152150": [
+      {
+        "id": "yta-8P8ALhm2pLc",
+        "title": "I Binged All 50+ DC Movies and The Fall Is Worse Than You Remember",
+        "author": "Movie Overload",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=8P8ALhm2pLc",
+        "language": "en",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "previewUrl": "https://i.ytimg.com/vi/8P8ALhm2pLc/hqdefault.jpg",
+        "durationMinutes": 40,
+        "publishedAt": "2026-09-29"
+      }
+    ],
     "Q1323565": [
       {
         "id": "yta-ewtM5i922bs",
@@ -35,6 +50,22 @@ export const essaysAbout: { universe: Record<string, ExternalAnalysis[]>; person
         "previewUrl": "https://i.ytimg.com/vi/ewtM5i922bs/hqdefault.jpg",
         "durationMinutes": 21,
         "publishedAt": "2023-06-23"
+      }
+    ],
+    "Q2716420": [
+      {
+        "id": "yta-Ifxzs5qswRE",
+        "title": "Крепкий орешек - падение франшизы",
+        "author": "GreenGrass",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=Ifxzs5qswRE",
+        "language": "ru",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "tier": "review",
+        "previewUrl": "https://i.ytimg.com/vi/Ifxzs5qswRE/hqdefault.jpg",
+        "durationMinutes": 28,
+        "publishedAt": "2024-12-26"
       }
     ],
     "Q1990805": [
@@ -82,6 +113,21 @@ export const essaysAbout: { universe: Record<string, ExternalAnalysis[]>; person
         "previewUrl": "https://i.ytimg.com/vi/QLAekRjALrQ/hqdefault.jpg",
         "durationMinutes": 17,
         "publishedAt": "2023-12-14"
+      }
+    ],
+    "Q220260": [
+      {
+        "id": "yta-qRT-aLofOsI",
+        "title": "I Binged All 7 Resident Evil Movies and The Fall Is Worse Than You Remember",
+        "author": "Movie Overload",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=qRT-aLofOsI",
+        "language": "en",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "previewUrl": "https://i.ytimg.com/vi/qRT-aLofOsI/hqdefault.jpg",
+        "durationMinutes": 39,
+        "publishedAt": "2026-10-01"
       }
     ],
     "Q617871": [

@@ -67,35 +67,44 @@ const LENS = { meaning: 'Смысл и толкование', domain: 'Фило�
   opinion: 'Мнение и отзыв', other: 'Другое' };
 const PLACE = { sheet: 'шторка фильма', work: 'страница фильма', person: 'страница человека', universe: 'страница вселенной', character: 'страница героя' };
 const TIER = { essay: 'разбор', review: 'обзор', post: 'пост' };
+// минимальная редакция (10.10): лента, разборы, обсуждения, «Видел»; «принял» и «Смотреть» — эталон
 const FUNNEL = [
-  ['joined', 'вошли'], ['activated', '10 оценок или импорт в первые сутки'], ['accepted', 'приняли фильм из ленты'],
+  ['joined', 'вошли'], ['activated', 'первая лента в первые сутки'], ['engaged', 'откликнулись на ленту («Видел», разбор)'],
+  ['opened', 'открыли разбор'], ['accepted', 'приняли фильм (эталон)'],
   ['watched', 'посмотрели (чек-ин или «посмотрел»)'], ['returned', 'вернулись в другой день'],
 ];
 const METRICS = [
-  ['activation', 'Активация: 10 оценок или импорт в первые сутки', 'новых'],
-  ['acceptedFeeds', 'Принятые ленты: хоть один фильм в планы или «смотрю»', 'лент'],
-  ['checkins', 'Чек-ин после принятого', 'принятых'],
-  ['watchClicks', '«Смотреть» из открытых карточек', 'карточек'],
+  ['activation', 'Активация: первая лента в первые сутки', 'новых'],
+  ['engagedFeeds', 'Ленты с откликом: «Видел», разбор или принятие', 'лент'],
   ['analysisOpens', 'Открыли разбор из карточки', 'карточек'],
+  ['acceptedFeeds', 'Принятые ленты (эталон: «в планы», «смотрю»)', 'лент', true],
+  ['checkins', 'Чек-ин после принятого (эталон)', 'принятых', true],
+  ['watchClicks', '«Смотреть» из открытых карточек (эталон)', 'карточек', true],
 ];
-const mark = (v, t) => (v == null ? 'muted' : v >= t ? 'ok' : 'bad');
+// цель — зелёный, между минимумом и целью — жёлтый, ниже минимума — красный; мало людей — серый
+const mark = (v, t, floor, base, minBase) => (v == null || (base != null && base < minBase) ? 'muted' : v >= t ? 'ok' : floor != null && v >= floor ? 'warn' : 'bad');
+const bound = (t, floor) => (floor != null ? `${pct(floor)} / ${pct(t)}` : `≥ ${pct(t)}`);
 function funnelView(F) {
   if (!F || F.error) return `<div class="note">Воронка: ${esc(F?.error ?? 'нет данных')}</div>`;
-  const T = F.thresholds, y = F.yesterday, w = F.week, base = (m, s) => ({ activation: s.joined, acceptedFeeds: s.feeds, checkins: s.accepts, watchClicks: s.cards, analysisOpens: s.cards }[m]);
+  const T = F.thresholds, FL = F.floors ?? {}, MB = F.minBase ?? 0, y = F.yesterday, w = F.week,
+    base = (m, s) => ({ activation: s.joined, acceptedFeeds: s.feeds, engagedFeeds: s.feeds, checkins: s.accepts, watchClicks: s.cards, analysisOpens: s.cards }[m]);
   const ret = (k) => F.retention.find((r) => r.k === k);
   const fr = F.funnel, top = fr.joined || 1;
-  const cols = [['visitors', 'были'], ['joined', 'новые'], ['ratings', 'оценок'], ['feeds', 'лент'], ['acceptedFeeds', 'принято лент'], ['cards', 'карточек'],
-    ['watch', '«Смотреть»'], ['opens', 'разборов'], ['checkins', 'чек-инов']];
+  const cols = [['visitors', 'были'], ['joined', 'новые'], ['ratings', 'оценок'], ['feeds', 'лент'], ['engagedFeeds', 'с откликом'], ['seen', '«Видел»'], ['prompted', 'по подсказке'],
+    ['cards', 'карточек'], ['opens', 'разборов'], ['acceptedFeeds', 'принято'], ['watch', '«Смотреть»'], ['checkins', 'чек-инов']];
   return `
     <div class="cards" style="margin-bottom:14px">
       <div class="card wide"><h2>Пороги беты: вчера (${esc(y.from)}) и 7 дней (${esc(w.from)} — ${esc(w.to)})</h2>
-        <table><thead><tr><th>Показатель</th><th class="n">Вчера</th><th class="n">7 дней</th><th class="n">Порог</th></tr></thead><tbody>
-        ${METRICS.map(([k, name, of]) => `<tr><td>${esc(name)}</td>
-          <td class="n ${mark(y[k], T[k])}" title="из ${fmt(base(k, y))} ${of}">${pct(y[k])}</td>
-          <td class="n ${mark(w[k], T[k])}" title="из ${fmt(base(k, w))} ${of}">${pct(w[k])}</td><td class="n">≥ ${pct(T[k])}</td></tr>`).join('')}
-        ${[[7, T.d7], [30, T.d30]].map(([k, t]) => { const r = ret(k); return `<tr><td>Удержание D${k}: вернулся на ${k}-й день или позже <span class="muted">· ровно в ${k}-й день ${pct(r?.exactShare)}</span></td>
-          <td class="n muted">—</td><td class="n ${mark(r?.laterShare, t)}" title="когорт ${fmt(r?.cohorts)}, людей ${fmt(r?.users)}">${pct(r?.laterShare)}</td><td class="n">≥ ${pct(t)}</td></tr>`; }).join('')}
+        <table><thead><tr><th>Показатель</th><th class="n">Вчера</th><th class="n">7 дней</th><th class="n">Минимум / цель</th></tr></thead><tbody>
+        ${METRICS.map(([k, name, of, ref]) => `<tr${ref ? ' class="muted"' : ''}><td>${esc(name)}</td>
+          <td class="n ${ref ? 'muted' : mark(y[k], T[k], FL[k], base(k, y), MB)}" title="из ${fmt(base(k, y))} ${of}">${pct(y[k])}</td>
+          <td class="n ${ref ? 'muted' : mark(w[k], T[k], FL[k], base(k, w), MB)}" title="из ${fmt(base(k, w))} ${of}">${pct(w[k])}</td><td class="n">${bound(T[k], FL[k])}</td></tr>`).join('')}
+        ${[[7, T.d7, FL.d7], [30, T.d30, FL.d30]].map(([k, t, fl]) => { const r = ret(k); return `<tr><td>Удержание D${k}: вернулся на ${k}-й день или позже <span class="muted">· ровно в ${k}-й день ${pct(r?.exactShare)}</span></td>
+          <td class="n muted">—</td><td class="n ${mark(r?.laterShare, t, fl, r?.users, MB)}" title="когорт ${fmt(r?.cohorts)}, людей ${fmt(r?.users)}">${pct(r?.laterShare)}</td><td class="n">${bound(t, fl)}</td></tr>`; }).join('')}
         </tbody></table>
+        <p class="muted" style="font-size:13px;margin:8px 0 0">Зелёный — цель, жёлтый — между минимумом и целью, красный — ниже минимума,
+          серый — меньше ${fmt(MB)} в основании: на таких числах доля шумит на ±15 п.п. и больше. Строки «эталон» — функции, выключенные в минимальной редакции.</p>
+        <p class="muted" style="font-size:13px;margin:8px 0 0">«Видел» за 7 дней — ${fmt(w.seen)}, из них по подсказке ${fmt(w.prompted)}: фильм лента показала в один из прошлых дней, человек вернулся и отметил.</p>
         <p class="muted" style="font-size:13px;margin:8px 0 0">вчера: были ${fmt(y.visitors)}, новых ${fmt(y.joined)} · 7 дней: были ${fmt(w.visitors)}, новых ${fmt(w.joined)}.
           Удержание — по когортам, у которых нужный день уже прошёл. Пустое «—» — не из чего считать.</p></div>
       <div class="card"><h2>Воронка новых с ${esc(fr.since)}</h2>

@@ -8,6 +8,9 @@ import { cx } from '@/lib/cx';
 import ui from '@/i18n';
 import { readPlaces, readingHours } from '@/lib/reading';
 import { noteCard, noteWatch } from '@/api';
+import { useFeature } from '@/lib/flags';
+import { useSettings } from '@/lib/settingsStore';
+import { cinemaSlug } from '@/lib/cinemas';
 
 export interface FilmTabsProps {
   analyses: ExternalAnalysis[];
@@ -61,7 +64,7 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId }: FilmTabsProps) {
+export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId }: FilmTabsProps) {
   // полки рубрик (ТВ-3г) — за флагом; выключен — `shown` это те же `analyses`, обзоров нет
   const shelf = useLensShelf(analyses);
   const voices = useVoices(shelf.shown, voiceId, { reviews: shelf.on });
@@ -71,6 +74,20 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, 
   // автор только с постами в Telegram — его материал на странице «Обсуждения», а не «Обзоры»
   const [mode, setMode] = useState<Mode>(() =>
     voiceId && !voices.watch.some((g) => g.voice.id === voiceId) && voices.talk.some((g) => g.voice.id === voiceId) ? 'talk' : 'reviews');
+  // «Смотреть» — функция эталона (10.10): в минимальной редакции карточка — только разборы и обсуждения
+  // бесплатная классика (ЗП-43): вкладка «Смотреть» открыта и без функции «Смотреть», если фильм выложен правообладателем
+  const freeOn = useFeature('freeClassics');
+  const watchOn = useFeature('watch') || (freeOn && watchIn.some((o) => o.source === 'wikidata'));
+  const modes = watchOn ? MODES : MODES.filter((m) => m !== 'watch');
+  // мои подписки (ЗП-42): площадка из подписки человека — первой, потом бесплатные, аренда и покупка — в конце
+  const subsOn = useFeature('subscriptions');
+  const subs = useSettings()?.subscriptions;
+  const yours = (o: WatchOption) => subsOn && o.kind === 'subscription' && (subs ?? []).includes(cinemaSlug(o.platform));
+  const watch = useMemo(() => {
+    if (!subsOn) return watchIn;   // бесплатное от правообладателя и так первым (api, withWatch)
+    const rank = (o: WatchOption) => (o.source === 'wikidata' ? -1 : yours(o) ? 0 : o.kind === 'free' || o.kind === 'ads' ? 1 : o.kind === 'subscription' ? 2 : !o.kind ? 3 : o.kind === 'rent' ? 4 : 5);
+    return [...watchIn].sort((a, b) => rank(a) - rank(b));
+  }, [watchIn, subsOn, subs]); // eslint-disable-line react-hooks/exhaustive-deps
   const [cinemaAt, setCinemaAt] = useState(0);
   const cinema = watch[cinemaAt] ?? watch[0];
   // карточка открыта — знаменатель воронки (ЗП-3); «Смотреть» — её числитель
@@ -78,9 +95,9 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, 
   const goWatch = (option: WatchOption) => { noteWatch(workId, option.platform); onWatch?.(option); };
   // «Смотреть в …» — главной кнопкой Telegram, пока открыта карточка (ТВ-11): главное
   // действие внизу, под пальцем. У книги кнопки нет — там «где читать» несколько равных мест
-  useEffect(() => (cinema && !book
-    ? showMainButton(ui.film.watchOn(cinema.platform), () => { goWatch(cinema); openExternal(cinema.url); })
-    : undefined), [cinema?.url, cinema?.platform, Boolean(book)]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => (watchOn && cinema && !book
+    ? showMainButton(cinema.source === 'wikidata' ? ui.film.watchFree(cinema.platform) : ui.film.watchOn(cinema.platform), () => { goWatch(cinema); openExternal(cinema.url); })
+    : undefined), [watchOn, cinema?.url, cinema?.platform, Boolean(book)]); // eslint-disable-line react-hooks/exhaustive-deps
   const talkCount = voices.talk.length + discussionsCount;
 
   const switchTo = (m: Mode) => { if (m !== mode) { pick(); setMode(m); } };
@@ -140,13 +157,15 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, 
           <section className="tm-stream__group tm-film__cinema">
             <CinemaLogo option={cinema} size="xl" />
             <p className="tm-title-3 tm-film__cinemaname">{cinema.platform}</p>
+            {cinema.kind ? <p className="tm-caption tm-film__kind">{yours(cinema) ? ui.film.watchYours : ui.film.watchKind[cinema.kind]}</p> : null}
             <a className="tm-btn tm-btn--primary" href={cinema.url} target="_blank" rel="noreferrer noopener"
                onClick={(e) => { goWatch(cinema); onExternalClick(cinema.url)(e); }}>
-              {ui.film.watchOn(cinema.platform)}
+              {cinema.source === 'wikidata' ? ui.film.watchFree(cinema.platform) : ui.film.watchOn(cinema.platform)}
             </a>
             {watch.length > 1 ? <p className="tm-caption tm-film__hint">{ui.film.watchHint(watch.length)}</p> : null}
             {/* данные TMDb о кинотеатрах — это JustWatch: указывать у каждого произведения (условия TMDb, ЗП-24) */}
             {cinema.source === 'tmdb' ? <p className="tm-caption tm-film__hint">{ui.film.watchByJustWatch}</p> : null}
+            {cinema.source === 'wikidata' ? <p className="tm-caption tm-film__hint">{ui.film.watchFreeHint}</p> : null}
           </section>
         ) : (
           <section className="tm-stream__group tm-voice__none">
@@ -169,7 +188,7 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, 
             {watch.map((w, i) => {
               const on = w === cinema;
               return (
-                <button key={w.url} type="button" role="tab" aria-selected={on}
+                <button key={`${w.platform}:${i}`} type="button" role="tab" aria-selected={on}
                         className={cx('tm-voice__tab', on && 'tm-voice__tab--on')}
                         onClick={() => { pick(); setCinemaAt(i); }}>
                   <CinemaLogo option={w} size="lg" />
@@ -180,7 +199,7 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch = [], book, 
           </div>
         ) : null}
         <div className="tm-film__toggle" role="tablist" aria-label={ui.film.pages}>
-          {MODES.map((m) => {
+          {modes.map((m) => {
             const count = m === 'reviews' ? reviewsCount : m === 'talk' ? talkCount : watch.length;
             return (
               <button key={m} type="button" role="tab" aria-selected={mode === m}

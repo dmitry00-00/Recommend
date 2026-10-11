@@ -1,10 +1,10 @@
-// Сгенерировано tools/build-media-mentions.mts (2026-10-07) из разметки модели
+// Сгенерировано tools/build-media-mentions.mts (2026-10-09) из разметки модели
 // (.cache/llm/labels.json): в скольких подборках, роликах о нескольких и новостях названо произведение;
 // темы роликов без произведения. Это догадка модели, а не решение человека. Не править руками.
 export interface MediaMentions { list?: number; several?: number; news?: number }
 
 export const mediaMentions: { labels: number; works: Record<string, MediaMentions>; topics: { name: string; type?: string; n: number }[] } = {
- "labels": 2356,
+ "labels": 2405,
  "works": {
   "imdb:tt9660182": {
    "news": 1
@@ -889,7 +889,8 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:862": {
-   "several": 1
+   "several": 1,
+   "list": 1
   },
   "tmdb:41154": {
    "several": 1
@@ -970,7 +971,7 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:1083381": {
-   "several": 1
+   "several": 2
   },
   "tmdb:13475": {
    "several": 1
@@ -1003,7 +1004,7 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:539": {
-   "several": 1
+   "several": 2
   },
   "tmdb:361743": {
    "news": 1
@@ -1279,14 +1280,36 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:969681": {
-   "news": 3,
+   "news": 4,
    "list": 1
   },
   "tmdb:1084244": {
-   "news": 1
+   "news": 1,
+   "list": 1
   },
   "tmdb:562": {
    "several": 1
+  },
+  "tmdb:1368337": {
+   "news": 1
+  },
+  "tmdb:863": {
+   "list": 1
+  },
+  "wd:Q243556": {
+   "several": 1
+  },
+  "imdb:tt4016454": {
+   "news": 1
+  },
+  "tmdb:1339713": {
+   "several": 1
+  },
+  "tmdb:280868": {
+   "list": 1
+  },
+  "tmdb:1275779": {
+   "news": 1
   }
  },
  "topics": [

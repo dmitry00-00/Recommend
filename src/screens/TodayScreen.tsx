@@ -12,7 +12,9 @@ import {
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
-import { saveSettings, useDiary, useMechanics } from '@/lib/settingsStore';
+import { saveSettings, useDiary, useMechanics, useSettings } from '@/lib/settingsStore';
+import { cinemaSlug } from '@/lib/cinemas';
+import { useFeature } from '@/lib/flags';
 import { onExternalClick, openExternal, pick, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
 import { formatDuration, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
@@ -52,11 +54,13 @@ export function WatchOptions({ options }: { options?: WatchOption[] }) {
 /** Тело карточки: описание словами, разборы конкретными роликами и постами, места разговора,
  *  строка поиска по каналам, где посмотреть, действия. Всё — из данных рекомендации; экран
  *  только раскладывает. */
-function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch }: {
+function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, onWatch }: {
   r: Recommendation; spoilerLevel: SpoilerLevel; finished: boolean; voiceId?: string;
-  onSave: () => void; onDismiss: (reason: DismissReason) => void; onWatch: () => void;
+  onSave: () => void; onSeen: () => void; onDismiss: (reason: DismissReason) => void; onWatch: () => void;
 }) {
   const [reasons, setReasons] = useState(false);
+  // минимальная редакция (10.10): вместо «В планы» — «Видел» с оценкой: лента учится, фильм уходит
+  const plans = useFeature('plans');
   // Конкретные разборы — материал, поиск по каналам — запасной ход: он уходит в одну строку
   // внизу, иначе четыре одинаковых блока съедают карточку (замечание владельца 22.09).
   const places = (r.discussions ?? []).filter((d) => !d.search);
@@ -90,11 +94,14 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onDismiss, onWatch 
         )}
         // «Начать смотреть» убрано из карточки (24.09, решение владельца); «в планы» и «не
         // сейчас» — в правом углу текста под кадром материала, причины — под материалом
-        corner={(
+        corner={plans ? (
           <>
             <Button size="sm" onClick={onSave}>{ui.actions.save}</Button>
             <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
           </>
+        ) : finished ? undefined : (
+          <QuickMark work={r.work} abandon={false} label={ui.quick.seen} onDone={onSeen}
+                     extra={<Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>} />
         )}
         actions={reasons ? <ReasonPicker variant="dismiss" onPick={onDismiss} /> : undefined}
       />
@@ -229,6 +236,18 @@ export function TodayScreen() {
   const toast = useToast();
   const mechanics = useMechanics();
   const diary = useDiary();
+  // редакция (10.10): архив, сила, поиск словами, «вместе» — функции эталона
+  const plans = useFeature('plans');
+  const energyOn = useFeature('energy');
+  const searchOn = useFeature('search');
+  const together = useFeature('together');
+  // мои подписки (ЗП-42): лента ставит вперёд доступное без доплаты, в мете — «в подписке Okko»
+  const subsOn = useFeature('subscriptions');
+  const userSettings = useSettings();
+  const subs = subsOn ? userSettings?.subscriptions ?? [] : [];
+  const subsOnly = subsOn && Boolean(userSettings?.subscriptionsOnly);
+  // полка бесплатной классики (ЗП-43): место «Бесплатная классика» в ленте
+  const freeOn = useFeature('freeClassics');
   // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
   const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -264,7 +283,7 @@ export function TodayScreen() {
     setSlate(null);
     setFailed(false);
     getSettings()
-      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal'), getJourney(), settings]))
+      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal', undefined, { subscriptions: subsOn, freeClassics: freeOn }), getJourney(), settings]))
       .then(([nextSlate, journal, settings]) => {
         if (!alive) return;
         setSlate(nextSlate);
@@ -280,7 +299,7 @@ export function TodayScreen() {
       })
       .catch((err) => alive && setFailed(err instanceof OfflineError ? 'offline' : 'error'));
     return () => { alive = false; };
-  }, [attempt]);
+  }, [attempt, subsOn, freeOn]);
 
   const changeEnergy = (e: Energy) => {
     if (e === energy) return;
@@ -292,7 +311,7 @@ export function TodayScreen() {
     if (!slate || moreBusy) return;
     tap();
     setMoreBusy(true);
-    getSlate(energy, [...shownIds.current])
+    getSlate(energy, [...shownIds.current], { subscriptions: subsOn, freeClassics: freeOn })
       .then((next) => {
         const fresh = next.items.filter((r) => !shownIds.current.has(r.work.id));
         fresh.forEach((r) => shownIds.current.add(r.work.id));
@@ -334,6 +353,15 @@ export function TodayScreen() {
       })
       .catch(() => { setSlate(before); toast({ text: ui.settings.errorSave, action: ui.actions.retry, onAction: () => save(r) }); });
   };
+  // «Видел» (минимальная редакция): оценка уже записана QuickMark. Карточка остаётся открытой, и
+  // замок со спойлерных разборов снимается — видевшему как раз и интересно, что о фильме говорят;
+  // из ленты кадр уходит, когда карточку закроют. В отклик слота — «уже знаю»: воронка видит ответ
+  const seenIds = useRef(new Set<string>());
+  const seen = (r: Recommendation) => {
+    setFinishedIds((ids) => new Set(ids).add(r.work.id));
+    seenIds.current.add(r.id);
+    sendRecommendationFeedback(r.id, { action: 'dismiss', reason: 'already_know' }).catch(() => undefined);
+  };
   const dismiss = (r: Recommendation, reason: DismissReason) => {
     if (!slate) return;
     tap();
@@ -355,7 +383,16 @@ export function TodayScreen() {
       .then(() => { setRestart(true); toast({ text: ui.toast.watchInferred }); })
       .catch(() => undefined);
   };
-  const closeSheet = () => { setOpen(null); setOpenVoice(undefined); if (restart) { setRestart(false); setAttempt((a) => a + 1); } };
+  const closeSheet = () => {
+    setOpen(null);
+    setOpenVoice(undefined);
+    if (seenIds.current.size) {
+      const gone = seenIds.current;
+      seenIds.current = new Set();
+      setSlate((sl) => (sl ? { ...sl, items: sl.items.filter((i) => !gone.has(i.id)) } : sl));
+    }
+    if (restart) { setRestart(false); setAttempt((a) => a + 1); }
+  };
   const notYet = (e: JourneyEntryData) => {
     tap();
     notWatched(e.id)
@@ -391,15 +428,31 @@ export function TodayScreen() {
   const openEntry = current.find((e) => e.id === open) ?? null;
   const entryPlaces = usePlaces(openEntry?.work.id);
   const openRec = items.find((r) => r.id === open) ?? null;
+  // где смотреть без доплаты — словом в мете (ЗП-42): своя подписка важнее бесплатного
+  const availability = (r: Recommendation): string | undefined => {
+    const w = r.work.watch ?? [];
+    // бесплатно у правообладателя (ЗП-43) — прямая ссылка на фильм, это важнее всего
+    const legal = freeOn ? w.find((o) => o.source === 'wikidata') : undefined;
+    if (legal) return ui.feed.freeOn(legal.platform);
+    if (!subsOn) return undefined;
+    const own = w.find((o) => o.kind === 'subscription' && subs.includes(cinemaSlug(o.platform)));
+    if (own) return ui.feed.inYourSub(own.platform);
+    const free = w.find((o) => o.kind === 'free' || o.kind === 'ads');
+    return free ? ui.feed.freeOn(free.platform) : undefined;
+  };
   const recMeta = (r: Recommendation) =>
-    [r.work.year, leadName(r.work), formatDuration(r.work.durationMinutes)].filter(Boolean).join(' · ');
+    [r.work.year, leadName(r.work), formatDuration(r.work.durationMinutes), availability(r)].filter(Boolean).join(' · ');
+  const toggleSubsOnly = () => {
+    pick();
+    saveSettings({ subscriptionsOnly: !subsOnly }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
+  };
   // вопрос «посмотрели?» стоит под баннером — в мете его не повторяем
   const entryMeta = (e: JourneyEntryData) =>
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
     <main className="tm-shell__main tm-stream" ref={mainRef}>
       <h1 className="tm-sr">{ui.nav.today}</h1>
-      <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
+      {plans ? <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
         <span className="tm-stream__archiveicon" aria-hidden="true" />
         <span className="tm-stream__archivetext">
           {ui.feed.archive}
@@ -408,7 +461,7 @@ export function TodayScreen() {
           </span> : null}
         </span>
         <span className="tm-stream__archivechevron" aria-hidden="true">›</span>
-      </button>
+      </button> : null}
 
       <div className="tm-stream__body">
         {scale ? (
@@ -474,11 +527,12 @@ export function TodayScreen() {
             <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ui.feed.swipeHintOk}</Button>
           </div>
         ) : null}
-        {slate && !slate.coldStart && (items.length || current.length) ? (
+        {slate && !slate.coldStart && (items.length || current.length || subsOnly) && (energyOn || searchOn || subs.length) ? (
           <div className="tm-stream__pad tm-stream__energy">
-            <EnergySwitch value={energy} onChange={changeEnergy} />
+            {energyOn ? <EnergySwitch value={energy} onChange={changeEnergy} /> : null}
+            {subs.length ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
             {/* ЗП-16: то же, но словами — «тихое про семью, не грустное» */}
-            <Button variant="quiet" size="sm" className="tm-stream__mood" onClick={() => { tap(); navigate('/mood'); }}>{ui.mood.entry}</Button>
+            {searchOn ? <Button variant="quiet" size="sm" className="tm-stream__mood" onClick={() => { tap(); navigate('/mood'); }}>{ui.mood.entry}</Button> : null}
           </div>
         ) : null}
         {current.length || items.length ? <div className="tm-filmstrip">
@@ -498,7 +552,7 @@ export function TodayScreen() {
           </article>
         ))}
         {items.map((r, i) => (
-          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' ? ui.slot[r.slot].label : undefined}
+          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' || r.slot === 'free' ? ui.slot[r.slot].label : undefined}
                     onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
                     onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
@@ -512,7 +566,7 @@ export function TodayScreen() {
           </div>
         ) : null}
         {/* выбор компанией (ЗП-11): тот, кто долистал, — кандидат собрать вечер на двоих и больше */}
-        {items.length && slate && !slate.coldStart ? (
+        {together && items.length && slate && !slate.coldStart ? (
           <p className="tm-caption tm-stream__pad tm-coldstart__share">
             {ui.together.entry}{' '}
             <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/together'); }}>{ui.together.entryAction}</button>
@@ -551,11 +605,11 @@ export function TodayScreen() {
       </WorkSheet>
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
-                 tag={openRec && (mechanics || openRec.slot === 'universe') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
+                 tag={openRec && (mechanics || openRec.slot === 'universe' || openRec.slot === 'free') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
                  plot={openRec?.explanation?.what || undefined} context="лента: рекомендация">
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
-                 onSave={() => save(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />
+                 onSave={() => save(openRec)} onSeen={() => seen(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />
         ) : null}
       </WorkSheet>
     </main>

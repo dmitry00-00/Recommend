@@ -5,6 +5,7 @@ import { AppShell } from '@/components/AppShell';
 import { CuratorShell } from '@/components/CuratorShell';
 import { ToastProvider } from '@/components/Toast';
 import { loadSettings, useMechanics } from '@/lib/settingsStore';
+import { useFeature } from '@/lib/flags';
 import { startParam } from '@/lib/telegram';
 import ui from '@/i18n';
 
@@ -20,8 +21,10 @@ function Shell({ children }: { children: React.ReactNode }) {
   // Без механики в меню лента и поиск (архив — над лентой, профиль — справа); маршруты
   // и карта — только с включённой механикой: пока это наш внутренний инструмент (21.09).
   // Поиск виден всегда: отметить просмотренное — то, ради чего человек сюда и приходит.
+  // В минимальной редакции (10.10) поиска нет — в меню лента и профиль.
   const mechanics = useMechanics();
-  const nav = NAV.filter((item) => item.id === 'today' || item.id === 'search' || (mechanics && item.id !== 'journal'));
+  const search = useFeature('search');
+  const nav = NAV.filter((item) => item.id === 'today' || (item.id === 'search' && search) || (mechanics && item.id !== 'journal' && item.id !== 'search'));
   return <AppShell nav={nav.map((item) => ({ ...item, label: ui.nav[item.id] }))}>{children}</AppShell>;
 }
 
@@ -34,6 +37,8 @@ function useSharedStart() {
     if (p && /^[wc]-[A-Za-z0-9_-]+$/.test(p)) navigate(`/open/${p}`, { replace: true });
     // приглашение голосовать (ЗП-11): `t-<сессия>`
     else if (p && /^t-[a-z0-9]{6,16}$/.test(p)) navigate(`/together/${p.slice(2)}`, { replace: true });
+    // собрать подборку для чата (команда /together, 11.10): `g-<ключ чата>`
+    else if (p && /^g-[a-z0-9]{6,16}$/.test(p)) navigate(`/together?chat=${p.slice(2)}`, { replace: true });
   }, []);
 }
 

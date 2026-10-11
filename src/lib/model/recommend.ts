@@ -31,6 +31,8 @@ export interface RecommendOptions {
    *  впечатление было не только «что посмотреть», но и «как понять» (замер 06.10: у 6 из 7 первых
    *  кадров нового человека разборов не было) */
   essayFirst?: number;
+  /** якорь вкуса новичка (taste.ts): близость к оценённому от −1 до 1 и её вес в счёте */
+  content?: { fit: (work: WorkCard) => number; weight: number };
 }
 /** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
  *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
@@ -46,6 +48,25 @@ export function timePenalty(work: WorkCard, energy: Energy): number {
 }
 
 const ENERGY_STEP: Record<Energy, number> = { low: -1.2, normal: 0.4, high: 1.4 };
+
+/** Тяжесть по настроению (10.10, замечание владельца): «Полегче» — это не только проще устроено, но и легче
+ *  пережить. Уровень этого не видит: «Нечто», «Собачье сердце», «Ганнибал» — уровень 4 и ниже, и при вкусе к
+ *  телесному кино лёгкая лента собиралась из них. Тяжесть — из разметки: предупреждения и барьеры (что
+ *  тяжело смотреть) и регистры (каким языком говорит фильм). 0 — легко, 1 — тяжело. */
+const HEAVY_MARKS: Record<string, number> = {
+  'Жестокость': 0.35, 'Хоррор-образы': 0.35, 'Физиологические сцены': 0.3, 'Сексуальное насилие': 0.4, 'Насилие над детьми': 0.4,
+  'Самоубийство': 0.3, 'Самоповреждение': 0.3, 'Жестокость к животным': 0.3, 'Нарастающий дискомфорт': 0.2, 'Насилие': 0.15,
+};
+const HEAVY_REGISTERS: Partial<Record<Register, number>> = { body_visceral: 0.3, folk_gothic: 0.2, cold_clinical: 0.1 };
+export function heaviness(work: WorkCard): number {
+  const marks = new Set([...work.warnings, ...work.barriers]);
+  let h = 0;
+  for (const m of marks) h += HEAVY_MARKS[m] ?? 0;
+  for (const r of work.registers ?? []) h += HEAVY_REGISTERS[r] ?? 0;
+  return Math.min(1, h);
+}
+/** Сколько стоит тяжесть при этой силе: только «Полегче»; обычная лента и «Готов к сложному» — как были. */
+const HEAVY_COST: Record<Energy, number> = { low: 0.35, normal: 0, high: 0 };
 
 /** Чего ждёт модель от произведения для этого участника: разрыв между уровнем произведения
  *  и целью (комфорт плюс шаг по усилию). Пороги — те же, что у `levelFit`: разрыв в один
@@ -116,7 +137,7 @@ export function scoreCandidate(state: CognitiveState, work: WorkCard, energy: En
   const affinity = lead && strongOps(state).has(lead) ? 0.04 : 0;
   const sum = weights.level + weights.ops + weights.register;
   return (weights.level * levelFit + weights.ops * ops + weights.register * registerFit(state, work)) / sum + niche + affinity
-    - timePenalty(work, energy);
+    - timePenalty(work, energy) - HEAVY_COST[energy] * heaviness(work);
 }
 
 /** Барьеры формы: не «сложнее», а «иначе» — такой кадр честно помечается шагом в сторону. */
@@ -198,7 +219,8 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
   const scored = candidates
     // новичку в сериалах — только короткий вход
     .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
-    .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0) }))
+    .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0)
+      + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];

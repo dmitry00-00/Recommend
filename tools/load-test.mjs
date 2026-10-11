@@ -143,8 +143,9 @@ async function firstVisit(i) {
     method: 'POST', token,
     body: { slateId: slate, energy: 'medium', items: works.slice(12, 18).map((w, k) => ({ recId: `r-${i}-${k}`, workId: w, slot: 'main', rank: k })) },
   });
-  for (let k = 0; k < 3; k++) {
-    await call('feedback', '/api/feedback', { method: 'POST', token, body: { recId: `r-${i}-${k}`, workId: works[12 + k], action: k === 0 ? 'start' : k === 1 ? 'save' : 'dismiss', eagerness: 3 } });
+  // отклики: «смотрю», «в планы», «не сейчас» (эталон) и «Видел» — минимальная редакция (10.10)
+  for (let k = 0; k < 4; k++) {
+    await call('feedback', '/api/feedback', { method: 'POST', token, body: { recId: `r-${i}-${k}`, workId: works[12 + k], action: k === 0 ? 'start' : k === 1 ? 'save' : 'dismiss', ...(k === 3 ? { reason: 'already_know' } : {}), eagerness: 3 } });
   }
   const planEntry = `j-${i}-p`;
   await call('journal', '/api/journal/plan', { method: 'POST', token, body: { entryId: planEntry, workId: works[13], work: { id: works[13] }, eagerness: 4 } });

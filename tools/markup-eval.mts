@@ -16,6 +16,7 @@
 // показывает пульт).
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
+import { talksBook } from './book-channels.mts';
 import { matchVideos } from './match-videos.mts';
 import { parsePaste } from './links-desk-lib.mts';
 import { readLabels, resolver, suggest, type MarkupError } from './llm-lib.mts';
@@ -37,7 +38,7 @@ const ours = worksIndex().filter((w) => !isBookKey(w.key));
 const label = new Map(worksIndex({ all: true }).map((w) => [w.key, `${w.work.title}${w.work.year ? ` (${w.work.year})` : ''}`]));
 
 const truth = Object.entries(human).filter(([id, v]) => !v.guess && v.from !== 'desk' && byId.has(id) && (v.key || v.why === 'не про фильм'));
-const set = truth.map(([id]) => ({ ...byId.get(id)!, book: channels[byId.get(id)!.channelId ?? '']?.medium === 'book', en: channels[byId.get(id)!.channelId ?? '']?.language === 'en' }));
+const set = truth.map(([id]) => ({ ...byId.get(id)!, book: channels[byId.get(id)!.channelId ?? '']?.medium === 'book' || talksBook(byId.get(id)!.title), en: channels[byId.get(id)!.channelId ?? '']?.language === 'en' }));
 const t0 = Date.now();
 const got = matchVideos(set, ours, ordinary, { ordinaryEn: process.env.NO_EN_ORDINARY ? undefined : ordinaryEn });
 
@@ -51,6 +52,10 @@ for (const [id, v] of truth) {
     else miss++;
   } else if (g) { fp++; wrongs.push(`  ✗ ${id} ${byId.get(id)!.title} → ${label.get(g)} (не про фильм)`); } else tn++;
 }
+
+// MARKUP_EVAL_DUMP=<файл> — привязки этого прогона, id → ключ: сравнить два прогона и увидеть, какие верные
+// привязки правило потеряло, а не только сколько (OPS-9, 10.10)
+if (process.env.MARKUP_EVAL_DUMP) writeFileSync(process.env.MARKUP_EVAL_DUMP, JSON.stringify(Object.fromEntries(truth.map(([id]) => [id, { key: got.get(id)?.key ?? null, title: byId.get(id)!.title }]))));
 
 // профиль канала (02.10): совпадение вне фокуса канала уходит без улики — сколько из них ошибки
 let offN = 0, offWrong = 0, inWrong = 0;

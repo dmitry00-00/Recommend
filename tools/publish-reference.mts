@@ -14,11 +14,13 @@ import { filmBaseWiki as wiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
+import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 
 // вписанное людьми в таблицу разметки едет на сервер тем же справочником: клиенту всё равно,
 // откуда карточка — из каналов или из таблицы; и то, что люди ищут (топы Википедии, 05.10) —
 // так новые фильмы находятся поиском сразу после публикации, без пересборки приложения
-const filmBaseWiki = [...wiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld];
+// и фильмы из загрузок каналов студий и агрегаторов (tools/grow-from-channels.mts, 10.10)
+const filmBaseWiki = [...wiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels];
 import { comentions } from '../src/mocks/comentions.ts';
 import { buildInlineIndex } from './inline-index.mts';
 import { buildHeroesIndex } from './heroes-index.mts';
@@ -51,6 +53,10 @@ const payloads: [string, unknown][] = [
   ...(process.env.PUBLIC_PAGES === '1' ? [['publicPages', buildPublicPages()] as [string, unknown]] : []),
   // сезоны сериалов (ЗП-17, 07.10): сервер пишет «вышел новый сезон» в утренней сводке — tools/series-seasons.mts
   ...(existsSync('.cache/series-seasons.json') ? [['seriesSeasons', JSON.parse(readFileSync('.cache/series-seasons.json', 'utf8'))] as [string, unknown]] : []),
+  // где смотреть по подписке (ЗП-42, 10.10): лента ставит вперёд доступное без доплаты — tools/watch-providers.mts
+  ...(existsSync('.cache/watch-providers.json') ? [['watchProviders', JSON.parse(readFileSync('.cache/watch-providers.json', 'utf8'))] as [string, unknown]] : []),
+  // бесплатная легальная классика (ЗП-43, 10.10): правообладатели на YouTube, Викисклад, архив — tools/free-watch.mts
+  ...(existsSync('.cache/free-watch.json') ? [['freeWatch', JSON.parse(readFileSync('.cache/free-watch.json', 'utf8'))] as [string, unknown]] : []),
 ];
 let failed = 0;
 for (const [name, data] of payloads) {

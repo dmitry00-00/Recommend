@@ -8,6 +8,7 @@
 // Ищем по справочнику `inlineIndex` (tools/inline-index.mts → publish-reference), он держится в памяти.
 import type { Env } from './env';
 import { withRef } from './invite';
+import { togetherCommand, type ChatMessage } from './together';
 
 interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
 interface InlineQuery { id: string; query: string; from?: { id: number } }
@@ -79,14 +80,16 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
 export async function telegramUpdate(req: Request, env: Env): Promise<Response> {
   if (!env.BOT_TOKEN) return new Response('no bot', { status: 503 });
   if (req.headers.get('x-telegram-bot-api-secret-token') !== await webhookSecret(env.BOT_TOKEN)) return new Response('forbidden', { status: 403 });
-  const update = (await req.json().catch(() => ({}))) as { inline_query?: InlineQuery };
+  const update = (await req.json().catch(() => ({}))) as { inline_query?: InlineQuery; message?: ChatMessage };
   if (update.inline_query) await answer(env, update.inline_query);
+  // «/together» в чате — выбор компанией (ЗП-11, 11.10)
+  if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
   return new Response('ok');
 }
 
 /** Подключение адреса событий (tools/tg-webhook.mts, по ADMIN_TOKEN): сервер сам зовёт Telegram своим
  *  токеном — на Mac токен бота не нужен. `info` — что стоит сейчас, `set` — поставить `url` (адрес
- *  /api/telegram этого сервера) только для инлайн-запросов, `delete` — снять. */
+ *  /api/telegram этого сервера) для инлайн-запросов и сообщений (команда /together, 11.10), `delete` — снять. */
 export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   if (!env.BOT_TOKEN) return Response.json({ error: 'no_bot_token' }, { status: 503 });
   const b = (await req.json().catch(() => ({}))) as { action?: string; url?: string };
@@ -95,7 +98,15 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   }).then((r) => r.json());
   if (b.action === 'set') {
     if (!b.url || !/^https:\/\/[^/]+\/api\/telegram$/.test(b.url)) return Response.json({ error: 'url' }, { status: 400 });
-    return Response.json(await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query'], drop_pending_updates: true }));
+    const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message'], drop_pending_updates: true });
+    // команда /together — в подсказках Telegram, в группах и в личке (ЗП-11, 11.10)
+    const commands = [{ command: 'together', description: 'Выбрать фильм вместе' }];
+    const en = [{ command: 'together', description: 'Pick a film together' }];
+    await api('setMyCommands', { commands });
+    await api('setMyCommands', { commands: en, language_code: 'en' });
+    await api('setMyCommands', { commands, scope: { type: 'all_group_chats' } });
+    await api('setMyCommands', { commands: en, scope: { type: 'all_group_chats' }, language_code: 'en' });
+    return Response.json(hook);
   }
   if (b.action === 'delete') return Response.json(await api('deleteWebhook', { drop_pending_updates: true }));
   const info = (await api('getWebhookInfo')) as { result?: Record<string, unknown> };

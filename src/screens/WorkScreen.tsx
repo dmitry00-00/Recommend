@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import type {
   CharacterDesire, DiscussionPlace, JourneyEntryData, SpoilerLevel, UserSettings, WorkDetail,
 } from '@/types/tmdf';
-import { followOfWork, getDiscussions, getJourney, getSettings, getWork, noteCard, planWork, startWork } from '@/api';
+import { followOfWork, getDiscussions, getJourney, getSettings, getTasteProgress, getWork, noteCard, planWork, startWork } from '@/api';
 import {
   BarrierTag, Button, CoMentionList, DiscussionLink, EmptyState, ErrorState, FilmFormNote, OperationChip,
   ReadinessNotice, Skeleton, SpoilerGuard, TagNeighbourList, TropeInsight, TropeMentionList,
@@ -14,6 +14,7 @@ import { workMeta, titleOf } from '@/lib/format';
 import { creditsOf, personRef, readableName, type CreditView } from '@/lib/credits';
 import { SearchLine } from './WorkPlaces';
 import { useRole } from '@/lib/settingsStore';
+import { useFeature } from '@/lib/flags';
 import ui from '@/i18n';
 
 interface Loaded {
@@ -49,6 +50,12 @@ function Desire({ d, open }: { d: CharacterDesire; open: boolean }) {
 export function WorkScreen() {
   // статистика — только админу (ТВ-3в)
   const admin = useRole() === 'admin';
+  // минимальная редакция (10.10): страница — шапка, «видел» с оценкой, о чём фильм, разборы и
+  // обсуждения; связи, герои, приёмы, авторы ссылками, подписка, «в планы» — функции эталона
+  const pages = useFeature('pages');
+  const plansOn = useFeature('plans');
+  const diaryOn = useFeature('diary');
+  const follows = useFeature('follows');
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState<Loaded | null>(null);
@@ -61,6 +68,10 @@ export function WorkScreen() {
   const [marked, setMarked] = useState<'finished' | 'abandoned' | null>(null);
   const [issue, setIssue] = useState(false);
   const toast = useToast();
+  // новичок по ссылке из поста (10.10): ленты у него ещё нет — одна фраза о приложении и путь к своей ленте
+  const [progress, setProgress] = useState<{ rated: number; needed: number } | null>(null);
+  const refreshProgress = () => { getTasteProgress().then(setProgress).catch(() => undefined); };
+  useEffect(refreshProgress, [id]);
 
   useEffect(() => {
     let alive = true;
@@ -167,7 +178,9 @@ export function WorkScreen() {
                   {list.map((c, i) => (
                     <span key={personRef(c)}>
                       {i ? ', ' : null}
-                      <Link className="tm-work__person" to={`/person/${encodeURIComponent(personRef(c))}`}>{c.name}</Link>
+                      {pages
+                        ? <Link className="tm-work__person" to={`/person/${encodeURIComponent(personRef(c))}`}>{c.name}</Link>
+                        : c.name}
                     </span>
                   ))}
                 </dd>
@@ -187,7 +200,7 @@ export function WorkScreen() {
         ) : null}
         {/* действия одной линией (06.10): «Посмотрел», «Бросил», «В планы», «Поделиться» — сеткой равных
             ячеек, ряд не переносится и не меняет вид от слов */}
-        {settings.diary ? (
+        {settings.diary && diaryOn ? (
           <div className="tm-work__actions tm-work__bar">
             <Button variant="primary" loading={starting} disabled={finished} onClick={start}>
               {work.type === 'book' ? ui.feed.readingMark : ui.feed.watchingMark}
@@ -200,15 +213,28 @@ export function WorkScreen() {
         ) : (
           // облегчённый учёт (02.10): «посмотрел» с оценкой, «бросил», «в планы» — без «смотрю сейчас»
           <div className="tm-work__actions">
-            <QuickMark work={work} primary onDone={setMarked} rowClassName="tm-quick tm-work__bar"
+            <QuickMark work={work} primary onDone={(st) => { setMarked(st); refreshProgress(); }} rowClassName="tm-quick tm-work__bar"
+                       // в минимальной редакции — как в карточке ленты: «Видел» с оценкой, без «Бросил»
+                       {...(plansOn ? {} : { abandon: false, label: ui.quick.seen })}
                        extra={<>
-                         <Button pressed={saved} disabled={saved} onClick={plan}>{ui.actions.save}</Button>
+                         {plansOn ? <Button pressed={saved} disabled={saved} onClick={plan}>{ui.actions.save}</Button> : null}
                          <ShareButton work={work} />
                        </>} />
             {abandoned ? <p className="tm-caption tm-work__finished">{ui.quick.abandonedMark}</p> : null}
           </div>
         )}
       </WorkHeader>
+
+      {progress && progress.rated < progress.needed ? (
+        <section className="tm-work__landing">
+          <h2 className="tm-title-3">{ui.today.landingTitle}</h2>
+          <p className="tm-body-sm tm-work__landingtext">{ui.today.landingText(progress.needed - progress.rated)}{finished || abandoned ? '' : ` ${ui.today.landingThis}`}</p>
+          <div className="tm-row tm-row--gap-2 tm-row--wrap">
+            <Button variant="primary" size="sm" onClick={() => navigate('/rate')}>{ui.today.landingAction}</Button>
+            <Button variant="quiet" size="sm" onClick={() => navigate('/settings?import=1')}>{ui.today.coldImport}</Button>
+          </div>
+        </section>
+      ) : null}
 
       <div className="tm-work__sections">
         {finished ? <p className="tm-label tm-work__finished">{ui.work.finished}</p> : null}
@@ -226,7 +252,7 @@ export function WorkScreen() {
           {/* «Следить» (06.10): новые разборы этого произведения — сводкой от бота раз в день */}
           <div className="tm-work__sechead">
             <h2 className="tm-title-3">{ui.work.analyses}</h2>
-            <FollowButton target={followOfWork(work)} />
+            {follows ? <FollowButton target={followOfWork(work)} /> : null}
           </div>
           <WorkVoices analyses={work.externalAnalyses} spoilerLevel={allowed} workTitle={titleOf(work)} kind={work.type} workId={work.id} />
           {admin && work.externalAnalyses?.length ? (
@@ -237,7 +263,7 @@ export function WorkScreen() {
         </section>
 
         {/* откуда это и что из этого выросло (Ж1): роман, по которому снято, сиквел, ремейки, франшиза */}
-        {work.relations?.length || work.universe ? (
+        {pages && (work.relations?.length || work.universe) ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.relations.title}</h2>
             {work.universe ? (
@@ -261,7 +287,7 @@ export function WorkScreen() {
         ) : null}
 
         {/* герои, которые есть и в других произведениях (И1): Холмс, Джокер, Дракула */}
-        {work.heroes?.length ? (
+        {pages && work.heroes?.length ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.heroes.title}</h2>
             <ul className="tm-relations">
@@ -290,7 +316,7 @@ export function WorkScreen() {
 
         {/* темп речи и тишины — раньше разборов: это не чужое мнение, а замер, и он помогает
             решить «сегодня или не сегодня» до того, как читать, что об этом думают */}
-        {work.form ? (
+        {pages && work.form ? (
           <section className="tm-work__section">
             <FilmFormNote form={work.form} />
           </section>
@@ -298,7 +324,7 @@ export function WorkScreen() {
 
         {/* «рядом называют» стоит перед местами разговора: это тоже про разговор, но про то,
             что в нём звучит, а не про то, где он идёт */}
-        {work.nearby?.length ? (
+        {pages && work.nearby?.length ? (
           <section className="tm-work__section">
             <CoMentionList items={work.nearby} />
           </section>
@@ -306,7 +332,7 @@ export function WorkScreen() {
 
         {/* «описывают похоже» сразу следом: два списка соседей из разных миров, и то, что они
             разные, — само по себе информация, а не ошибка */}
-        {work.similarByTags?.length ? (
+        {pages && work.similarByTags?.length ? (
           <section className="tm-work__section">
             <TagNeighbourList items={work.similarByTags} />
           </section>
@@ -324,7 +350,7 @@ export function WorkScreen() {
           </section>
         ) : null}
 
-        {work.tropeInsights.length ? (
+        {pages && work.tropeInsights.length ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.work.tropes}</h2>
             {openInsights.map((t) => <TropeInsight key={t.tropeId} insight={t} />)}
@@ -338,7 +364,7 @@ export function WorkScreen() {
 
         {/* приёмы с вики — сразу за разобранными руками: то же поле, но другой статус,
             и оговорка обязана стоять рядом, иначе читается как наше утверждение */}
-        {work.tropeMentions?.length ? (
+        {pages && work.tropeMentions?.length ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.tropeMentions.title}</h2>
             <p className="tm-body-sm tm-work__note">{ui.tropeMentions.why}</p>
@@ -389,7 +415,7 @@ export function WorkScreen() {
           </>
         ) : null}
 
-        {work.inTrajectories.length ? (
+        {pages && work.inTrajectories.length ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.work.inTrajectories}</h2>
             <ul className="tm-work__list">
@@ -403,7 +429,7 @@ export function WorkScreen() {
           </section>
         ) : null}
 
-        {work.relatedWorks.length ? (
+        {pages && work.relatedWorks.length ? (
           <section className="tm-work__section">
             <h2 className="tm-title-3">{ui.work.related}</h2>
             <ul className="tm-work__list">

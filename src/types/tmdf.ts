@@ -86,7 +86,8 @@ export type SpoilerLevel = 0 | 1 | 2;
 export type Energy = 'low' | 'normal' | 'high';
 export type StateChangeType = 'refined_estimate' | 'observed_growth';
 /** `universe` (Ж3) — «дальше во вселенной»: продолжение виденного, отдельно от слотов развития */
-export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation' | 'universe';
+/** `free` — полка бесплатной легальной классики (ЗП-43): одно место в ленте, фильм с источником «смотреть бесплатно» */
+export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation' | 'universe' | 'free';
 export type StepStatus = 'locked' | 'available' | 'in_progress' | 'completed' | 'skipped';
 export type JourneyStatus = 'planned' | 'in_progress' | 'finished' | 'abandoned';
 export type PerceivedDifficulty = 'too_easy' | 'just_right' | 'too_hard';
@@ -117,7 +118,11 @@ export interface WatchOption {
   platform: string;
   url: string;
   logoUrl?: string;
-  source: 'kinopoisk_unofficial' | 'tmdb';
+  /** `wikidata` — бесплатный легальный источник из справочника `freeWatch` (ЗП-43): правообладатель, Викисклад, архив */
+  source: 'kinopoisk_unofficial' | 'tmdb' | 'wikidata';
+  /** как фильм там есть (ЗП-42): по подписке, бесплатно, с рекламой, аренда, покупка; нет — неизвестно
+   *  (неофициальный API Кинопоиска вид не отдаёт) */
+  kind?: 'subscription' | 'free' | 'ads' | 'rent' | 'buy';
 }
 
 export interface WorkCard {
@@ -635,6 +640,17 @@ export interface UserSettings {
   /** полки рубрик в карточке (ТВ-3г): ручной переключатель владельца поверх доли выката
    *  (src/lib/flags.ts). Нет поля — решает доля */
   lensShelves?: boolean;
+  /** редакция интерфейса (10.10): админу и тестерам — эталон, участникам — минимум; админ
+   *  переключает здесь, чтобы смотреть минимум глазами участника (src/lib/flags.ts) */
+  edition?: 'minimum' | 'full';
+  /** мои подписки (ЗП-42, 10.10): кинотеатры, оплаченные у человека, — имена `cinemaSlug` (src/lib/cinemas.ts).
+   *  Лента ставит вперёд то, что можно смотреть без доплаты; карточка пишет «есть в вашей подписке» */
+  subscriptions?: string[];
+  /** лента — только то, что можно смотреть без доплаты (по подписке или бесплатно) */
+  subscriptionsOnly?: boolean;
+  /** полки вкуса новичка (ЗП-45, 11.10): «что вам ближе» на экране первых оценок — id из `TASTE_SHELVES`
+   *  (src/lib/model/taste.ts); кормят якорь вкуса и ставят своё вперёд в колоде */
+  tasteShelves?: string[];
 }
 
 // ---------- вход ----------

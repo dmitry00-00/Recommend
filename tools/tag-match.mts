@@ -26,12 +26,15 @@ const FRANCHISE = new Set(universeSeeds.flatMap((u) => [u.ru, u.en]).filter(Bool
 
 export function tagIndex(ours: IndexedWork[]): Map<string, IndexedWork[]> {
   const out = new Map<string, IndexedWork[]>();
-  for (const w of ours) {
+  // малоизвестные карточки из каналов (`minor`) — после остальных и только в свободные теги
+  const taken = new Set<string>();
+  for (const w of [...ours.filter((x) => !x.minor && !x.show), ...ours.filter((x) => x.minor)]) {
     for (const n of new Set([...w.names, w.work.title, w.work.originalTitle].filter((x): x is string => Boolean(x)))) {
       const c = compact(n);
       if (c.length < 5 || FRANCHISE.has(c)) continue;
       for (const k of [c, w.work.year ? `${c}${w.work.year}` : '']) {
-        if (!k) continue;
+        if (!k || (w.minor && taken.has(k))) continue;
+        if (!w.minor) taken.add(k);
         const list = out.get(k) ?? out.set(k, []).get(k)!;
         if (!list.includes(w)) list.push(w);
       }
@@ -95,7 +98,11 @@ export function byTags(v: { title: string; description?: string; tags?: string[]
   const one = (keys: string[]) => {
     const found = new Map<string, IndexedWork>();
     for (const k of keys) for (const w of index.get(k) ?? []) found.set(w.key, w);
-    return found.size === 1 ? [...found.values()][0] : undefined;
+    // малоизвестная карточка из каналов уступает карточке справочника: тег «Dark Planet» у разбора
+    // «Обитаемого острова» — его английское название, а не фильм 1996-го (10.10)
+    const major = [...found.values()].filter((w) => !w.minor);
+    const pool = major.length ? major : [...found.values()];
+    return pool.length === 1 ? pool[0] : undefined;
   };
   const namesOf = (w: IndexedWork) => [w.work.title, w.work.originalTitle ?? '', ...w.names].filter(Boolean);
   const h = one(hashtagsOf(`${v.title}\n${v.description ?? ''}`));

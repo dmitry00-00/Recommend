@@ -1,7 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { lazy, useEffect, type ReactNode } from 'react';
-import { loadSettings, useRole } from '@/lib/settingsStore';
+import { loadSettings, useRole, useSettings } from '@/lib/settingsStore';
+import { useFeature, type Feature } from '@/lib/flags';
 // Редкие экраны (механика, кураторская, задания участника) — отдельными кусками: в основной
 // бандл идёт только то, что нужно ленте, поиску, карточке и архиву (трек А, цель — меньше
 // 200 КБ gzip).
@@ -57,6 +58,16 @@ function AdminOnly({ children }: { children: ReactNode }) {
   return role === 'admin' ? <>{children}</> : <Navigate to="/today" replace />;
 }
 
+/** Функция эталона (10.10): в минимальной редакции экрана нет — по старой ссылке уводим в ленту.
+ *  До загрузки настроек не решаем: админ с прямой ссылкой не должен вылететь в ленту. */
+function Gate({ f, children }: { f: Feature; children: ReactNode }) {
+  const loaded = useSettings() != null;
+  const on = useFeature(f);
+  useEffect(() => { void loadSettings(); }, []);
+  if (!loaded) return null;
+  return on ? <>{children}</> : <Navigate to="/today" replace />;
+}
+
 /** Роуты §17. Все экраны перенесены (22.09). */
 export const routes: RouteObject[] = [
   { path: '/', element: <Navigate to="/today" replace /> },
@@ -66,28 +77,28 @@ export const routes: RouteObject[] = [
   { path: '/onboarding', element: <OnboardingScreen /> },
   { path: '/assessment/:id', element: <AssessmentScreen /> },
   { path: '/onboarding/map', element: <FirstMapScreen /> },
-  { path: '/search', element: <SearchScreen /> },
-  { path: '/mood', element: <MoodScreen /> },
+  { path: '/search', element: <Gate f="search"><SearchScreen /></Gate> },
+  { path: '/mood', element: <Gate f="search"><MoodScreen /></Gate> },
   { path: '/rate', element: <RateScreen /> },
-  { path: '/voice/:id', element: <VoiceScreen /> },
+  { path: '/voice/:id', element: <Gate f="pages"><VoiceScreen /></Gate> },
   { path: '/works/:id', element: <WorkScreen /> },
   { path: '/open/:param', element: <OpenSharedScreen /> },
-  { path: '/person/:id', element: <PersonScreen /> },
-  { path: '/universe/:id', element: <UniverseScreen /> },
-  { path: '/character/:id', element: <CharacterScreen /> },
+  { path: '/person/:id', element: <Gate f="pages"><PersonScreen /></Gate> },
+  { path: '/universe/:id', element: <Gate f="pages"><UniverseScreen /></Gate> },
+  { path: '/character/:id', element: <Gate f="pages"><CharacterScreen /></Gate> },
   { path: '/stats/:kind/:id', element: <AdminOnly><StatsScreen /></AdminOnly> },
   { path: '/trajectories', element: <TrajectoriesScreen /> },
   { path: '/trajectories/:id', element: <TrajectoryScreen /> },
   { path: '/map', element: <MapScreen /> },
-  { path: '/journal', element: <JournalScreen /> },
-  { path: '/journal/:entryId', element: <JournalEntryScreen /> },
-  { path: '/journal/:entryId/check-in', element: <CheckInScreen /> },
+  { path: '/journal', element: <Gate f="plans"><JournalScreen /></Gate> },
+  { path: '/journal/:entryId', element: <Gate f="diary"><JournalEntryScreen /></Gate> },
+  { path: '/journal/:entryId/check-in', element: <Gate f="diary"><CheckInScreen /></Gate> },
   { path: '/checkpoint/:id', element: <AssessmentScreen checkpoint /> },
   { path: '/settings', element: <SettingsScreen /> },
   // документы (ЗП-5): /legal/rules — как работает подбор, /legal/privacy — политика данных
   { path: '/legal/:doc', element: <LegalScreen /> },
   // выбор компанией (ЗП-11): /together — собрать десятку, /together/:id — голосовать и итог
-  { path: '/together', element: <TogetherScreen /> },
+  { path: '/together', element: <Gate f="together"><TogetherScreen /></Gate> },
   { path: '/together/:id', element: <TogetherScreen /> },
   { path: '/loop', element: <AdminOnly><LoopScreen /></AdminOnly> },
   { path: '/owner', element: <AdminOnly><OwnerDeskScreen /></AdminOnly> },

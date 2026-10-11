@@ -26,6 +26,12 @@ export const isBookHandle = (handle?: string): boolean => Boolean(handle && book
 /** Названия, по которым произведение ищется в канале: в книжном — и книги каталога через мост. */
 export const namesFor = (w: IndexedWork, book: boolean): string[] => (book ? w.bookNames ?? w.names : w.names);
 
+/** Ролик о книге в кино-канале: книжная рубрика канала («#КНИГОЛИКБЕЗ», «Литературный подкаст», «Лит. подкаст»)
+ *  или автор-классик рядом с названием («"Война и Мир" … / Лев Толстой»). Такой ролик судим как ролик книжного
+ *  канала: к книге, если она есть, иначе мимо, а не к экранизации (OPS-9, 10.10) */
+export const BOOK_EPISODE = /книголикбез|(?<!\p{L})лит(?:ературн\p{L}*|\.)\s*подкаст|(?<!\p{L})(?:лев|л\.)\s*толст(?:ой|ого)(?!\p{L})/iu;
+export const talksBook = (title: string): boolean => BOOK_EPISODE.test(title);
+
 /** Из равных совпадений в книжном канале — книги, если они среди них есть. */
 export function preferBooks<T extends { work: IndexedWork['work'] }>(tied: T[]): T[] {
   const books = tied.filter((t) => t.work.type === 'book');

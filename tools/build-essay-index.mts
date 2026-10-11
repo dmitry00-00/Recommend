@@ -26,7 +26,7 @@ import { channelMeta, excludedChannels, fetchChannelVideos, isExcluded } from '.
 import { resolveAbout, type AboutKind } from './about-lib.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isBookKey } from '../src/lib/keys.ts';
-import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex } from './book-channels.mts';
+import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex, talksBook } from './book-channels.mts';
 
 const key = process.env.YT_API_KEY;
 if (!key) { console.error('нужен YT_API_KEY'); process.exit(1); }
@@ -74,7 +74,7 @@ for (const [id, m] of Object.entries(channelMeta())) {
 interface Video { id: string; title: string; description?: string; publishedAt?: string; channel: string; book?: boolean; en?: boolean; tags?: string[] }
 const videos: Video[] = dump.filter((v) => v.channelId && channels.has(v.channelId)).map((v) => ({
   id: v.id, title: v.title, description: v.description?.slice(0, 600), publishedAt: v.publishedAt, channel: v.channel, ...(v.tags?.length ? { tags: v.tags } : {}),
-  ...(bookChannels.has(v.channel) ? { book: true } : {}), ...(englishChannels.has(v.channel) ? { en: true } : {}),
+  ...(bookChannels.has(v.channel) || talksBook(v.title) ? { book: true } : {}), ...(englishChannels.has(v.channel) ? { en: true } : {}),
 }));
 console.error(`каналов: ${channels.size}, роликов: ${videos.length}`);
 

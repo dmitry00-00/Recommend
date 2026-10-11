@@ -27,6 +27,8 @@ export interface StoredState {
   verdicts: { url: string; verdict: 'about_this' | 'other_work' | 'unsure' }[];
   journal?: { entry_id: string; work_id: ID; work?: WorkCard; status: string; progress?: number | null; started_at?: string | null; finished_at?: string | null; eagerness?: number | null; inferred?: number | null; series?: (SeriesProgress & { kind?: undefined }) | (BookProgress & { kind: 'book' }) | null }[];
   ratings?: { workId: ID; rating: 1 | 2 | 3 | 4 | 5; raw?: number; work?: WorkCard; at: string }[];
+  /** последний отказ на фильм ленты (10.10): по нему фильм не возвращается в ленту на срок по причине */
+  dismissals?: { workId: ID; reason?: string; at: string }[];
   profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean; role?: 'admin' | 'tester' | 'user' };
 }
 

@@ -41,7 +41,7 @@ export function seriesInfo(t: Pick<Tv, 'number_of_seasons' | 'number_of_episodes
   };
 }
 
-interface Providers { results?: Record<string, { link?: string; flatrate?: Provider[]; rent?: Provider[]; buy?: Provider[]; free?: Provider[] }> }
+interface Providers { results?: Record<string, { link?: string; flatrate?: Provider[]; rent?: Provider[]; buy?: Provider[]; free?: Provider[]; ads?: Provider[] }> }
 interface Provider { provider_name: string; logo_path?: string; display_priority?: number }
 
 export interface TmdbClient {
@@ -131,14 +131,16 @@ export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, langua
       const p = await get<Providers>(`/movie/${id}/watch/providers`);
       const r = p?.results?.[region];
       if (!r) return [];
+      // вид — у каждой площадки (ЗП-42): одна и та же бывает и по подписке, и в аренде — берём лучший
+      const kinds = [['subscription', r.flatrate], ['free', r.free], ['ads', r.ads], ['rent', r.rent], ['buy', r.buy]] as const;
       const seen = new Set<string>();
-      const all = [...(r.flatrate ?? []), ...(r.free ?? []), ...(r.rent ?? []), ...(r.buy ?? [])]
-        .sort((a, b) => (a.display_priority ?? 99) - (b.display_priority ?? 99));
-      return all.filter((x) => !seen.has(x.provider_name) && seen.add(x.provider_name)).map((x) => ({
+      const all = kinds.flatMap(([kind, list]) => [...(list ?? [])].sort((a, b) => (a.display_priority ?? 99) - (b.display_priority ?? 99)).map((x) => ({ x, kind })));
+      return all.filter(({ x }) => !seen.has(x.provider_name) && seen.add(x.provider_name)).map(({ x, kind }) => ({
         platform: x.provider_name,
         url: r.link ?? `https://www.themoviedb.org/movie/${id}/watch?locale=${region}`,
         logoUrl: x.logo_path ? `${IMG}/w92${x.logo_path}` : undefined,
         source: 'tmdb' as const,
+        kind,
       }));
     },
   };

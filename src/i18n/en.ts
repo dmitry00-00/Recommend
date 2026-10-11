@@ -87,6 +87,10 @@ export const en: Strings = {
   "universe": {
     "label": "Further in the universe",
     "note": "a follow-up to what you've already seen"
+  },
+  "free": {
+    "label": "Free classics",
+    "note": "posted by the rights holder or in the public domain"
   }
 },
   stretch: {
@@ -683,6 +687,10 @@ export const en: Strings = {
   "normKeep": (median: number) => `Keep ${median}`,
   "coldText": (needed: number) => `The feed is built around your taste, and we don't know anything about it yet. Rate at least ${needed} films you've already seen — and your first recommendations will appear.`,
   "coldProgress": (rated: number, needed: number) => `Rated ${rated} of ${needed}.`,
+  "landingTitle": "A feed of films one step beyond what you're used to",
+  "landingText": (left: number) => `Each film comes with reviews by authors who talked about it. Mark ${left} ${left === 1 ? 'film' : 'films'} you've seen and we'll build your feed.`,
+  "landingThis": "This one counts too — mark it above.",
+  "landingAction": "Build my feed",
   "coldAction": "Rate films",
   "coldMore": "Keep rating",
   "introTitle": "Not what to watch, but what will shift your view",
@@ -694,6 +702,9 @@ export const en: Strings = {
 },
   /* первые оценки: экран /rate */
   rate: {
+  "picksTitle": "What are you into?",
+  "picksLead": "Pick two or three shelves — your first picks start there, and similar films move up the list.",
+  "shelf": { "animation": "Animation", "home": "Russian & Soviet", "scifi": "Sci-fi", "fantasy": "Fantasy & adventure", "horror": "Horror", "crime": "Crime & mystery", "comedy": "Comedy", "drama": "Drama", "romance": "Romance", "war": "War & history", "korea": "Korean cinema", "japan": "Japanese cinema", "india": "Indian cinema" },
   "title": "Rate what you've seen",
   "lead": "Mark how you liked the film — or skip it if you haven't seen it. Ratings are only for picks: no one else will see them.",
   "progress": (rated: number, needed: number) => rated >= needed ? `Rated ${rated}` : `Rated ${rated} of ${needed}`,
@@ -928,6 +939,10 @@ export const en: Strings = {
   "watchHint": (n: number) => `Platforms: ${n} — switch between them in the bar below.`,
   "watchNone": "We don't know where to stream it yet",
   "watchNoneHint": "The platform list comes from Kinopoisk and can be incomplete.",
+  "watchYours": "In your subscription",
+  "watchFree": (source: string) => `Watch free — ${source}`,
+  "watchFreeHint": "Posted by the rights holder or in the public domain — the link goes to the source.",
+  "watchKind": { "subscription": "Subscription", "free": "Free", "ads": "Free with ads", "rent": "Rent", "buy": "Buy" },
   "read": "Read",
   "readHonest": "We can't say for sure where the book is available: book services don't share open availability data. Here's where to look:",
   "readSearch": (title: string) => `${title} — search`,
@@ -1051,6 +1066,9 @@ export const en: Strings = {
   "moreLoading": "Picking…",
   "moreNone": "That's everything that fits for today. Rate more films and your picks will widen.",
   "moreFailed": "Couldn't pick more — try again later",
+  "inYourSub": (platform: string) => `on your ${platform}`,
+  "freeOn": (platform: string) => `free on ${platform}`,
+  "subsOnly": "Only my subscriptions",
   "archive": "Archive",
   "entryOne": "entry",
   "entryFew": "entries",
@@ -1341,6 +1359,7 @@ export const en: Strings = {
   /* облегчённый учёт (02.10): «посмотрел» с оценкой в одно касание, «бросил» без вопросов */
   quick: {
   "watched": "Watched",
+  "seen": "Seen it",
   "read": "Read",
   "how": "How was it?",
   "noRating": "No rating",
@@ -1379,6 +1398,13 @@ export const en: Strings = {
   "energyText": "How much energy to build “Today” for: easy going — nothing demanding, as usual — your usual mix, up for a challenge — something harder gets added.",
   "diary": "Detailed diary",
   "diaryText": "Mark what you're watching, track where you are in a book or series, and answer a couple of questions afterwards — this helps picks match your effort better. When off, it's just “watched” with a rating and “dropped”.",
+  "edition": "Minimal edition",
+  "editionText": "The app as a participant sees it: feed, reviews, discussions and “seen” with a rating. Everything else is the reference edition; features are switched on one by one in src/lib/flags.ts.",
+  "subs": "My subscriptions",
+  "subsText": "Tick the services you already pay for: the feed puts first what you can watch at no extra cost, and each film shows which of your subscriptions has it.",
+  "subsOnly": "Nothing extra to pay",
+  "subsOnlyText": "The feed only picks films from your subscriptions and free ones.",
+  "subsNote": "Availability comes from JustWatch and can be incomplete.",
   "details": "Show the mechanics",
   "detailsText": "Thinking skills, levels and ranges, the map and what changes on it. Off by default: picks and paths work without it, and you still see the still, a plain-words explanation, creators' breakdowns and discussion spots.",
   "openMap": "Open the thinking map",
@@ -1532,6 +1558,9 @@ export const en: Strings = {
 },
   /* выбор компанией (ЗП-11, 07.10): десятка под вкус того, кто собирает, голоса «хочу / не хочу / видел» */
   together: {
+  "leadChat": "We'll pick ten films to match your taste — the bot posts them to the chat you came from, and everyone marks want, don't or seen.",
+  "postedToChat": (title: string | null) => title ? `Voting invite posted to “${title}”` : "Voting invite posted to your chat with the bot",
+  "chatExpired": "Couldn't post to the chat: the link is old or already used. Invite friends with the button below.",
   "title": "Pick together",
   "lead": "We'll put together ten films to your taste. Invite friends to the chat — everyone marks “want”, “don't want” or “seen”. What everyone wants rises to the top.",
   "create": "Build a top ten",

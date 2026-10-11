@@ -8,8 +8,9 @@
 //
 // GET /api/admin/funnel (по ADMIN_TOKEN; `owner=0` — без владельца, `tg=1` — только вошедшие через Telegram):
 //   · day — вчера и 7 полных дней: показатели против порогов беты;
-//   · funnel — новые за 30 дней: вошёл → 10 оценок (или импорт) в первые сутки → принял фильм из ленты →
-//     посмотрел (чек-ин или «посмотрел») → вернулся в другой день. Ступени считаются каждая сама по себе;
+//   · funnel — новые за 30 дней: вошёл → первая лента в первые сутки → откликнулся на ленту («Видел»,
+//     разбор, принятие) → открыл разбор → принял фильм (эталон) → посмотрел → вернулся в другой день.
+//     Ступени считаются каждая сама по себе;
 //   · retention — когорты по дню входа: D1/D7/D30 «в этот день» и «в этот день или позже»;
 //   · daily — по дням за 14 дней: кто был, новые, карточки, «Смотреть», разборы, ленты.
 import type { D1Database, Env } from './env';
@@ -53,12 +54,33 @@ export async function postEvent(req: Request, userId: string, db: D1Database): P
 
 // ─── сводка ─────────────────────────────────────────────────────────────────
 
-/** Пороги «идём дальше» для закрытых бет (ROADMAP §9; через две недели беты — откалибровать). */
+/** Пороги «идём дальше» для закрытых бет (ROADMAP §9; через две недели беты — откалибровать).
+ *  Минимальная редакция (10.10): участник видит ленту, разборы, обсуждения и «Видел» — главные показатели
+ *  интереса теперь «отклик на ленту» и открытие разбора; чек-ин и «Смотреть» — функции эталона, их пороги
+ *  считаются, только когда функция включена хоть кому-то.
+ *  Два уровня (исследование 10.10, reports/Дизайн, функционал и метрики.md): цель — уровень лучших 25%
+ *  медиа-приложений, минимум — медиана категории; ниже минимума продукт не держит. На 300 участниках доля
+ *  видна с точностью ±5 п.п.: по одной неделе пороги не двигаем, вывод — от когорты в 100–150 человек. */
 export const THRESHOLDS = {
-  activation: 0.6, d7: 0.25, d30: 0.12, acceptedFeeds: 0.3, checkins: 0.2, watchClicks: 0.08, analysisOpens: 0.15,
+  activation: 0.6, d7: 0.25, d30: 0.12, engagedFeeds: 0.3, analysisOpens: 0.15,
+  acceptedFeeds: 0.3, checkins: 0.2, watchClicks: 0.08,
 } as const;
+export const FLOORS: Partial<Record<keyof typeof THRESHOLDS, number>> = {
+  activation: 0.4, d7: 0.15, d30: 0.07, engagedFeeds: 0.2, analysisOpens: 0.1,
+};
+/** Сколько новых нужно, чтобы доля за период что-то значила: меньше — показатель серый. */
+export const MIN_BASE = 30;
 
 const ACCEPT = "('save', 'start')";
+/** Отклик на фильм ленты в минимальной редакции: принял (эталон), «Видел» (отклик «уже знаю») или открыл
+ *  разбор этого фильма — всё, кроме «не сейчас» и молчания. */
+const engagedWith = (i: string) => `(EXISTS (SELECT 1 FROM feedback f WHERE f.user_id = ${i}.user_id AND f.rec_id = ${i}.rec_id
+    AND (f.action IN ${ACCEPT} OR (f.action = 'dismiss' AND f.reason = 'already_know')))
+  OR EXISTS (SELECT 1 FROM material_open m WHERE m.user_id = ${i}.user_id AND m.work_id = ${i}.work_id AND m.at >= ${i}.at))`;
+/** Активация (10.10): первая лента в первые сутки — то есть человек дошёл до подбора (пять оценок в
+ *  справочнике или импорт). Раньше — 10 оценок; лента собирается с пяти, и исследование холодного старта
+ *  говорит, что 2–4 оценок уже хватает обойти среднее. */
+const activatedSql = `EXISTS (SELECT 1 FROM impression i WHERE i.user_id = u.id AND i.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day'))`;
 const ratio = (a: number, b: number): number | null => (b > 0 ? a / b : null);
 
 export async function getFunnel(req: Request, env: Env, admin: boolean): Promise<Response> {
@@ -91,7 +113,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   // ── по дням: кто был, новые, карточки, «Смотреть», разборы, оценки, ленты, принятые ленты, чек-ины
   type DayN = { day: string; n: number; users?: number };
   const byDay = (sql: string, ...bind: unknown[]) => q<DayN>(sql, ...binds, ...bind);
-  const [visits, joined, cards, watches, opens, ratings, feeds, accepted, checkins] = await Promise.all([
+  const [visits, joined, cards, watches, opens, ratings, feeds, accepted, engaged, seen, prompted, checkins] = await Promise.all([
     byDay(`SELECT day, COUNT(*) AS n FROM visit WHERE ${inUsers} AND day >= ? GROUP BY day`, from14),
     q<DayN>(`SELECT ${SQL_DAY('created_at')} AS day, COUNT(*) AS n FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ? GROUP BY day`, ...binds, from14),
     byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM event WHERE kind = 'card' AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
@@ -103,6 +125,19 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
     byDay(`SELECT ${SQL_DAY('i.at')} AS day, COUNT(DISTINCT i.slate_id) AS n, COUNT(DISTINCT i.user_id) AS users FROM impression i
              WHERE i.${inUsers} AND ${SQL_DAY('i.at')} >= ?
                AND EXISTS (SELECT 1 FROM feedback f WHERE f.user_id = i.user_id AND f.rec_id = i.rec_id AND f.action IN ${ACCEPT})
+             GROUP BY day`, from14),
+    // лента с откликом (минимальная редакция): хоть на один её фильм — «Видел», разбор или принятие
+    byDay(`SELECT ${SQL_DAY('i.at')} AS day, COUNT(DISTINCT i.slate_id) AS n, COUNT(DISTINCT i.user_id) AS users FROM impression i
+             WHERE i.${inUsers} AND ${SQL_DAY('i.at')} >= ? AND ${engagedWith('i')}
+             GROUP BY day`, from14),
+    // «Видел» на фильме из ленты: подбор попал в знакомое — сигнал вкуса, но не новое
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM feedback WHERE action = 'dismiss' AND reason = 'already_know' AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
+    // посмотрел по подсказке (10.10): «Видел» на фильме, который лента показала ему в один из прошлых дней.
+    // В минимуме нет «в планы» и «смотрю»: лента держит те же фильмы, пока нет новых оценок, — человек
+    // возвращается после просмотра и отмечает. Это и есть «посмотрел то, что мы предложили»
+    byDay(`SELECT ${SQL_DAY('f.at')} AS day, COUNT(*) AS n, COUNT(DISTINCT f.user_id) AS users FROM feedback f
+             WHERE f.action = 'dismiss' AND f.reason = 'already_know' AND f.${inUsers} AND ${SQL_DAY('f.at')} >= ?
+               AND EXISTS (SELECT 1 FROM impression i WHERE i.user_id = f.user_id AND i.work_id = f.work_id AND ${SQL_DAY('i.at')} < ${SQL_DAY('f.at')})
              GROUP BY day`, from14),
     byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM checkin WHERE ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
   ]);
@@ -128,6 +163,9 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
     ratings: pick(ratings, day)?.n ?? 0,
     feeds: pick(feeds, day)?.n ?? 0,
     acceptedFeeds: pick(accepted, day)?.n ?? 0,
+    engagedFeeds: pick(engaged, day)?.n ?? 0,
+    seen: pick(seen, day)?.n ?? 0,
+    prompted: pick(prompted, day)?.n ?? 0,
     accepts: pick(accepts, day)?.n ?? 0,
     checkins: pick(checkins, day)?.n ?? 0,
     cardsWithOpen: pick(cardsWithOpen, day)?.n ?? 0,
@@ -135,12 +173,12 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   }));
 
   // ── воронка: новые за 30 дней
-  const [funnelRow] = await q<{ joined: number; activated: number; accepted: number; watched: number; returned: number }>(
+  const [funnelRow] = await q<{ joined: number; activated: number; engaged: number; opened: number; accepted: number; watched: number; returned: number }>(
     `WITH u AS (SELECT id, created_at, ${SQL_DAY('created_at')} AS d FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?)
      SELECT COUNT(*) AS joined,
-       SUM(CASE WHEN (SELECT COUNT(*) FROM rating r WHERE r.user_id = u.id AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day'))
-                   + (SELECT COUNT(*) FROM watched w WHERE w.user_id = u.id AND w.state = 'watched' AND w.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day')) >= 10
-                THEN 1 ELSE 0 END) AS activated,
+       SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated,
+       SUM(CASE WHEN EXISTS (SELECT 1 FROM impression i WHERE i.user_id = u.id AND ${engagedWith('i')}) THEN 1 ELSE 0 END) AS engaged,
+       SUM(CASE WHEN EXISTS (SELECT 1 FROM material_open m WHERE m.user_id = u.id) THEN 1 ELSE 0 END) AS opened,
        SUM(CASE WHEN EXISTS (SELECT 1 FROM feedback f WHERE f.user_id = u.id AND f.action IN ${ACCEPT})
                   OR EXISTS (SELECT 1 FROM journal j WHERE j.user_id = u.id) THEN 1 ELSE 0 END) AS accepted,
        SUM(CASE WHEN EXISTS (SELECT 1 FROM journal j WHERE j.user_id = u.id AND j.status = 'finished')
@@ -149,7 +187,8 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
      FROM u`, ...binds, from30);
   const funnel = {
     since: from30,
-    joined: funnelRow?.joined ?? 0, activated: funnelRow?.activated ?? 0, accepted: funnelRow?.accepted ?? 0,
+    joined: funnelRow?.joined ?? 0, activated: funnelRow?.activated ?? 0, engaged: funnelRow?.engaged ?? 0, opened: funnelRow?.opened ?? 0,
+    accepted: funnelRow?.accepted ?? 0,
     watched: funnelRow?.watched ?? 0, returned: funnelRow?.returned ?? 0,
   };
 
@@ -180,6 +219,8 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
       from, to,
       visitors: s('visitors'), joined: s('joined'), cards: s('cards'), feeds: s('feeds'), accepts: s('accepts'),
       acceptedFeeds: ratio(s('acceptedFeeds'), s('feeds')),
+      engagedFeeds: ratio(s('engagedFeeds'), s('feeds')),
+      seen: s('seen'), prompted: s('prompted'),
       checkins: ratio(s('checkins'), s('accepts')),
       watchClicks: ratio(s('cardsWithWatch'), s('cards')),
       analysisOpens: ratio(s('cardsWithOpen'), s('cards')),
@@ -188,27 +229,24 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   const activationIn = async (from: string, to: string) => {
     const [r] = await q<{ joined: number; activated: number }>(
       `WITH u AS (SELECT id, created_at FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} BETWEEN ? AND ?)
-       SELECT COUNT(*) AS joined, SUM(CASE WHEN
-         (SELECT COUNT(*) FROM rating r WHERE r.user_id = u.id AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day'))
-         + (SELECT COUNT(*) FROM watched w WHERE w.user_id = u.id AND w.state = 'watched' AND w.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day')) >= 10
-         THEN 1 ELSE 0 END) AS activated FROM u`, ...binds, from, to);
-    return ratio(r?.activated ?? 0, r?.joined ?? 0);
+       SELECT COUNT(*) AS joined, SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u`, ...binds, from, to);
+    return { share: ratio(r?.activated ?? 0, r?.joined ?? 0), joined: r?.joined ?? 0 };
   };
-  const week = { ...sum(addDays(today, -7), yesterday), activation: await activationIn(addDays(today, -7), yesterday) };
-  const day = { ...sum(yesterday, yesterday), activation: await activationIn(yesterday, yesterday) };
+  const weekAct = await activationIn(addDays(today, -7), yesterday);
+  const dayAct = await activationIn(yesterday, yesterday);
+  const week = { ...sum(addDays(today, -7), yesterday), activation: weekAct.share };
+  const day = { ...sum(yesterday, yesterday), activation: dayAct.share };
 
   // источники за 30 дней (посевы, 07.10): сколько пришло и сколько из них дошло до 10 оценок за сутки;
   // подробная воронка одного источника — тем же запросом с `?source=<метка>`
   const sources = await q<{ source: string | null; joined: number; activated: number; invited: number }>(
     `WITH u AS (SELECT id, created_at, source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?)
-     SELECT source, COUNT(*) AS joined, SUM(CASE WHEN invited_by IS NOT NULL THEN 1 ELSE 0 END) AS invited, SUM(CASE WHEN
-       (SELECT COUNT(*) FROM rating r WHERE r.user_id = u.id AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day'))
-       + (SELECT COUNT(*) FROM watched w WHERE w.user_id = u.id AND w.state = 'watched' AND w.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day')) >= 10
-       THEN 1 ELSE 0 END) AS activated FROM u GROUP BY source ORDER BY joined DESC`, ...binds, from30);
+     SELECT source, COUNT(*) AS joined, SUM(CASE WHEN invited_by IS NOT NULL THEN 1 ELSE 0 END) AS invited,
+       SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u GROUP BY source ORDER BY joined DESC`, ...binds, from30);
 
   return json({
     at: new Date().toISOString(), today, filters: { withoutOwner: url.searchParams.get('owner') === '0', telegramOnly: url.searchParams.get('tg') === '1', ...(source ? { source } : {}) },
-    thresholds: THRESHOLDS,
+    thresholds: THRESHOLDS, floors: FLOORS, minBase: MIN_BASE,
     yesterday: day, week,
     retention, funnel, daily,
     sources: sources.map((r) => ({ source: r.source ?? '—', joined: r.joined, invitedByFriend: r.invited, activation: ratio(r.activated ?? 0, r.joined) })),

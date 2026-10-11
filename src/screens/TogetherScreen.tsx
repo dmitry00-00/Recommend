@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import {
   createTogether, getTogether, noteWatch, planWork, prepareShare, togetherMine, voteTogether,
@@ -29,17 +29,23 @@ function Create() {
   const navigate = useNavigate();
   const toast = useToast();
   const [busy, setBusy] = useState(false);
+  // пришли из команды /together в чате: приглашение уйдёт туда само
+  const chat = useSearchParams()[0].get('chat') ?? undefined;
   const create = () => {
     tap('medium');
     setBusy(true);
-    createTogether()
-      .then((sid) => navigate(`/together/${sid}`, { replace: true }))
+    createTogether(chat)
+      .then(({ id: sid, posted }) => {
+        if (posted !== undefined) toast({ text: T.postedToChat(posted) });
+        else if (chat) toast({ text: T.chatExpired });
+        navigate(`/together/${sid}`, { replace: true });
+      })
       .catch((e: Error) => { setBusy(false); toast({ text: e.message === 'no_server' ? T.noServer : T.createFailed }); });
   };
   return (
     <main className="tm-shell__main tm-together">
       <h1 className="tm-shell__title">{T.title}</h1>
-      <p className="tm-body tm-together__lead">{T.lead}</p>
+      <p className="tm-body tm-together__lead">{chat ? T.leadChat : T.lead}</p>
       <Button variant="primary" onClick={create} loading={busy} disabled={busy}>{busy ? T.creating : T.create}</Button>
     </main>
   );

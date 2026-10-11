@@ -16,6 +16,8 @@ import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
+import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
+import { tvPrograms } from '../src/mocks/tvPrograms.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
 import { bookBase } from '../src/mocks/bookBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
@@ -36,6 +38,14 @@ export interface IndexedWork {
   /** названия для книжных каналов (З6), когда они шире `names`: книги каталога через мост с кино
    *  в чужом тексте не ищутся, а в книжном канале — ищутся (tools/book-channels.mts) */
   bookNames?: string[];
+  /** карточка из загрузок каналов студий и агрегаторов (tools/grow-from-channels.mts, 10.10): фильм малоизвестный,
+   *  его название чаще значит другое. В заголовке совпадает только с меткой, как обычное слово (кавычки, «обзор»,
+   *  год); тег берёт, только если тег не занят карточкой справочника («Dark Planet» — английское название
+   *  «Обитаемого острова», а не фильм 1996-го; «Blood Moon» — отменённый приквел «Игры престолов») */
+  minor?: boolean;
+  /** телепередача — реалити, ток-шоу, конкурс (tools/tv-programs.mts, 11.10): ролик об эфире — не разбор, поэтому
+   *  ни по названию, ни по тегам она не ищется («КАК ЗАГНИВАЕТ ШОУ ГОЛОС», «Битва экстрасенсов … | Обзор») */
+  show?: boolean;
 }
 
 /** Внешние ключи карточки: свои, из медиа каталога или справочника; у книги — с мостом
@@ -64,6 +74,10 @@ function variants(name: string): string[] {
   if (unquoted !== name && unquoted.length >= 4) out.push(unquoted);
   const m = /^(?:A|An)\s+(.+)$/.exec(name);
   if (m && m[1].split(/\s+/).length >= 3) out.push(m[1]);
+  // «Звёздные войны. Эпизод VI: Возвращение джедая» — каналы пишут «Эпизод 6 - Возвращение Джедая» или одно
+  // «Возвращение джедая»: подзаголовок эпизода из двух слов и больше — тоже название (OPS-9, 10.10)
+  const ep = /Эпизод\s+[IVX]+\s*[:.]\s*(.+)$/u.exec(name);
+  if (ep && ep[1].trim().split(/\s+/).length >= 2) out.push(ep[1].trim());
   return out;
 }
 
@@ -96,6 +110,8 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     ...filmBasePopular,
     // популярное в Индии и англоязычных странах: суточные топы Википедии по странам и классика (ЗП-22, 07.10)
     ...filmBaseWorld,
+    // фильмы из загрузок каналов студий и агрегаторов, опознаны в Wikidata по режиссёру или году (10.10)
+    ...filmBaseChannels,
     // книги через мост с кино (З2) — только с ключом: в чужом тексте их не ищем («Платформа», «Память»,
     // «Солярис» — тёзки фильмов и обычные слова); в книжных каналах — ищем (`bookNames`, З6)
     ...bookBase,
@@ -103,7 +119,10 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   const bookOnly = new Set(bookBase.map((w) => w.id));
   // английские и индийские названия в одно слово («Animal», «War», «Fighter», «Война») в русских текстах
   // чаще значат другое: такие карточки ищутся в тексте только по названию из двух значимых слов и длиннее
-  const worldOnly = new Set(filmBaseWorld.map((w) => w.id));
+  // так же — фильмы из загрузок каналов: «Опекун», «Приезжая», «Небо» в чужом тексте чаще обычные слова
+  const worldOnly = new Set([...filmBaseWorld, ...filmBaseChannels].map((w) => w.id));
+  const minorIds = new Set(filmBaseChannels.map((w) => w.id));
+  const showIds = new Set(tvPrograms);
   // артикль и номер части словом не считаются: «The Bear», «Война 2», «Stree 2» — по сути одно слово
   const worldNameOk = (t: string) => t.split(/\s+/).filter((x) => !/^(the|a|an|\d+)$/i.test(x)).length > 1;
   // сериалы из топов Википедии («Метод», «Кухня», «Мажор») — то же правило Е6, что у сериалов из профилей
@@ -123,7 +142,10 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     const bookNames = bookOnly.has(work.id) && searchable.length ? searchable : undefined;
     const needsSeriesTalk = fromProfiles.has(work.id)
       && (work.title.trim().split(/\s+/).length === 1 || ALSO_ELSEWHERE.has(work.title.trim().toLowerCase()));
-    if (names.length || bookNames || unnamed) out.set(key, { key, work, names, ...(needsSeriesTalk ? { needsSeriesTalk } : {}), ...(bookNames ? { bookNames } : {}) });
+    const minor = minorIds.has(work.id);
+    const show = showIds.has(work.id);
+    if (show) { out.set(key, { key, work, names: [], show }); continue; }
+    if (names.length || bookNames || unnamed) out.set(key, { key, work, names, ...(needsSeriesTalk ? { needsSeriesTalk } : {}), ...(bookNames ? { bookNames } : {}), ...(minor ? { minor } : {}) });
   }
   return [...out.values()];
 }

@@ -259,13 +259,18 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
   // присланный список — до чтения профиля, чтобы первый же ответ его уже содержал; не
   // разложился — профиль важнее, попробуем при следующем входе
   await applyUserSeed(db, env, user.id).catch((err) => console.error('seed', user.id, err));
-  const [watched, journal, predictions, verdicts, ratings, profile] = await Promise.all([
+  const [watched, journal, predictions, verdicts, ratings, profile, dismissals] = await Promise.all([
     db.prepare('SELECT work_id, state, work FROM watched WHERE user_id = ? ORDER BY at DESC').bind(user.id).all<{ work_id: string; state: string; work: string | null }>(),
     db.prepare('SELECT entry_id, work_id, work, status, progress, started_at, finished_at, eagerness, inferred, series FROM journal WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT entry_id, work_id, expected, model, model_p, at FROM prediction WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT url, verdict FROM link_verdict WHERE user_id = ?').bind(user.id).all<{ url: string; verdict: string }>(),
     db.prepare('SELECT work_id, rating, raw, work, at FROM rating WHERE user_id = ? ORDER BY at').bind(user.id).all<{ work_id: string; rating: number; raw: number | null; work: string | null; at: string }>(),
     db.prepare('SELECT username, first_name, tg_id FROM user WHERE id = ?').bind(user.id).first<{ username: string | null; first_name: string | null; tg_id: number | null }>(),
+    // отказы на фильмы ленты (10.10): последний по каждому фильму за полгода — клиент не берёт их в ленту
+    // на срок по причине (src/api/index.ts, `hiddenFromFeed`); «Видел» здесь не нужен — он уже в оценках
+    db.prepare(`SELECT work_id, reason, MAX(at) AS at FROM feedback
+                WHERE user_id = ? AND action = 'dismiss' AND work_id IS NOT NULL AND coalesce(reason, '') <> 'already_know' AND at >= ?
+                GROUP BY work_id`).bind(user.id, new Date(Date.now() - 183 * 864e5).toISOString()).all<{ work_id: string; reason: string | null; at: string }>(),
   ]);
   const parse = (raw: unknown) => (typeof raw === 'string' ? JSON.parse(raw) : undefined);
   return json({
@@ -274,6 +279,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
     journal: journal.results.map((r) => ({ ...r, work: parse(r.work), series: parse(r.series) })),
     predictions: predictions.results,
     verdicts: verdicts.results,
+    dismissals: dismissals.results.map((r) => ({ workId: r.work_id, ...(r.reason ? { reason: r.reason } : {}), at: r.at })),
     ratings: ratings.results.map((r) => ({ workId: r.work_id, rating: r.rating, ...(r.raw != null ? { raw: r.raw } : {}), work: parse(r.work), at: r.at })),
     profile: {
       username: profile?.username ?? undefined,
@@ -606,7 +612,7 @@ async function getBehavior(req: Request, env: Env): Promise<Response> {
  *  на Cloudflare или из папки данных на bothost. Пишет их сборщик (tools/collect.mts) по
  *  расписанию, приложение читает готовое (трек В1). Нет файла — честный 404, и фронт берёт
  *  запечённое в сборку. */
-export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages']);
+export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch']);
 
 async function getReference(env: Env, name: string): Promise<Response> {
   if (!REFERENCE_NAMES.has(name)) return json({ error: 'unknown_reference', name }, 404);

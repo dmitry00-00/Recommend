@@ -268,3 +268,7 @@ CREATE INDEX IF NOT EXISTS event_user ON event(user_id, work_id);
 CREATE TABLE IF NOT EXISTS together (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), deck TEXT NOT NULL, created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS together_vote (session_id TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
   vote TEXT NOT NULL CHECK (vote IN ('yes', 'no', 'seen')), fit REAL, at TEXT NOT NULL, PRIMARY KEY (session_id, user_id, work_id));
+-- 11.10, ЗП-11: команда /together в чате — одноразовый ключ чата: по нему, и только по нему, бот публикует приглашение
+-- голосовать в этот чат (иначе через бота можно было бы писать в любой чат, где он есть). Живёт сутки.
+CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
+  created_at TEXT NOT NULL, session_id TEXT);

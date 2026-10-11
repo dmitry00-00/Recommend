@@ -86,7 +86,7 @@ export const STAGES: Stage[] = [
       { ...tsx('tools/build-comention-index.mts'), optional: true }],
     // справочник — тоже вход: новые карточки (filmBasePopular 05.10) ждут своих роликов и постов
     inputs: ['.cache/youtube/videos.json', '.cache/telegram/*.json', 'tools/markup-verdicts.json', 'tools/markup-resolved.json', 'tools/stopwords.json',
-      'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts'],
+      'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts', 'src/mocks/filmBaseChannels.ts'],
     outputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/essaysAbout.ts'],
     pending: () => {
       let snap: Record<string, string> = {};
@@ -125,7 +125,7 @@ export const STAGES: Stage[] = [
   { id: 'publish', title: 'Публикация справочника', group: 'Выкладка', optional: true,
     what: 'свежие разборы и справочник — на сервер; приложение подхватит без перезаливки',
     cmds: [tsx('tools/publish-reference.mts')],
-    inputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/comentions.ts', 'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts'],
+    inputs: ['src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/comentions.ts', 'src/mocks/filmBaseWiki.ts', 'src/mocks/filmBaseMarkup.ts', 'src/mocks/filmBasePopular.ts', 'src/mocks/filmBaseWorld.ts', 'src/mocks/filmBaseChannels.ts'],
     needs: () => (process.env.TM_ADMIN_TOKEN ? undefined : 'нет TM_ADMIN_TOKEN в .env.local') },
   { id: 'commit', title: 'Коммит данных', group: 'Выкладка', optional: true,
     confirm: 'Закоммитить src/mocks и решения разметки и отправить (git push)?',

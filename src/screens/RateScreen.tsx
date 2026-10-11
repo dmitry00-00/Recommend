@@ -10,6 +10,9 @@ import { leadName } from '@/lib/credits';
 import { WorkThumb } from '@/components/WorkThumb';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
+import { useFeature } from '@/lib/flags';
+import { saveSettings, useSettings } from '@/lib/settingsStore';
+import { TASTE_SHELVES } from '@/lib/model/taste';
 
 type Score = 1 | 2 | 3 | 4 | 5;
 const SCORES: Score[] = [1, 2, 3, 4, 5];
@@ -62,6 +65,21 @@ export function RateScreen() {
     setSkipped((s) => { const n = new Set(s); if (on) n.add(id); else n.delete(id); return n; });
   };
 
+  // полки вкуса (ЗП-45, шаг 1): выбор сохраняется сразу, колода перестраивается — своё вперёд
+  const picksOn = useFeature('tastePicks');
+  const settings = useSettings();
+  const picks = settings?.tasteShelves ?? [];
+  const [savingPicks, setSavingPicks] = useState(false);
+  const togglePick = (id: string) => {
+    tap();
+    setSavingPicks(true);
+    saveSettings({ tasteShelves: picks.includes(id) ? picks.filter((x) => x !== id) : [...picks, id] })
+      .then(() => getRatingDeck())
+      .then((d) => setDeck(d))
+      .catch(() => toast({ text: ui.rate.saveError }))
+      .finally(() => setSavingPicks(false));
+  };
+
   const ready = deck ? deck.rated >= deck.needed : false;
   const left = deck ? Math.max(0, deck.needed - deck.rated) : 0;
   // «Показать подборку» — главной кнопкой Telegram, как только оценок хватает (ТВ-11)
@@ -89,6 +107,24 @@ export function RateScreen() {
         ) : null}
         {deck ? <p className="tm-caption tm-rate__gesture">{ui.rate.gesture}</p> : null}
       </div>
+
+      {picksOn && deck ? (
+        <section className="tm-rate__picks" aria-labelledby="tm-rate-picks">
+          <h2 id="tm-rate-picks" className="tm-body tm-rate__picks-title">{ui.rate.picksTitle}</h2>
+          <p className="tm-caption tm-rate__lead">{ui.rate.picksLead}</p>
+          <div className="tm-rate__pick-list" role="group" aria-labelledby="tm-rate-picks">
+            {TASTE_SHELVES.map((s) => {
+              const on = picks.includes(s.id);
+              return (
+                <button key={s.id} type="button" aria-pressed={on ? 'true' : 'false'} disabled={savingPicks}
+                        className={cx('tm-rate__pick', on && 'tm-rate__pick--on')} onClick={() => togglePick(s.id)}>
+                  {ui.rate.shelf[s.id as keyof typeof ui.rate.shelf] ?? s.id}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       {failed ? <ErrorState title={ui.rate.error} onRetry={() => setAttempt(attempt + 1)} /> : null}
       {!deck && !failed ? (

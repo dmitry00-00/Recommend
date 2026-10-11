@@ -1,4 +1,4 @@
-// Сгенерировано tools/titles-en.mts (2026-10-08): английские названия для карточек, у
+// Сгенерировано tools/titles-en.mts (2026-10-10): английские названия для карточек, у
 // которых английское название не совпадает с оригиналом (TMDb, language=en-US). Читает titleOf в английском интерфейсе.
 // Не править руками — перегенерировать.
 export const titlesEn: Record<string, string> = {
@@ -1701,6 +1701,7 @@ export const titlesEn: Record<string, string> = {
   "m72892":"Air Crew",
   "m72920":"Doktor Kalyuzhnyy",
   "m72955":"Déjà vu",
+  "m729587":"Very Scary Story",
   "m732621":"12 “o” CLOCK",
   "m732693":"Couple From The Future",
   "m73281":"Dear Yelena Sergeyevna",

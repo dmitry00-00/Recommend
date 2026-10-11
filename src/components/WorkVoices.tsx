@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import type { ExternalAnalysis, ID, MaterialLens, SpoilerLevel, Voice, WorkVoice } from '@/types/tmdf';
 import { creditOf, groupByVoice, knownVoice, monogram, outletUrl } from '@/lib/voices';
 import { LENSES, inLens, youtubeId } from '@/lib/lenses';
-import { useLensShelves } from '@/lib/flags';
+import { useLensShelves, useFeature } from '@/lib/flags';
 import { OpenContext, useNoteOpen } from '@/lib/openContext';
 import { onExternalClick, pick } from '@/lib/telegram';
 import { formatDuration } from '@/lib/format';
@@ -66,9 +66,11 @@ function OutletIcon({ kind }: { kind: 'youtube' | 'telegram' | 'chat' }) {
 /** Строка выходов автора: где его ещё читать и смотреть. Всегда на одном месте и в одну
  *  строку — даже когда выход один, иначе блок ниже прыгает при переключении автора. */
 function Outlets({ voice, extra, items = [], workTitle }: { voice: Voice; extra?: React.ReactNode; items?: ExternalAnalysis[]; workTitle?: string }) {
+  // страница голоса — функция эталона (10.10)
+  const pages = useFeature('pages');
   return (
     <p className="tm-voice__outlets">
-      {knownVoice(voice.id) ? (
+      {pages && knownVoice(voice.id) ? (
         <Link className="tm-voice__chip tm-voice__chip--own" to={`/voice/${voice.id}`}>{ui.voices.allWorks}</Link>
       ) : null}
       {voice.outlets.map((o) => {

@@ -78,6 +78,10 @@ const expandMark = join(DIR, 'expand.last');
 const weekOld = !existsSync(expandMark) || Date.now() - statSync(expandMark).mtimeMs > 7 * 86400e3;
 if (process.argv.includes('--expand') || weekOld) {
   if (step('справочник фильмов (Wikidata)', ...tsx('tools/expand-film-base.mts', '--min', '2'), { optional: true })) writeFileSync(expandMark, new Date().toISOString());
+  // фильмы из загрузок каналов студий и агрегаторов (10.10): загрузки — раз в 14 дней, в Wikidata — только новые названия
+  if (process.env.YT_API_KEY) step('фильмы из каналов', ...tsx('tools/grow-from-channels.mts', '--write'), { optional: true, minutes: 40 });
+  // телепередачи (реалити, ток-шоу, конкурсы) — сопоставление их не ищет (OPS-9, 11.10)
+  step('телепередачи', ...tsx('tools/tv-programs.mts'), { optional: true });
 }
 
 // 3. Индексы. Сначала — названия-ловушки по свежему корпусу: с новыми постами и каналами меняется,
@@ -136,8 +140,14 @@ if (warned) say(`ВНИМАНИЕ: контрольные замеры — ${war
 // 5. Публикация
 // сезоны сериалов (ЗП-17, 07.10): идущие — каждую ночь, закончившиеся — раз в месяц; публикуются со справочниками
 step('сезоны сериалов', ...tsx('tools/series-seasons.mts'), { optional: true, minutes: 20 });
+// где смотреть по подписке (ЗП-42, 10.10): TMDb по фильмам справочника, перепроверка раз в 14 дней
+step('наличие в кинотеатрах', ...tsx('tools/watch-providers.mts'), { optional: true, minutes: 20 });
+// бесплатная легальная классика (ЗП-43, 10.10): Wikidata раз в неделю, ролики правообладателей — раз в 14 дней
+step('бесплатная классика', ...tsx('tools/free-watch.mts'), { optional: true, minutes: 10 });
 // английские названия новых карточек (ЗП-20, 08.10): из кэша, в TMDb — только новые; в сборку попадут при следующем деплое
 step('английские названия', ...tsx('tools/titles-en.mts'), { optional: true, minutes: 15 });
+// жанры TMDb для якоря вкуса новичка (09.10): из кэша, без сети — до людей доходят со сборкой
+step('жанры фильмов', ...tsx('tools/film-genres.mts'), { optional: true });
 if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true, mark: 'publish' });
 // свежая очередь разметки для телефона — после всех шагов: в ней уже новые ролики и решения ночи
 if (!process.argv.includes('--no-publish')) step('очередь разметки для телефона', ...tsx('tools/owner-queue.mts'), { optional: true });

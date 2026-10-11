@@ -10,6 +10,7 @@ import { useSwipe } from '@/lib/swipe';
 import { showBackButton, tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
+import { useFeature } from '@/lib/flags';
 
 /** на сколько пикселей смахнуть карточку вбок, чтобы вернуться в ленту */
 const DISMISS = 96;
@@ -37,6 +38,8 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   const [issue, setIssue] = useState(false);
   const navigate = useNavigate();
   const shown = open && work != null;
+  // полная страница со всеми разделами — функция эталона (10.10)
+  const pages = useFeature('pages');
   // Фабула (02.10, предложение владельца): спрятана, чтобы не спорить с разборами. Тап по баннеру —
   // кадр уезжает вверх до шторки с названием, на освободившемся месте — описание со своей
   // прокруткой; тап по шторке — кадр возвращается.
@@ -109,10 +112,12 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
                 </button>
                 {/* полная страница (ТВ-4, 06.10): жест вбок занят возвратом в ленту, поэтому — кнопка
                     рядом с флажком; шторка закрывается, «Назад» со страницы ведёт в ленту */}
-                <button type="button" className="tm-worksheet__page" aria-label={ui.plot.pageLabel}
-                        onClick={() => { const id = work.id; onOpenChange(false); navigate(`/works/${id}`); }}>
-                  {ui.plot.page}
-                </button>
+                {pages ? (
+                  <button type="button" className="tm-worksheet__page" aria-label={ui.plot.pageLabel}
+                          onClick={() => { const id = work.id; onOpenChange(false); navigate(`/works/${id}`); }}>
+                    {ui.plot.page}
+                  </button>
+                ) : null}
                 {/* «Поделиться» (05.10): рядом с «закрыть», ссылка открывает у друга эту же карточку */}
                 <ShareButton work={work} round />
                 <RD.Close className="tm-worksheet__close" aria-label={ui.actions.close}>

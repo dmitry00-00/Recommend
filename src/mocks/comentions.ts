@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-comention-index.mts (2026-10-08): что называют
+// Сгенерировано tools/build-comention-index.mts (2026-10-11): что называют
 // вместе в одном посте. Это не рекомендация и не похожесть по смыслу — это то, как о кино
 // говорят. Вес — косинус: сырой счёт тянут на себя те, о ком пишут каждый день.
 // Не править руками — перегенерировать.
@@ -87,6 +87,58 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2020,
       "n": 5,
       "weight": 0.68
+    }
+  ],
+  "tmdb:13555": [
+    {
+      "key": "tmdb:13559",
+      "workId": "f-wd1660446",
+      "title": "Давилка",
+      "year": 1995,
+      "n": 3,
+      "weight": 1
+    },
+    {
+      "key": "tmdb:11954",
+      "workId": "f-wd1455006",
+      "title": "Жизненная сила",
+      "year": 1985,
+      "n": 3,
+      "weight": 0.866
+    },
+    {
+      "key": "tmdb:609",
+      "workId": "f-wd497622",
+      "title": "Полтергейст",
+      "year": 1982,
+      "n": 3,
+      "weight": 0.707
+    }
+  ],
+  "tmdb:13559": [
+    {
+      "key": "tmdb:13555",
+      "workId": "f-wd2736572",
+      "title": "Смертельная забава",
+      "year": 1981,
+      "n": 3,
+      "weight": 1
+    },
+    {
+      "key": "tmdb:11954",
+      "workId": "f-wd1455006",
+      "title": "Жизненная сила",
+      "year": 1985,
+      "n": 3,
+      "weight": 0.866
+    },
+    {
+      "key": "tmdb:609",
+      "workId": "f-wd497622",
+      "title": "Полтергейст",
+      "year": 1982,
+      "n": 3,
+      "weight": 0.707
     }
   ],
   "tmdb:28942": [
@@ -385,6 +437,14 @@ export const comentions: Record<string, CoMention[]> = {
   ],
   "tmdb:11954": [
     {
+      "key": "tmdb:13555",
+      "workId": "f-wd2736572",
+      "title": "Смертельная забава",
+      "year": 1981,
+      "n": 3,
+      "weight": 0.866
+    },
+    {
       "key": "tmdb:13559",
       "workId": "f-wd1660446",
       "title": "Давилка",
@@ -399,24 +459,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1982,
       "n": 3,
       "weight": 0.612
-    }
-  ],
-  "tmdb:13559": [
-    {
-      "key": "tmdb:11954",
-      "workId": "f-wd1455006",
-      "title": "Жизненная сила",
-      "year": 1985,
-      "n": 3,
-      "weight": 0.866
-    },
-    {
-      "key": "tmdb:609",
-      "workId": "f-wd497622",
-      "title": "Полтергейст",
-      "year": 1982,
-      "n": 3,
-      "weight": 0.707
     }
   ],
   "tmdb:11336": [
@@ -845,6 +887,14 @@ export const comentions: Record<string, CoMention[]> = {
   ],
   "tmdb:609": [
     {
+      "key": "tmdb:13555",
+      "workId": "f-wd2736572",
+      "title": "Смертельная забава",
+      "year": 1981,
+      "n": 3,
+      "weight": 0.707
+    },
+    {
       "key": "tmdb:13559",
       "workId": "f-wd1660446",
       "title": "Давилка",
@@ -1149,6 +1199,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.595
     },
     {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.536
+    },
+    {
       "key": "tmdb:574475",
       "workId": "f-wd118212751",
       "title": "Пункт назначения: Узы крови",
@@ -1178,13 +1236,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1970,
       "n": 8,
       "weight": 0.433
-    },
-    {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "n": 7,
-      "weight": 0.429
     }
   ],
   "tmdb:799766": [
@@ -1228,6 +1279,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.55
     },
     {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.539
+    },
+    {
       "key": "tmdb:1320380",
       "workId": "f-wd131344599",
       "title": "Филателия",
@@ -1242,13 +1301,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1970,
       "n": 8,
       "weight": 0.471
-    },
-    {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "n": 7,
-      "weight": 0.468
     }
   ],
   "tmdb:974635": [
@@ -1794,12 +1846,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.471
     },
     {
-      "key": "tmdb:295882",
-      "workId": "f-wd4415136",
-      "title": "Семейное счастье",
-      "year": 1970,
-      "n": 8,
-      "weight": 0.444
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.466
     }
   ],
   "tmdb:938614": [
@@ -2319,6 +2371,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.459
     },
     {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.431
+    },
+    {
       "key": "tmdb:574475",
       "workId": "f-wd118212751",
       "title": "Пункт назначения: Узы крови",
@@ -2340,14 +2400,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 9,
       "weight": 0.334
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.333
     }
   ],
   "tmdb:986056": [
@@ -2643,6 +2695,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.417
     },
     {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.412
+    },
+    {
       "key": "imdb:tt32777999",
       "workId": "f-wd131358971",
       "title": "Дети перемен",
@@ -2656,14 +2716,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 11,
       "weight": 0.372
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.348
     }
   ],
   "tmdb:1272837": [
@@ -3123,6 +3175,71 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2023,
       "n": 12,
       "weight": 0.414
+    }
+  ],
+  "tmdb:1188064": [
+    {
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.539
+    },
+    {
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.536
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.466
+    },
+    {
+      "key": "tmdb:658224",
+      "workId": "f-wd120514821",
+      "title": "Волшебник Изумрудного города",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.431
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.419
+    },
+    {
+      "key": "imdb:tt30023782",
+      "workId": "f-wd131505336",
+      "title": "Первый номер",
+      "n": 11,
+      "weight": 0.412
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.359
+    },
+    {
+      "key": "tmdb:295882",
+      "workId": "f-wd4415136",
+      "title": "Семейное счастье",
+      "year": 1970,
+      "n": 8,
+      "weight": 0.339
     }
   ],
   "imdb:tt32777999": [
@@ -3843,6 +3960,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.353
     },
     {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.327
+    },
+    {
       "key": "tmdb:574475",
       "workId": "f-wd118212751",
       "title": "Пункт назначения: Узы крови",
@@ -3872,14 +3997,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 6,
       "weight": 0.28
-    },
-    {
-      "key": "tmdb:295882",
-      "workId": "f-wd4415136",
-      "title": "Семейное счастье",
-      "year": 1970,
-      "n": 8,
-      "weight": 0.264
     }
   ],
   "tmdb:194662": [
@@ -4421,6 +4538,26 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2026,
       "n": 3,
       "weight": 0.306
+    }
+  ],
+  "tmdb:1159831": [
+    {
+      "key": "tmdb:358962",
+      "workId": "f-wd21148916",
+      "title": "Пиковая дама: Черный обряд",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.463
+    }
+  ],
+  "tmdb:358962": [
+    {
+      "key": "tmdb:1159831",
+      "workId": "f-wd124735657",
+      "title": "Невеста",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.463
     }
   ],
   "tmdb:26638": [
@@ -6492,6 +6629,26 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 3,
       "weight": 0.136
+    }
+  ],
+  "tmdb:398181": [
+    {
+      "key": "tmdb:71859",
+      "workId": "f-wd247470",
+      "title": "Что-то не так с Кевином",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.401
+    }
+  ],
+  "tmdb:71859": [
+    {
+      "key": "tmdb:398181",
+      "workId": "f-wd27703176",
+      "title": "Тебя никогда здесь не было",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.401
     }
   ],
   "tmdb:1184918": [
@@ -8583,6 +8740,34 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2019,
       "n": 3,
       "weight": 0.093
+    }
+  ],
+  "tmdb:158": [
+    {
+      "key": "tmdb:650253",
+      "workId": "f-wd111195374",
+      "title": "Молодой человек",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.316
+    }
+  ],
+  "tmdb:650253": [
+    {
+      "key": "tmdb:158",
+      "workId": "f-wd166355",
+      "title": "Достучаться до небес",
+      "year": 1997,
+      "n": 3,
+      "weight": 0.316
+    },
+    {
+      "key": "tmdb:660120",
+      "workId": "f-tmdb660120",
+      "title": "Худший человек на свете",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.147
     }
   ],
   "tmdb:591538": [
@@ -13351,6 +13536,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.147
     },
     {
+      "key": "tmdb:650253",
+      "workId": "f-wd111195374",
+      "title": "Молодой человек",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.147
+    },
+    {
       "key": "tmdb:1018",
       "workId": "c-mulholland",
       "title": "Малхолланд Драйв",
@@ -13381,14 +13574,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 5,
       "weight": 0.098
-    },
-    {
-      "key": "tmdb:766798",
-      "workId": "f-wd106103421",
-      "title": "Параллельные матери",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.097
     }
   ],
   "tmdb:457842": [
@@ -14171,6 +14356,26 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.189
     }
   ],
+  "imdb:tt2467372": [
+    {
+      "key": "tmdb:928344",
+      "workId": "f-wd111018582",
+      "title": "Странный: История Эла Янковича",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.189
+    }
+  ],
+  "tmdb:928344": [
+    {
+      "key": "imdb:tt2467372",
+      "workId": "f-wd13417244",
+      "title": "Бруклин 9-9",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.189
+    }
+  ],
   "tmdb:674324": [
     {
       "key": "tmdb:724495",
@@ -14707,6 +14912,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.18
     }
   ],
+  "tmdb:1211726": [
+    {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.18
+    },
+    {
+      "key": "tmdb:1168197",
+      "workId": "f-wd131295126",
+      "title": "Кончится лето",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.174
+    },
+    {
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.14
+    }
+  ],
   "tmdb:146233": [
     {
       "key": "tmdb:329865",
@@ -14925,6 +15156,24 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2016,
       "n": 3,
       "weight": 0.176
+    },
+    {
+      "key": "tmdb:562964",
+      "workId": "f-wd60851983",
+      "title": "Выше неба",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.176
+    }
+  ],
+  "tmdb:562964": [
+    {
+      "key": "tmdb:595464",
+      "workId": "f-wd65154239",
+      "title": "Доктор Лиза",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.176
     }
   ],
   "tmdb:98": [
@@ -14935,24 +15184,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2014,
       "n": 4,
       "weight": 0.175
-    }
-  ],
-  "tmdb:1211726": [
-    {
-      "key": "tmdb:1168197",
-      "workId": "f-wd131295126",
-      "title": "Кончится лето",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.174
-    },
-    {
-      "key": "tmdb:549509",
-      "workId": "f-wd101112656",
-      "title": "Бруталист",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.14
     }
   ],
   "tmdb:576845": [
@@ -15073,6 +15304,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 5,
       "weight": 0.171
+    },
+    {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.08
     },
     {
       "key": "tmdb:974576",

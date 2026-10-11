@@ -80,6 +80,8 @@ export interface VideoGuess { key: string; work: IndexedWork['work']; evidence?:
 export interface OtherHit { key: string; work: IndexedWork['work'] }
 
 /** Номер серии или сезона в заголовке: ролик о серии сериала. */
+/** Ярлык обзора в заголовке — для «обзора в год выхода» (OPS-9, 11.10). */
+const REVIEW = /обзор|разбор|рецензи|review|(?<!\p{L})тр[еэ]ш(?!\p{L})/iu;
 export const EPISODE = /(?<!\p{L})(?:\d{1,3}\s*(?:-?я\s*)?(?:сери[яи]|сезон)|(?:сери[яи]|сезон)\s*\d{1,3})(?!\p{L})|(?<![\p{L}\p{N}])s\d{1,2}\s*e\d{1,3}(?![\p{L}\p{N}])/iu;
 const norm = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
 const words = (s: string) => norm(s).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
@@ -91,6 +93,27 @@ const head = (w: string) => w.slice(0, 3);
  *  считает, сколько отсеял каждым, и не применяет их к решениям людей). */
 /** Между двумя названиями — слово сравнения, скобка или «+»: второе названо для сравнения или в довесок
  *  («ДОСТАТЬ НОЖИ – обзор + ХОЛОДНОЕ СЕРДЦЕ 2») (OPS-9, 06.10). */
+/** Ролик о продолжении, названном именем первого фильма: «Фантастическая четверка - перезагрузка Марвел», «ДЖИПЕРС
+ *  КРИПЕРС [Интерквел]» — и «Новая «Матрица»», где «новая» стоит вплотную к названию (OPS-9, 10.10). «Сиквел» и
+ *  «продолжение» сюда не входят: «ОТМЕНЁННАЯ ВЕРСИЯ «ГОЛОВОЛОМКИ» … и Сиквел, который смог!» — о первом фильме. */
+const SEQUEL_TALK = /(?<!\p{L})(?:интерквел\p{L}*|перезагрузк\p{L}*|перезапуск\p{L}*)(?!\p{L})/iu;
+const NEW_BEFORE = /(?<!\p{L})нов(?:ая|ый|ое|ую|ой|ого|ом)\s+[«"„]?$/u;
+
+/** Продолжение главного фильма, вышедшее к дате ролика: его название начинается названием главного («Матрица:
+ *  Воскрешение», «Фантастическая четвёрка: Первые шаги», «Моана 2»), год — год ролика или прошлый. Одно — берём. */
+function sequelOf(pick: IndexedWork, cands: Iterable<IndexedWork>, title: string, publishedAt?: string): IndexedWork | undefined {
+  if (!publishedAt || !pick.work.year) return undefined;
+  const base = pick.names.map(norm);
+  const t = norm(title);
+  const fresh = base.some((b) => { const at = t.indexOf(b.slice(0, Math.max(3, b.length - 2))); return at > 0 && NEW_BEFORE.test(t.slice(0, at)); });
+  if (!fresh && !SEQUEL_TALK.test(title)) return undefined;
+  const pub = Number(publishedAt.slice(0, 4));
+  const found = [...cands].filter((w) => w !== pick && w.work.type !== 'book' && w.work.year && w.work.year > pick.work.year!
+    && pub - w.work.year >= 0 && pub - w.work.year <= 1
+    && w.names.some((n) => base.some((b) => norm(n).startsWith(b) && /^[\s:.\-–—]+[\p{L}\d]/u.test(norm(n).slice(b.length)))));
+  return found.length === 1 ? found[0] : undefined;
+}
+
 const COMPARED_GAP = /\(|\s\+\s|(?<![\p{L}])(?:или|вместо|в\s+духе|против|похож\p{L}*|как|vs\.?|versus|feat\.?|instead\s+of)(?![\p{L}])/iu;
 
 export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: { ordinary?: ReadonlySet<string>; ordinaryEn?: ReadonlySet<string>; loose?: boolean; stats?: { lists: number; pairs: number; focusPicked?: number; offFocus?: number };
@@ -101,6 +124,11 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
   Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' | 'lore' | 'playlist'; offFocus?: boolean }> {
   // английские ловушки (OPS-9) — только для роликов англоязычных каналов
   const ordinaryWithEn = options.ordinaryEn?.size ? new Set([...(options.ordinary ?? []), ...options.ordinaryEn]) : undefined;
+  // малоизвестные карточки из каналов (`minor`) — как обычные слова: в заголовке только с меткой
+  // («Правдивая история реальной Лиги справедливости» — не фильм 2014-го)
+  const minorNames = ours.filter((w) => w.minor).flatMap((w) => w.names);
+  const withMinor = (s?: ReadonlySet<string>) => (minorNames.length ? new Set([...(s ?? []), ...minorNames]) : s);
+  const ordinaryMinor = withMinor(options.ordinary), ordinaryWithEnMinor = ordinaryWithEn && withMinor(ordinaryWithEn);
   // начало первого слова названия → произведения
   const byHead = new Map<string, IndexedWork[]>();
   for (const w of ours) {
@@ -148,8 +176,12 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     const hits: { w: IndexedWork; len: number; at: number; score: number; andNext?: boolean }[] = [];
     const series = talksSeries(`${v.title}\n${v.description ?? ''}`);
     const episode = EPISODE.test(v.title);
+    // сериал из профилей ищется только при разговоре о сериале (Е6) — кроме обзора в год его выхода: «Берлин - ТРЕШ
+    // ОБЗОР приквела БУМАЖНОГО ДОМА» (январь 2024) — сериал 2023-го, а не фильм 1945-го (OPS-9, 11.10)
+    const pub = v.publishedAt ? Number(v.publishedAt.slice(0, 4)) : NaN;
+    const freshReview = (w: IndexedWork) => REVIEW.test(v.title) && Boolean(w.work.year) && pub - w.work.year >= 0 && pub - w.work.year <= 1;
     for (const w of ours) {   // порядок справочников — как у индекса: pickNamesake опирается на него
-      if (!cands.has(w) || (w.needsSeriesTalk && !series)) continue;
+      if (!cands.has(w) || (w.needsSeriesTalk && !series && !freshReview(w))) continue;
       // «Адмирал Кузнецов 6 серия обзор», «Больница Питт 2 сезон 7 серия» — разбор серии, а не фильма (01.10)
       if (episode && !isSeries(w.work)) continue;
       let hit: { len: number; at: number; exact?: boolean; tail?: number; andNext?: boolean } | undefined;
@@ -157,7 +189,8 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       // по основе «Хищник.» доставался «Хищникам»
       const score = (h: { len: number; exact?: boolean; tail?: number }) => h.len + (h.tail ?? 0) + (h.exact ? 0.5 : 0);
       for (const n of namesFor(w, Boolean(v.book))) {
-        const h = nameMatchAt(v.title, n, { ordinary: v.en && ordinaryWithEn ? ordinaryWithEn : options.ordinary, loose: options.loose, english: v.en, pairs: true });
+        const ord = w.minor ? (v.en && ordinaryWithEnMinor ? ordinaryWithEnMinor : ordinaryMinor) : (v.en && ordinaryWithEn ? ordinaryWithEn : options.ordinary);
+        const h = nameMatchAt(v.title, n, { ordinary: ord, loose: options.loose, english: v.en, pairs: true });
         if (h && (!hit || score(h) > score(hit))) hit = h;
       }
       // из равных по длине — совпавшее целиком (`exact`): полбалла сверху
@@ -222,6 +255,15 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
       const f = tied.filter((w) => inFocus(w, cf.focus));
       if (f.length && f.length < tied.length) { tied = f; if (options.stats) options.stats.focusPicked = (options.stats.focusPicked ?? 0) + 1; }
     }
+    // герой одного из тёзок в заголовке — к нему: «МИКАСА - главная ошибка Исаямы (Атака Титанов)» — аниме-сериал, а не
+    // фильм 2015-го (OPS-9, 11.10). Здесь и одно имя годится: выбор только среди тёзок. Герой, чьё имя — само название
+    // («Терминатор»), не в счёт
+    if (tied.length > 1 && !process.env.NO_LORE) {
+      const named = (h: { name: string }) => tied.some((w) => w.work.title.toLowerCase().replace(/ё/g, 'е').includes(h.name.toLowerCase().replace(/ё/g, 'е').split(' ')[0].slice(0, 5)));
+      const heroOf = new Set(loreHits(v.title).filter((h) => !named(h)).flatMap((h) => h.works));
+      const t = tied.filter((w) => heroOf.has(w.key));
+      if (t.length && t.length < tied.length) tied = t;
+    }
     const pick = pickNamesake(tied, `${v.title}\n${v.description ?? ''}`, v.publishedAt);
     if (!pick) continue;
     // Другие названия в заголовке — места, которые не пересекаются с главным и друг с другом;
@@ -247,9 +289,17 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     // ни одного из них (разметка владельца 02.10, вид «несколько фильмов»)
     if (Math.max(others.length + 1, listItems(v.title, mainHit)) >= 3) { if (options.stats) options.stats.lists += 1; continue; }
     if (others.length && options.stats) options.stats.pairs += 1;
-    const off = Boolean(cf?.dominant.size && !inFocus(pick, cf.dominant));
+    let main = sequelOf(pick, cands, v.title, v.publishedAt) ?? pick;
+    let off = Boolean(cf?.dominant.size && !inFocus(main, cf.dominant));
+    // вне фокуса, а в заголовке герой одного произведения из фокуса — ролик о нём: «Daenerys Targaryen: The Theory of
+    // Everything», «Jon Snow - The King who was promised?» у канала о «Песни льда и огня» (OPS-9, 10.10)
+    if (off && cf) {
+      const inLore = new Set(loreHits(v.title, lore).flatMap((h) => h.works).filter((k) => inFocusKey(k, cf.dominant)));
+      const w = inLore.size === 1 ? byKeyOurs.get([...inLore][0]) : undefined;
+      if (w) { main = w; off = false; }
+    }
     if (off && options.stats) options.stats.offFocus = (options.stats.offFocus ?? 0) + 1;
-    out.set(v.id, { key: pick.key, work: pick.work, len: Math.floor(max), ...(others.length ? { others } : {}), ...(off ? { offFocus: true } : {}) });
+    out.set(v.id, { key: main.key, work: main.work, len: Math.floor(max), ...(others.length ? { others } : {}), ...(off ? { offFocus: true } : {}) });
   }
   // запасной путь по плейлисту — только если плейлист и правда о нём: среди его роликов, опознанных
   // по заголовку, хотя бы два — это произведение и их не меньше, чем привязанных к другому.

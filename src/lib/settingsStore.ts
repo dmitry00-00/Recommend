@@ -17,7 +17,8 @@ export function loadSettings(): Promise<UserSettings> {
   if (current) return Promise.resolve(current);
   // тема из настроек — сразу при старте (ТВ-10): раньше она применялась только на экране
   // настроек, и после перезапуска выбранная «Светлая» снова становилась тёмной
-  pending ??= getSettings().then((s) => { current = s; if (s.theme) applyTheme(s.theme); syncLanguage(s); emit(); return s; }).finally(() => { pending = null; });
+  // сохранённое, пока шла первая загрузка (saveSettings), новее загруженного — его не затираем (10.10)
+  pending ??= getSettings().then((s) => { current ??= s; if (current.theme) applyTheme(current.theme); syncLanguage(current); emit(); return current; }).finally(() => { pending = null; });
   return pending;
 }
 

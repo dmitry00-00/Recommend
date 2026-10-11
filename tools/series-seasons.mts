@@ -10,6 +10,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
+import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
 import { userWorks } from '../src/mocks/userHistory.ts';
@@ -49,7 +50,7 @@ const get = async <T,>(path: string, extra: Record<string, string> = {}): Promis
 
 // ─── какие сериалы ────────────────────────────────────────────────────────────
 const imdbs = new Set<string>();
-for (const w of [...filmBasePopular, ...filmBaseWorld, ...filmBaseMarkup, ...seriesBase, ...userWorks]) {
+for (const w of [...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels, ...filmBaseMarkup, ...seriesBase, ...userWorks]) {
   if (w.type !== 'series') continue;
   const imdb = (w.externalIds ?? externalIds[w.id])?.imdb;
   if (imdb && /^tt\d+$/.test(imdb)) imdbs.add(imdb);

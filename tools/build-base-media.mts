@@ -17,6 +17,7 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
+import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
@@ -42,7 +43,7 @@ const before: Record<string, Partial<WorkCard>> = existsSync(file)
 const client = tmdbFromEnv(key)!;
 const { tags, save } = tagSource(key, '.cache/tmdb-tags.json');
 
-const targets = [...filmBaseWiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld].filter((w) => {
+const targets = [...filmBaseWiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels].filter((w) => {
   const k = analysisKey(w);
   if (!k?.startsWith('tmdb:') || isSeries(w)) return false;
   if (before[w.id]?.coverUrl && before[w.id]?.registers) return false;
