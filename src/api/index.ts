@@ -2104,6 +2104,46 @@ const placeNow = (): string => (typeof location === 'undefined' ? '' : location.
 const cardsNoted = new Map<ID, number>();
 
 /** Открыли карточку произведения (ЗП-3): знаменатель для «Смотреть» и «открыл разбор». Не дошло — не беда. */
+/** Трейлер (15.10, владелец): смахивание карточки ленты влево — трейлер нового фильма важнее, чем убрать, скорее всего,
+ *  уже виденное («Не сейчас» осталось в карточке). Ролики фильма — из TMDb через прокси сервера (ключ на сервере):
+ *  официальный трейлер на YouTube, русский, потом английский; нет трейлера — тизер. Нет id TMDb или роликов — undefined,
+ *  и смахивание работает по-старому. Ответ — на сессию: лента спрашивает только то, что смахнули. */
+export interface Trailer { key: string; name: string; lang: string }
+/** Можно ли искать трейлер: фильм или сериал с id TMDb. */
+export const trailerSource = (work: WorkCard): boolean => work.type !== 'book' && (work.externalIds ?? externalIds[work.id])?.tmdb != null;
+const trailers = new Map<string, Promise<Trailer | undefined>>();
+export function getTrailer(work: WorkCard): Promise<Trailer | undefined> {
+  const ids = work.externalIds ?? externalIds[work.id];
+  const tmdb = ids?.tmdb;
+  if (tmdb == null || work.type === 'book') return Promise.resolve(undefined);
+  const path = `${isSeries(work) ? 'tv' : 'movie'}/${tmdb}/videos`;
+  const cached = trailers.get(path);
+  if (cached) return cached;
+  type Video = { key: string; name: string; site: string; type: string; official?: boolean; iso_639_1?: string; published_at?: string };
+  const ask = (lang: string) => fetch(`/tmdb-api/${path}?language=${lang}`).then((r) => (r.ok ? r.json() : { results: [] }))
+    .then((b: { results?: Video[] }) => (b.results ?? []).filter((v) => v.site === 'YouTube' && /^[\w-]{11}$/.test(v.key)));
+  const pick = (vs: Video[]) => [...vs].sort((a, b) =>
+    Number(b.type === 'Trailer') - Number(a.type === 'Trailer') || Number(b.type === 'Teaser') - Number(a.type === 'Teaser')
+    || Number(Boolean(b.official)) - Number(Boolean(a.official)) || (b.published_at ?? '').localeCompare(a.published_at ?? ''))
+    .find((v) => v.type === 'Trailer' || v.type === 'Teaser');
+  const got = (async () => {
+    const order = language === 'ru' ? ['ru-RU', 'en-US'] : ['en-US'];
+    for (const lang of order) {
+      const v = pick(await ask(lang));
+      if (v) return { key: v.key, name: v.name, lang: v.iso_639_1 ?? lang.slice(0, 2) };
+    }
+    return undefined;
+  })().catch(() => undefined);
+  trailers.set(path, got);
+  return got;
+}
+
+/** Трейлер открыт — в воронку рядом с «Смотреть» (`watch`): помогает ли трейлер дойти до просмотра. */
+export function noteTrailer(workId: ID, place = placeNow()): void {
+  if (!store.onServer) return;
+  store.event({ kind: 'trailer', workId, place }).catch(() => undefined);
+}
+
 export function noteCard(workId: ID, place = placeNow()): void {
   const last = cardsNoted.get(workId);
   if (last && Date.now() - last < 30 * 60e3) return;

@@ -931,6 +931,12 @@ export const en: Strings = {
   /* разборы по авторам в карточке: строка авторов, материал, посты в Telegram */
   // полки рубрик (ТВ-3г, за флагом): короткие имена — строка чипов в одну линию
   /* карточка по глубине (15.10, src/lib/depth.ts): паспорт иконками и зоны материалов */
+  /* трейлер смахиванием карточки ленты влево (15.10) */
+  trailer: {
+  "swipe": "▶ Trailer",
+  "title": (t: string) => `Trailer: ${t}`,
+  "youtube": "Open on YouTube",
+},
   depth: {
   "toggle": "Card by depth",
   "toggleText": "Trial before rollout: an icon passport on top, materials in three zones — opinions, sins, deep dives. Turn off to compare with the old card.",
@@ -1167,7 +1173,7 @@ export const en: Strings = {
   "watchingOn": "Watching ✓",
   "readingMark": "Reading",
   "readingOn": "Reading ✓",
-  "swipeHint": "Swipe left — not now. Right — who broke this film down. Swipe an open card sideways to return to the feed.",
+  "swipeHint": "Swipe left — trailer. Right — who broke this film down. “Not now” is in the film card; swipe an open card sideways to return to the feed.",
   "noVoices": "No breakdowns yet",
   "voicesTitle": (title: string) => `“${title}”: who broke it down`,
   "voicesHint": "Tap to open the breakdown in the card",

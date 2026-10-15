@@ -1044,3 +1044,11 @@ button.tm-banner { cursor: pointer; }
 .tm-sins__who { margin-top: 6px; font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .tm-sins__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; color: var(--tm-color-ink-muted); font-size: 12px; line-height: 16px; min-height: 32px; }
 .tm-sins__link--blocked .tm-sins__title { color: var(--tm-color-ink-faint); font-style: italic; }
+
+/* Трейлер смахиванием карточки ленты влево (15.10, src/components/TrailerSheet.tsx): плеер 16:9 по центру экрана */
+.tm-trailer { position: fixed; z-index: 41; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100vw - 2 * var(--tm-space-4), 720px);
+  background: var(--tm-color-surface-100); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-mark); overflow: hidden; }
+.tm-trailer__frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+.tm-trailer__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.tm-trailer__bar { display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-3); }
+.tm-trailer__name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--tm-color-ink-muted); }

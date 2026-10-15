@@ -34,7 +34,8 @@ const KP_KEY = process.env.KP_API_KEY || '';
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const TMDB_KEY = process.env.TMDB_API_KEY || '';
 // только то, что спрашивает клиент (src/lib/resolve/tmdb.ts): чужим прокси с нашим ключом сервер не станет
-const TMDB_PATHS = /^\/(?:find\/tt\d+|search\/(?:movie|tv)|(?:movie|tv)\/\d+(?:\/external_ids|\/watch\/providers)?)$/;
+// /videos (15.10) — трейлер по смахиванию карточки ленты влево (src/api/index.ts, getTrailer)
+const TMDB_PATHS = /^\/(?:find\/tt\d+|search\/(?:movie|tv)|(?:movie|tv)\/\d+(?:\/external_ids|\/watch\/providers|\/videos)?)$/;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 
 // ---------- API: воркер + D1 на SQLite ----------

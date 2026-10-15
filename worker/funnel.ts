@@ -44,8 +44,8 @@ export async function noteVisit(db: D1Database, userId: string): Promise<void> {
 
 // ─── события ────────────────────────────────────────────────────────────────
 
-// `card`, `watch` — с 07.10 (ЗП-3); `share_sent`, `mood_query`, `survey_answered` — с 14.10 (МА-3, worker/engagement.ts)
-const KINDS = new Set(['card', 'watch', 'share_sent', 'mood_query', 'survey_answered']);
+// `card`, `watch` — с 07.10 (ЗП-3); `trailer` — с 15.10 (трейлер смахиванием в ленте); `share_sent`, `mood_query`, `survey_answered` — с 14.10 (МА-3, worker/engagement.ts)
+const KINDS = new Set(['card', 'watch', 'trailer', 'share_sent', 'mood_query', 'survey_answered']);
 let eventSeq = 0;
 
 export async function postEvent(req: Request, userId: string, db: D1Database): Promise<Response> {

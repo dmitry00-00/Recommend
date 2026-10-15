@@ -223,7 +223,7 @@ export const store = {
   /** удалить аккаунт и все данные участника (ЗП-5): после — забыть токен и всё локальное */
   deleteAccount: () => send('/api/account', 'DELETE', {}),
   /** открыли карточку произведения или нажали «Смотреть» (ЗП-3): воронка и удержание */
-  event: (event: { kind: 'card' | 'watch' | 'share_sent' | 'mood_query' | 'survey_answered'; workId?: ID; place?: string; detail?: string }) => send('/api/event', 'POST', event),
+  event: (event: { kind: 'card' | 'watch' | 'trailer' | 'share_sent' | 'mood_query' | 'survey_answered'; workId?: ID; place?: string; detail?: string }) => send('/api/event', 'POST', event),
   /** сериал (Е3): «где я сейчас» — сезон и серия */
   progress: (entryId: string, workId: ID, where: { series: SeriesProgress } | { book: BookProgress }) =>
     send(`/api/journal/${encodeURIComponent(entryId)}/progress`, 'POST', { workId, ...where }),

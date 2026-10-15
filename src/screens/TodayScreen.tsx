@@ -4,7 +4,8 @@ import type {
   DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, noteTrailer, notWatched, planWork, sendRecommendationFeedback, startWork, trailerSource, unplanWork, updateSettings, type Trailer } from '@/api';
+import { TrailerSheet } from '@/components/TrailerSheet';
 import {
   Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
@@ -171,6 +172,12 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
 }) {
   const [dx, setDx] = useState(0);
   const [side, setSide] = useState<'none' | 'ask' | 'voices'>('none');
+  // влево — трейлер (15.10, владелец): «Не сейчас» переехало в карточку фильма. Трейлер спрашиваем, как только карточку
+  // повели влево, — к отпусканию он обычно уже есть; не нашёлся — смахивание работает по-старому (причины «не сейчас»)
+  const canTrailer = trailerSource(r.work);
+  const [trailer, setTrailer] = useState<Trailer | null | undefined>(canTrailer ? undefined : null);
+  const [playing, setPlaying] = useState<Trailer>();
+  const askTrailer = () => getTrailer(r.work).then((t) => { setTrailer(t ?? null); return t; });
   const asking = side === 'ask';
   // те же авторы и в том же порядке, что в карточке: сначала подтверждённые, потом у кого больше
   const voices = useMemo(() => groupByVoice(r.analyses ?? []), [r.analyses]);
@@ -180,11 +187,16 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
     enabled: side === 'none',
     onMove(next) {
       if ((next <= -SWIPE) !== dropping || (next >= SWIPE && voices.length > 0) !== showing) tap();
+      if (next < 0 && trailer === undefined) askTrailer().catch(() => undefined);
       setDx(next);
     },
     onEnd(end) {
       setDx(0);
-      if (end <= -SWIPE) { tap('medium'); setSide('ask'); }
+      if (end <= -SWIPE) {
+        tap('medium');
+        if (trailer === null) { setSide('ask'); return; }
+        askTrailer().then((t) => { if (t) { noteTrailer(r.work.id, 'feed'); setPlaying(t); } else setSide('ask'); }).catch(() => setSide('ask'));
+      }
       // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
       else if (end >= SWIPE && voices.length) { tap('medium'); setSide('voices'); }
     },
@@ -225,7 +237,7 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
         <span className={cx('tm-stream__hint', right ? 'tm-stream__hint--voices' : 'tm-stream__hint--dismiss',
                             (showing || dropping) && 'tm-stream__hint--on')}
               style={{ '--fill': fill } as CSSProperties} aria-hidden="true">
-          {!right ? ui.actions.dismiss : voices.length ? (
+          {!right ? (trailer === null ? ui.actions.dismiss : ui.trailer.swipe) : voices.length ? (
             <span className="tm-stream__pile">
               {voices.slice(0, PILE).map((g) => <Avatar key={g.voice.id} voice={g.voice} size="sm" />)}
               {rest > 0 ? <span className="tm-stream__pilemore">+{rest}</span> : null}
@@ -237,6 +249,7 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
       <div className="tm-stream__drag" style={dx ? ({ '--swipe-x': `${Math.round(dx * DRAG)}px` } as CSSProperties) : undefined}>
         <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />
       </div>
+      <TrailerSheet trailer={playing} title={titleOf(r.work)} onClose={() => setPlaying(undefined)} />
     </article>
   );
 }
