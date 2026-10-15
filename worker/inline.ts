@@ -67,13 +67,20 @@ export function search(idx: NonNullable<typeof cache>, raw: string): Entry[] {
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+/** Картинка крупно (15.10): постер или фото героя — превью над текстом сообщения, без него карточка в чате читалась
+ *  сухо. Результат остаётся статьёй, а не фото: фото Telegram показывает в выборе плиткой без названий, и два
+ *  «Интерстеллара» не различить. У TMDb — постер крупнее, чем миниатюра в списке. */
+const bigImage = (url?: string) => (url && IMAGE_HOSTS.test(url) ? url.replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1w500/') : undefined);
+
 function result(e: Entry, lang: Lang = 'ru') {
   const head = `${e.t}${e.y ? ` (${e.y})` : ''}`;
   const line = [KINDS[lang][e.k], e.o, e.s].filter(Boolean).join(' · ');
+  const big = bigImage(e.i);
   return {
     type: 'article', id: e.p, title: head, description: line,
     ...(e.i ? { thumbnail_url: e.i } : {}),
-    input_message_content: { message_text: `<b>${esc(head)}</b>\n${esc(line)}`, parse_mode: 'HTML', link_preview_options: { is_disabled: true } },
+    input_message_content: { message_text: `<b>${esc(head)}</b>\n${esc(line)}`, parse_mode: 'HTML',
+      link_preview_options: big ? { url: big, prefer_large_media: true, show_above_text: true } : { is_disabled: true } },
     reply_markup: { inline_keyboard: [[{ text: e.k === 'character' ? BUTTON[lang].character : BUTTON[lang].work, url: `https://t.me/${bot.name}?startapp=${e.p}` }]] },
   };
 }
