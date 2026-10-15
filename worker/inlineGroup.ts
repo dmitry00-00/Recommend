@@ -130,22 +130,36 @@ export async function groupPick(env: Env, from: number, nicks: string[], lookup:
   return { films: picked, names: found.map((f) => f.nick), missing };
 }
 
+/** Владельцу (GET /api/admin/member?nick=…): есть ли участник с этим ником и сколько у него истории — чтобы разбирать
+ *  «нет в боте». Ник в базу попадает только при входе в мини-приложение; переписка с ботом и кнопки в чате его не пишут. */
+export async function memberInfo(env: Env, nick: string): Promise<Response> {
+  const n = nick.trim().replace(/^@/, '').toLowerCase();
+  const u = await env.DB.prepare('SELECT id, tg_id, created_at, seen_at FROM user WHERE lower(username) = ?').bind(n)
+    .first<{ id: string; tg_id: number | null; created_at: string; seen_at: string }>();
+  const tester = Boolean(await env.DB.prepare('SELECT 1 AS x FROM tester WHERE username = ?').bind(n).first());
+  if (!u) return Response.json({ nick: n, found: false, tester });
+  const c = await env.DB.prepare(`SELECT (SELECT COUNT(*) FROM rating WHERE user_id = ?1) AS ratings,
+    (SELECT COUNT(*) FROM journal WHERE user_id = ?1 AND status = 'planned') AS planned,
+    (SELECT COUNT(*) FROM watched WHERE user_id = ?1 AND state = 'watched') AS watched`).bind(u.id).first<Record<string, number>>();
+  return Response.json({ nick: n, found: true, tester, telegram: u.tg_id != null, created: u.created_at, seen: u.seen_at, ...c });
+}
+
 /** Подписи в выборе инлайна. */
 export const GROUP_T = {
   ru: {
     title: (names: string[]) => `Для вас и ${names.map((n) => `@${n}`).join(', ')}`,
-    missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} нет в боте`,
+    missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} не открывали приложение`,
     not_in_bot: 'Откройте бота — подбор идёт и по вашему вкусу',
     no_history: `Сначала оцените ${MIN_RATED} фильмов — подбор идёт и по вашему вкусу`,
-    nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} нет в боте — позовите` : 'Назовите друзей: для @ник @ник'),
+    nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} не открывали приложение — позовите` : 'Назовите друзей: для @ник @ник'),
     empty: 'Общего пока нет — добавьте фильмы в планы',
   },
   en: {
     title: (names: string[]) => `For you and ${names.map((n) => `@${n}`).join(', ')}`,
-    missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} not in the bot`,
+    missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} haven't opened the app`,
     not_in_bot: 'Open the bot — your taste counts too',
     no_history: `Rate ${MIN_RATED} films first — your taste counts too`,
-    nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} not in the bot — invite them` : 'Name your friends: for @nick @nick'),
+    nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} haven't opened the app — invite them` : 'Name your friends: for @nick @nick'),
     empty: 'Nothing in common yet — add films to your plans',
   },
 } satisfies Record<Lang, unknown>;

@@ -6,6 +6,7 @@
 // отдельно (R2) и раздаются как файлы — смешивать их с личными записями в одной базе
 // незачем.
 import { adminWebhook, prepareShare, telegramUpdate } from './inline';
+import { memberInfo } from './inlineGroup';
 import { publicPage } from './pages';
 import { adminDigest, followDigest, forgetReference, getFollows, noteFresh, putFollow } from './follow';
 import { getInbox, getRegistry, getRegistryLog, getRegistryVersion, getSources, postInbox, postInboxResult, postRegistry } from './registry';
@@ -862,6 +863,10 @@ export default {
     }
     if (path === '/api/admin/follow-digest' && req.method === 'POST') {
       return withHead(adminOk(req, env) ? await adminDigest(req, env) : json({ error: 'unauthorized' }, 401), head);
+    }
+    // есть ли участник с ником и сколько у него истории — разбор «не открывали приложение» в подборе по никам (15.10)
+    if (path === '/api/admin/member' && req.method === 'GET') {
+      return withHead(adminOk(req, env) ? await memberInfo(env, url.searchParams.get('nick') ?? '') : json({ error: 'unauthorized' }, 401), head);
     }
     if (path === '/api/admin/owner-decisions' && req.method === 'GET') {
       return withHead(adminOk(req, env) ? await getOwnerDecisions(env.DB) : json({ error: 'unauthorized' }, 401), head);

@@ -103,10 +103,10 @@ assert.match(String([...calls].reverse().find((c) => c.method === 'editMessageTe
 
 // 4. кого нет в боте — в подписи; никого нет — подсказка вместо результатов
 r = ((await ask('для @anya @ghost_user')).results as Article[])[0];
-assert.match(r.description, /^@ghost_user нет в боте — /);
+assert.match(r.description, /^@ghost_user не открывали приложение — /);
 a = await ask('для @ghost_user');
 assert.deepEqual(a.results, []);
-assert.match((a.button as { text: string }).text, /@ghost_user нет в боте/);
+assert.match((a.button as { text: string }).text, /@ghost_user не открывали приложение/);
 
 // 5. меньше 30 оценок и не из бота — подсказки, а не чужие списки
 for (let i = 0; i < 29; i++) await rate('u-new', `tmdb:9${i}`, 3, work(`Фильм ${i}`, 2000 + i));
