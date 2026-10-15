@@ -58,7 +58,8 @@ const rate = (u: string, id: string, r: number, w: string | null = null) =>
 
 await user('u-me', 100, 'me_user'); await user('u-anya', 201, 'Anya'); await user('u-lyosha', 202, 'lyosha'); await user('u-new', 300, 'newbie');
 await saw('u-me', 'tmdb:7', work('Матрица', 1999));
-for (let i = 0; i < 3; i++) await saw('u-me', `tmdb:9${i}`, work(`Фильм ${i}`, 2000 + i));
+// порог — 30 оценок у спрашивающего: 29 своих + «Пленницы»
+for (let i = 0; i < 29; i++) await rate('u-me', `tmdb:9${i}`, 4, work(`Фильм ${i}`, 2000 + i));
 await rate('u-me', 'tmdb:3', 5);
 await plan('u-me', 'tmdb:1', work('Интерстеллар', 2014), 4);
 await plan('u-me', 'tmdb:4', work('Дюна', 2021));
@@ -107,10 +108,11 @@ a = await ask('для @ghost_user');
 assert.deepEqual(a.results, []);
 assert.match((a.button as { text: string }).text, /@ghost_user нет в боте/);
 
-// 5. без своей истории и не из бота — подсказки, а не чужие списки
+// 5. меньше 30 оценок и не из бота — подсказки, а не чужие списки
+for (let i = 0; i < 29; i++) await rate('u-new', `tmdb:9${i}`, 3, work(`Фильм ${i}`, 2000 + i));
 a = await ask('для @anya', 300);
 assert.deepEqual(a.results, []);
-assert.match((a.button as { text: string }).text, /отметьте несколько фильмов/);
+assert.match((a.button as { text: string }).text, /оцените 30 фильмов/);
 a = await ask('для @anya', 999);
 assert.deepEqual(a.results, []);
 assert.match((a.button as { text: string }).text, /Откройте бота/);

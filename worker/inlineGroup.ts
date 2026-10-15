@@ -7,14 +7,15 @@
 //   3. любимое (оценка 5) одного — по очереди от каждого.
 // Убираем всё, что кто-то из участников уже видел: отмечено просмотренным, начато, закончено, брошено, оценено. Любимое
 // видел сам его поклонник — для него это пересмотр, исключение не действует; остальные должны его не видеть.
-// Только фильмы и сериалы. Спросивший должен быть в боте и иметь свою историю: подбор — по вкусу каждого.
+// Только фильмы и сериалы. Спросивший должен быть в боте и оценить не меньше MIN_RATED фильмов (владелец, 15.10): подбор —
+// по вкусу каждого, а с длинной своей историей вычленить из общего списка чужие планы и виденное практически нельзя.
 import type { Env } from './env';
 import type { PollFilm } from './inlinePoll';
 
 type Lang = 'ru' | 'en';
 const MAX = 10;
 const MAX_NICKS = 9;
-const MIN_OWN = 5;
+const MIN_RATED = 30;
 
 /** «для @anya @lyosha», «вместе @anya, @lyosha», «for @anya and @lyosha», «@anya @lyosha» → ники (без @, строчными);
  *  undefined — запрос не наш. */
@@ -50,9 +51,8 @@ export async function groupPick(env: Env, from: number, nicks: string[], lookup:
   const members = [me.id, ...found.map((f) => f.id)];
   const marks = members.map(() => '?').join(',');
 
-  const own = await env.DB.prepare(`SELECT (SELECT COUNT(*) FROM watched WHERE user_id = ?1 AND state = 'watched')
-    + (SELECT COUNT(*) FROM rating WHERE user_id = ?1) + (SELECT COUNT(*) FROM journal WHERE user_id = ?1) AS n`).bind(me.id).first<{ n: number }>();
-  if (Number(own?.n ?? 0) < MIN_OWN) return { error: 'no_history', missing };
+  const own = await env.DB.prepare('SELECT COUNT(*) AS n FROM rating WHERE user_id = ?').bind(me.id).first<{ n: number }>();
+  if (Number(own?.n ?? 0) < MIN_RATED) return { error: 'no_history', missing };
 
   const [journal, rating, watched] = await env.DB.batch([
     env.DB.prepare(`SELECT user_id, work_id, work, status, eagerness, started_at AS at FROM journal WHERE user_id IN (${marks})`).bind(...members),
@@ -136,7 +136,7 @@ export const GROUP_T = {
     title: (names: string[]) => `Для вас и ${names.map((n) => `@${n}`).join(', ')}`,
     missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} нет в боте`,
     not_in_bot: 'Откройте бота — подбор идёт и по вашему вкусу',
-    no_history: 'Сначала отметьте несколько фильмов — подбор идёт и по вашему вкусу',
+    no_history: `Сначала оцените ${MIN_RATED} фильмов — подбор идёт и по вашему вкусу`,
     nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} нет в боте — позовите` : 'Назовите друзей: для @ник @ник'),
     empty: 'Общего пока нет — добавьте фильмы в планы',
   },
@@ -144,7 +144,7 @@ export const GROUP_T = {
     title: (names: string[]) => `For you and ${names.map((n) => `@${n}`).join(', ')}`,
     missing: (m: string[]) => `${m.map((n) => `@${n}`).join(', ')} not in the bot`,
     not_in_bot: 'Open the bot — your taste counts too',
-    no_history: 'Mark a few films first — your taste counts too',
+    no_history: `Rate ${MIN_RATED} films first — your taste counts too`,
     nobody: (m: string[]) => (m.length ? `${m.map((n) => `@${n}`).join(', ')} not in the bot — invite them` : 'Name your friends: for @nick @nick'),
     empty: 'Nothing in common yet — add films to your plans',
   },
