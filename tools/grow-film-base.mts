@@ -168,10 +168,14 @@ if (!WORLD) console.error(`статей в топах за ${MONTHS} мес.: ${
 // топ выносит редко. Её берём из Wikidata: число разделов Википедии, где есть статья, — мера того,
 // насколько вещь знают в мире. Советскому и российскому кино мировое число занижает признание,
 // поэтому порог у него свой, ниже. Мера — `links`, просмотров у таких записей нет.
+// --series-links N (РР-4, 15.10): мировые сериалы от N разделов, а не от 25 — «всё, у чего есть статья в русской
+// Википедии», при N=1; --series-only — в справочник только сериалы (фильмы из топов этим заходом не пишем)
+const SERIES_LINKS = Number(opt('--series-links') ?? 25);
+const SERIES_ONLY = argv.includes('--series-only');
 const SPARQL: Record<string, string> = {
   'films-world': 'VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= 40)',
   'films-ru': 'VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } VALUES ?k { wd:Q15180 wd:Q159 } ?f wdt:P31 ?c; wdt:P495 ?k; wikibase:sitelinks ?n. FILTER(?n >= 8)',
-  'series-world': 'VALUES ?c { wd:Q5398426 wd:Q1259759 wd:Q581714 wd:Q63952888 wd:Q117467246 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= 25)',
+  [SERIES_LINKS === 25 ? 'series-world' : `series-world-${SERIES_LINKS}`]: `VALUES ?c { wd:Q5398426 wd:Q1259759 wd:Q581714 wd:Q63952888 wd:Q117467246 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${SERIES_LINKS})`,
   'series-ru': 'VALUES ?c { wd:Q5398426 wd:Q1259759 } ?f wdt:P31 ?c; wdt:P495 wd:Q159; wikibase:sitelinks ?n. FILTER(?n >= 3)',
 };
 // --world: индийское кино мир знает хуже, чем Индия, — порог ниже; англоязычное — выше, его и так много
@@ -424,7 +428,7 @@ if (WORLD) {
 const noKey = uniq.filter((r) => !r.had && !r.key);
 console.log(`без ключа (нет TMDb у фильма / IMDb у сериала) — завести нельзя: ${noKey.length}`);
 const seenKey = new Set<string>();
-const missing = uniq.filter((r) => !r.had && r.key && (!WORLD || chosen.has(r.qid)) && !seenKey.has(r.key) && seenKey.add(r.key));
+const missing = uniq.filter((r) => !r.had && r.key && (!WORLD || chosen.has(r.qid)) && (!SERIES_ONLY || r.type === 'series') && !seenKey.has(r.key) && seenKey.add(r.key));
 const line = (r: (typeof uniq)[number]) => `  ${`${r.title}${r.year ? ` (${r.year})` : ''}`.padEnd(48)} ${r.type === 'series' ? 'сериал' : 'фильм '} ${r.months ? `${String(r.views).padStart(9)} · ${r.months} ${WORLD ? 'сут.' : 'мес.'}` : `разделов ${r.links}`}`;
 console.log(`\nнет у нас (${missing.length}), первые 30 из топов:`);
 for (const r of missing.filter((r) => r.months).slice(0, 30)) console.log(line(r));

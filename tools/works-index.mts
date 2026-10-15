@@ -15,6 +15,7 @@ import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
+import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { tvPrograms } from '../src/mocks/tvPrograms.ts';
@@ -117,6 +118,8 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     ...seriesBase,
     // что люди ищут: месячные топы русской Википедии и классика, опознано в Wikidata (05.10)
     ...filmBasePopular,
+    // сериалы со статьёй в русской Википедии от 10 разделов (РР-4, 15.10)
+    ...seriesBaseWiki,
     // популярное в Индии и англоязычных странах: суточные топы Википедии по странам и классика (ЗП-22, 07.10)
     ...filmBaseWorld,
     // фильмы из загрузок каналов студий и агрегаторов, опознаны в Wikidata по режиссёру или году (10.10)
@@ -135,7 +138,7 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   // артикль и номер части словом не считаются: «The Bear», «Война 2», «Stree 2» — по сути одно слово
   const worldNameOk = (t: string) => t.split(/\s+/).filter((x) => !/^(the|a|an|\d+)$/i.test(x)).length > 1;
   // сериалы из топов Википедии («Метод», «Кухня», «Мажор») — то же правило Е6, что у сериалов из профилей
-  const fromProfiles = new Set([...seriesBase, ...filmBasePopular.filter((w) => w.type === 'series')].map((w) => w.id));
+  const fromProfiles = new Set([...seriesBase, ...filmBasePopular.filter((w) => w.type === 'series'), ...seriesBaseWiki].map((w) => w.id));
   // названия, которые чаще значат другое: группа, роман, другая экранизация того же романа
   // (замер 30.09 по дампу роликов: песни «Короля и Шута», разборы романа Достоевского и сериала
   // 2024-го, фильм «Граф Монте-Кристо» 2024-го уходили к сериалам из профилей)

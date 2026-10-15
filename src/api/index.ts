@@ -297,7 +297,7 @@ const freshStart: boolean = !store.onServer && (() => {
 
 /** Весь справочник: фильмы, сериалы, книги и история владельца. Повторный вызов ждёт ту же загрузку. */
 function catalog(): Promise<void> {
-  catalogLoad ??= loadFilms().then(loadBooks);
+  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki()])).then(() => undefined);
   return catalogLoad;
 }
 
@@ -311,6 +311,19 @@ function films(): Promise<void> {
  *  колоде новичка и отметки в ленте не тянут книги. Карточки книжного каталога — `b-…`; свои книги человека и так
  *  приводят `films()` к книгам. */
 const catalogFor = (id: ID): Promise<void> => (id.startsWith('b-') ? catalog() : films());
+
+/** Сериалы со статьёй в русской Википедии (РР-4, 15.10, tools/grow-film-base.mts --series-only): ~2 тыс. карточек — не в
+ *  первой загрузке, как и книги (РР-1): в подбор сериалы пока не идут (Е4), они нужны поиску, страницам и импорту, то
+ *  есть `catalog()`. Порядок тот же, что у справочника: убранное владельцем — мимо, уже известное — мимо. */
+let seriesWikiLoad: Promise<void> | undefined;
+function loadSeriesWiki(): Promise<void> {
+  seriesWikiLoad ??= Promise.all([loadFilms(), import('@/mocks/seriesBaseWiki')]).then(([, m]) => {
+    const have = new Set(filmBaseWiki.map((w) => w.id));
+    const cards = m.seriesBaseWiki.filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w));
+    filmBaseWiki = [...filmBaseWiki, ...cards];
+  }).catch((err) => { seriesWikiLoad = undefined; throw err; });
+  return seriesWikiLoad;
+}
 
 /** Книги (РР-1): каталог, черновики и метаданные — не в первой загрузке (вместе ~330 КБ сжатыми на 14.10, а с ростом
  *  каталога книг (РР-2, РР-3) — в разы больше). Грузятся с `catalog()` — поиск, страницы, лента и колода книг, — а
