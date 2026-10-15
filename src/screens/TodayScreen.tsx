@@ -81,6 +81,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
         book={r.work.type === 'book' ? r.work : undefined}
         workTitle={titleOf(r.work)}
         spoilerLevel={allowed}
+        seen={finished}
         watch={r.work.watch}
         onWatch={onWatch}
         discussionsCount={places.length}

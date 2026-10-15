@@ -312,6 +312,20 @@ export function SettingsScreen() {
         </section>
       ) : null}
 
+      {/* карточка по глубине (15.10): владелец сравнивает с прежней до выката */}
+      {owner ? (
+        <section className="tm-settings__section">
+          <label className="tm-settings__switch">
+            <input type="checkbox" role="switch" checked={settings.depthCard ?? true} disabled={saving}
+                   onChange={(e) => save({ depthCard: e.target.checked })} />
+            <span>
+              <span className="tm-title-3 tm-settings__h">{ui.depth.toggle}</span>
+              <span className="tm-body-sm tm-settings__note">{ui.depth.toggleText}</span>
+            </span>
+          </label>
+        </section>
+      ) : null}
+
       {/* редакция (10.10): владелец смотрит минимум глазами участника */}
       {owner ? (
         <section className="tm-settings__section">

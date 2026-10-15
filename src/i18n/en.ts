@@ -930,6 +930,22 @@ export const en: Strings = {
 },
   /* разборы по авторам в карточке: строка авторов, материал, посты в Telegram */
   // полки рубрик (ТВ-3г, за флагом): короткие имена — строка чипов в одну линию
+  /* карточка по глубине (15.10, src/lib/depth.ts): паспорт иконками и зоны материалов */
+  depth: {
+  "toggle": "Card by depth",
+  "toggleText": "Trial before rollout: an icon passport on top, materials in three zones — opinions, sins, deep dives. Turn off to compare with the old card.",
+  "zones": { "opinions": "Opinions", "sins": "Sins", "deep": "Deep dives" } as Record<import('@/lib/depth').Zone, string>,
+  "none": "Nobody has talked about this film yet",
+  "noneHint": "Once we find something, it will show up here.",
+  "sinsHint": "Sins, goofs and trash reviews — usually with the ending, best after the film.",
+  "passport": "The film at a glance",
+  "basedOn": (kind: string, title: string) => `${({ book: "based on the book", comic: "based on the comic", game: "based on the game", film: "based on the film", series: "based on the series" } as Record<string, string>)[kind] ?? "inspired by"} “${title}”`,
+  "remake": (title: string) => `remake of “${title}”`,
+  "universe": (title: string) => `“${title}”`,
+  "after": (title: string) => `after “${title}”`,
+  "seasons": (n: number) => `${n} ${n === 1 ? "season" : "seasons"}`,
+  "more": "More",
+},
   lens: {
     "label": "Lenses",
     "all": "All",

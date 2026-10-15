@@ -805,6 +805,26 @@ export async function getPrerequisite(work: WorkCard): Promise<PrevPart | undefi
   return { title: n.t, ...(n.y ? { year: n.y } : {}), ...(card ? { work: card } : {}) };
 }
 
+/** Паспорт карточки по глубине (15.10): откуда произведение — книга, комикс, ремейк чего — и вселенная, если в ней
+ *  хотя бы три узла. Те же связи Ж1, что на полной странице, только самое короткое: значок и название. */
+export interface WorkLinks {
+  basedOn?: { kind: RelationNodeKind; title: string; workId?: ID };
+  remakeOf?: { title: string; workId?: ID };
+  universe?: { id: string; title: string; size: number };
+}
+export async function getWorkLinks(work: WorkCard): Promise<WorkLinks> {
+  await Promise.all([ready, relationRefs(), work.type === 'book' ? catalog() : films()]);
+  const rel = relationsFor(work);
+  const src = rel.find((r) => r.kind === 'adaptation_of' && r.direction === 'out');
+  const remake = rel.find((r) => r.kind === 'remake_of' && r.direction === 'out');
+  const universe = universeFor(work);
+  return {
+    ...(src ? { basedOn: { kind: src.nodeKind, title: src.title, ...(src.workId ? { workId: src.workId } : {}) } } : {}),
+    ...(remake ? { remakeOf: { title: remake.title, ...(remake.workId ? { workId: remake.workId } : {}) } } : {}),
+    ...(universe ? { universe } : {}),
+  };
+}
+
 let filmForm: Record<string, FilmForm> = {};
 /** жанры фильмов TMDb (09.10) — для якоря вкуса новичка; грузятся вместе с первой лентой */
 let filmGenres: Record<string, string[]> = {};

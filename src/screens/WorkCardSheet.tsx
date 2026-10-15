@@ -58,7 +58,7 @@ export function WorkCardSheet({ work, onClose, seen, tag, corner, onWatch, conte
       {shown ? (
         <div className="tm-stream__panel tm-stream__panel--tabs">
           <FilmTabs key={`${shown.id}:${detail ? 1 : 0}`} workId={shown.id} analyses={detail?.externalAnalyses ?? []} workTitle={shown.title}
-                    spoilerLevel={seen ? 2 : spoilers} watch={shown.watch} onWatch={onWatch}
+                    spoilerLevel={seen ? 2 : spoilers} seen={Boolean(seen)} watch={shown.watch} onWatch={onWatch}
                     book={shown.type === 'book' ? shown : undefined}
                     voiceId={voiceId}
                     loading={!loaded}

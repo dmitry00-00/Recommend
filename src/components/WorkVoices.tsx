@@ -135,6 +135,60 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
   );
 }
 
+/** Мнение в карточке по глубине (15.10, src/lib/depth.ts): строка списка — аватар, автор, заголовок в одну строку,
+ *  длина и сколько ещё у автора. Мнения пробегают глазами, поэтому без кадра; касание открывает ролик. Спойлер — замок
+ *  вместо заголовка, как у постов. */
+export function OpinionRow({ group, spoilerLevel }: { group: WorkVoice; spoilerLevel?: SpoilerLevel }) {
+  const items = group.items.filter((x) => x.platform !== 'telegram');
+  const a = items[0];
+  const noteOpen = useNoteOpen();
+  if (!a) return null;
+  const blocked = spoilerLevel != null && a.spoilerLevel > spoilerLevel;
+  const meta = [a.durationMinutes ? formatDuration(a.durationMinutes) : undefined, items.length > 1 ? ui.voices.nextItem(items.length - 1) : undefined]
+    .filter(Boolean).join(' · ');
+  return (
+    <a className={cx('tm-opinion', blocked && 'tm-opinion--blocked')} href={blocked ? undefined : a.url} target="_blank" rel="noreferrer noopener"
+       aria-disabled={blocked ? 'true' : undefined}
+       onClick={blocked ? (e) => e.preventDefault() : (e) => { noteOpen(a); onExternalClick(a.url)(e); }}>
+      <Avatar voice={group.voice} size="sm" />
+      <span className="tm-opinion__body">
+        <span className="tm-opinion__who">{group.voice.title}</span>
+        <span className="tm-opinion__title">{blocked ? ui.spoiler.lockedAnalysis : a.title}</span>
+      </span>
+      {meta ? <span className="tm-opinion__meta">{meta}</span> : null}
+    </a>
+  );
+}
+
+/** Грехи в карточке по глубине: плитки в две колонки — кадр, длина, автор, заголовок в две строки. Развлечение, а не
+ *  выбор на вечер: видно сразу всё, по кругу авторов (первый ролик каждого, потом второй…), не больше двенадцати. */
+export function SinTiles({ groups, spoilerLevel }: { groups: WorkVoice[]; spoilerLevel?: SpoilerLevel }) {
+  const noteOpen = useNoteOpen();
+  const tiles = useMemo(() => roundRobin(groups).filter((x) => x.a.platform !== 'telegram').slice(0, 12), [groups]);
+  return (
+    <ul className="tm-sins">
+      {tiles.map(({ a, voice }) => {
+        const blocked = spoilerLevel != null && a.spoilerLevel > spoilerLevel;
+        return (
+          <li key={a.id} className="tm-sins__tile">
+            <a className={cx('tm-sins__link', blocked && 'tm-sins__link--blocked')} href={blocked ? undefined : a.url} target="_blank" rel="noreferrer noopener"
+               aria-disabled={blocked ? 'true' : undefined}
+               onClick={blocked ? (e) => e.preventDefault() : (e) => { noteOpen(a); onExternalClick(a.url)(e); }}>
+              <span className="tm-sins__thumb">
+                <SafeImage src={a.previewUrl} alt="" loading="lazy" />
+                {blocked ? <span className="tm-voice__hatch" aria-hidden="true" /> : null}
+                {a.durationMinutes ? <span className="tm-voice__time">{formatDuration(a.durationMinutes)}</span> : null}
+              </span>
+              <span className="tm-sins__who">{voice.title}</span>
+              <span className="tm-sins__title">{blocked ? ui.spoilers.with : a.title}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 /** Остальные ролики того же автора об этом произведении — лентой вбок (07.10, замечание владельца): раньше
  *  «ещё N у автора» листало их по одному, и у автора с 29 роликами о сериале это 28 нажатий вслепую. Теперь
  *  видны все сразу: кадр, длина, сезон и серия, заголовок в две строки; касание открывает ролик. Сериал — по

@@ -141,6 +141,7 @@ export function JournalScreen() {
         {openEntry ? (
           <div className="tm-stream__panel tm-stream__panel--tabs">
             <FilmTabs key={openEntry.id} workId={openEntry.work.id} analyses={openEntry.analyses ?? []} workTitle={titleOf(openEntry.work)} spoilerLevel={openEntry.status === 'finished' ? 2 : 0}
+                      seen={openEntry.status === 'finished'}
                       watch={openEntry.work.watch} onWatch={() => watchFrom(openEntry)}
                       discussionsCount={placesCount(places)} discussions={<WorkPlaces places={places} finished={openEntry.status === 'finished'} />}
                       book={openEntry.work.type === 'book' ? openEntry.work : undefined}

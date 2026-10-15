@@ -6,12 +6,13 @@ import { WorkBanner } from './WorkBanner';
 import { WorkIssueSheet } from './WorkIssueSheet';
 import { ShareButton } from './ShareButton';
 import { Hurdles } from './Hurdles';
+import { Passport } from './Passport';
 import { getPlot } from '@/api';
 import { useSwipe } from '@/lib/swipe';
 import { onExternalClick, showBackButton, tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
-import { useFeature } from '@/lib/flags';
+import { useDepthCard, useFeature } from '@/lib/flags';
 
 /** на сколько пикселей смахнуть карточку вбок, чтобы вернуться в ленту */
 const DISMISS = 96;
@@ -43,6 +44,8 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   const shown = open && work != null;
   // полная страница со всеми разделами — функция эталона (10.10)
   const pages = useFeature('pages');
+  // карточка по глубине (15.10): паспорт иконками у любой карточки вместо строки «Что может мешать»
+  const depth = useDepthCard();
   // Фабула (02.10, предложение владельца): спрятана, чтобы не спорить с разборами. Тап по баннеру —
   // кадр уезжает вверх до шторки с названием, на освободившемся месте — описание со своей
   // прокруткой; тап по шторке — кадр возвращается.
@@ -142,7 +145,7 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
               <div className="tm-worksheet__body">
                 {/* подпись «Кадр: …» убрана из карточки 24.09: она сдвигала страницу и давала
                     прокрутку. Атрибуция источников (TMDb требует её) — в настройках, «Откуда данные» */}
-                {hurdles ? <Hurdles work={work} /> : null}
+                {depth ? <Passport work={work} hurdles={hurdles} /> : hurdles ? <Hurdles work={work} /> : null}
                 {children}
               </div>
               <WorkIssueSheet open={issue} onOpenChange={setIssue} work={work} context={context} />

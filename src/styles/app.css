@@ -1009,3 +1009,38 @@ button.tm-banner { cursor: pointer; }
 .tm-moodline__refuse { display: grid; justify-items: start; gap: var(--tm-space-2); margin-top: var(--tm-space-3); }
 .tm-moodline__refuse p { margin: 0; }
 .tm-moodline__refuse .tm-caption { color: var(--tm-color-ink-muted); }
+
+/* Карточка по глубине (15.10, src/lib/depth.ts): паспорт иконками над зонами, мнения — плотным списком,
+   грехи — плитками в две колонки, разборы — прежним крупным материалом (.tm-film__pane--reviews) */
+.tm-passport { flex: none; margin: var(--tm-space-3) var(--tm-space-5) 0; }
+.tm-passport + .tm-stream__panel { padding-top: var(--tm-space-2); }
+.tm-passport__row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tm-passport__chip { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; padding: 3px 9px; border: 1px solid var(--tm-color-line); border-radius: 999px;
+  font-family: var(--font-text); font-size: 12px; line-height: 16px; color: var(--tm-color-ink-muted); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tm-passport__icon { flex: none; font-size: 12px; line-height: 1; color: var(--tm-color-ink); }
+.tm-passport__link { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--tm-color-ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; }
+.tm-passport__more { border-style: dashed; padding: 0; }
+.tm-passport__more button { padding: 3px 9px; border: 0; background: none; color: var(--tm-color-ink-faint); font: inherit; cursor: pointer; }
+.tm-passport__more button:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-passport .tm-hurdles__list { margin-top: var(--tm-space-2); }
+
+.tm-depth__list { display: flex; flex-direction: column; }
+.tm-depth__corner { display: flex; justify-content: flex-end; margin-bottom: var(--tm-space-2); }
+.tm-depth__hint { margin: 0 0 var(--tm-space-3); color: var(--tm-color-ink-faint); }
+.tm-opinion { display: flex; align-items: center; gap: var(--tm-space-3); min-height: 52px; padding: var(--tm-space-2) 0; border-bottom: 1px solid var(--tm-color-line); color: inherit; text-decoration: none; }
+.tm-opinion:last-child { border-bottom: 0; }
+.tm-opinion__body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tm-opinion__who { font-family: var(--font-display); font-size: 14px; line-height: 18px; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tm-opinion__title { color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tm-opinion__meta { flex: none; color: var(--tm-color-ink-faint); font-size: 12px; line-height: 16px; }
+.tm-opinion--blocked { cursor: default; }
+.tm-opinion--blocked .tm-opinion__title { color: var(--tm-color-ink-faint); font-style: italic; }
+.tm-sins { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tm-space-4) var(--tm-space-3); margin: 0; padding: 0; list-style: none; }
+.tm-sins__link { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+.tm-sins__link--blocked { cursor: default; }
+.tm-sins__thumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--tm-radius-mark); background: var(--tm-color-surface-100); }
+.tm-sins__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tm-sins__thumb .tm-voice__time { right: 4px; bottom: 4px; font-size: 11px; }
+.tm-sins__who { margin-top: 6px; font-family: var(--font-display); font-size: 13px; line-height: 16px; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tm-sins__title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; color: var(--tm-color-ink-muted); font-size: 12px; line-height: 16px; min-height: 32px; }
+.tm-sins__link--blocked .tm-sins__title { color: var(--tm-color-ink-faint); font-style: italic; }

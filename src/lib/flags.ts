@@ -9,6 +9,8 @@ import { webApp } from './telegram';
 export const ROLLOUT = {
   /** полки рубрик в карточке (ТВ-3г). Этап 0–1: никому — рубрики только в данных и в замере */
   lensShelves: 0,
+  /** карточка по глубине (15.10): паспорт иконками и зоны «Мнения · Грехи · Разборы» вместо одной ленты авторов */
+  depthCard: 0,
   // Функции поверх минимальной редакции (10.10): 0 — только в эталоне, дальше — доля участников.
   /** «Смотреть»: вкладка кинотеатров и главная кнопка Telegram в карточке */
   watch: 0,
@@ -56,7 +58,7 @@ export function inRollout(flag: Flag, userId = webApp()?.initDataUnsafe?.user?.i
  *  оценкой), разрабатываемая версия — эталон, из которого функции включаются по одной, когда виден
  *  спрос. Админ и тестеры видят эталон; админ может переключиться на минимум в настройках. */
 export type Edition = 'minimum' | 'full';
-export type Feature = Exclude<Flag, 'lensShelves'>;
+export type Feature = Exclude<Flag, 'lensShelves' | 'depthCard'>;
 
 export function useEdition(): Edition {
   const s = useSettings();
@@ -82,4 +84,16 @@ export function useLensShelves(): boolean {
   if (edition === 'minimum') return inRollout('lensShelves');
   if (role === 'tester') return true;
   return s.lensShelves ?? (role === 'admin' || inRollout('lensShelves'));
+}
+
+/** Карточка по глубине (src/lib/depth.ts): тестеру — всегда; админу — по умолчанию да, переключатель в настройках
+ *  возвращает прежнюю карточку для сравнения; участнику — доля выката. До загрузки настроек — прежняя. */
+export function useDepthCard(): boolean {
+  const s = useSettings();
+  const role = useRole();
+  const edition = useEdition();
+  if (!s) return false;
+  if (edition === 'minimum') return inRollout('depthCard');
+  if (role === 'tester') return true;
+  return s.depthCard ?? (role === 'admin' || inRollout('depthCard'));
 }

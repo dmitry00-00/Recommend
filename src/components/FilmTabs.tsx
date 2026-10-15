@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { WorkCard, ExternalAnalysis, ID, SpoilerLevel, WatchOption } from '@/types/tmdf';
-import { LensShelf, Material, Post, VoiceStrip, useLensShelf, useVoices } from './WorkVoices';
+import { LensShelf, Material, OpinionRow, Post, SinTiles, VoiceStrip, useLensShelf, useVoices } from './WorkVoices';
 import { OpenContext } from '@/lib/openContext';
 import { groupByVoice, monogram } from '@/lib/voices';
 import { onExternalClick, openExternal, pick, showMainButton } from '@/lib/telegram';
@@ -9,7 +9,10 @@ import { imageSrc, useImageRetry } from '@/lib/images';
 import ui, { language } from '@/i18n';
 import { readPlaces, readingHours } from '@/lib/reading';
 import { getFreeRead, noteCard, noteWatch, type FreeRead } from '@/api';
-import { useFeature } from '@/lib/flags';
+import { useDepthCard, useFeature } from '@/lib/flags';
+import { byZone, ZONES, type Zone } from '@/lib/depth';
+import { LENSES, inLens } from '@/lib/lenses';
+import type { MaterialLens } from '@/types/tmdf';
 import { useSettings } from '@/lib/settingsStore';
 import { cinemaSlug } from '@/lib/cinemas';
 
@@ -42,9 +45,14 @@ export interface FilmTabsProps {
   voiceId?: string;
   /** произведение — в событие открытия материала (ТВ-3г) */
   workId?: ID;
+  /** человек видел произведение: карточка по глубине открывается на разборах, а не на мнениях */
+  seen?: boolean;
 }
 
-type Mode = 'reviews' | 'talk' | 'watch';
+type Mode = 'reviews' | 'talk' | 'watch' | Zone;
+const isZone = (m: Mode): m is Zone => (ZONES as Mode[]).includes(m);
+/** подполки разборов — рубрики без мнений, грехов и «другого»: у тех своя зона или своей полки нет */
+const DEEP_LENSES: MaterialLens[] = LENSES.filter((l) => l !== 'opinion' && l !== 'sins' && l !== 'other');
 const MODES: Mode[] = ['reviews', 'talk', 'watch'];
 
 /** Логотип площадки: как аватар автора, чтобы две ленты в нижней панели читались одинаково. */
@@ -66,16 +74,39 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId }: FilmTabsProps) {
+export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId, seen }: FilmTabsProps) {
   // полки рубрик (ТВ-3г) — за флагом; выключен — `shown` это те же `analyses`, обзоров нет
   const shelf = useLensShelf(analyses);
   const voices = useVoices(shelf.shown, voiceId, { reviews: shelf.on });
   // счётчик на «Разборах» — по всем полкам: выбор полки не должен менять число на вкладке
   const reviewsCount = useMemo(() => groupByVoice(analyses, { reviews: shelf.on }).filter((g) => g.items.some((a) => a.platform !== 'telegram')).length,
     [analyses, shelf.on]);
+  // карточка по глубине (15.10, src/lib/depth.ts): мнения, грехи и разборы — тремя зонами; обзоры видны (у них зона)
+  const depth = useDepthCard();
+  const zones = useMemo(() => byZone(analyses), [analyses]);
+  const vOp = useVoices(zones.opinions, voiceId, { reviews: true });
+  const vSins = useVoices(zones.sins, voiceId, { reviews: true });
+  const [deepLens, setDeepLens] = useState<MaterialLens | null>(null);
+  const deepLenses = useMemo(() => DEEP_LENSES.filter((l) => zones.deep.some((a) => inLens(a, l))), [zones.deep]);
+  const deepShown = useMemo(() => (deepLens && deepLenses.includes(deepLens) ? zones.deep.filter((a) => inLens(a, deepLens)) : zones.deep), [zones.deep, deepLens, deepLenses]);
+  const vDeep = useVoices(deepShown, voiceId, { reviews: true });
+  const zoneCount: Record<Zone, number> = useMemo(() => ({
+    opinions: groupByVoice(zones.opinions, { reviews: true }).length,
+    sins: groupByVoice(zones.sins, { reviews: true }).length,
+    deep: groupByVoice(zones.deep, { reviews: true }).length,
+  }), [zones]);
+  // где открыться: пришли по логотипу канала — у его материала; видел — разборы; не видел — мнения
+  const startZone = (): Zone => {
+    const own = voiceId ? ZONES.find((z) => [vOp, vSins, vDeep][ZONES.indexOf(z)].watch.concat(z === 'opinions' ? vOp.talk : []).some((g) => g.voice.id === voiceId)) : undefined;
+    if (own) return own;
+    const order: Zone[] = seen ? ['deep', 'sins', 'opinions'] : ['opinions', 'deep', 'sins'];
+    return order.find((z) => zoneCount[z] > 0) ?? 'opinions';
+  };
   // автор только с постами в Telegram — его материал на странице «Обсуждения», а не «Обзоры»
-  const [mode, setMode] = useState<Mode>(() =>
+  const [modeRaw, setMode] = useState<Mode>(() =>
     voiceId && !voices.watch.some((g) => g.voice.id === voiceId) && voices.talk.some((g) => g.voice.id === voiceId) ? 'talk' : 'reviews');
+  // флаг узнаём после загрузки настроек — режим приводим к той карточке, что видна
+  const mode: Mode = depth ? (isZone(modeRaw) || modeRaw === 'watch' ? modeRaw : startZone()) : (isZone(modeRaw) ? 'reviews' : modeRaw);
   // «Смотреть» — функция эталона (10.10): в минимальной редакции карточка — только разборы и обсуждения
   // бесплатная классика (ЗП-43): вкладка «Смотреть» открыта и без функции «Смотреть», если фильм выложен правообладателем
   const freeOn = useFeature('freeClassics');
@@ -88,7 +119,9 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
     return () => { alive = false; };
   }, [book?.id, freeOn]); // eslint-disable-line react-hooks/exhaustive-deps
   const watchOn = useFeature('watch') || (freeOn && (watchIn.some((o) => o.source === 'wikidata') || freeRead.length > 0));
-  const modes = watchOn ? MODES : MODES.filter((m) => m !== 'watch');
+  const baseModes: Mode[] = depth ? [...ZONES.filter((z) => zoneCount[z] > 0 || z === mode), 'watch'] : MODES;
+  const modes = (watchOn ? baseModes : baseModes.filter((m) => m !== 'watch'));
+  if (depth && !modes.some(isZone)) modes.unshift('opinions');
   // мои подписки (ЗП-42): площадка из подписки человека — первой, потом бесплатные, аренда и покупка — в конце
   const subsOn = useFeature('subscriptions');
   const subs = useSettings()?.subscriptions;
@@ -118,8 +151,48 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
   return (
     <OpenContext.Provider value={{ place: 'sheet', workId, shelf: shelf.lens ?? undefined, shelves: shelf.on }}>
     <div className="tm-film">
-      <div className={cx('tm-film__pane', `tm-film__pane--${mode}`)} role="tabpanel" aria-label={ui.film[mode]}>
-        {mode === 'reviews' ? (
+      <div className={cx('tm-film__pane', `tm-film__pane--${mode}`, mode === 'deep' && 'tm-film__pane--reviews')} role="tabpanel"
+           aria-label={isZone(mode) ? ui.depth.zones[mode] : ui.film[mode]}>
+        {mode === 'opinions' ? (
+          <>
+            {vOp.watch.length ? (
+              <section className="tm-stream__group tm-depth__list">
+                {corner ? <div className="tm-depth__corner">{corner}</div> : null}
+                {vOp.watch.map((g) => <OpinionRow key={g.voice.id} group={g} spoilerLevel={spoilerLevel} />)}
+              </section>
+            ) : null}
+            {vOp.talk.length ? (
+              <section className="tm-stream__group">
+                {vOp.talk.map((g) => <Post key={g.voice.id} group={g} workTitle={workTitle} spoilerLevel={spoilerLevel} />)}
+              </section>
+            ) : null}
+            {!vOp.watch.length && !vOp.talk.length ? (
+              <section className={cx('tm-stream__group', 'tm-voice__none', corner != null && 'tm-voice__none--corner')}>
+                <div className="tm-voice__textmain">
+                  <p className="tm-body-sm" aria-busy={loading ? 'true' : undefined}>{loading ? ui.film.loading : ui.depth.none}</p>
+                  {loading ? null : <p className="tm-caption tm-voice__nonehint">{ui.depth.noneHint}</p>}
+                </div>
+                {corner ? <div className="tm-voice__corner">{corner}</div> : null}
+              </section>
+            ) : null}
+            {discussions}
+          </>
+        ) : mode === 'sins' ? (
+          <section className="tm-stream__group">
+            {seen ? null : <p className="tm-caption tm-depth__hint">{ui.depth.sinsHint}</p>}
+            <SinTiles groups={vSins.watch} spoilerLevel={spoilerLevel} />
+          </section>
+        ) : mode === 'deep' ? (
+          vDeep.picked ? (
+            <section className="tm-stream__group">
+              <Material key={`${deepLens}:${vDeep.picked.voice.id}`} group={vDeep.picked} spoilerLevel={spoilerLevel} corner={corner} workTitle={workTitle} />
+            </section>
+          ) : (
+            <section className="tm-stream__group tm-voice__none">
+              <p className="tm-body-sm">{ui.depth.none}</p>
+            </section>
+          )
+        ) : mode === 'reviews' ? (
           voices.picked ? (
             <section className="tm-stream__group">
               <Material key={`${shelf.lens}:${voices.picked.voice.id}`} group={voices.picked} spoilerLevel={spoilerLevel} corner={corner} workTitle={workTitle} />
@@ -201,6 +274,10 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
           не нужно докручивать, как до строки авторов раньше. */}
       <div className="tm-film__dock">
         {mode === 'reviews' ? <LensShelf lenses={shelf.lenses} value={shelf.lens} onPick={shelf.setLens} /> : null}
+        {mode === 'deep' && deepLenses.length > 1 ? <LensShelf lenses={deepLenses} value={deepLens} onPick={setDeepLens} /> : null}
+        {mode === 'deep' && vDeep.watch.length ? (
+          <VoiceStrip groups={vDeep.watch} pickedId={vDeep.picked?.voice.id} onPick={vDeep.setPicked} />
+        ) : null}
         {mode === 'reviews' && voices.watch.length ? (
           <VoiceStrip groups={voices.watch} pickedId={voices.picked?.voice.id} onPick={voices.setPicked} />
         ) : null}
@@ -221,11 +298,11 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
         ) : null}
         <div className="tm-film__toggle" role="tablist" aria-label={ui.film.pages}>
           {modes.map((m) => {
-            const count = m === 'reviews' ? reviewsCount : m === 'talk' ? talkCount : watch.length;
+            const count = isZone(m) ? zoneCount[m] : m === 'reviews' ? reviewsCount : m === 'talk' ? talkCount : watch.length;
             return (
               <button key={m} type="button" role="tab" aria-selected={mode === m}
                       className={cx('tm-film__switch', mode === m && 'tm-film__switch--on')} onClick={() => switchTo(m)}>
-                {m === 'watch' && book ? ui.film.read : ui.film[m]}
+                {m === 'watch' && book ? ui.film.read : isZone(m) ? ui.depth.zones[m] : ui.film[m]}
                 {count && !(m === 'watch' && book) ? <span className="tm-film__count">{count}</span> : null}
               </button>
             );
