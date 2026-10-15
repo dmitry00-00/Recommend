@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-comention-index.mts (2026-10-14): что называют
+// Сгенерировано tools/build-comention-index.mts (2026-10-15): что называют
 // вместе в одном посте. Это не рекомендация и не похожесть по смыслу — это то, как о кино
 // говорят. Вес — косинус: сырой счёт тянут на себя те, о ком пишут каждый день.
 // Не править руками — перегенерировать.
@@ -11497,114 +11497,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.063
     }
   ],
-  "tmdb:617653": [
-    {
-      "key": "tmdb:644495",
-      "workId": "f-wd105549749",
-      "title": "Дом Gucci",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.282
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.143
-    },
-    {
-      "key": "tmdb:524434",
-      "workId": "f-tmdb524434",
-      "title": "Вечные",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.08
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.079
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.059
-    }
-  ],
-  "tmdb:644495": [
-    {
-      "key": "tmdb:617653",
-      "workId": "f-wd85000980",
-      "title": "Последняя дуэль",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.282
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.191
-    },
-    {
-      "key": "tmdb:601470",
-      "workId": "f-wd73537423",
-      "title": "Глаза Тэмми Фэй",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.173
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.143
-    },
-    {
-      "key": "tmdb:597208",
-      "workId": "f-wd82430214",
-      "title": "Аллея кошмаров",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.134
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.13
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.1
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.095
-    }
-  ],
   "imdb:tt7278862": [
     {
       "key": "tmdb:554230",
@@ -12323,6 +12215,114 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 9,
       "weight": 0.208
+    }
+  ],
+  "tmdb:617653": [
+    {
+      "key": "tmdb:644495",
+      "workId": "f-wd105549749",
+      "title": "Дом Gucci",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.27
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.143
+    },
+    {
+      "key": "tmdb:524434",
+      "workId": "f-tmdb524434",
+      "title": "Вечные",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.08
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.079
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.059
+    }
+  ],
+  "tmdb:644495": [
+    {
+      "key": "tmdb:617653",
+      "workId": "f-wd85000980",
+      "title": "Последняя дуэль",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.27
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.183
+    },
+    {
+      "key": "tmdb:601470",
+      "workId": "f-wd73537423",
+      "title": "Глаза Тэмми Фэй",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.165
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.137
+    },
+    {
+      "key": "tmdb:597208",
+      "workId": "f-wd82430214",
+      "title": "Аллея кошмаров",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.128
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.124
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.095
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.091
     }
   ],
   "tmdb:451928": [
@@ -13980,20 +13980,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.178
     },
     {
-      "key": "tmdb:644495",
-      "workId": "f-wd105549749",
-      "title": "Дом Gucci",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.173
-    },
-    {
       "key": "tmdb:777270",
       "workId": "f-tmdb777270",
       "title": "Белфаст",
       "year": 2021,
       "n": 4,
       "weight": 0.169
+    },
+    {
+      "key": "tmdb:644495",
+      "workId": "f-wd105549749",
+      "title": "Дом Gucci",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.165
     }
   ],
   "tmdb:37799": [
@@ -18096,26 +18096,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.068
     }
   ],
-  "tmdb:1314481": [
-    {
-      "key": "tmdb:350",
-      "workId": "f-tmdb350",
-      "title": "Дьявол носит Prada",
-      "year": 2006,
-      "n": 4,
-      "weight": 0.149
-    }
-  ],
-  "tmdb:350": [
-    {
-      "key": "tmdb:1314481",
-      "workId": "f-wd134611972",
-      "title": "Дьявол носит Prada 2",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.149
-    }
-  ],
   "tmdb:49687": [
     {
       "key": "tmdb:592831",
@@ -18378,6 +18358,26 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2016,
       "n": 3,
       "weight": 0.044
+    }
+  ],
+  "tmdb:1314481": [
+    {
+      "key": "tmdb:350",
+      "workId": "f-tmdb350",
+      "title": "Дьявол носит Prada",
+      "year": 2006,
+      "n": 4,
+      "weight": 0.144
+    }
+  ],
+  "tmdb:350": [
+    {
+      "key": "tmdb:1314481",
+      "workId": "f-wd134611972",
+      "title": "Дьявол носит Prada 2",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.144
     }
   ],
   "tmdb:686": [
@@ -19034,20 +19034,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.062
     },
     {
+      "key": "tmdb:359724",
+      "workId": "f-wd55081822",
+      "title": "Ford против Ferrari",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.056
+    },
+    {
       "key": "tmdb:466272",
       "workId": "f-tmdb466272",
       "title": "Однажды в… Голливуде",
       "year": 2019,
       "n": 6,
       "weight": 0.054
-    },
-    {
-      "key": "tmdb:889737",
-      "workId": "l-tmdb889737",
-      "title": "Джокер: Безумие на двоих",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.05
     }
   ],
   "tmdb:620": [
@@ -20867,6 +20867,16 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2026,
       "n": 3,
       "weight": 0.053
+    }
+  ],
+  "tmdb:359724": [
+    {
+      "key": "tmdb:475557",
+      "workId": "l-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.056
     }
   ],
   "imdb:tt13918446": [

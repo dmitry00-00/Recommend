@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-essay-index.mts (2026-10-14): разборы, найденные
+// Сгенерировано tools/build-essay-index.mts (2026-10-15): разборы, найденные
 // перебором загрузок тех же каналов, с привязкой по названию. Это догадка, а не разметка:
 // в карточке они идут после присланных вручную, подтверждать их должна кураторская.
 // Не править руками — перегенерировать.
@@ -46225,6 +46225,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-10"
     },
     {
+      "id": "yta-ZxedxJgq0PU",
+      "title": "The Tragedy of Brandon Stark - how Ned's brother got himself killed",
+      "author": "David Lightbringer",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZxedxJgq0PU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "previewUrl": "https://i.ytimg.com/vi/ZxedxJgq0PU/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2026-10-14"
+    },
+    {
       "id": "yta-8bs21MSUJWA",
       "title": "Игра престолов. Эйрис Оболганный. Как Рейгар и Тайвин планировали убить короля. Теория",
       "author": "Nostalgia",
@@ -59139,6 +59152,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-11-16"
     },
     {
+      "id": "yta-k-gnVYhOQDA",
+      "title": "Джек Потрошитель. Убийство Мэри Энн Николс. Часть 4 / Григорий Прядко и Егор Яковлев",
+      "author": "Цифровая история",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=k-gnVYhOQDA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/k-gnVYhOQDA/hqdefault.jpg",
+      "durationMinutes": 55,
+      "publishedAt": "2026-10-08"
+    },
+    {
       "id": "yta-FGfpno_PbSo",
       "title": "О чём на самом деле настоящий детектив?",
       "author": "4то за Персонаж?",
@@ -59358,20 +59385,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/XPY5lqpVrFU/hqdefault.jpg",
       "durationMinutes": 25,
       "publishedAt": "2023-12-30"
-    },
-    {
-      "id": "yta-AaXZVykU1B8",
-      "title": "#киноновинка Феррари обзор фильма Адам Драйвер не затащил",
-      "author": "DanyaLord channel",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=AaXZVykU1B8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/AaXZVykU1B8/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2023-12-22"
     },
     {
       "id": "yta-0G_ci6uD4UA",
@@ -82317,7 +82330,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=f8EyasZy-LU",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "playlist",
+      "unverified": true,
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/f8EyasZy-LU/hqdefault.jpg",
       "durationMinutes": 31,
@@ -82345,7 +82358,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=RZ2YZzm3Pfs",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "playlist",
+      "unverified": true,
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/RZ2YZzm3Pfs/hqdefault.jpg",
       "durationMinutes": 22,
@@ -82359,7 +82372,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=qiciLAzyhxI",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "playlist",
+      "unverified": true,
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/qiciLAzyhxI/hqdefault.jpg",
       "durationMinutes": 18,
@@ -88148,20 +88161,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/J8-mOnGAF8U/hqdefault.jpg",
       "durationMinutes": 90,
       "publishedAt": "2020-09-16"
-    },
-    {
-      "id": "yta-NFOfxVc9XFw",
-      "title": "НОСТАЛЬГИЯ как бизнес: почему ремейки убивают кино? ДЬЯВОЛ НОСИТ ПРАДА 2/ФАНТАСТИЧЕСКАЯ ЧЕТВЕРКА",
-      "author": "FRAME",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=NFOfxVc9XFw",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/NFOfxVc9XFw/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2025-09-30"
     },
     {
       "id": "yta--tFQQQagLzY",
@@ -94121,6 +94120,34 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/J13FB-quIgs/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2019-03-25"
+    },
+    {
+      "id": "yta-ob4XYYnY1sY",
+      "title": "КАК УМЕРЛА НАША РАША [Теле-мыло]",
+      "author": "Chuck Review",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ob4XYYnY1sY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ob4XYYnY1sY/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2020-10-12"
+    },
+    {
+      "id": "yta-csA6X3tPF5o",
+      "title": "Галустян + | Наша Раша мертва",
+      "author": "Зотт",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=csA6X3tPF5o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/csA6X3tPF5o/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2023-07-19"
     }
   ],
   "imdb:tt1825482": [
@@ -141180,6 +141207,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-11"
     },
     {
+      "id": "yta-ElARRdyv6L8",
+      "title": "Дом Дракона разбор всего 3 Сезона",
+      "author": "Что Посмотреть",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ElARRdyv6L8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ElARRdyv6L8/hqdefault.jpg",
+      "durationMinutes": 49,
+      "publishedAt": "2026-10-14",
+      "season": 3
+    },
+    {
       "id": "yta-XeabqGM9-ow",
       "title": "7 Лучших Теорий про Дом Дракона",
       "author": "Thrones & Dragons",
@@ -163622,6 +163664,34 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-12-06"
     },
     {
+      "id": "yta-K8ZLxteLPXI",
+      "title": "Как наследники уничтожили империю предка? Отличие Фильма \"Дом Гуччи\" от реальной истории",
+      "author": "Maximum Movie (by Pavel Gremyachev) ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=K8ZLxteLPXI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/K8ZLxteLPXI/hqdefault.jpg",
+      "durationMinutes": 23,
+      "publishedAt": "2022-09-01"
+    },
+    {
+      "id": "yta-mdhpv67malY",
+      "title": "🎥 КРИНЖФЕСТ с Джаредом Лето и Адамом Драйвером - ДОМ ГУЧЧИ // Охотники за привидениями.",
+      "author": "Канал Кшиштовского",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=mdhpv67malY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/mdhpv67malY/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2021-12-16"
+    },
+    {
       "id": "yta-Fb92DP7dIpA",
       "title": "ДОМ GUCCI обзор фильма // Дом Гуччи реальная история",
       "author": "kolayderr",
@@ -163718,6 +163788,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Ekqojs0mBGs/hqdefault.jpg",
       "durationMinutes": 18,
       "publishedAt": "2021-12-09"
+    },
+    {
+      "id": "yta-FHcqttBfRZ4",
+      "title": "Дом Гуччи | GUCCI - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильме // ДКино",
+      "author": "ДКино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=FHcqttBfRZ4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/FHcqttBfRZ4/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2021-12-08"
     },
     {
       "id": "yta-FRYUp0lZIYw",
@@ -163930,20 +164014,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-12-12"
     },
     {
-      "id": "yta-FHcqttBfRZ4",
-      "title": "Дом Гуччи | GUCCI - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильме // ДКино",
-      "author": "ДКино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=FHcqttBfRZ4",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/FHcqttBfRZ4/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2021-12-08"
-    },
-    {
       "id": "yta-jMv73mKdyrk",
       "title": "Дом Gucci: Правда или вымысел? | ОБЗОР ФАКТОВ | ДОМ ГУЧЧИ",
       "author": "Food&Travel with Vika",
@@ -163956,20 +164026,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/jMv73mKdyrk/hqdefault.jpg",
       "durationMinutes": 13,
       "publishedAt": "2021-12-14"
-    },
-    {
-      "id": "yta-K8ZLxteLPXI",
-      "title": "Как наследники уничтожили империю предка? Отличие Фильма \"Дом Гуччи\" от реальной истории",
-      "author": "Maximum Movie (by Pavel Gremyachev) ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=K8ZLxteLPXI",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/K8ZLxteLPXI/hqdefault.jpg",
-      "durationMinutes": 23,
-      "publishedAt": "2022-09-01"
     },
     {
       "id": "yta-omvMUAGiOlg",
@@ -166052,6 +166108,146 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/1BG69ZGysdg/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2021-06-10"
+    }
+  ],
+  "tmdb:359724": [
+    {
+      "id": "yta-EFY1_b32-is",
+      "title": "Форд против Феррари - лучший фильм 2019 года (еще один)",
+      "author": "КИНОКРИТИКА",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=EFY1_b32-is",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/EFY1_b32-is/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2019-11-20"
+    },
+    {
+      "id": "yta-IsDI0KqDe8Q",
+      "title": "«Ford против Ferrari» / разговор с Егором Москвитиным",
+      "author": "КАРО.АРТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=IsDI0KqDe8Q",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/IsDI0KqDe8Q/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2019-11-14"
+    },
+    {
+      "id": "yta-0Hy2rGHBfjQ",
+      "title": "Ford v Ferrari - Movie Review",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0Hy2rGHBfjQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0Hy2rGHBfjQ/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2019-11-07"
+    },
+    {
+      "id": "yta-cKBuw7OEBtw",
+      "title": "Отличие реальной истории от фильма \"Форд против Феррари\" История о Кене Майлзе и Кэрролле Шелби",
+      "author": "Maximum Movie (by Pavel Gremyachev) ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cKBuw7OEBtw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cKBuw7OEBtw/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2021-06-06"
+    },
+    {
+      "id": "yta-b74xJBu8lIk",
+      "title": "FORD v FERRARI (Le Mans 66 True Story)  Movie Review",
+      "author": "FilmSpeak",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=b74xJBu8lIk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "previewUrl": "https://i.ytimg.com/vi/b74xJBu8lIk/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2019-10-14"
+    },
+    {
+      "id": "yta--asXsAELg4I",
+      "title": "Ford v Ferrari - Movie Review",
+      "author": "Jeremy Jahns",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-asXsAELg4I",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-asXsAELg4I/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2019-11-07"
+    },
+    {
+      "id": "yta-JF1Tdg0Qh8M",
+      "title": "Фильм \"Ford против Ferrari\" 2019 года (Ford v Ferrari)",
+      "author": "Что посмотреть?",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=JF1Tdg0Qh8M",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/JF1Tdg0Qh8M/hqdefault.jpg",
+      "durationMinutes": 3,
+      "publishedAt": "2021-03-12"
+    },
+    {
+      "id": "yta-6PshZ1c16PA",
+      "title": "Мнение: Форд против Феррари (2019)",
+      "author": "Диванная Формула",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=6PshZ1c16PA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/6PshZ1c16PA/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2019-11-22"
+    },
+    {
+      "id": "yta-dJTG0QY-Poo",
+      "title": "Форд против Феррари (2019) - Обзор критики фильма",
+      "author": "Кино Диван",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dJTG0QY-Poo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dJTG0QY-Poo/hqdefault.jpg",
+      "durationMinutes": 4,
+      "publishedAt": "2019-11-15"
+    },
+    {
+      "id": "yta-ov3j1SIr_zE",
+      "title": "FORD против FERRARI 2019 - мнение о фильме",
+      "author": "REVIEWVOR",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ov3j1SIr_zE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ov3j1SIr_zE/hqdefault.jpg",
+      "durationMinutes": 4,
+      "publishedAt": "2020-01-10"
     }
   ],
   "tmdb:522162": [
@@ -213212,118 +213408,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-12-02"
     }
   ],
-  "tmdb:359724": [
-    {
-      "id": "yta-IsDI0KqDe8Q",
-      "title": "«Ford против Ferrari» / разговор с Егором Москвитиным",
-      "author": "КАРО.АРТ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=IsDI0KqDe8Q",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/IsDI0KqDe8Q/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2019-11-14"
-    },
-    {
-      "id": "yta-0Hy2rGHBfjQ",
-      "title": "Ford v Ferrari - Movie Review",
-      "author": "Chris Stuckmann",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=0Hy2rGHBfjQ",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/0Hy2rGHBfjQ/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2019-11-07"
-    },
-    {
-      "id": "yta-b74xJBu8lIk",
-      "title": "FORD v FERRARI (Le Mans 66 True Story)  Movie Review",
-      "author": "FilmSpeak",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=b74xJBu8lIk",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "previewUrl": "https://i.ytimg.com/vi/b74xJBu8lIk/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2019-10-14"
-    },
-    {
-      "id": "yta--asXsAELg4I",
-      "title": "Ford v Ferrari - Movie Review",
-      "author": "Jeremy Jahns",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-asXsAELg4I",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-asXsAELg4I/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2019-11-07"
-    },
-    {
-      "id": "yta-JF1Tdg0Qh8M",
-      "title": "Фильм \"Ford против Ferrari\" 2019 года (Ford v Ferrari)",
-      "author": "Что посмотреть?",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=JF1Tdg0Qh8M",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/JF1Tdg0Qh8M/hqdefault.jpg",
-      "durationMinutes": 3,
-      "publishedAt": "2021-03-12"
-    },
-    {
-      "id": "yta-ov3j1SIr_zE",
-      "title": "FORD против FERRARI 2019 - мнение о фильме",
-      "author": "REVIEWVOR",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ov3j1SIr_zE",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ov3j1SIr_zE/hqdefault.jpg",
-      "durationMinutes": 4,
-      "publishedAt": "2020-01-10"
-    },
-    {
-      "id": "yta-6PshZ1c16PA",
-      "title": "Мнение: Форд против Феррари (2019)",
-      "author": "Диванная Формула",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=6PshZ1c16PA",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/6PshZ1c16PA/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2019-11-22"
-    },
-    {
-      "id": "yta-dJTG0QY-Poo",
-      "title": "Форд против Феррари (2019) - Обзор критики фильма",
-      "author": "Кино Диван",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=dJTG0QY-Poo",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/dJTG0QY-Poo/hqdefault.jpg",
-      "durationMinutes": 4,
-      "publishedAt": "2019-11-15"
-    }
-  ],
   "tmdb:568160": [
     {
       "id": "yta-a_vQKayrrpY",
@@ -228816,20 +228900,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Eg60UZ4oH-A/hqdefault.jpg",
       "durationMinutes": 14,
       "publishedAt": "2026-05-01"
-    },
-    {
-      "id": "yta-NFOfxVc9XFw",
-      "title": "НОСТАЛЬГИЯ как бизнес: почему ремейки убивают кино? ДЬЯВОЛ НОСИТ ПРАДА 2/ФАНТАСТИЧЕСКАЯ ЧЕТВЕРКА",
-      "author": "FRAME",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=NFOfxVc9XFw",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/NFOfxVc9XFw/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2025-09-30"
     }
   ],
   "tmdb:1160360": [
@@ -231832,6 +231902,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/orcHCP5dQcQ/hqdefault.jpg",
       "durationMinutes": 19,
       "publishedAt": "2025-04-01"
+    },
+    {
+      "id": "yta-22-OwzDERRo",
+      "title": "SPIDER-MAN BRAND NEW DAY Deleted Scene: Jean Grey Secret Wars Power Explained!",
+      "author": "New Rockstars",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=22-OwzDERRo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/22-OwzDERRo/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-10-10"
     },
     {
       "id": "yta-R1hGXmEDaHE",
@@ -261126,6 +261210,34 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-01"
     },
     {
+      "id": "yta-_R6UmgFOrHI",
+      "title": "ОБЗОР \"ДЬЯВОЛ НОСИТ ПРАДА 2\"| провал или шедевр?",
+      "author": "Чабби",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_R6UmgFOrHI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_R6UmgFOrHI/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2026-09-25"
+    },
+    {
+      "id": "yta-SdEGgwpU3o4",
+      "title": "ТРЕШ Дьявол носит Прада 2 | треш обзор фильма 2026",
+      "author": "Екатерина Васильева",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SdEGgwpU3o4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SdEGgwpU3o4/hqdefault.jpg",
+      "durationMinutes": 30,
+      "publishedAt": "2026-05-30"
+    },
+    {
       "id": "yta-Fd_dOcBRF8A",
       "title": "Дьявол носит Prada 2 - ТРЕШ обзор на фильм",
       "author": "кинокаракули",
@@ -278636,6 +278748,92 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "episode": 3
     }
   ],
+  "tmdb:950387": [
+    {
+      "id": "yta-V8SFBCRcwMc",
+      "title": "ОБАЯТЕЛЬНО ТУПОЙ МАЙНКРАФТ В КИНО",
+      "author": "Курага Медиа",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=V8SFBCRcwMc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/V8SFBCRcwMc/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2025-04-13"
+    },
+    {
+      "id": "yta-puMV5CYlYFI",
+      "title": "A Minecraft Movie | Movie Review",
+      "author": "Film Stocked",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=puMV5CYlYFI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/puMV5CYlYFI/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2025-04-02"
+    },
+    {
+      "id": "yta-u3KpIST3ZLo",
+      "title": "A Minecraft Movie (2025) - Movie Review",
+      "author": "Cody Leach",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=u3KpIST3ZLo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/u3KpIST3ZLo/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2025-04-08"
+    },
+    {
+      "id": "yta--XW57Yj1qx8",
+      "title": "A Minecraft Movie - Review",
+      "author": "Dan Murrell",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-XW57Yj1qx8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-XW57Yj1qx8/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2025-04-04"
+    },
+    {
+      "id": "yta-sohuurvAYZs",
+      "title": "A Minecraft Movie is One Big Meme | Review",
+      "author": "Austin Burke",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sohuurvAYZs",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sohuurvAYZs/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2025-04-03"
+    },
+    {
+      "id": "yta-o_fqzM3TXtc",
+      "title": "How bad is it? It doesn't matter - A Minecraft Movie Review",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=o_fqzM3TXtc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/o_fqzM3TXtc/hqdefault.jpg",
+      "durationMinutes": 30,
+      "publishedAt": "2025-04-07"
+    }
+  ],
   "imdb:tt2930610": [
     {
       "id": "yta-SVTzV_D-ZEM",
@@ -282588,6 +282786,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-08-19"
     },
     {
+      "id": "yta-LoKcF01TrP4",
+      "title": "ОБЗОР \"ДЬЯВОЛ НОСИТ ПРАДА\"|| от фильма горят глаза и 0чко",
+      "author": "Чабби",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=LoKcF01TrP4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/LoKcF01TrP4/hqdefault.jpg",
+      "durationMinutes": 49,
+      "publishedAt": "2025-11-28"
+    },
+    {
       "id": "yta-f0p_jlvu334",
       "title": "The Devil Wears Prada is Scorsese for Women",
       "author": "Broey Deschanel",
@@ -282657,34 +282869,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-02-13"
     },
     {
-      "id": "yta-vboMpK0c3pE",
-      "title": "Почему Энди из «Дьявол носит Prada» выбирает себя, а не работу?",
-      "author": "Правое полушарие Интроверта",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=vboMpK0c3pE",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/vboMpK0c3pE/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2021-11-10"
-    },
-    {
-      "id": "yta-LoKcF01TrP4",
-      "title": "ОБЗОР \"ДЬЯВОЛ НОСИТ ПРАДА\"|| от фильма горят глаза и 0чко",
-      "author": "Чабби",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=LoKcF01TrP4",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/LoKcF01TrP4/hqdefault.jpg",
-      "durationMinutes": 49,
-      "publishedAt": "2025-11-28"
-    },
-    {
       "id": "yta-sAXq0Cusxtw",
       "title": "ДЬЯВОЛ НОСИТ ПРАДА / разбор героев, в чем мораль?",
       "author": "NATALIE TALKS",
@@ -282711,6 +282895,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/SJIfQyAaBkM/hqdefault.jpg",
       "durationMinutes": 54,
       "publishedAt": "2026-02-22"
+    },
+    {
+      "id": "yta-vboMpK0c3pE",
+      "title": "Почему Энди из «Дьявол носит Prada» выбирает себя, а не работу?",
+      "author": "Правое полушарие Интроверта",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vboMpK0c3pE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vboMpK0c3pE/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2021-11-10"
     }
   ],
   "tmdb:1079091": [
@@ -316967,78 +317165,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-23"
     }
   ],
-  "tmdb:950387": [
-    {
-      "id": "yta-puMV5CYlYFI",
-      "title": "A Minecraft Movie | Movie Review",
-      "author": "Film Stocked",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=puMV5CYlYFI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/puMV5CYlYFI/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2025-04-02"
-    },
-    {
-      "id": "yta-u3KpIST3ZLo",
-      "title": "A Minecraft Movie (2025) - Movie Review",
-      "author": "Cody Leach",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=u3KpIST3ZLo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/u3KpIST3ZLo/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2025-04-08"
-    },
-    {
-      "id": "yta--XW57Yj1qx8",
-      "title": "A Minecraft Movie - Review",
-      "author": "Dan Murrell",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-XW57Yj1qx8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-XW57Yj1qx8/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2025-04-04"
-    },
-    {
-      "id": "yta-sohuurvAYZs",
-      "title": "A Minecraft Movie is One Big Meme | Review",
-      "author": "Austin Burke",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=sohuurvAYZs",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/sohuurvAYZs/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2025-04-03"
-    },
-    {
-      "id": "yta-o_fqzM3TXtc",
-      "title": "How bad is it? It doesn't matter - A Minecraft Movie Review",
-      "author": "Mr Sunday Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=o_fqzM3TXtc",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/o_fqzM3TXtc/hqdefault.jpg",
-      "durationMinutes": 30,
-      "publishedAt": "2025-04-07"
-    }
-  ],
   "tmdb:1588": [
     {
       "id": "yta-QLcBIyKY8oA",
@@ -323016,6 +323142,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Zed5sDnhfdE/hqdefault.jpg",
       "durationMinutes": 7,
       "publishedAt": "2026-10-13"
+    }
+  ],
+  "tmdb:1255833": [
+    {
+      "id": "yta-CQKFxePT-Ao",
+      "title": "Whalefall - Movie Review",
+      "author": "Jeremy Jahns",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=CQKFxePT-Ao",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/CQKFxePT-Ao/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2026-10-14"
     }
   ],
   "tmdb:11104": [
