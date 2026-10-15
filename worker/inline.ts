@@ -11,6 +11,7 @@ import { bot } from './env';
 import { withRef } from './invite';
 import { togetherCommand, type ChatMessage } from './together';
 import { lastDeck, pollQuery, pollResult, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
+import { GROUP_T, groupPick, groupQuery, type Known } from './inlineGroup';
 
 interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
 interface InlineQuery { id: string; query: string; from?: { id: number; language_code?: string } }
@@ -34,7 +35,7 @@ export async function webhookSecret(token: string): Promise<string> {
   return [...new Uint8Array(digest)].slice(0, 24).map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-let cache: { at: number; list: Entry[]; keys: string[][] } | undefined;
+let cache: { at: number; list: Entry[]; keys: string[][]; byId?: Map<string, Entry> } | undefined;
 const norm = (s: string) => s.normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
 
 async function index(env: Env): Promise<typeof cache> {
@@ -112,14 +113,42 @@ async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: typeof ca
   }).catch((err) => console.error('answerInlineQuery poll', err));
 }
 
+/** «для @anya @lyosha» — подбор компании (worker/inlineGroup.ts) тем же голосованием. Не вышло — без результатов, с
+ *  подсказкой на кнопке (она ведёт в личку с ботом). */
+async function answerGroup(env: Env, q: InlineQuery, nicks: string[], idx: typeof cache, lang: Lang): Promise<void> {
+  const T = GROUP_T[lang];
+  let results: unknown[] = [];
+  let hint: string = T.nobody([]);
+  if (q.from) {
+    if (idx && !idx.byId) idx.byId = new Map(idx.list.map((e) => [e.p, e]));
+    const lookup = (workId: string): Known | undefined => {
+      const e = idx?.byId?.get(`w-${workId.replace(':', '_')}`);
+      return e && { t: e.t, k: e.k, ...(e.y ? { y: e.y } : {}), ...(e.i ? { i: e.i } : {}) };
+    };
+    const r = await groupPick(env, q.from.id, nicks, lookup);
+    if ('films' in r) {
+      results = [await pollResult(env, r.films, q.from.id, lang, undefined,
+        { title: T.title(r.names), ...(r.missing.length ? { note: T.missing(r.missing) } : {}) })];
+    } else hint = r.error === 'nobody' ? T.nobody(r.missing) : T[r.error];
+  }
+  await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ inline_query_id: q.id, results, cache_time: 0, is_personal: true,
+      ...(results.length ? {} : { button: { text: hint, start_parameter: 'together' } }) }),
+  }).catch((err) => console.error('answerInlineQuery group', err));
+}
+
 async function answer(env: Env, q: InlineQuery): Promise<void> {
   const idx = await index(env);
+  const lang = langOf(q.from?.language_code);
+  const nicks = groupQuery(q.query);
+  if (nicks) return answerGroup(env, q, nicks, idx, lang);
   const rest = pollQuery(q.query);
-  if (rest !== undefined) return answerPoll(env, q, rest, idx, langOf(q.from?.language_code));
+  if (rest !== undefined) return answerPoll(env, q, rest, idx, lang);
   const found = idx ? search(idx, q.query) : [];
   await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, langOf(q.from?.language_code))), cache_time: 300 }),
+    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300 }),
   }).catch((err) => console.error('answerInlineQuery', err));
 }
 

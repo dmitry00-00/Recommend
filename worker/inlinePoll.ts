@@ -70,7 +70,8 @@ export function pollKeyboard(id: string, n: number, lang: Lang, session?: string
 
 /** Результат инлайна: одна статья-голосование. Подборка пишется сразу (ключ — от состава и автора: повторный запрос
  *  тем же составом даёт тот же ключ); голосов у неё нет, пока сообщение не отправлено. */
-export async function pollResult(env: Env, films: PollFilm[], owner: number, lang: Lang, session?: string) {
+export async function pollResult(env: Env, films: PollFilm[], owner: number, lang: Lang, session?: string,
+  label?: { title?: string; note?: string }) {
   const list = films.slice(0, MAX);
   const id = await pollId(list, owner);
   const old = new Date(Date.now() - KEEP_DAYS * 864e5).toISOString();
@@ -82,8 +83,8 @@ export async function pollResult(env: Env, films: PollFilm[], owner: number, lan
   ]);
   const thumb = list.find((f) => f.i)?.i;
   return {
-    type: 'article', id: `poll-${id}`, title: T[lang].title(list.length),
-    description: list.map((f) => f.t).join(' · ').slice(0, 200),
+    type: 'article', id: `poll-${id}`, title: label?.title ?? T[lang].title(list.length),
+    description: [label?.note, list.map((f) => f.t).join(' · ')].filter(Boolean).join(' — ').slice(0, 200),
     ...(thumb ? { thumbnail_url: thumb } : {}),
     input_message_content: { message_text: pollText(list, [], lang), parse_mode: 'HTML', link_preview_options: { is_disabled: true } },
     reply_markup: pollKeyboard(id, list.length, lang, session),
