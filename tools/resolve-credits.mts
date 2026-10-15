@@ -1,6 +1,6 @@
 // Резолв авторов (Д2): кто режиссёр, сценарист, создатель сериала, автор книги — с элементом
 // Wikidata — для всего, что мы знаем (worksIndex). Пишет src/mocks/people.ts и
-// src/mocks/workCredits.ts; приложение подкладывает авторов карточкам при загрузке каталога.
+// src/mocks/workCredits.ts (у роста справочника — ленивые peopleMore.ts и workCreditsMore.ts, 15.10); приложение подкладывает авторов карточкам при загрузке каталога.
 //   npx tsx tools/resolve-credits.mts [--fresh] [--retry-missing] [--limit N] [--dry] [--no-tmdb]
 //
 // 1. Элемент Wikidata произведения: из id карточки (`f-wd<N>`), из externalIds.wikidata, из
@@ -16,6 +16,9 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
+import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
+import { filmBaseLinks } from '../src/mocks/filmBaseLinks.ts';
+import { filmBaseTail } from '../src/mocks/filmBaseTail.ts';
 import { isSeries } from '../src/lib/media.ts';
 import type { Person, PersonId, WorkCard } from '../src/types/tmdf.ts';
 import { cacheUrl, readCache, resolveWorkQids, search, sleep, sparql, wd } from './wikidata-lib.mts';
@@ -151,6 +154,18 @@ console.error(`\nс авторами: ${all.filter((e) => e.credits.length).leng
 console.error(`  режиссёр ${byRole('director')}, сценарист ${byRole('writer')}, создатель ${byRole('creator')}, автор книги ${byRole('author')}`);
 console.error(`людей в справочнике: ${Object.keys(people).length}`);
 if (DRY) process.exit(0);
-writeFileSync(new URL('../src/mocks/people.ts', import.meta.url), peopleSource(people));
-writeFileSync(new URL('../src/mocks/workCredits.ts', import.meta.url), workCreditsSource(used, people));
-console.error('→ src/mocks/people.ts, src/mocks/workCredits.ts');
+// произведения из роста справочника (РР-4, РР-5: сериалы seriesBaseWiki, фильмы filmBaseLinks и filmBaseTail) грузятся
+// лениво — их авторы тоже: в people.ts / workCredits.ts (первая загрузка) они ломают бюджет сборки (15.10)
+const lazyIds = new Set([...seriesBaseWiki, ...filmBaseLinks, ...filmBaseTail].map((w) => w.id));
+const lazyKeys = new Set(works.filter((w) => lazyIds.has(w.work.id)).map((w) => w.key));
+const usedMain = Object.fromEntries(Object.entries(used).filter(([k]) => !lazyKeys.has(k)));
+const usedMore = Object.fromEntries(Object.entries(used).filter(([k]) => lazyKeys.has(k)));
+const peopleMain: Record<PersonId, Person> = {}, peopleMore: Record<PersonId, Person> = {};
+for (const e of Object.values(usedMain)) for (const [p] of e.credits) if (people[p]) peopleMain[p] = people[p];
+for (const e of Object.values(usedMore)) for (const [p] of e.credits) if (people[p] && !peopleMain[p]) peopleMore[p] = people[p];
+writeFileSync(new URL('../src/mocks/people.ts', import.meta.url), peopleSource(peopleMain));
+writeFileSync(new URL('../src/mocks/workCredits.ts', import.meta.url), workCreditsSource(usedMain, peopleMain));
+// в ленивой части связи могут вести и к людям первой загрузки: имена берутся из обеих
+writeFileSync(new URL('../src/mocks/peopleMore.ts', import.meta.url), peopleSource(peopleMore, 'peopleMore'));
+writeFileSync(new URL('../src/mocks/workCreditsMore.ts', import.meta.url), workCreditsSource(usedMore, people, 'workCreditsMore'));
+console.error(`→ src/mocks/people.ts (${Object.keys(peopleMain).length}), workCredits.ts (${Object.keys(usedMain).length}); ленивые peopleMore.ts (${Object.keys(peopleMore).length}), workCreditsMore.ts (${Object.keys(usedMore).length})`);

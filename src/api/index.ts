@@ -343,13 +343,24 @@ const catalogFor = (id: ID): Promise<void> => (id.startsWith('b-') ? catalog() :
  *  разметка (seriesAnnotationsWiki.ts) — не в
  *  первой загрузке, как и книги (РР-1): в подбор сериалы пока не идут (Е4), они нужны поиску, страницам и импорту, то
  *  есть `catalog()`. Порядок тот же, что у справочника: убранное владельцем — мимо, уже известное — мимо. */
+/** Авторы роста справочника (15.10, tools/resolve-credits.mts): люди и связи «кто снял» новых фильмов и сериалов — не в
+ *  первой загрузке, приходят вместе с их карточками. */
+let creditsMoreLoad: Promise<void> | undefined;
+function loadCreditsMore(): Promise<void> {
+  creditsMoreLoad ??= Promise.all([import('@/mocks/peopleMore'), import('@/mocks/workCreditsMore')]).then(([pm, wm]) => {
+    people = { ...pm.peopleMore, ...people };
+    workCredits = { ...wm.workCreditsMore, ...workCredits };
+  }).catch((err) => { creditsMoreLoad = undefined; throw err; });
+  return creditsMoreLoad;
+}
+
 let seriesWikiLoad: Promise<void> | undefined;
 function loadSeriesWiki(): Promise<void> {
-  seriesWikiLoad ??= Promise.all([loadFilms(), import('@/mocks/seriesBaseWiki'), import('@/mocks/seriesAnnotationsWiki')]).then(([, m, ann]) => {
+  seriesWikiLoad ??= Promise.all([loadFilms(), import('@/mocks/seriesBaseWiki'), import('@/mocks/seriesAnnotationsWiki'), loadCreditsMore()]).then(([, m, ann]) => {
     // их разметка (заход 18) — тоже отдельно от seriesAnnotations.ts, по той же причине
     seriesAnnotations = { ...ann.seriesAnnotationsWiki, ...seriesAnnotations };
     const have = new Set(filmBaseWiki.map((w) => w.id));
-    const cards = m.seriesBaseWiki.filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w));
+    const cards = m.seriesBaseWiki.filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => withCredits(normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w)));
     filmBaseWiki = [...filmBaseWiki, ...cards];
   }).catch((err) => { seriesWikiLoad = undefined; throw err; });
   return seriesWikiLoad;
@@ -362,10 +373,10 @@ function loadSeriesWiki(): Promise<void> {
  *  (черновики подбора собираются из `draftAnnotations` на каждый запрос). */
 let filmLinksLoad: Promise<void> | undefined;
 function loadFilmLinks(): Promise<void> {
-  filmLinksLoad ??= Promise.all([loadFilms(), import('@/mocks/filmBaseLinks'), import('@/mocks/draftAnnotationsLinks'), import('@/mocks/filmBaseTail')]).then(([, m, ann, tail]) => {
+  filmLinksLoad ??= Promise.all([loadFilms(), import('@/mocks/filmBaseLinks'), import('@/mocks/draftAnnotationsLinks'), import('@/mocks/filmBaseTail'), loadCreditsMore()]).then(([, m, ann, tail]) => {
     draftAnnotations = { ...ann.draftAnnotationsLinks, ...draftAnnotations };
     const have = new Set(filmBaseWiki.map((w) => w.id));
-    const cards = [...m.filmBaseLinks, ...tail.filmBaseTail].filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w));
+    const cards = [...m.filmBaseLinks, ...tail.filmBaseTail].filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => withCredits(normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w)));
     filmBaseWiki = [...filmBaseWiki, ...cards];
   }).catch((err) => { filmLinksLoad = undefined; throw err; });
   return filmLinksLoad;

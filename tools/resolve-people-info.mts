@@ -10,7 +10,7 @@
 // и «ничего не нашлось» тоже): повторный прогон спрашивает только новых.
 import { writeFileSync } from 'node:fs';
 import { readCache, sleep, sparql, writeCache } from './wikidata-lib.mts';
-import { workCredits } from '../src/mocks/workCredits.ts';
+import { workCredits } from './credits-all.mts';
 
 export interface PersonInfo { img?: string; d?: string; b?: number; x?: number }
 

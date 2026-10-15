@@ -50,7 +50,7 @@ export function toPerson(id: PersonId, n: { ru?: string; en?: string }): Person 
 
 /** Текст `src/mocks/workCredits.ts`: ключ произведения → пары «человек, код роли». Компактно —
  *  тысячи карточек, имя живёт в справочнике людей, а не в каждой записи. */
-export function workCreditsSource(entries: Record<string, CreditsEntry>, people: Record<PersonId, Person>): string {
+export function workCreditsSource(entries: Record<string, CreditsEntry>, people: Record<PersonId, Person>, name = 'workCredits'): string {
   const rows = Object.entries(entries)
     .map(([key, e]) => [key, e.credits.filter(([p]) => people[p])] as const)
     .filter(([, c]) => c.length)
@@ -59,13 +59,13 @@ export function workCreditsSource(entries: Record<string, CreditsEntry>, people:
   return `// Сгенерировано tools/resolve-credits.mts (Д2) — руками не править.
 // Ключ произведения (как у разборов: tmdb:, imdb: у сериала, у книги wd:/olw:/isbn:) → «элемент:роль» через запятую;
 // роли: d — режиссёр, w — сценарист, c — создатель сериала, a — автор книги. Имена — в people.ts.
-export const workCredits: Record<string, string> = {
+export const ${name}: Record<string, string> = {
 ${rows.join('\n')}
 };
 `;
 }
 
-export function peopleSource(people: Record<PersonId, Person>): string {
+export function peopleSource(people: Record<PersonId, Person>, name = 'people'): string {
   const rows = Object.values(people).sort((a, b) => Number(a.id.slice(1)) - Number(b.id.slice(1)))
     .map((p) => `  ${p.id}: ${JSON.stringify(p)},`);
   return `import type { Person, PersonId } from '@/types/tmdf';
@@ -73,7 +73,7 @@ export function peopleSource(people: Record<PersonId, Person>): string {
 /** Справочник авторов (трек Д): элемент Wikidata → имя по-русски и в оригинале.
  *  Сгенерировано tools/resolve-credits.mts (Д2) — руками не править. Кто и где автор — в
  *  workCredits.ts; у карточки без записи там имена берутся из её \`credits\` (\`peopleIn\`). */
-export const people: Record<PersonId, Person> = {
+export const ${name}: Record<PersonId, Person> = {
 ${rows.join('\n')}
 };
 `;

@@ -8,8 +8,8 @@
 // уровнем и строкой разметки: по ним агент видит почерк и тогда, когда сам человека не знает (`by: works`).
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
-import { workCredits } from '../src/mocks/workCredits.ts';
-import { people } from '../src/mocks/people.ts';
+import { workCredits } from './credits-all.mts';
+import { people } from './credits-all.mts';
 import { peopleInfo } from '../src/mocks/peopleInfo.ts';
 import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
