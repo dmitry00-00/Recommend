@@ -33,6 +33,20 @@ const COLUMNS: { table: string; column: string; ddl: string }[] = [
   { table: 'material_open', column: 'voice_id', ddl: 'ALTER TABLE material_open ADD COLUMN voice_id TEXT' },
   { table: 'material_open', column: 'minutes', ddl: 'ALTER TABLE material_open ADD COLUMN minutes INTEGER' },
   { table: 'material_open', column: 'dwell', ddl: 'ALTER TABLE material_open ADD COLUMN dwell INTEGER' },
+  // 15.10, ДФ-13: раунд выбора компанией — когда пришёл второй и когда итог открылся всем
+  { table: 'together', column: 'round_at', ddl: 'ALTER TABLE together ADD COLUMN round_at TEXT' },
+  { table: 'together', column: 'revealed_at', ddl: 'ALTER TABLE together ADD COLUMN revealed_at TEXT' },
+];
+
+// голоса выбора компанией (ЗП-11; ДФ-13 добавил «может быть» и вето)
+const TOGETHER_VOTE = `session_id TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
+    vote TEXT NOT NULL CHECK (vote IN ('yes', 'maybe', 'no', 'veto', 'seen')), fit REAL, at TEXT NOT NULL, PRIMARY KEY (session_id, user_id, work_id)`;
+
+/** Таблицы, у которых поменялась проверка (CHECK): SQLite её не меняет на месте — новая таблица, перенос, замена.
+ *  `stale` — признак старой версии по тексту CREATE в sqlite_master. */
+const REBUILDS: { table: string; stale: (sql: string) => boolean; ddl: string }[] = [
+  // 15.10, ДФ-13: голоса «может быть» и «вето»
+  { table: 'together_vote', stale: (sql) => !sql.includes("'veto'"), ddl: TOGETHER_VOTE },
 ];
 
 /** Новые таблицы — для базы, созданной до них: schema.sql при деплое не прогоняется заново. */
@@ -81,8 +95,7 @@ const TABLES: string[] = [
   // 07.10, ЗП-11: выбор компанией — колода сессии и голоса (worker/together.ts); session_id без внешнего ключа:
   // удаление аккаунта создателя стирает сессию вместе с чужими голосами (worker/account.ts)
   'CREATE TABLE IF NOT EXISTS together (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), deck TEXT NOT NULL, created_at TEXT NOT NULL)',
-  `CREATE TABLE IF NOT EXISTS together_vote (session_id TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
-    vote TEXT NOT NULL CHECK (vote IN ('yes', 'no', 'seen')), fit REAL, at TEXT NOT NULL, PRIMARY KEY (session_id, user_id, work_id))`,
+  `CREATE TABLE IF NOT EXISTS together_vote (${TOGETHER_VOTE})`,
   // 11.10, ЗП-11: команда /together в чате — одноразовый ключ чата для приглашения голосовать (worker/together.ts)
   `CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
     created_at TEXT NOT NULL, session_id TEXT)`,
@@ -109,6 +122,17 @@ export function forgetMigrations(): void {
 export function migrate(db: D1Database): Promise<void> {
   done ??= (async () => {
     for (const ddl of TABLES) await db.prepare(ddl).run();
+    for (const r of REBUILDS) {
+      const row = await db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = ?").bind(r.table).first<{ sql: string }>();
+      if (!row || !r.stale(row.sql)) continue;
+      await db.batch([
+        db.prepare(`DROP TABLE IF EXISTS ${r.table}_new`),
+        db.prepare(`CREATE TABLE ${r.table}_new (${r.ddl})`),
+        db.prepare(`INSERT INTO ${r.table}_new SELECT * FROM ${r.table}`),
+        db.prepare(`DROP TABLE ${r.table}`),
+        db.prepare(`ALTER TABLE ${r.table}_new RENAME TO ${r.table}`),
+      ]);
+    }
     for (const c of COLUMNS) {
       const info = await db.prepare(`PRAGMA table_info(${c.table})`).all<{ name: string }>();
       if (!info.results.some((r) => r.name === c.column)) await db.prepare(c.ddl).run();

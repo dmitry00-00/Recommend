@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import {
-  createTogether, getTogether, noteShare, noteWatch, planWork, prepareShare, togetherMine, voteTogether,
+  createTogether, getTogether, noteShare, noteWatch, planWork, prepareShare, revealTogether, togetherMine, voteTogether,
   type TogetherCard, type TogetherState, type TogetherVote,
 } from '@/api';
 import { Button, ErrorState, Skeleton, useToast } from '@/components';
@@ -18,8 +18,9 @@ const POLL_MS = 5000;
 const asWork = (c: TogetherCard): WorkCard => ({ id: c.id, title: c.title, year: c.year, stillUrl: c.image, primaryOperations: [] } as unknown as WorkCard);
 
 /** Выбор компанией (ЗП-11). `/together` — собрать десятку под свой вкус; `/together/:id` — голосовать по одной
- *  карточке («хочу», «не хочу», «видел») и итог: совпадение — то, что хотят все, дальше по голосам и общему
- *  вкусу (сервер, worker/together.ts). Итог перечитывается раз в пять секунд, пока экран открыт. */
+ *  карточке («хочу», «может быть», «не хочу», вето, «видел») и итог: совпадение — то, что хотят все, дальше по
+ *  голосам и общему вкусу (сервер, worker/together.ts). Итог скрыт, пока все не прошли колоду или не вышли три
+ *  минуты (ДФ-13), и открывается всем разом; сессия перечитывается раз в пять секунд, пока экран открыт. */
 export function TogetherScreen() {
   const { id } = useParams();
   return id ? <Session id={id} /> : <Create />;
@@ -61,6 +62,14 @@ function Session({ id }: { id: string }) {
   const [mode, setMode] = useState<'vote' | 'results' | 'revote'>('vote');
   const [busy, setBusy] = useState(false);
   const alive = useRef(true);
+  // обратный отсчёт до раскрытия — раз в секунду, только пока есть срок
+  const [now, setNow] = useState(Date.now());
+  const revealAt = state && state !== 'missing' && !state.revealed ? state.revealAt : undefined;
+  useEffect(() => {
+    if (!revealAt) return undefined;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [revealAt]);
 
   const load = () => getTogether(id).then((s) => { if (alive.current) { setState(s); setFailed(false); } return s; });
   useEffect(() => {
@@ -120,7 +129,8 @@ function Session({ id }: { id: string }) {
       .finally(() => setBusy(false));
   };
 
-  const people = (
+  // никто ещё не голосовал (позванный открыл раньше создателя) — строку не показываем
+  const people = !s.people.length ? null : (
     <p className="tm-body-sm tm-together__people">
       {`${T.people}: `}{s.people.map((p) => `${p.me ? T.you : p.name} ${p.n}/${s.deck.length}`).join(' · ')}
     </p>
@@ -147,10 +157,15 @@ function Session({ id }: { id: string }) {
         {card.about ? <p className="tm-body tm-together__about">{card.about}</p> : null}
         <div className="tm-row tm-row--gap-2 tm-row--wrap tm-together__votes">
           <Button variant="primary" disabled={busy} onClick={() => vote(card, 'yes')}>{T.yes}</Button>
+          <Button variant="secondary" disabled={busy} onClick={() => vote(card, 'maybe')}>{T.maybe}</Button>
           <Button variant="secondary" disabled={busy} onClick={() => vote(card, 'no')}>{T.no}</Button>
-          <Button variant="quiet" disabled={busy} onClick={() => vote(card, 'seen')}>{T.seen}</Button>
         </div>
-        {Object.keys(s.votes).length ? (
+        <div className="tm-row tm-row--gap-2 tm-row--wrap tm-together__votes">
+          <Button variant="quiet" size="sm" disabled={busy} onClick={() => vote(card, 'veto')}>{T.veto}</Button>
+          <Button variant="quiet" size="sm" disabled={busy} onClick={() => vote(card, 'seen')}>{T.seen}</Button>
+        </div>
+        <p className="tm-caption">{T.vetoHint}</p>
+        {s.revealed && Object.keys(s.votes).length ? (
           <p className="tm-caption"><button type="button" className="tm-coldstart__link" onClick={() => setMode('results')}>{T.toResults}</button></p>
         ) : null}
         {!alone ? inviteBlock : null}
@@ -158,11 +173,37 @@ function Session({ id }: { id: string }) {
     );
   }
 
+  const others = s.people.filter((p) => !p.me).length;
+  const revote = s.open ? <Button variant="quiet" size="sm" onClick={() => { setCursor(0); setMode('revote'); }}>{T.revote}</Button> : null;
+
+  // прошёл колоду, а итог ещё скрыт — ждём остальных (ДФ-13)
+  if (!s.revealed) {
+    const left = revealAt ? Math.max(0, Math.ceil((Date.parse(revealAt) - now) / 1000)) : undefined;
+    const reveal = () => {
+      tap('medium');
+      revealTogether(s.id).then(() => load()).catch(() => toast({ text: T.revealFailed }));
+    };
+    return (
+      <main className="tm-shell__main tm-together">
+        <h1 className="tm-shell__title">{T.waitTitle}</h1>
+        {people}
+        <p className="tm-body">{others ? T.waitLead : T.waitAlone}</p>
+        {left !== undefined ? <p className="tm-title-3">{T.revealIn(left)}</p> : null}
+        <div className="tm-row tm-row--gap-2 tm-row--wrap">
+          {s.mineSession && others ? <Button variant="primary" size="sm" onClick={reveal}>{T.revealNow}</Button> : null}
+          {inviteBlock}
+          {revote}
+        </div>
+      </main>
+    );
+  }
+
   // итог
   const byId = new Map(s.deck.map((c) => [c.id, c]));
   const rows = s.tally.filter((r) => byId.has(r.workId));
-  const voted = rows.some((r) => r.yes + r.no + r.seen > 0);
-  const top = voted ? rows[0] : undefined;
+  const voted = rows.some((r) => r.yes + r.maybe + r.no + r.veto + r.seen > 0);
+  // вето снимает фильм: снятый наверх не выходит, даже если других нет
+  const top = voted && rows[0] && !rows[0].veto ? rows[0] : undefined;
   const topCard = top ? byId.get(top.workId) : undefined;
   const plan = (workId: string) => {
     tap();
@@ -176,8 +217,17 @@ function Session({ id }: { id: string }) {
       {top && topCard ? (
         <section className="tm-together__top">
           <p className="tm-title-3">{top.match ? T.match : T.leader}</p>
-          <WorkBanner work={asWork(topCard)} meta={[topCard.year, T.counts(top.yes, top.no)].filter(Boolean).join(' · ')} />
+          <WorkBanner work={asWork(topCard)} meta={[topCard.year, T.counts(top.yes, top.maybe, top.no)].filter(Boolean).join(' · ')} />
           {top.yesNames.length ? <p className="tm-body-sm">{T.want(top.yesNames)}</p> : null}
+          {top.maybeNames.length ? <p className="tm-caption">{T.maybeBy(top.maybeNames)}</p> : null}
+          {topCard.voice ? (
+            <p className="tm-body-sm">
+              {`${T.voice}: `}
+              <button type="button" className="tm-coldstart__link" onClick={() => openExternal(topCard.voice!.url)}>
+                {`${topCard.voice.author} — «${topCard.voice.title}»`}
+              </button>
+            </p>
+          ) : null}
           {top.seenNames.length ? <p className="tm-caption">{T.seenBy(top.seenNames)}</p> : null}
           <div className="tm-row tm-row--gap-2 tm-row--wrap">
             {topCard.watch?.length
@@ -197,7 +247,8 @@ function Session({ id }: { id: string }) {
             <li key={r.workId} className="tm-together__row">
               <span className="tm-body">{c.title}{c.year ? ` (${c.year})` : ''}</span>
               <span className="tm-caption">
-                {[T.counts(r.yes, r.no), r.yesNames.length ? T.want(r.yesNames) : null, r.seenNames.length ? T.seenBy(r.seenNames) : null].filter(Boolean).join(' · ')}
+                {(r.veto ? [T.vetoed] : [T.counts(r.yes, r.maybe, r.no), r.yesNames.length ? T.want(r.yesNames) : null,
+                  r.maybeNames.length ? T.maybeBy(r.maybeNames) : null, r.seenNames.length ? T.seenBy(r.seenNames) : null]).filter(Boolean).join(' · ')}
               </span>
             </li>
           );
@@ -205,7 +256,7 @@ function Session({ id }: { id: string }) {
       </ol>
       <div className="tm-row tm-row--gap-2 tm-row--wrap">
         {inviteBlock}
-        {s.open ? <Button variant="quiet" size="sm" onClick={() => { setCursor(0); setMode('revote'); }}>{T.revote}</Button> : null}
+        {revote}
         <Button variant="quiet" size="sm" onClick={() => navigate('/today')}>{ui.nav.today}</Button>
       </div>
     </main>

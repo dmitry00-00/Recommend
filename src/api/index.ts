@@ -1965,12 +1965,21 @@ export async function deleteAccount(): Promise<void> {
 
 // ---------- выбор компанией (ЗП-11) ----------
 
-export interface TogetherCard { id: ID; title: string; year?: number; image?: string; about?: string; essays?: number; kind?: 'film' | 'series'; watch?: WatchOption[] }
-export type TogetherVote = 'yes' | 'no' | 'seen';
-export interface TogetherRow { workId: ID; yes: number; no: number; seen: number; yesNames: string[]; seenNames: string[]; fit: number | null; match: boolean }
+export interface TogetherCard {
+  id: ID; title: string; year?: number; image?: string; about?: string; essays?: number; kind?: 'film' | 'series'; watch?: WatchOption[];
+  /** голос критика у совпадения (ДФ-13): один разбор без спойлеров */
+  voice?: { author: string; title: string; url: string };
+}
+export type TogetherVote = 'yes' | 'maybe' | 'no' | 'veto' | 'seen';
+export interface TogetherRow {
+  workId: ID; yes: number; maybe: number; no: number; veto: number; seen: number;
+  yesNames: string[]; maybeNames: string[]; seenNames: string[]; fit: number | null; match: boolean;
+}
 export interface TogetherState {
   id: string; createdAt: string; open: boolean; mineSession: boolean; owner: string | null;
-  deck: TogetherCard[]; votes: Record<ID, TogetherVote>; people: { name: string; n: number; me: boolean }[]; tally: TogetherRow[];
+  deck: TogetherCard[]; votes: Record<ID, TogetherVote>; people: { name: string; n: number; me: boolean }[];
+  /** одновременное раскрытие (ДФ-13): до него `tally` пуст, `revealAt` — когда откроется по времени */
+  revealed: boolean; revealAt?: string; tally: TogetherRow[];
 }
 const TOGETHER_SIZE = 10;
 
@@ -1992,11 +2001,15 @@ async function togetherDeck(): Promise<TogetherCard[]> {
   return pick.map((c, i) => {
     const w = works[i];
     const about = (draftFor(w)?.what ?? c.what ?? workDetail(w.id)?.synopsis ?? '').slice(0, 300);
+    // голос критика для совпадения: проверенный ролик или статья без спойлеров — смотреть ещё только предстоит
+    const v = analysesFor(w, workDetail(w.id)?.externalAnalyses)
+      .find((a) => a.platform !== 'telegram' && !a.unverified && !a.spoilerLevel && a.tier !== 'review');
     return {
       id: w.id, title: w.title, ...(w.year ? { year: w.year } : {}),
       ...((w.stillUrl ?? w.coverUrl) ? { image: w.stillUrl ?? w.coverUrl } : {}),
       ...(about ? { about } : {}), essays: c.essays ?? 0,
       ...(w.watch?.length ? { watch: w.watch.slice(0, 3).map((o) => ({ platform: o.platform, url: o.url, source: o.source })) } : {}),
+      ...(v ? { voice: { author: v.author, title: v.title, url: v.url } } : {}),
     };
   });
 }
@@ -2040,6 +2053,12 @@ export async function voteTogether(id: string, workId: ID, vote: TogetherVote, f
     method: 'PUT', body: JSON.stringify({ workId, vote, ...(fit != null ? { fit } : {}) }),
   });
   if (!r?.body) throw new Error(`vote: ${r?.status ?? 'нет ответа'}`);
+}
+
+/** Создатель открывает итог сразу, не дожидаясь всех (ДФ-13). */
+export async function revealTogether(id: string): Promise<void> {
+  const r = await togetherCall<{ ok: true }>(`/api/together/${encodeURIComponent(id)}/reveal`, { method: 'POST', body: '{}' });
+  if (!r?.body) throw new Error(`reveal: ${r?.status ?? 'нет ответа'}`);
 }
 
 /** Где человек: первый сегмент адреса (`#/today`, `#/journal`, `#/works/…`) — для замера, не для логики. */

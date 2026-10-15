@@ -9,6 +9,11 @@
 //
 // Колода хранится на сервере целиком (название, год, кадр, пара строк, где смотреть): у позванного может
 // не быть этих фильмов в своём справочнике, а видеть он должен то же, что все.
+//
+// Одновременное раскрытие (ДФ-13, 15.10): голоса «хочу / может быть / нет / вето / видел», итог скрыт, пока все
+// пришедшие не прошли колоду или не вышли три минуты с прихода второго — тогда он открывается всем разом (никто не
+// подстраивается под чужие голоса). Вето снимает фильм из итога; кто наложил — не показываем. До раскрытия сервер
+// отдаёт только свои голоса и сколько прошёл каждый. Если подборка пришла в чат командой /together, итог уходит и туда.
 import type { D1Database, Env } from './env';
 import { bot } from './env';
 
@@ -16,11 +21,15 @@ const json = (body: unknown, status = 200) => Response.json(body, { status });
 const DECK_MIN = 4;
 const DECK_MAX = 12;
 const VOTE_DAYS = 7;
-const VOTES = new Set(['yes', 'no', 'seen']);
+const VOTES = new Set(['yes', 'maybe', 'no', 'veto', 'seen']);
+// три минуты с прихода второго участника — потом итог открывается, даже если кто-то не дошёл до конца
+const ROUND_MS = 3 * 60e3;
 
 export interface DeckCard {
   id: string; title: string; year?: number; image?: string; about?: string; essays?: number; kind?: 'film' | 'series';
   watch?: { platform: string; url: string; source?: 'tmdb' | 'kinopoisk_unofficial' }[];
+  /** голос критика — один разбор без спойлеров: его показываем у совпадения (ДФ-13) */
+  voice?: { author: string; title: string; url: string };
 }
 
 const str = (v: unknown, n: number): string | undefined => (typeof v === 'string' && v.trim() ? v.trim().slice(0, n) : undefined);
@@ -41,6 +50,8 @@ function cleanCard(c: unknown): DeckCard | undefined {
       const source = x?.source === 'tmdb' ? 'tmdb' as const : x?.source === 'kinopoisk_unofficial' ? 'kinopoisk_unofficial' as const : undefined;
       return platform && url ? [{ platform, url, ...(source ? { source } : {}) }] : [];
     }) : [];
+  const v = o.voice as Record<string, unknown> | undefined;
+  const voice = v && str(v.author, 80) && str(v.title, 160) && https(v.url) ? { author: str(v.author, 80)!, title: str(v.title, 160)!, url: https(v.url)! } : undefined;
   return {
     id, title,
     ...(typeof o.year === 'number' && o.year > 1800 && o.year < 2100 ? { year: Math.round(o.year) } : {}),
@@ -49,6 +60,7 @@ function cleanCard(c: unknown): DeckCard | undefined {
     ...(typeof o.essays === 'number' && o.essays >= 0 ? { essays: Math.min(99, Math.round(o.essays)) } : {}),
     ...(o.kind === 'series' ? { kind: 'series' as const } : {}),
     ...(watch.length ? { watch } : {}),
+    ...(voice ? { voice } : {}),
   };
 }
 
@@ -71,12 +83,18 @@ const TEXT = {
   ru: {
     ask: 'Что смотрим? Один собирает подборку под свой вкус — я пришлю её сюда, остальные голосуют: «хочу», «не хочу», «видел».',
     pick: 'Собрать подборку',
+    inChat: 'Голосовать прямо в чате',
+    result: (t: string, match: boolean) => `<b>${match ? 'Совпадение' : 'Итог'}: ${esc(t)}</b>\nГолоса открыты — подробности в приложении.`,
+    open: 'Открыть итог',
     vote: (name: string, n: number) => `<b>Голосуем: что смотрим</b>\nПодборка от ${esc(name)} — ${n} фильмов. Голосуйте, совпадение покажу в приложении.`,
     go: 'Голосовать',
   },
   en: {
     ask: "What are we watching? One of you picks a set to match their taste — I'll post it here, and everyone votes: want, don't, seen.",
     pick: 'Pick films',
+    inChat: 'Vote right in the chat',
+    result: (t: string, match: boolean) => `<b>${match ? 'Match' : 'Result'}: ${esc(t)}</b>\nVotes are open — details in the app.`,
+    open: 'Open result',
     vote: (name: string, n: number) => `<b>Vote: what are we watching</b>\nA set of ${n} films from ${esc(name)}. Vote — the match shows up in the app.`,
     go: 'Vote',
   },
@@ -104,7 +122,9 @@ export async function togetherCommand(env: Env, m: ChatMessage): Promise<boolean
     .bind(token, m.chat.id, m.chat.title?.slice(0, 120) ?? null, l, new Date().toISOString()).run();
   return send(env, {
     chat_id: m.chat.id, text: TEXT[l].ask, reply_parameters: { message_id: m.message_id, allow_sending_without_reply: true },
-    reply_markup: { inline_keyboard: [[{ text: TEXT[l].pick, url: `https://t.me/${bot.name}?startapp=g-${token}` }]] },
+    // без приложения — голосование прямо в чате (worker/inlinePoll.ts): кнопка вставляет «@бот вместе » в поле ввода
+    reply_markup: { inline_keyboard: [[{ text: TEXT[l].pick, url: `https://t.me/${bot.name}?startapp=g-${token}` }],
+      [{ text: TEXT[l].inChat, switch_inline_query_current_chat: l === 'en' ? 'together ' : 'вместе ' }]] },
   });
 }
 
@@ -142,11 +162,12 @@ export async function createTogether(req: Request, userId: string, env: Env): Pr
   return json({ id, ...(posted ? { chat: posted.title } : {}) });
 }
 
-interface Row { id: string; user_id: string; deck: string; created_at: string }
+interface Row { id: string; user_id: string; deck: string; created_at: string; round_at: string | null; revealed_at: string | null }
 interface VoteRow { user_id: string; work_id: string; vote: string; fit: number | null; name: string | null; username: string | null }
+const SESSION = 'SELECT id, user_id, deck, created_at, round_at, revealed_at FROM together WHERE id = ?';
 
 async function load(db: D1Database, id: string): Promise<{ s: Row; deck: DeckCard[]; votes: VoteRow[] } | undefined> {
-  const s = await db.prepare('SELECT id, user_id, deck, created_at FROM together WHERE id = ?').bind(id).first<Row>();
+  const s = await db.prepare(SESSION).bind(id).first<Row>();
   if (!s) return undefined;
   const votes = (await db.prepare(
     `SELECT v.user_id, v.work_id, v.vote, v.fit, u.first_name AS name, u.username FROM together_vote v
@@ -179,19 +200,57 @@ export function tally(deck: DeckCard[], votes: VoteRow[], me: string) {
     const fits = vs.map((v) => v.fit).filter((f): f is number => typeof f === 'number');
     const yes = names('yes');
     const no = names('no');
+    const maybe = names('maybe');
+    // вето снимает фильм; кто наложил — не говорим, только сколько
+    const veto = vs.filter((v) => v.vote === 'veto').length;
     return {
-      workId: c.id, yes: yes.length, no: no.length, seen: names('seen').length, yesNames: yes, seenNames: names('seen'),
+      workId: c.id, yes: yes.length, maybe: maybe.length, no: no.length, veto, seen: names('seen').length,
+      yesNames: yes, maybeNames: maybe, seenNames: names('seen'),
       fit: fits.length ? fits.reduce((a, b) => a + b, 0) / fits.length : null,
       // совпадение: все, кто голосовал по фильму, хотят, и их хотя бы двое
-      match: yes.length >= 2 && yes.length === vs.length,
+      match: !veto && yes.length >= 2 && yes.length === vs.length,
     };
   });
-  const order = [...rows].sort((a, b) => Number(b.match) - Number(a.match) || b.yes - a.yes || a.no - b.no || (b.fit ?? 0) - (a.fit ?? 0));
+  // «может быть» — половина «хочу»
+  const score = (r: (typeof rows)[number]) => r.yes + r.maybe / 2;
+  const order = [...rows].sort((a, b) => Number(Boolean(a.veto)) - Number(Boolean(b.veto)) || Number(b.match) - Number(a.match)
+    || score(b) - score(a) || a.no - b.no || (b.fit ?? 0) - (a.fit ?? 0));
   return { people: [...people.values()], rows: order };
 }
 
+/** Открыт ли итог. Раз открывшись, остаётся открытым (`revealed_at`): опоздавший, начав голосовать, итог у других
+ *  не прячет. Сессии до ДФ-13 (двое голосовали, а `round_at` нет) — открыты, как и были. */
+export function revealState(s: Row, deck: DeckCard[], votes: VoteRow[], now = Date.now()): { revealed: boolean; revealAt?: string } {
+  if (s.revealed_at) return { revealed: true };
+  const per = new Map<string, number>();
+  for (const v of votes) per.set(v.user_id, (per.get(v.user_id) ?? 0) + 1);
+  if (per.size < 2) return { revealed: false };
+  if (!s.round_at) return { revealed: true };
+  const at = Date.parse(s.round_at) + ROUND_MS;
+  const all = [...per.values()].every((n) => n >= deck.length);
+  return all || now >= at || !open(s) ? { revealed: true } : { revealed: false, revealAt: new Date(at).toISOString() };
+}
+
+/** Итог открылся — запомнить; если подборка пришла в чат командой /together, сообщить туда. Пишет один: тот, чей
+ *  UPDATE изменил строку. */
+async function markRevealed(env: Env, s: Row, deck: DeckCard[], votes: VoteRow[]): Promise<void> {
+  const r = await env.DB.prepare('UPDATE together SET revealed_at = ? WHERE id = ? AND revealed_at IS NULL').bind(new Date().toISOString(), s.id).run();
+  if (!Number(r.meta?.changes)) return;
+  const c = await env.DB.prepare('SELECT chat_id, lang FROM together_chat WHERE session_id = ?').bind(s.id).first<{ chat_id: number; lang: string | null }>();
+  if (!c) return;
+  const top = tally(deck, votes, '').rows[0];
+  const card = top && !top.veto && top.yes + top.maybe > 0 ? deck.find((d) => d.id === top.workId) : undefined;
+  if (!card) return;
+  const l = lang(c.lang);
+  await send(env, {
+    chat_id: c.chat_id, text: TEXT[l].result(`${card.title}${card.year ? ` (${card.year})` : ''}`, top.match), parse_mode: 'HTML',
+    reply_markup: { inline_keyboard: [[{ text: TEXT[l].open, url: `https://t.me/${bot.name}?startapp=t-${s.id}` }]] },
+  });
+}
+
 /** GET /api/together/:id */
-export async function getTogether(id: string, userId: string, db: D1Database): Promise<Response> {
+export async function getTogether(id: string, userId: string, env: Env): Promise<Response> {
+  const db = env.DB;
   const got = await load(db, id);
   if (!got) return json({ error: 'not_found' }, 404);
   const { s, deck, votes } = got;
@@ -200,16 +259,30 @@ export async function getTogether(id: string, userId: string, db: D1Database): P
   const t = tally(deck, votes, userId);
   // создатель — в списке и до своего первого голоса
   if (!t.people.some((p) => p.me) && s.user_id === userId) t.people.unshift({ name: owner?.first_name || 'Вы', n: 0, me: true });
+  const r = revealState(s, deck, votes);
+  if (r.revealed && !s.revealed_at) await markRevealed(env, s, deck, votes).catch((err) => console.error('together reveal', err));
   return json({
     id: s.id, createdAt: s.created_at, open: open(s), mineSession: s.user_id === userId,
     owner: owner?.first_name || (owner?.username ? `@${owner.username}` : null),
-    deck, votes: mine, people: t.people, tally: t.rows,
+    deck, votes: mine, people: t.people,
+    // до раскрытия чужих голосов не отдаём вовсе — только кто сколько прошёл
+    revealed: r.revealed, ...(r.revealAt ? { revealAt: r.revealAt } : {}), tally: r.revealed ? t.rows : [],
   });
 }
 
-/** PUT /api/together/:id/vote `{ workId, vote: 'yes'|'no'|'seen', fit?: 0..1 }` */
+/** POST /api/together/:id/reveal — создатель открывает итог сразу, если пришёл хотя бы ещё один. */
+export async function revealTogether(id: string, userId: string, env: Env): Promise<Response> {
+  const got = await load(env.DB, id);
+  if (!got) return json({ error: 'not_found' }, 404);
+  if (got.s.user_id !== userId) return json({ error: 'not_owner' }, 403);
+  if (new Set(got.votes.map((v) => v.user_id)).size < 2) return json({ error: 'alone' }, 409);
+  if (!got.s.revealed_at) await markRevealed(env, got.s, got.deck, got.votes);
+  return json({ ok: true });
+}
+
+/** PUT /api/together/:id/vote `{ workId, vote: 'yes'|'maybe'|'no'|'veto'|'seen', fit?: 0..1 }` */
 export async function voteTogether(req: Request, id: string, userId: string, db: D1Database): Promise<Response> {
-  const s = await db.prepare('SELECT id, user_id, deck, created_at FROM together WHERE id = ?').bind(id).first<Row>();
+  const s = await db.prepare(SESSION).bind(id).first<Row>();
   if (!s) return json({ error: 'not_found' }, 404);
   if (!open(s)) return json({ error: 'closed' }, 409);
   const b = (await req.json().catch(() => ({}))) as { workId?: unknown; vote?: unknown; fit?: unknown };
@@ -222,14 +295,20 @@ export async function voteTogether(req: Request, id: string, userId: string, db:
     `INSERT INTO together_vote (session_id, user_id, work_id, vote, fit, at) VALUES (?, ?, ?, ?, ?, ?)
      ON CONFLICT (session_id, user_id, work_id) DO UPDATE SET vote = excluded.vote, fit = excluded.fit, at = excluded.at`,
   ).bind(id, userId, workId, vote, fit, new Date().toISOString()).run();
+  // пришёл второй — пошли три минуты раунда
+  if (!s.round_at && !s.revealed_at) {
+    await db.prepare(`UPDATE together SET round_at = ? WHERE id = ? AND round_at IS NULL
+      AND (SELECT COUNT(DISTINCT user_id) FROM together_vote WHERE session_id = ?) >= 2`).bind(new Date().toISOString(), id, id).run();
+  }
   return json({ ok: true });
 }
 
 export async function togetherRoute(req: Request, path: string, userId: string, env: Env): Promise<Response | undefined> {
   if (path === '/api/together' && req.method === 'POST') return createTogether(req, userId, env);
-  const m = /^\/api\/together\/([a-z0-9]{6,16})(\/vote)?$/.exec(path);
+  const m = /^\/api\/together\/([a-z0-9]{6,16})(\/vote|\/reveal)?$/.exec(path);
   if (!m) return undefined;
-  if (!m[2] && req.method === 'GET') return getTogether(m[1], userId, env.DB);
-  if (m[2] && req.method === 'PUT') return voteTogether(req, m[1], userId, env.DB);
+  if (!m[2] && req.method === 'GET') return getTogether(m[1], userId, env);
+  if (m[2] === '/vote' && req.method === 'PUT') return voteTogether(req, m[1], userId, env.DB);
+  if (m[2] === '/reveal' && req.method === 'POST') return revealTogether(m[1], userId, env);
   return undefined;
 }

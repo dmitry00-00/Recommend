@@ -283,9 +283,11 @@ CREATE INDEX IF NOT EXISTS event_user ON event(user_id, work_id);
 -- 07.10, ЗП-11: выбор компанией (worker/together.ts) — колода из 4–12 карточек целиком (позванный видит то же,
 -- что все, даже если этих фильмов нет в его справочнике) и голоса «хочу / не хочу / видел» с оценкой модели
 -- `fit` по профилю голосующего. session_id — без внешнего ключа (см. worker/account.ts).
-CREATE TABLE IF NOT EXISTS together (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), deck TEXT NOT NULL, created_at TEXT NOT NULL);
+-- 15.10, ДФ-13: «может быть» и вето; round_at — пришёл второй (пошли три минуты), revealed_at — итог открыт всем.
+CREATE TABLE IF NOT EXISTS together (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), deck TEXT NOT NULL, created_at TEXT NOT NULL,
+  round_at TEXT, revealed_at TEXT);
 CREATE TABLE IF NOT EXISTS together_vote (session_id TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
-  vote TEXT NOT NULL CHECK (vote IN ('yes', 'no', 'seen')), fit REAL, at TEXT NOT NULL, PRIMARY KEY (session_id, user_id, work_id));
+  vote TEXT NOT NULL CHECK (vote IN ('yes', 'maybe', 'no', 'veto', 'seen')), fit REAL, at TEXT NOT NULL, PRIMARY KEY (session_id, user_id, work_id));
 -- 11.10, ЗП-11: команда /together в чате — одноразовый ключ чата: по нему, и только по нему, бот публикует приглашение
 -- голосовать в этот чат (иначе через бота можно было бы писать в любой чат, где он есть). Живёт сутки.
 CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,

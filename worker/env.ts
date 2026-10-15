@@ -5,6 +5,8 @@
 export interface D1Result<T = unknown> {
   results: T[];
   success: boolean;
+  /** у run(): сколько строк изменено (D1 и оба переходника server/) */
+  meta?: { changes?: number };
 }
 
 export interface D1PreparedStatement {
