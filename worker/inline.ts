@@ -10,6 +10,7 @@ import type { Env } from './env';
 import { bot } from './env';
 import { withRef } from './invite';
 import { togetherCommand, type ChatMessage } from './together';
+import { lastDeck, pollQuery, pollResult, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
 
 interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
 interface InlineQuery { id: string; query: string; from?: { id: number; language_code?: string } }
@@ -85,8 +86,36 @@ function result(e: Entry, lang: Lang = 'ru') {
   };
 }
 
+const POLL_HINT: Record<Lang, string> = { ru: 'Собрать подборку — или перечислите фильмы через запятую', en: 'Pick films — or list them separated by commas' };
+
+/** «вместе …» — голосование в чате (worker/inlinePoll.ts): названные фильмы или последняя своя подборка. Меньше двух —
+ *  результатов нет, вместо них кнопка в личку с ботом: там та же команда, что /together. */
+async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: typeof cache, lang: Lang): Promise<void> {
+  let films: PollFilm[] = [];
+  let session: string | undefined;
+  const titles = pollTitles(rest);
+  if (titles.length && idx) {
+    const seen = new Set<string>();
+    for (const t of titles) {
+      const e = search(idx, t).find((x) => (x.k === 'film' || x.k === 'series') && !seen.has(x.p));
+      if (e) { seen.add(e.p); films.push({ t: e.t, ...(e.y ? { y: e.y } : {}), ...(e.i ? { i: e.i } : {}) }); }
+    }
+  } else if (q.from) {
+    const deck = await lastDeck(env, q.from.id);
+    if (deck) ({ films, session } = deck);
+  }
+  const results = films.length >= 2 && q.from ? [await pollResult(env, films, q.from.id, lang, session)] : [];
+  await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ inline_query_id: q.id, results, cache_time: 0, is_personal: true,
+      ...(results.length ? {} : { button: { text: POLL_HINT[lang], start_parameter: 'together' } }) }),
+  }).catch((err) => console.error('answerInlineQuery poll', err));
+}
+
 async function answer(env: Env, q: InlineQuery): Promise<void> {
   const idx = await index(env);
+  const rest = pollQuery(q.query);
+  if (rest !== undefined) return answerPoll(env, q, rest, idx, langOf(q.from?.language_code));
   const found = idx ? search(idx, q.query) : [];
   await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
@@ -98,8 +127,10 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
 export async function telegramUpdate(req: Request, env: Env): Promise<Response> {
   if (!env.BOT_TOKEN) return new Response('no bot', { status: 503 });
   if (req.headers.get('x-telegram-bot-api-secret-token') !== await webhookSecret(env.BOT_TOKEN)) return new Response('forbidden', { status: 403 });
-  const update = (await req.json().catch(() => ({}))) as { inline_query?: InlineQuery; message?: ChatMessage };
+  const update = (await req.json().catch(() => ({}))) as { inline_query?: InlineQuery; message?: ChatMessage; callback_query?: CallbackQuery };
   if (update.inline_query) await answer(env, update.inline_query);
+  // тап по номеру в голосовании в чате (15.10)
+  if (update.callback_query) await pollVote(env, update.callback_query).catch((err) => console.error('poll vote', err));
   // «/together» в чате — выбор компанией (ЗП-11, 11.10)
   if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
   return new Response('ok');
@@ -116,7 +147,7 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   }).then((r) => r.json());
   if (b.action === 'set') {
     if (!b.url || !/^https:\/\/[^/]+\/api\/telegram$/.test(b.url)) return Response.json({ error: 'url' }, { status: 400 });
-    const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message'], drop_pending_updates: true });
+    const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message', 'callback_query'], drop_pending_updates: true });
     // команда /together — в подсказках Telegram, в группах и в личке (ЗП-11, 11.10)
     const commands = [{ command: 'together', description: 'Выбрать фильм вместе' }];
     const en = [{ command: 'together', description: 'Pick a film together' }];

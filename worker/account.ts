@@ -25,7 +25,7 @@ async function userTables(db: D1Database): Promise<string[]> {
 /** DELETE /api/account — участник стирает себя. Ответ — сколько строк ушло по таблицам. */
 export async function deleteAccount(userId: string, env: Env): Promise<Response> {
   const db = env.DB;
-  const me = await db.prepare('SELECT username FROM user WHERE id = ?').bind(userId).first<{ username: string | null }>();
+  const me = await db.prepare('SELECT username, tg_id FROM user WHERE id = ?').bind(userId).first<{ username: string | null; tg_id: number | null }>();
   if (!me) return json({ error: 'not_found' }, 404);
   const tables = await userTables(db);
   const counts: Record<string, number> = {};
@@ -38,6 +38,11 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
     // выбор компанией (ЗП-11): сессии участника уходят вместе с чужими голосами в них
     ...(tables.includes('together') ? [db.prepare('DELETE FROM together_vote WHERE session_id IN (SELECT id FROM together WHERE user_id = ?)').bind(userId)] : []),
     ...tables.map((t) => db.prepare(`DELETE FROM ${t} WHERE user_id = ?`).bind(userId)),
+    // голосование в чате (15.10) — по tg_id: свои голоса и свои подборки (чужие голоса в них — тоже)
+    ...(me.tg_id != null && tables.length ? [
+      db.prepare('DELETE FROM inline_vote WHERE tg_id = ? OR poll_id IN (SELECT id FROM inline_poll WHERE owner_tg = ?)').bind(me.tg_id, me.tg_id),
+      db.prepare('DELETE FROM inline_poll WHERE owner_tg = ?').bind(me.tg_id),
+    ] : []),
     ...(me.username ? [db.prepare('DELETE FROM tester WHERE username = ?').bind(me.username.replace(/^@/, '').toLowerCase())] : []),
     // кого участник привёл (ЗП-37) — у них ссылка на него стирается
     db.prepare('UPDATE user SET invited_by = NULL WHERE invited_by = ?').bind(userId),

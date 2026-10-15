@@ -290,6 +290,13 @@ CREATE TABLE IF NOT EXISTS together_vote (session_id TEXT NOT NULL, user_id TEXT
 -- голосовать в этот чат (иначе через бота можно было бы писать в любой чат, где он есть). Живёт сутки.
 CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
   created_at TEXT NOT NULL, session_id TEXT);
+-- 15.10: голосование прямо в чате («@бот вместе», worker/inlinePoll.ts) — подборка до десяти фильмов и голоса по сообщению
+-- (msg — inline_message_id или «чат:сообщение»); голосуют и те, кого в приложении нет, поэтому по tg_id, а не user_id.
+-- Живут 30 дней; удаление аккаунта стирает подборки и голоса по его tg_id (worker/account.ts)
+CREATE TABLE IF NOT EXISTS inline_poll (id TEXT PRIMARY KEY, owner_tg INTEGER NOT NULL, films TEXT NOT NULL, lang TEXT, session_id TEXT,
+  created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS inline_vote (msg TEXT NOT NULL, poll_id TEXT NOT NULL, tg_id INTEGER NOT NULL, name TEXT, idx INTEGER NOT NULL,
+  at TEXT NOT NULL, PRIMARY KEY (msg, tg_id, idx));
 
 -- 13.10, МА-1: снимок карты участника при ленте — диапазон сложности (центр, границы, медиана истории, сколько
 -- размеченных досмотров). Первый — старт, от него считается «сдвиг»; новый пишется, только когда карта изменилась.

@@ -64,7 +64,8 @@ const newSessionId = (): string => {
 // в любой чат, где он есть. Ключ живёт сутки и годится на одну подборку. В группе бот видит только команды себе
 // (режим приватности Telegram), переписку — нет.
 const CHAT_HOURS = 24;
-const command = (): RegExp => new RegExp(`^\\/(?:together|vmeste)(?:@${bot.name})?(?:\\s|$)`, 'i');
+// и «/start together» — кнопка «Собрать подборку» из голосования в чате (worker/inline.ts) открывает личку с ботом
+const command = (): RegExp => new RegExp(`^\\/(?:(?:together|vmeste)(?:@${bot.name})?(?:\\s|$)|start\\s+together$)`, 'i');
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const TEXT = {
   ru: {

@@ -86,6 +86,11 @@ const TABLES: string[] = [
   // 11.10, ЗП-11: команда /together в чате — одноразовый ключ чата для приглашения голосовать (worker/together.ts)
   `CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
     created_at TEXT NOT NULL, session_id TEXT)`,
+  // 15.10: голосование прямо в чате — подборка и голоса по сообщению (worker/inlinePoll.ts)
+  `CREATE TABLE IF NOT EXISTS inline_poll (id TEXT PRIMARY KEY, owner_tg INTEGER NOT NULL, films TEXT NOT NULL, lang TEXT, session_id TEXT,
+    created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS inline_vote (msg TEXT NOT NULL, poll_id TEXT NOT NULL, tg_id INTEGER NOT NULL, name TEXT, idx INTEGER NOT NULL,
+    at TEXT NOT NULL, PRIMARY KEY (msg, tg_id, idx))`,
   // 13.10, МА-1: снимки карты участника — диапазон сложности, от которого считается «сдвиг» (worker/metrics.ts)
   `CREATE TABLE IF NOT EXISTS level_state (user_id TEXT NOT NULL REFERENCES user(id), at TEXT NOT NULL, center REAL NOT NULL,
     lo REAL NOT NULL, hi REAL NOT NULL, median REAL, n INTEGER NOT NULL, PRIMARY KEY (user_id, at))`,
