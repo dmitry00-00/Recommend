@@ -11,7 +11,7 @@ import { worksIndex } from './works-index.mts';
 import { workCredits } from '../src/mocks/workCredits.ts';
 import { people } from '../src/mocks/people.ts';
 import { peopleInfo } from '../src/mocks/peopleInfo.ts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { bookDrafts } from '../src/mocks/bookDrafts.ts';
 import { isSeries } from '../src/lib/media.ts';

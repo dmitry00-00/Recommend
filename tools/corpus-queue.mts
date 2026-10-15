@@ -13,7 +13,7 @@
 // Порядок — спрос: сколько людей из профилей видели (вес 1 за человека) плюс узнаваемость
 // (просмотры статьи в Википедии и зрители Trakt, .cache/attention.json, в логарифме).
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import { userWorks } from '../src/mocks/userHistory.ts';

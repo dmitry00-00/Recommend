@@ -6,7 +6,7 @@
 //   npx tsx tools/public-pages.mts      — посчитать (публикует tools/publish-reference.mts)
 import { worksIndex } from './works-index.mts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';

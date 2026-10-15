@@ -159,6 +159,7 @@ function SubscriptionsSection({ settings, saving, save }: { settings: UserSettin
         </label>
       ) : null}
       <p className="tm-caption tm-settings__note">{ui.settings.subsNote}</p>
+      <p className="tm-body-sm"><Link to="/subscriptions">{ui.subsPlan.entry}</Link></p>
     </section>
   );
 }

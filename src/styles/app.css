@@ -1052,3 +1052,15 @@ button.tm-banner { cursor: pointer; }
 .tm-trailer__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .tm-trailer__bar { display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-3); }
 .tm-trailer__name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--tm-color-ink-muted); }
+
+/* Какая подписка подходит (15.10): по очереди — месяцами, ниже пара и каждая площадка */
+.tm-subsplan { display: flex; flex-direction: column; gap: var(--tm-space-4); }
+.tm-subsplan__section { display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-subsplan__muted { color: var(--tm-color-ink-muted); }
+.tm-subsplan__months, .tm-subsplan__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--tm-space-3); }
+.tm-subsplan__month, .tm-subsplan__row { padding: var(--tm-space-3); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-card); background: var(--tm-color-surface-card); }
+.tm-subsplan__month { border-left: 3px solid var(--tm-color-accent); }
+.tm-subsplan__name { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tm-space-2); font-weight: 600; margin: 0; }
+.tm-subsplan__price { font-weight: 400; color: var(--tm-color-accent-ink); white-space: nowrap; }
+.tm-subsplan__works { margin: var(--tm-space-1) 0 0; color: var(--tm-color-ink-muted); }
+.tm-subsplan__works a { color: var(--tm-color-ink); }

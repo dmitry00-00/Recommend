@@ -16,6 +16,8 @@ import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBaseCurated } from '../src/mocks/filmBaseCurated.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
+import { filmBaseLinks } from '../src/mocks/filmBaseLinks.ts';
+import { filmBaseTail } from '../src/mocks/filmBaseTail.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { tvPrograms } from '../src/mocks/tvPrograms.ts';
@@ -120,6 +122,10 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     ...filmBasePopular,
     // сериалы со статьёй в русской Википедии от 10 разделов (РР-4, 15.10)
     ...seriesBaseWiki,
+    // мировое кино со статьёй в русской Википедии от 10 разделов (РР-5, 15.10)
+    ...filmBaseLinks,
+    // остальное кино со статьёй в русской Википедии (до 10 разделов, РР-5): для поиска и страниц, заранее не размечаем
+    ...filmBaseTail,
     // популярное в Индии и англоязычных странах: суточные топы Википедии по странам и классика (ЗП-22, 07.10)
     ...filmBaseWorld,
     // фильмы из загрузок каналов студий и агрегаторов, опознаны в Wikidata по режиссёру или году (10.10)
@@ -132,8 +138,10 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   // английские и индийские названия в одно слово («Animal», «War», «Fighter», «Война») в русских текстах
   // чаще значат другое: такие карточки ищутся в тексте только по названию из двух значимых слов и длиннее
   // так же — фильмы из загрузок каналов: «Опекун», «Приезжая», «Небо» в чужом тексте чаще обычные слова
-  const worldOnly = new Set([...filmBaseWorld, ...filmBaseChannels].map((w) => w.id));
-  const minorIds = new Set(filmBaseChannels.map((w) => w.id));
+  // и фильмы из роста справочника (РР-5): малоизвестные «Небо», «Игра», «Мать» — тёзки обычных слов и известных вещей
+  const worldOnly = new Set([...filmBaseWorld, ...filmBaseChannels, ...filmBaseLinks, ...filmBaseTail].map((w) => w.id));
+  // хвост справочника (РР-5) — тоже «малое»: в очередь разметки не идёт (решение владельца 15.10 — заранее не размечать)
+  const minorIds = new Set([...filmBaseChannels, ...filmBaseTail].map((w) => w.id));
   const showIds = new Set(tvPrograms);
   // артикль и номер части словом не считаются: «The Bear», «Война 2», «Stree 2» — по сути одно слово
   const worldNameOk = (t: string) => t.split(/\s+/).filter((x) => !/^(the|a|an|\d+)$/i.test(x)).length > 1;

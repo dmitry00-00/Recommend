@@ -82,7 +82,7 @@ function verdicts() {
 // ─── разметка для подбора ─────────────────────────────────────────────────────
 const GAP = '.cache/annotation-gap.json';
 function gap(fresh: boolean): unknown {
-  const inputs = ['src/mocks/draftAnnotations.ts', 'src/mocks/userAnnotations.ts', 'src/mocks/seriesAnnotations.ts', 'src/mocks/seriesAnnotationsWiki.ts', 'src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/draftReview.ts'];
+  const inputs = ['src/mocks/draftAnnotations.ts', 'src/mocks/draftAnnotationsLinks.ts', 'src/mocks/userAnnotations.ts', 'src/mocks/seriesAnnotations.ts', 'src/mocks/seriesAnnotationsWiki.ts', 'src/mocks/essaysAuto.ts', 'src/mocks/postsAuto.ts', 'src/mocks/draftReview.ts'];
   if (fresh || !mt(GAP) || inputs.some((p) => mt(p) > mt(GAP))) {
     const r = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--yes', 'tsx', 'tools/annotation-gap.mts', '--top', '0'],
       { cwd: at('.').pathname, encoding: 'utf8', timeout: 120_000 });

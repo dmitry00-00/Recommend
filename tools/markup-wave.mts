@@ -17,13 +17,14 @@
 // Правила для разметчика — tools/markup-wave.spec.md. Ответ пачки — out-<n>.json.
 //
 // merge — проверка ответов (ключ из очереди, словарь операций, барьеров и предупреждений, уровень 1–10, строка
-// 30–200 знаков) и дописывание разделом в конец draftAnnotations.ts / seriesAnnotations.ts; уже размеченное не
+// 30–200 знаков) и дописывание разделом в конец draftAnnotations.ts / seriesAnnotations.ts (фильмы и сериалы из роста
+// справочника — в draftAnnotationsLinks.ts / seriesAnnotationsWiki.ts, ленивые модули); уже размеченное не
 // трогает. Размеченное по описанию — в .cache/markup/by-plot.json, пропущенное — в offered.json (второй раз не
 // предлагается).
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
 import { userWorks } from '../src/mocks/userHistory.ts';
@@ -48,7 +49,7 @@ const offered = readJson<Record<string, string>>(OFFERED, {});
 
 type Item = { key: string; type: 'film' | 'series'; title: string; year: number; original?: string; creators: string[]; n?: number; lang?: string; plot?: string };
 
-if (cmd === 'queue') await queue(); else merge();
+if (cmd === 'queue') await queue(); else await merge();
 
 async function sparql(query: string): Promise<Record<string, { value: string }>[]> {
   for (let a = 0; a < 5; a++) {
@@ -187,7 +188,7 @@ async function queue() {
   console.log(files.join('\n'));
 }
 
-function merge() {
+async function merge() {
   const DRY = argv.includes('--dry');
   const queue = readJson<Item[]>(DIR + 'queue.json', []);
   const byKey = new Map(queue.map((q) => [q.key, q]));
@@ -232,11 +233,27 @@ function merge() {
     return `  // ${q.title.replace(/\n/g, ' ')} (${q.year})\n  ${str(r.key)}: a(${JSON.stringify(r.ops.map(([o, v]) => [o, Math.round(v * 100) / 100])).replace(/"/g, "'")}, ${r.level}, ${JSON.stringify(r.barriers ?? []).replace(/"/g, "'")}, ${JSON.stringify(r.warnings ?? []).replace(/"/g, "'")}, ${Boolean(r.niche)}, '${r.confidence}',\n    ${str(r.what)}),`;
   };
   const date = new Date().toISOString().slice(0, 10);
-  for (const [file, rows] of [['src/mocks/draftAnnotations.ts', films], ['src/mocks/seriesAnnotations.ts', series]] as const) {
+  // фильмы и сериалы из роста справочника (РР-4, РР-5) — в ленивые модули разметки рядом с их карточками: в
+  // draftAnnotations.ts / seriesAnnotations.ts (первая загрузка) они ломают бюджет сборки
+  const keysOf = async (mod: string, name: string, id: 'tmdb' | 'imdb') => {
+    const url = new URL(`../src/mocks/${mod}.ts`, import.meta.url);
+    if (!existsSync(url)) return new Set<string>();
+    const ws = (await import(url.href))[name] as { externalIds?: { tmdb?: number; imdb?: string } }[];
+    return new Set(ws.flatMap((w) => (w.externalIds?.[id] != null ? [`${id}:${w.externalIds[id]}`] : [])));
+  };
+  const filmLinks = await keysOf('filmBaseLinks', 'filmBaseLinks', 'tmdb');
+  const seriesWiki = await keysOf('seriesBaseWiki', 'seriesBaseWiki', 'imdb');
+  const targets: [string, Row[]][] = [
+    ['src/mocks/draftAnnotations.ts', films.filter((r) => !filmLinks.has(r.key))],
+    ['src/mocks/draftAnnotationsLinks.ts', films.filter((r) => filmLinks.has(r.key))],
+    ['src/mocks/seriesAnnotations.ts', series.filter((r) => !seriesWiki.has(r.key))],
+    ['src/mocks/seriesAnnotationsWiki.ts', series.filter((r) => seriesWiki.has(r.key))],
+  ];
+  for (const [file, rows] of targets) {
     if (!rows.length) continue;
     const src = readFileSync(file, 'utf8');
     // раздел — перед закрывающей скобкой словаря разметки (у seriesAnnotations после неё ещё функции)
-    const at = file.includes('series') ? src.indexOf('\n};\n\n/** Разметка сезона') : src.lastIndexOf('\n};');
+    const at = file.endsWith('seriesAnnotations.ts') ? src.indexOf('\n};\n\n/** Разметка сезона') : src.lastIndexOf('\n};');
     if (at < 0) throw new Error(`${file}: не нашёл конец словаря`);
     const head = `\n  // ── ТВ-13, заход ${wave} (${date}, tools/markup-wave.mts): ${rows.length} — справочник без разметки по известности; по описанию из Википедии — ${rows.filter((r) => r.by === 'plot').length}.`;
     writeFileSync(file, src.slice(0, at) + head + '\n' + rows.map(entry).join('\n') + src.slice(at));

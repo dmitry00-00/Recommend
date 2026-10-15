@@ -12,7 +12,7 @@
 // Черновик с уверенностью low есть, но в подбор не идёт — он посчитан отдельно.
 import { writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { bookAnnotations } from '../src/mocks/bookAnnotations.ts';

@@ -46,6 +46,8 @@ import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib
 import { primaryKey, withBookWork, workKeys, type BookWorks } from '@/lib/keys';
 import { desireShard, desiresOf, type DesireRecord } from '@/lib/desires';
 import { cinemaSlug, freeFor, regionOptions, RU_CINEMAS, type WatchProviders } from '@/lib/cinemas';
+import { planSubscriptions, type SubscriptionPlan } from '@/lib/subscriptionPlan';
+import { CINEMA_PRICES, CURRENCY, type CinemaPrice } from '@/lib/cinemaPrices';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -191,6 +193,31 @@ export async function getCinemaChoices(): Promise<{ slug: string; name: string }
   return list.length ? list : RU_CINEMAS;
 }
 
+/** «Какая подписка подходит» (15.10): «В планах» и верх ленты человека против площадок региона — сколько где есть, пара
+ *  и подписки по очереди (src/lib/subscriptionPlan.ts). Лента — 60 лучших по той же оценке модели, без уже виденного. */
+export interface SubscriptionPlanView extends SubscriptionPlan<WorkCard> {
+  region: string; names: Record<string, string>; prices: Record<string, CinemaPrice>; currency?: string; owned: string[]; plannedCount: number;
+}
+export async function getSubscriptionPlan(): Promise<SubscriptionPlanView> {
+  await films();
+  await loadWatch();
+  const keys = seenKeys();
+  const planned = history().filter((e) => e.status === 'planned').map((e) => e.work);
+  for (const e of history()) if (e.status !== 'finished') [e.work.id, ...keyList(e.work)].forEach((k) => keys.add(k));
+  const state = ratedCount() >= MIN_RATED ? ownState() : undefined;
+  const pool = state ? candidates().filter((c) => !keys.has(c.work.id)) : [];
+  // верх по вкусу без разнообразия ленты (у неё не больше двух на операцию и один сериал — тогда в расчёт шло ~16)
+  const liked = state ? pool.map((c) => ({ w: c.work, s: scoreCandidate(state, c.work, 'normal') })).filter((x) => x.s > 0.3 && !seen(x.w, keys))
+    .sort((a, b) => b.s - a.s).slice(0, 60).map((x) => x.w) : [];
+  const items = [...planned.map((work) => ({ work, planned: true })), ...liked.map((work) => ({ work, planned: false }))];
+  const owned = settings.subscriptions ?? [];
+  const prices = CINEMA_PRICES[WATCH_REGION] ?? {};
+  const optionsOf = (w: WorkCard) => (withWatch(w).watch ?? []).map((o) => ({ slug: cinemaSlug(o.platform), kind: o.kind }));
+  const plan = planSubscriptions(items, optionsOf, owned, Object.fromEntries(Object.entries(prices).map(([k, v]) => [k, v.price])));
+  const names: Record<string, string> = { ...(watchRef?.names ?? {}), ...Object.fromEntries(RU_CINEMAS.map((c) => [c.slug, c.name])) };
+  return { ...plan, region: WATCH_REGION, names, prices, currency: CURRENCY[WATCH_REGION], owned, plannedCount: planned.length };
+}
+
 /** Можно смотреть без доплаты — по справочнику, до картинок и живых запросов: для отбора ленты. */
 const noExtra = (c: WorkCard, subscriptions: readonly string[]): boolean => freeFor(withWatch(c).watch ?? [], subscriptions);
 
@@ -297,7 +324,7 @@ const freshStart: boolean = !store.onServer && (() => {
 
 /** Весь справочник: фильмы, сериалы, книги и история владельца. Повторный вызов ждёт ту же загрузку. */
 function catalog(): Promise<void> {
-  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki()])).then(() => undefined);
+  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki(), loadFilmLinks()])).then(() => undefined);
   return catalogLoad;
 }
 
@@ -326,6 +353,22 @@ function loadSeriesWiki(): Promise<void> {
     filmBaseWiki = [...filmBaseWiki, ...cards];
   }).catch((err) => { seriesWikiLoad = undefined; throw err; });
   return seriesWikiLoad;
+}
+
+/** Мировое кино со статьёй в русской Википедии от 10 разделов (РР-5, 15.10, tools/grow-film-base.mts --film-links 10
+ *  --out filmBaseLinks): тысячи карточек и их разметка (draftAnnotationsLinks.ts) — не в первой загрузке, как сериалы
+ *  РР-4. Хвост — остальное кино со статьёй в русской Википедии (filmBaseTail.ts) — только для поиска и страниц, без
+ *  разметки (владелец 15.10). Первая лента обходится известным кино; после `catalog()` эти фильмы — в поиске, на страницах и в подборе
+ *  (черновики подбора собираются из `draftAnnotations` на каждый запрос). */
+let filmLinksLoad: Promise<void> | undefined;
+function loadFilmLinks(): Promise<void> {
+  filmLinksLoad ??= Promise.all([loadFilms(), import('@/mocks/filmBaseLinks'), import('@/mocks/draftAnnotationsLinks'), import('@/mocks/filmBaseTail')]).then(([, m, ann, tail]) => {
+    draftAnnotations = { ...ann.draftAnnotationsLinks, ...draftAnnotations };
+    const have = new Set(filmBaseWiki.map((w) => w.id));
+    const cards = [...m.filmBaseLinks, ...tail.filmBaseTail].filter((w) => !have.has(w.id) && !isWithheld(w)).map((w) => normalizeWork(baseMedia[w.id] ? { ...w, ...baseMedia[w.id] } : w));
+    filmBaseWiki = [...filmBaseWiki, ...cards];
+  }).catch((err) => { filmLinksLoad = undefined; throw err; });
+  return filmLinksLoad;
 }
 
 /** Книги (РР-1): каталог, черновики и метаданные — не в первой загрузке (вместе ~330 КБ сжатыми на 14.10, а с ростом

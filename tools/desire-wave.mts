@@ -9,7 +9,7 @@
 // лениво на странице произведения.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { bookDrafts } from '../src/mocks/bookDrafts.ts';
 import { bookAnnotations } from '../src/mocks/bookAnnotations.ts';

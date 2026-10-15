@@ -30,7 +30,7 @@ import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex, analysisKeys, idsOf } from './works-index.mts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
@@ -51,7 +51,9 @@ const MIN_DAYS = Number(opt('--min-days') ?? (WORLD ? 2 : 1));
 const regionOf = (c: string) => (c === 'IN' ? 'IN' : 'EN');
 /** Википедии, чьи статьи опознаём в режиме --world: английская и крупные индийские */
 const WIKIS = new Set(['en', 'hi', 'ta', 'te', 'ml', 'kn', 'mr', 'bn', 'gu', 'pa']);
-const OUT_NAME = WORLD ? 'filmBaseWorld' : 'filmBasePopular';
+// --out NAME (РР-5, 15.10): новые карточки — в свой модуль src/mocks/NAME.ts (ленивый, не в первой загрузке), а не в
+// filmBasePopular; прежние карточки этого модуля перегенерируются, как у основного
+const OUT_NAME = opt('--out') ?? (WORLD ? 'filmBaseWorld' : 'filmBasePopular');
 // --world: в справочник — первые TOP каждого региона по просмотрам и классика (англоязычная — от 35 разделов)
 const TOP = Number(opt('--top') ?? 1500);
 const EN_CLASSIC_LINKS = 35;
@@ -172,8 +174,14 @@ if (!WORLD) console.error(`статей в топах за ${MONTHS} мес.: ${
 // Википедии», при N=1; --series-only — в справочник только сериалы (фильмы из топов этим заходом не пишем)
 const SERIES_LINKS = Number(opt('--series-links') ?? 25);
 const SERIES_ONLY = argv.includes('--series-only');
+// --film-links N (РР-5, 15.10): мировые фильмы со статьёй в русской Википедии от N разделов, а не от 40; --films-only —
+// в справочник только фильмы
+const FILM_LINKS = Number(opt('--film-links') ?? 40);
+const FILMS_ONLY = argv.includes('--films-only');
+// --film-links-max M — верхняя граница (хвост РР-5: от 1 до 9 разделов — запрос «все фильмы» Wikidata не тянет)
+const FILM_LINKS_MAX = opt('--film-links-max') ? Number(opt('--film-links-max')) : undefined;
 const SPARQL: Record<string, string> = {
-  'films-world': 'VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= 40)',
+  [FILM_LINKS === 40 && !FILM_LINKS_MAX ? 'films-world' : `films-world-${FILM_LINKS}${FILM_LINKS_MAX ? `-${FILM_LINKS_MAX}` : ''}`]: `VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${FILM_LINKS}${FILM_LINKS_MAX ? ` && ?n <= ${FILM_LINKS_MAX}` : ''})`,
   'films-ru': 'VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } VALUES ?k { wd:Q15180 wd:Q159 } ?f wdt:P31 ?c; wdt:P495 ?k; wikibase:sitelinks ?n. FILTER(?n >= 8)',
   [SERIES_LINKS === 25 ? 'series-world' : `series-world-${SERIES_LINKS}`]: `VALUES ?c { wd:Q5398426 wd:Q1259759 wd:Q581714 wd:Q63952888 wd:Q117467246 } ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${SERIES_LINKS})`,
   'series-ru': 'VALUES ?c { wd:Q5398426 wd:Q1259759 } ?f wdt:P31 ?c; wdt:P495 wd:Q159; wikibase:sitelinks ?n. FILTER(?n >= 3)',
@@ -428,7 +436,7 @@ if (WORLD) {
 const noKey = uniq.filter((r) => !r.had && !r.key);
 console.log(`без ключа (нет TMDb у фильма / IMDb у сериала) — завести нельзя: ${noKey.length}`);
 const seenKey = new Set<string>();
-const missing = uniq.filter((r) => !r.had && r.key && (!WORLD || chosen.has(r.qid)) && (!SERIES_ONLY || r.type === 'series') && !seenKey.has(r.key) && seenKey.add(r.key));
+const missing = uniq.filter((r) => !r.had && r.key && (!WORLD || chosen.has(r.qid)) && (!SERIES_ONLY || r.type === 'series') && (!FILMS_ONLY || r.type === 'film') && !seenKey.has(r.key) && seenKey.add(r.key));
 const line = (r: (typeof uniq)[number]) => `  ${`${r.title}${r.year ? ` (${r.year})` : ''}`.padEnd(48)} ${r.type === 'series' ? 'сериал' : 'фильм '} ${r.months ? `${String(r.views).padStart(9)} · ${r.months} ${WORLD ? 'сут.' : 'мес.'}` : `разделов ${r.links}`}`;
 console.log(`\nнет у нас (${missing.length}), первые 30 из топов:`);
 for (const r of missing.filter((r) => r.months).slice(0, 30)) console.log(line(r));

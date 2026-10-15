@@ -22,6 +22,7 @@ const TrajectoriesScreen = lazy(() => import('@/screens/TrajectoriesScreen').the
 const UniverseScreen = lazy(() => import('@/screens/UniverseScreen').then((m) => ({ default: m.UniverseScreen })));
 const CharacterScreen = lazy(() => import('@/screens/CharacterScreen').then((m) => ({ default: m.CharacterScreen })));
 const PersonScreen = lazy(() => import('@/screens/PersonScreen').then((m) => ({ default: m.PersonScreen })));
+const SubscriptionPlanScreen = lazy(() => import('@/screens/SubscriptionPlanScreen').then((m) => ({ default: m.SubscriptionPlanScreen })));
 const StatsScreen = lazy(() => import('@/screens/StatsScreen').then((m) => ({ default: m.StatsScreen })));
 const TrajectoryScreen = lazy(() => import('@/screens/TrajectoryScreen').then((m) => ({ default: m.TrajectoryScreen })));
 import { JournalScreen } from '@/screens/JournalScreen';
@@ -110,6 +111,8 @@ export const routes: RouteObject[] = [
   { path: '/journal/:entryId/check-in', element: <Gate f="diary"><CheckInScreen /></Gate> },
   { path: '/checkpoint/:id', element: <AssessmentScreen checkpoint /> },
   { path: '/settings', element: <SettingsScreen /> },
+  // какая подписка подходит (15.10): по планам и ленте — по очереди, пара, каждая площадка
+  { path: '/subscriptions', element: <Gate f="subscriptions"><Loading><SubscriptionPlanScreen /></Loading></Gate> },
   // документы (ЗП-5): /legal/rules — как работает подбор, /legal/privacy — политика данных
   { path: '/legal/:doc', element: <LegalScreen /> },
   // выбор компанией (ЗП-11): /together — собрать десятку, /together/:id — голосовать и итог

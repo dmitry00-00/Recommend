@@ -23,7 +23,7 @@ import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
 import { BLURB_SHARDS, shardOf } from '../src/lib/shard.ts';

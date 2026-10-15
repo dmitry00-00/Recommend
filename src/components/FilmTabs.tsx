@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { WorkCard, ExternalAnalysis, ID, SpoilerLevel, WatchOption } from '@/types/tmdf';
 import { LensShelf, Material, OpinionRow, Post, SinTiles, VoiceStrip, useLensShelf, useVoices } from './WorkVoices';
@@ -259,6 +260,8 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
             {watch.length > 1 ? <p className="tm-caption tm-film__hint">{ui.film.watchHint(watch.length)}</p> : null}
             {/* данные TMDb о кинотеатрах — это JustWatch: указывать у каждого произведения (условия TMDb, ЗП-24) */}
             {cinema.source === 'tmdb' ? <p className="tm-caption tm-film__hint">{ui.film.watchByJustWatch}</p> : null}
+            {/* какая подписка подходит (15.10) — по всему списку человека, а не по одному фильму */}
+            {subsOn && cinema.kind === 'subscription' ? <p className="tm-caption tm-film__hint"><Link to="/subscriptions">{ui.subsPlan.entry}</Link></p> : null}
             {cinema.source === 'wikidata' ? <p className="tm-caption tm-film__hint">{ui.film.watchFreeHint}</p> : null}
           </section>
         ) : (

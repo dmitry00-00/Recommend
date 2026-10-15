@@ -5,7 +5,7 @@
 // приложение и tools/profile-deck.mts не используют — фильм считается неразмеченным.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { draftReview, type ReviewMark } from '../src/mocks/draftReview.ts';
-import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
+import { draftAnnotations } from './draft-annotations.mts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
 import { seriesAnnotations } from './series-annotations.mts';
 
