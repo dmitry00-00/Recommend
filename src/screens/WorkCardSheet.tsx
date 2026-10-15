@@ -21,13 +21,17 @@ export interface WorkCardSheetProps {
   onWatch?: () => void;
   /** где открыта: для сообщения о неточности */
   context?: string;
+  /** чей разбор показать первым (подборка голоса, ЗП-45) */
+  voiceId?: string;
+  /** «Что может мешать» и предыдущая часть (ДФ-7) — там, где произведение предлагают */
+  hurdles?: boolean;
 }
 
 /** Карточка найденного и просмотренного (02.10, решение владельца) — того же вида, что карточка
  *  рекомендации в ленте и записи в архиве: кадр сверху, ниже статичные «Обзоры / Обсуждения /
  *  Смотреть». Разборы и места разговора приходят запросом при открытии: у строки поиска их нет.
  *  Полная страница произведения (связи, герои, приёмы, статистика) — ссылкой «Подробнее». */
-export function WorkCardSheet({ work, onClose, seen, tag, corner, onWatch, context }: WorkCardSheetProps) {
+export function WorkCardSheet({ work, onClose, seen, tag, corner, onWatch, context, voiceId, hurdles }: WorkCardSheetProps) {
   const [detail, setDetail] = useState<WorkDetail | null>(null);
   const [places, setPlaces] = useState<DiscussionPlace[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -50,12 +54,13 @@ export function WorkCardSheet({ work, onClose, seen, tag, corner, onWatch, conte
   const meta = shown ? [shown.year, leadName(shown), formatDuration(shown.durationMinutes)].filter(Boolean).join(' · ') : undefined;
   return (
     <WorkSheet work={shown} open={work != null} onOpenChange={(o) => { if (!o) onClose(); }} tag={tag} meta={meta}
-               plot={detail?.synopsis || undefined} context={context}>
+               plot={detail?.synopsis || undefined} context={context} hurdles={hurdles && !seen}>
       {shown ? (
         <div className="tm-stream__panel tm-stream__panel--tabs">
           <FilmTabs key={`${shown.id}:${detail ? 1 : 0}`} workId={shown.id} analyses={detail?.externalAnalyses ?? []} workTitle={shown.title}
                     spoilerLevel={seen ? 2 : spoilers} watch={shown.watch} onWatch={onWatch}
                     book={shown.type === 'book' ? shown : undefined}
+                    voiceId={voiceId}
                     loading={!loaded}
                     discussionsCount={placesCount(places)}
                     discussions={<WorkPlaces places={places} finished={Boolean(seen)} />}

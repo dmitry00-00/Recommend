@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { Button } from '@/components';
 import { LEGAL, isLegalDoc } from '@/lib/legal';
-import { openExternal, writeAuthorUrl } from '@/lib/telegram';
+import { BOT_USERNAME, openExternal, writeAuthorUrl } from '@/lib/telegram';
 import ui from '@/i18n';
 
 /** Документы (ЗП-5): «Как работает подбор» (правила рекомендательных технологий) и политика обработки данных.
@@ -21,7 +21,8 @@ export function LegalScreen() {
       {sections.map((s) => (
         <section key={s.h} className="tm-legal__section">
           <h2 className="tm-title-3">{s.h}</h2>
-          {s.p.map((p) => <p key={p.slice(0, 40)} className="tm-body">{p}</p>)}
+          {/* имя бота в тексте — того контура, где открыто приложение (ЗП-26) */}
+          {s.p.map((p) => <p key={p.slice(0, 40)} className="tm-body">{p.replaceAll('@recomend_media_bot', `@${BOT_USERNAME}`)}</p>)}
         </section>
       ))}
       <section className="tm-legal__section">

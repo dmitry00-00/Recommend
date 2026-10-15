@@ -37,6 +37,8 @@ export interface Env {
   REFERENCE?: R2Bucket;
   /** токен бота: только в секретах, только здесь */
   BOT_TOKEN?: string;
+  /** имя бота без @ для ссылок `t.me/<бот>?startapp=…`; пусто — recomend_media_bot. У контура Global свой бот (ЗП-26) */
+  BOT_USERNAME?: string;
   /** «1» разрешает вход без Telegram — для разработки и проверок */
   ALLOW_DEMO?: string;
   /** через запятую: кому отвечать на кросс-доменные запросы; пусто — только своему домену */
@@ -71,4 +73,11 @@ export interface UserSeed {
    *  список (tools/resolve-seed.mts). Воркеру не нужен, нужен сборщикам, чтобы не затирать друг друга */
   watched: { workId: string; work: unknown; tmdb?: number; imdb?: string; from?: 'kinopoisk' }[];
   ratings?: { workId: string; rating: number; raw?: number; work?: unknown }[];
+}
+
+/** Имя бота для ссылок и команд: задаётся из окружения на входе в воркер (`useBot`). Объект, а не строка: модули читают
+ *  его в момент запроса, а сборка для Node (CommonJS) не ломает живую привязку. */
+export const bot = { name: 'recomend_media_bot' };
+export function useBot(env: Pick<Env, 'BOT_USERNAME'>): void {
+  bot.name = env.BOT_USERNAME?.replace(/^@/, '') || 'recomend_media_bot';
 }

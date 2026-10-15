@@ -13,7 +13,14 @@
 //      tools/book-bridge.mts `loose`). Книгу ищем в Wikidata по названию и берём ту, у которой автор
 //      (P50) — та же фамилия (`sameSurname`: «Булгакова» и «Bulgakov»); не нашлось — Open Library;
 //   4. заложенные вселенные (.cache/seed-books.json — пишет tools/seed-westeros.mts): книги, без которых
-//      у вселенной нет героев через несколько произведений («Песнь льда и огня», «Пламя и кровь»).
+//      у вселенной нет героев через несколько произведений («Песнь льда и огня», «Пламя и кровь»);
+//   5. списки прочитанного читателей (11.10, .cache/book-lists/*.json: `{ why, books: [{ title, author }] }`) — тир-лист
+//      автора канала, присланный список: без этих книг профиль читателя почти пуст (у «Ламполоджи» в справочнике было 13
+//      из 245). Только название и автор — оценки остаются в seeds/. Поиск — как у книжных каналов: Wikidata по названию
+//      с той же фамилией автора, иначе Open Library с проверкой автора;
+//   6. что ищут (11.10, .cache/book-popular.json — пишет tools/grow-book-base.mts): книги из месячных топов русской
+//      Википедии и канон (статьи во многих разделах) — «1984», «Ведьмак», «Горе от ума». Элемент Wikidata уже известен —
+//      поиска по названию нет.
 // Карточка: Wikidata (метки, год P577, автор P50, Open Library ID P648) и Open Library (обложка, автор,
 // год первой публикации). Ключ — произведение (`wd:`/`olw:`, З1). Кэш — .cache/book-base.json.
 // Итог — src/mocks/bookBase.ts; всё найденное, включая отсеянное, — .cache/book-candidates.tsv.
@@ -24,9 +31,15 @@ import { isBookHandle } from './book-channels.mts';
 import { readCache, search, sleep, wd, writeCache } from './wikidata-lib.mts';
 import { relationEdges, relationNodes } from '../src/mocks/workRelations.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { withheldWorks } from '../src/mocks/withheldWorks.ts';
+import { bookBase as prevBookBase } from '../src/mocks/bookBase.ts';
 
 const args = process.argv.slice(2);
 const FRESH = args.includes('--fresh'), DRY = args.includes('--dry');
+// --cached-said (11.10): названия из каналов — только уже опознанные; новых не спрашивать. Опознание идёт часами
+// (до шести запросов на название, паузы при отказах), а книги из топов Википедии и списков читателей, стоящие после
+// него, ждали бы до конца. Полный прогон без ключа — потом
+const CACHED_SAID = args.includes('--cached-said');
 const TOP = Number(args[args.indexOf('--top') + 1]) || 300;
 const UA = 'transformative-media/0.1 (book index; contact via repository README)';
 
@@ -143,8 +156,78 @@ for (const { q } of seeded) {
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
+// Пачками (11.10): опознание по одному названию — до шести запросов с паузами, ~200 в час, а каналы называют ~6900
+// книг. SPARQL на 150 названий разом: произведение, у которого русская метка или синоним совпадает с названием (как
+// написано и с заглавной), есть автор с той же фамилией, и это не отдельное издание; из нескольких — с бо́льшим числом
+// статей. На 300 уже опознанных старым путём: найдено 203, та же книга — 201 (другая — цикл вместо романа). Не нашлось
+// пачкой — старый путь (поиск Wikidata с проверкой автора, затем Open Library) только у названных двумя каналами и
+// больше: у остальных он почти ничего не давал (Open Library — 4 книги из 1535).
+const sparqlRows = async (query: string): Promise<Record<string, { value: string } | undefined>[]> => {
+  for (let a = 0; a < 4; a++) {
+    const r = await fetch('https://query.wikidata.org/sparql', { method: 'POST', body: new URLSearchParams({ query }),
+      headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' }, signal: AbortSignal.timeout(90000) }).catch(() => undefined);
+    if (r?.ok) { const j = await r.json().catch(() => undefined) as { results: { bindings: Record<string, { value: string }>[] } } | undefined; if (j) return j.results.bindings; }
+    await sleep(3000 * (a + 1));
+  }
+  throw new Error('wikidata sparql: нет ответа');
+};
+const lit = (t: string) => `"${t.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"@ru`;
+const qidOf = (u?: { value: string }) => u?.value.split('/').pop();
+const namedAuthors = (s: Said) => [...(s.authors ?? []), ...(s.author ? [s.author] : [])];
+if (!CACHED_SAID) {
+  const pending = [...said].filter(([k, s]) => !cache[`said:${k}`] && (s.channels.size >= 2 || s.author) && namedAuthors(s).length);
+  console.error(`названий из каналов к опознанию: ${pending.length} — пачками по 150`);
+  let batchFound = 0;
+  for (let i = 0; i < pending.length; i += 150) {
+    const part = pending.slice(i, i + 150);
+    const variants = (raw: string) => { const t = raw.replace(/\s+/g, " ").trim(); return t ? [...new Set([t, t[0].toUpperCase() + t.slice(1)])] : []; };
+    let rows: Record<string, { value: string } | undefined>[];
+    try {
+      rows = await sparqlRows(`SELECT ?t ?f ?links ?au ?auRu ?auEn WHERE {
+        VALUES ?t { ${part.flatMap(([, s]) => variants(s.title)).map(lit).join(' ')} }
+        { ?f rdfs:label ?t } UNION { ?f skos:altLabel ?t }
+        ?f wdt:P50 ?au ; wikibase:sitelinks ?links . FILTER NOT EXISTS { ?f wdt:P31 wd:Q3331189 }
+        OPTIONAL { ?au rdfs:label ?auRu FILTER(lang(?auRu) = 'ru') } OPTIONAL { ?au rdfs:label ?auEn FILTER(lang(?auEn) = 'en') } }`);
+    } catch (e) { console.error(`  пачка ${i / 150}: ${(e as Error).message}`); continue; }
+    const picked = new Map<string, string>();
+    for (const [k, s] of part) {
+      const names = namedAuthors(s);
+      const cand = rows.filter((b) => titleKey(b.t!.value) === k && names.some((a) => [b.auRu?.value, b.auEn?.value].some((n) => n && sameSurname(a, n))));
+      const best = cand.sort((a, b) => Number(b.links!.value) - Number(a.links!.value))[0];
+      if (best) picked.set(k, qidOf(best.f)!);
+    }
+    // сведения о найденных — вторым запросом: метки, год, Open Library, авторы
+    const qs = [...new Set(picked.values())];
+    const info = new Map<string, Info>();
+    if (qs.length) {
+      const det = await sparqlRows(`SELECT ?f ?ru ?en ?date ?olid ?au ?auRu ?auEn WHERE { VALUES ?f { ${qs.map((q) => `wd:${q}`).join(' ')} }
+        OPTIONAL { ?f rdfs:label ?ru FILTER(lang(?ru) = 'ru') } OPTIONAL { ?f rdfs:label ?en FILTER(lang(?en) = 'en') }
+        OPTIONAL { ?f wdt:P577 ?date } OPTIONAL { ?f wdt:P648 ?olid }
+        OPTIONAL { ?f wdt:P50 ?au . OPTIONAL { ?au rdfs:label ?auRu FILTER(lang(?auRu) = 'ru') } OPTIONAL { ?au rdfs:label ?auEn FILTER(lang(?auEn) = 'en') } } }`).catch(() => []);
+      for (const b of det) {
+        const q = qidOf(b.f)!;
+        const x = info.get(q) ?? { wd: q, authors: [] };
+        x.title ??= b.ru?.value ?? b.en?.value; x.en ??= b.en?.value;
+        const y = Number(b.date?.value.slice(0, 4));
+        if (y > 0) x.year = x.year ? Math.min(x.year, y) : y;
+        if (b.olid && /^OL\d+W$/.test(b.olid.value)) x.olw ??= b.olid.value;
+        const name = b.auRu?.value ?? b.auEn?.value;
+        if (name && !x.authors!.includes(name) && x.authors!.length < 3) x.authors!.push(name);
+        info.set(q, x);
+      }
+    }
+    for (const [k, s] of part) {
+      const q = picked.get(k);
+      if (q && info.get(q)?.title) { cache[`said:${k}`] = info.get(q)!; batchFound++; }
+      else if (s.channels.size < 2) cache[`said:${k}`] = { miss: true };
+    }
+    writeCache('book-base.json', cache);
+    console.error(`  ${Math.min(i + 150, pending.length)} из ${pending.length}: найдено ${batchFound}`);
+    await sleep(1000);
+  }
+}
 for (const [k, s] of said) {
-  if (cache[`said:${k}`]) continue;
+  if (cache[`said:${k}`] || CACHED_SAID) continue;
   if (s.channels.size < 2 && !s.author) { cache[`said:${k}`] = { miss: true }; continue; }
   try {
     // книжный канал с автором — сначала Wikidata: там русские названия и автор проверяется
@@ -158,34 +241,73 @@ for (const [k, s] of said) {
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
+// списки читателей
+type ListBook = { title: string; author?: string; why: string };
+const listDir = new URL('../.cache/book-lists/', import.meta.url);
+const listed: ListBook[] = existsSync(listDir) ? readdirSync(listDir).filter((f) => f.endsWith('.json')).flatMap((f) => {
+  const d = JSON.parse(readFileSync(new URL(f, listDir), 'utf8')) as { why?: string; books?: { title: string; author?: string }[] };
+  return (d.books ?? []).filter((b) => b.title).map((b) => ({ ...b, why: d.why ?? f }));
+}) : [];
+console.error(`книг из списков читателей: ${listed.length}`);
+for (const b of listed) {
+  const k = `list:${titleKey(b.title)}|${(b.author ?? '').toLowerCase()}`;
+  if (cache[k]) continue;
+  try {
+    const authors = (b.author ?? '').split(/\s+и\s+|,\s*|\s*&\s*/).map((x) => x.trim()).filter(Boolean);
+    const found = authors.length ? await wdFind(b.title, authors) : undefined;
+    if (found) { cache[k] = found; if (++asked % 20 === 0) writeCache('book-base.json', cache); await sleep(300); continue; }
+    const ol = await openLibrary({ title: b.title, ...(authors[0] ? { author: authors[0] } : {}) });
+    if (!ol) { cache[k] = { miss: true }; continue; }
+    ol.wd = (ol.olw ? await search(`P648=${ol.olw}`) : null) ?? undefined;
+    cache[k] = ol;
+  } catch (e) { console.error(`  ${b.title}: ${(e as Error).message}`); continue; }
+  if (++asked % 20 === 0) writeCache('book-base.json', cache);
+  await sleep(300);
+}
+// что ищут: элемент Wikidata известен — сразу сведения
+type Popular = { qid: string; title: string; views: number; links: number; had: boolean };
+const popularFile = new URL('../.cache/book-popular.json', import.meta.url);
+const popular: Popular[] = existsSync(popularFile)
+  ? (JSON.parse(readFileSync(popularFile, 'utf8')) as { books: Popular[] }).books.filter((b) => !b.had && !withheldWorks[`wd:${b.qid}`]) : [];
+console.error(`книг, которые ищут в Википедии, и канона без карточки: ${popular.length}`);
+for (const b of popular) {
+  if (cache[`wd:${b.qid}`]) continue;
+  try { cache[`wd:${b.qid}`] = await wdInfo(b.qid, b.title); } catch (e) { console.error(`  ${b.title}: ${(e as Error).message}`); continue; }
+  if (++asked % 20 === 0) writeCache('book-base.json', cache);
+  await sleep(300);
+}
 writeCache('book-base.json', cache);
 
 // ---------- 4. карточки ----------
-const card = (info: Info, why: string): WorkCard | undefined => {
+const card = (info: Info, _why: string): WorkCard | undefined => {
   if (!info.title || (!info.wd && !info.olw)) return undefined;
   return {
     id: info.wd ? `b-wd${info.wd.slice(1)}` : `b-${info.olw}`, type: 'book', title: info.title,
     ...(info.en && info.en !== info.title ? { originalTitle: info.en } : {}),
     year: info.year ?? 0, creators: info.authors ?? [],
     ...(info.cover ? { coverUrl: `https://covers.openlibrary.org/b/id/${info.cover}-L.jpg`, imageSource: 'open_library' as const } : {}),
-    blurb: why,
+    // откуда книга (`why`) — только в .cache/book-candidates.tsv: `blurb` приложение показывает как «Сюжет», и там
+    // стояло «Экранизации у нас: Расёмон» вместо описания (11.10)
     primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [], isNicheMasterpiece: false,
     externalIds: { ...(info.wd ? { wikidata: info.wd } : {}), ...(info.olw ? { openLibrary: info.olw } : {}) },
   };
 };
 const cards = new Map<string, WorkCard>();
+/** откуда карточка — для итоговой строки: подпись больше не едет в карточке */
+const sourceOf = new Map<string, string>();
+const put = (c: WorkCard | undefined, src: string) => { if (c && !cards.has(c.id)) { cards.set(c.id, c); sourceOf.set(c.id, src); } };
 const rows = ['источник\tназвание\tавтор\tгод\tключ\tпочему\tв каталог'];
 for (const g of graph.slice(0, TOP)) {
   const info = cache[`wd:${g.q}`];
   const titles = g.adaptedBy.map((k) => ours.get(k)!.work.title);
   const c = info && card(info, `Экранизации у нас: ${titles.slice(0, 3).join(', ')}${titles.length > 3 ? ` и ещё ${titles.length - 3}` : ''}`);
-  if (c && !cards.has(c.id)) cards.set(c.id, c);
+  put(c, 'экранизации');
   rows.push(['экранизация', relationNodes[g.q].t, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${g.q}`, titles.join('; '), c ? 'да' : 'нет'].join('\t'));
 }
 for (const { q, why } of seeded) {
   const info = cache[`wd:${q}`];
   const c = info && card(info, `Заложенная вселенная: ${why}`);
-  if (c && !cards.has(c.id)) cards.set(c.id, c);
+  put(c, 'заложенные вселенные');
   rows.push(['заложенная вселенная', info?.title ?? q, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${q}`, why, c ? 'да' : 'нет'].join('\t'));
 }
 for (const [k, s] of said) {
@@ -194,18 +316,39 @@ for (const [k, s] of said) {
   const named = s.authors?.size ? [...s.authors] : s.author ? [s.author] : [];
   const authorOk = !named.length || !info?.authors?.length || info.authors.some((a) => named.some((x) => sameSurname(x, a)));
   const c = info && !info.miss && authorOk && (s.channels.size >= 2 || s.author) ? card(info, `${s.book ? 'Называют книжные каналы' : 'Называют эссеисты'}: ${[...s.channels].slice(0, 3).map((x) => x.slice(3)).join(', ')}`) : undefined;
-  if (c && !cards.has(c.id)) cards.set(c.id, c);
+  put(c, s.book ? 'книжные каналы' : 'эссеисты');
   rows.push([s.book ? 'книжные каналы' : 'эссеисты', s.title, s.author ?? info?.authors?.join(', ') ?? '', info?.year ?? '', info?.wd ? `wd:${info.wd}` : info?.olw ? `olw:${info.olw}` : '', `${s.channels.size} кан.: ${s.context.slice(0, 80)}`, c ? 'да' : 'нет'].join('\t'));
 }
+for (const b of listed) {
+  const info = cache[`list:${titleKey(b.title)}|${(b.author ?? '').toLowerCase()}`];
+  const named = (b.author ?? '').split(/\s+и\s+|,\s*|\s*&\s*/).map((x) => x.trim()).filter(Boolean);
+  const authorOk = !named.length || !info?.authors?.length || info.authors.some((a) => named.some((x) => sameSurname(x, a)));
+  const c = info && !info.miss && authorOk ? card(info, `Из списков читателей: ${b.why}`) : undefined;
+  put(c, 'списки читателей');
+  rows.push(['списки читателей', b.title, b.author ?? info?.authors?.join(', ') ?? '', info?.year ?? '', info?.wd ? `wd:${info.wd}` : info?.olw ? `olw:${info.olw}` : '', b.why, c ? 'да' : 'нет'].join('\t'));
+}
+for (const b of popular) {
+  const info = cache[`wd:${b.qid}`];
+  const c = info && !info.miss ? card(info, b.views ? `Ищут в Википедии: ${Math.round(b.views / 1000)} тыс. просмотров` : `Классика: статьи в ${b.links} разделах Википедии`) : undefined;
+  put(c, 'ищут в Википедии и канон');
+  rows.push(['ищут в Википедии', b.title, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${b.qid}`, b.views ? `${b.views} просмотров` : `${b.links} разделов`, c ? 'да' : 'нет'].join('\t'));
+}
+// убранное владельцем (withheldWorks.ts) — не заводим
+for (const [id, c] of cards) if (c.externalIds?.wikidata && withheldWorks[`wd:${c.externalIds.wikidata}`]) cards.delete(id);
 writeFileSync(new URL('../.cache/book-candidates.tsv', import.meta.url), rows.join('\n') + '\n');
 // уже есть в справочнике под тем же ключом — не дублируем
-const have = new Set([...ours.keys()]);
+// сам bookBase тоже в индексе: «уже есть» — без него, иначе перезапись оставляла только новые книги и выкидывала
+// все прежние (11.10: 421 книга ушла бы с первым же повторным прогоном)
+const own = new Set(prevBookBase.map((w) => w.id));
+const have = new Set([...ours].filter(([, w]) => !own.has(w.work.id)).map(([k]) => k));
 const fresh = [...cards.values()].filter((c) => !have.has(c.externalIds?.wikidata ? `wd:${c.externalIds.wikidata}` : `olw:${c.externalIds?.openLibrary}`));
-console.error(`\nкарточек книг: ${fresh.length} (по экранизациям ${fresh.filter((c) => c.blurb?.startsWith('Экранизации')).length}, от эссеистов ${fresh.filter((c) => c.blurb?.startsWith('Называют эссеисты')).length}, от книжных каналов ${fresh.filter((c) => c.blurb?.startsWith('Называют книжные')).length}, из заложенных вселенных ${fresh.filter((c) => c.blurb?.startsWith('Заложенная')).length}); все кандидаты — .cache/book-candidates.tsv`);
+const bySource = new Map<string, number>();
+for (const c of fresh) bySource.set(sourceOf.get(c.id) ?? '?', (bySource.get(sourceOf.get(c.id) ?? '?') ?? 0) + 1);
+console.error(`\nкарточек книг: ${fresh.length} (${[...bySource].map(([k, n]) => `${k} ${n}`).join(', ')}); все кандидаты — .cache/book-candidates.tsv`);
 if (DRY) process.exit(0);
 writeFileSync(new URL('../src/mocks/bookBase.ts', import.meta.url), `// Сгенерировано tools/build-book-base.mts (З2) — руками не править.
 // Стартовый каталог книг через мост с кино: книги по фильмам и сериалам справочника и книги,
-// которые называют кино-эссеисты и книжные каналы (З6). Разметки нет — в подбор не идут до З4.
+// которые называют кино-эссеисты и книжные каналы (З6), книги из списков читателей и те, что ищут в Википедии. Разметки нет — в подбор не идут до З4.
 import type { WorkCard } from '@/types/tmdf';
 
 export const bookBase: WorkCard[] = ${JSON.stringify(fresh, null, 2)};

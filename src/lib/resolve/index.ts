@@ -9,7 +9,7 @@ import { isScreen, isSeries } from '@/lib/media';
 
 export { createTmdb, TMDB_ATTRIBUTION } from './tmdb';
 export { createKinopoisk } from './kinopoisk';
-export { lookupFilms } from './wikidata';
+export { lookupFilms, lookupFilmsSparql } from './wikidata';
 export { lookupBook } from './openLibrary';
 export type { ResolvedWork } from './types';
 
@@ -165,6 +165,11 @@ function recall(key: string): Partial<WorkCard> | undefined {
   return undefined;
 }
 
+/** Сколько ждать Кинопоиск, прежде чем идти в TMDb: его ответ — около секунды, а отказ по лимиту — десятки секунд.
+ *  Не дождались — минуту его не спрашиваем: иначе по три секунды теряла бы каждая карточка списка. */
+const KP_WAIT = 3000;
+let kpQuietUntil = 0;
+
 export async function withImages(cards: WorkCard[], tmdb?: TmdbClient, kp?: KinopoiskClient, fetcher: typeof fetch = fetch): Promise<WorkCard[]> {
   return Promise.all(cards.map(async (card) => {
     if (card.stillUrl && card.watch) return card;
@@ -178,14 +183,20 @@ export async function withImages(cards: WorkCard[], tmdb?: TmdbClient, kp?: Kino
           const b = await lookupBook(ids.isbn[0], fetcher);
           found = { coverUrl: b?.coverUrl, imageSource: b?.imageSource };
         } else if (isScreen(card)) {
-          if (kp) {
-            const kpId = ids?.kinopoisk ?? (ids?.imdb ? await kp.findByImdb(ids.imdb) : undefined);
-            if (kpId != null) {
+          // Кинопоиск отказал (лимит на день исчерпан — `kinopoisk quota`, сеть) или молчит — дальше TMDb (ТВ-10, 14.10):
+          // раньше ошибка уходила в общий catch, и у всех карточек с IMDb не было ни картинки, ни «где посмотреть»; а
+          // отказ по лимиту (402) сервис отдаёт через 15–25 с — карточка ждала его дольше срока экрана
+          if (kp && Date.now() >= kpQuietUntil) {
+            const viaKp = async (): Promise<Partial<WorkCard>> => {
+              const kpId = ids?.kinopoisk ?? (ids?.imdb ? await kp.findByImdb(ids.imdb) : undefined);
+              if (kpId == null) return {};
               const f = await kp.film(kpId);
               const watch = await kp.watch(kpId).catch(() => undefined);
-              found = { coverUrl: f?.coverUrl, stillUrl: f?.stillUrl, imageSource: f?.imageSource, blurb: f?.blurb, watch,
+              return { coverUrl: f?.coverUrl, stillUrl: f?.stillUrl, imageSource: f?.imageSource, blurb: f?.blurb, watch,
                 externalIds: { ...ids, kinopoisk: kpId } };
-            }
+            };
+            found = await Promise.race([viaKp().catch(() => ({})),
+              new Promise<Partial<WorkCard>>((r) => setTimeout(() => { kpQuietUntil = Date.now() + 60_000; r({}); }, KP_WAIT))]);
           }
           if ((!found.stillUrl || !found.watch?.length) && tmdb) {
             const tvId = isSeries(card) && ids?.imdb ? await tmdb.findTvByImdb(ids.imdb) : undefined;
@@ -211,6 +222,7 @@ export function kinopoiskFromEnv(key: string | 'proxy' | undefined, fetcher: typ
   return key === 'proxy' ? createKinopoisk(undefined, fetcher) : createKinopoisk(key, fetcher);
 }
 
-export function tmdbFromEnv(key: string | undefined, fetcher: typeof fetch = fetch): TmdbClient | undefined {
-  return key ? createTmdb(key, fetcher) : undefined;
+export function tmdbFromEnv(key: string | 'proxy' | undefined, fetcher: typeof fetch = fetch): TmdbClient | undefined {
+  if (!key) return undefined;
+  return key === 'proxy' ? createTmdb(undefined, fetcher) : createTmdb(key, fetcher);
 }

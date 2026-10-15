@@ -935,7 +935,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd15270520",
     "type": "film",
-    "title": "Вечное возвращение (фильм, 2012)",
+    "title": "Вечное возвращение",
     "originalTitle": "Eternal Homecoming",
     "year": 2012,
     "creators": [
@@ -3306,7 +3306,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd11788492",
     "type": "film",
-    "title": "На краю света (фильм, 1999)",
+    "title": "На краю света",
     "year": 1999,
     "creators": [
       "Магдалена Лазаркевич"
@@ -4575,7 +4575,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd124749841",
     "type": "film",
-    "title": "Священная дорога (фильм)",
+    "title": "Священная дорога",
     "originalTitle": "Hallow Road",
     "year": 2025,
     "creators": [
@@ -4688,7 +4688,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd60738297",
     "type": "film",
-    "title": "Минамата (фильм)",
+    "title": "Минамата",
     "originalTitle": "Minamata",
     "year": 2020,
     "creators": [
@@ -6392,7 +6392,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd127118129",
     "type": "film",
-    "title": "Голубая луна (фильм)",
+    "title": "Голубая луна",
     "originalTitle": "Blue Moon",
     "year": 2025,
     "creators": [
@@ -7340,7 +7340,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd109414393",
     "type": "film",
-    "title": "Влюблённость (фильм, 1985)",
+    "title": "Влюблённость",
     "originalTitle": "Infatuation",
     "year": 1985,
     "creators": [],
@@ -9706,7 +9706,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd62901895",
     "type": "film",
-    "title": "Ценность (фильм)",
+    "title": "Ценность",
     "originalTitle": "Worth",
     "year": 2020,
     "creators": [
@@ -10349,7 +10349,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd117357033",
     "type": "film",
-    "title": "Саваны (фильм)",
+    "title": "Саваны",
     "originalTitle": "The Shrouds",
     "year": 2024,
     "creators": [
@@ -10387,7 +10387,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd66758332",
     "type": "film",
-    "title": "Тело Христово (фильм, 2019)",
+    "title": "Тело Христово",
     "originalTitle": "Corpus Christi",
     "year": 2019,
     "creators": [
@@ -11713,7 +11713,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd106448550",
     "type": "film",
-    "title": "Ты здесь, Бог? Это я, Маргарет (фильм)",
+    "title": "Ты здесь, Бог? Это я, Маргарет",
     "originalTitle": "Are You There God? It's Me, Margaret",
     "year": 2023,
     "creators": [
@@ -12283,7 +12283,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd55196866",
     "type": "film",
-    "title": "Шедевр (фильм)",
+    "title": "Шедевр",
     "originalTitle": "My Masterpiece",
     "year": 2018,
     "creators": [
@@ -13363,7 +13363,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd11763079",
     "type": "film",
-    "title": "Я люблю вампира (фильм)",
+    "title": "Я люблю вампира",
     "originalTitle": "I Like Bats",
     "year": 1985,
     "creators": [
@@ -15059,7 +15059,7 @@ export const filmBaseWiki: WorkCard[] = [
   {
     "id": "f-wd3731068",
     "type": "film",
-    "title": "Все мои сыновья (фильм)",
+    "title": "Все мои сыновья",
     "originalTitle": "All My Sons",
     "year": 1948,
     "creators": [

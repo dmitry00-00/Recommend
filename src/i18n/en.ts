@@ -91,6 +91,10 @@ export const en: Strings = {
   "free": {
     "label": "Free classics",
     "note": "posted by the rights holder or in the public domain"
+  },
+  "book": {
+    "label": "Something to read",
+    "note": "a book within reach — between films"
   }
 },
   stretch: {
@@ -201,6 +205,7 @@ export const en: Strings = {
   "tvtropes": "TV Tropes"
 },
   actions: {
+  "loading": "Loading",
   "startFilm": "Start watching",
   "startBook": "Start reading",
   "save": "Add to plans",
@@ -226,7 +231,9 @@ export const en: Strings = {
   "clear": "Clear"
 },
   shell: {
-  "navLabel": "Main navigation"
+  "navLabel": "Main navigation",
+  "homeScreen": "Add the app to your home screen — open it in one tap",
+  "homeScreenAdd": "Add"
 },
   explanation: {
   "what": "What it is",
@@ -485,6 +492,20 @@ export const en: Strings = {
   "emptyText": "Loosen it up: drop the year or country, or describe the mood more broadly.",
   "error": "Couldn't pick anything",
   "entry": "Pick by mood",
+  "short": "What are you in the mood for?",
+  "chips": ["something quiet about family, not sad", "slow and strange for tonight", "a mystery with a twist ending", "thought-provoking but not heavy", "like “Now You See Me”"],
+  "chipsBook": ["something quiet about family, not sad", "dark mysticism", "a mystery with a twist ending", "like “Roadside Picnic”"],
+  "refine": [["quieter", "тише"], ["stranger", "страннее"], ["shorter", "короче"]] as [string, string][],
+  "clear": "Clear",
+  "more": "Three more",
+  "tag": "for your request",
+  "refuse": "That doesn't look like a film request",
+  "refuseBook": "That doesn't look like a book request",
+  "refuseText": "We pick by mood, genre and theme: “funny”, “about war”, “something to think about”.",
+  "byTitle": (q: string) => `Search “${q}” by title`,
+  "placeholderBook": "What to read? E.g. something dark about family",
+  "hintBook": "Describe it in your own words: mood, genre, theme, “something to think about” or “easy going”, “like …”. We'll pick from books you haven't read yet.",
+  "examplesBook": ["something quiet about family, not sad", "dark mysticism", "a mystery with a twist ending", "thought-provoking but not heavy", "like “Roadside Picnic”", "a funny journey"],
   },
   search: {
   "title": "Search films",
@@ -493,6 +514,7 @@ export const en: Strings = {
   "watchedHint": "Here's what you've already marked as watched. It won't show up in your feed, and it's what we use to learn your taste.",
   "watchedCount": (n: number) => `Marked: ${n}.`,
   "mark": "Watched",
+  "markRead": "Read",
   "unmark": "Remove",
   "added": "Marked as watched",
   "removed": "Removed from watched",
@@ -504,7 +526,11 @@ export const en: Strings = {
   "watchedEmpty": "Nothing here yet",
   "watchedEmptyText": "Find a film and mark it — it'll stop showing up in your feed.",
   "error": "Search isn't responding",
-  "missing": "Can't find a film?"
+  "missing": "Can't find a film?",
+  "missingBooks": "Can't find a film or book?",
+  "watchedHintBooks": "Here's what you've already marked as watched or read. It won't show up in your feed, and it's what we use to learn your taste.",
+  "addedBook": "Marked as read",
+  "removedBook": "Removed from read"
 },
   /* заявки участников: «такого фильма у вас нет», «добавьте этого автора» — SuggestSheet */
   suggest: {
@@ -590,7 +616,11 @@ export const en: Strings = {
   "debriefLoading": "Putting together the breakdown",
   "nextFrame": "Next frame",
   "toJournal": "To the archive",
-  "toMap": "To the map"
+  "toMap": "To the map",
+  "worthQ": "Was it worth it?",
+  "worthScale": ["No", "Not really", "So-so", "Yes", "Absolutely"],
+  "worthWhyQ": "What was off?",
+  "worthWhy": { "not_mine": "Not for me", "boring": "Boring", "too_heavy": "Too heavy", "expected_other": "Expected something else" }
 },
   /* диагностика: задание и прогресс */
   assessment: {
@@ -681,6 +711,8 @@ export const en: Strings = {
   "of": "of",
   "empty": "No films for today",
   "emptyText": "All frames have been dismissed or haven't been picked yet. Try a different effort or refresh.",
+  "emptyBooks": "No books for today",
+  "emptyBooksText": "The books that fit are read or dismissed. Try a different effort — or go back to film.",
   "coldTitle": "First, a few ratings",
   "normTitle": "Which rating means “fine” to you?",
   "normWhy": (count: number, median: number) => `Your history has ${count} ratings, most often around ${median}. Not “I liked it” but “I don't regret the time”: the model measures your taste from this point.`,
@@ -720,7 +752,12 @@ export const en: Strings = {
   "error": "Couldn't load the list",
   "saveError": "Rating wasn't saved",
   "seriesTitle": "Series",
-  "seriesLead": "If you've watched them, rate the series as a whole. That's taste too: picks will start suggesting series as well."
+  "seriesLead": "If you've watched them, rate the series as a whole. That's taste too: picks will start suggesting series as well.",
+  "booksTitle": "Books",
+  "booksLead": "If you've read them, rate them. Books count towards your ratings: your first picks can come from them too.",
+  "skipBook": "Haven't read it",
+  "booksJumpLead": "Read more than you watch?",
+  "booksJump": "Rate books"
 },
   /* страница автора: все его разборы по нашим фильмам */
   /* связи между произведениями (Ж1): экранизация, сиквел, ремейк, цикл и франшиза */
@@ -858,6 +895,9 @@ export const en: Strings = {
   "roleOf": { "director": "Director", "writer": "Screenplay", "creator": "Series creator", "author": "Author" } as Record<'director' | 'writer' | 'creator' | 'author', string>,
   "works": (n: number) => `${n} ${n === 1 ? 'work' : 'works'} in our catalog`,
   "byName": "identified by name in the cards",
+  "styleLevel": (lo: number, hi: number) => (lo === hi ? `usually level ${lo}` : `usually level ${lo}–${hi}`),
+  // барьеры хранятся по-русски и перевода у них пока нет — в английском интерфейсе их не показываем
+  "styleBarriers": (_list: string[]) => '',
   "start": "Where to start",
   "startNear": (level: number) => `Level ${level} — a little above your usual: there's room to grow here, but it's still approachable.`,
   "startEntry": (level: number) => `Level ${level} — the most accessible way in among what we've annotated.`,
@@ -944,6 +984,9 @@ export const en: Strings = {
   "watchFreeHint": "Posted by the rights holder or in the public domain — the link goes to the source.",
   "watchKind": { "subscription": "Subscription", "free": "Free", "ads": "Free with ads", "rent": "Rent", "buy": "Buy" },
   "read": "Read",
+  "readFree": (source: string) => `Read free — ${source}`,
+  "readFreeHint": "The text is in the public domain — the link goes to the source.",
+  "readMore": "More places to look — stores and libraries:",
   "readHonest": "We can't say for sure where the book is available: book services don't share open availability data. Here's where to look:",
   "readSearch": (title: string) => `${title} — search`,
   "readHours": (h: number, pages: number) => `${pages} pages, about ${h} h of reading`
@@ -1063,12 +1106,16 @@ export const en: Strings = {
   feed: {
   /* «Ещё фильмы» в конце ленты (ТВ-11) */
   "moreFilms": "More films",
+  "moreBooks": "More books",
   "moreLoading": "Picking…",
   "moreNone": "That's everything that fits for today. Rate more films and your picks will widen.",
   "moreFailed": "Couldn't pick more — try again later",
   "inYourSub": (platform: string) => `on your ${platform}`,
   "freeOn": (platform: string) => `free on ${platform}`,
+  "readTime": (hours: number) => `≈${hours} h of reading`,
   "subsOnly": "Only my subscriptions",
+  "kind": { "screen": "Film", "book": "Books" },
+  "moreNoneBooks": "That's every book that fits for today. Mark what you've read and your picks will sharpen.",
   "archive": "Archive",
   "entryOne": "entry",
   "entryFew": "entries",
@@ -1352,9 +1399,55 @@ export const en: Strings = {
   "title": "Plot",
   "loading": "Looking for a synopsis…",
   "none": "We don’t have a plot synopsis yet",
+  "wikipedia": "Wikipedia",
+  "source": (name: string) => `Text: ${name}, CC BY-SA`,
   /* вход на полную страницу из шторки (ТВ-4, 06.10): там «Где об этом говорили», «Рядом называют», статистика */
   "page": "More",
   "pageLabel": "Open the full title page"
+},
+  /* ДФ-7 (14.10): «Что может мешать» в шторке */
+  hurdles: {
+  "title": "What might get in the way",
+  "content": (list: string) => `On screen: ${list}`,
+  "hm": (h: number, m: number) => (m ? `${h} h ${m} min` : `${h} h`),
+  "long": (d: string) => `Runs ${d} — best for a free evening`,
+  "bw": (y?: number) => (y ? `Black and white, ${y}` : 'Black and white'),
+  "after": "Best after",
+  "afterTail": "but fine without",
+  "form": {
+    "Медленный темп": ["slow", "Slow: long takes, not much happens"],
+    "Чёрно-белое изображение": ["black and white", "Black and white"],
+    "Музыкальные номера": ["songs and dances", "The story stops for songs and dances"],
+    "Долгий хронометраж": ["long", "Long — best for a free evening"],
+    "Нарастающий дискомфорт": ["uneasy", "Gets more uneasy as it goes: tension builds to the end"],
+    "Сатирическая условность": ["satire", "The world is exaggerated on purpose — it's satire, not realism"],
+    "Разговорная форма": ["talky", "Almost everything rests on conversation"],
+    "Размытая граница реальности": ["dream or real", "It isn't always clear what is real and what is in the hero's head"],
+    "Нелинейное время": ["out of order", "Events are told out of order — time jumps"],
+    "Хоррор-образы": ["scary", "Frightening imagery and jump moments"],
+    "Условная актёрская манера": ["stylised acting", "The acting is stylised, not naturalistic"],
+    "Театральная манера": ["stagey", "Feels like a stage play: declamation, staged scenes"],
+    "Без сюжета в привычном смысле": ["no usual plot", "No conventional plot — more mood and imagery"],
+    "Фрагментарная структура": ["fragmented", "Made of separate episodes; you connect them yourself"],
+    "Много линий": ["many storylines", "Lots of characters and storylines — needs attention"],
+    "Мало слов": ["few words", "Little dialogue; the images tell the story"],
+    "Немое кино": ["silent", "A silent film: no speech, intertitles and music"],
+    "Непривычная мифология": ["unfamiliar myths", "Built on mythology few people know"],
+    "Смена жанра": ["switches genre", "Switches genre midway — on purpose"],
+    "Одна комната": ["one location", "Almost all of it happens in one room"],
+    "Архаичная речь": ["old-fashioned speech", "Old-fashioned speech: verse or period language"],
+    "Ненадёжный рассказчик": ["unreliable narrator", "Don't take everything you're told at face value"],
+    "Кукольная эстетика": ["puppet look", "A deliberately artificial, puppet-like look"],
+    "Найденная плёнка": ["found footage", "Shot like amateur footage: shaky camera"],
+    "Смена рассказчиков без предупреждения": ["narrators switch", "The narrator changes without warning"],
+    "Открытый финал": ["open ending", "Open ending — no answers given"],
+  } as Record<string, [string, string]>,
+  "warnings": {
+    "Насилие": "violence", "Жестокость": "cruelty", "Сексуальные сцены": "sex scenes", "Хоррор-образы": "horror imagery",
+    "Нецензурная лексика": "strong language", "Алкоголь": "alcohol", "Наркотики": "drugs", "Сексуальное насилие": "sexual violence",
+    "Физиологические сцены": "graphic bodily scenes", "Самоубийство": "suicide", "Насилие над детьми": "child abuse",
+    "Жестокость к животным": "animal cruelty", "Самоповреждение": "self-harm",
+  } as Record<string, string>,
 },
   /* облегчённый учёт (02.10): «посмотрел» с оценкой в одно касание, «бросил» без вопросов */
   quick: {
@@ -1470,7 +1563,73 @@ export const en: Strings = {
   "normTitle": "Which rating means “fine” for you?",
   "normWhy": "Not “I liked it”, but “I don't regret the time spent”. The model measures your taste from this point, and it can't be guessed: it differs from person to person.",
   "run": "Import",
-  "done": (added: number, resolved: number) => `Entries added: ${added}. Found in external databases: ${resolved}.`
+  /* ДФ-11 (14.10): where to get the export, preview before writing, undo */
+  "guideTitle": "Where are you moving from?",
+  "guideNote": "Menu names on these sites sometimes change — look for “Export”.",
+  "guides": {
+    "kinopoisk": { "name": "Kinopoisk", "steps": [
+      "On a computer, open your kinopoisk.ru profile → “Оценки и просмотры” (ratings and views).",
+      "Save the page: Ctrl+S (⌘S on a Mac).",
+      "Several pages — save each one and upload all the files at once.",
+      "Upload the .html here. We don't read your login keys from the page; the file never leaves the app.",
+    ] },
+    "letterboxd": { "name": "Letterboxd", "steps": [
+      "letterboxd.com → Settings → Data → Export your data.",
+      "You'll get a .zip archive — no need to unpack it.",
+      "Upload the archive here: we'll take watched films, ratings, the diary and the watchlist.",
+    ] },
+    "imdb": { "name": "IMDb", "steps": [
+      "imdb.com → profile menu → Your ratings.",
+      "“⋯” menu above the list → Export; the CSV appears on the Exports page.",
+      "The Watchlist exports the same way and goes to “planned” — upload both files at once.",
+    ] },
+    "trakt": { "name": "Trakt", "steps": [
+      "trakt.tv → Settings → Data → Export your data.",
+      "You'll get an archive of JSON files — no need to unpack it.",
+      "Upload the archive here: we'll take plays, ratings, history and the watchlist.",
+    ] },
+    "books": { "name": "Goodreads, StoryGraph", "steps": [
+      "Goodreads: My Books → Import and export → Export Library — download the CSV.",
+      "StoryGraph: Manage Account → Export StoryGraph Library — download the CSV.",
+      "Upload the file here — books go to your diary with their ratings.",
+    ] },
+    "list": { "name": "A list of titles", "steps": [
+      "One title per line, year after a space: “The Lighthouse 2019”.",
+      "Copy it from your notes or a chat.",
+      "Paste it below. A list has no ratings — everything goes in as watched.",
+    ] },
+  } as Record<string, { name: string; steps: string[] }>,
+  "checking": "Checking against the catalog…",
+  "resolving": (d: number, t: number) => `Looking up in external databases: ${d} of ${t}`,
+  "searching": (d: number, t: number) => `Searching unfamiliar titles: ${d} of ${t}`,
+  "previewFailed": "Couldn't read that — please try again.",
+  "summary": (n: number, m: number) => `Found ${n} of ${m}`,
+  "toCheck": (k: number) => `${k} — please check: the title matches, but the year or the film itself is uncertain`,
+  "already": (a: number) => `Already in your diary — ${a}: we won't add them twice`,
+  "repeats": (r: number) => `Repeats within the export — ${r}: one entry per film`,
+  "own": (u: number) => `Not in our catalog — ${u}: we'll keep them as they are, as your own entries without a card — nothing gets lost`,
+  "showOwn": "Show",
+  "hideOwn": "Hide",
+  "row": (t: string, y?: number) => `“${t}”${y ? `, ${y}` : ''}`,
+  "ours": "ours",
+  "rowOk": "Correct",
+  "rowOther": "Another film",
+  "rowKeep": "Keep as is",
+  "rowDrop": "Don't add",
+  "rowKept": "kept as is",
+  "rowDropped": "won't be added",
+  "searchPlaceholder": "Title",
+  "searchNothing": "Nothing found — you can keep it as is",
+  "more": (n: number) => `${n} more`,
+  "add": (n: number) => `Add ${n}`,
+  "nothingToAdd": "Nothing to add — it's all in your diary already",
+  "done": (added: number, rated: number) => `Added ${added} entries and ${rated} ratings.`,
+  "doneOwn": (u: number) => `As your own entries without a card — ${u}.`,
+  "doneAlready": (a: number) => `Already there — ${a}.`,
+  "undo": "Undo import",
+  "undone": (r: number, u: number) => `Import undone: removed ${r} entries and ${u} ratings.`,
+  "commitFailed": "Couldn't save. Please try again.",
+  "undoFailed": "Couldn't undo. Please try again."
 },
   importSource: {
   "letterboxd": "Letterboxd",
@@ -1497,6 +1656,10 @@ export const en: Strings = {
 },
   /* экран «Дневник» */
   journal: {
+  "filterStatus": "Show by status",
+  "filterKind": "Show film or books",
+  "statusFilter": { "planned": "Planned", "in_progress": "Now", "finished": "Finished", "abandoned": "Put aside" },
+  "filterEmpty": "Nothing matches this filter.",
   "notFound": "No such entry",
   "notFoundText": "The link is out of date or the entry was deleted.",
   "errorList": "Couldn't load the archive",
@@ -1526,6 +1689,11 @@ export const en: Strings = {
   "related": "Nearby",
   "credit": "Annotation: ",
   "nicheMasterpiece": "Niche masterpiece",
+  "similarTitle": "Three more like this",
+  "similarText": "Same level and mood. Seen one? Mark it — it counts towards your feed too.",
+  "feedReady": "Your feed is ready",
+  "feedReadyText": "That's enough marks — we've picked films based on them.",
+  "feedOpen": "Open the feed",
   "notFound": "No such work",
   "notFoundText": "The link is out of date or the work was removed from the catalog.",
   "errorWork": "Couldn't load the work",
@@ -1550,6 +1718,7 @@ export const en: Strings = {
   "errorCharacter": "Couldn't load the character",
   "errorStats": "Couldn't load stats",
   "offlineTitle": "Can't reach the server",
+  "cachedSlate": (when: string) => `Showing the feed saved on ${when}. You can mark things once the connection is back.`,
   "offlineText": "Your marks and ratings are safe — we just can't get to them right now. Check your internet and try again.",
   "offline": "No connection",
   "savedToPlans": "Saved to plans",
@@ -1557,6 +1726,34 @@ export const en: Strings = {
   "noChallengeToday": "No challenge today"
 },
   /* выбор компанией (ЗП-11, 07.10): десятка под вкус того, кто собирает, голоса «хочу / не хочу / видел» */
+  collections: {
+  "title": "Collections",
+  "lead": "Cinema of countries and schools. Each shelf starts at your level and goes deeper: what suits you now first, harder further on.",
+  "entry": "Cinema of countries and schools, a step at a time from your level.",
+  "entryAction": "Collections",
+  "films": (n: number) => `${n} films`,
+  "easier": "Easier, for a breather",
+  "voice": (name: string) => `Essay: ${name}`,
+  "empty": "You have already seen everything we know from this shelf.",
+  "missing": "No such collection.",
+  "themesTitle": "Cinema of countries and schools",
+  "voicesTitle": "Authors' collections",
+  "voicesLead": "Essayists grouped these films themselves; every film has their essay.",
+  "voiceLeadBefore": "A playlist by ",
+  "voiceLeadAfter": ": every film comes with this author's essay. Ordered from your level deeper.",
+  "essay": (minutes: string | undefined) => minutes ? `The author's essay · ${minutes}` : "The author's essay",
+  "byVoice": (name: string) => `by ${name}`,
+  "shelf": {
+    "soviet-sf": { "title": "Soviet science fiction", "lead": "Space, contact and catastrophe, from The Andromeda Nebula to Dead Man's Letters." },
+    "korea-genre": { "title": "Korean genre cinema", "lead": "South Korean thrillers, crime and horror: genre that is not afraid of drama or cruelty." },
+    "japan-classic": { "title": "Japanese classics", "lead": "Japanese cinema before 1980: samurai, post-war dramas and the first Godzilla." },
+    "iran": { "title": "Iranian cinema", "lead": "Simple stories under strict bans: children, family, court, football." },
+    "adult-animation": { "title": "Animation for grown-ups", "lead": "Animated films made for adults: drama, satire, nightmare." },
+    "nordic": { "title": "Nordic cinema", "lead": "Sweden, Denmark, Norway, Finland, Iceland: from Bergman to von Trier and Kaurismäki." },
+    "new-hollywood": { "title": "New Hollywood", "lead": "American cinema of 1967–1980, when the studios handed power to directors." },
+    "hong-kong": { "title": "Hong Kong cinema", "lead": "John Woo, Johnnie To and heroic bloodshed: gangsters, police and honour." }
+  }
+  },
   together: {
   "leadChat": "We'll pick ten films to match your taste — the bot posts them to the chat you came from, and everyone marks want, don't or seen.",
   "postedToChat": (title: string | null) => title ? `Voting invite posted to “${title}”` : "Voting invite posted to your chat with the bot",
@@ -1621,6 +1818,13 @@ export const en: Strings = {
   "consentAnd": "and the",
   "consentPrivacy": "data processing policy",
   "notFound": "No such document",
+  "export": "Download your diary",
+  "exportText": "Everything you've marked and rated, as a file: a CSV table in Letterboxd's import format, or JSON with every field. The table can be imported back here or into Letterboxd.",
+  "exportCsv": "CSV table",
+  "exportJson": "JSON",
+  "exportEmpty": "Your diary is empty — nothing to export yet",
+  "exportDone": (n: number) => `Exported entries: ${n}`,
+  "exportFailed": "Couldn't build the file. Please try again.",
   "delete": "Delete account",
   "deleteText": "We'll erase your ratings, marks, diary, feed responses, subscriptions and the account itself. This can't be undone.",
   "deleteTitle": "Delete your account and all data?",
@@ -1662,23 +1866,23 @@ export const en: Strings = {
   "privacyDoc": [
     { "h": "What data we store", "p": [
       "When you sign in via Telegram — your ID, name and username, passed to us by Telegram. Outside Telegram — an anonymous identifier for this browser.",
-      "What you do in the app: ratings, “watched” marks, the diary, answers after watching, responses to the feed and which films were in it, opened cards and breakdowns, clicks through to streaming services, the days you visited, settings, breakdown subscriptions, reports of inaccuracies and suggestions, and the watch history you uploaded.",
+      "What you do in the app: ratings, “watched” marks, the diary, answers after watching, responses to the feed and which films were in it, opened cards and breakdowns (whose breakdown it was and how long until you came back to the app), “By mood” requests, that you shared a card or invited a friend (we don’t know with whom), answers to the app’s questions, clicks through to streaming services, the days you visited, settings, breakdown subscriptions, reports of inaccuracies and suggestions, the watch history you uploaded; and with each feed, the difficulty range of what you usually watch, calculated from your own ratings.",
       "We don't collect your phone number, email, contacts, location, payment details or messages.",
     ] },
     { "h": "Why", "p": [
       "To make the service work: to let you in, keep your history and pick films — that's what the data is for, and without it there are no picks.",
       "So the bot can send a digest of new breakdowns — only if you subscribed and allowed the bot to message you.",
-      "To understand whether the service works: how many people come back, open breakdowns, find where to watch. We only look at this in aggregate, across everyone.",
+      "To understand whether the service works: how many people come back, open breakdowns, find where to watch, whether what we picked was worth watching, and whether people move over time to films harder than the ones they started with. We only look at this in aggregate, across everyone.",
       "For research into how a viewer's perspective changes — only with your separate consent in your profile. You can withdraw it at any time.",
     ] },
     { "h": "How long we keep it", "p": [
-      "For as long as you have an account. After the account is deleted, data is erased from the server immediately and from backups within 30 days.",
+      "For as long as you have an account. After the account is deleted, data is erased from the server immediately and from backups within 30 days. A diary export file stays on the server for an hour — so Telegram can download it — and is then erased.",
     ] },
     { "h": "Who we share it with", "p": [
       "We don't sell or share it with anyone. Sign-in goes through Telegram, which has its own rules. Videos, posts and streaming services open on their own sites when you tap them, and their rules apply from there.",
     ] },
     { "h": "Your rights", "p": [
-      "To find out what's stored about you, write to the email below. To correct it — right in the app. To delete everything — “Delete account” in your profile. To withdraw consent to the research — in the same place.",
+      "To find out what's stored about you, write to the email below; you can download your whole diary yourself — “Download your diary” in your profile. To correct it — right in the app. To delete everything — “Delete account” in your profile. To withdraw consent to the research — in the same place.",
     ] },
     { "h": "How we protect it", "p": [
       "Sign-in is verified by Telegram's signature, the access key is stored only on your device, and only the service owner has access to the database.",
@@ -1715,6 +1919,7 @@ export const en: Strings = {
 },
   a11y: {
   "energy": "How much energy today",
+  "feedKind": "What to pick: film or books",
   "stretch": (label: string, note: string) => `effort: ${label}, ${note}`
 },
 };

@@ -50,6 +50,8 @@ export const chosenLanguage = (): Language | undefined => stored();
 
 /** Язык этого запуска. */
 export const language: Language = detect();
+// язык страницы — для переносов, озвучки и перевода браузером: в index.html стоит ru, английская сборка его меняет
+if (typeof document !== 'undefined' && document.documentElement) document.documentElement.lang = language;
 /** Локаль для дат и чисел. */
 export const locale = language === 'ru' ? 'ru-RU' : 'en-US';
 

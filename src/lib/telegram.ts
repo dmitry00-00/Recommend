@@ -11,7 +11,9 @@
 type SafeArea = { top: number; bottom: number; left: number; right: number };
 
 export type TelegramEvent =
-  | 'themeChanged' | 'viewportChanged' | 'safeAreaChanged' | 'contentSafeAreaChanged';
+  | 'themeChanged' | 'viewportChanged' | 'safeAreaChanged' | 'contentSafeAreaChanged'
+  // Bot API 8.0: мини-приложение ушло на второй план и вернулось (МА-3 — сколько человек был в открытом материале)
+  | 'activated' | 'deactivated';
 
 export interface TelegramWebApp {
   initData: string;
@@ -38,6 +40,18 @@ export interface TelegramWebApp {
   openTelegramLink(url: string): void;
   /** Bot API 8.0+: штатный выбор чата для сообщения, подготовленного сервером (savePreparedInlineMessage) */
   shareMessage?(msgId: string, callback?: (sent: boolean) => void): void;
+  /** Bot API 6.2+: штатное окно с кнопками; ответ — id нажатой кнопки ('' — закрыли) */
+  showPopup?(params: { title?: string; message: string; buttons?: { id?: string; type?: 'default' | 'ok' | 'close' | 'cancel' | 'destructive'; text?: string }[] }, callback?: (id: string) => void): void;
+  /** Bot API 9.0+: хранилище на устройстве — переживает чистку данных WebView, в отличие от localStorage */
+  DeviceStorage?: {
+    setItem(key: string, value: string | null, callback?: (err: string | null, ok: boolean | null) => void): unknown;
+    getItem(key: string, callback: (err: string | null, value: string | null) => void): unknown;
+  };
+  /** Bot API 8.0+: ярлык мини-приложения на экране телефона */
+  addToHomeScreen?(): void;
+  checkHomeScreenStatus?(callback: (status: 'unsupported' | 'unknown' | 'added' | 'missed') => void): void;
+  /** Bot API 8.0+: скачать файл по ссылке — со штатным подтверждением; `<a download>` WebView мобильных клиентов не исполняет */
+  downloadFile?(params: { url: string; file_name: string }, callback?: (accepted: boolean) => void): void;
   /** Bot API 6.9+: разрешить боту писать участнику первым — для сводки подписок */
   requestWriteAccess?(callback?: (granted: boolean) => void): void;
   onEvent(event: TelegramEvent, handler: () => void): void;
@@ -83,8 +97,9 @@ export const isTelegram = (): boolean => webApp() !== undefined;
 /** Строка `initData` для входа: её приложение отдаёт серверу как есть, ничего не меняя. */
 export const initData = (): string => webApp()?.initData ?? '';
 
-/** Бот, внутри которого живёт мини-приложение: ссылки на него — `https://t.me/recomend_media_bot`. */
-export const BOT_USERNAME = 'recomend_media_bot';
+/** Бот, внутри которого живёт мини-приложение: ссылки на него — `https://t.me/recomend_media_bot`. У контура Global
+ *  (ЗП-26) свой бот — имя задаёт сборка (`VITE_BOT_USERNAME`): у бота Telegram один адрес приложения и один webhook. */
+export const BOT_USERNAME = (import.meta.env.VITE_BOT_USERNAME as string | undefined) || 'recomend_media_bot';
 /** Кому писать первым пользователям (02.10): владелец продукта. */
 export const AUTHOR_USERNAME = 'Tacticheskiy_Enot';
 export const writeAuthorUrl = `https://t.me/${AUTHOR_USERNAME}`;
@@ -104,6 +119,67 @@ export function startParam(): string | undefined {
   const fromInit = webApp()?.initDataUnsafe?.start_param;
   if (fromInit) return strip(fromInit);
   try { return strip(new URLSearchParams(window.location.search).get('tgWebAppStartParam')); } catch { return undefined; }
+}
+
+/** Подтверждение необратимого (ДФ-3) — штатным окном Telegram 6.2+ с красной кнопкой. Вне Telegram — undefined:
+ *  экран показывает свой диалог. Текст окна — до 256 знаков, заголовок — до 64 (иначе Telegram бросает ошибку). */
+export function confirmNative(title: string, message: string, confirm: string): Promise<boolean> | undefined {
+  const wa = webApp();
+  if (!wa?.showPopup || !wa.isVersionAtLeast('6.2') || title.length > 64 || message.length > 256) return undefined;
+  return new Promise((done) => {
+    try {
+      wa.showPopup!({ title, message, buttons: [{ id: 'yes', type: 'destructive', text: confirm }, { type: 'cancel' }] }, (id) => done(id === 'yes'));
+    } catch { done(false); }
+  });
+}
+
+/** Хранилище устройства (ДФ-3): в Telegram 9.0+ — DeviceStorage, и всегда — localStorage про запас (вне Telegram
+ *  и у старых клиентов он единственный). Чтение ждёт DeviceStorage не дольше полутора секунд. */
+const fromDevice = (key: string): Promise<string | undefined> => {
+  const wa = webApp();
+  if (!wa?.DeviceStorage || !wa.isVersionAtLeast('9.0')) return Promise.resolve(undefined);
+  return new Promise((done) => {
+    setTimeout(() => done(undefined), 1500);
+    try { wa.DeviceStorage!.getItem(key, (err, value) => done(err ? undefined : value ?? undefined)); } catch { done(undefined); }
+  });
+};
+export async function deviceGet(key: string): Promise<string | undefined> {
+  const v = await fromDevice(key);
+  if (v) return v;
+  try { return localStorage.getItem(key) ?? undefined; } catch { return undefined; }
+}
+export function deviceSet(key: string, value: string): void {
+  const wa = webApp();
+  try { if (wa?.DeviceStorage && wa.isVersionAtLeast('9.0')) wa.DeviceStorage.setItem(key, value); } catch { /* старый клиент */ }
+  try { localStorage.setItem(key, value); } catch { /* приватное окно или нет места */ }
+}
+
+/** Можно ли предложить ярлык (ДФ-3): Telegram 8.0+ и ярлыка ещё нет (`missed`). */
+export function homeScreenMissed(): Promise<boolean> {
+  const wa = webApp();
+  if (!wa?.checkHomeScreenStatus || !wa.addToHomeScreen || !wa.isVersionAtLeast('8.0')) return Promise.resolve(false);
+  return new Promise((done) => {
+    try { wa.checkHomeScreenStatus!((status) => done(status === 'missed')); } catch { done(false); }
+  });
+}
+
+export const addToHomeScreen = (): void => { webApp()?.addToHomeScreen?.(); };
+
+/** Сохранить файл (ДФ-14). В Telegram 8.0+ — `downloadFile` по ссылке, которую даёт `link` (сервер держит файл);
+ *  без ссылки и вне Telegram — из памяти страницы. Ответ: false — человек отказался в окне Telegram. */
+export async function saveFile(file: { name: string; text: string; mime: string }, link: () => Promise<string | undefined>): Promise<boolean> {
+  const wa = webApp();
+  const url = wa?.downloadFile && wa.isVersionAtLeast('8.0') ? await link() : undefined;
+  if (wa?.downloadFile && url) {
+    return new Promise((done) => wa.downloadFile!({ url, file_name: file.name }, (accepted) => done(accepted)));
+  }
+  const href = URL.createObjectURL(new Blob([file.text], { type: file.mime }));
+  const a = Object.assign(document.createElement('a'), { href, download: file.name });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(href), 10_000);
+  return true;
 }
 
 /** «Поделиться»: в Telegram — штатное окно «переслать» со ссылкой на приложение; в браузере —

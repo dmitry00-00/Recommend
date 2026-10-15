@@ -174,6 +174,26 @@ export function deriveState(userId: string, entries: RatedEntry[], asOf: ISODate
   };
 }
 
+/** Диапазон сложности участника (МА-1, 13.10) — для «сдвига» на сервере: та же выборка и те же веса,
+ *  что у `complexityComfort` (центр — 0,7-квантиль), границы — 0,25 и 0,9: досмотр выше верхней
+ *  границы — выше того, что человек обычно досматривает и любит. `median` — без весов, «привычный
+ *  уровень» для proxy reward. Меньше трёх размеченных досмотров — undefined, как у deriveState. */
+export interface ComplexitySpan { center: number; lo: number; hi: number; median: number; n: number }
+export function complexitySpan(entries: RatedEntry[], ratingNorm?: number): ComplexitySpan | undefined {
+  const done = entries.filter((e) => e.status === 'finished' && e.work.complexityLevel > 0 && e.work.primaryOperations.length);
+  if (done.length < 3) return undefined;
+  const scale = deriveScale(entries.map((e) => e.raw).filter((r): r is number => r != null), ratingNorm);
+  const items = done.map((e) => ({ value: e.work.complexityLevel, weight: scale.weight(e.raw, e.rating) }));
+  const levels = done.map((e) => e.work.complexityLevel).sort((a, b) => a - b);
+  return {
+    center: round1(clamp(weightedQuantile(items, 0.7), 1, 10)),
+    lo: round1(weightedQuantile(items, 0.25)),
+    hi: round1(weightedQuantile(items, 0.9)),
+    median: round1(levels[Math.floor(levels.length / 2)]),
+    n: done.length,
+  };
+}
+
 /** Карта из истории: состояние, точки по кварталам (оценка на дату — по тому, что было
  *  досмотрено к тому моменту), следы — досмотренное с операциями. Целей нет: их ставит участник. */
 export function deriveMap(userId: string, entries: RatedEntry[], asOf: ISODate, taste?: DeriveOptions): CognitiveMapData | undefined {

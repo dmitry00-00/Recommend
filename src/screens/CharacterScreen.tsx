@@ -42,7 +42,7 @@ export function CharacterScreen() {
       {failed ? <ErrorState title={ui.state.errorCharacter} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           <Skeleton kind="block" style={{ height: 72 }} />
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 88, marginTop: 8 }} />)}
         </div>

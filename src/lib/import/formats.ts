@@ -50,21 +50,34 @@ function letterboxd(t: CsvTable, name?: string): ImportedRecord[] {
 }
 
 /** Импорт-формат Letterboxd: Title, Year, Rating или Rating10, WatchedDate, Rewatch, tmdbID,
- *  imdbID. Название может быть пустым (конвертер не нашёл латинского) — тогда держимся за ID. */
+ *  imdbID. Название может быть пустым (конвертер не нашёл латинского) — тогда держимся за ID.
+ *  Наша выгрузка дневника (ДФ-14) — тот же формат с добавочными колонками: Type, Status, StartedDate,
+ *  OriginalTitle, WikidataID, KinopoiskID, ISBN, OpenLibraryID, TmdbTvID; у чужих файлов их нет, и всё как раньше. */
+const TYPES: ReadonlySet<string> = new Set(['film', 'series', 'book']);
+const STATUSES: ReadonlySet<string> = new Set(['finished', 'in_progress', 'planned', 'abandoned']);
 function letterboxdImport(t: CsvTable): ImportedRecord[] {
   return t.rows.map((r) => {
     const r10 = num(r['Rating10']);
     const r5 = num(r['Rating']);
-    const tmdb = num(r['tmdbID']);
-    const ids = { imdb: r['imdbID'] || undefined, tmdb: tmdb != null ? Math.trunc(tmdb) : undefined };
+    // номер TMDb сериала — в своей колонке: в tmdbID Letterboxd искал бы по нему фильм
+    const tmdb = num(r['tmdbID']) ?? num(r['TmdbTvID']);
+    const kp = num(r['KinopoiskID']);
+    const isbns = (r['ISBN'] ?? '').split(/\s+/).map((x) => isbn(x)).filter((x): x is string => Boolean(x));
+    const ids = {
+      imdb: r['imdbID'] || undefined, tmdb: tmdb != null ? Math.trunc(tmdb) : undefined,
+      kinopoisk: kp != null ? Math.trunc(kp) : undefined, wikidata: r['WikidataID'] || undefined,
+      isbn: isbns.length ? isbns : undefined, openLibrary: r['OpenLibraryID'] || undefined,
+    };
     return {
-      source: 'letterboxd_import', type: 'film',
-      title: r['Title'] ?? '', year: num(r['Year']),
-      status: 'finished',
+      source: 'letterboxd_import',
+      type: TYPES.has(r['Type'] ?? '') ? r['Type'] as ImportedRecord['type'] : 'film',
+      title: r['Title'] ?? '', originalTitle: r['OriginalTitle'] || undefined, year: num(r['Year']),
+      status: STATUSES.has(r['Status'] ?? '') ? r['Status'] as ImportedRecord['status'] : 'finished',
       rating: r10 ?? (r5 != null ? r5 * 2 : undefined),
       date: iso(r['WatchedDate']),
+      started: iso(r['StartedDate']),
       rewatch: r['Rewatch'] ? r['Rewatch'].toLowerCase() === 'true' || r['Rewatch'].toLowerCase() === 'yes' : undefined,
-      externalIds: ids.imdb || ids.tmdb != null ? ids : undefined,
+      externalIds: Object.values(ids).some((v) => v != null) ? ids : undefined,
     };
   });
 }
@@ -297,7 +310,15 @@ function looksLikePlainList(text: string): boolean {
 }
 
 /** Текст файла → записи. Неизвестный формат — undefined, а не пустой список: это разные состояния. */
+/** Имя «файла» для текста из поля «список названий» (ДФ-11): человек сам сказал, что это список, — строгая
+ *  проверка `looksLikePlainList` (от трёх строк) ему не нужна, хватит и одного названия. */
+export const PASTED_LIST = 'pasted-list';
+
 export function parseExport(text: string, name?: string): { source: ImportSource; records: ImportedRecord[] } | undefined {
+  if (name === PASTED_LIST) {
+    const records = parsePlainList(text);
+    return records.length ? { source: 'plain_list', records } : undefined;
+  }
   if (/<div class="profileFilmsList"|ur_data\.push\(/.test(text)) {
     return { source: 'kinopoisk', records: parseKinopoiskHtml(text).filter(usable) };
   }

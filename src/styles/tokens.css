@@ -129,6 +129,9 @@
   --font-display: "Oswald", "Arial Narrow", system-ui, sans-serif;
   --font-text: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
 }
+/* внутри Telegram (ДФ-20, 15.10) — системный стек, как у TelegramUI и экранов мессенджера: SF на iOS и macOS, Roboto на
+   Android; IBM Plex остаётся вебу и публичным страницам, Oswald заголовков — бренд и тут */
+:root[data-tg] { --font-text: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 .tm-display { font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.01em; }
 .tm-title-1 { font-family: var(--font-display); font-size: 30px; line-height: 34px; font-weight: 700; }
 .tm-title-2 { font-family: var(--font-display); font-size: 23px; line-height: 28px; font-weight: 600; }

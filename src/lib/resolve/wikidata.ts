@@ -127,6 +127,87 @@ export async function lookupFilms(by: 'kinopoisk' | 'imdb', keys: string[], fetc
   return out;
 }
 
+/** То же, что `lookupFilms`, запросом SPARQL (11.10): два запроса на пачку до 200 ID вместо поиска, свойств и подписей
+ *  на каждые сорок — импорт профиля Кинопоиска на 110 страниц шёл полтора часа из-за пауз между запросами. Поля и
+ *  правила те же: подпись — русская, иначе английская; год — самый ранний после 1800; длительность — как записана.
+ *  Ошибка запроса — исключение: вызывающий решает, откатиться ли на `lookupFilms`. */
+export async function lookupFilmsSparql(by: 'kinopoisk' | 'imdb', keys: string[], fetcher: typeof fetch = fetch): Promise<Map<string, WikidataFilm>> {
+  const out = new Map<string, WikidataFilm>();
+  const unique = Array.from(new Set(keys.filter(Boolean))).filter((k) => /^[\w-]+$/.test(k));
+  if (!unique.length) return out;
+  const sparql = async (query: string): Promise<Record<string, { value: string } | undefined>[]> => {
+    for (let attempt = 0; ; attempt++) {
+      const res = await fetcher('https://query.wikidata.org/sparql', {
+        method: 'POST', body: new URLSearchParams({ query }), signal: AbortSignal.timeout(60000),
+        headers: { Accept: 'application/sparql-results+json', 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
+      if (res.ok) return ((await res.json()) as { results: { bindings: Record<string, { value: string }>[] } }).results.bindings;
+      if (!(res.status === 429 || res.status >= 500) || attempt >= 3) throw new Error(`wikidata sparql ${res.status}`);
+      const after = Number(res.headers.get('retry-after')) || 0;
+      await new Promise((r) => setTimeout(r, Math.max(after * 1000, 2000 * 2 ** attempt)));
+    }
+  };
+  const q = (u?: { value: string }) => u?.value.split('/').pop();
+  // оригинальных названий и длительностей у фильма бывает несколько: порядка утверждений SPARQL не знает, поэтому
+  // названия — все (выбор ниже), длительность — только если записи согласны («Апокалипсис сегодня»: 147 и 202 минуты,
+  // режиссёрская версия) — иначе её даст TMDb
+  const rows = await sparql(`SELECT ?key ?f (SAMPLE(?ru) AS ?ru_) (SAMPLE(?en) AS ?en_) (GROUP_CONCAT(DISTINCT ?orig; separator="\\u0001") AS ?origs) (SAMPLE(?imdb) AS ?imdb_)
+    (SAMPLE(?tmdb) AS ?tmdb_) (SAMPLE(?kp) AS ?kp_) (GROUP_CONCAT(DISTINCT STR(YEAR(?date)); separator=" ") AS ?years) (MIN(?dur) AS ?durMin) (MAX(?dur) AS ?durMax) WHERE {
+    VALUES ?key { ${unique.map((k) => `"${k}"`).join(' ')} }
+    ?f wdt:${PROPS[by]} ?key .
+    OPTIONAL { ?f rdfs:label ?ru FILTER(lang(?ru) = 'ru') } OPTIONAL { ?f rdfs:label ?en FILTER(lang(?en) = 'en') }
+    OPTIONAL { ?f wdt:${PROPS.original} ?orig } OPTIONAL { ?f wdt:${PROPS.imdb} ?imdb } OPTIONAL { ?f wdt:${PROPS.tmdb} ?tmdb }
+    OPTIONAL { ?f wdt:${PROPS.kinopoisk} ?kp } OPTIONAL { ?f wdt:${PROPS.published} ?date } OPTIONAL { ?f wdt:${PROPS.duration} ?dur }
+  } GROUP BY ?key ?f`);
+  // ID → первый найденный элемент, как у `lookupFilms`
+  const itemOf = new Map<string, Record<string, { value: string } | undefined>>();
+  for (const r of rows) if (r.key && !itemOf.has(r.key.value)) itemOf.set(r.key.value, r);
+  const items = [...new Set([...itemOf.values()].map((r) => q(r.f)!))];
+  // режиссёры, сценаристы и страны — вторым запросом, с подписями
+  const rel = new Map<string, { director: { id: string; name: string }[]; writer: { id: string; name: string }[]; country: string[] }>();
+  if (items.length) {
+    // все утверждения, кроме устаревших, как у `lookupFilms`: `wdt:` дал бы только лучший ранг («Человек на Луне» терял
+    // Великобританию)
+    const people = await sparql(`SELECT ?f ?p ?v (SAMPLE(?vru) AS ?ru) (SAMPLE(?ven) AS ?en) WHERE {
+      VALUES ?f { ${items.map((x) => `wd:${x}`).join(' ')} }
+      VALUES (?p ?ps) { (p:${PROPS.director} ps:${PROPS.director}) (p:${PROPS.writer} ps:${PROPS.writer}) (p:${PROPS.country} ps:${PROPS.country}) }
+      ?f ?p ?st . ?st ?ps ?v ; wikibase:rank ?rank . FILTER(?rank != wikibase:DeprecatedRank)
+      OPTIONAL { ?v rdfs:label ?vru FILTER(lang(?vru) = 'ru') } OPTIONAL { ?v rdfs:label ?ven FILTER(lang(?ven) = 'en') }
+    } GROUP BY ?f ?p ?v`);
+    for (const r of people) {
+      const f = q(r.f)!, p = q(r.p)!.replace(/^.*[/#]/, ''), id = q(r.v)!, name = r.ru?.value ?? r.en?.value;
+      if (!name) continue;
+      const x = rel.get(f) ?? { director: [], writer: [], country: [] };
+      if (p === PROPS.director) x.director.push({ id, name });
+      else if (p === PROPS.writer) x.writer.push({ id, name });
+      else x.country.push(name);
+      rel.set(f, x);
+    }
+  }
+  for (const [key, r] of itemOf) {
+    const f = q(r.f)!;
+    const x = rel.get(f) ?? { director: [], writer: [], country: [] };
+    const years = (r.years?.value ?? '').split(' ').map(Number).filter((y) => y > 1800);
+    const lo = Number(r.durMin?.value), hi = Number(r.durMax?.value);
+    const dur = lo > 0 && hi - lo <= 5 ? Math.round(lo) : undefined;
+    out.set(key, {
+      wikidata: f,
+      kinopoisk: r.kp_ ? Number(r.kp_.value) : undefined,
+      imdb: r.imdb_?.value,
+      tmdb: r.tmdb_ ? Number(r.tmdb_.value) : undefined,
+      title: r.ru_?.value ?? r.en_?.value,
+      // из нескольких оригинальных названий — совпадающее с английской подписью («Romeo + Juliet», а не «Romeo & Julia»)
+      originalTitle: ((o) => o.find((t) => t === r.en_?.value) ?? o[0])((r.origs?.value ?? '').split('\u0001').filter(Boolean)),
+      year: years.length ? Math.min(...years) : undefined,
+      creators: x.director.map((d) => d.name),
+      credits: [...x.director.map((d) => ({ personId: d.id, role: 'director' as const, name: d.name })), ...x.writer.map((d) => ({ personId: d.id, role: 'writer' as const, name: d.name }))],
+      countries: x.country,
+      durationMinutes: dur,
+    });
+  }
+  return out;
+}
+
 export function fromWikidata(film: WikidataFilm): Partial<ResolvedWork> {
   return {
     title: film.title,

@@ -18,6 +18,21 @@ const COLUMNS: { table: string; column: string; ddl: string }[] = [
   { table: 'user', column: 'invited_by', ddl: 'ALTER TABLE user ADD COLUMN invited_by TEXT' },
   // 07.10, ЗП-13/38: источник прихода — метка `--s<метка>` в ссылке посева
   { table: 'user', column: 'source', ddl: 'ALTER TABLE user ADD COLUMN source TEXT' },
+  // 13.10, МА-1/МА-2: уровень сложности и признаки произведения (операции, регистры) — как их видел
+  // человек в момент события; «стоило ли» 1–5 у чек-ина (ДФ-10) и причина при 1–2 (worker/metrics.ts)
+  ...['impression', 'feedback', 'checkin'].flatMap((table) => [
+    { table, column: 'level', ddl: `ALTER TABLE ${table} ADD COLUMN level REAL` },
+    { table, column: 'traits', ddl: `ALTER TABLE ${table} ADD COLUMN traits TEXT` },
+  ]),
+  { table: 'checkin', column: 'worth', ddl: 'ALTER TABLE checkin ADD COLUMN worth INTEGER' },
+  { table: 'checkin', column: 'worth_why', ddl: 'ALTER TABLE checkin ADD COLUMN worth_why TEXT' },
+  // 14.10, ДФ-11: какой импорт положил запись дневника или оценку — по нему импорт отменяется целиком
+  { table: 'journal', column: 'import_id', ddl: 'ALTER TABLE journal ADD COLUMN import_id TEXT' },
+  { table: 'rating', column: 'import_id', ddl: 'ALTER TABLE rating ADD COLUMN import_id TEXT' },
+  // 14.10, МА-3: открытие материала — чей он (голос из реестра), длина ролика и сколько человек был снаружи
+  { table: 'material_open', column: 'voice_id', ddl: 'ALTER TABLE material_open ADD COLUMN voice_id TEXT' },
+  { table: 'material_open', column: 'minutes', ddl: 'ALTER TABLE material_open ADD COLUMN minutes INTEGER' },
+  { table: 'material_open', column: 'dwell', ddl: 'ALTER TABLE material_open ADD COLUMN dwell INTEGER' },
 ];
 
 /** Новые таблицы — для базы, созданной до них: schema.sql при деплое не прогоняется заново. */
@@ -71,6 +86,12 @@ const TABLES: string[] = [
   // 11.10, ЗП-11: команда /together в чате — одноразовый ключ чата для приглашения голосовать (worker/together.ts)
   `CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
     created_at TEXT NOT NULL, session_id TEXT)`,
+  // 13.10, МА-1: снимки карты участника — диапазон сложности, от которого считается «сдвиг» (worker/metrics.ts)
+  `CREATE TABLE IF NOT EXISTS level_state (user_id TEXT NOT NULL REFERENCES user(id), at TEXT NOT NULL, center REAL NOT NULL,
+    lo REAL NOT NULL, hi REAL NOT NULL, median REAL, n INTEGER NOT NULL, PRIMARY KEY (user_id, at))`,
+  // 14.10: выгрузка дневника на час — для downloadFile Telegram (ДФ-14)
+  `CREATE TABLE IF NOT EXISTS export_file (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), name TEXT NOT NULL,
+    body TEXT NOT NULL, at TEXT NOT NULL)`,
 ];
 
 let done: Promise<void> | undefined;

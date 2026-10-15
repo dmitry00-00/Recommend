@@ -10,6 +10,7 @@
 // Колода хранится на сервере целиком (название, год, кадр, пара строк, где смотреть): у позванного может
 // не быть этих фильмов в своём справочнике, а видеть он должен то же, что все.
 import type { D1Database, Env } from './env';
+import { bot } from './env';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const DECK_MIN = 4;
@@ -62,9 +63,8 @@ const newSessionId = (): string => {
 // в этот чат приглашение «Голосовать». Без ключа бот в чат не пишет: иначе через него можно было бы слать что угодно
 // в любой чат, где он есть. Ключ живёт сутки и годится на одну подборку. В группе бот видит только команды себе
 // (режим приватности Telegram), переписку — нет.
-const BOT = 'recomend_media_bot';
 const CHAT_HOURS = 24;
-const COMMAND = /^\/(?:together|vmeste)(?:@recomend_media_bot)?(?:\s|$)/i;
+const command = (): RegExp => new RegExp(`^\\/(?:together|vmeste)(?:@${bot.name})?(?:\\s|$)`, 'i');
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const TEXT = {
   ru: {
@@ -94,7 +94,7 @@ export interface ChatMessage { message_id: number; text?: string; chat: { id: nu
 
 /** Сообщение боту (вебхук, worker/inline.ts). true — команда наша и ответ отправлен. */
 export async function togetherCommand(env: Env, m: ChatMessage): Promise<boolean> {
-  if (!m.text || !COMMAND.test(m.text.trim())) return false;
+  if (!m.text || !command().test(m.text.trim())) return false;
   const token = newSessionId();
   const l = lang(m.from?.language_code);
   // ключи старше недели не нужны никому: и не годны, и не нужны для истории
@@ -103,7 +103,7 @@ export async function togetherCommand(env: Env, m: ChatMessage): Promise<boolean
     .bind(token, m.chat.id, m.chat.title?.slice(0, 120) ?? null, l, new Date().toISOString()).run();
   return send(env, {
     chat_id: m.chat.id, text: TEXT[l].ask, reply_parameters: { message_id: m.message_id, allow_sending_without_reply: true },
-    reply_markup: { inline_keyboard: [[{ text: TEXT[l].pick, url: `https://t.me/${BOT}?startapp=g-${token}` }]] },
+    reply_markup: { inline_keyboard: [[{ text: TEXT[l].pick, url: `https://t.me/${bot.name}?startapp=g-${token}` }]] },
   });
 }
 
@@ -117,7 +117,7 @@ async function postToChat(env: Env, token: string, sessionId: string, userId: st
   const name = u?.first_name || (u?.username ? `@${u.username}` : l === 'en' ? 'a friend' : 'друга');
   const sent = await send(env, {
     chat_id: c.chat_id, text: TEXT[l].vote(name, n), parse_mode: 'HTML',
-    reply_markup: { inline_keyboard: [[{ text: TEXT[l].go, url: `https://t.me/${BOT}?startapp=t-${sessionId}` }]] },
+    reply_markup: { inline_keyboard: [[{ text: TEXT[l].go, url: `https://t.me/${bot.name}?startapp=t-${sessionId}` }]] },
   });
   if (!sent) return undefined;
   await env.DB.prepare('UPDATE together_chat SET session_id = ? WHERE token = ?').bind(sessionId, token).run();

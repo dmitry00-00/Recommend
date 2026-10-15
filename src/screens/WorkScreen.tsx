@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import type {
-  CharacterDesire, DiscussionPlace, JourneyEntryData, SpoilerLevel, UserSettings, WorkDetail,
+  CharacterDesire, CharacterView, DiscussionPlace, ID, JourneyEntryData, SpoilerLevel, UserSettings, WorkCard, WorkDetail,
 } from '@/types/tmdf';
-import { followOfWork, getDiscussions, getJourney, getSettings, getTasteProgress, getWork, noteCard, planWork, startWork } from '@/api';
+import { followOfWork, getDiscussions, getJourney, getSettings, getSimilar, getTasteProgress, getWork, noteCard, planWork, startWork } from '@/api';
 import {
   BarrierTag, Button, CoMentionList, DiscussionLink, EmptyState, ErrorState, FilmFormNote, OperationChip,
   ReadinessNotice, Skeleton, SpoilerGuard, TagNeighbourList, TropeInsight, TropeMentionList,
@@ -11,10 +11,13 @@ import {
 } from '@/components';
 import { Meta } from '@/components/Meta';
 import { workMeta, titleOf } from '@/lib/format';
-import { creditsOf, personRef, readableName, type CreditView } from '@/lib/credits';
+import { creditsOf, leadName, personRef, readableName, type CreditView } from '@/lib/credits';
 import { SearchLine } from './WorkPlaces';
+import { WorkCardSheet } from './WorkCardSheet';
+import { WorkThumb } from '@/components/WorkThumb';
 import { useRole } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
+import { imageSrc, useImageRetry } from '@/lib/images';
 import ui from '@/i18n';
 
 interface Loaded {
@@ -41,6 +44,66 @@ function Desire({ d, open }: { d: CharacterDesire; open: boolean }) {
       ) : null}
     </li>
   );
+}
+
+/** «Ещё три таких же» (ДФ-5): новичку по ссылке — три соседние карточки того же уровня и регистра. Тап — шторка с
+ *  разборами и «Видел»; отметка здесь считается в ленту так же, как в колоде, а на её место встаёт следующий сосед. */
+function SimilarWorks({ work, onMarked }: { work: WorkDetail; onMarked: () => void }) {
+  const [items, setItems] = useState<WorkCard[] | null>(null);
+  const [openId, setOpenId] = useState<ID | null>(null);
+  const [seen, setSeen] = useState<ID[]>([]);
+  useEffect(() => {
+    let alive = true;
+    setItems(null);
+    getSimilar(work.id).then((list) => { if (alive) setItems(list); }).catch(() => { if (alive) setItems([]); });
+    return () => { alive = false; };
+  }, [work.id]);
+  // отмеченное место занимает следующий сосед: до ленты нужно пять отметок, а на странице их всего четыре
+  const refill = (markedId: ID) => {
+    getSimilar(work.id).then((fresh) => setItems((cur) => {
+      if (!cur) return fresh;
+      const extra = fresh.filter((w) => !cur.some((c) => c.id === w.id));
+      return cur.map((w) => (w.id === markedId ? extra.shift() ?? w : w));
+    })).catch(() => undefined);
+  };
+  if (!items?.length) return null;
+  const open = items.find((w) => w.id === openId) ?? null;
+  const isSeen = (w: WorkCard) => seen.includes(w.id);
+  return (
+    <section className="tm-work__similar">
+      <h2 className="tm-title-3">{ui.work.similarTitle}</h2>
+      <p className="tm-body-sm tm-work__landingtext">{ui.work.similarText}</p>
+      <ul className="tm-search__list">
+        {items.map((w) => (
+          <li key={w.id} className="tm-search__item">
+            <button type="button" className="tm-search__open" onClick={() => setOpenId(w.id)}>
+              <WorkThumb work={w} />
+              <span className="tm-search__text">
+                <span className="tm-search__name">{titleOf(w)}</span>
+                <span className="tm-search__meta">{[w.year || null, leadName(w)].filter(Boolean).join(' · ')}</span>
+              </span>
+            </button>
+            {isSeen(w) ? <span className="tm-caption tm-work__similarmark">{ui.card.seen}</span> : null}
+          </li>
+        ))}
+      </ul>
+      <WorkCardSheet work={open} onClose={() => setOpenId(null)} seen={open ? isSeen(open) : false}
+                     tag={open && isSeen(open) ? ui.card.seen : undefined} context="ещё три таких же"
+                     corner={open && !isSeen(open) ? (
+                       <QuickMark work={open} primary abandon={false} label={ui.quick.seen}
+                                  onDone={() => { setSeen((s) => [...s, open.id]); setOpenId(null); onMarked(); refill(open.id); }} />
+                     ) : null} />
+    </section>
+  );
+}
+
+/** Лицо героя в кружке списка «Герои»: без фото или фото не загрузилось — первая буква имени, а не значок битой
+ *  картинки (ТВ-10, 14.10: у списков страниц это уже было, здесь картинка стояла голой). */
+function HeroFace({ hero }: { hero: CharacterView }) {
+  const img = useImageRetry(hero.image ? imageSrc(hero.image.url, 'w185') : undefined);
+  if (!img.src) return <span>{hero.name.slice(0, 1)}</span>;
+  return <img ref={img.ref} src={img.src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={img.onError}
+              title={hero.image?.actor ? ui.hero.played(hero.image.actor) : undefined} />;
 }
 
 /** Экран «Произведение» (/works/:id). Собран из группы «Произведение»: шапка, барьеры,
@@ -70,7 +133,11 @@ export function WorkScreen() {
   const toast = useToast();
   // новичок по ссылке из поста (10.10): ленты у него ещё нет — одна фраза о приложении и путь к своей ленте
   const [progress, setProgress] = useState<{ rated: number; needed: number } | null>(null);
-  const refreshProgress = () => { getTasteProgress().then(setProgress).catch(() => undefined); };
+  // пришёл новичком в этот заход: «ещё три таких же» остаются и после пятой отметки, а над ними — «лента готова»
+  const [newcomer, setNewcomer] = useState(false);
+  const refreshProgress = () => {
+    getTasteProgress().then((p) => { setProgress(p); if (p.rated < p.needed) setNewcomer(true); }).catch(() => undefined);
+  };
   useEffect(refreshProgress, [id]);
 
   useEffect(() => {
@@ -235,6 +302,16 @@ export function WorkScreen() {
           </div>
         </section>
       ) : null}
+      {newcomer && progress && progress.rated >= progress.needed ? (
+        <section className="tm-work__landing">
+          <h2 className="tm-title-3">{ui.work.feedReady}</h2>
+          <p className="tm-body-sm tm-work__landingtext">{ui.work.feedReadyText}</p>
+          <div className="tm-row tm-row--gap-2">
+            <Button variant="primary" size="sm" onClick={() => navigate('/today')}>{ui.work.feedOpen}</Button>
+          </div>
+        </section>
+      ) : null}
+      {newcomer ? <SimilarWorks work={work} onMarked={refreshProgress} /> : null}
 
       <div className="tm-work__sections">
         {finished ? <p className="tm-label tm-work__finished">{ui.work.finished}</p> : null}
@@ -294,8 +371,7 @@ export function WorkScreen() {
               {work.heroes.map((h) => (
                 <li key={h.id} className="tm-relations__item tm-heroes__item">
                   <Link to={`/character/${h.id}`} className="tm-heroes__face" aria-hidden="true" tabIndex={-1}>
-                    {h.image ? <img src={h.image.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer"
-                                    title={h.image.actor ? ui.hero.played(h.image.actor) : undefined} /> : <span>{h.name.slice(0, 1)}</span>}
+                    <HeroFace hero={h} />
                   </Link>
                   <Link to={`/character/${h.id}`} className="tm-label tm-relations__kind">{h.name}</Link>
                   <span className="tm-caption tm-relations__year">{ui.heroes.also}</span>

@@ -1,10 +1,10 @@
-// Сгенерировано tools/build-media-mentions.mts (2026-10-09) из разметки модели
+// Сгенерировано tools/build-media-mentions.mts (2026-10-11) из разметки модели
 // (.cache/llm/labels.json): в скольких подборках, роликах о нескольких и новостях названо произведение;
 // темы роликов без произведения. Это догадка модели, а не решение человека. Не править руками.
 export interface MediaMentions { list?: number; several?: number; news?: number }
 
 export const mediaMentions: { labels: number; works: Record<string, MediaMentions>; topics: { name: string; type?: string; n: number }[] } = {
- "labels": 2405,
+ "labels": 2423,
  "works": {
   "imdb:tt9660182": {
    "news": 1
@@ -16,9 +16,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "news": 1,
    "several": 2,
    "list": 1
-  },
-  "tmdb:848700": {
-   "news": 1
   },
   "tmdb:269149": {
    "several": 2,
@@ -746,6 +743,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:306819": {
    "several": 1
   },
+  "tmdb:27883": {
+   "several": 1
+  },
   "tmdb:298312": {
    "several": 1
   },
@@ -757,10 +757,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:1366": {
    "list": 1
-  },
-  "tmdb:335724": {
-   "news": 1,
-   "several": 1
   },
   "tmdb:150088": {
    "several": 1
@@ -1015,6 +1011,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:839": {
    "several": 1
   },
+  "tmdb:19067": {
+   "several": 1
+  },
   "tmdb:598014": {
    "list": 1
   },
@@ -1079,6 +1078,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:401513": {
    "several": 1
+  },
+  "tmdb:280005": {
+   "news": 1
   },
   "wd:Q202975": {
    "several": 2
@@ -1280,7 +1282,7 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:969681": {
-   "news": 4,
+   "news": 6,
    "list": 1
   },
   "tmdb:1084244": {

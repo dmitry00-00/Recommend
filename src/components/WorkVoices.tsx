@@ -9,6 +9,8 @@ import { onExternalClick, pick } from '@/lib/telegram';
 import { formatDuration } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import { SuggestSheet } from './SuggestSheet';
+import { SafeImage } from './SafeImage';
+import { useImageRetry } from '@/lib/images';
 import { telegramComments } from '@/mocks/telegramComments';
 import ui, { locale } from '@/i18n';
 
@@ -26,12 +28,14 @@ export interface WorkVoicesProps {
 
 /** Аватар автора: картинка канала, а без неё — монограмма. Размер задаёт вёрстка, чтобы
  *  строка не меняла высоту от того, загрузилась картинка или нет. */
-export function Avatar({ voice, size }: { voice: Voice; size: 'lg' | 'sm' }) {
+export function Avatar({ voice, size }: { voice: Voice; size: 'lg' | 'sm' | 'page' }) {
   const { letter, hue } = monogram(voice.title);
+  // картинка канала не загрузилась и после повтора — та же монограмма, что без картинки (ТВ-10)
+  const img = useImageRetry(voice.avatarUrl);
   return (
     <span className={cx('tm-voice__avatar', `tm-voice__avatar--${size}`)} aria-hidden="true"
-          style={voice.avatarUrl ? undefined : { background: `hsl(${hue} 35% 30%)` }}>
-      {voice.avatarUrl ? <img className="tm-voice__img" src={voice.avatarUrl} alt="" loading="lazy" /> : letter}
+          style={img.src ? undefined : { background: `hsl(${hue} 35% 30%)` }}>
+      {img.src ? <img ref={img.ref} className="tm-voice__img" src={img.src} alt="" loading="lazy" onError={img.onError} /> : letter}
     </span>
   );
 }
@@ -101,7 +105,7 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
          href={blocked ? undefined : a.url} target="_blank" rel="noreferrer noopener"
          aria-disabled={blocked ? 'true' : undefined}
          onClick={blocked ? (e) => e.preventDefault() : (e) => { noteOpen(a); onExternalClick(a.url)(e); }}>
-        {a.previewUrl ? <img className="tm-voice__shot" src={a.previewUrl} alt="" loading="lazy" /> : null}
+        <SafeImage className="tm-voice__shot" src={a.previewUrl} alt="" loading="lazy" />
         {blocked ? <span className="tm-voice__hatch" aria-hidden="true" /> : <span className="tm-voice__play" aria-hidden="true" />}
         {/* замок — на самом кадре (28.09): в заголовке он читался как главное сообщение карточки */}
         {blocked ? <span className="tm-voice__lock">{ui.spoiler.lockedAnalysis}</span> : null}
@@ -152,7 +156,7 @@ function MoreByVoice({ items, spoilerLevel }: { items: ExternalAnalysis[]; spoil
                  target="_blank" rel="noreferrer noopener" aria-disabled={blocked ? 'true' : undefined}
                  onClick={blocked ? (e) => e.preventDefault() : (e) => { noteOpen(m); onExternalClick(m.url)(e); }}>
                 <span className="tm-voice__morethumb">
-                  {m.previewUrl ? <img src={m.previewUrl} alt="" loading="lazy" /> : null}
+                  <SafeImage src={m.previewUrl} alt="" loading="lazy" />
                   {blocked ? <span className="tm-voice__hatch" aria-hidden="true" /> : null}
                   {m.durationMinutes ? <span className="tm-voice__time">{formatDuration(m.durationMinutes)}</span> : null}
                 </span>

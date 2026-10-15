@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-10-11): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-10-14): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -660,6 +660,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "С 27 августа в кино – мистический хоррор «Кошмар на улице Корал-Гроув»."
   },
   {
+    "id": "srcc-guljantv",
+    "title": "guljan toktogul",
+    "handle": "guljantv",
+    "url": "https://t.me/guljantv",
+    "mentions": 14,
+    "reposts": 13,
+    "by": [
+      "Cinemaholics",
+      "avtorskayakomnata",
+      "Заскриптованный",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-01-23",
+    "sample": "Сценарий Марти Суприма или мастер класс \"как заставить сопереживать засранцу\"?"
+  },
+  {
     "id": "srcc-fcjulieandrews",
     "title": "Фан-клуб Джули Эндрюс",
     "handle": "fcjulieandrews",
@@ -876,6 +892,24 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Постер драмы «Любовь моя» номинанта на «Оскар» Родриго Сорогойена с Хавьером Бардемом в…"
   },
   {
+    "id": "srcc-kinoprotebya",
+    "title": "кино про тебя",
+    "handle": "kinoprotebya",
+    "url": "https://t.me/kinoprotebya",
+    "mentions": 7,
+    "reposts": 3,
+    "by": [
+      "avtorskayakomnata",
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы",
+      "Кинотеатр «Художественный»",
+      "Уютный уголок любителя ужасов",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-08-03",
+    "sample": "❄️ снег идёт — снег идёт ❄️"
+  },
+  {
     "id": "srcc-kinowelt",
     "title": "Список Шиллера",
     "handle": "kinowelt",
@@ -911,6 +945,17 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Каннский кинофестиваль завершился — съемки четвертого сезона «Белого лотоса» продолжаются!"
   },
   {
+    "id": "srcc-я помню",
+    "title": "Я помню",
+    "mentions": 0,
+    "reposts": 22,
+    "by": [
+      "iron_wind"
+    ],
+    "lastAt": "2026-10-08",
+    "sample": "18 октября в Ставрополе Артём Драбкин представит двухтомник «Берлин 1945. Последний бой»."
+  },
+  {
     "id": "srcc-litwatch",
     "title": "litwatch",
     "handle": "litwatch",
@@ -926,6 +971,23 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-30",
     "sample": "сегодня у меня рождения ⛩️"
+  },
+  {
+    "id": "srcc-kinocostume",
+    "title": "Кинокостюм для чайников",
+    "handle": "kinocostume",
+    "url": "https://t.me/kinocostume",
+    "mentions": 9,
+    "reposts": 5,
+    "by": [
+      "Abramacabre!",
+      "Cinemaholics",
+      "avtorskayakomnata",
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы"
+    ],
+    "lastAt": "2026-01-21",
+    "sample": "Читка «Бугонии» Йоргаса, Эммы и Джесси"
   },
   {
     "id": "srcc-unpleasant_scream",
@@ -1008,21 +1070,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-04-09",
     "sample": "#КинотвитДня с уральским говором"
-  },
-  {
-    "id": "srcc-guljantv",
-    "title": "guljan toktogul",
-    "handle": "guljantv",
-    "url": "https://t.me/guljantv",
-    "mentions": 9,
-    "reposts": 11,
-    "by": [
-      "Cinemaholics",
-      "Заскриптованный",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-01-23",
-    "sample": "Сценарий Марти Суприма или мастер класс \"как заставить сопереживать засранцу\"?"
   },
   {
     "id": "srcc-stupidthough",
@@ -1288,55 +1335,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-03-08",
     "sample": "к 8 марта мы сделали зин о женщинах в кино!"
-  },
-  {
-    "id": "srcc-kinoprotebya",
-    "title": "кино про тебя",
-    "handle": "kinoprotebya",
-    "url": "https://t.me/kinoprotebya",
-    "mentions": 7,
-    "reposts": 2,
-    "by": [
-      "Заскриптованный",
-      "Кинопоиск | Фильмы и сериалы",
-      "Кинотеатр «Художественный»",
-      "Уютный уголок любителя ужасов",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-08-03",
-    "sample": "❄️ снег идёт — снег идёт ❄️"
-  },
-  {
-    "id": "srcc-kinocostume",
-    "title": "Кинокостюм для чайников",
-    "handle": "kinocostume",
-    "url": "https://t.me/kinocostume",
-    "mentions": 7,
-    "reposts": 5,
-    "by": [
-      "Abramacabre!",
-      "Cinemaholics",
-      "Заскриптованный",
-      "Кинопоиск | Фильмы и сериалы"
-    ],
-    "lastAt": "2026-01-21",
-    "sample": "Читка «Бугонии» Йоргаса, Эммы и Джесси"
-  },
-  {
-    "id": "srcc-mineznaemchtoetotakoe",
-    "title": "соня смотрит ужасы",
-    "handle": "mineznaemchtoetotakoe",
-    "url": "https://t.me/mineznaemchtoetotakoe",
-    "mentions": 12,
-    "reposts": 0,
-    "by": [
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2025-11-10",
-    "sample": "Стефани Ротман: женский взгляд на эксплуатационное кино"
   }
 ];

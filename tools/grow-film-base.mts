@@ -20,8 +20,13 @@
 // индийское кино (страна P495 — Индия) от 12, англоязычное (США, Великобритания, Канада, Австралия,
 // Ирландия, Новая Зеландия) от 30. Замер — по регионам: Индия отдельно, англоязычные страны вместе;
 // очередь черновой разметки (300 самых смотримых в каждом срезе) — в .cache/grow-film-base-world.json.
+// --canon (12.10) — мировой канон по числу разделов Википедии для всех стран сразу: страны --origin и пороги
+// выше оставляли дыры («Умберто Д.», «Три цвета: Белый», «Запрещённые игры», «Король-рыбак» — 30–39 разделов).
+// Фильмы от --canon-links (25) из любой страны и от --canon-world-links (15), если среди стран производства нет
+// США и Великобритании; сериалы — от --canon-series-links (20) и мировые от того же --canon-world-links.
 // Карточки — в src/mocks/filmBaseWorld.ts: отдельно от русских топов, чтобы английская сборка (ЗП-20)
 // могла брать их сама, а индекс разборов не искал однословные английские названия в русских текстах.
+import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex, analysisKeys, idsOf } from './works-index.mts';
@@ -29,6 +34,7 @@ import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
+import { isWithheld } from '../src/mocks/withheldWorks.ts';
 
 const argv = process.argv.slice(2);
 const opt = (n: string) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : undefined; };
@@ -55,7 +61,7 @@ const QUEUE = Number(opt('--queue') ?? 300);
 const NOISE = /^(en|hi):(XXX|xXx|ट्रिपल एक्स)/;
 /** (без \b: в JS он не знает кириллицы) название без уточнения в скобках («Ему (фильм)», «Мадисон (телесериал)», «Kantara 2 (film)») и без раздела */
 const cleanTitle = (t: string) => t.replace(/^[a-z]{2,3}:/, '')
-  .replace(/\s*\((?:[^()]*(?:фильм|сериал|телесериал|мультфильм|мини-сериал|film|TV series|miniseries|web series)[^()]*)\)$/iu, '').trim();
+  .replace(/\s*\((?:[^()]*(?:фильм|сериал|телесериал|мультфильм|мини-сериал|film|movie|TV series|miniseries|web series)[^()]*)\)$/iu, '').trim();
 const INDIA = 'Q668';
 // индийское — страна производства Индия без США и Великобритании: «Живая сталь» и «Судья Дредд» числят
 // Индию в странах из-за Reliance, а «Миллионер из трущоб» — британское кино
@@ -178,6 +184,22 @@ const ORIGIN_Q: Record<string, string> = { KR: 'Q884', AR: 'Q414', IR: 'Q794', D
   IN: 'Q668', JP: 'Q17', HK: 'Q8646', MX: 'Q96', FR: 'Q142', IT: 'Q38', DE: 'Q183', TW: 'Q865', TR: 'Q43', BR: 'Q155', PL: 'Q36' };
 const ORIGINS = (opt('--origin') ?? '').split(',').map((c) => c.trim().toUpperCase()).filter((c) => ORIGIN_Q[c]);
 const ORIGIN_LINKS = Number(opt('--origin-links') ?? 15);
+const CANON = argv.includes('--canon');
+const CANON_LINKS = Number(opt('--canon-links') ?? 25);
+const CANON_WORLD_LINKS = Number(opt('--canon-world-links') ?? 15);
+const CANON_SERIES_LINKS = Number(opt('--canon-series-links') ?? 20);
+/** не США и не Великобритания среди стран производства: их кино и так в справочнике гуще всего */
+const NOT_ANGLO = 'FILTER NOT EXISTS { ?f wdt:P495 ?ak. VALUES ?ak { wd:Q30 wd:Q145 } }';
+const notAnglo = (r: { origin?: string[] }) => !r.origin?.includes('Q30') && !r.origin?.includes('Q145');
+/** канон: фильм от CANON_LINKS разделов, сериал от CANON_SERIES_LINKS; не англо-американское — от CANON_WORLD_LINKS */
+const canonical = (r: { type: string; links?: number; origin?: string[] }) => CANON && (
+  (r.links ?? 0) >= (r.type === 'series' ? CANON_SERIES_LINKS : CANON_LINKS) || (notAnglo(r) && (r.links ?? 0) >= CANON_WORLD_LINKS));
+const SPARQL_CANON: Record<string, string> = CANON ? {
+  [`canon-films-${CANON_LINKS}`]: `${FILMS} ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${CANON_LINKS})`,
+  [`canon-films-world-${CANON_WORLD_LINKS}`]: `${FILMS} ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${CANON_WORLD_LINKS}) ${NOT_ANGLO}`,
+  [`canon-series-${CANON_SERIES_LINKS}`]: `${SERIES_Q} ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${CANON_SERIES_LINKS})`,
+  [`canon-series-world-${CANON_WORLD_LINKS}`]: `${SERIES_Q} ?f wdt:P31 ?c; wikibase:sitelinks ?n. FILTER(?n >= ${CANON_WORLD_LINKS}) ${NOT_ANGLO}`,
+} : {};
 /** кино страны: она в странах производства, США и Великобритании там нет (совместное с Голливудом — не её школа) */
 const ofCountry = (c: string) => (r: { origin?: string[] }) => Boolean(r.origin?.includes(ORIGIN_Q[c]) && !r.origin.includes('Q30') && !r.origin.includes('Q145'));
 const SPARQL_WORLD: Record<string, string> = {
@@ -189,7 +211,7 @@ const SPARQL_WORLD: Record<string, string> = {
 const WIKI = WORLD ? 'en' : 'ru';
 if (!argv.includes('--no-classics')) {
   const originQ = Object.fromEntries(ORIGINS.map((c) => [`origin-${c}-${ORIGIN_LINKS}`, `VALUES ?c { wd:Q11424 wd:Q202866 wd:Q24869 } ?f wdt:P31 ?c; wdt:P495 wd:${ORIGIN_Q[c]}; wikibase:sitelinks ?n. FILTER(?n >= ${ORIGIN_LINKS})`]));
-  for (const [name, where] of Object.entries(WORLD ? { ...SPARQL_WORLD, ...originQ } : SPARQL)) {
+  for (const [name, where] of Object.entries(WORLD ? { ...SPARQL_WORLD, ...originQ, ...SPARQL_CANON } : SPARQL)) {
     const file = new URL(`sparql-${name}.json`, TOP_DIR);
     let got: [string, number][] | undefined = existsSync(file) && !FRESH ? JSON.parse(readFileSync(file, 'utf8')) : undefined;
     if (!got) {
@@ -343,7 +365,7 @@ if (WORLD) {
   const top = (g: string) => uniq.filter((r) => r.months && r.by?.[g]).sort((a, b) => b.by![g] - a.by![g]).slice(0, TOP);
   // кино стран — и то, что мелькало в топах («Идеальные дни», «Монстр» 2023): срез страны их считает, справочник — тоже
   const classic = uniq.filter((r) => (!r.months && (indian(r) || (r.links ?? 0) >= EN_CLASSIC_LINKS))
-    || ORIGINS.some((c) => ofCountry(c)(r) && (r.links ?? 0) >= ORIGIN_LINKS));
+    || ORIGINS.some((c) => ofCountry(c)(r) && (r.links ?? 0) >= ORIGIN_LINKS) || canonical(r));
   for (const r of [...top('IN'), ...top('EN'), ...classic]) chosen.add(r.qid);
   await fillYears(uniq.filter((r) => !r.year && chosen.has(r.qid)));
 }
@@ -374,6 +396,7 @@ const slices = WORLD ? {
   'англоязычные страны: самое смотримое': inTops.filter((r) => r.by?.EN).sort((a, b) => b.by!.EN - a.by!.EN),
   'классика индийского кино (вне топов)': classics.filter(indian).sort((a, b) => (b.links ?? 0) - (a.links ?? 0)),
   // кино стран: и классика, и то, что было в топах, — по числу разделов Википедии
+  ...(CANON ? { 'мировой канон': uniq.filter(canonical).sort((a, b) => (b.links ?? 0) - (a.links ?? 0)) } : {}),
   ...Object.fromEntries(ORIGINS.map((c) => [`кино страны ${c}`, uniq.filter((r) => ofCountry(c)(r) && (r.links ?? 0) >= ORIGIN_LINKS).sort((a, b) => (b.links ?? 0) - (a.links ?? 0))])),
 } : {};
 const queue = new Map<string, (typeof uniq)[number] & { slice: string; rank: number }>();
@@ -435,22 +458,23 @@ if (WORLD && queue.size) {
 
 if (WRITE) {
   await nameCreators(missing);
+  // убранное владельцем (src/mocks/withheldWorks.ts) не заводим и не держим
   const cards: WorkCard[] = missing.map((r) => ({
-    id: `f-wd${r.qid.slice(1)}`, type: r.type, title: r.title,
+    id: `f-wd${r.qid.slice(1)}`, type: r.type, title: plainTitle(r.title),
     ...(r.originalTitle ? { originalTitle: r.originalTitle } : {}),
     year: r.year, creators: creatorsOf(r),
     primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [], isNicheMasterpiece: false,
     externalIds: { ...(r.type === 'film' && r.tmdb ? { tmdb: r.tmdb } : {}), ...(r.imdb ? { imdb: r.imdb } : {}) },
-  }) as WorkCard);
+  }) as WorkCard).filter((c) => !isWithheld(c));
   const ids = new Set(cards.map((c) => c.id));
-  const all = [...prev.filter((c) => !ids.has(c.id)), ...cards];
+  const all = [...prev.filter((c) => !ids.has(c.id) && !isWithheld(c)), ...cards];
   // строка на карточку через c(): пустые поля разметки у всех одинаковы, и в полном виде
   // они были третью файла (1,4 МБ на 4450 карточек)
   const row = (w: WorkCard) => `  c(${[w.id.replace(/^f-wd/, ''), w.type, w.title, w.originalTitle ?? '', w.year, w.creators, w.externalIds ?? {}].map((v) => JSON.stringify(v)).join(', ')}),`;
   writeFileSync(OUT, `// Сгенерировано tools/grow-film-base.mts${WORLD ? ' --world' : ''} (${now.toISOString().slice(0, 10)}): ${WORLD
     ? `фильмы и сериалы из суточных
 // топов Википедии по странам (Индия; ${COUNTRIES.filter((c) => c !== 'IN').join(', ')}) и классика по числу разделов Википедии
-// (индийское кино, англоязычное), которых не было в справочнике, — ЗП-22.`
+// (индийское кино, англоязычное, мировой канон --canon), которых не было в справочнике, — ЗП-22.`
     : `фильмы и сериалы из месячных
 // топов русской Википедии и классика по числу разделов Википедии, которых не было в справочнике.`}
 // Опознаны в Wikidata (CC0). Разметку для подбора дописывает черновик (draftAnnotations.ts,

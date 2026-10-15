@@ -11,11 +11,13 @@ import { adminDigest, followDigest, forgetReference, getFollows, noteFresh, putF
 import { getInbox, getRegistry, getRegistryLog, getRegistryVersion, getSources, postInbox, postInboxResult, postRegistry } from './registry';
 import { newId, newToken, verifyInitData } from './auth';
 import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
+import { useBot } from './env';
 import { migrate } from './migrate';
 import { getFunnel, noteVisit, postEvent } from './funnel';
 import { deleteAccount } from './account';
 import { noteInvite } from './invite';
 import { togetherRoute } from './together';
+import { probe } from './probe';
 // сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
 export { forgetMigrations } from './migrate';
 import { loopReport, loopRows } from './loop';
@@ -219,16 +221,49 @@ async function putRating(req: Request, user: User, db: D1Database, workId: strin
 }
 
 /** Показы слейта: что человек увидел и на каком месте. Пишем пачкой — один запрос на ленту. */
+/** Уровень сложности произведения (1–10) и его признаки — операции с интенсивностью и регистры (МА-1/МА-2,
+ *  worker/metrics.ts). Приходят от клиента: только обрезаем до разумного, чужое — null. */
+const levelOf = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) && v > 0 && v <= 10 ? Math.round(v * 10) / 10 : null);
+function traitsOf(v: unknown): string | null {
+  if (!v || typeof v !== 'object') return null;
+  const t = v as { op?: unknown; rg?: unknown };
+  const op: Record<string, number> = {};
+  if (t.op && typeof t.op === 'object') {
+    for (const [k, x] of Object.entries(t.op as Record<string, unknown>).slice(0, 12)) {
+      if (/^[a-z_]{1,32}$/.test(k) && typeof x === 'number' && Number.isFinite(x) && x > 0) op[k] = Math.min(3, Math.round(x * 100) / 100);
+    }
+  }
+  const rg = Array.isArray(t.rg) ? t.rg.filter((r): r is string => typeof r === 'string' && /^[a-z_]{1,32}$/.test(r)).slice(0, 8) : [];
+  return Object.keys(op).length || rg.length ? JSON.stringify({ ...(Object.keys(op).length ? { op } : {}), ...(rg.length ? { rg } : {}) }) : null;
+}
+
+/** Снимок карты (МА-1): пишем, только если карта изменилась с прошлого снимка — первый и есть старт. */
+async function noteLevelState(db: D1Database, userId: string, v: unknown, at: string): Promise<void> {
+  if (!v || typeof v !== 'object') return;
+  const s = v as Record<string, unknown>;
+  const num = (x: unknown) => (typeof x === 'number' && Number.isFinite(x) && x >= 0 && x <= 10 ? Math.round(x * 10) / 10 : null);
+  const center = num(s.center), lo = num(s.lo), hi = num(s.hi), median = num(s.median);
+  const n = typeof s.n === 'number' && Number.isInteger(s.n) && s.n >= 0 ? Math.min(s.n, 100000) : null;
+  if (center == null || lo == null || hi == null || n == null || lo > hi) return;
+  const last = await db.prepare('SELECT center, lo, hi, median, n FROM level_state WHERE user_id = ? ORDER BY at DESC LIMIT 1')
+    .bind(userId).first<{ center: number; lo: number; hi: number; median: number | null; n: number }>();
+  if (last && last.center === center && last.lo === lo && last.hi === hi && last.median === median && last.n === n) return;
+  await db.prepare('INSERT OR IGNORE INTO level_state (user_id, at, center, lo, hi, median, n) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(userId, at, center, lo, hi, median, n).run();
+}
+
 async function postImpressions(req: Request, user: User, db: D1Database): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as {
-    slateId?: string; energy?: string; items?: { recId?: string; workId?: string; slot?: string; rank?: number }[];
+    slateId?: string; energy?: string; state?: unknown;
+    items?: { recId?: string; workId?: string; slot?: string; rank?: number; level?: unknown; traits?: unknown }[];
   };
   const items = (body.items ?? []).filter((i) => i.recId && i.workId).slice(0, 20);
   if (!body.slateId || !items.length) return json({ error: 'no_items' }, 400);
   const at = now();
   await db.batch(items.map((i) => db.prepare(
-    'INSERT INTO impression (id, user_id, slate_id, rec_id, work_id, slot, rank, energy, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  ).bind(newId('i'), user.id, body.slateId, i.recId, i.workId, i.slot ?? null, i.rank ?? null, body.energy ?? null, at)));
+    'INSERT INTO impression (id, user_id, slate_id, rec_id, work_id, slot, rank, energy, at, level, traits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  ).bind(newId('i'), user.id, body.slateId, i.recId, i.workId, i.slot ?? null, i.rank ?? null, body.energy ?? null, at, levelOf(i.level), traitsOf(i.traits))));
+  await noteLevelState(db, user.id, body.state, at);
   return json({ ok: true, n: items.length });
 }
 
@@ -239,10 +274,23 @@ async function postOpen(req: Request, user: User, db: D1Database): Promise<Respo
   const str = (v: unknown, n = 64) => (typeof v === 'string' && v ? v.slice(0, n) : null);
   const url = str(b.url, 500);
   if (!url) return json({ error: 'no_url' }, 400);
+  const minutes = typeof b.minutes === 'number' && b.minutes > 0 ? Math.min(Math.round(b.minutes), 24 * 60) : null;
+  const id = newId('o');
   await db.prepare(
-    'INSERT INTO material_open (id, user_id, url, work_id, platform, lens, lens_also, tier, place, shelf, shelves, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  ).bind(newId('o'), user.id, url, str(b.workId, 120), str(b.platform), str(b.lens), str(b.lensAlso), str(b.tier), str(b.place), str(b.shelf),
-    b.shelves ? 1 : 0, now()).run();
+    'INSERT INTO material_open (id, user_id, url, work_id, platform, lens, lens_also, tier, place, shelf, shelves, at, voice_id, minutes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  ).bind(id, user.id, url, str(b.workId, 120), str(b.platform), str(b.lens), str(b.lensAlso), str(b.tier), str(b.place), str(b.shelf),
+    b.shelves ? 1 : 0, now(), str(b.voiceId, 120), minutes).run();
+  // id — чтобы клиент дописал, сколько человек был снаружи (МА-3, `POST /api/open/<id>/dwell`)
+  return json({ ok: true, id });
+}
+
+/** Человек вернулся из открытого материала (МА-3): секунды снаружи. Пишется один раз и только своё; больше четырёх
+ *  часов — уже не чтение, а ушёл по делам: обрезаем. */
+async function postDwell(req: Request, user: User, db: D1Database, id: string): Promise<Response> {
+  const b = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  const s = typeof b.seconds === 'number' && Number.isFinite(b.seconds) && b.seconds >= 0 ? Math.min(Math.round(b.seconds), 4 * 3600) : null;
+  if (s == null) return json({ error: 'bad_seconds' }, 400);
+  await db.prepare('UPDATE material_open SET dwell = ? WHERE id = ? AND user_id = ? AND dwell IS NULL').bind(s, id, user.id).run();
   return json({ ok: true });
 }
 
@@ -259,7 +307,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
   // присланный список — до чтения профиля, чтобы первый же ответ его уже содержал; не
   // разложился — профиль важнее, попробуем при следующем входе
   await applyUserSeed(db, env, user.id).catch((err) => console.error('seed', user.id, err));
-  const [watched, journal, predictions, verdicts, ratings, profile, dismissals] = await Promise.all([
+  const [watched, journal, predictions, verdicts, ratings, profile, dismissals, visits] = await Promise.all([
     db.prepare('SELECT work_id, state, work FROM watched WHERE user_id = ? ORDER BY at DESC').bind(user.id).all<{ work_id: string; state: string; work: string | null }>(),
     db.prepare('SELECT entry_id, work_id, work, status, progress, started_at, finished_at, eagerness, inferred, series FROM journal WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT entry_id, work_id, expected, model, model_p, at FROM prediction WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
@@ -271,6 +319,8 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
     db.prepare(`SELECT work_id, reason, MAX(at) AS at FROM feedback
                 WHERE user_id = ? AND action = 'dismiss' AND work_id IS NOT NULL AND coalesce(reason, '') <> 'already_know' AND at >= ?
                 GROUP BY work_id`).bind(user.id, new Date(Date.now() - 183 * 864e5).toISOString()).all<{ work_id: string; reason: string | null; at: string }>(),
+    // дни захода (ДФ-3): с третьего клиент предлагает ярлык на экран телефона
+    db.prepare('SELECT COUNT(*) AS n FROM visit WHERE user_id = ?').bind(user.id).first<{ n: number }>(),
   ]);
   const parse = (raw: unknown) => (typeof raw === 'string' ? JSON.parse(raw) : undefined);
   return json({
@@ -287,6 +337,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
       telegram: profile?.tg_id != null,
       owner: isOwner(env, profile?.username ?? undefined),
       role: await roleOf(env, profile?.username),
+      visitDays: visits?.n ?? 0,
     },
   });
 }
@@ -379,14 +430,18 @@ async function postCheckIn(req: Request, user: User, db: D1Database, entryId: st
     series?: unknown;
     /** книга (З5): часть и страница; `part_finished` — дочитана часть, а не книга */
     book?: unknown;
+    /** МА-1/МА-2: уровень и признаки произведения; ДФ-10: «стоило ли» 1–5 и причина при 1–2 */
+    level?: unknown; traits?: unknown; worth?: unknown; worthWhy?: unknown;
   };
+  const worth = Number.isInteger(body.worth) && (body.worth as number) >= 1 && (body.worth as number) <= 5 ? body.worth as number : null;
+  const worthWhy = worth != null && worth <= 2 && typeof body.worthWhy === 'string' && /^[a-z_]{1,32}$/.test(body.worthWhy) ? body.worthWhy : null;
   const status = body.status ?? 'finished';
   // сезон или часть дочитаны, а целое — нет: чек-ин пишем, запись дневника остаётся «смотрю/читаю»
   const journalStatus = status === 'season_finished' || status === 'part_finished' ? 'in_progress' : status;
   const series = body.book ? bookJson(body.book) : seriesJson(body.series);
-  await db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+  await db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at, level, traits, worth, worth_why) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
     .bind(newId('c'), user.id, entryId, body.workId ?? '', status, body.perceived ?? null, body.reason ?? null,
-      body.payload ? JSON.stringify(body.payload) : null, now()).run();
+      body.payload ? JSON.stringify(body.payload) : null, now(), levelOf(body.level), traitsOf(body.traits), worth, worthWhy).run();
   await db.prepare(
     `UPDATE journal SET status = ?, progress = COALESCE(?, progress), series = COALESCE(?, series), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
   ).bind(journalStatus, body.progress ?? null, series, journalStatus === 'in_progress' ? null : now(), user.id, entryId).run();
@@ -439,13 +494,94 @@ async function postProgress(req: Request, user: User, db: D1Database, entryId: s
 
 async function postFeedback(req: Request, user: User, db: D1Database): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as
-    { recId?: string; workId?: string; action?: string; reason?: string; eagerness?: number };
+    { recId?: string; workId?: string; action?: string; reason?: string; eagerness?: number; level?: unknown; traits?: unknown };
   if (!body.action) return json({ error: 'no_action' }, 400);
   // «хочется» приходит только со свайпа по ленте и только 1–5; чужое значение отбрасываем молча
   const eager = Number.isInteger(body.eagerness) && body.eagerness! >= 1 && body.eagerness! <= 5 ? body.eagerness! : null;
-  await db.prepare('INSERT INTO feedback (id, user_id, rec_id, work_id, action, reason, eagerness, at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-    .bind(newId('f'), user.id, body.recId ?? null, body.workId ?? null, body.action, body.reason ?? null, eager, now()).run();
+  await db.prepare('INSERT INTO feedback (id, user_id, rec_id, work_id, action, reason, eagerness, at, level, traits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(newId('f'), user.id, body.recId ?? null, body.workId ?? null, body.action, body.reason ?? null, eager, now(), levelOf(body.level), traitsOf(body.traits)).run();
   return json({ ok: true });
+}
+
+/** Импорт истории (ДФ-11, 14.10): записи дневника и оценки одной пачкой с меткой импорта. Уже отмеченное
+ *  человеком не затирается (`INSERT OR IGNORE`): отмена импорта удаляет только то, что положил он сам.
+ *  Сопоставление с каталогом и предпросмотр — на клиенте: файл выгрузки наружу не уходит, сюда приходят
+ *  уже записи. Карточка едет целиком, как у «в планы», — у своей записи без ключа другой карточки нет. */
+const IMPORT_ID = /^imp-[a-z0-9-]{4,40}$/;
+const JOURNAL_STATUSES = new Set(['planned', 'in_progress', 'finished', 'abandoned']);
+const isoOrNull = (v: unknown): string | null => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice(0, 30) : null);
+async function postImport(req: Request, user: User, db: D1Database): Promise<Response> {
+  const body = (await req.json().catch(() => ({}))) as {
+    importId?: string;
+    entries?: { entryId?: string; workId?: string; work?: unknown; status?: string; startedAt?: string; finishedAt?: string }[];
+    ratings?: { workId?: string; rating?: number; raw?: number; work?: unknown }[];
+  };
+  const importId = body.importId;
+  if (!importId || !IMPORT_ID.test(importId)) return json({ error: 'bad_import_id' }, 400);
+  const entries = (body.entries ?? []).filter((e) => e.entryId && e.workId && e.status && JOURNAL_STATUSES.has(e.status)).slice(0, 10000);
+  const ratings = (body.ratings ?? []).filter((r) => r.workId && Number.isInteger(r.rating) && r.rating! >= 1 && r.rating! <= 5).slice(0, 10000);
+  if (!entries.length && !ratings.length) return json({ error: 'nothing' }, 400);
+  const at = now();
+  const work = (w: unknown) => (w && typeof w === 'object' ? JSON.stringify(w).slice(0, 20000) : null);
+  const statements = [
+    ...entries.map((e) => db.prepare(
+      'INSERT OR IGNORE INTO journal (user_id, entry_id, work_id, work, status, started_at, finished_at, import_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    ).bind(user.id, e.entryId!.slice(0, 120), e.workId!.slice(0, 120), work(e.work), e.status!, isoOrNull(e.startedAt), isoOrNull(e.finishedAt), importId)),
+    ...ratings.map((r) => db.prepare(
+      'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at, import_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ).bind(user.id, r.workId!.slice(0, 120), r.rating!, typeof r.raw === 'number' && r.raw >= 0 && r.raw <= 10 ? r.raw : null, work(r.work), at, importId)),
+  ];
+  // пачками: у D1 предел на размер одного batch
+  for (let i = 0; i < statements.length; i += 500) await db.batch(statements.slice(i, i + 500));
+  const counts = await db.prepare(
+    'SELECT (SELECT COUNT(*) FROM journal WHERE user_id = ?1 AND import_id = ?2) AS entries, (SELECT COUNT(*) FROM rating WHERE user_id = ?1 AND import_id = ?2) AS ratings',
+  ).bind(user.id, importId).first<{ entries: number; ratings: number }>();
+  return json({ ok: true, importId, added: counts?.entries ?? 0, rated: counts?.ratings ?? 0,
+    kept: entries.length - (counts?.entries ?? 0), keptRatings: ratings.length - (counts?.ratings ?? 0) });
+}
+
+/** Отменить импорт: удалить записи и оценки с его меткой. Поправленное после импорта тоже уйдёт —
+ *  отмена предлагается сразу на экране успеха. */
+async function deleteImport(user: User, db: D1Database, importId: string): Promise<Response> {
+  if (!IMPORT_ID.test(importId)) return json({ error: 'bad_import_id' }, 400);
+  const counts = await db.prepare(
+    'SELECT (SELECT COUNT(*) FROM journal WHERE user_id = ?1 AND import_id = ?2) AS entries, (SELECT COUNT(*) FROM rating WHERE user_id = ?1 AND import_id = ?2) AS ratings',
+  ).bind(user.id, importId).first<{ entries: number; ratings: number }>();
+  await db.batch([
+    db.prepare('DELETE FROM journal WHERE user_id = ? AND import_id = ?').bind(user.id, importId),
+    db.prepare('DELETE FROM rating WHERE user_id = ? AND import_id = ?').bind(user.id, importId),
+  ]);
+  return json({ ok: true, removed: counts?.entries ?? 0, unrated: counts?.ratings ?? 0 });
+}
+
+/** Выгрузка дневника (ДФ-14). Файл собирает приложение; сервер держит его час, потому что `downloadFile`
+ *  Telegram скачивает только по ссылке. Ссылка — случайная метка без сессии, как у обложек: заголовок
+ *  с токеном Telegram туда не передаст. */
+const EXPORT_NAME = /^[\w.-]{1,80}\.(csv|json)$/;
+const EXPORT_TTL_MS = 3600_000;
+async function postExport(req: Request, user: User, db: D1Database): Promise<Response> {
+  const body = (await req.json().catch(() => ({}))) as { name?: string; text?: string };
+  if (!body.name || !EXPORT_NAME.test(body.name) || typeof body.text !== 'string') return json({ error: 'bad_export' }, 400);
+  if (body.text.length > 8_000_000) return json({ error: 'too_large' }, 413);
+  const id = `ex-${[...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, '0')).join('')}`;
+  await db.batch([
+    db.prepare('DELETE FROM export_file WHERE at < ?').bind(new Date(Date.now() - EXPORT_TTL_MS).toISOString()),
+    db.prepare('INSERT INTO export_file (id, user_id, name, body, at) VALUES (?, ?, ?, ?, ?)').bind(id, user.id, body.name, body.text, now()),
+  ]);
+  return json({ ok: true, path: `/api/export/${id}/${body.name}` });
+}
+
+async function getExport(db: D1Database, id: string): Promise<Response> {
+  const row = await db.prepare('SELECT name, body FROM export_file WHERE id = ? AND at >= ?')
+    .bind(id, new Date(Date.now() - EXPORT_TTL_MS).toISOString()).first<{ name: string; body: string }>();
+  if (!row) return json({ error: 'not_found' }, 404);
+  return new Response(row.body, {
+    headers: {
+      'content-type': row.name.endsWith('.csv') ? 'text/csv; charset=utf-8' : 'application/json; charset=utf-8',
+      'content-disposition': `attachment; filename="${row.name}"`,
+      'cache-control': 'no-store',
+    },
+  });
 }
 
 /** Заявка: «нет такого фильма» или «добавьте этого автора». Длину режем на сервере —
@@ -612,7 +748,7 @@ async function getBehavior(req: Request, env: Env): Promise<Response> {
  *  на Cloudflare или из папки данных на bothost. Пишет их сборщик (tools/collect.mts) по
  *  расписанию, приложение читает готовое (трек В1). Нет файла — честный 404, и фронт берёт
  *  запечённое в сборку. */
-export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch']);
+export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch', 'voicePlaylists', 'freeRead']);
 
 async function getReference(env: Env, name: string): Promise<Response> {
   if (!REFERENCE_NAMES.has(name)) return json({ error: 'unknown_reference', name }, 404);
@@ -639,6 +775,28 @@ async function putReference(req: Request, env: Env, name: string): Promise<Respo
   return json({ ok: true, name, bytes: text.length, ...(fresh !== undefined ? { fresh } : {}) });
 }
 
+/** Обложка книги Open Library (11.10): covers.openlibrary.org отдаёт старые обложки перенаправлением в хранилище
+ *  Internet Archive — оно отвечает десятки секунд или не отвечает (а в России archive.org бывает закрыт). Сервер берёт
+ *  обложку один раз (крупную, `-L`) и хранит рядом со справочниками, дальше отдаёт сам с долгим кэшем. Нет обложки
+ *  или источник не ответил — 404 на час: приложение покажет заглушку. */
+async function getCover(env: Env, id: string): Promise<Response> {
+  const key = `cover-${id}-L.jpg`;
+  const missing = () => new Response(null, { status: 404, headers: { 'cache-control': 'public, max-age=3600' } });
+  if (!env.REFERENCE) return missing();
+  const hit = await env.REFERENCE.get(key);
+  const headers = { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=2592000, immutable' };
+  if (hit) return new Response(hit.body, { headers });
+  // `default=false` — без обложки Open Library отвечает 404, а не прозрачной точкой
+  const r = await fetch(`https://covers.openlibrary.org/b/id/${id}-L.jpg?default=false`, { signal: AbortSignal.timeout(30000) }).catch(() => undefined);
+  const type = r?.headers.get('content-type') ?? '';
+  if (!r?.ok || !/^image\//.test(type)) return missing();
+  const buf = await r.arrayBuffer();
+  // меньше килобайта — заглушка, больше 3 МБ — не обложка
+  if (buf.byteLength < 1024 || buf.byteLength > 3e6) return missing();
+  await env.REFERENCE.put(key, buf);
+  return new Response(buf, { headers: { ...headers, 'content-type': type } });
+}
+
 /** Сравнение токенов за постоянное время — как у подписи Telegram. */
 function sameToken(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -660,6 +818,9 @@ export default {
     const head = cors(req, env);
 
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: head });
+    // замер доступности (ХЮ-1): без базы и сессии — до всего остального
+    if (path === '/api/probe') return probe(url, head);
+    useBot(env);
     await migrate(env.DB);
     if (path === '/api/health') return json({ ok: true, at: now() }, 200, head);
     // события Telegram (инлайн-режим, 06.10): без сессии участника, проверка — секретом из токена бота
@@ -677,8 +838,14 @@ export default {
     const refPath = /^\/api\/reference\/([A-Za-z0-9-]+)$/.exec(path);
     if (refPath && req.method === 'GET') return withHead(await getReference(env, refPath[1]), head);
     if (refPath && req.method === 'PUT') return withHead(await putReference(req, env, refPath[1]), head);
+    // обложки книг Open Library — через свой сервер (11.10): общие данные, без сессии
+    const coverPath = /^\/api\/cover\/(\d{1,10})$/.exec(path);
+    if (coverPath && req.method === 'GET') return withHead(await getCover(env, coverPath[1]), head);
     // каналы реестра для строки поиска в карточке — общие данные, как справочники
     if (path === '/api/sources' && req.method === 'GET') return withHead(await getSources(env), head);
+    // выгрузка дневника по ссылке (ДФ-14): метка в адресе и есть доступ, срок — час
+    const exportPath = /^\/api\/export\/(ex-[0-9a-f]{32})\/[^/]+$/.exec(path);
+    if (exportPath && req.method === 'GET') return withHead(await getExport(env.DB, exportPath[1]), head);
     // присланный участником список просмотренного: только запись, наружу не раздаётся
     const seedPath = /^\/api\/admin\/seed\/([A-Za-z0-9_]+)$/.exec(path);
     if (seedPath && req.method === 'PUT') return withHead(await putUserSeed(req, env, seedPath[1]), head);
@@ -721,6 +888,10 @@ export default {
       if (path === '/api/state' && req.method === 'GET') return getState(user, env.DB, env);
       if (path === '/api/settings' && req.method === 'PUT') return putSettings(req, user, env.DB);
       if (path === '/api/feedback' && req.method === 'POST') return postFeedback(req, user, env.DB);
+      if (path === '/api/import' && req.method === 'POST') return postImport(req, user, env.DB);
+      if (path === '/api/export' && req.method === 'POST') return postExport(req, user, env.DB);
+      const importPath = /^\/api\/import\/([^/]+)$/.exec(path);
+      if (importPath && req.method === 'DELETE') return deleteImport(user, env.DB, decodeURIComponent(importPath[1]));
       if (path === '/api/verdict' && req.method === 'PUT') return putVerdict(req, user, env.DB);
       if (path === '/api/suggestion' && req.method === 'POST') return postSuggestion(req, user, env.DB);
       if (path === '/api/work-issue' && req.method === 'POST') return postWorkIssue(req, user, env.DB);
@@ -732,6 +903,8 @@ export default {
       if (plan && req.method === 'DELETE') return deletePlan(user, env.DB, decodeURIComponent(plan[1]));
       if (path === '/api/impressions' && req.method === 'POST') return postImpressions(req, user, env.DB);
       if (path === '/api/open' && req.method === 'POST') return postOpen(req, user, env.DB);
+      const dwellPath = /^\/api\/open\/([A-Za-z0-9_-]{1,64})\/dwell$/.exec(path);
+      if (dwellPath && req.method === 'POST') return postDwell(req, user, env.DB, dwellPath[1]);
       if (path === '/api/event' && req.method === 'POST') return postEvent(req, user.id, env.DB);
       // удаление аккаунта и всех данных участника (ЗП-5, 07.10)
       if (path === '/api/account' && req.method === 'DELETE') return deleteAccount(user.id, env);
@@ -780,6 +953,7 @@ export default {
   },
   /** По расписанию (Cloudflare cron; на bothost — таймер server/index.js): сводка подписок раз в день. */
   async scheduled(_event: unknown, env: Env): Promise<void> {
+    useBot(env);
     await migrate(env.DB);
     const r = await followDigest(env);
     if (r.users) console.log(`подписки: ${JSON.stringify(r)}`);

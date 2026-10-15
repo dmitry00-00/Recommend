@@ -24,6 +24,8 @@ const ISO: Record<string, string> = {
   Peru: 'PE', Lebanon: 'LB', Israel: 'IL', Estonia: 'EE', Azerbaijan: 'AZ', Kyrgyzstan: 'KG', Moldova: 'MD',
   Slovakia: 'SK', Slovenia: 'SI', Croatia: 'HR', Egypt: 'EG', Morocco: 'MA', Tunisia: 'TN', Indonesia: 'ID',
   Philippines: 'PH', Malaysia: 'MY', Vietnam: 'VN', Colombia: 'CO', Uruguay: 'UY', 'North Korea': 'KP',
+  Afghanistan: 'AF', Bhutan: 'BT', 'Dominican Republic': 'DO', 'French Polynesia': 'PF', Iraq: 'IQ', Macao: 'MO', Macau: 'MO',
+  Mauritius: 'MU', Qatar: 'QA', 'Syrian Arab Republic': 'SY', Syria: 'SY',
 };
 let names: Intl.DisplayNames | undefined;
 const region = (code: string): string | undefined => {

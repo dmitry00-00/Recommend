@@ -1,6 +1,6 @@
 {
  "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
- "updated": "2026-10-10",
+ "updated": "2026-10-15",
  "videos": {
   "_3gNe43hFA0": {
    "typed": "mr. robot",
@@ -6211,6 +6211,12 @@
    "key": "imdb:tt3581920",
    "label": "Одни из нас (сериал, 2023)",
    "sure": false
+  },
+  "wN2rlOQFJSE": {
+   "typed": "Солдатики (1998)",
+   "key": "tmdb:11551",
+   "label": "Солдатики (1998)",
+   "sure": true
   },
   "wp7qgVOrM9c": {
    "typed": "чужой ромул",

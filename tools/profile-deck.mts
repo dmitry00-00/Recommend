@@ -235,6 +235,8 @@ ${deck.map((d) => `  ${JSON.stringify(d.id).replace(/"/g, "'")}, // ${d.title} �
 ];
 `;
   writeDeck(new URL('../src/mocks/ratingDeck.ts', import.meta.url), body);
+  // снимок колоды для нового человека (РР-5) снят с прежней колоды — до пересборки приложение его не покажет
+  console.error('→ пересобрать снимок колоды: npx tsx tools/build-deck-cards.mts');
   console.error(`→ src/mocks/ratingDeck.ts: ${deck.length} фильмов; по уровням ${JSON.stringify(Object.fromEntries(Object.entries(deck.reduce((m, d) => { m[d.level] = (m[d.level] ?? 0) + 1; return m; }, {} as Record<number, number>))))}${noReg.length ? `; без регистра: ${noReg.join(', ')}` : ''}${noCover.length ? `; без обложки (npx tsx tools/build-base-media.mts): ${noCover.length}` : ''}`);
 }
 

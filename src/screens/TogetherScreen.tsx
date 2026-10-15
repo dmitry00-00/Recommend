@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import {
-  createTogether, getTogether, noteWatch, planWork, prepareShare, togetherMine, voteTogether,
+  createTogether, getTogether, noteShare, noteWatch, planWork, prepareShare, togetherMine, voteTogether,
   type TogetherCard, type TogetherState, type TogetherVote,
 } from '@/api';
 import { Button, ErrorState, Skeleton, useToast } from '@/components';
@@ -99,9 +99,10 @@ function Session({ id }: { id: string }) {
     const wa = webApp();
     if (wa?.shareMessage && wa.isVersionAtLeast('8.0')) {
       const msg = await prepareShare({ param, title: T.shareTitle, kind: 'together', about: T.shareAbout(s.owner, s.deck.length) });
-      if (msg) { wa.shareMessage(msg, (sent) => { if (sent) toast({ text: ui.share.sent }); }); return; }
+      if (msg) { wa.shareMessage(msg, (sent) => { if (sent) { toast({ text: ui.share.sent }); noteShare('together', 'message'); } }); return; }
     }
     const r = await shareLink(appLink(param), T.shareText).catch(() => 'failed' as const);
+    if (r !== 'failed') noteShare('together', r);
     if (r === 'copied') toast({ text: ui.share.copied });
     if (r === 'failed') toast({ text: ui.share.failed });
   };

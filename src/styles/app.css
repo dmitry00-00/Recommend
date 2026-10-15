@@ -145,7 +145,10 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-worksheet__top .tm-banner { min-height: min(200px, 34vh); max-height: 40vh; }
 .tm-worksheet__close { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); right: var(--tm-space-3); width: 36px; height: 36px; padding: 0; border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); font: inherit; font-size: 24px; line-height: 36px; text-align: center; cursor: pointer; }
 .tm-worksheet__close:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
-.tm-worksheet__top .tm-banner__tag { right: calc(var(--tm-space-3) + 88px); top: calc(var(--tm-space-3) + 10px); }
+/* подпись («Дальше во вселенной») — строкой над названием: в верхнем ряду ей мешали «Подробнее» и кнопки (15.10);
+   строка под названием не заходит под «Сюжет ▾» в правом нижнем углу */
+.tm-banner__tag.tm-banner__tag--above { position: static; align-self: flex-start; margin-bottom: 2px; }
+.tm-worksheet__top:not(.tm-worksheet__top--plot) .tm-banner:not(.tm-banner--book) .tm-banner__meta { padding-right: 76px; }
 .tm-worksheet__body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--tm-color-line-strong) transparent; padding-bottom: calc(var(--tm-space-6) + var(--tm-safe-bottom)); }
 .tm-worksheet__body::-webkit-scrollbar { width: 6px; }
 .tm-worksheet__body::-webkit-scrollbar-thumb { background: var(--tm-color-line-strong); border-radius: var(--tm-radius-full); }
@@ -164,6 +167,8 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-settings__section:first-of-type { border-top: 0; padding-top: 0; }
 .tm-settings__h { display: block; margin: 0 0 var(--tm-space-3); }
 .tm-settings__note { display: block; margin: 0 0 var(--tm-space-3); max-width: 56ch; color: var(--tm-color-ink-muted); }
+/* абзац после ряда кнопок — новый подблок раздела, а не подпись к кнопкам */
+.tm-settings__section .tm-row + .tm-settings__note { margin-top: var(--tm-space-5); }
 .tm-settings__switch { display: flex; align-items: flex-start; gap: var(--tm-space-3); cursor: pointer; }
 /* «Только без доплаты» под списком кинотеатров (ЗП-42) */
 .tm-achoice + .tm-settings__switch { margin-top: var(--tm-space-4); }
@@ -231,6 +236,9 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-shell--app .tm-stream { padding: 0; scroll-snap-type: y mandatory; }
 .tm-stream__archive { scroll-snap-align: start; }
 .tm-stream__item { scroll-snap-align: start; scroll-snap-stop: always; }
+/* блоки над лентой — плашка «нет связи» с лентой с устройства (ДФ-3) и вопрос о норме шкалы — тоже точки прилипания:
+   без этого обязательная прилипалка проскакивала их к первой карточке, и человек их не видел */
+.tm-stream__body > .tm-error, .tm-stream__body > .tm-import__norm { scroll-snap-align: start; scroll-margin-top: var(--tm-space-5); }
 /* На «уменьшить движение» привязку отпускаем: рывок к следующему кадру — тоже движение. */
 @media (prefers-reduced-motion: reduce) {
   .tm-shell--app .tm-stream { scroll-snap-type: none; }
@@ -293,6 +301,13 @@ button.tm-banner { cursor: pointer; }
 .tm-banner--sm .tm-banner__title { font-size: 18px; line-height: 22px; font-weight: 600; }
 .tm-banner__meta { font-family: var(--font-text); font-size: 13px; line-height: 18px; color: var(--tm-color-ink-muted); }
 .tm-banner__tag { position: absolute; right: var(--tm-space-4); top: var(--tm-space-3); font-family: var(--font-display); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tm-color-accent); text-shadow: 0 1px 2px var(--tm-color-surface-100); }
+/* книга (11.10): обложка целиком справа, фон — она же размытая; текст и пометка — левее обложки */
+.tm-banner--book .tm-banner__img { filter: blur(18px) saturate(0.8); transform: scale(1.2); opacity: 0.5; }
+.tm-banner__cover { position: absolute; right: var(--tm-space-5); top: 14%; height: 72%; width: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 2px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.45); }
+.tm-banner--book .tm-banner__text { right: calc(var(--tm-space-5) * 2 + 24%); }
+.tm-banner--book .tm-banner__tag { right: auto; left: var(--tm-space-5); }
+/* в шторке сверху — кнопки «поделиться» и «закрыть», снизу справа — «Сюжет»: обложка между ними */
+.tm-worksheet__top .tm-banner__cover { top: 64px; height: calc(100% - 116px); }
 .tm-banner:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: -2px; }
 .tm-banner--open { box-shadow: inset 0 -2px 0 var(--tm-color-accent); }
 
@@ -384,7 +399,7 @@ button.tm-banner { cursor: pointer; }
 .tm-voice__img { width: 100%; height: 100%; object-fit: cover; }
 
 .tm-voice__material { border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-card); overflow: hidden; background: var(--tm-color-surface-200); }
-.tm-voice__frame { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--tm-color-surface-300, var(--tm-color-surface-200)); }
+.tm-voice__frame { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--tm-color-surface-200); }
 .tm-voice__shot { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* 07.10: остальные ролики автора лентой вбок — вместо «ещё N у автора» по одному */
 .tm-voice__more { padding: 0 0 var(--tm-space-2); border-top: 1px solid var(--tm-color-line); }
@@ -394,7 +409,7 @@ button.tm-banner { cursor: pointer; }
 .tm-voice__moreitem { flex: none; width: 136px; scroll-snap-align: start; }
 .tm-voice__morelink { display: block; color: inherit; text-decoration: none; }
 .tm-voice__morelink--blocked { cursor: default; }
-.tm-voice__morethumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--tm-radius-mark); background: var(--tm-color-surface-300, var(--tm-color-surface-100)); }
+.tm-voice__morethumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--tm-radius-mark); background: var(--tm-color-surface-100); }
 .tm-voice__morethumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tm-voice__morethumb .tm-voice__time { right: 4px; bottom: 4px; font-size: 11px; }
 .tm-voice__moretitle { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px; font-size: 12px; line-height: 16px; min-height: 32px; }
@@ -413,11 +428,12 @@ button.tm-banner { cursor: pointer; }
 .tm-voice__corner .tm-btn--quiet { color: var(--tm-color-ink-muted); }
 .tm-voice__none--corner, .tm-film__pane--reviews > .tm-stream__group.tm-voice__none--corner { display: flex; flex-direction: row; align-items: flex-start; gap: var(--tm-space-3); }
 .tm-voice__none--corner .tm-voice__corner { padding: 0; }
-/* шкала «Как вам?» в углу (10.10, «Видел» в минимальной редакции): пять слов не влезают рядом с
-   названием автора — угол уходит на всю ширину под текст, кнопки делят строку */
-.tm-voice__text:has(.tm-voice__corner .tm-quick[role="group"]), .tm-voice__none--corner:has(.tm-quick[role="group"]) { flex-wrap: wrap; }
-.tm-voice__corner:has(.tm-quick[role="group"]) { flex: 1 1 100%; padding-left: var(--tm-space-3); }
-.tm-voice__none--corner .tm-voice__corner:has(.tm-quick[role="group"]) { padding-left: 0; }
+/* «Видел» в углу (10.10) и шкала «Как вам?» после него: рядом с названием автора не влезают — подпись
+   обрезалась до «рус. · со спойлера…» (11.10, три кнопки в полной редакции). Угол уходит на всю ширину под
+   текст, кнопки — строкой слева */
+.tm-voice__text:has(.tm-voice__corner .tm-quick), .tm-voice__none--corner:has(.tm-quick) { flex-wrap: wrap; }
+.tm-voice__corner:has(.tm-quick) { flex: 1 1 100%; padding-left: var(--tm-space-3); }
+.tm-voice__none--corner .tm-voice__corner:has(.tm-quick) { padding-left: 0; }
 .tm-voice__corner .tm-quick__scale .tm-btn { flex: 1 1 auto; }
 .tm-voice__name { height: 40px; margin: var(--tm-space-3) var(--tm-space-3) 0; font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .tm-voice__meta { height: 18px; margin: 2px var(--tm-space-3) 0; color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -431,7 +447,7 @@ button.tm-banner { cursor: pointer; }
 .tm-voice__postlink { display: flex; gap: var(--tm-space-3); text-decoration: none; color: inherit; }
 .tm-voice__postbody { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .tm-voice__postwho { font-family: var(--font-display); font-size: 14px; line-height: 18px; font-weight: 600; }
-.tm-voice__postdate { font-family: var(--font-body, inherit); font-weight: 400; color: var(--tm-color-ink-faint); }
+.tm-voice__postdate { font-family: inherit; font-weight: 400; color: var(--tm-color-ink-faint); }
 .tm-voice__posttext { height: 36px; color: var(--tm-color-ink-muted); font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .tm-voice__post .tm-voice__outlets { margin: var(--tm-space-2) 0 0 40px; height: 28px; }
 .tm-voice__postrow--more { margin-top: var(--tm-space-3); }
@@ -551,7 +567,7 @@ button.tm-banner { cursor: pointer; }
 /* Шкала формы: линейка с меткой, а не оценка — поэтому подписаны оба края. */
 .tm-form__scale { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: var(--tm-space-2) var(--tm-space-3); margin: var(--tm-space-2) 0; }
 .tm-form__scalelabel { color: var(--tm-color-ink-muted); }
-.tm-form__track { position: relative; height: 6px; border-radius: 999px; background: var(--tm-color-surface-300, var(--tm-color-surface-200)); }
+.tm-form__track { position: relative; height: 6px; border-radius: 999px; background: var(--tm-color-surface-200); }
 .tm-form__mark { position: absolute; top: 50%; left: var(--at); width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 999px; background: var(--tm-color-accent); }
 .tm-form__ends { grid-column: 2; display: flex; justify-content: space-between; color: var(--tm-color-ink-faint); font-size: 12px; line-height: 16px; }
 
@@ -674,7 +690,7 @@ button.tm-banner { cursor: pointer; }
 .tm-owner__note { display: block; margin-top: 2px; color: var(--tm-color-ink-faint); }
 .tm-owner__other { display: flex; flex-direction: column; gap: var(--tm-space-2); }
 .tm-owner__input { width: 100%; min-height: 44px; padding: 0 var(--tm-space-3); font: inherit; color: var(--tm-color-ink);
-  background: var(--tm-color-surface-200); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-2); }
+  background: var(--tm-color-surface-200); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-control); }
 .tm-owner__hits { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); }
 .tm-owner__lenses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tm-space-2); }
 .tm-owner__lenses .tm-btn { min-height: 44px; white-space: normal; text-align: left; }
@@ -777,6 +793,9 @@ button.tm-banner { cursor: pointer; }
 .tm-serieswhere__page { width: 9ch; }
 .tm-checkinscreen__season { margin: 0 0 var(--tm-space-3); }
 .tm-rate__series { margin-top: var(--tm-space-5); }
+/* заголовок и подводка ряда — с полями, как у шапки; строки списка поля держат сами */
+.tm-rate__series > .tm-rate__title, .tm-rate__series > .tm-rate__lead { padding: 0 var(--tm-space-5); }
+.tm-rate__jump { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-muted); }
 
 /* связи между произведениями (Ж1) */
 .tm-relations { list-style: none; margin: 0 0 var(--tm-space-2); padding: 0; display: grid; gap: var(--tm-space-2); }
@@ -799,7 +818,8 @@ button.tm-banner { cursor: pointer; }
 
 /* фабула в карточке (02.10): тап по баннеру — кадр уезжает вверх до шторки, под ней описание */
 .tm-worksheet__top .tm-banner { transition: max-height .28s ease, min-height .28s ease; }
-.tm-worksheet__top--plot .tm-banner { min-height: 0; max-height: 64px; }
+/* с открытым сюжетом название — под рядом кнопок (36 px + отступ сверху), а не под ними (15.10) */
+.tm-worksheet__top--plot .tm-banner { min-height: 0; max-height: 104px; }
 .tm-worksheet__top--plot .tm-banner__meta { display: none; }
 .tm-worksheet__top--plot .tm-banner__text { bottom: var(--tm-space-3); right: calc(var(--tm-space-5) + 40px); }
 .tm-worksheet__top--plot .tm-banner__title { font-size: 20px; line-height: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -899,8 +919,14 @@ button.tm-banner { cursor: pointer; }
    высотой 22–28 px — только по вертикали, чтобы соседние в ряду не перекрывали друг друга. */
 .tm-worksheet__close, .tm-worksheet__report, .tm-worksheet__page, .tm-worksheet__share, .tm-voice__chip { touch-action: manipulation; }
 .tm-worksheet__close::after, .tm-worksheet__report::after, .tm-worksheet__page::after, .tm-worksheet__share::after { content: ""; position: absolute; inset: -4px; }
-.tm-voice__chip { position: relative; }
-.tm-voice__chip::after { content: ""; position: absolute; left: -2px; right: -2px; top: 50%; height: 44px; transform: translateY(-50%); }
+.tm-voice__chip, .tm-rate__pick { position: relative; }
+.tm-voice__chip::after, .tm-rate__pick::after { content: ""; position: absolute; left: -2px; right: -2px; top: 50%; height: 44px; transform: translateY(-50%); }
+/* слой плашки обрезал `overflow` ряда (найдено 14.10): по вертикали работало 24 px. Ряды с переносом прятать
+   нечего; прокручиваемому ряду фильтров — запас 10 px сверху и снизу внутри (сверху погашен полем, снизу ряд стал
+   на 2 px выше), а сам ряд касания пропускает к соседям, чтобы не перехватывать их своими пустыми краями */
+.tm-voicepage__outlets, .tm-work__statslink { overflow: visible; }
+.tm-search__filters { padding-top: 10px; padding-bottom: 10px; margin-top: -10px; pointer-events: none; }
+.tm-search__filters > * { pointer-events: auto; }
 
 /* лента (ТВ-11): переключатель силы над плёнкой и «Ещё фильмы» под ней */
 .tm-stream__energy { padding-top: var(--tm-space-3); padding-bottom: var(--tm-space-3); display: flex; flex-wrap: wrap; align-items: center; gap: var(--tm-space-2); }
@@ -916,7 +942,7 @@ button.tm-banner { cursor: pointer; }
 .tm-legal__other { padding-top: var(--tm-space-4); }
 .tm-legal a, .tm-coldstart__legal a { color: var(--tm-color-accent, var(--tm-color-ink)); text-underline-offset: 2px; }
 .tm-coldstart__legal { margin: 0; color: var(--tm-color-ink-faint); }
-.tm-settings__warn { color: var(--tm-color-danger, var(--tm-color-ink)); }
+.tm-settings__warn { color: var(--tm-color-signal-stop); }
 
 /* выбор компанией (ЗП-11, 07.10): десятка, голос по одной карточке, итог */
 .tm-together { display: flex; flex-direction: column; gap: var(--tm-space-3); }
@@ -936,5 +962,50 @@ button.tm-banner { cursor: pointer; }
 .tm-together__row .tm-caption { color: var(--tm-color-ink-faint); }
 
 /* новичок по ссылке из поста (10.10): под шапкой фильма — что это за приложение и путь к своей ленте */
-.tm-work__landing { margin: var(--tm-space-4) 0 0; padding: var(--tm-space-4); border: 1px solid var(--tm-color-line, var(--tm-color-surface-300)); display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-work__landing { margin: var(--tm-space-4) 0 0; padding: var(--tm-space-4); border: 1px solid var(--tm-color-line); display: flex; flex-direction: column; gap: var(--tm-space-2); }
 .tm-work__landingtext { color: var(--tm-color-ink-muted); }
+/* «Ещё три таких же» (ДФ-5): строки как в поиске, без кнопок справа — «Видел» в шторке */
+.tm-work__similar { margin: var(--tm-space-5) 0 0; display: flex; flex-direction: column; gap: var(--tm-space-2); }
+.tm-work__similarmark { flex: none; color: var(--tm-color-ink-faint); }
+
+/* культурные подборки (ЗП-45, шаг 2) */
+.tm-collections { padding-top: var(--tm-space-4); }
+.tm-collections > .tm-shell__title, .tm-collections > .tm-voicepage__back { margin-left: var(--tm-space-5); margin-right: var(--tm-space-5); }
+.tm-collections__lead { margin: calc(-1 * var(--tm-space-2)) var(--tm-space-5) var(--tm-space-4); color: var(--tm-color-ink-muted); max-width: 56ch; }
+.tm-collections__what { color: var(--tm-color-ink); font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tm-collections__voice { color: var(--tm-color-accent); font-size: 13px; line-height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tm-collections__section { margin: var(--tm-space-5) var(--tm-space-5) var(--tm-space-3); }
+.tm-collections__easier { padding: var(--tm-space-4) var(--tm-space-5) var(--tm-space-2); border-top: 1px solid var(--tm-color-line); color: var(--tm-color-ink-faint); }
+/* читать бесплатно (книги): кнопки источников во всю ширину, между ними — зазор */
+.tm-film__readfree { display: flex; justify-content: center; margin: var(--tm-space-3) 0 0; }
+/* источник описания (книги — Википедия, CC BY-SA): мелко под текстом */
+.tm-worksheet__plotsrc { display: inline-block; margin-top: var(--tm-space-2); color: var(--tm-color-ink-faint); text-decoration: underline; }
+
+/* почерк автора (14.10): строка о его вещах под именем и уровень с барьерами мелко */
+.tm-person__style { margin: var(--tm-space-2) 0 0; max-width: 56ch; }
+.tm-person__stylemeta { margin: var(--tm-space-1) 0 var(--tm-space-2); color: var(--tm-color-ink-muted); }
+
+/* «Что может мешать» (ДФ-7, 14.10): строка над вкладками шторки — свёрнута в одну линию, по тапу — пункты */
+.tm-hurdles { flex: none; margin: var(--tm-space-3) var(--tm-space-5) 0; }
+.tm-hurdles + .tm-stream__panel { padding-top: var(--tm-space-2); }
+.tm-hurdles__prev { margin: 0 0 var(--tm-space-1); color: var(--tm-color-ink-muted); }
+.tm-hurdles__prev a { color: var(--tm-color-ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--tm-color-line-strong); }
+.tm-hurdles__toggle { display: flex; align-items: baseline; gap: var(--tm-space-2); width: 100%; min-height: 32px; padding: var(--tm-space-1) 0; border: 0; background: none; color: var(--tm-color-ink-muted); font-family: var(--font-text); font-size: 12px; line-height: 16px; text-align: left; cursor: pointer; }
+.tm-hurdles__toggle:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-hurdles__title { flex: none; font-weight: 600; color: var(--tm-color-ink); }
+.tm-hurdles__sum { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--tm-color-ink-faint); }
+.tm-hurdles__chevron { flex: none; margin-left: auto; color: var(--tm-color-ink-faint); }
+.tm-hurdles__list { margin: 0 0 var(--tm-space-1); padding: 0 0 0 var(--tm-space-4); font-family: var(--font-text); font-size: 13px; line-height: 18px; color: var(--tm-color-ink); }
+.tm-hurdles__list li + li { margin-top: 2px; }
+.tm-hurdles__content { color: var(--tm-color-ink-muted); }
+
+/* поиск словами в ленте (ДФ-12, 14.10): строка во всю ширину, чипы одной лентой вбок — ленту не отодвигают */
+.tm-moodline { margin-top: 0; margin-bottom: var(--tm-space-4); }
+.tm-moodline__bar { display: flex; align-items: center; gap: var(--tm-space-2); }
+.tm-moodline__input { height: 36px; }
+.tm-moodline__chips { display: flex; gap: 6px; margin: var(--tm-space-2) calc(-1 * var(--tm-space-5)) 0; padding: 0 var(--tm-space-5); overflow-x: auto; scrollbar-width: none; }
+.tm-moodline__chips::-webkit-scrollbar { display: none; }
+.tm-moodline__got { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-muted); }
+.tm-moodline__refuse { display: grid; justify-items: start; gap: var(--tm-space-2); margin-top: var(--tm-space-3); }
+.tm-moodline__refuse p { margin: 0; }
+.tm-moodline__refuse .tm-caption { color: var(--tm-color-ink-muted); }

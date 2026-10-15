@@ -5,6 +5,7 @@
 // Куда и чем: TM_SERVER (по умолчанию https://bot-1791394986-4062-dmitriy-00.bothost.tech) и TM_ADMIN_TOKEN — тот же
 // токен, что в переменной ADMIN_TOKEN у бота на bothost. Оба — в .env.local.
 import { existsSync, readFileSync } from 'node:fs';
+import type { WatchProviders } from '../src/lib/cinemas.ts';
 import { loadEnvFile } from './env-file.mts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
@@ -15,12 +16,14 @@ import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
+import { isWithheld } from '../src/mocks/withheldWorks.ts';
 
 // вписанное людьми в таблицу разметки едет на сервер тем же справочником: клиенту всё равно,
 // откуда карточка — из каналов или из таблицы; и то, что люди ищут (топы Википедии, 05.10) —
 // так новые фильмы находятся поиском сразу после публикации, без пересборки приложения
 // и фильмы из загрузок каналов студий и агрегаторов (tools/grow-from-channels.mts, 10.10)
-const filmBaseWiki = [...wiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels];
+// убранное владельцем (withheldWorks.ts) на сервер не едет
+const filmBaseWiki = [...wiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels].filter((w) => !isWithheld(w));
 import { comentions } from '../src/mocks/comentions.ts';
 import { buildInlineIndex } from './inline-index.mts';
 import { buildHeroesIndex } from './heroes-index.mts';
@@ -28,9 +31,32 @@ import { buildPublicPages } from './public-pages.mts';
 
 loadEnvFile();
 const dry = process.argv.includes('--dry');
-const server = (process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, '');
-const token = process.env.TM_ADMIN_TOKEN;
-if (!dry && !token) { console.error('нет TM_ADMIN_TOKEN в .env.local — публиковать нечем'); process.exit(1); }
+// контур Global (ЗП-26): `--global` — тот же набор на Cloudflare (TM_GLOBAL_SERVER, TM_GLOBAL_ADMIN_TOKEN); «где
+// смотреть» — регионы TM_GLOBAL_REGIONS (по умолчанию IN, US, GB), бесплатная классика не едет: её ролики проверены
+// на доступность из России
+const global = process.argv.includes('--global');
+const server = (global ? process.env.TM_GLOBAL_SERVER ?? '' : process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, '');
+const token = global ? process.env.TM_GLOBAL_ADMIN_TOKEN : process.env.TM_ADMIN_TOKEN;
+if (global && !server) { console.error('нет TM_GLOBAL_SERVER в .env.local — куда публиковать Global'); process.exit(1); }
+if (!dry && !token) { console.error(`нет ${global ? 'TM_GLOBAL_ADMIN_TOKEN' : 'TM_ADMIN_TOKEN'} в .env.local — публиковать нечем`); process.exit(1); }
+const globalRegions = (): string[] => (process.env.TM_GLOBAL_REGIONS ?? 'IN,US,GB').split(',').map((r) => r.trim().toUpperCase()).filter(Boolean);
+// общий сервер (11.10, bothost в Нидерландах, все языки) — все регионы справочника (TM_WATCH_REGIONS, по умолчанию RU, IN,
+// US, GB); Global — свои
+const regions = global ? globalRegions() : (process.env.TM_WATCH_REGIONS ?? 'RU,IN,US,GB').split(',').map((r) => r.trim().toUpperCase()).filter(Boolean);
+/** «где смотреть» только своих регионов. У иностранных — без аренды и покупки: в Индии, США и Британии их у каждого
+ *  второго фильма с десяток (Amazon, Apple, Google, YouTube…), и справочник вырастал в восемь раз; подбор и «Мои
+ *  подписки» смотрят на подписку и бесплатное, а остальное — по ссылке «где смотреть» */
+const ownRegions = (w: WatchProviders): WatchProviders => {
+  const works: WatchProviders['works'] = {};
+  for (const [k, byRegion] of Object.entries(w.works)) {
+    const own = Object.fromEntries(Object.entries(byRegion).filter(([r]) => regions.includes(r))
+      // ссылку у фильма приложение собирает само (themoviedb.org/movie/<id>/watch), у сериала номера /tv/ у него нет
+      .map(([r, x]) => [r, r === 'RU' ? x : { ...(x.l && !k.startsWith('tmdb:') ? { l: x.l } : {}), ...(x.s ? { s: x.s } : {}), ...(x.f ? { f: x.f } : {}), ...(x.a ? { a: x.a } : {}) }])
+      .filter(([, x]) => Object.keys(x as object).some((key) => key !== 'l')));
+    if (Object.keys(own).length) works[k] = own;
+  }
+  return { ...w, regions, works };
+};
 
 const materials = [...Object.values(postsAuto), ...Object.values(essaysAuto)].flat();
 const meta = {
@@ -54,9 +80,13 @@ const payloads: [string, unknown][] = [
   // сезоны сериалов (ЗП-17, 07.10): сервер пишет «вышел новый сезон» в утренней сводке — tools/series-seasons.mts
   ...(existsSync('.cache/series-seasons.json') ? [['seriesSeasons', JSON.parse(readFileSync('.cache/series-seasons.json', 'utf8'))] as [string, unknown]] : []),
   // где смотреть по подписке (ЗП-42, 10.10): лента ставит вперёд доступное без доплаты — tools/watch-providers.mts
-  ...(existsSync('.cache/watch-providers.json') ? [['watchProviders', JSON.parse(readFileSync('.cache/watch-providers.json', 'utf8'))] as [string, unknown]] : []),
+  ...(existsSync('.cache/watch-providers.json') ? [['watchProviders', ownRegions(JSON.parse(readFileSync('.cache/watch-providers.json', 'utf8')))] as [string, unknown]] : []),
   // бесплатная легальная классика (ЗП-43, 10.10): правообладатели на YouTube, Викисклад, архив — tools/free-watch.mts
-  ...(existsSync('.cache/free-watch.json') ? [['freeWatch', JSON.parse(readFileSync('.cache/free-watch.json', 'utf8'))] as [string, unknown]] : []),
+  // подборки голосов (ЗП-45, шаг 3, 11.10): плейлисты эссеистов как полки — tools/voice-playlists.mts
+  ...(existsSync('.cache/voice-playlists.json') ? [['voicePlaylists', JSON.parse(readFileSync('.cache/voice-playlists.json', 'utf8'))] as [string, unknown]] : []),
+  // читать бесплатно и легально (книги, 11.10): Викитека, Gutenberg, Internet Archive — tools/free-read.mts
+  ...(existsSync('.cache/free-read.json') ? [['freeRead', JSON.parse(readFileSync('.cache/free-read.json', 'utf8'))] as [string, unknown]] : []),
+  ...(!global && existsSync('.cache/free-watch.json') ? [['freeWatch', JSON.parse(readFileSync('.cache/free-watch.json', 'utf8'))] as [string, unknown]] : []),
 ];
 let failed = 0;
 for (const [name, data] of payloads) {

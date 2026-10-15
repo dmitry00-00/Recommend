@@ -3,6 +3,7 @@ import type { WorkCard } from '@/types/tmdf';
 import { opVar } from '@/lib/operations';
 import { seedOf, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
+import { imageSrc, useImageRetry } from '@/lib/images';
 
 export interface WorkCoverProps {
   work: WorkCard;
@@ -20,11 +21,13 @@ export function WorkCover({ work, size = 'md', className }: WorkCoverProps) {
   const width = size === 'lg' ? 196 : size === 'sm' ? 84 : 124;
   const height = Math.round(width * (size === 'sm' ? 1.26 : 1.3));
   const style = { width, height, '--cover-line': opVar(op) } as CSSProperties;
+  // кадр под названием: не загрузился и после повтора — рамка пустая, как без картинки
+  const still = useImageRetry(imageSrc(work.stillUrl ?? work.coverUrl, 'w780'));
   return (
     <div className={cx('tm-cover', `tm-cover--${size}`, `tm-cover--${work.type}`, className)}
          style={style} role="img" aria-label={`${titleOf(work)}, ${work.year}`}>
-      {work.stillUrl || work.coverUrl ? (
-        <img className="tm-cover__still" src={work.stillUrl ?? work.coverUrl} alt="" loading="lazy" decoding="async" />
+      {still.src ? (
+        <img ref={still.ref} className="tm-cover__still" src={still.src} alt="" loading="lazy" decoding="async" onError={still.onError} />
       ) : null}
       {size === 'lg' ? (
         <span className="tm-cover__edge" aria-hidden="true">

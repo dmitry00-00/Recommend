@@ -1,7 +1,7 @@
 // Где смотреть по подписке (ЗП-42, 10.10): площадки TMDb (данные JustWatch) по регионам — подписка, бесплатно,
 // с рекламой, аренда, покупка. Приложение по этому справочнику ставит в ленте вперёд доступное без доплаты,
 // фильтрует ленту по подпискам участника и пишет у карточки «есть в вашей подписке».
-//   npx tsx tools/watch-providers.mts [--regions RU,KZ] [--limit 6000] [--dry]
+//   npx tsx tools/watch-providers.mts [--regions RU,IN,US,GB] [--limit 6000] [--dry]
 // Фильмы — карточки справочников и каталога с ключом TMDb; сериалы (11.10) — по номеру /tv/, который нашёл
 // tools/series-seasons.mts (.cache/series-seasons/raw.json, IMDb → TMDb): в справочнике они под ключом `imdb:tt…`.
 // TMDb бесплатно, пока у приложения нет дохода; с первым доходом — коммерческая лицензия (ЗП-24); у каждого
@@ -15,7 +15,9 @@ import { cinemaSlug, type RegionWatch, type WatchProviders } from '../src/lib/ci
 loadEnvFile();
 const argv = process.argv.slice(2);
 const arg = (k: string) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
-const REGIONS = (arg('--regions') ?? 'RU').split(',').map((r) => r.trim().toUpperCase()).filter(Boolean);
+// по умолчанию (11.10, один сервер для всех языков) — Россия, Индия, США, Британия; TM_WATCH_REGIONS — свой набор
+const defaultRegions = process.env.TM_WATCH_REGIONS ?? 'RU,IN,US,GB';
+const REGIONS = [...new Set((arg('--regions') ?? defaultRegions).split(',').map((r) => r.trim().toUpperCase()).filter(Boolean))];
 const LIMIT = Number(arg('--limit')) || 6000;
 const DRY = argv.includes('--dry');
 const key = process.env.TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY;
@@ -90,7 +92,7 @@ await Promise.all(Array.from({ length: 6 }, async () => {
 save();
 
 // ─── справочник ───────────────────────────────────────────────────────────────
-const out: WatchProviders = { at: new Date().toISOString(), names: {}, works: {} };
+const out: WatchProviders = { at: new Date().toISOString(), names: {}, works: {}, regions: REGIONS };
 const count = new Map<string, number>();
 const slugs = (list?: string[]) => {
   if (!list?.length) return undefined;

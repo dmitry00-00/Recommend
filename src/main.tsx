@@ -5,6 +5,11 @@ import { App } from '@/App';
 import '@/styles/theme.css';
 import { language } from '@/i18n';
 import { setTitlesEn } from '@/lib/format';
+import { isTelegram } from '@/lib/telegram';
+
+// внутри Telegram текст — системным шрифтом, как у экранов самого мессенджера (ДФ-20, 15.10): отметка на корне до
+// первого кадра — иначе браузер успеет скачать IBM Plex; шторки рисуются порталом вне оболочки, поэтому не класс оболочки
+if (isTelegram()) document.documentElement.dataset.tg = '';
 
 const render = () => createRoot(document.getElementById('root')!).render(
   <StrictMode>

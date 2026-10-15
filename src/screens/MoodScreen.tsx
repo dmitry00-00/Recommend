@@ -9,6 +9,8 @@ import { tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { WorkCardSheet } from './WorkCardSheet';
 import { titleOf } from '@/lib/format';
+import { useFeature } from '@/lib/flags';
+import { useSettings } from '@/lib/settingsStore';
 
 /** Подбор по настроению (/mood, ЗП-16): человек пишет словами, чего хочется, — экран показывает, что понято, и до
  *  шести фильмов. Запрос живёт в адресе (`?q=`), чтобы «Назад» из карточки возвращал к тому же списку. */
@@ -21,6 +23,11 @@ export function MoodScreen() {
   const [attempt, setAttempt] = useState(0);
   const [openId, setOpenId] = useState<ID | null>(null);
   const input = useRef<HTMLInputElement>(null);
+  // из ленты книг (11.10) — подбор по книгам: что подбирает лента, помнят настройки
+  const booksOn = useFeature('readShelf');
+  const settings = useSettings();
+  const kind = booksOn && settings?.feedKind === 'book' ? 'book' : 'screen';
+  const book = kind === 'book';
   // запрос из адреса — и в поле: «Назад» и переход на пустой /mood не должны оставлять прежний текст
   useEffect(() => { setDraft(q); }, [q]);
 
@@ -29,9 +36,9 @@ export function MoodScreen() {
     let live = true;
     setSlate(null);
     setFailed(false);
-    getMoodSlate(q).then((s) => { if (live) setSlate(s); }).catch(() => { if (live) setFailed(true); });
+    getMoodSlate(q, undefined, { kind }).then((s) => { if (live) setSlate(s); }).catch(() => { if (live) setFailed(true); });
     return () => { live = false; };
-  }, [q, attempt]);
+  }, [q, attempt, kind]);
 
   const ask = (text: string) => { tap(); setDraft(text); setParams(text.trim() ? { q: text.trim() } : {}); input.current?.blur(); };
   const open = openId ? slate?.items.find((x) => x.work.id === openId) : undefined;
@@ -41,15 +48,15 @@ export function MoodScreen() {
       <h1 className="tm-sr">{ui.mood.title}</h1>
       <form className="tm-search__bar" onSubmit={(e) => { e.preventDefault(); ask(draft); }}>
         <input ref={input} className="tm-search__input" type="search" value={draft} enterKeyHint="search"
-               placeholder={ui.mood.placeholder} aria-label={ui.mood.placeholder} onChange={(e) => setDraft(e.target.value)} />
+               placeholder={book ? ui.mood.placeholderBook : ui.mood.placeholder} aria-label={book ? ui.mood.placeholderBook : ui.mood.placeholder} onChange={(e) => setDraft(e.target.value)} />
         <Button size="sm" variant="primary" disabled={!draft.trim()} onClick={() => ask(draft)}>{ui.mood.go}</Button>
       </form>
 
       {!q ? (
         <>
-          <p className="tm-caption tm-search__hint">{ui.mood.hint}</p>
+          <p className="tm-caption tm-search__hint">{book ? ui.mood.hintBook : ui.mood.hint}</p>
           <div className="tm-search__filters tm-mood__examples">
-            {ui.mood.examples.map((x) => (
+            {(book ? ui.mood.examplesBook : ui.mood.examples).map((x) => (
               <button key={x} type="button" className="tm-voice__chip" onClick={() => ask(x)}>{x}</button>
             ))}
           </div>
@@ -88,7 +95,7 @@ export function MoodScreen() {
         ))}
       </ul>
 
-      <WorkCardSheet work={open?.work ?? null} onClose={() => setOpenId(null)} context={`настроение: ${q}`} />
+      <WorkCardSheet work={open?.work ?? null} onClose={() => setOpenId(null)} context={`настроение: ${q}`} hurdles />
     </main>
   );
 }

@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS journal (
   -- {season, episode?, done?: [{season, perceived?, at}]}. У брошенного — на чём бросил.
   -- Книга (З5): {kind: 'book', part?, page?, done?: [{part, perceived?, at}]}
   series      TEXT,
+  -- 14.10, ДФ-11: импорт, который положил запись (отмена импорта удаляет по нему)
+  import_id   TEXT,
   PRIMARY KEY (user_id, entry_id)
 );
 
@@ -83,7 +85,12 @@ CREATE TABLE IF NOT EXISTS checkin (
   perceived   TEXT,
   reason      TEXT,
   payload     TEXT,
-  at          TEXT NOT NULL
+  at          TEXT NOT NULL,
+  level       REAL,
+  traits      TEXT,
+  -- 13.10, ДФ-10: «стоило ли» 1–5 после рефлексии и причина при 1–2
+  worth       INTEGER,
+  worth_why   TEXT
 );
 CREATE INDEX IF NOT EXISTS checkin_user ON checkin(user_id, at);
 
@@ -98,7 +105,9 @@ CREATE TABLE IF NOT EXISTS feedback (
   reason      TEXT,
   -- «насколько хочется» (1–5) из свайпа по ленте: ожидание до просмотра, не оценка увиденного
   eagerness   INTEGER,
-  at          TEXT NOT NULL
+  at          TEXT NOT NULL,
+  level       REAL,
+  traits      TEXT
 );
 CREATE INDEX IF NOT EXISTS feedback_user ON feedback(user_id, at);
 
@@ -123,6 +132,7 @@ CREATE TABLE IF NOT EXISTS rating (
   raw         REAL,
   work        TEXT,
   at          TEXT NOT NULL,
+  import_id   TEXT,
   PRIMARY KEY (user_id, work_id)
 );
 
@@ -137,7 +147,10 @@ CREATE TABLE IF NOT EXISTS impression (
   slot        TEXT,
   rank        INTEGER,
   energy      TEXT,
-  at          TEXT NOT NULL
+  at          TEXT NOT NULL,
+  -- 13.10, МА-1/МА-2: уровень сложности и признаки произведения ({op, rg}) в момент показа
+  level       REAL,
+  traits      TEXT
 );
 CREATE INDEX IF NOT EXISTS impression_user ON impression(user_id, at);
 
@@ -156,7 +169,12 @@ CREATE TABLE IF NOT EXISTS material_open (
   place       TEXT,
   shelf       TEXT,
   shelves     INTEGER,
-  at          TEXT NOT NULL
+  at          TEXT NOT NULL,
+  -- 14.10, МА-3: голос (id автора в реестре, src/lib/voices.ts), длина ролика в минутах и сколько секунд прошло до
+  -- возврата в приложение — «дочитал ли»: снаружи досмотр не виден, время отсутствия — лучшее, что есть
+  voice_id    TEXT,
+  minutes     INTEGER,
+  dwell       INTEGER
 );
 CREATE INDEX IF NOT EXISTS material_open_user ON material_open(user_id, at);
 
@@ -272,3 +290,12 @@ CREATE TABLE IF NOT EXISTS together_vote (session_id TEXT NOT NULL, user_id TEXT
 -- голосовать в этот чат (иначе через бота можно было бы писать в любой чат, где он есть). Живёт сутки.
 CREATE TABLE IF NOT EXISTS together_chat (token TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, title TEXT, lang TEXT,
   created_at TEXT NOT NULL, session_id TEXT);
+
+-- 13.10, МА-1: снимок карты участника при ленте — диапазон сложности (центр, границы, медиана истории, сколько
+-- размеченных досмотров). Первый — старт, от него считается «сдвиг»; новый пишется, только когда карта изменилась.
+CREATE TABLE IF NOT EXISTS level_state (user_id TEXT NOT NULL REFERENCES user(id), at TEXT NOT NULL, center REAL NOT NULL,
+  lo REAL NOT NULL, hi REAL NOT NULL, median REAL, n INTEGER NOT NULL, PRIMARY KEY (user_id, at));
+
+-- выгрузка дневника на час: downloadFile Telegram скачивает только по ссылке (ДФ-14)
+CREATE TABLE IF NOT EXISTS export_file (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), name TEXT NOT NULL,
+  body TEXT NOT NULL, at TEXT NOT NULL);

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { ID, Register } from '@/types/tmdf';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import type { FeedKind, ID, Register } from '@/types/tmdf';
 import { coldStartLeft, notWatched, searchCharacters, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
 import { Button, EmptyState, ErrorState, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration, titleOf } from '@/lib/format';
@@ -12,6 +12,7 @@ import { WorkThumb } from '@/components/WorkThumb';
 import ui from '@/i18n';
 import { isSeries } from '@/lib/media';
 import { useDiary } from '@/lib/settingsStore';
+import { useFeature } from '@/lib/flags';
 import { WorkCardSheet } from './WorkCardSheet';
 
 const DEBOUNCE = 250;
@@ -24,7 +25,8 @@ export function SearchScreen() {
   const navigate = useNavigate();
   const toast = useToast();
   const diary = useDiary();
-  const [query, setQuery] = useState('');
+  // «Искать по названию» из запроса словами в ленте (ДФ-12): текст приходит в адресе
+  const [query, setQuery] = useState(useSearchParams()[0].get('q') ?? '');
   const [hits, setHits] = useState<SearchHit[] | null>(null);
   const [failed, setFailed] = useState(false);
   // «Повторить» (ТВ-9): тот же запрос строкой не перезапускал поиск — React не видит перемены
@@ -33,6 +35,9 @@ export function SearchScreen() {
   // фильтр живёт только в «моём списке» (пустой запрос): в результатах поиска фильтровать
   // нечего — там и так то, что человек назвал
   const [reg, setReg] = useState<Register | null>(null);
+  // кино или книги в своём списке (11.10) — как в архиве, за флагом книг
+  const booksOn = useFeature('readShelf');
+  const [kind, setKind] = useState<FeedKind | null>(null);
   const [asking, setAsking] = useState(false);
   // карточка найденного — та же, что у рекомендации (02.10): тап по строке открывает её, а не страницу
   const [openId, setOpenId] = useState<ID | null>(null);
@@ -82,6 +87,8 @@ export function SearchScreen() {
       .finally(() => setBusy((b) => b.filter((x) => x !== id)));
   };
 
+  const isBook = (id: ID) => hits?.find((h) => h.work.id === id)?.work.type === 'book';
+  const addedText = (id: ID) => (isBook(id) ? ui.search.addedBook : ui.search.added);
   const apply = (id: ID, watched: boolean, undo = true) => {
     tap();
     setBusy((b) => [...b, id]);
@@ -93,7 +100,7 @@ export function SearchScreen() {
       // пока первой ленты нет, «Смотрел» её не приближает — говорим это сразу (02.10)
       .then(() => (watched ? coldStartLeft() : 0))
       .then((left) => toast({
-        text: watched ? (left ? `${ui.search.added} · ${ui.quick.notCounted(left)}` : ui.search.added) : ui.search.removed,
+        text: watched ? (left ? `${addedText(id)} · ${ui.quick.notCounted(left)}` : addedText(id)) : isBook(id) ? ui.search.removedBook : ui.search.removed,
         ...(undo ? { action: ui.actions.undo, onAction: () => apply(id, !watched, false) } : {}),
       }))
       .catch(() => {
@@ -105,7 +112,13 @@ export function SearchScreen() {
 
   // регистры считаем по отмеченному, а не по каталогу: это список человека, и фильтры в нём
   // должны быть его собственные
-  const list = hits ?? [];
+  const all = hits ?? [];
+  const kindOf = (h: SearchHit): FeedKind => (h.work.type === 'book' ? 'book' : 'screen');
+  const kindCounts = new Map<FeedKind, number>();
+  if (!query) for (const h of all) kindCounts.set(kindOf(h), (kindCounts.get(kindOf(h)) ?? 0) + 1);
+  const kindChips = booksOn && !query && kindCounts.size > 1 ? (['screen', 'book'] as FeedKind[]) : [];
+  // регистры — внутри выбранного рода: число на кнопке — сколько она покажет
+  const list = !query && kind ? all.filter((h) => kindOf(h) === kind) : all;
   const counts = new Map<Register, number>();
   if (!query) for (const h of list) for (const r of h.work.registers ?? []) counts.set(r, (counts.get(r) ?? 0) + 1);
   const chips = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
@@ -129,10 +142,22 @@ export function SearchScreen() {
       </div>
 
       <p className="tm-caption tm-search__hint">
-        {query ? ui.search.hint : ui.search.watchedHint}
+        {query ? ui.search.hint : booksOn ? ui.search.watchedHintBooks : ui.search.watchedHint}
         {!query && hits?.length ? ` ${ui.search.watchedCount(hits.length)}` : null}
       </p>
 
+      {kindChips.length ? (
+        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterKind}>
+          <button type="button" className={cx('tm-voice__chip', !kind && 'tm-voice__chip--on')}
+                  onClick={() => { pick(); setKind(null); setReg(null); }}>{ui.search.filterAll}</button>
+          {kindChips.map((k) => (
+            <button key={k} type="button" className={cx('tm-voice__chip', kind === k && 'tm-voice__chip--on')}
+                    onClick={() => { pick(); setKind(kind === k ? null : k); setReg(null); }}>
+              {ui.feed.kind[k]} <span className="tm-search__count">{kindCounts.get(k) ?? 0}</span>
+            </button>
+          ))}
+        </div>
+      ) : null}
       {!query && chips.length > 1 ? (
         <div className="tm-search__filters">
           <button type="button" className={cx('tm-voice__chip', !reg && 'tm-voice__chip--on')}
@@ -159,7 +184,7 @@ export function SearchScreen() {
       {failed ? <ErrorState title={ui.search.error} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {!hits && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 106, marginTop: i ? 8 : 0 }} />)}
         </div>
       ) : null}
@@ -172,7 +197,7 @@ export function SearchScreen() {
       {query && hits ? (
         <p className="tm-caption tm-search__hint">
           <button type="button" className="tm-search__link" onClick={() => { tap(); setAsking(true); }}>
-            {ui.search.missing}
+            {booksOn ? ui.search.missingBooks : ui.search.missing}
           </button>
         </p>
       ) : null}
@@ -204,7 +229,7 @@ export function SearchScreen() {
             <span className="tm-search__acts">
               <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
                       onClick={() => apply(hit.work.id, !hit.watched)}>
-                {hit.watched ? ui.search.unmark : ui.search.mark}
+                {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
               </Button>
               {/* «Смотрю» — часть подробного дневника (02.10): в облегчённом учёте хватает «Смотрел» */}
               {diary && !hit.watched && !isSeries(hit.work) ? (
@@ -230,7 +255,7 @@ export function SearchScreen() {
                            <>
                              <Button size="sm" variant={open.watched ? 'quiet' : 'primary'} disabled={busy.includes(open.work.id)}
                                      onClick={() => apply(open.work.id, !open.watched)}>
-                               {open.watched ? ui.search.unmark : ui.search.mark}
+                               {open.watched ? ui.search.unmark : open.work.type === 'book' ? ui.search.markRead : ui.search.mark}
                              </Button>
                              {diary && !open.watched && !isSeries(open.work) ? (
                                <Button size="sm" variant="quiet" pressed={open.watching} disabled={open.watching || busy.includes(open.work.id)}

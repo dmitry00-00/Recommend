@@ -14,9 +14,9 @@
 // Рассылка — `followDigest`: раз в сутки после 10:00 по Москве (сервер bothost зовёт её по таймеру,
 // Cloudflare — `scheduled`), владелец может прогнать её руками: POST /api/admin/follow-digest.
 import type { Env } from './env';
+import { bot } from './env';
 import { noteSeasons, seasonNews, type SeasonInfo, type SeasonNews } from './seasons';
 
-const BOT = 'recomend_media_bot';
 const FRESH_DAYS = 14;
 const KEEP_DAYS = 30;
 const MAX_FOLLOWS = 100;
@@ -116,7 +116,19 @@ export async function putFollow(req: Request, userId: string, env: Env): Promise
 // ─── рассылка ────────────────────────────────────────────────────────────────
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const SPOILER_TITLE = 'разбор со спойлерами';
+/** Тексты сводки: язык — из настроек участника (`settings.language`, 11.10: один сервер для всех языков). */
+const DIGEST = {
+  ru: {
+    spoiler: 'разбор со спойлерами', seasonHead: 'Вышел новый сезон', season: (n: number) => `${n} сезон`, watched: ' — вы досмотрели прежние',
+    essaysHead: 'Новые разборы по вашим подпискам', more: (n: number) => `— и ещё ${n}`, moreFollows: (n: number) => `И ещё подписок с новинками: ${n}.`,
+    hint: 'Подписки — кнопка «Следить» на странице героя или произведения.', q: (t: string) => `«${t}»`,
+  },
+  en: {
+    spoiler: 'an essay with spoilers', seasonHead: 'A new season is out', season: (n: number) => `season ${n}`, watched: ' — you finished the earlier ones',
+    essaysHead: 'New essays on what you follow', more: (n: number) => `— and ${n} more`, moreFollows: (n: number) => `More follows with news: ${n}.`,
+    hint: 'To follow, tap “Follow” on a character or title page.', q: (t: string) => `“${t}”`,
+  },
+} as const;
 const paramOf = (f: Pick<FollowRow, 'kind' | 'ref'>) => (f.kind === 'character' ? `h-${f.ref}` : `w-${f.ref.replace(':', '_')}`);
 
 /** Совпадения одной подписки среди свежего. */
@@ -139,25 +151,26 @@ export function matchFollow(f: Pick<FollowRow, 'kind' | 'ref' | 'keys'>, fresh: 
 
 /** Текст сводки и кнопки: сначала новые сезоны (ЗП-17), потом раздел на подписку, до трёх строк в разделе,
  *  до шести разделов. */
-export function digestMessage(sections: { follow: Pick<FollowRow, 'kind' | 'ref' | 'title'>; items: Fresh[] }[], seasons: SeasonNews[] = []) {
+export function digestMessage(sections: { follow: Pick<FollowRow, 'kind' | 'ref' | 'title'>; items: Fresh[] }[], seasons: SeasonNews[] = [], lang: 'ru' | 'en' = 'ru') {
+  const T = DIGEST[lang];
   const shown = sections.slice(0, MAX_SECTIONS);
   const lines: string[] = [];
   const shownSeasons = seasons.slice(0, MAX_SECTIONS);
   if (shownSeasons.length) {
-    lines.push('<b>Вышел новый сезон</b>');
-    for (const x of shownSeasons) lines.push(`— «${esc(x.title)}»: ${x.season} сезон${x.why === 'watched' ? ' — вы досмотрели прежние' : ''}`);
+    lines.push(`<b>${T.seasonHead}</b>`);
+    for (const x of shownSeasons) lines.push(`— ${T.q(esc(x.title))}: ${T.season(x.season)}${x.why === 'watched' ? T.watched : ''}`);
   }
-  if (shown.length) lines.push(...(lines.length ? [''] : []), '<b>Новые разборы по вашим подпискам</b>');
+  if (shown.length) lines.push(...(lines.length ? [''] : []), `<b>${T.essaysHead}</b>`);
   for (const { follow, items } of shown) {
     lines.push('', `<b>${esc(follow.title)}</b> · ${items.length}`);
-    for (const x of items.slice(0, PER_FOLLOW)) lines.push(`— ${esc(x.author)}: ${x.spoiler >= 2 ? SPOILER_TITLE : `«${esc(x.title)}»`}`);
-    if (items.length > PER_FOLLOW) lines.push(`— и ещё ${items.length - PER_FOLLOW}`);
+    for (const x of items.slice(0, PER_FOLLOW)) lines.push(`— ${esc(x.author)}: ${x.spoiler >= 2 ? T.spoiler : T.q(esc(x.title))}`);
+    if (items.length > PER_FOLLOW) lines.push(T.more(items.length - PER_FOLLOW));
   }
-  if (sections.length > shown.length) lines.push('', `И ещё подписок с новинками: ${sections.length - shown.length}.`);
-  lines.push('', '<i>Подписки — кнопка «Следить» на странице героя или произведения.</i>');
+  if (sections.length > shown.length) lines.push('', T.moreFollows(sections.length - shown.length));
+  lines.push('', `<i>${T.hint}</i>`);
   const buttons = [
-    ...shownSeasons.map((x) => [{ text: `${x.title.slice(0, 32)} · ${x.season} сезон`, url: `https://t.me/${BOT}?startapp=${paramOf({ kind: 'work', ref: x.key })}` }]),
-    ...shown.map(({ follow }) => [{ text: follow.title.slice(0, 40), url: `https://t.me/${BOT}?startapp=${paramOf(follow)}` }]),
+    ...shownSeasons.map((x) => [{ text: `${x.title.slice(0, 32)} · ${T.season(x.season)}`, url: `https://t.me/${bot.name}?startapp=${paramOf({ kind: 'work', ref: x.key })}` }]),
+    ...shown.map(({ follow }) => [{ text: follow.title.slice(0, 40), url: `https://t.me/${bot.name}?startapp=${paramOf(follow)}` }]),
   ];
   return { text: lines.join('\n'), reply_markup: { inline_keyboard: buttons } };
 }
@@ -173,11 +186,11 @@ export async function followDigest(env: Env, { now = new Date(), force = false, 
   // новые сезоны (ЗП-17): тем, кто их ждал по дневнику или подписке, — даже без подписок на разборы
   const seasons = await reference<Record<string, SeasonInfo>>(env, 'seriesSeasons') ?? {};
   const news = await seasonNews(env, seasons, now).catch((err) => { console.error('seasonNews', err); return new Map<string, SeasonNews[]>(); });
-  const users = await env.DB.prepare(`SELECT u.id AS id, u.tg_id AS tg, d.at AS last
+  const users = await env.DB.prepare(`SELECT u.id AS id, u.tg_id AS tg, d.at AS last, json_extract(u.settings, '$.language') AS lang
     FROM user u LEFT JOIN follow_digest d ON d.user_id = u.id
     WHERE u.tg_id IS NOT NULL AND COALESCE(d.blocked, 0) = 0 ${force ? '' : 'AND (d.day IS NULL OR d.day < ?)'}
       AND (EXISTS (SELECT 1 FROM follow f WHERE f.user_id = u.id) OR u.id IN (SELECT value FROM json_each(?)))`)
-    .bind(...(force ? [] : [day]), JSON.stringify([...news.keys()])).all<{ id: string; tg: number; last: string | null }>();
+    .bind(...(force ? [] : [day]), JSON.stringify([...news.keys()])).all<{ id: string; tg: number; last: string | null; lang: string | null }>();
   report.users = users.results.length;
   if (!users.results.length) return report;
   const oldest = users.results.reduce((m, u) => (u.last && u.last < m ? u.last : m), iso(now));
@@ -201,7 +214,7 @@ export async function followDigest(env: Env, { now = new Date(), force = false, 
     for (let i = sections.length - 1; i >= 0; i--) if (!sections[i].items.length) sections.splice(i, 1);
     const seasonsNew = news.get(u.id) ?? [];
     if (!sections.length && !seasonsNew.length) { report.empty++; if (!dry) await mark(u.id); continue; }
-    const msg = digestMessage(sections, seasonsNew);
+    const msg = digestMessage(sections, seasonsNew, u.lang === 'en' ? 'en' : 'ru');
     if (dry) { report.preview!.push({ user: u.id, text: msg.text }); continue; }
     const r = await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`, {
       method: 'POST', headers: { 'content-type': 'application/json' },

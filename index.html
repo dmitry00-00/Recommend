@@ -5,9 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Transformative Media</title>
-    <!-- Telegram Mini App: скрипт обязан стоять в <head> до приложения. Вне Telegram
-         (и в dist/standalone.html без сети) он не загрузится — оболочка это переживает. -->
-    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+    <!-- Telegram Mini App: скрипт обязан стоять в <head> до приложения. Свой экземпляр, а не
+         telegram.org: из России telegram.org не открывается (ХЮ-2, 13.10). Это копия версии ?59
+         без правок (sha256 124bdff7…5908, 119 731 байт). Обновлять руками:
+         curl -o public/telegram-web-app.js 'https://telegram.org/js/telegram-web-app.js?<версия>'
+         Вне Telegram SDK есть, но без initData — оболочка это переживает. -->
+    <script src="./telegram-web-app.js"></script>
   </head>
   <body>
     <div id="root">

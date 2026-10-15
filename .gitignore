@@ -6,6 +6,7 @@ dist/
 .cache/
 deploy/bothost/
 deploy/preview/
+deploy/global/
 seeds/
 
 # профили Chrome от проверок через CDP: куки, история, сессии — наружу нельзя

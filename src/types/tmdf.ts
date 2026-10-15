@@ -87,7 +87,7 @@ export type Energy = 'low' | 'normal' | 'high';
 export type StateChangeType = 'refined_estimate' | 'observed_growth';
 /** `universe` (Ж3) — «дальше во вселенной»: продолжение виденного, отдельно от слотов развития */
 /** `free` — полка бесплатной легальной классики (ЗП-43): одно место в ленте, фильм с источником «смотреть бесплатно» */
-export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation' | 'universe' | 'free';
+export type RecommendationSlot = 'next_step' | 'stretch' | 'side_step' | 'preparation' | 'universe' | 'free' | 'book';
 export type StepStatus = 'locked' | 'available' | 'in_progress' | 'completed' | 'skipped';
 export type JourneyStatus = 'planned' | 'in_progress' | 'finished' | 'abandoned';
 export type PerceivedDifficulty = 'too_easy' | 'just_right' | 'too_hard';
@@ -111,7 +111,7 @@ export interface OperationIntensity { op: CognitiveOperation; intensity: number 
 
 /** Откуда изображения: TMDb (постер и кадр, по ключу, с атрибуцией), Open Library (обложки),
  *  неофициальный API Кинопоиска (постер, кадр, описание, где посмотреть; сторонний сервис). */
-export type ImageSource = 'tmdb' | 'open_library' | 'kinopoisk_unofficial';
+export type ImageSource = 'tmdb' | 'open_library' | 'kinopoisk_unofficial' | 'wikimedia_commons';
 
 /** Где посмотреть легально: онлайн-кинотеатр и ссылка на страницу произведения там. */
 export interface WatchOption {
@@ -285,6 +285,9 @@ export interface ExternalAnalysis {
    *  только за флагом `lensShelves`, поэтапно (ТВ-3в); в событиях открытия — всегда */
   lens?: MaterialLens;
   lensAlso?: MaterialLens;
+  /** тип спойлера (ДФ-8): `craft` — о приёме, без развязки, открыт до «Видел»; `plot` — с сюжетом. Нет — неизвестно,
+   *  решает `spoilerLevel` (src/lib/spoilers.ts) */
+  spoiler?: 'plot' | 'craft';
 }
 
 export type MaterialLens = 'meaning' | 'domain' | 'specialist' | 'facts' | 'sins' | 'compare' | 'book' | 'history' | 'author' | 'character' | 'franchise' | 'opinion' | 'other';
@@ -558,7 +561,13 @@ export interface CheckInRequest {
   abandonReason?: AbandonReason;
   reflections?: { promptId: ID; answer: string }[];
   rating?: 1 | 2 | 3 | 4 | 5;
+  /** «Стоило ли?» 1–5 после рефлексии (ДФ-10, 13.10): засчитываем 4–5 — метрика valued (МА-2) */
+  worth?: 1 | 2 | 3 | 4 | 5;
+  /** при 1–2 — что не так */
+  worthWhy?: WorthReason;
 }
+
+export type WorthReason = 'not_mine' | 'boring' | 'too_heavy' | 'expected_other';
 
 export interface Debrief {
   summary: string;
@@ -612,6 +621,9 @@ export interface AssessmentSession {
 
 // ---------- настройки ----------
 
+/** что подбирает лента: кино и сериалы — или книги */
+export type FeedKind = 'screen' | 'book';
+
 export interface UserSettings {
   language: 'ru' | 'en';
   mediaTypes: MediaType[];
@@ -648,6 +660,8 @@ export interface UserSettings {
   subscriptions?: string[];
   /** лента — только то, что можно смотреть без доплаты (по подписке или бесплатно) */
   subscriptionsOnly?: boolean;
+  /** что подбирает «Сегодня» (11.10): кино и сериалы или книги; нет — кино. Переключатель над лентой, эталон */
+  feedKind?: FeedKind;
   /** полки вкуса новичка (ЗП-45, 11.10): «что вам ближе» на экране первых оценок — id из `TASTE_SHELVES`
    *  (src/lib/model/taste.ts); кормят якорь вкуса и ставят своё вперёд в колоде */
   tasteShelves?: string[];

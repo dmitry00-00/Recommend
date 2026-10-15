@@ -1,12 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type {
-  DiscussionPlace, DismissReason, Energy, JourneyEntryData, Recommendation, RecommendationSlate,
+  DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, importHistory, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import {
-  Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
+  Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, WorkBanner, WorkSheet, useToast,
 } from '@/components';
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
@@ -20,7 +20,10 @@ import { formatDuration, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
 import { SearchLine, WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
-import ui, { plural } from '@/i18n';
+import { MoodLine, useMoodQuery } from './MoodLine';
+import ui, { language, plural } from '@/i18n';
+import { lastSlate, saveSlate } from '@/lib/slateCache';
+import { readingHours } from '@/lib/reading';
 import { isScreen, isSeries } from '@/lib/media';
 
 const ARCHIVE_ROW = 56;
@@ -59,7 +62,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
   onSave: () => void; onSeen: () => void; onDismiss: (reason: DismissReason) => void; onWatch: () => void;
 }) {
   const [reasons, setReasons] = useState(false);
-  // минимальная редакция (10.10): вместо «В планы» — «Видел» с оценкой: лента учится, фильм уходит
+  // «В планы» — функция эталона; «Видел» с оценкой — всегда: лента учится, фильм уходит
   const plans = useFeature('plans');
   // Конкретные разборы — материал, поиск по каналам — запасной ход: он уходит в одну строку
   // внизу, иначе четыре одинаковых блока съедают карточку (замечание владельца 22.09).
@@ -92,16 +95,17 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
             {searches.length ? <SearchLine places={searches} /> : null}
           </>
         )}
-        // «Начать смотреть» убрано из карточки (24.09, решение владельца); «в планы» и «не
-        // сейчас» — в правом углу текста под кадром материала, причины — под материалом
-        corner={plans ? (
-          <>
-            <Button size="sm" onClick={onSave}>{ui.actions.save}</Button>
-            <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
-          </>
-        ) : finished ? undefined : (
-          <QuickMark work={r.work} abandon={false} label={ui.quick.seen} onDone={onSeen}
-                     extra={<Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>} />
+        // «Начать смотреть» убрано из карточки (24.09, решение владельца); «видел», «в планы» и «не
+        // сейчас» — в правом углу текста под кадром материала, причины — под материалом. «Видел» с оценкой —
+        // в обеих редакциях (11.10: в полной его не было — уже виденный фильм некуда было деть, кроме «не сейчас»)
+        corner={finished ? undefined : (
+          <QuickMark work={r.work} abandon={false} label={r.work.type === 'book' ? ui.quick.read : ui.quick.seen} onDone={onSeen}
+                     extra={(
+                       <>
+                         {plans ? <Button size="sm" onClick={onSave}>{ui.actions.save}</Button> : null}
+                         <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
+                       </>
+                     )} />
         )}
         actions={reasons ? <ReasonPicker variant="dismiss" onPick={onDismiss} /> : undefined}
       />
@@ -147,7 +151,16 @@ const hintDone = () => { try { localStorage.setItem(HINT_KEY, '1'); } catch { /*
  *  возвращается в планы; в петле это `expired`, не бросок. */
 const FRESH_MS = 2 * 3600e3;
 const STALE_MS = 7 * 86400e3;
+/** Книгу и сериал читают и смотрят неделями (11.10): за семь дней «Солярис» тихо уходил обратно в планы посреди
+ *  чтения. У них срок дольше и отсчёт — от последней отмеченной части или сезона, а не от начала. */
+const LONG_STALE_MS = 45 * 86400e3;
 const age = (e: JourneyEntryData) => (e.startedAt ? Date.now() - Date.parse(e.startedAt) : 0);
+const stale = (e: JourneyEntryData): boolean => {
+  if (!(e.work.type === 'book' || isSeries(e.work))) return age(e) > STALE_MS;
+  const marks = [...(e.bookProgress?.done ?? []), ...(e.seriesProgress?.done ?? [])].map((d) => (d.at ? Date.parse(d.at) : 0));
+  const last = Math.max(e.startedAt ? Date.parse(e.startedAt) : 0, ...marks);
+  return last > 0 && Date.now() - last > LONG_STALE_MS;
+};
 
 function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
   /** номер кадра на плёнке — в надпечатке по кромке */
@@ -221,7 +234,7 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
       )}
       <FilmEdge work={r.work} no={no} />
       <div className="tm-stream__drag" style={dx ? ({ '--swipe-x': `${Math.round(dx * DRAG)}px` } as CSSProperties) : undefined}>
-        <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} />
+        <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />
       </div>
     </article>
   );
@@ -231,6 +244,20 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
  *  окне — баннер сверху, описание и ссылки ниже со своей прокруткой (21.09, по замечанию).
  *  Над лентой спрятан архив просмотренного: он вытягивается прокруткой вверх, как архив
  *  чатов в Telegram. Уровень усилия — из настроек. */
+/** Кадр первого баннера загружен — или прошло 2,5 с (ДФ-21) */
+const firstImage = () => new Promise<void>((done) => {
+  const until = Date.now() + 2500;
+  const tick = () => {
+    const img = document.querySelector<HTMLImageElement>('.tm-banner__img');
+    if ((img?.complete && img.naturalWidth) || Date.now() > until) done(); else setTimeout(tick, 100);
+  };
+  setTimeout(tick, 100);
+});
+
+/** «14 октября, 09:12» — когда сохранили ленту с устройства (ДФ-3) */
+const cachedWhen = (at: string) =>
+  new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(at));
+
 export function TodayScreen() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -241,6 +268,12 @@ export function TodayScreen() {
   const energyOn = useFeature('energy');
   const searchOn = useFeature('search');
   const together = useFeature('together');
+  const collections = useFeature('collections');
+  // поиск словами в ленте (ДФ-12): пока запрос есть, его ответ стоит на месте кадров ленты
+  const moodQuery = useMoodQuery();
+  // словарь запросов (src/lib/mood.ts) понимает только русский: по-английски каждый чип кончался бы отказом
+  const moodLine = searchOn && language === 'ru';
+  const moodOn = moodLine && Boolean(moodQuery);
   // мои подписки (ЗП-42): лента ставит вперёд доступное без доплаты, в мете — «в подписке Okko»
   const subsOn = useFeature('subscriptions');
   const userSettings = useSettings();
@@ -248,6 +281,12 @@ export function TodayScreen() {
   const subsOnly = subsOn && Boolean(userSettings?.subscriptionsOnly);
   // полка бесплатной классики (ЗП-43): место «Бесплатная классика» в ленте
   const freeOn = useFeature('freeClassics');
+  const booksOn = useFeature('readShelf');
+  // кино или книги (11.10): что подбирает лента — переключателем рядом с силой, выбор помнят настройки
+  const [kind, setKind] = useState<FeedKind>('screen');
+  const bookFeed = booksOn && kind === 'book';
+  // «Почитать» в конце ленты кино — только пока лента кино; в ленте книг он не нужен
+  const slateOpts = (k: FeedKind) => ({ subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind });
   // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
   const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -266,6 +305,8 @@ export function TodayScreen() {
   // автор, на чьём материале открыть карточку: приходит из ленты тапом по логотипу канала
   const [openVoice, setOpenVoice] = useState<string | undefined>();
   const [failed, setFailed] = useState<false | 'offline' | 'error'>(false);
+  // лента с устройства (ДФ-3): сервер не ответил — показываем последнюю удачную, с её временем
+  const [cachedAt, setCachedAt] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [hint, setHint] = useState(hintWanted);
   const learned = () => { if (hint) { hintDone(); setHint(false); } };
@@ -275,31 +316,62 @@ export function TodayScreen() {
   useEffect(() => { getScaleQuestion().then(setScale).catch(() => undefined); }, []);
   const answerScale = (n: number) => {
     setScale(undefined);
+    noteSurvey('scale', n);
     updateSettings({ ratingNorm: n }).then(() => setAttempt((a) => a + 1)).catch(() => undefined);
   };
 
+  // лента с устройства на старте (ДФ-21): свежую считает клиент по справочнику в несколько мегабайт — на медленной
+  // сети это десятки секунд. Пока он грузится, показываем последнюю удачную ленту, потом тихо подменяем свежей
+  const booted = useRef(false);
   useEffect(() => {
     let alive = true;
+    let fresh = false;
     setSlate(null);
     setFailed(false);
-    getSettings()
-      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal', undefined, { subscriptions: subsOn, freeClassics: freeOn }), getJourney(), settings]))
+    setCachedAt(null);
+    const first = !booted.current;
+    booted.current = true;
+    // сохранённая лента показана — свежую начинаем считать, когда нарисовался кадр первого баннера (не позже 2,5 с):
+    // справочник иначе отнимает у этого кадра и сеть, и главный поток
+    const head: Promise<unknown> = first
+      ? lastSlate(kind).then((c) => {
+        if (!alive || fresh || !c) return;
+        setSlate(c.slate);
+        shownIds.current = new Set(c.slate.items.map((r) => r.work.id));
+        return firstImage();
+      }).catch(() => undefined)
+      : Promise.resolve();
+    head.then(() => getSettings())
+      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal', undefined, slateOpts(settings.feedKind ?? 'screen')), getJourney(), settings]))
       .then(([nextSlate, journal, settings]) => {
         if (!alive) return;
+        fresh = true;
         setSlate(nextSlate);
+        saveSlate(settings.feedKind ?? 'screen', nextSlate);
         setEnergy(settings.energy ?? 'normal');
+        setKind(settings.feedKind ?? 'screen');
         setMoreDone(false);
         shownIds.current = new Set(nextSlate.items.map((r) => r.work.id));
         setSpoilerLevel(settings.spoilerLevel);
         setFinishedIds(new Set(journal.filter((e) => e.status === 'finished').map((e) => e.work.id)));
         setArchived(journal.length);
         const going = journal.filter((e) => e.status === 'in_progress');
-        for (const e of going.filter((x) => age(x) > STALE_MS)) notWatched(e.id, 'expired').catch(() => undefined);
-        setCurrent(going.filter((x) => age(x) <= STALE_MS));
+        for (const e of going.filter(stale)) notWatched(e.id, 'expired').catch(() => undefined);
+        setCurrent(going.filter((x) => !stale(x)));
       })
-      .catch((err) => alive && setFailed(err instanceof OfflineError ? 'offline' : 'error'));
+      .catch(async (err) => {
+        fresh = true;
+        const cached = await lastSlate(kind).catch(() => undefined);
+        if (!alive) return;
+        if (cached) {
+          setSlate(cached.slate);
+          setCachedAt(cached.at);
+          shownIds.current = new Set(cached.slate.items.map((r) => r.work.id));
+        }
+        setFailed(err instanceof OfflineError ? 'offline' : 'error');
+      });
     return () => { alive = false; };
-  }, [attempt, subsOn, freeOn]);
+  }, [attempt, subsOn, freeOn, booksOn]);
 
   const changeEnergy = (e: Energy) => {
     if (e === energy) return;
@@ -307,11 +379,17 @@ export function TodayScreen() {
     setEnergy(e);
     saveSettings({ energy: e }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
   };
+  const changeKind = (k: FeedKind) => {
+    if (k === kind) return;
+    pick();
+    setKind(k);
+    saveSettings({ feedKind: k }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
+  };
   const loadMore = () => {
     if (!slate || moreBusy) return;
     tap();
     setMoreBusy(true);
-    getSlate(energy, [...shownIds.current], { subscriptions: subsOn, freeClassics: freeOn })
+    getSlate(energy, [...shownIds.current], slateOpts(kind))
       .then((next) => {
         const fresh = next.items.filter((r) => !shownIds.current.has(r.work.id));
         fresh.forEach((r) => shownIds.current.add(r.work.id));
@@ -425,6 +503,9 @@ export function TodayScreen() {
   ));
 
   const items = slate?.items ?? [];
+  // над лентой книг — только начатые книги; над лентой кино — всё начатое, как до переключателя: книга, начатая из
+  // «Почитать» в ленте кино, иначе пропала бы с глаз
+  const shownCurrent = bookFeed ? current.filter((e) => e.work.type === 'book') : current;
   const openEntry = current.find((e) => e.id === open) ?? null;
   const entryPlaces = usePlaces(openEntry?.work.id);
   const openRec = items.find((r) => r.id === open) ?? null;
@@ -441,7 +522,9 @@ export function TodayScreen() {
     return free ? ui.feed.freeOn(free.platform) : undefined;
   };
   const recMeta = (r: Recommendation) =>
-    [r.work.year, leadName(r.work), formatDuration(r.work.durationMinutes), availability(r)].filter(Boolean).join(' · ');
+    [r.work.year, leadName(r.work), r.work.type === 'book' ? readTime(r.work.pages) : formatDuration(r.work.durationMinutes), availability(r)].filter(Boolean).join(' · ');
+  // книга (11.10): сколько читать — по страницам, как во вкладке «Читать»
+  const readTime = (pages?: number) => { const h = readingHours(pages); return h ? ui.feed.readTime(h) : undefined; };
   const toggleSubsOnly = () => {
     pick();
     saveSettings({ subscriptionsOnly: !subsOnly }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
@@ -478,7 +561,8 @@ export function TodayScreen() {
         ) : null}
         {failed ? (
           <ErrorState title={failed === 'offline' ? ui.state.offlineTitle : ui.state.errorSlate}
-                      text={failed === 'offline' ? ui.state.offlineText : slate ? ui.state.errorSlateText : ui.state.errorText}
+                      text={cachedAt ? ui.state.cachedSlate(cachedWhen(cachedAt))
+                        : failed === 'offline' ? ui.state.offlineText : slate ? ui.state.errorSlateText : ui.state.errorText}
                       className="tm-stream__pad" onRetry={() => setAttempt(attempt + 1)} />
         ) : null}
         {!slate && !failed ? (
@@ -518,26 +602,28 @@ export function TodayScreen() {
         ) : null}
         {slate && !items.length && !slate.coldStart ? (
           <div className="tm-stream__pad">
-            <EmptyState title={ui.today.empty} text={ui.today.emptyText} action={ui.actions.retry} onAction={() => setAttempt(attempt + 1)} />
+            <EmptyState title={bookFeed ? ui.today.emptyBooks : ui.today.empty} text={bookFeed ? ui.today.emptyBooksText : ui.today.emptyText} action={ui.actions.retry} onAction={() => setAttempt(attempt + 1)} />
           </div>
         ) : null}
-        {hint && items.length ? (
+        {hint && items.length && !moodOn ? (
           <div className="tm-stream__swipehint" role="note">
             <span className="tm-caption">{ui.feed.swipeHint}</span>
             <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ui.feed.swipeHintOk}</Button>
           </div>
         ) : null}
-        {slate && !slate.coldStart && (items.length || current.length || subsOnly) && (energyOn || searchOn || subs.length) ? (
+        {slate && !slate.coldStart && (items.length || current.length || subsOnly || bookFeed) && (energyOn || subs.length || booksOn) ? (
           <div className="tm-stream__pad tm-stream__energy">
+            {booksOn ? <FeedKindSwitch value={kind} onChange={changeKind} /> : null}
             {energyOn ? <EnergySwitch value={energy} onChange={changeEnergy} /> : null}
-            {subs.length ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
-            {/* ЗП-16: то же, но словами — «тихое про семью, не грустное» */}
-            {searchOn ? <Button variant="quiet" size="sm" className="tm-stream__mood" onClick={() => { tap(); navigate('/mood'); }}>{ui.mood.entry}</Button> : null}
+            {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
           </div>
         ) : null}
-        {current.length || items.length ? <div className="tm-filmstrip">
+        {/* ДФ-12 (14.10): то же, но словами — «тихое про семью, не грустное» — строкой прямо в ленте, а не экраном /mood;
+            из ленты книг — по книгам */}
+        {moodLine && slate && !slate.coldStart ? <MoodLine kind={bookFeed ? 'book' : 'screen'} energy={energy} /> : null}
+        {!moodOn && (shownCurrent.length || items.length) ? <div className="tm-filmstrip">
         {/* Что смотрите сейчас — первым: чек-ин после просмотра кормит подбор, прятать его в архив нельзя */}
-        {current.map((e, i) => (
+        {shownCurrent.map((e, i) => (
           <article key={e.id} className={cx('tm-stream__item', 'tm-stream__item--current')}>
             <FilmEdge work={e.work} no={i + 1} short />
             <WorkBanner work={e.work} size="sm" tag={ui.feed.watching} meta={entryMeta(e)} onClick={() => setOpen(e.id)} />
@@ -552,31 +638,38 @@ export function TodayScreen() {
           </article>
         ))}
         {items.map((r, i) => (
-          <FeedCard key={r.id} r={r} no={current.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' || r.slot === 'free' ? ui.slot[r.slot].label : undefined}
+          <FeedCard key={r.id} r={r} no={shownCurrent.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' || r.slot === 'free' || r.slot === 'book' ? ui.slot[r.slot].label : undefined}
                     onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
                     onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
                     onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
         ))}
         </div> : null}
-        {items.length && slate && !slate.coldStart ? (
+        {!moodOn && items.length && slate && !slate.coldStart ? (
           <div className="tm-stream__pad tm-stream__more">
             {moreDone
-              ? <p className="tm-caption">{ui.feed.moreNone}</p>
-              : <Button variant="secondary" onClick={loadMore} disabled={moreBusy}>{moreBusy ? ui.feed.moreLoading : ui.feed.moreFilms}</Button>}
+              ? <p className="tm-caption">{bookFeed ? ui.feed.moreNoneBooks : ui.feed.moreNone}</p>
+              : <Button variant="secondary" onClick={loadMore} disabled={moreBusy}>{moreBusy ? ui.feed.moreLoading : bookFeed ? ui.feed.moreBooks : ui.feed.moreFilms}</Button>}
           </div>
         ) : null}
         {/* выбор компанией (ЗП-11): тот, кто долистал, — кандидат собрать вечер на двоих и больше */}
-        {together && items.length && slate && !slate.coldStart ? (
+        {!moodOn && together && items.length && slate && !slate.coldStart ? (
           <p className="tm-caption tm-stream__pad tm-coldstart__share">
             {ui.together.entry}{' '}
             <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/together'); }}>{ui.together.entryAction}</button>
           </p>
         ) : null}
+        {/* культурные подборки (ЗП-45, шаг 2): кто долистал ленту — кандидат пойти вглубь по стране или школе */}
+        {!moodOn && collections && items.length && slate && !slate.coldStart ? (
+          <p className="tm-caption tm-stream__pad tm-coldstart__share">
+            {ui.collections.entry}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/collections'); }}>{ui.collections.entryAction}</button>
+          </p>
+        ) : null}
         {/* позвать друга — под лентой, тихо: тот, кто долистал, лентой доволен (02.10) */}
-        {items.length ? (
+        {!moodOn && items.length ? (
           <p className="tm-caption tm-stream__pad tm-coldstart__share">
             {ui.today.shareLead}{' '}
-            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</button>
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</button>
           </p>
         ) : null}
       </div>
@@ -584,12 +677,8 @@ export function TodayScreen() {
       <ImportHistorySheet
         open={importing}
         onOpenChange={setImporting}
-        onImport={async (texts, ratingNorm) => {
-          if (ratingNorm) await updateSettings({ ratingNorm });
-          const r = await importHistory(texts);
-          setAttempt((a) => a + 1);
-          return r ? { added: r.entries.length, resolved: r.resolved } : undefined;
-        }}
+        onNorm={(ratingNorm) => updateSettings({ ratingNorm })}
+        onChanged={() => setAttempt((a) => a + 1)}
       />
 
       {/* Карточка того, что смотрите сейчас: описание и чек-ин */}
@@ -605,8 +694,8 @@ export function TodayScreen() {
       </WorkSheet>
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
-                 tag={openRec && (mechanics || openRec.slot === 'universe' || openRec.slot === 'free') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
-                 plot={openRec?.explanation?.what || undefined} context="лента: рекомендация">
+                 tag={openRec && (mechanics || openRec.slot === 'universe' || openRec.slot === 'free' || openRec.slot === 'book') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
+                 plot={openRec?.explanation?.what || undefined} context="лента: рекомендация" hurdles={!finishedIds.has(openRec?.work.id ?? '')}>
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onSeen={() => seen(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />

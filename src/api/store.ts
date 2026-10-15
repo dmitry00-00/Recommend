@@ -9,6 +9,20 @@
 // нет ни одного запроса «дай рекомендации» — только «запиши, что человек сделал».
 import type { BookProgress, ID, PerceivedDifficulty, SeriesProgress, UserSettings, WorkCard } from '@/types/tmdf';
 import { webApp } from '@/lib/telegram';
+import type { ComplexitySpan } from '@/lib/model/deriveState';
+
+/** Уровень сложности и признаки произведения для метрик сдвига и разнообразия (МА-1/МА-2, worker/metrics.ts):
+ *  разметки у сервера нет, поэтому уровень едет с событием — тот, по которому человек выбирал. */
+export interface WorkMeta { level?: number; traits?: { op?: Record<string, number>; rg?: string[] } }
+export function workMeta(work?: WorkCard): WorkMeta {
+  if (!work) return {};
+  const op = Object.fromEntries((work.primaryOperations ?? []).map((o) => [o.op, o.intensity]));
+  const rg = work.registers ?? [];
+  return {
+    ...(work.complexityLevel > 0 ? { level: work.complexityLevel } : {}),
+    ...(Object.keys(op).length || rg.length ? { traits: { ...(Object.keys(op).length ? { op } : {}), ...(rg.length ? { rg } : {}) } } : {}),
+  };
+}
 
 // `VITE_API_URL=/` — API на том же адресе, что и страница (сборка для bothost); пустая строка
 // после обрезки слеша — это тоже «сервер есть», поэтому сравниваем с undefined, а не на истинность
@@ -29,7 +43,7 @@ export interface StoredState {
   ratings?: { workId: ID; rating: 1 | 2 | 3 | 4 | 5; raw?: number; work?: WorkCard; at: string }[];
   /** последний отказ на фильм ленты (10.10): по нему фильм не возвращается в ленту на срок по причине */
   dismissals?: { workId: ID; reason?: string; at: string }[];
-  profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean; role?: 'admin' | 'tester' | 'user' };
+  profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean; role?: 'admin' | 'tester' | 'user'; /** дни захода (ДФ-3) */ visitDays?: number };
 }
 
 /** Токен сессии хранится отдельно для каждого аккаунта Telegram. localStorage у WebView один
@@ -88,6 +102,29 @@ const send = async (path: string, method: string, body: unknown): Promise<void> 
   const res = await call(path, { method, body: JSON.stringify(body) });
   if (!res || !res.ok) throw new Error(`${method} ${path}: ${res?.status ?? 'нет ответа'}`);
 };
+
+/** Импорт истории (ДФ-11): записи и оценки одной пачкой с меткой; без сервера — undefined. */
+export interface ImportWrite { added: number; rated: number; kept: number; keptRatings: number }
+export async function postImport(body: { importId: string; entries: unknown[]; ratings: unknown[] }): Promise<ImportWrite | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call('/api/import', { method: 'POST', body: JSON.stringify(body) });
+  if (!res || !res.ok) throw new Error(`POST /api/import: ${res?.status ?? 'нет ответа'}`);
+  return await res.json() as ImportWrite;
+}
+export async function deleteImport(importId: string): Promise<{ removed: number; unrated: number } | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call(`/api/import/${encodeURIComponent(importId)}`, { method: 'DELETE' });
+  if (!res || !res.ok) throw new Error(`DELETE /api/import: ${res?.status ?? 'нет ответа'}`);
+  return await res.json() as { removed: number; unrated: number };
+}
+
+/** Выгрузка дневника (ДФ-14): файл на час, ответ — путь для скачивания по ссылке. */
+export async function postExport(name: string, text: string): Promise<string | undefined> {
+  if (API === undefined) return undefined;
+  const res = await call('/api/export', { method: 'POST', body: JSON.stringify({ name, text }) });
+  if (!res || !res.ok) throw new Error(`POST /api/export: ${res?.status ?? 'нет ответа'}`);
+  return (await res.json() as { path: string }).path;
+}
 
 /** Состояние участника при запуске. Без сервера (разработка) — undefined: работаем на моках.
  *  С сервером, который не ответил, — 'unreachable': это не «новый участник», и показывать
@@ -171,21 +208,29 @@ export const store = {
   plan: (entryId: string, workId: ID, work?: WorkCard, eagerness?: number) =>
     send('/api/journal/plan', 'POST', { entryId, workId, work, eagerness }),
   unplan: (entryId: string) => send(`/api/journal/${encodeURIComponent(entryId)}/plan`, 'DELETE', {}),
-  impressions: (slateId: string, energy: string, items: { recId: string; workId: ID; slot?: string; rank: number }[]) =>
-    send('/api/impressions', 'POST', { slateId, energy, items }),
-  /** открыли материал (ТВ-3г): ролик или пост, рубрика, откуда */
-  open: (event: Record<string, unknown>) => send('/api/open', 'POST', event),
+  /** показы ленты; у каждого — уровень и признаки произведения, `state` — снимок карты (МА-1/МА-2) */
+  impressions: (slateId: string, energy: string, items: ({ recId: string; workId: ID; slot?: string; rank: number } & WorkMeta)[], state?: ComplexitySpan) =>
+    send('/api/impressions', 'POST', { slateId, energy, items, ...(state ? { state } : {}) }),
+  /** открыли материал (ТВ-3г): ролик или пост, рубрика, откуда, чей (МА-3); ответ — id записи для `dwell` */
+  open: async (event: Record<string, unknown>): Promise<string | undefined> => {
+    if (API === undefined) return undefined;
+    const res = await call('/api/open', { method: 'POST', body: JSON.stringify(event) });
+    if (!res || !res.ok) throw new Error(`POST /api/open: ${res?.status ?? 'нет ответа'}`);
+    return (await res.json() as { id?: string }).id;
+  },
+  /** вернулись из открытого материала (МА-3): секунды снаружи */
+  dwell: (openId: string, seconds: number) => send(`/api/open/${encodeURIComponent(openId)}/dwell`, 'POST', { seconds }),
   /** удалить аккаунт и все данные участника (ЗП-5): после — забыть токен и всё локальное */
   deleteAccount: () => send('/api/account', 'DELETE', {}),
   /** открыли карточку произведения или нажали «Смотреть» (ЗП-3): воронка и удержание */
-  event: (event: { kind: 'card' | 'watch'; workId?: ID; place?: string; detail?: string }) => send('/api/event', 'POST', event),
+  event: (event: { kind: 'card' | 'watch' | 'share_sent' | 'mood_query' | 'survey_answered'; workId?: ID; place?: string; detail?: string }) => send('/api/event', 'POST', event),
   /** сериал (Е3): «где я сейчас» — сезон и серия */
   progress: (entryId: string, workId: ID, where: { series: SeriesProgress } | { book: BookProgress }) =>
     send(`/api/journal/${encodeURIComponent(entryId)}/progress`, 'POST', { workId, ...where }),
   checkIn: (entryId: string, workId: ID, payload: Record<string, unknown>) =>
     send(`/api/journal/${encodeURIComponent(entryId)}/checkin`, 'POST', { workId, ...payload }),
-  feedback: (recId: string, workId: ID | undefined, action: string, reason?: string, eagerness?: number) =>
-    send('/api/feedback', 'POST', { recId, workId, action, reason, eagerness }),
+  feedback: (recId: string, workId: ID | undefined, action: string, reason?: string, eagerness?: number, meta?: WorkMeta) =>
+    send('/api/feedback', 'POST', { recId, workId, action, reason, eagerness, ...meta }),
   verdict: (url: string, workId: ID | undefined, verdict: string) =>
     send('/api/verdict', 'PUT', { url, workId, verdict }),
   /** заявка: «нет такого фильма» или «добавьте этого автора» */

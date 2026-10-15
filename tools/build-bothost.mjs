@@ -3,8 +3,8 @@
 //
 //   npm run build:bothost          → deploy/bothost/ и deploy/tm-bothost.zip
 //
-// Фронт собирается с VITE_API_URL=/ — API на том же адресе, что и страница. Ключ TMDb
-// (VITE_) попадает в сборку, как и раньше; ключ Кинопоиска — нет: его знает только сервер.
+// Фронт собирается с VITE_API_URL=/ — API на том же адресе, что и страница. Ключи TMDb
+// и Кинопоиска в сборку не попадают (TMDb — с 13.10): их знает только сервер (TMDB_API_KEY, KP_API_KEY).
 import { execSync } from 'node:child_process';
 import { cpSync, mkdirSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,7 +18,12 @@ mkdirSync(join(out, 'seed'), { recursive: true });
 mkdirSync(join(out, 'vendor'), { recursive: true });
 
 // 1. фронт
-run('npx tsc -b && npx vite build --outDir deploy/bothost/public --emptyOutDir', { VITE_API_URL: '/', VITE_KP_PROXY: '1' });
+// язык — по Telegram и браузеру (11.10: один сервер в Нидерландах для всех языков, решение владельца): русский для
+// ru/uk/be/kk и соседних, английский — остальным; регион «где смотреть» у нерусскоязычных — из языка браузера
+run('npx tsc -b && npx vite build --outDir deploy/bothost/public --emptyOutDir', { VITE_API_URL: '/', VITE_KP_PROXY: '1', VITE_DEFAULT_LANG: 'auto' });
+// бюджет первой загрузки (РР-0): превышен — сборка падает; манифест нужен только проверке, на сервер не едет
+run('node tools/load-budget.mjs deploy/bothost/public');
+rmSync(join(out, 'public', '.vite'), { recursive: true, force: true });
 
 // 2. воркер → CommonJS для Node
 run('npx esbuild worker/index.ts --bundle --platform=node --target=node20 --format=cjs --outfile=deploy/bothost/worker.cjs --log-level=warning');

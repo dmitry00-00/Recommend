@@ -142,13 +142,21 @@ if (warned) say(`ВНИМАНИЕ: контрольные замеры — ${war
 step('сезоны сериалов', ...tsx('tools/series-seasons.mts'), { optional: true, minutes: 20 });
 // где смотреть по подписке (ЗП-42, 10.10): TMDb по фильмам справочника, перепроверка раз в 14 дней
 step('наличие в кинотеатрах', ...tsx('tools/watch-providers.mts'), { optional: true, minutes: 20 });
+// подборки голосов (ЗП-45, шаг 3): плейлисты эссеистов по свежему индексу разборов, без сети
+step('подборки голосов', ...tsx('tools/voice-playlists.mts'), { optional: true });
 // бесплатная легальная классика (ЗП-43, 10.10): Wikidata раз в неделю, ролики правообладателей — раз в 14 дней
 step('бесплатная классика', ...tsx('tools/free-watch.mts'), { optional: true, minutes: 10 });
+// читать бесплатно (книги, 11.10): Викитека и Gutenberg из Wikidata, ответы — раз в неделю
+step('читать бесплатно', ...tsx('tools/free-read.mts'), { optional: true, minutes: 5 });
 // английские названия новых карточек (ЗП-20, 08.10): из кэша, в TMDb — только новые; в сборку попадут при следующем деплое
 step('английские названия', ...tsx('tools/titles-en.mts'), { optional: true, minutes: 15 });
 // жанры TMDb для якоря вкуса новичка (09.10): из кэша, без сети — до людей доходят со сборкой
 step('жанры фильмов', ...tsx('tools/film-genres.mts'), { optional: true });
 if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true, mark: 'publish' });
+// обложки книг (11.10): сервер берёт их с Open Library при первом запросе — прогреваем сами, чтобы не ждал читатель
+if (!process.argv.includes('--no-publish')) step('обложки книг', ...tsx('tools/warm-covers.mts'), { optional: true, minutes: 30 });
+// контур Global (ЗП-26): тот же набор на Cloudflare — когда он заведён (TM_GLOBAL_SERVER в .env.local)
+if (!process.argv.includes('--no-publish') && process.env.TM_GLOBAL_SERVER) step('публикация в Global', ...tsx('tools/publish-reference.mts', '--global'), { optional: true });
 // свежая очередь разметки для телефона — после всех шагов: в ней уже новые ролики и решения ночи
 if (!process.argv.includes('--no-publish')) step('очередь разметки для телефона', ...tsx('tools/owner-queue.mts'), { optional: true });
 // копия базы участников — к себе на Mac (ЗП-4, 06.10): ночная копия сервера лежит на его же диске

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type {
   AbandonReason, CheckInRequest, CognitiveOperation, Debrief, DifficultyPrediction, DiscussionPlace,
-  PerceivedDifficulty, ReflectionPromptData, WorkCard,
+  PerceivedDifficulty, ReflectionPromptData, WorkCard, WorthReason,
 } from '@/types/tmdf';
 import { Button } from './Button';
 import { DifficultyPicker } from './DifficultyPicker';
@@ -51,6 +51,9 @@ export function CheckInFlow({
   const [last, setLast] = useState(false);
   const [difficulty, setDifficulty] = useState<PerceivedDifficulty | undefined>();
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  // «Стоило ли?» (ДФ-10): одно касание, при 1–2 — что не так; можно не отвечать
+  const [worth, setWorth] = useState<CheckInRequest['worth']>();
+  const [worthWhy, setWorthWhy] = useState<WorthReason | undefined>();
   const steps = ui.checkin.steps;
   const shown = step === ABANDON ? 1 : step;
 
@@ -61,6 +64,7 @@ export function CheckInFlow({
       ...(part ? { part, ...(last ? { last: true } : {}) } : {}),
       perceivedDifficulty: difficulty,
       abandonReason,
+      ...(status === 'finished' && worth ? { worth, ...(worth <= 2 && worthWhy ? { worthWhy } : {}) } : {}),
       reflections: Object.entries(answers).map(([promptId, answer]) => ({ promptId, answer })),
     });
     setStep(DEBRIEF);
@@ -116,6 +120,30 @@ export function CheckInFlow({
                             onAnswer={(v) => setAnswers({ ...answers, [pr.id]: v })}
                             onSkip={() => { const next = { ...answers }; delete next[pr.id]; setAnswers(next); }} />
         ))}
+        <div className="tm-checkin__worth" role="group" aria-label={ui.checkin.worthQ}>
+          <p className="tm-checkin__q">{ui.checkin.worthQ}</p>
+          <div className="tm-row tm-row--gap-2 tm-row--wrap">
+            {([1, 2, 3, 4, 5] as const).map((w) => (
+              <Button key={w} size="sm" variant="secondary" pressed={worth === w}
+                      onClick={() => { setWorth(worth === w ? undefined : w); if (w > 2) setWorthWhy(undefined); }}>
+                {ui.checkin.worthScale[w - 1]}
+              </Button>
+            ))}
+          </div>
+          {worth && worth <= 2 ? (
+            <>
+              <p className="tm-checkin__q">{ui.checkin.worthWhyQ}</p>
+              <div className="tm-row tm-row--gap-2 tm-row--wrap">
+                {(Object.keys(ui.checkin.worthWhy) as WorthReason[]).map((r) => (
+                  <Button key={r} size="sm" variant="quiet" pressed={worthWhy === r}
+                          onClick={() => setWorthWhy(worthWhy === r ? undefined : r)}>
+                    {ui.checkin.worthWhy[r]}
+                  </Button>
+                ))}
+              </div>
+            </>
+          ) : null}
+        </div>
         <Button variant="primary" onClick={() => submit('finished')}>{ui.actions.next}</Button>
       </div>
     );

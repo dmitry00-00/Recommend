@@ -6,6 +6,26 @@ import type { IndexedWork } from './works-index.mts';
 const UA = 'transformative-media/0.1 (film analysis index; contact via repository README)';
 const API = 'https://www.wikidata.org/w/api.php';
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+/** Метка Wikidata без уточнения из Википедии: «Минамата (фильм)», «Тело Христово (фильм, 2019)», «Faust (2011 film)» — у части фильмов
+ *  русская метка совпадает с названием статьи (11.10: 14 карточек справочника). Уточнение мешает и показу, и
+ *  сопоставлению роликов — ролик «Минамата» карточку «Минамата (фильм)» не узнавал. */
+export const plainTitle = (t: string): string =>
+  cyrillicLookalikes(t.replace(/\s*\((?:\d{4}\s+)?(?:фильм|мультфильм|телефильм|сериал|телесериал|мини-сериал|мультсериал|аниме|film|movie|TV series|miniseries|animated series)(?:,?\s*\d{4})?\)$/iu, ''));
+
+const LOOKALIKE: Record<string, string> = { A: 'А', B: 'В', C: 'С', E: 'Е', H: 'Н', K: 'К', M: 'М', O: 'О', P: 'Р', T: 'Т', X: 'Х', a: 'а', c: 'с', e: 'е', o: 'о', p: 'р', x: 'х', y: 'у' };
+/** Латинская буква-двойник в русской метке Wikidata: «Aртур», «C приветом по планетам», «Уэйанc» (11.10). Правится
+ *  одна буква в русском слове и однобуквенный предлог в начале; нарочная латиница («Духless», «SuperПерцы»,
+ *  «Zомбилэнд») — не двойники или больше одной буквы, её не трогаем. */
+export const cyrillicLookalikes = (t: string): string => {
+  if (!/\p{Script=Cyrillic}/u.test(t)) return t;
+  return t.replace(/\p{L}+/gu, (w, at: number) => {
+    const latin = [...w].filter((ch) => /\p{Script=Latin}/u.test(ch));
+    if (latin.length !== 1 || !LOOKALIKE[latin[0]]) return w;
+    // однобуквенное слово — только предлог в начале перед русским словом («C приветом»), не «План B» и не «Эпизод V»
+    if (w.length === 1 && (at !== 0 || !/^. \p{Script=Cyrillic}/u.test(t))) return w;
+    return w.replace(latin[0], LOOKALIKE[latin[0]]);
+  });
+};
 
 /** Повтор и на обрыв связи (`fetch failed`), и на 429/5xx — как в build-merit. */
 async function retry<T>(what: string, run: () => Promise<Response>): Promise<T> {

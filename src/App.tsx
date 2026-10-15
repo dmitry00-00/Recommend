@@ -3,10 +3,11 @@ import { useLocation, useNavigate, useRoutes } from 'react-router-dom';
 import { routes } from '@/routes';
 import { AppShell } from '@/components/AppShell';
 import { CuratorShell } from '@/components/CuratorShell';
-import { ToastProvider } from '@/components/Toast';
+import { ToastProvider, useToast } from '@/components/Toast';
+import { visitDays } from '@/api';
 import { loadSettings, useMechanics } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
-import { startParam } from '@/lib/telegram';
+import { addToHomeScreen, homeScreenMissed, startParam } from '@/lib/telegram';
 import ui from '@/i18n';
 
 const NAV: { id: keyof typeof ui.nav; to: string }[] = [
@@ -17,6 +18,25 @@ const NAV: { id: keyof typeof ui.nav; to: string }[] = [
   { id: 'journal', to: '/journal' },
 ];
 
+/** Ярлык на экран телефона (ДФ-3): с третьего дня захода, в Telegram 8.0+, если ярлыка ещё нет, — один раз тостом.
+ *  Не сразу при открытии: сначала человек видит ленту, потом — предложение. */
+const HOME_OFFERED = 'tm.homeScreenOffered';
+function useHomeScreenOffer() {
+  const toast = useToast();
+  useEffect(() => {
+    try { if (localStorage.getItem(HOME_OFFERED)) return; } catch { return; }
+    let alive = true;
+    const timer = setTimeout(() => {
+      void visitDays().then(async (days) => {
+        if (!alive || days < 3 || !(await homeScreenMissed()) || !alive) return;
+        try { localStorage.setItem(HOME_OFFERED, new Date().toISOString()); } catch { /* приватное окно */ }
+        toast({ text: ui.shell.homeScreen, action: ui.shell.homeScreenAdd, onAction: addToHomeScreen, duration: 10_000 });
+      }).catch(() => undefined);
+    }, 8000);
+    return () => { alive = false; clearTimeout(timer); };
+  }, []);
+}
+
 function Shell({ children }: { children: React.ReactNode }) {
   // Без механики в меню лента и поиск (архив — над лентой, профиль — справа); маршруты
   // и карта — только с включённой механикой: пока это наш внутренний инструмент (21.09).
@@ -24,6 +44,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   // В минимальной редакции (10.10) поиска нет — в меню лента и профиль.
   const mechanics = useMechanics();
   const search = useFeature('search');
+  useHomeScreenOffer();
   const nav = NAV.filter((item) => item.id === 'today' || (item.id === 'search' && search) || (mechanics && item.id !== 'journal' && item.id !== 'search'));
   return <AppShell nav={nav.map((item) => ({ ...item, label: ui.nav[item.id] }))}>{children}</AppShell>;
 }

@@ -16,8 +16,10 @@ export interface MoodQuery {
   words: Record<string, number>;
   /** хоррор-образы: 1 — хочется, -1 — без них */
   horror?: 1 | -1;
+  /** странное (ДФ-12): форма, которая сбивает с привычного, — по барьерам разметки (`STRANGE`); -1 — без неё */
+  strange?: 1 | -1;
   energy?: Energy;
-  kind?: 'film' | 'series';
+  kind?: 'film' | 'series' | 'book';
   /** годы: свежее — от, старое — до */
   fromYear?: number;
   toYear?: number;
@@ -33,6 +35,10 @@ export interface MoodQuery {
   /** что понято — подписями для человека, в порядке запроса */
   understood: string[];
 }
+
+/** Барьеры формы, которые и есть «странное»: условность, сон наяву, история без привычного сюжета. */
+const STRANGE = new Set(['Размытая граница реальности', 'Без сюжета в привычном смысле', 'Фрагментарная структура', 'Ненадёжный рассказчик',
+  'Нелинейное время', 'Кукольная эстетика', 'Условная актёрская манера', 'Смена жанра']);
 
 const norm = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
 
@@ -56,8 +62,10 @@ const RULES: Rule[] = [
   { re: /(приключ|путешеств|роуд-?муви|пират|рыцар)/, label: 'приключение', apply: all(reg('myth_adventure', 1), words(['приключ', 'путешеств', 'дорог'])) },
   { re: /(сатир|абсурд|черн\S+ юмор|черн\S+ комеди|злая ирони|издевк)/, label: 'злая ирония', apply: all(reg('absurd_satire', 1), words(['сатир', 'абсурд'])) },
   { re: /(комеди|ромком|смешн|посмеят|поржать|ржачн|угар|весел|юмор)/, label: 'смешное', apply: all(reg('absurd_satire', 0.3), words(['комеди', 'смеш', 'юмор', 'нелеп', 'пароди'], 1.2)) },
-  { re: /(тих|спокойн|уютн|медитатив|неспешн|жизненн|бытов|про обычн|про жизнь|реалистичн)/, label: 'тихое', apply: all(reg('quiet_realism', 1), words(['тих', 'обычн', 'будн'])) },
+  { re: /(тих|тише|спокойн|медленн|неторопл|уютн|медитатив|неспешн|жизненн|бытов|про обычн|про жизнь|реалистичн)/, label: 'тихое', apply: all(reg('quiet_realism', 1), words(['тих', 'обычн', 'будн'])) },
   { re: /(холодн|клиническ|эксперимент|психушк|наблюден)/, label: 'холодный взгляд', apply: reg('cold_clinical', 1) },
+  // уточнение «страннее» (ДФ-12): «медленное и странное на вечер»
+  { re: /(странн|страннее|сюр|необычн|психодел|чудн|безумн\S* фильм|линч)/, label: 'странное', apply: (q, s) => { q.strange = s; reg('absurd_satire', 0.3)(q, s); words(['стран', 'сюр', 'сон', 'безум'], 0.6)(q, s); } },
   { re: /(атмосферн|вайбов|вайб|эстетичн|красив\S* картинк)/, label: 'атмосферное', apply: all(reg('quiet_realism', 0.3), reg('folk_gothic', 0.2)) },
   // чувство
   { re: /(поплакать|плакать|рыдал|рыдать|слез|трогательн|до мурашек|растрогат)/, label: 'до слёз', apply: words(['утрат', 'горе', 'смерт', 'прощан', 'трогат', 'любов', 'болезн'], 0.8) },
@@ -124,6 +132,16 @@ export function parseMood(text: string, now = new Date()): MoodQuery {
   const film = /(?<=\s)(фильм|кино|мультфильм)/.test(t), series = /(?<=\s)(сериал|дорам|мини-?сериал)/.test(t);
   if (series && !film) { q.kind = 'series'; q.understood.push('сериал'); }
   else if (film && !series && !/фильм или|или фильм/.test(t)) q.kind = 'film';
+  // книга (11.10): «что почитать», «роман про …» — книга как вид, а не тема («про писателей», «о книгах»)
+  const book = /(?<=\s)(почитать|прочитать|книг[аиуе]?(?=[\s,.!?])|книжк|роман(?!т)|повест[ьи])/.test(t) && !film && !series;
+  if (book) {
+    q.kind = 'book';
+    q.understood.push('книга');
+    if (!/(?<=\s)(?:про|о|об)\s+(писател|книг|литератур)/.test(t)) {
+      delete q.words['писател|книг|роман'];
+      q.understood = q.understood.filter((x) => x !== 'писатели');
+    }
+  }
   // свежесть
   const year = now.getFullYear();
   if (/(?<=\s)(свеж|новинк|новое|новый|новые|недавн|последн\S* год)/.test(t)) { q.fromYear = year - 2; q.understood.push('свежее'); }
@@ -131,7 +149,7 @@ export function parseMood(text: string, now = new Date()): MoodQuery {
   const decade = /(\d0)-?[хе]/.exec(t);
   if (decade) { const d = Number(decade[1]); const from = d >= 20 && d <= 90 ? 1900 + d : 2000 + d; q.fromYear = from; q.toYear = from + 9; q.understood.push(`${decade[1]}-е`); }
   // длина
-  if (/(коротк|недлинн|не долг|полтора часа|1[:.]30|1[:.]40|до двух час)/.test(t)) { q.maxMinutes = 110; q.understood.push('недлинное'); }
+  if (/(коротк|короче|недлинн|не долг|полтора часа|1[:.]30|1[:.]40|до двух час)/.test(t)) { q.maxMinutes = 110; q.understood.push('недлинное'); }
   // страна
   for (const [re, name, label] of COUNTRY) if (new RegExp(`(?<=\\s)${re.source}`).test(t)) { (q.countries ??= []).push(name); q.understood.push(label); }
   // «про X» без словаря — слова темы как есть (основа — первые пять букв)
@@ -149,11 +167,14 @@ export function moodFit(q: MoodQuery, c: MoodTarget): number {
   const w = c.work;
   if (q.kind === 'series' && w.type !== 'series') return 0;
   if (q.kind === 'film' && w.type === 'series') return 0;
+  if (q.kind === 'book' && w.type !== 'book') return 0;
   if (q.fromYear && w.year && w.year < q.fromYear) return 0;
   if (q.toYear && w.year && w.year > q.toYear) return 0;
   if (q.maxMinutes && w.durationMinutes && w.durationMinutes > q.maxMinutes) return 0;
   const horror = w.warnings.includes('Хоррор-образы') || w.barriers.includes('Хоррор-образы');
   if (q.horror === -1 && horror) return 0;
+  const strange = w.barriers.some((b) => STRANGE.has(b));
+  if (q.strange === -1 && strange) return 0;
   // «не надо» только вычитает: иначе «не грустное» размывало бы долю остального
   let score = 0, max = 0;
   for (const [r, weight] of Object.entries(q.registers) as [Register, number][]) {
@@ -161,6 +182,7 @@ export function moodFit(q: MoodQuery, c: MoodTarget): number {
     if (w.registers?.includes(r)) score += weight;
   }
   if (q.horror === 1) { max += 1; if (horror) score += 1; }
+  if (q.strange === 1) { max += 1; if (strange) score += 1; }
   const text = norm(`${c.what} ${w.title}`);
   for (const [stems, weight] of Object.entries(q.words)) {
     if (weight > 0) max += weight;

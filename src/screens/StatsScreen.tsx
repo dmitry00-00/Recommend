@@ -33,7 +33,7 @@ export function StatsScreen() {
       {failed ? <ErrorState title={ui.state.errorStats} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           <Skeleton kind="block" style={{ height: 72 }} />
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 96, marginTop: 8 }} />)}
         </div>

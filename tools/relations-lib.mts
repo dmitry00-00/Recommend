@@ -25,6 +25,26 @@ export function nodeKind(classes: string[]): RelationNodeKind {
   return PRIORITY.find((k) => kinds.has(k)) ?? 'other';
 }
 
+/** Русская метка Wikidata у киносерий — часто описание («серия фильмов Питера Джексона о Средиземье»),
+ *  а на странице вселенной это заголовок. Здесь — наши короткие названия (15.10); прочим циклам и
+ *  франшизам со строчной метки — заглавная буква. Применяется при записи мока, после рёбер:
+ *  `listLike` смотрит на исходную метку. */
+export const UNIVERSE_TITLES: Record<string, string> = {
+  Q54300: 'Игры по «Звёздным войнам»', Q167447: 'Барби', Q216930: 'Гарри Поттер', Q264194: 'Антуан Дуанель',
+  Q2111133: 'Фильмы о Бэтмене', Q2484680: 'Фильмы о Джеймсе Бонде', Q26451486: 'Бонд от EON Productions',
+  Q16642701: 'Железный человек', Q17385223: 'Капитан Америка', Q18281265: 'Расширенная вселенная DC',
+  Q26214973: 'Средиземье Питера Джексона', Q41094508: 'Винни-Пух Диснея', Q51963292: 'Marvel. Фаза 1',
+  Q51963836: 'Marvel. Фаза 3', Q63405798: 'Marvel. Сага Бесконечности', Q76126275: 'Доктор Стрэндж',
+  Q76127371: 'Чёрная пантера', Q88306753: 'Тор',
+};
+export function universeTitles<N extends RelNode>(nodes: Map<string, N>): Map<string, N> {
+  for (const [q, n] of nodes) {
+    const t = UNIVERSE_TITLES[q] ?? (['cycle', 'franchise'].includes(n.k) && /^\p{Ll}/u.test(n.t) ? n.t[0].toUpperCase() + n.t.slice(1) : undefined);
+    if (t) nodes.set(q, { ...n, t });
+  }
+  return nodes;
+}
+
 export interface RelBinding { item: string; prop: string; target: string; ru?: string; en?: string; year?: string; cls?: string }
 export interface RelNode { t: string; y?: number; k: RelationNodeKind }
 export type RelEdge = [from: string, kind: RelationKind, to: string];

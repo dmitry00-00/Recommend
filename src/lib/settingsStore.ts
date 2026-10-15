@@ -25,7 +25,9 @@ export function loadSettings(): Promise<UserSettings> {
 /** Язык (ЗП-20): выбор на этом устройстве — главнее и уходит на сервер; своего выбора нет, а на сервере
  *  английский (выбран на другом устройстве; по умолчанию там русский) — переключаемся. */
 function syncLanguage(s: UserSettings) {
-  const own = chosenLanguage();
+  // угаданный по Telegram английский — тоже на сервер, если там русский по умолчанию: на этом языке бот пишет сводку
+  // (11.10, один сервер для всех языков)
+  const own = chosenLanguage() ?? (language === 'en' && s.language === 'ru' ? 'en' : undefined);
   if (own && own !== s.language) updateSettings({ language: own }).then((next) => { current = next; emit(); }).catch(() => undefined);
   else if (!own && s.language === 'en' && language !== 'en') switchLanguage('en');
 }

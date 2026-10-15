@@ -1,5 +1,5 @@
-// Сгенерировано tools/record-weights.mts (2026-10-09): доверие к привязке по виду
+// Сгенерировано tools/record-weights.mts (2026-10-11): доверие к привязке по виду
 // улики — доля верных на решениях людей, сжатая к априорному (src/lib/weights.ts). Не править руками.
 import type { TrustKind } from '@/lib/weights';
 
-export const recordTrust: Partial<Record<TrustKind, number>> = {"none":0.942,"tag":0.966,"year":0.995,"original":0.987,"lore":0.979,"playlist":0.974};
+export const recordTrust: Partial<Record<TrustKind, number>> = {"none":0.96,"tag":0.967,"year":0.995,"original":0.987,"lore":0.983,"playlist":0.974};

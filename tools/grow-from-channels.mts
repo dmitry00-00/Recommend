@@ -14,6 +14,7 @@
 // Без --write — только замер (→ .cache/channel-films.json). С --write недостающее с ключом (TMDb у фильма,
 // IMDb у сериала) пишется в src/mocks/filmBaseChannels.ts; прежние карточки остаются. Разметку дописывает
 // черновик (tools/draft-annotate.mts). Ссылок на ролики здесь нет — их даёт tools/free-watch.mts по своим правилам.
+import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex, analysisKeys, idsOf } from './works-index.mts';
@@ -298,10 +299,11 @@ if (WRITE) {
   // название — русская подпись, иначе английская, иначе своя (у французского фильма бывает только французская)
   const cards: WorkCard[] = missing.filter(({ w }) => w.ru ?? w.en ?? w.own?.[0]).map(({ w }) => {
     // подпись с уточнением Википедии: «Утёс (фильм, 1973)», «Элизиум (мультфильм)», «Spasms (film)»
-    const title = (w.ru ?? w.en ?? w.own![0])!.replace(/\s*\((?:фильм|мультфильм|телефильм|сериал|телесериал|film|movie|TV series)(?:,?\s*\d{4})?\)$/iu, '');
+    const title = plainTitle((w.ru ?? w.en ?? w.own![0])!);
     // оригинальное — английская подпись: язык у прочих подписей в кэше не хранится, и японскому фильму
     // доставалась испанская («Batallas sin honor ni humanidad»)
-    const original = w.en && w.en !== title ? w.en : undefined;
+    const en = w.en && plainTitle(w.en);
+    const original = en && en !== title ? en : undefined;
     return {
       id: `f-wd${w.qid.slice(1)}`, type: w.series ? 'series' : 'film', title,
       ...(original ? { originalTitle: original } : {}),

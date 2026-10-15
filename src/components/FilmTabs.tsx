@@ -5,9 +5,10 @@ import { OpenContext } from '@/lib/openContext';
 import { groupByVoice, monogram } from '@/lib/voices';
 import { onExternalClick, openExternal, pick, showMainButton } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
-import ui from '@/i18n';
+import { imageSrc, useImageRetry } from '@/lib/images';
+import ui, { language } from '@/i18n';
 import { readPlaces, readingHours } from '@/lib/reading';
-import { noteCard, noteWatch } from '@/api';
+import { getFreeRead, noteCard, noteWatch, type FreeRead } from '@/api';
 import { useFeature } from '@/lib/flags';
 import { useSettings } from '@/lib/settingsStore';
 import { cinemaSlug } from '@/lib/cinemas';
@@ -20,7 +21,7 @@ export interface FilmTabsProps {
   spoilerLevel?: SpoilerLevel;
   watch?: WatchOption[];
   /** книга (З5): вместо площадок — честное «где читать»: страница Open Library и поиск по сервисам */
-  book?: Pick<WorkCard, 'title' | 'creators' | 'externalIds' | 'pages'>;
+  book?: Pick<WorkCard, 'id' | 'type' | 'title' | 'originalTitle' | 'creators' | 'externalIds' | 'pages'>;
   /** что ещё показать в обсуждениях: каналы и чаты, строка поиска по авторам */
   discussions?: ReactNode;
   /** сколько мест разговора в `discussions` — для счётчика на переключателе */
@@ -49,10 +50,11 @@ const MODES: Mode[] = ['reviews', 'talk', 'watch'];
 /** Логотип площадки: как аватар автора, чтобы две ленты в нижней панели читались одинаково. */
 function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }) {
   const { letter, hue } = monogram(option.platform);
+  const img = useImageRetry(option.logoUrl ? imageSrc(option.logoUrl) : undefined);
   return (
     <span className={cx('tm-voice__avatar', size === 'lg' ? 'tm-voice__avatar--lg' : 'tm-voice__avatar--page', 'tm-film__logo')}
-          aria-hidden="true" style={option.logoUrl ? undefined : { background: `hsl(${hue} 35% 30%)` }}>
-      {option.logoUrl ? <img className="tm-voice__img" src={option.logoUrl} alt="" loading="lazy" /> : letter}
+          aria-hidden="true" style={img.src ? undefined : { background: `hsl(${hue} 35% 30%)` }}>
+      {img.src ? <img ref={img.ref} className="tm-voice__img" src={img.src} alt="" loading="lazy" onError={img.onError} /> : letter}
     </span>
   );
 }
@@ -77,7 +79,15 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
   // «Смотреть» — функция эталона (10.10): в минимальной редакции карточка — только разборы и обсуждения
   // бесплатная классика (ЗП-43): вкладка «Смотреть» открыта и без функции «Смотреть», если фильм выложен правообладателем
   const freeOn = useFeature('freeClassics');
-  const watchOn = useFeature('watch') || (freeOn && watchIn.some((o) => o.source === 'wikidata'));
+  // книга (11.10): текст в общественном достоянии — Викитека, Gutenberg; вкладку «Читать» открывает так же
+  const [freeRead, setFreeRead] = useState<FreeRead[]>([]);
+  useEffect(() => {
+    let alive = true;
+    setFreeRead([]);
+    if (book && freeOn) getFreeRead(book).then((x) => alive && setFreeRead(x)).catch(() => undefined);
+    return () => { alive = false; };
+  }, [book?.id, freeOn]); // eslint-disable-line react-hooks/exhaustive-deps
+  const watchOn = useFeature('watch') || (freeOn && (watchIn.some((o) => o.source === 'wikidata') || freeRead.length > 0));
   const modes = watchOn ? MODES : MODES.filter((m) => m !== 'watch');
   // мои подписки (ЗП-42): площадка из подписки человека — первой, потом бесплатные, аренда и покупка — в конце
   const subsOn = useFeature('subscriptions');
@@ -144,9 +154,20 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
         ) : book ? (
           <section className="tm-stream__group tm-voice__none">
             {readingHours(book.pages) ? <p className="tm-caption">{ui.film.readHours(readingHours(book.pages)!, book.pages!)}</p> : null}
-            <p className="tm-body-sm">{ui.film.readHonest}</p>
+            {freeRead.length ? (
+              <>
+                {freeRead.map((f, i) => (
+                  <a key={f.u} className={cx('tm-btn', i ? 'tm-btn--secondary' : 'tm-btn--primary', 'tm-film__readfree')} href={f.u} target="_blank" rel="noreferrer noopener"
+                     onClick={(e) => { goWatch({ platform: f.n, url: f.u, source: 'wikidata', kind: 'free' }); onExternalClick(f.u)(e); }}>
+                    {ui.film.readFree(f.n)}
+                  </a>
+                ))}
+                <p className="tm-caption tm-film__hint">{ui.film.readFreeHint}</p>
+              </>
+            ) : null}
+            <p className="tm-body-sm">{freeRead.length ? ui.film.readMore : ui.film.readHonest}</p>
             <p className="tm-voice__outlets tm-work__statslink">
-              {readPlaces(book).map((p) => (
+              {readPlaces(book, language === 'ru' ? 'ru' : 'en').map((p) => (
                 <a key={p.url} className="tm-voice__chip" href={p.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(p.url)}>
                   {p.kind === 'search' ? ui.film.readSearch(p.title) : p.title}
                 </a>

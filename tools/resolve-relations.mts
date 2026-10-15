@@ -15,7 +15,7 @@ import { worksIndex } from './works-index.mts';
 import { isSeries } from '../src/lib/media.ts';
 import type { RelationNodeKind, WorkCard } from '../src/types/tmdf.ts';
 import { readCache, resolveWorkQids, sleep, sparql, writeCache } from './wikidata-lib.mts';
-import { nodeKind, parseRelations, relationsSource, type RelBinding, type RelEdge, type RelNode } from './relations-lib.mts';
+import { nodeKind, parseRelations, relationsSource, universeTitles, type RelBinding, type RelEdge, type RelNode } from './relations-lib.mts';
 import { universeSeeds } from './universe-seeds.mts';
 
 const args = process.argv.slice(2);
@@ -103,5 +103,5 @@ const linkedOwn = new Set(valid.flatMap(([a, , b]) => [a, b]).filter((q) => ownN
 console.error(`\nсвязей: ${valid.length} — экранизаций ${count('adaptation_of')}, сиквелов ${count('sequel_of')}, ремейков ${count('remake_of')}, частей ${count('part_of')}`);
 console.error(`наших произведений со связями: ${linkedOwn.size} из ${withQ.length}; связей между двумя нашими: ${valid.filter(([a, , b]) => ownNodes.has(a) && ownNodes.has(b)).length}`);
 if (DRY) process.exit(0);
-writeFileSync(new URL('../src/mocks/workRelations.ts', import.meta.url), relationsSource(all, valid));
+writeFileSync(new URL('../src/mocks/workRelations.ts', import.meta.url), relationsSource(universeTitles(all), valid));
 console.error('→ src/mocks/workRelations.ts');

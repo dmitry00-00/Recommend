@@ -1,5 +1,5 @@
 import type { WorkCard } from '@/types/tmdf';
-import { prepareShare, shareParam, type ShareCard } from '@/api';
+import { noteShare, prepareShare, shareParam, type ShareCard, type ShareWhat } from '@/api';
 import { appLink, shareLink, tap, webApp } from '@/lib/telegram';
 import { useToast } from './Toast';
 import { Button } from './Button';
@@ -24,7 +24,10 @@ export function ShareButton({ work, hero, round }: { work?: WorkCard; hero?: Sha
     ? { param, title: hero.name, kind: 'character', ...(hero.where ? { by: hero.where } : {}), ...(hero.image ? { image: hero.image } : {}) }
     : { param, title: work!.title, ...(work!.year ? { year: work!.year } : {}), kind: work!.type === 'series' || work!.type === 'book' ? work!.type : 'film',
         ...(work!.creators?.[0] ? { by: work!.creators[0] } : {}), ...((work!.coverUrl ?? work!.stillUrl) ? { image: work!.coverUrl ?? work!.stillUrl } : {}) };
+  // что делится — для «поделился» (МА-3)
+  const what: ShareWhat = hero ? 'character' : work!.type === 'series' || work!.type === 'book' ? work!.type : 'film';
   const byLink = () => shareLink(appLink(param), hero ? ui.share.heroText(hero.name) : ui.share.text(work!.title, work!.year)).then((r) => {
+    if (r !== 'failed') noteShare(what, r, work?.id);
     if (r === 'copied') toast({ text: ui.share.copied });
     if (r === 'failed') toast({ text: ui.share.failed });
   }).catch(() => toast({ text: ui.share.failed }));
@@ -33,7 +36,7 @@ export function ShareButton({ work, hero, round }: { work?: WorkCard; hero?: Sha
     const wa = webApp();
     if (wa?.shareMessage && wa.isVersionAtLeast('8.0')) {
       const id = await prepareShare(card());
-      if (id) { wa.shareMessage(id, (sent) => { if (sent) toast({ text: ui.share.sent }); }); return; }
+      if (id) { wa.shareMessage(id, (sent) => { if (sent) { toast({ text: ui.share.sent }); noteShare(what, 'message', work?.id); } }); return; }
     }
     await byLink();
   };

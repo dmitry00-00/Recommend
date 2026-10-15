@@ -1,5 +1,6 @@
 import type { ExternalAnalysis, SpoilerLevel } from '@/types/tmdf';
 import { Meta } from './Meta';
+import { SafeImage } from './SafeImage';
 import { onExternalClick } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { formatDuration } from '@/lib/format';
@@ -31,7 +32,7 @@ export function ExternalAnalysisLink({ analysis: a, spoilerLevel }: ExternalAnal
     >
       {a.previewUrl ? (
         <span className="tm-extlink__thumb">
-          <img className="tm-extlink__img" src={a.previewUrl} alt="" loading="lazy" />
+          <SafeImage className="tm-extlink__img" src={a.previewUrl} alt="" loading="lazy" />
           {blocked ? <span className="tm-extlink__hatch" aria-hidden="true" /> : null}
         </span>
       ) : null}

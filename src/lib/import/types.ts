@@ -13,7 +13,8 @@ export type ImportedMediaType = MediaType;
 /** Файл выгрузки: текст, а с именем — когда формат по содержимому не отличить (`watched.csv` и
  *  `watchlist.csv` Letterboxd — одинаковые колонки). */
 export type ExportFile = string | { name: string; text: string };
-export type ImportStatus = 'finished' | 'in_progress' | 'planned';
+/** `abandoned` приходит только из нашей же выгрузки (ДФ-14): чужие форматы «бросил» не отличают от «посмотрел». */
+export type ImportStatus = 'finished' | 'in_progress' | 'planned' | 'abandoned';
 
 /** Одна строка чужого экспорта, приведённая к общему виду. Оценка — по шкале 0–10,
  *  чтобы источники были сравнимы; в интерфейс она не попадает (правило 4). */
@@ -27,6 +28,8 @@ export interface ImportedRecord {
   status: ImportStatus;
   rating?: number;
   date?: ISODate;
+  /** начало, если источник его знает отдельно от `date` (наша выгрузка, ДФ-14) */
+  started?: ISODate;
   rewatch?: boolean;
-  externalIds?: { imdb?: string; tmdb?: number; kinopoisk?: number; isbn?: string[] };
+  externalIds?: { imdb?: string; tmdb?: number; kinopoisk?: number; isbn?: string[]; wikidata?: string; openLibrary?: string };
 }

@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { normalizeTitle, parseExport, type ImportedRecord } from '../src/lib/import/index.ts';
-import { lookupFilms, tmdbFromEnv, type WikidataFilm } from '../src/lib/resolve/index.ts';
+import { lookupFilms, lookupFilmsSparql, tmdbFromEnv, type WikidataFilm } from '../src/lib/resolve/index.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import type { UserSeed } from '../worker/env.ts';
 import { isSeries } from '../src/lib/media.ts';
@@ -170,16 +170,22 @@ export async function buildSeed(name: string, records: ImportedRecord[], o: Buil
   if (!o.fast) {
     const ask = [...new Set(todo.map((r) => r.externalIds?.kinopoisk).filter((k): k is number => k != null).map(String))]
       .filter((k) => !(k in wikidata));
-    if (ask.length) log(`wikidata: ${ask.length} ID Кинопоиска, ~${Math.ceil(ask.length / 50)} мин`);
+    if (ask.length) log(`wikidata: ${ask.length} ID Кинопоиска, ~${Math.ceil(ask.length / 600)} мин`);
     if (ask.length) o.progress?.({ phase: 'wikidata', done: 0, total: ask.length });
-    // пачками по 40 (один поиск в Wikidata), с записью после каждой: обрыв не съедает сделанное. Пачка, где не нашлось
-    // ничего, — скорее сбой сети, чем правда: «нет в Wikidata» для неё не запоминаем
-    for (let i = 0; i < ask.length; i += 40) {
-      const chunk = ask.slice(i, i + 40);
-      const found = await lookupFilms('kinopoisk', chunk, wikidataFetch);
+    // пачками по 200 одним запросом SPARQL (11.10; раньше — поиск, свойства и подписи на каждые 40, профиль на 110
+    // страниц шёл полтора часа), с записью после каждой: обрыв не съедает сделанное. Запрос не прошёл — эта пачка
+    // старым путём. Пачка, где не нашлось ничего, — скорее сбой сети, чем правда: «нет в Wikidata» для неё не запоминаем
+    for (let i = 0; i < ask.length; i += 200) {
+      const chunk = ask.slice(i, i + 200);
+      const found = await lookupFilmsSparql('kinopoisk', chunk, wikidataFetch).catch(async (err) => {
+        log(`wikidata: SPARQL не ответил (${(err as Error).message}) — пачка поиском`);
+        const all = new Map<string, WikidataFilm>();
+        for (let j = 0; j < chunk.length; j += 40) for (const [k, v] of await lookupFilms('kinopoisk', chunk.slice(j, j + 40), wikidataFetch)) all.set(k, v);
+        return all;
+      });
       for (const k of chunk) if (found.has(k)) wikidata[k] = found.get(k)!; else if (found.size) wikidata[k] = null;
       save(WIKIDATA, wikidata);
-      o.progress?.({ phase: 'wikidata', done: Math.min(i + 40, ask.length), total: ask.length });
+      o.progress?.({ phase: 'wikidata', done: Math.min(i + 200, ask.length), total: ask.length });
     }
   }
 

@@ -1,6 +1,7 @@
 import type { ContributorAnswer, ContributorTask } from '@/types/tmdf';
 import { Button } from './Button';
 import { Meta } from './Meta';
+import { SafeImage } from './SafeImage';
 import { onExternalClick } from '@/lib/telegram';
 import { formatDuration, titleOf } from '@/lib/format';
 import ui from '@/i18n';
@@ -27,7 +28,7 @@ export function LinkCheck({ task, onAnswer, onSkip }: LinkCheckProps) {
       <a className="tm-extlink tm-extlink--preview" href={a.url} target="_blank" rel="noreferrer noopener"
          onClick={onExternalClick(a.url)}>
         {a.previewUrl ? (
-          <span className="tm-extlink__thumb"><img className="tm-extlink__img" src={a.previewUrl} alt="" loading="lazy" /></span>
+          <span className="tm-extlink__thumb"><SafeImage className="tm-extlink__img" src={a.previewUrl} alt="" loading="lazy" /></span>
         ) : null}
         <span className="tm-extlink__title">{a.title}</span>
         <Meta items={[a.author, a.durationMinutes ? formatDuration(a.durationMinutes) : ui.platform[a.platform]]} />

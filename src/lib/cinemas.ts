@@ -36,7 +36,8 @@ export const RU_CINEMAS: { slug: string; name: string }[] = [
 /** Справочник наличия (tools/watch-providers.mts → `watchProviders`): ключ произведения → регион → площадки
  *  по видам (имена — `cinemaSlug`) и ссылка TMDb на страницу «где смотреть». */
 export interface RegionWatch { l?: string; s?: string[]; f?: string[]; a?: string[]; r?: string[]; b?: string[] }
-export interface WatchProviders { at: string; names: Record<string, string>; works: Record<string, Record<string, RegionWatch>> }
+/** `regions` — какие регионы в справочнике (с 11.10; у российского сервера — RU, у Global — свои, ЗП-26) */
+export interface WatchProviders { at: string; names: Record<string, string>; works: Record<string, Record<string, RegionWatch>>; regions?: string[] }
 
 const KIND_OF: [keyof RegionWatch, WatchKind][] = [['s', 'subscription'], ['f', 'free'], ['a', 'ads'], ['r', 'rent'], ['b', 'buy']];
 

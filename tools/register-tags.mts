@@ -59,12 +59,17 @@ const FALLBACK: [string, Register][] = [['ужасы', 'folk_gothic'], ['фан�
   ['криминал', 'puzzle_noir'], ['триллер', 'puzzle_noir'], ['комедия', 'absurd_satire'], ['приключения', 'myth_adventure'],
   ['боевик', 'myth_adventure'], ['фэнтези', 'myth_adventure'], ['драма', 'quiet_realism']];
 
-export function pick(genres: string[], keywords: string[]): Register[] {
+export function pick(genres: string[], keywords: string[], o: { whole?: boolean } = {}): Register[] {
   const kw = keywords.map((k) => k.toLowerCase());
+  // целым словом (книги, 11.10): подстрокой «war» находилось в «award», «cult» — в «agricultural»; допускаются окончания
+  // множественного числа и прилагательного («dystopian», «witches»)
+  const hit = (k: string) => (o.whole
+    ? ((re: RegExp) => kw.some((x) => re.test(x)))(new RegExp(`(?:^|[^a-z])${k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s|es|n|ian|ic|al)?(?:$|[^a-z])`))
+    : kw.some((x) => x === k || x.includes(k)));
   const scored = registerKeys
     .map((r) => ({
       r,
-      score: KEYWORDS[r].filter((k) => kw.some((x) => x === k || x.includes(k))).length + 0.5 * GENRES[r].filter((g) => genres.includes(g)).length,
+      score: KEYWORDS[r].filter(hit).length + 0.5 * GENRES[r].filter((g) => genres.includes(g)).length,
     }))
     .filter((x) => x.score >= 1)
     .sort((a, b) => b.score - a.score);
@@ -74,4 +79,25 @@ export function pick(genres: string[], keywords: string[]): Register[] {
   if (out.length) return out;
   const f = FALLBACK.find(([g]) => genres.includes(g));
   return f ? [f[1]] : [];
+}
+
+/** Жанры книги по-английски (метки Wikidata P136/P921, темы Open Library) → жанры, которые знает словарь (как у TMDb). */
+const BOOK_GENRES: [RegExp, string[]][] = [
+  [/\bscience fiction|\bsci-fi|dystopi|utopi|cyberpunk/, ['фантастика']],
+  [/\bfantasy\b|fairy tale|\bmagic\b/, ['фэнтези']],
+  [/\bhorror\b|\bgothic\b|\bghost stor/, ['ужасы']],
+  [/detective|crime fiction|\bmystery|whodunit|\bnoir\b/, ['детектив', 'криминал']],
+  [/thriller|suspense|spy fiction/, ['триллер']],
+  [/\bhumou?r|comic novel|comedy|picaresque/, ['комедия']],
+  [/adventure|sea stor|nautical|western fiction|\bwestern\b/, ['приключения']],
+  [/war novel|war fiction|military fiction/, ['военный']],
+  [/historical fiction|historical novel/, ['история']],
+  [/romance novel|romantic fiction|love stor/, ['мелодрама']],
+  [/realis|naturalism|psychological (?:novel|fiction)|family saga|domestic fiction|bildungsroman|coming-of-age|literary fiction|social novel/, ['драма']],
+];
+/** Регистр книги: жанры — переводом в жанры словаря, слова — целым словом. */
+export function pickBook(labels: string[]): Register[] {
+  const low = labels.map((l) => l.toLowerCase());
+  const genres = [...new Set(BOOK_GENRES.filter(([re]) => low.some((l) => re.test(l))).flatMap(([, g]) => g))];
+  return pick(genres, labels, { whole: true });
 }

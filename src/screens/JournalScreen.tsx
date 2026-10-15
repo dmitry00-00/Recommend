@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import type { JourneyEntryData } from '@/types/tmdf';
+import type { FeedKind, JourneyEntryData, JourneyStatus } from '@/types/tmdf';
 import { getJourney, startWork, unplanWork } from '@/api';
 import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
 import { useDiary } from '@/lib/settingsStore';
-import { tap } from '@/lib/telegram';
+import { pick, tap } from '@/lib/telegram';
+import { cx } from '@/lib/cx';
+import { useFeature } from '@/lib/flags';
 import { formatDate, titleOf } from '@/lib/format';
 import { leadName } from '@/lib/credits';
 import { WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
@@ -22,6 +24,11 @@ export function JournalScreen() {
   const [open, setOpen] = useState<string | null>(null);
   const diary = useDiary();
   const toast = useToast();
+  // фильтры (11.10): в архиве вперемешку планы, начатое, законченное и брошенное, кино и книги — без фильтра
+  // планы среди сотни записей не найти. Род — за флагом книг, как лента книг
+  const booksOn = useFeature('readShelf');
+  const [status, setStatus] = useState<JourneyStatus | null>(null);
+  const [kind, setKind] = useState<FeedKind | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -38,6 +45,24 @@ export function JournalScreen() {
     e.perceivedDifficulty ? ui.difficulty[e.perceivedDifficulty].toLowerCase() : null,
   ].filter(Boolean).join(' · ');
 
+  const kindOf = (e: JourneyEntryData): FeedKind => (e.work.type === 'book' ? 'book' : 'screen');
+  const count = <K extends string>(list: JourneyEntryData[], key: (e: JourneyEntryData) => K) =>
+    list.reduce((m, e) => m.set(key(e), (m.get(key(e)) ?? 0) + 1), new Map<K, number>());
+  // счётчики статусов — внутри выбранного рода, и наоборот: число на кнопке — сколько она покажет
+  const byKind = count((entries ?? []).filter((e) => !status || e.status === status), kindOf);
+  const byStatus = count((entries ?? []).filter((e) => !kind || kindOf(e) === kind), (e) => e.status);
+  const STATUSES: JourneyStatus[] = ['planned', 'in_progress', 'finished', 'abandoned'];
+  // какие кнопки есть — по всему архиву, чтобы ряд не прыгал при выборе; числа — с учётом другого фильтра
+  const all = entries ?? [];
+  const statusChips = STATUSES.filter((s) => all.some((e) => e.status === s));
+  const kindChips = booksOn ? (['screen', 'book'] as FeedKind[]).filter((k) => all.some((e) => kindOf(e) === k)) : [];
+  const shown = (entries ?? []).filter((e) => (!status || e.status === status) && (!kind || kindOf(e) === kind));
+  const chip = (on: boolean, label: string, n: number | undefined, onClick: () => void, key: string) => (
+    <button key={key} type="button" aria-pressed={on ? 'true' : 'false'} className={cx('tm-voice__chip', on && 'tm-voice__chip--on')}
+            onClick={() => { pick(); onClick(); }}>
+      {label}{n != null ? <> <span className="tm-search__count">{n}</span></> : null}
+    </button>
+  );
   const openEntry = entries?.find((e) => e.id === open) ?? null;
   const places = usePlaces(openEntry?.work.id);
   // переход в кинотеатр из отложенного — «вероятно, смотрит», как в ленте; список перечитаем,
@@ -84,7 +109,21 @@ export function JournalScreen() {
         </div>
       ) : null}
 
-      {entries?.length ? <div className="tm-filmstrip">{entries.map((e, i) => (
+      {statusChips.length > 1 ? (
+        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterStatus}>
+          {chip(!status, ui.search.filterAll, undefined, () => setStatus(null), 'all')}
+          {statusChips.map((s) => chip(status === s, ui.journal.statusFilter[s], byStatus.get(s) ?? 0, () => setStatus(status === s ? null : s), s))}
+        </div>
+      ) : null}
+      {kindChips.length > 1 ? (
+        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterKind}>
+          {chip(!kind, ui.search.filterAll, undefined, () => setKind(null), 'all')}
+          {kindChips.map((k) => chip(kind === k, ui.feed.kind[k], byKind.get(k) ?? 0, () => setKind(kind === k ? null : k), k))}
+        </div>
+      ) : null}
+      {entries?.length && !shown.length ? <p className="tm-caption tm-archive__lead">{ui.journal.filterEmpty}</p> : null}
+
+      {shown.length ? <div className="tm-filmstrip">{shown.map((e, i) => (
         <div key={e.id} className="tm-archive__item">
           <FilmEdge work={e.work} no={i + 1} short />
           <WorkBanner work={e.work} size="sm" meta={meta(e)}

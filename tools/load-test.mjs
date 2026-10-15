@@ -139,13 +139,16 @@ async function firstVisit(i) {
     await call('rating', `/api/rating/${encodeURIComponent(w)}`, { method: 'PUT', token, body: { rating: 1 + ((i + k) % 5), work: { id: w, title: `Фильм ${w}` } } });
   }
   const slate = `s-${i}-1`;
+  // уровень и признаки показанного, снимок карты (МА-1/МА-2, 13.10)
+  const meta = (k) => ({ level: 3 + ((i + k) % 6), traits: { op: { causal_reasoning: 0.5 + (k % 3) * 0.5, synthesis: 1 }, rg: [k % 2 ? 'quiet_realism' : 'puzzle_noir'] } });
   await call('impressions', '/api/impressions', {
     method: 'POST', token,
-    body: { slateId: slate, energy: 'medium', items: works.slice(12, 18).map((w, k) => ({ recId: `r-${i}-${k}`, workId: w, slot: 'main', rank: k })) },
+    body: { slateId: slate, energy: 'medium', state: { center: 5, lo: 4, hi: 6.5, median: 5, n: 12 },
+      items: works.slice(12, 18).map((w, k) => ({ recId: `r-${i}-${k}`, workId: w, slot: 'main', rank: k, ...meta(k) })) },
   });
   // отклики: «смотрю», «в планы», «не сейчас» (эталон) и «Видел» — минимальная редакция (10.10)
   for (let k = 0; k < 4; k++) {
-    await call('feedback', '/api/feedback', { method: 'POST', token, body: { recId: `r-${i}-${k}`, workId: works[12 + k], action: k === 0 ? 'start' : k === 1 ? 'save' : 'dismiss', ...(k === 3 ? { reason: 'already_know' } : {}), eagerness: 3 } });
+    await call('feedback', '/api/feedback', { method: 'POST', token, body: { recId: `r-${i}-${k}`, workId: works[12 + k], action: k === 0 ? 'start' : k === 1 ? 'save' : 'dismiss', ...(k === 3 ? { reason: 'already_know' } : {}), eagerness: 3, ...meta(k) } });
   }
   const planEntry = `j-${i}-p`;
   await call('journal', '/api/journal/plan', { method: 'POST', token, body: { entryId: planEntry, workId: works[13], work: { id: works[13] }, eagerness: 4 } });
@@ -157,7 +160,7 @@ async function firstVisit(i) {
   for (let k = 0; k < 3; k++) {
     await call('open', '/api/open', { method: 'POST', token, body: { url: `https://youtu.be/load${i}_${k}`, workId: works[12], platform: 'youtube', lens: 'meaning', place: 'sheet' } });
   }
-  await call('checkin', `/api/journal/${entry}/checkin`, { method: 'POST', token, body: { workId: works[12], status: 'finished', perceived: 'moved' } });
+  await call('checkin', `/api/journal/${entry}/checkin`, { method: 'POST', token, body: { workId: works[12], status: 'finished', perceived: 'moved', ...meta(0), worth: 1 + (i % 5), ...(i % 5 < 2 ? { worthWhy: 'boring' } : {}) } });
   const key = works[12].replace('_', ':');
   await call('follow', '/api/follow', { method: 'PUT', token, body: { kind: 'work', ref: /^[a-z]{2,10}:/.test(key) ? key : `tmdb:${i}`, title: `Фильм ${i}` } });
   await call('state', '/api/state', { token });
@@ -170,7 +173,8 @@ async function returnVisit(i) {
   await call('state', '/api/state', { token });
   const works = pick(6, i + 31);
   await call('impressions', '/api/impressions', {
-    method: 'POST', token, body: { slateId: `s-${i}-2`, energy: 'light', items: works.map((w, k) => ({ recId: `r2-${i}-${k}`, workId: w, rank: k })) },
+    method: 'POST', token, body: { slateId: `s-${i}-2`, energy: 'light', state: { center: 5.5, lo: 4, hi: 6.5, median: 5, n: 13 },
+      items: works.map((w, k) => ({ recId: `r2-${i}-${k}`, workId: w, rank: k, level: 4 + (k % 5) })) },
   });
   await call('feedback', '/api/feedback', { method: 'POST', token, body: { recId: `r2-${i}-0`, workId: works[0], action: 'dismiss' } });
 }
@@ -240,7 +244,7 @@ const report = {
   second: { ms: Math.round(secondMs), requests: secondCount, rps: Math.round(secondCount / (secondMs / 1000)) },
   errors, rssMaxMb: Math.round(rssMax / 1048576), dbBytes: sizeAfter,
   backup: { duringLoad: backupDuring, after: made, listed: list.backups?.length, downloadedBytes: download.buf?.length },
-  funnel: { yesterday: funnel.yesterday, today: funnel.daily?.at(-1), funnel: funnel.funnel },
+  funnel: { yesterday: funnel.yesterday, today: funnel.daily?.at(-1), funnel: funnel.funnel, metrics: funnel.metrics },
   restore: { result: restored, ratingsOfUser7: stateAfter.ratings?.length, probeSessionGone: probeGone },
   routes: rows,
 };
@@ -251,6 +255,8 @@ console.log(`ошибок ${errors}; память сервера до ${report.r
 console.log(`копия под нагрузкой: ${backupDuring?.name ?? JSON.stringify(backupDuring)} за ${backupDuring?.ms} мс; `
   + `после: ${made.name}, ${(made.size / 1024).toFixed(0)} КБ сжатой, участников ${made.check?.users ?? '?'}`);
 console.log(`воронка за сегодня: ${JSON.stringify(funnel.daily?.at(-1))}; новые за 30 дней: ${JSON.stringify(funnel.funnel)}`);
+console.log(`метрики МА-1/МА-2: сдвиг ${JSON.stringify(funnel.metrics?.shift?.all)}; качество ${JSON.stringify(funnel.metrics?.quality?.take)}, `
+  + `valued ${JSON.stringify(funnel.metrics?.quality?.valued)}`);
 console.log(`восстановление: ${restored.ok ? 'ок' : JSON.stringify(restored)}; у участника 7 оценок ${stateAfter.ratings?.length} (ждём 12); `
   + `вход после копии откатился: ${probeGone ? 'да' : 'НЕТ'}`);
 

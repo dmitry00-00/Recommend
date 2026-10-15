@@ -12,8 +12,14 @@
 //     разбор, принятие) → открыл разбор → принял фильм (эталон) → посмотрел → вернулся в другой день.
 //     Ступени считаются каждая сама по себе;
 //   · retention — когорты по дню входа: D1/D7/D30 «в этот день» и «в этот день или позже»;
-//   · daily — по дням за 14 дней: кто был, новые, карточки, «Смотреть», разборы, ленты.
+//   · daily — по дням за 14 дней: кто был, новые, карточки, «Смотреть», разборы, ленты;
+//   · metrics (МА-1, МА-2, 13.10) — «сдвиг», proxy reward, valued, take-rate, ECS, GS, ревизит, удержание
+//     от активации и WAU (worker/metrics.ts);
+//   · engagement (МА-3, 14.10) — голоса (открытия и дочитывание по автору), «поделился» на 100 активных, источники
+//     новых и доля пришедших без нас, «подобрать словами», ответы на вопросы, задержка оценки (worker/engagement.ts).
 import type { D1Database, Env } from './env';
+import { computeMetrics, type MetricRows } from './metrics';
+import { computeEngagement, type EngagementRows } from './engagement';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const MSK_MS = 3 * 3600e3;
@@ -38,7 +44,8 @@ export async function noteVisit(db: D1Database, userId: string): Promise<void> {
 
 // ─── события ────────────────────────────────────────────────────────────────
 
-const KINDS = new Set(['card', 'watch']);
+// `card`, `watch` — с 07.10 (ЗП-3); `share_sent`, `mood_query`, `survey_answered` — с 14.10 (МА-3, worker/engagement.ts)
+const KINDS = new Set(['card', 'watch', 'share_sent', 'mood_query', 'survey_answered']);
 let eventSeq = 0;
 
 export async function postEvent(req: Request, userId: string, db: D1Database): Promise<Response> {
@@ -244,11 +251,41 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
      SELECT source, COUNT(*) AS joined, SUM(CASE WHEN invited_by IS NOT NULL THEN 1 ELSE 0 END) AS invited,
        SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u GROUP BY source ORDER BY joined DESC`, ...binds, from30);
 
+  // ── МА-1, МА-2: строки за 120 дней (когорта 4–8 недель и её досмотры), снимки карты — все
+  const from120 = addDays(today, -120);
+  const since = `${from120}T00:00:00.000Z`;
+  const [mUsers, mVisits, mStates, mImpr, mFeedback, mCheckins, mRatings, mEvents] = await Promise.all([
+    q<MetricRows['users'][number]>(`SELECT id, created_at FROM user ${userWhere}`, ...binds),
+    q<MetricRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, ...binds, from120),
+    q<MetricRows['states'][number]>(`SELECT user_id, at, center, lo, hi, median, n FROM level_state WHERE ${inUsers}`, ...binds),
+    q<MetricRows['impressions'][number]>(`SELECT user_id, rec_id, work_id, level, traits, at FROM impression WHERE ${inUsers} AND at >= ?`, ...binds, since),
+    q<MetricRows['feedback'][number]>(`SELECT user_id, rec_id, work_id, action, reason, level, traits, at FROM feedback WHERE ${inUsers} AND at >= ?`, ...binds, since),
+    q<MetricRows['checkins'][number]>(`SELECT user_id, work_id, status, level, worth, at FROM checkin WHERE ${inUsers} AND at >= ?`, ...binds, since),
+    q<MetricRows['ratings'][number]>(`SELECT user_id, work_id, rating, at FROM rating WHERE ${inUsers}`, ...binds),
+    q<MetricRows['events'][number]>(`SELECT user_id, kind, work_id, at FROM event WHERE kind IN ('card', 'watch') AND ${inUsers} AND at >= ?`, ...binds, since),
+  ]);
+  const metrics = computeMetrics({ users: mUsers, visits: mVisits, states: mStates, impressions: mImpr, feedback: mFeedback,
+    checkins: mCheckins, ratings: mRatings, events: mEvents });
+
+  // ── МА-3: строки за 30 дней
+  const since30 = `${from30}T00:00:00.000Z`;
+  const [eOpens, eEvents, eVisits, eJoined, eRated] = await Promise.all([
+    q<EngagementRows['opens'][number]>(`SELECT user_id, voice_id, minutes, dwell, at FROM material_open WHERE ${inUsers} AND at >= ?`, ...binds, since30),
+    q<EngagementRows['events'][number]>(`SELECT user_id, kind, work_id, place, detail, at FROM event
+      WHERE (kind IN ('share_sent', 'mood_query', 'survey_answered') OR (kind = 'card' AND place = 'mood')) AND ${inUsers} AND at >= ?`, ...binds, since30),
+    q<EngagementRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, ...binds, from30),
+    q<EngagementRows['joined'][number]>(`SELECT source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?`, ...binds, from30),
+    q<EngagementRows['rated'][number]>(`SELECT r.at AS rated, MIN(i.at) AS shown FROM rating r
+      JOIN impression i ON i.user_id = r.user_id AND i.work_id = r.work_id AND i.at <= r.at
+      WHERE r.${inUsers} AND r.at >= ? GROUP BY r.user_id, r.work_id`, ...binds, since30),
+  ]);
+  const engagement = computeEngagement({ opens: eOpens, events: eEvents, visits: eVisits, joined: eJoined, rated: eRated, today });
+
   return json({
     at: new Date().toISOString(), today, filters: { withoutOwner: url.searchParams.get('owner') === '0', telegramOnly: url.searchParams.get('tg') === '1', ...(source ? { source } : {}) },
     thresholds: THRESHOLDS, floors: FLOORS, minBase: MIN_BASE,
     yesterday: day, week,
-    retention, funnel, daily,
+    retention, funnel, daily, metrics, engagement,
     sources: sources.map((r) => ({ source: r.source ?? '—', joined: r.joined, invitedByFriend: r.invited, activation: ratio(r.activated ?? 0, r.joined) })),
   });
 }

@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-base-media.mts (2026-10-07): обложки, кадры, описание и
+// Сгенерировано tools/build-base-media.mts (2026-10-14): обложки, кадры, описание и
 // регистр для карточек справочника из Wikidata, у которых их не было. Данные TMDb. Дополняется,
 // не затирается. Не править руками — перегенерировать.
 import type { WorkCard } from '@/types/tmdf';
@@ -46390,5 +46390,250 @@ export const baseMedia: Record<string, Partial<WorkCard>> = {
   "registers": [
    "puzzle_noir"
   ]
+ },
+ "f-tmdb62": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/6pTWhZw6agPFwzzy4RXvYnlhXNW.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/w5IDXtifKntw0ajv2co7jFlTQDM.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United Kingdom",
+   "United States of America"
+  ],
+  "durationMinutes": 149
+ },
+ "f-tmdb348": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/zg4fcO8IuYRllK9wWVNqNlYpueL.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/AmR3JG1VQVxU8TfAvljUhfSFUOx.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America",
+   "United Kingdom"
+  ],
+  "durationMinutes": 116
+ },
+ "f-tmdb680": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/qvbfoyW2zaI15c0quUfF6CRGH4H.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 154
+ },
+ "f-tmdb115": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/r18wYWEiQxrspk5ogEX4S8HUIvB.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/77ElMccPnTMPouRxSdbJ4nEjf69.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United Kingdom",
+   "United States of America"
+  ],
+  "durationMinutes": 117
+ },
+ "f-tmdb424": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/dB7edCQIuExWErWXFVqR7ORnZRS.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/zb6fM1CX41D9rF9hdgclu0peUmy.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 195
+ },
+ "f-tmdb603": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/kEDbym5htJgDQNenjUtSJxAHysB.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/tlm8UkiQsitc8rSuIAscQDCnP8d.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 136
+ },
+ "f-tmdb37165": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/lYMMRbMZCyn12t6HLVYfmWfHrrq.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/rmiG2uwcNoGFmBKMoa1pIcf514L.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 103
+ },
+ "f-tmdb155": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/aPtN76OjnNKLqCJ2FJBnQOIL031.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/9FE5eD92WfVCiivM9Pq9GVSrlWk.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United Kingdom",
+   "United States of America"
+  ],
+  "durationMinutes": 152
+ },
+ "f-tmdb16869": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/cUWnHMRFC1fVQDALtUaGmrJ6MqP.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/hwNtEmmugU5Yd7hpfprNWI0DGIn.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "Germany",
+   "United States of America"
+  ],
+  "durationMinutes": 153
+ },
+ "f-tmdb19995": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/lUKcrcO3wEPhNnzGq06JIX7GIEb.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/vL5LR6WdxWPjLPFRLe133jXWsh5.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America",
+   "United Kingdom"
+  ],
+  "durationMinutes": 162
+ },
+ "f-tmdb129": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/txaVo4whnSduKuczZiJexhLDVQC.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/6oaL4DP75yABrd5EbC4H2zq5ghc.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "Japan"
+  ],
+  "durationMinutes": 124
+ },
+ "f-tmdb157336": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/vReLRjDV9XPhiOSEW7QWow4DXwf.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/8sNiAPPYU14PUepFNeSNGUTiHW.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United Kingdom",
+   "United States of America"
+  ],
+  "durationMinutes": 169
+ },
+ "f-tmdb68718": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/9TqgGueg974s9Vw3U1rCYK30QP3.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/2oZklIzUbvZXXzIFzv7Hi68d6xf.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 165
+ },
+ "f-tmdb273248": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/7qFSC1xhsHe9wxyTBxQmts7s3n4.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/7g1zO5t0bd27Iqn5ZUDJmksOGPJ.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 167
+ },
+ "f-tmdb466272": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/nHg4GLAPjo8rhRkzv6lLfGwuRJq.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/kKTPv9LKKs5L3oO1y5FNObxAPWI.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "China",
+   "United Kingdom",
+   "United States of America"
+  ],
+  "durationMinutes": 161
+ },
+ "f-tmdb106646": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/ihlWMaVZVXFzxU5wwZnbHJZ7Zpx.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/7Nwnmyzrtd0FkcRyPqmdzTPppQa.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 180
+ },
+ "f-tmdb299536": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/c6RSGB6O0RaaHG3JGLq8lnUJSBC.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/mDfJG3LC3Dqb67AZ52x3Z0jU0uB.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 149
+ },
+ "f-tmdb118340": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/4uVdNj0FWCjtG1jEYASuNzE33LS.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/uLtVbjvS1O7gXL8lUOwsFOH4man.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 120
+ },
+ "f-tmdb293660": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/r5PYZGOiIQuGpaZas9TTplNZ5Ox.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/rFj9IKlL75B2pXhZA60jkNWvxeW.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 108
+ },
+ "f-tmdb324857": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/oCAi3NdfXNYLd8PROu5ycUhVety.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/1ntePsIqeklfmrQJqZPncCydsqY.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 117
+ },
+ "f-tmdb286217": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/6U19srkH4wI6taluviXbVaIpsau.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/lzMS0CI3FLQYC5EgJoWeIaEt0lm.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 141
+ },
+ "f-tmdb693134": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/3aLghRkuJc9cs770fxo4a6YWht3.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/eZ239CUp1d6OryZEBPnO2n87gMG.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 166
+ },
+ "f-tmdb545611": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/oFiudghfudYUtW3yHgvv82xgoXP.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/fIwiFha3WPu5nHkBeMQ4GzEk0Hv.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 139
+ },
+ "f-tmdb414906": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/3EXgl14Wmr5NcbYnBy1kavGHnvh.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "United States of America"
+  ],
+  "durationMinutes": 176
+ },
+ "f-tmdb559907": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/32VBwdt4mkcgwxWKuFzNPm3sccN.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/kIQc0kkqIYTo65x5XjlKgqdDQ6a.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "Canada",
+   "Ireland",
+   "United States of America"
+  ],
+  "durationMinutes": 130
+ },
+ "f-tmdb508883": {
+  "coverUrl": "https://image.tmdb.org/t/p/w342/oTmSnrE9MuQMhZkosZRE5bYvstK.jpg",
+  "stillUrl": "https://image.tmdb.org/t/p/w780/75nSb1fbWooipwcSU5bUttiOriI.jpg",
+  "imageSource": "tmdb",
+  "countries": [
+   "Japan"
+  ],
+  "durationMinutes": 124
  }
 };

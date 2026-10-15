@@ -5,9 +5,9 @@
 // Заголовки роликов показываем (они и так публичны, а человек пришёл из поиска сам), спойлеры — пометкой; в сводке
 // подписок, которую бот присылает в чат без спроса, заголовок со спойлерами скрыт.
 import type { Env } from './env';
+import { bot } from './env';
 import { reference } from './follow';
 
-const BOT = 'recomend_media_bot';
 const SITE = 'Transformative Media';
 const PER_PAGE = 40;
 
@@ -21,7 +21,7 @@ const norm = (s: string) => s.toLowerCase().replace(/ё/g, 'е').replace(/\s+/g,
 /** Ключ в адресе: `tmdb:496243` → `tmdb-496243` (двоеточие в пути поисковики любят меньше). */
 export const keyToPath = (key: string) => key.replace(':', '-');
 const pathToKey = (p: string) => p.replace(/^([a-z]{2,10})-/, '$1:');
-const startapp = (key: string) => `https://t.me/${BOT}?startapp=w-${key.replace(':', '_')}--sseo`;
+const startapp = (key: string) => `https://t.me/${bot.name}?startapp=w-${key.replace(':', '_')}--sseo`;
 const year = (w: PageWork) => (w.y ? ` (${w.y})` : '');
 const shown = (list: Analysis[] | undefined) => (list ?? []).filter((a) => !a.unverified && (a.language ?? 'ru') === 'ru');
 
@@ -146,7 +146,7 @@ async function authorPage(req: Request, env: Env, slug: string): Promise<Respons
   const canonical = `${origin(req, env)}/author/${encodeURIComponent(slug)}`;
   const role = a.b ? 'о книгах и экранизациях' : a.e ? 'видеоэссе о кино' : 'обзоры кино';
   const body = `<h1>${esc(a.n)}</h1><p class="sub">${role} · <a href="${esc(a.u)}" rel="noopener" target="_blank">канал автора</a></p>
-<a class="cta" href="https://t.me/${BOT}?startapp=--sseo">Открыть в Telegram</a>
+<a class="cta" href="https://t.me/${bot.name}?startapp=--sseo">Открыть в Telegram</a>
 <h2>Фильмы · ${films.size}, разборов · ${items.length}</h2><ul>${[...films].slice(0, 150).map(([key, xs]) => filmItem(key, d.pages.works[key], xs)).join('')}</ul>`;
   const names = [...films.keys()].slice(0, 5).map((k) => d.pages.works[k].t).join(', ');
   return page({ title: `${a.n} — ${role} | ${SITE}`, description: `${a.n}: ${items.length} разборов ${films.size} фильмов — ${names}.`.slice(0, 300), canonical, body });

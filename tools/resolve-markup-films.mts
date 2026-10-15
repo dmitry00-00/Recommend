@@ -18,6 +18,7 @@
 // Источник — Wikidata (CC0), как у tools/expand-film-base.mts: решение владельца 23.09 — новые
 // вещи не строить на некоммерческих источниках. Ключ фильма — `tmdb:<id>` (P4947), сериала —
 // `imdb:<id>` (P345): номера TMDb у фильмов и сериалов пересекаются, у IMDb — нет.
+import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
@@ -240,7 +241,7 @@ for (const r of rows) {
   if (!pick) { missed.set(r.film, (missed.get(r.film) ?? 0) + 1); continue; }
   const key = keyOf(pick.cand)!;
   const have = known.get(key) ?? prevCards.get(key) ?? newCards.get(key)?.card;
-  const title = have?.title ?? pick.cand.ru ?? pick.cand.en ?? typed.title;
+  const title = plainTitle(have?.title ?? pick.cand.ru ?? pick.cand.en ?? typed.title);
   const year = have?.year ?? pick.cand.year;
   if (!have) {
     newCards.set(key, {

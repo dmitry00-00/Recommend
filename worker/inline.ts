@@ -7,15 +7,26 @@
 // токена бота (`webhookSecret`), отдельной переменной на bothost заводить не нужно.
 // Ищем по справочнику `inlineIndex` (tools/inline-index.mts → publish-reference), он держится в памяти.
 import type { Env } from './env';
+import { bot } from './env';
 import { withRef } from './invite';
 import { togetherCommand, type ChatMessage } from './together';
 
 interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
-interface InlineQuery { id: string; query: string; from?: { id: number } }
+interface InlineQuery { id: string; query: string; from?: { id: number; language_code?: string } }
 
-const BOT = 'recomend_media_bot';
 const LIMIT = 20;
-const KIND: Record<Entry['k'], string> = { film: 'Фильм', series: 'Сериал', book: 'Книга', character: 'Герой' };
+// язык ответа (11.10, один бот для всех языков): инлайн — по языку Telegram спросившего, карточка — по языку приложения
+type Lang = 'ru' | 'en';
+const RU_READERS = /^(?:ru|uk|be|kk|ky|uz|tg|hy|az|ka)\b/i;
+const langOf = (code?: string): Lang => (!code || RU_READERS.test(code) ? 'ru' : 'en');
+const KINDS: Record<Lang, Record<Entry['k'], string>> = {
+  ru: { film: 'Фильм', series: 'Сериал', book: 'Книга', character: 'Герой' },
+  en: { film: 'Film', series: 'Series', book: 'Book', character: 'Character' },
+};
+const BUTTON: Record<Lang, { work: string; character: string; together: string }> = {
+  ru: { work: 'Открыть карточку', character: 'Открыть героя', together: 'Голосовать' },
+  en: { work: 'Open card', character: 'Open character', together: 'Vote' },
+};
 
 export async function webhookSecret(token: string): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`tm-webhook:${token}`));
@@ -56,14 +67,14 @@ export function search(idx: NonNullable<typeof cache>, raw: string): Entry[] {
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function result(e: Entry) {
+function result(e: Entry, lang: Lang = 'ru') {
   const head = `${e.t}${e.y ? ` (${e.y})` : ''}`;
-  const line = [KIND[e.k], e.o, e.s].filter(Boolean).join(' · ');
+  const line = [KINDS[lang][e.k], e.o, e.s].filter(Boolean).join(' · ');
   return {
     type: 'article', id: e.p, title: head, description: line,
     ...(e.i ? { thumbnail_url: e.i } : {}),
     input_message_content: { message_text: `<b>${esc(head)}</b>\n${esc(line)}`, parse_mode: 'HTML', link_preview_options: { is_disabled: true } },
-    reply_markup: { inline_keyboard: [[{ text: e.k === 'character' ? 'Открыть героя' : 'Открыть карточку', url: `https://t.me/${BOT}?startapp=${e.p}` }]] },
+    reply_markup: { inline_keyboard: [[{ text: e.k === 'character' ? BUTTON[lang].character : BUTTON[lang].work, url: `https://t.me/${bot.name}?startapp=${e.p}` }]] },
   };
 }
 
@@ -72,7 +83,7 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
   const found = idx ? search(idx, q.query) : [];
   await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ inline_query_id: q.id, results: found.map(result), cache_time: 300 }),
+    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, langOf(q.from?.language_code))), cache_time: 300 }),
   }).catch((err) => console.error('answerInlineQuery', err));
 }
 
@@ -122,15 +133,16 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
 const IMAGE_HOSTS = /^https:\/\/(?:image\.tmdb\.org|covers\.openlibrary\.org|kinopoiskapiunofficial\.tech|avatars\.mds\.yandex\.net|commons\.wikimedia\.org|upload\.wikimedia\.org|i\.ytimg\.com)\//;
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
 
-export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together'; by?: string; about?: string; image?: string }
+export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together'; by?: string; about?: string; image?: string; lang?: Lang }
 
 export function shareResult(c: ShareCard) {
   const head = `${c.title}${c.year ? ` (${c.year})` : ''}`;
-  const line = [c.kind && c.kind !== 'together' ? KIND[c.kind] : undefined, c.by].filter(Boolean).join(' · ');
+  const line = [c.kind && c.kind !== 'together' ? KINDS[c.lang ?? 'ru'][c.kind] : undefined, c.by].filter(Boolean).join(' · ');
   const text = [`<b>${esc(head)}</b>`, line ? esc(line) : '', c.about ? `\n${esc(c.about)}` : ''].filter(Boolean).join('\n');
   // выбор компанией (ЗП-11): приглашение голосовать, а не карточка
-  const button = c.kind === 'together' ? 'Голосовать' : c.kind === 'character' ? 'Открыть героя' : 'Открыть карточку';
-  const reply_markup = { inline_keyboard: [[{ text: button, url: `https://t.me/${BOT}?startapp=${c.param}` }]] };
+  const B = BUTTON[c.lang ?? 'ru'];
+  const button = c.kind === 'together' ? B.together : c.kind === 'character' ? B.character : B.work;
+  const reply_markup = { inline_keyboard: [[{ text: button, url: `https://t.me/${bot.name}?startapp=${c.param}` }]] };
   const id = `s-${c.param}`.slice(0, 64);
   return c.image
     ? { type: 'photo', id, photo_url: c.image, thumbnail_url: c.image, caption: text, parse_mode: 'HTML', reply_markup }
@@ -150,7 +162,7 @@ export async function prepareShare(req: Request, tgId: number | null | undefined
   // в кнопку — код поделившегося (ЗП-37): новый участник по этой ссылке запомнит, кто его привёл
   const card: ShareCard = { param: userId ? withRef(param, userId) : param, title, ...(typeof b.year === 'number' && b.year > 1800 && b.year < 2100 ? { year: b.year } : {}),
     ...(kind ? { kind } : {}), ...(clip(b.by, 80) ? { by: clip(b.by, 80) } : {}), ...(clip(b.about, 300) ? { about: clip(b.about, 300) } : {}),
-    ...(IMAGE_HOSTS.test(image) ? { image } : {}) };
+    ...(IMAGE_HOSTS.test(image) ? { image } : {}), ...(b.lang === 'en' ? { lang: 'en' as const } : {}) };
   const save = (result: unknown) => fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/savePreparedInlineMessage`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ user_id: tgId, result, allow_user_chats: true, allow_group_chats: true, allow_channel_chats: true, allow_bot_chats: false }),

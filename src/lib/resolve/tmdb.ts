@@ -58,12 +58,14 @@ export interface TmdbClient {
   watch(id: number, region?: string): Promise<ResolvedWork['watch']>;
 }
 
-/** Ключ v3 (32 hex) идёт параметром `api_key`; токен чтения v4 (JWT с точками) — заголовком Bearer. */
-export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, language = 'ru-RU'): TmdbClient {
-  const bearer = apiKey.includes('.');
+/** Ключ v3 (32 hex) идёт параметром `api_key`; токен чтения v4 (JWT с точками) — заголовком Bearer.
+ *  Без ключа — через прокси `/tmdb-api` сервера (или dev-сервера), который подставляет ключ сам:
+ *  так ключ не попадает в сборку браузера. */
+export function createTmdb(apiKey?: string, fetcher: typeof fetch = fetch, language = 'ru-RU', base = apiKey ? API : '/tmdb-api'): TmdbClient {
+  const bearer = Boolean(apiKey?.includes('.'));
   const get = async <T>(path: string, params: Record<string, string> = {}): Promise<T | undefined> => {
-    const qs = new URLSearchParams({ language, ...params, ...(bearer ? {} : { api_key: apiKey }) });
-    const res = await fetcher(`${API}${path}?${qs}`, bearer ? { headers: { Authorization: `Bearer ${apiKey}` } } : undefined);
+    const qs = new URLSearchParams({ language, ...params, ...(apiKey && !bearer ? { api_key: apiKey } : {}) });
+    const res = await fetcher(`${base}${path}?${qs}`, bearer ? { headers: { Authorization: `Bearer ${apiKey}` } } : undefined);
     if (res.status === 404) return undefined;
     if (!res.ok) throw new Error(`tmdb ${res.status}`);
     return (await res.json()) as T;
@@ -78,8 +80,12 @@ export function createTmdb(apiKey: string, fetcher: typeof fetch = fetch, langua
       return r?.tv_results?.[0]?.id;
     },
     async search(title, year) {
-      const r = await get<{ results: { id: number }[] }>('/search/movie', { query: title, ...(year ? { year: String(year) } : {}) });
-      const id = r?.results[0]?.id;
+      const r = await get<{ results: { id: number; release_date?: string }[] }>('/search/movie', { query: title, ...(year ? { year: String(year) } : {}) });
+      // `year` у TMDb совпадает с любой датой выпуска, перевыпуск тоже: «Burning» 2018 первым отдавал
+      // «Mississippi Burning» (1988). Порядок TMDb оставляем, но пропускаем результаты с премьерой дальше
+      // года от искомого (±1: у «Enemy» 2013 премьера в TMDb — 2014)
+      const near = (d?: string) => !year || !d || Math.abs(Number(d.slice(0, 4)) - year) <= 1;
+      const id = (r?.results.find((x) => near(x.release_date)) ?? r?.results[0])?.id;
       if (id == null) return undefined;
       const ext = await get<{ imdb_id?: string | null }>(`/movie/${id}/external_ids`);
       return { id, imdb: ext?.imdb_id ?? undefined };

@@ -4,17 +4,21 @@
 //   · /api/* — тот же воркер, что и для Cloudflare (worker/index.ts, собран в ./worker.cjs),
 //     только D1 здесь — SQLite в файле DATA_DIR/tm.sqlite: ./d1-sqlite.js (node:sqlite, Node 22.13+),
 //     без него — ./d1-sqljs.js (база в памяти, выгрузка в тот же файл); ночные копии — ./backup.js;
-//   · /kp-api/* — прокси Кинопоиска с ключом из окружения (в сборку он не попадает).
+//   · /kp-api/* — прокси Кинопоиска с ключом из окружения (в сборку он не попадает);
+//   · /tmdb-api/* — прокси TMDb так же (13.10: до этого ключ ехал в сборке браузера);
+//   · /img/tmdb/<размер>/<файл> — картинки TMDb через свой адрес с кешем на диске (ДФ-4, 14.10).
 //
 //   PORT            — порт из панели bothost (по умолчанию 3000)
 //   DATA_DIR        — постоянная папка (/app/data на bothost переживает обновления)
 //   BOT_TOKEN       — токен бота: им проверяется подпись Telegram (bothost задаёт сам)
 //   KP_API_KEY      — ключ kinopoiskapiunofficial.tech; без него /kp-api отвечает 503
+//   TMDB_API_KEY    — ключ TMDb (v3 или токен чтения v4); без него /tmdb-api отвечает 503
 //   OWNER_USERNAME  — ник владельца: его профиль при первом входе получает историю из seed/owner.json
 //   ALLOW_DEMO      — «0» закрывает гостевой вход вне Telegram (по умолчанию открыт)
 //   ADMIN_TOKEN     — токен сборщика и пультов; им же — копии базы (/api/admin/backups, /api/admin/restore)
 //   DB_ENGINE       — «sqljs» — база в памяти, как до 06.10 (по умолчанию node:sqlite, если он есть)
 //   BACKUP_KEEP     — сколько копий базы держать в DATA_DIR/backups (по умолчанию 14)
+//   IMG_CACHE_MB    — предел кеша картинок TMDb в DATA_DIR/img-cache, МБ (по умолчанию 512)
 'use strict';
 const http = require('http');
 const fs = require('fs');
@@ -27,6 +31,10 @@ const PORT = Number(process.env.PORT) || 3000;
 const ROOT = path.join(__dirname, 'public');
 const KP_BASE = 'https://kinopoiskapiunofficial.tech/api';
 const KP_KEY = process.env.KP_API_KEY || '';
+const TMDB_BASE = 'https://api.themoviedb.org/3';
+const TMDB_KEY = process.env.TMDB_API_KEY || '';
+// только то, что спрашивает клиент (src/lib/resolve/tmdb.ts): чужим прокси с нашим ключом сервер не станет
+const TMDB_PATHS = /^\/(?:find\/tt\d+|search\/(?:movie|tv)|(?:movie|tv)\/\d+(?:\/external_ids|\/watch\/providers)?)$/;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 
 // ---------- API: воркер + D1 на SQLite ----------
@@ -68,6 +76,8 @@ async function startApi() {
       // файл меняется раз в сутки, а читают его все при каждом старте — держим в памяти до смены
       const st = fs.statSync(file);
       const httpEtag = `"${st.size.toString(36)}-${st.mtimeMs.toString(36)}"`;
+      // обложки книг (11.10) — сотни картинок, их читают редко: с диска, не в память
+      if (path.basename(key).startsWith('cover-')) { const buf = fs.readFileSync(file); return { body: new Blob([buf]).stream(), httpEtag, size: buf.length }; }
       let hit = refFiles.get(file);
       if (!hit || hit.etag !== httpEtag) refFiles.set(file, (hit = { etag: httpEtag, buf: fs.readFileSync(file) }));
       return { body: new Blob([hit.buf]).stream(), httpEtag, size: hit.buf.length };
@@ -228,7 +238,8 @@ async function handleApi(req, res) {
       res.end();
       return;
     }
-    const enc = response.status === 200 && out.length > 1024 && /json|text/.test(head['content-type'] || '') ? acceptEncoding(req) : null;
+    // уже сжатое воркером (замер /api/probe — gzip с балластом в заголовке) не трогаем
+    const enc = response.status === 200 && out.length > 1024 && !head['content-encoding'] && /json|text/.test(head['content-type'] || '') ? acceptEncoding(req) : null;
     if (enc) {
       out = compressApi(out, enc, etag && req.method === 'GET' ? `${p}|${etag}` : null);
       head['content-encoding'] = enc;
@@ -322,6 +333,173 @@ async function proxyKinopoisk(req, res, urlPath, search) {
   }
 }
 
+async function proxyTmdb(req, res, urlPath, search) {
+  if (req.method !== 'GET') { res.writeHead(405).end(); return; }
+  const rest = urlPath.replace(/^\/tmdb-api/, '');
+  if (!TMDB_PATHS.test(rest)) { res.writeHead(404, { 'content-type': 'application/json' }).end('{"error":"tmdb_path"}'); return; }
+  if (!TMDB_KEY) { res.writeHead(503, { 'content-type': 'application/json' }).end('{"error":"tmdb_key_missing"}'); return; }
+  const bearer = TMDB_KEY.includes('.');
+  const qs = new URLSearchParams(search);
+  qs.delete('api_key');
+  if (!bearer) qs.set('api_key', TMDB_KEY);
+  try {
+    const upstream = await fetch(`${TMDB_BASE}${rest}?${qs}`, {
+      headers: { accept: 'application/json', ...(bearer ? { authorization: `Bearer ${TMDB_KEY}` } : {}) },
+    });
+    const body = Buffer.from(await upstream.arrayBuffer());
+    res.writeHead(upstream.status, {
+      'content-type': upstream.headers.get('content-type') || 'application/json',
+      'cache-control': upstream.ok ? 'public, max-age=86400' : 'no-store',
+      'content-length': body.length,
+    });
+    res.end(body);
+  } catch (err) {
+    console.error('tmdb-api:', err && err.message);
+    res.writeHead(502, { 'content-type': 'application/json' }).end('{"error":"tmdb_upstream"}');
+  }
+}
+
+// ---------- картинки TMDb через свой адрес (ДФ-4, 14.10) ----------
+// /img/tmdb/<размер>/<файл> → image.tmdb.org/t/p/<размер>/<файл>: телефон не ходит к TMDb сам (из России он бывает
+// медленным или закрыт), а мы берём картинку один раз и дальше отдаём с диска. Не перекодируем: сервер без
+// npm-зависимостей, а AVIF/WebP встроенным Node не сделать. Но CDN TMDb сам отдаёт WebP тому, кто его принимает
+// (Accept: image/webp — на 15–25 % легче JPEG; AVIF не отдаёт): передаём ему Accept телефона и держим в кеше обе
+// версии отдельно, ответ с Vary: Accept. Старый браузер без WebP получает JPEG/PNG оригинала.
+// Файл TMDb по пути не меняется никогда (новая картинка — новое имя), поэтому immutable на год.
+// Размеры — только те, что спрашивает клиент (src/lib/images.ts, src/lib/resolve/tmdb.ts, моки): w92 — логотипы
+// площадок, w185 — лица и мелкие миниатюры, w342 — постеры и миниатюры кадров, w500 — запас, w780 — баннер.
+// original не пускаем: не нужен и весит мегабайты — чужим «бесплатным CDN» сервер не станет.
+const IMG_PATH = /^\/img\/tmdb\/(w92|w185|w342|w500|w780)\/([A-Za-z0-9]{1,64}\.(?:jpg|png|webp))$/;
+const IMG_BASE = 'https://image.tmdb.org/t/p';
+const IMG_DIR = path.join(DATA_DIR, 'img-cache');
+// 512 МБ: горячий набор — баннеры и миниатюры ленты. w780 в среднем ~120 КБ, w342 ~25 КБ, w185 ~12 КБ — около
+// 160 КБ на произведение, то есть ~3000 самых показываемых произведений целиком. Весь каталог (~8000 с картинками
+// TMDb) — около 1,3 ГБ: держать его ради редких хвостов на диске хостинга, где ещё база и 14 её копий, незачем.
+// Больше предела — вытесняем давно не показанные до 90 %. IMG_CACHE_MB — поменять без правки кода.
+const IMG_CACHE_MAX = (Number(process.env.IMG_CACHE_MB) || 512) * (1 << 20);
+const IMG_MAX_FILE = 8 << 20;
+const IMG_TIMEOUT = 15e3;
+const IMG_IMMUTABLE = 'public, max-age=31536000, immutable';
+const imgIndex = new Map(); // имя файла в кеше (<размер>_<файл>[.webp]) → { size, type, etag, used }
+let imgTotal = 0;
+let imgReady = null;
+const imgInflight = new Map(); // одна и та же картинка у TMDb качается один раз, остальные ждут её
+// тип — по первым байтам: в версии «.webp» CDN мог отдать и JPEG (у PNG с прозрачностью, например)
+const imgSniff = (b) => (b[0] === 0xff && b[1] === 0xd8 ? 'image/jpeg' : b[0] === 0x89 && b[1] === 0x50 ? 'image/png'
+  : b.toString('latin1', 0, 4) === 'RIFF' && b.toString('latin1', 8, 12) === 'WEBP' ? 'image/webp' : null);
+const imgEtag = (key, size) => `"${size.toString(36)}-${crypto.createHash('sha1').update(key).digest('hex').slice(0, 16)}"`;
+
+function imgScan() {
+  imgReady ??= (async () => {
+    await fs.promises.mkdir(IMG_DIR, { recursive: true });
+    for (const name of await fs.promises.readdir(IMG_DIR)) {
+      const file = path.join(IMG_DIR, name);
+      // недописанное при прошлой остановке
+      if (name.includes('.tmp-')) { fs.promises.unlink(file).catch(() => {}); continue; }
+      const m = /^(w\d+)_(.+)$/.exec(name);
+      if (!m) continue;
+      try {
+        const st = await fs.promises.stat(file);
+        const fh = await fs.promises.open(file);
+        const head = Buffer.alloc(12);
+        try { await fh.read(head, 0, 12, 0); } finally { await fh.close(); }
+        imgIndex.set(name, { size: st.size, type: imgSniff(head) || MIME[path.extname(name)] || 'image/jpeg', etag: imgEtag(name, st.size), used: st.mtimeMs });
+        imgTotal += st.size;
+      } catch { /* удалили между readdir и stat */ }
+    }
+    imgEvict();
+  })().catch((err) => { console.error('img-cache:', err && err.message); });
+  return imgReady;
+}
+
+function imgEvict() {
+  if (imgTotal <= IMG_CACHE_MAX) return;
+  const target = IMG_CACHE_MAX * 0.9;
+  const old = [...imgIndex.entries()].sort((a, b) => a[1].used - b[1].used);
+  for (const [name, e] of old) {
+    if (imgTotal <= target) break;
+    imgIndex.delete(name);
+    imgTotal -= e.size;
+    fs.promises.unlink(path.join(IMG_DIR, name)).catch(() => {});
+  }
+}
+
+/** Картинка у TMDb → в кеш. null — у TMDb её нет (404); бросает — TMDb недоступен или ответил не картинкой. */
+async function imgFetch(size, name, key, webp) {
+  const upstream = await fetch(`${IMG_BASE}/${size}/${name}`, {
+    headers: { accept: webp ? 'image/webp,image/*;q=0.8' : 'image/jpeg,image/png,image/*;q=0.8' },
+    signal: AbortSignal.timeout(IMG_TIMEOUT),
+  });
+  if (upstream.status === 404) { await upstream.body?.cancel(); return null; }
+  const type = (upstream.headers.get('content-type') || '').split(';')[0].trim();
+  if (!upstream.ok || !type.startsWith('image/')) { await upstream.body?.cancel(); throw new Error(`tmdb ${upstream.status} ${type}`); }
+  if (Number(upstream.headers.get('content-length') || 0) > IMG_MAX_FILE) { await upstream.body?.cancel(); throw new Error('too_large'); }
+  const body = Buffer.from(await upstream.arrayBuffer());
+  if (!body.length || body.length > IMG_MAX_FILE) throw new Error(`size ${body.length}`);
+  const entry = { size: body.length, type: imgSniff(body) || type, etag: imgEtag(key, body.length), used: Date.now() };
+  // на диск — атомарно; не вышло (диск полон, только чтение) — отдаём из памяти, кеш просто не растёт
+  const file = path.join(IMG_DIR, key);
+  const tmp = `${file}.tmp-${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
+  try {
+    await fs.promises.writeFile(tmp, body);
+    await fs.promises.rename(tmp, file);
+    const prev = imgIndex.get(key);
+    if (prev) imgTotal -= prev.size;
+    imgIndex.set(key, entry);
+    imgTotal += entry.size;
+    imgEvict();
+  } catch (err) {
+    fs.promises.unlink(tmp).catch(() => {});
+    console.error('img-cache: не записали', key, err && err.message);
+  }
+  return { entry, body };
+}
+
+async function proxyImage(req, res, p) {
+  if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, { allow: 'GET, HEAD' }).end(); return; }
+  const m = IMG_PATH.exec(p);
+  if (!m) { res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' }).end('Not found'); return; }
+  const [, size, name] = m;
+  const webp = /\bimage\/webp\b/.test(String(req.headers.accept || ''));
+  const key = `${size}_${name}${webp && !name.endsWith('.webp') ? '.webp' : ''}`;
+  await imgScan();
+  const send = (entry, body, hit) => {
+    const head = { 'content-type': entry.type, 'cache-control': IMG_IMMUTABLE, etag: entry.etag, vary: 'Accept', 'x-img-cache': hit ? 'hit' : 'miss' };
+    if (req.headers['if-none-match'] === entry.etag) { res.writeHead(304, head).end(); return; }
+    head['content-length'] = entry.size;
+    res.writeHead(200, head);
+    if (req.method === 'HEAD') { res.end(); return; }
+    if (body) { res.end(body); return; }
+    fs.createReadStream(path.join(IMG_DIR, key))
+      // файл пропал с диска — забываем, следующий запрос возьмёт у TMDb заново
+      .on('error', () => { res.destroy(); if (imgIndex.get(key) === entry) { imgIndex.delete(key); imgTotal -= entry.size; } })
+      .pipe(res);
+  };
+  const cached = imgIndex.get(key);
+  if (cached) {
+    // «давно не показанные» — по последнему показу; на диск отметку пишем не чаще раза в час, переживёт перезапуск
+    const now = Date.now();
+    if (now - cached.used > 3600e3) fs.promises.utimes(path.join(IMG_DIR, key), now / 1000, now / 1000).catch(() => {});
+    cached.used = now;
+    send(cached, null, true);
+    return;
+  }
+  let job = imgInflight.get(key);
+  if (!job) {
+    job = imgFetch(size, name, key, webp).finally(() => imgInflight.delete(key));
+    imgInflight.set(key, job);
+  }
+  try {
+    const got = await job;
+    if (!got) { res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' }).end('Not found'); return; }
+    send(got.entry, got.body, false);
+  } catch (err) {
+    console.error('img:', key, err && err.message);
+    if (!res.headersSent) res.writeHead(502, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' }).end('Bad gateway');
+    else res.destroy();
+  }
+}
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url || '/', 'http://localhost');
   let p;
@@ -329,6 +507,8 @@ const server = http.createServer((req, res) => {
 
   if (p === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }).end('ok'); return; }
   if (p.startsWith('/kp-api/')) { proxyKinopoisk(req, res, p, url.search); return; }
+  if (p.startsWith('/tmdb-api/')) { proxyTmdb(req, res, p, url.search); return; }
+  if (p.startsWith('/img/')) { proxyImage(req, res, p); return; }
   if (p.startsWith('/api/')) { handleApi(req, res); return; }
   // публичные страницы для поисковиков (ЗП-15, worker/pages.ts) — их рисует тот же воркер; выключены, пока не PUBLIC_PAGES=1
   if (process.env.PUBLIC_PAGES === '1' && (p === '/robots.txt' || p === '/sitemap.xml' || p.startsWith('/film/') || p.startsWith('/author/'))) { handleApi(req, res); return; }
@@ -353,7 +533,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Transformative Media: http://0.0.0.0:${PORT} (kp-api ${KP_KEY ? 'on' : 'off'})`);
+  console.log(`Transformative Media: http://0.0.0.0:${PORT} (kp-api ${KP_KEY ? 'on' : 'off'}, tmdb-api ${TMDB_KEY ? 'on' : 'off'})`);
 });
 // Порт уже занят. На bothost это почти всегда их заглушка: сборка без своего Dockerfile
 // запускает рядом `node /opt/bothost/http-wrapper.js` («Bot is running») на том же PORT, и

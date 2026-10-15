@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-telegram-index.mts (2026-10-11) из экспорта
+// Сгенерировано tools/build-telegram-index.mts (2026-10-14) из экспорта
 // Telegram Desktop и свежей выемки по MTProto (tools/telegram-fetch.py), каналы — в
 // tools/telegram-channels.json. Привязка к произведениям — по названию, человеком не подтверждена
 // (см. задания «тот ли это фильм»). Не править руками — перегенерировать.
@@ -86,6 +86,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/11793",
       "publishedAt": "2020-07-03"
+    }
+  ],
+  "tmdb:581859": [
+    {
+      "id": "tg-episodesfilm-28",
+      "title": "Посмотрел по рекомендации BLAZEDIRECTOR \"Пятеро одной крови\", который Гильдия кинокритик…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/28",
+      "publishedAt": "2021-08-22"
+    },
+    {
+      "id": "tg-kinopoisk-11469",
+      "title": "Назад во Вьетнам. Каким получился фильм Спайка Ли «Пятеро одной крови»",
+      "author": "Плюс Дача",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11469",
+      "publishedAt": "2020-06-16"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-4728",
+      "title": "Вечная война Спайка Ли: История создания фильма «Пятеро одной крови»",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/4728",
+      "publishedAt": "2020-06-13"
     }
   ],
   "tmdb:551332": [
@@ -1126,7 +1161,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-05-14"
     }
   ],
-  "imdb:tt0096557": [
+  "tmdb:420821": [
     {
       "id": "tg-episodesfilm-576",
       "title": "Так... Гаечка родила от Вжика 42 ребёнка в новом \"Чип и Дейл спешат на помощь\".",
@@ -1685,21 +1720,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-09-17"
     }
   ],
-  "tmdb:586": [
-    {
-      "id": "tg-episodesfilm-798",
-      "title": "ПЛУТОВСТВО и СОЦИАЛЬНАЯ ДИЛЕММА | если нами не манипулируют одни, то манипулируют другие?",
-      "author": "Александр Шебанов",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=7uqPYsZbFcQ",
-      "previewUrl": "https://i.ytimg.com/vi/7uqPYsZbFcQ/hqdefault.jpg",
-      "publishedAt": "2022-09-26",
-      "durationMinutes": 49
-    }
-  ],
   "tmdb:1124": [
     {
       "id": "tg-a_researcher-136",
@@ -1827,6 +1847,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/ireadscripts/6143",
       "publishedAt": "2026-01-22"
+    }
+  ],
+  "tmdb:3033": [
+    {
+      "id": "tg-episodesfilm-833",
+      "title": "«Боги и монстры» (Gods and Monsters, 1998)",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/833",
+      "publishedAt": "2022-10-13"
     }
   ],
   "tmdb:218": [
@@ -2414,6 +2447,44 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-08-15"
     }
   ],
+  "tmdb:8914": [
+    {
+      "id": "tg-kinopoisk-47825",
+      "title": "#ФильмДня — «Глубокое синее море», в котором акулы из опасных хищников превращаются в мы…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/47825",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-09-01"
+    },
+    {
+      "id": "tg-kinopoisk-36638",
+      "title": "Фильм дня — «Глубокое синее море», триллер Ренни Харлина («Крепкий орешек 2», «Скалолаз»…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36638",
+      "publishedAt": "2023-12-19"
+    },
+    {
+      "id": "tg-episodesfilm-1287",
+      "title": "Томас Джейн («Кровавый четверг») призывает подписать петицию чтобы WB выпустили альтерна…",
+      "author": "Cut The Crap",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/1287",
+      "publishedAt": "2023-08-28"
+    }
+  ],
   "tmdb:753342": [
     {
       "id": "tg-a_researcher-278",
@@ -2516,6 +2587,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/3rg5aqB48pg/hqdefault.jpg",
       "publishedAt": "2021-06-29",
       "durationMinutes": 6
+    }
+  ],
+  "imdb:tt27170405": [
+    {
+      "id": "tg-kinopoisk-34432",
+      "title": "Сериал «Библиотекарь» по роману о небесном СССР: что это было? — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008070",
+      "publishedAt": "2023-08-17"
+    },
+    {
+      "id": "tg-episodesfilm-1388",
+      "title": "Теперь, наверное, уже можно сказать однозначно: для меня главным отечественным сериалом…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/1388",
+      "publishedAt": "2023-12-21"
     }
   ],
   "tmdb:1004096": [
@@ -3361,17 +3456,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt30852730": [
     {
-      "id": "tg-episodesfilm-2299",
-      "title": "(начало в этом посте)",
-      "author": "ЭПИЗОДЫ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/episodesfilm/2299",
-      "publishedAt": "2025-05-15"
-    },
-    {
       "id": "tg-episodesfilm-3023",
       "title": "(начало в предыдущем посте)",
       "author": "ЭПИЗОДЫ",
@@ -3392,6 +3476,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/43738",
       "publishedAt": "2025-02-18"
+    },
+    {
+      "id": "tg-terminatarkovsky-730",
+      "title": "Сериалы февраля: «Аутсорс», «Танго на осколках» и «Белый лотос 3»  — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4010650",
+      "publishedAt": "2025-02-02"
     }
   ],
   "tmdb:466272": [
@@ -3662,6 +3757,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://kinopoisk.ru/media/article/4011209",
       "publishedAt": "2025-05-17",
       "season": 4
+    }
+  ],
+  "imdb:tt27663115": [
+    {
+      "id": "tg-episodesfilm-2456",
+      "title": "PROсмотрено EXPRESS #5 | ПЛЕВАКО | Анастасия Акопян, Павел Беклемишев",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/2456",
+      "publishedAt": "2025-07-01"
     }
   ],
   "tmdb:1242011": [
@@ -4011,6 +4119,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-10-08"
     },
     {
+      "id": "tg-iron_wind-1874",
+      "title": "Илья Шевченко. Хроники русской революции. 7 серия. \"Любовь, водка и распадъ\"",
+      "author": "iron_wind",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iron_wind/1874",
+      "publishedAt": "2026-06-21",
+      "episode": 7
+    },
+    {
       "id": "tg-kinopoisk-48778",
       "title": "«Хроники русской революции» Андрея Кончаловского в самом разгаре, а у нас — авторский то…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -4274,6 +4394,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:1248723": [
     {
+      "id": "tg-avtorskayakomnata-317",
+      "title": "S08e24 — Буратино",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/317",
+      "publishedAt": "2026-04-09"
+    },
+    {
       "id": "tg-kinopoisk-50111",
       "title": "🐻 Бывало ли у вас застолье с Винни Пухом? Нет?",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -4519,6 +4650,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/episodesfilm/3115",
       "publishedAt": "2026-01-26"
+    }
+  ],
+  "tmdb:7516": [
+    {
+      "id": "tg-episodesfilm-3121",
+      "title": "Вчера решил освежить в памяти \"Козырные тузы\" Карнахана, чтобы понять, почему тогда было…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/3121",
+      "publishedAt": "2026-01-28"
     }
   ],
   "tmdb:264660": [
@@ -4895,6 +5039,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-04-28"
     }
   ],
+  "imdb:tt32582972": [
+    {
+      "id": "tg-episodesfilm-3431",
+      "title": "Зато можно (и нужно) поздравить Кирилла Кяро и всю команду сериала \"Константинополь\", ес…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/3431",
+      "publishedAt": "2026-05-21"
+    }
+  ],
   "tmdb:1339713": [
     {
       "id": "tg-shishkino-24019",
@@ -5031,6 +5188,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:1489187": [
+    {
+      "id": "tg-avtorskayakomnata-279",
+      "title": "S08e01 — Сводишь с ума",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/279",
+      "publishedAt": "2025-10-23"
+    },
     {
       "id": "tg-episodesfilm-3493",
       "title": "Alperina",
@@ -5209,7 +5377,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-29"
     }
   ],
-  "tmdb:110402": [
+  "imdb:tt37185587": [
     {
       "id": "tg-remizorro-41898",
       "title": "«Трудно быть Богом» очень дорогой проект. Отстроенный город Арканар большой, со своими у…",
@@ -5222,6 +5390,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-05"
     },
     {
+      "id": "tg-episodesfilm-3715",
+      "title": "\"Трудно быть богом\" Дмитрия Тюрина - классический сериал в самом хорошем смысле. В отлич…",
+      "author": "ЭПИЗОДЫ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/episodesfilm/3715",
+      "publishedAt": "2026-09-01"
+    },
+    {
       "id": "tg-kinopoisk-47741",
       "title": "По «Трудно быть богом» и «Отелю „У погибшего альпиниста“» готовят сериал и фильм, а по «…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -5231,17 +5410,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/47741",
       "publishedAt": "2025-08-28"
-    },
-    {
-      "id": "tg-episodesfilm-3739",
-      "title": "\"Трудно быть богом\" - хороший пример обратного. Авторы создали большой и более-менее про…",
-      "author": "ЭПИЗОДЫ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/episodesfilm/3739",
-      "publishedAt": "2026-09-11"
     }
   ],
   "imdb:tt1190634": [
@@ -5946,6 +6114,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-05-22"
     }
   ],
+  "tmdb:340676": [
+    {
+      "id": "tg-cinemysterium-569",
+      "title": "Personal shopper (Персональный покупатель, 2016)",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/569",
+      "tags": [
+        "избранное"
+      ],
+      "publishedAt": "2020-05-27"
+    }
+  ],
   "tmdb:588": [
     {
       "id": "tg-cinemysterium-709",
@@ -6002,6 +6186,49 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "short"
       ],
       "publishedAt": "2020-08-09"
+    }
+  ],
+  "tmdb:167581": [
+    {
+      "id": "tg-cinemysterium-1122",
+      "title": "​ \"Разброд и шатание\" в (очень) хорошем смысле - это про венгерского режиссера Дьердя Па…",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/1122",
+      "tags": [
+        "заметкиовидимом"
+      ],
+      "publishedAt": "2020-08-16"
+    }
+  ],
+  "tmdb:509598": [
+    {
+      "id": "tg-cinemysterium-1371",
+      "title": "MR JONES миксует жанры найденных пленок и псевдодокументалистики, отчего немногие его см…",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/1371",
+      "publishedAt": "2020-10-19"
+    },
+    {
+      "id": "tg-kinopoisk-4363",
+      "title": "«Гарет Джонс»: Советский Союз с блэкджеком и шлюхами — Статьи на КиноПоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/4363",
+      "tags": [
+        "берлин2019"
+      ],
+      "publishedAt": "2019-02-11"
     }
   ],
   "tmdb:575776": [
@@ -6106,6 +6333,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-01-28"
     }
   ],
+  "tmdb:619979": [
+    {
+      "id": "tg-cinemysterium-2116",
+      "title": "​Даже не знаю, какие именно эмоции вызвали \"Глубокие воды\" - разочарование или недоумение?",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/2116",
+      "publishedAt": "2022-03-27"
+    }
+  ],
   "tmdb:1954": [
     {
       "id": "tg-cinemysterium-2192",
@@ -6160,6 +6400,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-06-14"
     }
   ],
+  "tmdb:9589": [
+    {
+      "id": "tg-cinemysterium-2599",
+      "title": "«Мы дети станции Зоо» 21 года - яркое, пышное и цветастое кино.",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/2599",
+      "publishedAt": "2022-08-16"
+    },
+    {
+      "id": "tg-cinemysterium-2594",
+      "title": "Я Кристина, 1981 (фильм)",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/2594",
+      "publishedAt": "2022-08-16"
+    }
+  ],
   "tmdb:22970": [
     {
       "id": "tg-cinemysterium-2743",
@@ -6171,6 +6435,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemysterium/2743",
       "publishedAt": "2022-10-12"
+    }
+  ],
+  "tmdb:10452": [
+    {
+      "id": "tg-cinemysterium-2955",
+      "title": "Маска Изабель Аджани в «Королеве Марго» напомнила мне венецианскую «маску Моретты».",
+      "author": "Abramacabre!",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemysterium/2955",
+      "publishedAt": "2022-12-13"
     }
   ],
   "tmdb:913290": [
@@ -6445,17 +6722,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemysterium/4219",
       "publishedAt": "2024-02-13"
-    },
-    {
-      "id": "tg-kinopoisk-14710",
-      "title": "Что смотреть в кино: «Афера по-голливудски», «Вечный свет» и «Взаперти» — Статьи на Кино…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/14710",
-      "publishedAt": "2020-11-19"
     }
   ],
   "imdb:tt2243973": [
@@ -6722,6 +6988,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-06-11"
+    }
+  ],
+  "tmdb:429070": [
+    {
+      "id": "tg-cinemaholicsofficial-193",
+      "title": "Каннский кинофестиваль 2017: «Призраки Исмаэля»",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/193",
+      "tags": [
+        "cannes2017"
+      ],
+      "publishedAt": "2017-05-19"
+    },
+    {
+      "id": "tg-kinopoisk-525",
+      "title": "Привет из Канн. Посмотрели фильм открытия (\"Призраки Исмаэля\", режиссер Арно Деплешен).…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/525",
+      "publishedAt": "2017-05-17"
     }
   ],
   "tmdb:396398": [
@@ -7137,6 +7430,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-05-09"
     }
   ],
+  "tmdb:13460": [
+    {
+      "id": "tg-cinemaholicsofficial-1020",
+      "title": "Продолжаем отсматривать конкурсную программу. Добрались сегодня до фильма Yomeddine («Су…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/1020",
+      "publishedAt": "2018-05-10"
+    }
+  ],
   "tmdb:306821": [
     {
       "id": "tg-cinemaholicsofficial-1023",
@@ -7174,6 +7480,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/1059",
       "publishedAt": "2018-05-17"
+    }
+  ],
+  "tmdb:297725": [
+    {
+      "id": "tg-cinemaholicsofficial-1069",
+      "title": "Терри Гиллиам пытался снять фильм «Человек, который убил Дон Кихота» около 25 лет. Об эт…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/1069",
+      "publishedAt": "2018-05-21"
+    },
+    {
+      "id": "tg-kinopoisk-3251",
+      "title": "Почему фильм «Человек, который убил Дон Кихота» снимали почти 30 лет — Кино и сериалы на…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/3251",
+      "publishedAt": "2018-09-28"
     }
   ],
   "tmdb:496916": [
@@ -7308,6 +7638,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-08-31"
     }
   ],
+  "tmdb:440161": [
+    {
+      "id": "tg-cinemaholicsofficial-1544",
+      "title": "Наш венецианский десант жестко завис в кинозалах, но передает вам пламенный отзыв о ново…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/1544",
+      "publishedAt": "2018-09-03"
+    },
+    {
+      "id": "tg-kinopoisk-35585",
+      "title": "Фильм дня — «Братья Систерс», необычный вестерн Жака Одиара.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/35585",
+      "publishedAt": "2023-10-25"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-2238",
+      "title": "Номинанты премии «Сезар» 2019",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2238",
+      "publishedAt": "2019-01-23"
+    }
+  ],
   "tmdb:424694": [
     {
       "id": "tg-cinemaholicsofficial-1841",
@@ -7343,6 +7708,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/1885",
       "publishedAt": "2018-11-14"
+    }
+  ],
+  "tmdb:457136": [
+    {
+      "id": "tg-cinemaholicsofficial-2044",
+      "title": "17 января в прокат выйдет фильм «Две королевы» с, собственно, двумя королевами – Сиршей…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2044",
+      "publishedAt": "2018-12-19"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-2225",
+      "title": "«Две королевы»: А вы точно сестры?",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2225",
+      "publishedAt": "2019-01-21"
     }
   ],
   "tmdb:507076": [
@@ -7381,6 +7770,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "слэшер"
       ],
       "publishedAt": "2025-04-08"
+    }
+  ],
+  "tmdb:451915": [
+    {
+      "id": "tg-cinemaholicsofficial-2221",
+      "title": "«Красивый мальчик»: Зачем причины, когда есть метамфетамин",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2221",
+      "publishedAt": "2019-01-20"
     }
   ],
   "tmdb:452832": [
@@ -7496,6 +7898,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-02-27"
     }
   ],
+  "tmdb:475132": [
+    {
+      "id": "tg-cinemaholicsofficial-2530",
+      "title": "«Частная война»: Зона отчуждения",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2530",
+      "publishedAt": "2019-03-07"
+    }
+  ],
   "tmdb:520922": [
     {
       "id": "tg-cinemaholicsofficial-2574",
@@ -7518,17 +7933,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/5315",
       "publishedAt": "2019-04-13"
-    },
+    }
+  ],
+  "tmdb:431017": [
     {
-      "id": "tg-cinemaholicsofficial-2524",
-      "title": "«Окно в Европу-2018». Фестивальный дневник, часть 2",
+      "id": "tg-cinemaholicsofficial-2686",
+      "title": "Клер Дени о любви, Ролане Барте и фильме «Впусти солнце»",
       "author": "Cinemaholics",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/cinemaholicsofficial/2524",
-      "publishedAt": "2019-03-06"
+      "url": "https://t.me/cinemaholicsofficial/2686",
+      "publishedAt": "2019-04-11"
     }
   ],
   "tmdb:535581": [
@@ -7700,6 +8117,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-04-30"
     }
   ],
+  "tmdb:509364": [
+    {
+      "id": "tg-cinemaholicsofficial-2762",
+      "title": "Life imitates art. Сходила сегодня во второй раз на «По воле божьей» Франсуа Озона. Там…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2762",
+      "publishedAt": "2019-05-01"
+    }
+  ],
   "imdb:tt1869454": [
     {
       "id": "tg-kinopoisk-6260",
@@ -7781,6 +8211,54 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinemaholicsofficial/2855",
       "publishedAt": "2019-05-19"
+    }
+  ],
+  "tmdb:599377": [
+    {
+      "id": "tg-cinemaholicsofficial-2870",
+      "title": "Жара пошла, мы посмотрели 50-ти минутный «Вечный свет» Гаспара Ноэ. Ну что, готовьтесь.…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2870",
+      "publishedAt": "2019-05-21"
+    },
+    {
+      "id": "tg-kinopoisk-16103",
+      "title": "Что смотреть дома: Второй спецэпизод «Эйфории», «Вечный свет», «Это грех» — Статьи на Ки…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4003905",
+      "publishedAt": "2021-01-22"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-5949",
+      "title": "Гаспар Ноэ о фильме «Вечный свет»: «Чтобы погрузиться в видения, я предпочитаю стробоскоп»",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/5949",
+      "publishedAt": "2020-12-27"
+    }
+  ],
+  "tmdb:531309": [
+    {
+      "id": "tg-cinemaholicsofficial-2879",
+      "title": "Новости внеземных цивилизаций. Посмотрела художественную ленту «Гори, гори ясно» продюсе…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/2879",
+      "publishedAt": "2019-05-22"
     }
   ],
   "tmdb:447404": [
@@ -8027,6 +8505,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-12-06"
     }
   ],
+  "tmdb:475303": [
+    {
+      "id": "tg-cinemaholicsofficial-3467",
+      "title": "Сегодня в прокат вышел новый фильм Вуди Аллена «Дождливый день в Нью-Йорке» с Тимоти Шал…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/3467",
+      "publishedAt": "2019-10-10"
+    },
+    {
+      "id": "tg-kinopoisk-53786",
+      "title": "🍁 Осень диктует, что посмотреть: не спорим и включаем «Дождливый день в Нью-Йорке» — на…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/53786",
+      "tags": [
+        "фильмнавыходные"
+      ],
+      "publishedAt": "2026-09-05"
+    }
+  ],
   "tmdb:565310": [
     {
       "id": "tg-kinopoisk-12585",
@@ -8184,7 +8689,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-02-01"
     }
   ],
-  "tmdb:291290": [
+  "tmdb:443791": [
     {
       "id": "tg-cinemaholicsofficial-3856",
       "title": "С утра пораньше посмотрела клаустрофобный триллер «Под водой» с Кристен нашей Стюарт, Ве…",
@@ -8518,39 +9023,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-11-04"
     }
   ],
-  "tmdb:580175": [
+  "imdb:tt2426188": [
     {
-      "id": "tg-kinopoisk-14775",
-      "title": "Почему «Еще по одной» не просто алкокомедия, а пронзительное исследование кризиса средне…",
-      "author": "Кинопоиск | Фильмы и сериалы",
+      "id": "tg-cinemaholicsofficial-5752",
+      "title": "Дивный новый квир: 5 важных фильмов фестиваля «Бок о Бок»",
+      "author": "Cinemaholics",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/14775",
-      "publishedAt": "2020-11-23"
-    },
-    {
-      "id": "tg-kinopoisk-34929",
-      "title": "Фильм дня — «Еще по одной» (18+) Томаса Винтерберга🍻",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/34929",
-      "publishedAt": "2023-09-19"
-    },
-    {
-      "id": "tg-kinopoisk-17871",
-      "title": "Почему ДиКаприо раскритиковали за ремейк «Еще по одной» и какие еще оскаровские фильмы п…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/17871",
-      "publishedAt": "2021-04-27"
+      "url": "https://t.me/cinemaholicsofficial/5752",
+      "publishedAt": "2020-11-15"
     }
   ],
   "tmdb:435615": [
@@ -8564,17 +9047,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/18227",
       "publishedAt": "2021-05-20"
-    },
-    {
-      "id": "tg-kinopoisk-15525",
-      "title": "Что смотреть дома: «Полночное небо», «В чужой шкуре», «2020, тебе конец!» — Статьи на Ки…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4003756",
-      "publishedAt": "2020-12-25"
     },
     {
       "id": "tg-cinemaholicsofficial-5777",
@@ -8623,6 +9095,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-06-10"
     }
   ],
+  "tmdb:399170": [
+    {
+      "id": "tg-kinopoisk-40271",
+      "title": "#ФильмДня — «Удача Логана», криминальная комедия, в которой главные роли сыграли Ченнинг…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/40271",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-07-22"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-6016",
+      "title": "«Удача Логана»: О, вот же ты, брат",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/6016",
+      "publishedAt": "2021-01-14"
+    }
+  ],
   "tmdb:46738": [
     {
       "id": "tg-kinopoisk-43644",
@@ -8659,6 +9158,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/10635",
       "publishedAt": "2020-04-29"
+    }
+  ],
+  "tmdb:458576": [
+    {
+      "id": "tg-cinemaholicsofficial-6065",
+      "title": "Едва выжили на фильме «Охотник на монстров» — ещё одной видеоигровой экранизации от Пола…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/6065",
+      "publishedAt": "2021-01-26"
+    },
+    {
+      "id": "tg-kinopoisk-13720",
+      "title": "​​​​​А вот что Йовович и режиссер Пол У. С. Андерсон рассказали о фильме (и не только) н…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/13720",
+      "publishedAt": "2020-10-03"
+    },
+    {
+      "id": "tg-kinopoisk-11327",
+      "title": "​​В сети появился новый кадр из фильма «Охотник на монстров» с Милой Йовович. Главная ге…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11327",
+      "publishedAt": "2020-06-09"
     }
   ],
   "tmdb:615643": [
@@ -8815,6 +9349,76 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/23093",
       "publishedAt": "2022-01-30"
+    }
+  ],
+  "tmdb:580175": [
+    {
+      "id": "tg-kinopoisk-14775",
+      "title": "Почему «Еще по одной» не просто алкокомедия, а пронзительное исследование кризиса средне…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/14775",
+      "publishedAt": "2020-11-23"
+    },
+    {
+      "id": "tg-kinopoisk-34929",
+      "title": "Фильм дня — «Еще по одной» (18+) Томаса Винтерберга🍻",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/34929",
+      "publishedAt": "2023-09-19"
+    },
+    {
+      "id": "tg-kinopoisk-17871",
+      "title": "Почему ДиКаприо раскритиковали за ремейк «Еще по одной» и какие еще оскаровские фильмы п…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/17871",
+      "publishedAt": "2021-04-27"
+    }
+  ],
+  "tmdb:503736": [
+    {
+      "id": "tg-kinopoisk-18408",
+      "title": "Как в «Армии мертвецов» сочетаются фильм-ограбление, драма про плохого отца и традиционн…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/18408",
+      "publishedAt": "2021-05-31"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-7261",
+      "title": "«Армия мертвецов» заставляет задаться вопросом, сколько же мы лет прожили-то без ядреных…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/7261",
+      "publishedAt": "2021-05-22"
+    },
+    {
+      "id": "tg-kinopoisk-17867",
+      "title": "И снова про «Армию мертвецов» Зака Снайдера. На конференции Justice Con режиссер рассказ…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/17867",
+      "publishedAt": "2021-04-27"
     }
   ],
   "tmdb:414453": [
@@ -9154,6 +9758,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-06-02"
     }
   ],
+  "tmdb:10326": [
+    {
+      "id": "tg-cinemaholicsofficial-9755",
+      "title": "Продолжаем нашу новую рубрику #cnmh_directors, в которой мы рассказываем о малоизвестных…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/9755",
+      "tags": [
+        "cnmh_directors"
+      ],
+      "publishedAt": "2021-11-26"
+    }
+  ],
   "imdb:tt13819960": [
     {
       "id": "tg-kinopoisk-22265",
@@ -9284,6 +9904,67 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/22366",
       "publishedAt": "2021-12-15"
+    }
+  ],
+  "tmdb:597208": [
+    {
+      "id": "tg-kinopoisk-22002",
+      "title": "​Потихоньку собираем реакции на «Аллею кошмаров» Гильермо дель Торо. Одни хвалят фильм з…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/22002",
+      "publishedAt": "2021-12-02"
+    },
+    {
+      "id": "tg-kinopoisk-23266",
+      "title": "Какие главные мотивы нуара повторяет Гильермо дель Торо в «Аллее кошмаров»? Критикует ли…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/23266",
+      "publishedAt": "2022-02-07"
+    },
+    {
+      "id": "tg-cinemaholicsofficial-10573",
+      "title": "А теперь немного о самой «Аллее кошмаров» — фильме, который наверняка ждёт та же судьба,…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/10573",
+      "publishedAt": "2022-01-21"
+    }
+  ],
+  "imdb:tt13659418": [
+    {
+      "id": "tg-cinemaholicsofficial-10782",
+      "title": "ТВ-календарь: февраль",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/10782",
+      "publishedAt": "2022-02-03"
+    }
+  ],
+  "tmdb:807862": [
+    {
+      "id": "tg-cinemaholicsofficial-10886",
+      "title": "Берлинале открыл фильм Франсуа Озона «Петер фон Кант», но я решила двинуть в этот день н…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/10886",
+      "publishedAt": "2022-02-12"
     }
   ],
   "tmdb:1396": [
@@ -9997,6 +10678,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-08-17"
     }
   ],
+  "tmdb:1254808": [
+    {
+      "id": "tg-cinemaholicsofficial-28263",
+      "title": "В четверг в прокат выходит «Новая волна» Ричарда Линклейтера — о том, как Годар снимал «…",
+      "author": "Cinemaholics",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinemaholicsofficial/28263",
+      "publishedAt": "2025-11-04"
+    }
+  ],
   "tmdb:1221061": [
     {
       "id": "tg-cinemaholicsofficial-28548",
@@ -10677,6 +11371,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-10-20"
     }
   ],
+  "tmdb:225": [
+    {
+      "id": "tg-kinopoisk-188",
+      "title": "Антисоциалистический фарс: Советская кинокритика о премии «Оскар» — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "article",
+      "url": "https://kinopoisk.ru/article/2900824",
+      "publishedAt": "2017-02-25"
+    }
+  ],
   "tmdb:313369": [
     {
       "id": "tg-kinopoisk-53509",
@@ -10862,6 +11569,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/232",
       "publishedAt": "2017-03-03"
+    }
+  ],
+  "tmdb:10780": [
+    {
+      "id": "tg-kinopoisk-259",
+      "title": "Анна Фэрис сыграет в ремейке фильма «За бортом» — Новости на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/259",
+      "publishedAt": "2017-03-07"
     }
   ],
   "tmdb:254": [
@@ -11542,17 +12262,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt2306299": [
     {
-      "id": "tg-kinopoisk-17201",
-      "title": "Звезда «Викингов» Лоуренс О’Фуорейн снимется в сериале «Ведьмак: Происхождение», приквел…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/17201",
-      "publishedAt": "2021-03-26"
-    },
-    {
       "id": "tg-kinopoisk-24288",
       "title": "От байопика об утечке секс-видео и спин-оффа «Викингов» до антиутопии Бена Стиллера про…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -11573,6 +12282,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/14987",
       "publishedAt": "2020-12-01"
+    },
+    {
+      "id": "tg-kinopoisk-40277",
+      "title": "Шальная византийская императрица. Софья Лебедева — о съемках в сериале Netflix «Викинги:…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4009704",
+      "publishedAt": "2024-07-23"
     }
   ],
   "tmdb:371638": [
@@ -11623,6 +12343,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/18477",
       "publishedAt": "2021-06-03"
+    }
+  ],
+  "tmdb:82123": [
+    {
+      "id": "tg-kinopoisk-1047",
+      "title": "«Картина дня» 100 лет назад: «Корниловщина», «Распутин» и обезьяна-звезда — Статьи на Ки…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/article/3039033",
+      "publishedAt": "2017-09-18"
     }
   ],
   "imdb:tt3398228": [
@@ -11692,6 +12425,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "понимайкино"
       ],
       "publishedAt": "2017-09-29"
+    }
+  ],
+  "tmdb:229": [
+    {
+      "id": "tg-seance2330-704",
+      "title": "\"Невеста Франкенштейна\" (1935) - мощный сиквел, дополняющий оригинал крепкими идеями кни…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/704",
+      "publishedAt": "2024-10-17"
+    },
+    {
+      "id": "tg-kinopoisk-1136",
+      "title": "Съемки «Невесты Франкенштейна» с Джоли отложили из-за проблем со сценарием",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/1136",
+      "publishedAt": "2017-10-06"
     }
   ],
   "tmdb:312221": [
@@ -11993,6 +12750,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2017-11-26"
     }
   ],
+  "tmdb:37495": [
+    {
+      "id": "tg-kinopoisk-1400",
+      "title": "Постановщик черной комедии «Четыре льва» тайно снял свой второй фильм — Новости на Киноп…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/1400",
+      "publishedAt": "2017-11-28"
+    }
+  ],
   "tmdb:446354": [
     {
       "id": "tg-a_researcher-254",
@@ -12226,6 +12996,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/article/3098953",
       "publishedAt": "2017-12-26"
+    }
+  ],
+  "tmdb:11240": [
+    {
+      "id": "tg-kinopoisk-1565",
+      "title": "Мелодрама Стивена Фрирза «Моя прекрасная прачечная» превратится в сериал — Новости на Ки…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/1565",
+      "publishedAt": "2018-01-11"
     }
   ],
   "imdb:tt0054518": [
@@ -12731,6 +13514,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-02-21"
     }
   ],
+  "tmdb:11849": [
+    {
+      "id": "tg-kinopoisk-16565",
+      "title": "​​Новости кастинга. Максимально коротко:",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16565",
+      "publishedAt": "2021-02-17"
+    },
+    {
+      "id": "tg-kinopoisk-15287",
+      "title": "Крис Пайн снимется в адаптации «Dungeons & Dragons». Сейчас с актером ведут переговоры п…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/15287",
+      "publishedAt": "2020-12-15"
+    },
+    {
+      "id": "tg-kinopoisk-16819",
+      "title": "Хью Грант сыграет главного злодея в экранизации «Dungeons & Dragons». Вместе с ним к акт…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16819",
+      "publishedAt": "2021-03-03"
+    }
+  ],
   "tmdb:375588": [
     {
       "id": "tg-kinopoisk-1835",
@@ -12842,41 +13660,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/1895",
       "publishedAt": "2018-03-12"
-    }
-  ],
-  "tmdb:264644": [
-    {
-      "id": "tg-kinopoisk-35555",
-      "title": "Фильм дня — «Комната».",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/35555",
-      "publishedAt": "2023-10-23"
-    },
-    {
-      "id": "tg-kinopoisk-1915",
-      "title": "Культ «Комнаты»: как появился худший фильм в истории — Статьи на Кинопоиске",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/article/3141689",
-      "publishedAt": "2018-03-15"
-    },
-    {
-      "id": "tg-kinopoisk-52632",
-      "title": "О, привет, Марк! Тут сделали ремейк «Комнаты», в котором вместо Томми Вайсо — Боб Оденкё…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/52632",
-      "publishedAt": "2026-06-19"
     }
   ],
   "tmdb:10340": [
@@ -13666,6 +14449,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-09-12"
     }
   ],
+  "tmdb:291984": [
+    {
+      "id": "tg-kinopoisk-3119",
+      "title": "Торонто-2018: «Смерть и жизнь Джона Ф. Донована»: Ксавье Долан препарирует знаменитостей",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/3119",
+      "publishedAt": "2018-09-12"
+    }
+  ],
   "tmdb:490132": [
     {
       "id": "tg-kinopoisk-38185",
@@ -14136,6 +14932,42 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-02-15"
     }
   ],
+  "imdb:tt8416494": [
+    {
+      "id": "tg-kinopoisk-11802",
+      "title": "Почему сериал «Роковой патруль» — самая изобретательная экранизация супергеройского коми…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11802",
+      "publishedAt": "2020-07-04"
+    },
+    {
+      "id": "tg-kinopoisk-35364",
+      "title": "Новый сезон «Рокового патруля» — новые безумства. А что было в предыдущих сериях? — Стат…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007152",
+      "publishedAt": "2023-10-12"
+    },
+    {
+      "id": "tg-kinopoisk-31427",
+      "title": "Все когда-нибудь заканчивается. Четвертые сезоны сериалов «Титаны» и «Роковой патруль» б…",
+      "author": "Кинопоиск | Новости",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/31427",
+      "publishedAt": "2023-01-26",
+      "season": 4
+    }
+  ],
   "imdb:tt7529770": [
     {
       "id": "tg-kinopoisk-4569",
@@ -14279,6 +15111,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/5361",
       "publishedAt": "2019-04-15"
+    }
+  ],
+  "imdb:tt8398600": [
+    {
+      "id": "tg-kinopoisk-4915",
+      "title": "Подкаст «В предыдущих сериях»: «Жизнь после смерти» Рики Джервэйса",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/4915",
+      "publishedAt": "2019-03-30"
     }
   ],
   "tmdb:747": [
@@ -14562,6 +15407,47 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/6657",
       "publishedAt": "2019-06-20"
+    }
+  ],
+  "tmdb:560008": [
+    {
+      "id": "tg-a_researcher-158",
+      "title": "Если объединить фотографию, социум, химикаты и Японию, то... Один из вариантов — получат…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/158",
+      "tags": [
+        "reкоммэндэйшн",
+        "био"
+      ],
+      "publishedAt": "2023-10-18"
+    },
+    {
+      "id": "tg-kinopoisk-5916",
+      "title": "Вы могли пропустить это, но Джонни Депп наконец-то сыграл в кино простого человека! Попр…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/5916",
+      "publishedAt": "2019-05-15"
+    }
+  ],
+  "tmdb:522373": [
+    {
+      "id": "tg-kinopoisk-6050",
+      "title": "«Молодой Ахмед» братьев Дарденн: Мальчик с Кораном",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/6050",
+      "publishedAt": "2019-05-21"
     }
   ],
   "tmdb:5723": [
@@ -14935,17 +15821,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:334": [
     {
-      "id": "tg-shishkino-23945",
-      "title": "Прочитал роман Алекса Гарленда «Тессеракт» (1998) и это, конечно, поразительно, наскольк…",
-      "author": "ШишКИНО",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/shishkino/23945",
-      "publishedAt": "2026-05-30"
-    },
-    {
       "id": "tg-kinopoisk-7213",
       "title": "Что угодно можете говорить про Тома Круза, но три номинации у него было: за «Магнолию»,…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -15009,22 +15884,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/15230",
       "publishedAt": "2020-12-10"
-    }
-  ],
-  "tmdb:9800": [
-    {
-      "id": "tg-kinopoisk-7386",
-      "title": "Лиам три раза был на Золотом глобусе — за роли в «Докторе Кинси», «Майкле Коллинзе», «Сп…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/7386",
-      "tags": [
-        "нетоскара"
-      ],
-      "publishedAt": "2019-08-20"
     }
   ],
   "tmdb:524251": [
@@ -15138,6 +15997,74 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 16
     }
   ],
+  "tmdb:399121": [
+    {
+      "id": "tg-kinopoisk-36288",
+      "title": "В эфире рубрика #КиноПоПятницам на Кинопоиске. Сегодня смотрим фильм «Офицер и шпион» Ро…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36288",
+      "tags": [
+        "кинопопятницам"
+      ],
+      "publishedAt": "2023-12-01"
+    },
+    {
+      "id": "tg-kinopoisk-7569",
+      "title": "«Офицер и шпион» Романа Поланского: «дело Дрейфуса» для школьников — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/3406802",
+      "tags": [
+        "венеция2019"
+      ],
+      "publishedAt": "2019-08-30"
+    },
+    {
+      "id": "tg-kinopoisk-11755",
+      "title": "⚔️ #ФильмНаВечер — исторический детектив Романа Поланского «Офицер и шпион», который пол…",
+      "author": "Плюс Медиа",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11755",
+      "tags": [
+        "фильмнавечер"
+      ],
+      "publishedAt": "2020-07-01"
+    }
+  ],
+  "tmdb:582873": [
+    {
+      "id": "tg-kinopoisk-7676",
+      "title": "«Мартин Иден» Пьетро Марчелло: Великая красота Джека Лондона — Статьи на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/7676",
+      "publishedAt": "2019-09-06"
+    },
+    {
+      "id": "tg-kinopoisk-24334",
+      "title": "Драма Пьетро Марчелло («Мартин Иден») «Скарлет» станет фильмом открытия секции «Двухнеде…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/24334",
+      "publishedAt": "2022-04-15"
+    }
+  ],
   "tmdb:26638": [
     {
       "id": "tg-kinopoisk-7690",
@@ -15165,17 +16092,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "imdb:tt6470478": [
-    {
-      "id": "tg-kinopoisk-30505",
-      "title": "На Кинопоиске стал доступен южнокорейский сериал «Хороший доктор» о враче с расстройство…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/30505",
-      "publishedAt": "2022-11-27"
-    },
     {
       "id": "tg-kinopoisk-10000",
       "title": "Что смотреть в кино: «Бладшот», «Пиноккио» и «Хороший доктор» — Статьи на КиноПоиске",
@@ -15274,6 +16190,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/TSYQoO0vFL8/hqdefault.jpg",
       "publishedAt": "2023-05-17",
       "durationMinutes": 15
+    }
+  ],
+  "imdb:tt0489974": [
+    {
+      "id": "tg-kinopoisk-8065",
+      "title": "Как «Карнивал Роу» рассказывает об актуальных политических и социальных проблемах через…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/8065",
+      "publishedAt": "2019-10-15"
+    }
+  ],
+  "tmdb:14043": [
+    {
+      "id": "tg-kinopoisk-8070",
+      "title": "Настоящий детектив: Кто такая Нэнси Дрю? — Статьи на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/8070",
+      "publishedAt": "2019-10-16"
     }
   ],
   "tmdb:3083": [
@@ -15666,17 +16608,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/9224",
       "publishedAt": "2020-01-23"
-    },
-    {
-      "id": "tg-kinopoisk-22340",
-      "title": "Тарантино для детей: что известно о мультфильме-ограблении «Плохие парни»",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/22340",
-      "publishedAt": "2021-12-14"
     }
   ],
   "tmdb:97370": [
@@ -15735,6 +16666,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "unverified": true,
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/9352",
+      "publishedAt": "2020-01-31"
+    }
+  ],
+  "tmdb:473033": [
+    {
+      "id": "tg-kinopoisk-9353",
+      "title": "Почему нельзя пропустить «Неограненные драгоценности» братьев Сэфди — Статьи на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/9353",
       "publishedAt": "2020-01-31"
     }
   ],
@@ -16023,17 +16967,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/9924",
       "publishedAt": "2020-03-05"
-    },
-    {
-      "id": "tg-cinema1909-1782",
-      "title": "Великая магия Федерико Феллини — с 27 мая по 2 июня в «Художественном»!",
-      "author": "Кинотеатр «Художественный»",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/cinema1909/1782",
-      "publishedAt": "2024-05-17"
     }
   ],
   "tmdb:460465": [
@@ -16309,7 +17242,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-08-24"
     }
   ],
+  "imdb:tt9446688": [
+    {
+      "id": "tg-kinopoisk-10338",
+      "title": "Как инди-комикс «Мне это не нравится» стал хитом Netflix — Подкасты на Кинопоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/10338",
+      "publishedAt": "2020-04-10"
+    }
+  ],
   "imdb:tt11012384": [
+    {
+      "id": "tg-avtorskayakomnata-35",
+      "title": "‎Авторская комната: S02e16 - Василий Павлов: \"Зулейха открывает глаза\", дефицит креативн…",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/35",
+      "publishedAt": "2020-05-07",
+      "season": 2,
+      "episode": 16
+    },
     {
       "id": "tg-kinopoisk-10578",
       "title": "Депутат Госдумы попросил Генпрокуратуру проверить сериал «Зулейха открывает глаза»",
@@ -16331,17 +17290,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/10477",
       "publishedAt": "2020-04-19"
-    },
-    {
-      "id": "tg-kinopoisk-10378",
-      "title": "«Зулейха открывает глаза»: Сериал про репрессии, Сибирь и женскую эмансипацию — Статьи н…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/10378",
-      "publishedAt": "2020-04-14"
     }
   ],
   "tmdb:3040": [
@@ -16421,6 +17369,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/11840",
       "publishedAt": "2020-07-07"
+    }
+  ],
+  "tmdb:3604": [
+    {
+      "id": "tg-kinopoisk-10542",
+      "title": "«Это фильм об Эго»: Что Джеймс Ганн рассказал о «Стражах Галактики 2»",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/10542",
+      "publishedAt": "2020-04-24"
     }
   ],
   "imdb:tt9827854": [
@@ -16624,6 +17585,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-06-01"
     }
   ],
+  "imdb:tt8420184": [
+    {
+      "id": "tg-kinopoisk-10897",
+      "title": "Сериал «Последний танец»: Бешеный док о Майкле Джордане и баскетболе 90-х — Статьи на Ки…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/10897",
+      "publishedAt": "2020-05-18"
+    },
+    {
+      "id": "tg-kinopoisk-12501",
+      "title": "Forbes назвал самые популярные шоу лета на Netflix. Среди них «Последний танец» и «Офис»",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12501",
+      "publishedAt": "2020-08-08"
+    }
+  ],
   "imdb:tt0264292": [
     {
       "id": "tg-kinopoisk-10929",
@@ -16635,17 +17620,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/10929",
       "publishedAt": "2020-05-20"
-    },
-    {
-      "id": "tg-kinopoisk-33603",
-      "title": "«Противостояние»: первый и последний советский сериал про серийного убийцу и распад всег…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4008018",
-      "publishedAt": "2023-06-25"
     }
   ],
   "tmdb:165": [
@@ -16774,6 +17748,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/11164",
       "publishedAt": "2020-06-01"
+    }
+  ],
+  "tmdb:522212": [
+    {
+      "id": "tg-kinopoisk-11200",
+      "title": "Warner Bros. открыла бесплатный доступ к фильму «Просто помиловать» в знак протеста прот…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11200",
+      "publishedAt": "2020-06-02"
     }
   ],
   "tmdb:440626": [
@@ -16945,6 +17932,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-06-15"
     }
   ],
+  "imdb:tt5853176": [
+    {
+      "id": "tg-kinopoisk-11486",
+      "title": "Почему «Хорошая борьба» — самый смелый на сегодня политический сериал на американском ТВ…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11486",
+      "publishedAt": "2020-06-17"
+    }
+  ],
   "tmdb:76203": [
     {
       "id": "tg-kinopoisk-35458",
@@ -17031,6 +18031,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-06-24"
     }
   ],
+  "tmdb:292399": [
+    {
+      "id": "tg-kinopoisk-11635",
+      "title": "Аристарх Венес о сериале «Водоворот» | с 27 июня на КиноПоиск HD",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11635",
+      "publishedAt": "2020-06-25"
+    },
+    {
+      "id": "tg-kinopoisk-12046",
+      "title": "Алена Михайлова из «Водоворота» — о Мухе, абьюзе и умении говорить «нет» — Статьи на Кин…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12046",
+      "publishedAt": "2020-07-16"
+    },
+    {
+      "id": "tg-kinopoisk-12073",
+      "title": "В ожидании новых эпизодов сериала «Водоворот», мы запустили специального бота в телеграм…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12073",
+      "publishedAt": "2020-07-17"
+    }
+  ],
   "tmdb:77987": [
     {
       "id": "tg-kinopoisk-39250",
@@ -17112,17 +18147,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-08-25"
     },
     {
-      "id": "tg-kinopoisk-30651",
-      "title": "Почему Лиза не включила в свой список «Хорошую жену», а Ваня поставил на первое место «С…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "link",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/30651",
-      "publishedAt": "2022-12-03"
-    },
-    {
       "id": "tg-kinopoisk-11833",
       "title": "Стэн и Зус из «Гравити Фолз» появились в мультсериале «Амфибия». Ну, или почти. В новом…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -17131,6 +18155,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "evidence": "link",
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/11833",
+      "publishedAt": "2020-07-07"
+    },
+    {
+      "id": "tg-kinopoisk-32567",
+      "title": "От «Гравити Фолз» до «Дела Принципа»: 5 комиксов для тех, кто их не читает — Статьи на К…",
+      "author": "Яндекс Книги",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007678",
+      "publishedAt": "2023-04-08"
+    }
+  ],
+  "tmdb:417384": [
+    {
+      "id": "tg-kinopoisk-11846",
+      "title": "👻 #ФильмНаВечер — «Страшные истории для рассказа в темноте», снятые по мотивам сборника…",
+      "author": "Плюс Медиа",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11846",
+      "tags": [
+        "фильмнавечер"
+      ],
       "publishedAt": "2020-07-07"
     }
   ],
@@ -17208,7 +18259,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-07-09"
     }
   ],
-  "tmdb:137": [
+  "tmdb:16614": [
+    {
+      "id": "tg-kinopoisk-11920",
+      "title": "🎡 #ФильмНаВечер — комедийная мелодрама «Парк культуры и отдыха» с Джесси Айзенбергом и…",
+      "author": "Плюс Медиа",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/11920",
+      "tags": [
+        "фильмнавечер"
+      ],
+      "publishedAt": "2020-07-10"
+    }
+  ],
+  "tmdb:587792": [
     {
       "id": "tg-kinopoisk-11965",
       "title": "«Зависнуть в Палм-Спрингс»: Как курортный «День сурка» оживил ромком — Статьи на Кинопои…",
@@ -17221,15 +18288,29 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-07-14"
     },
     {
-      "id": "tg-kinopoisk-14434",
-      "title": "«КиноПоиску» — 17 лет! Редакция вспоминает свои любимые фильмы юности: «День сурка», Тар…",
+      "id": "tg-kinopoisk-34371",
+      "title": "«Зависнуть в Палм-Спрингс» — идеальный фильм на вечер летом!",
       "author": "Кинопоиск | Фильмы и сериалы",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/14434",
-      "publishedAt": "2020-11-07"
+      "url": "https://t.me/kinopoisk/34371",
+      "tags": [
+        "летоскинопоиском"
+      ],
+      "publishedAt": "2023-08-13"
+    },
+    {
+      "id": "tg-ubobra-182",
+      "title": "​​Сперва лениво, сейчас уже с воодушевлением смотрю сериальчик Resort (причем, кажется,…",
+      "author": "зельвенский",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/ubobra/182",
+      "publishedAt": "2022-08-19"
     }
   ],
   "tmdb:1213": [
@@ -17363,6 +18444,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-07-20"
     }
   ],
+  "tmdb:556984": [
+    {
+      "id": "tg-kinopoisk-12177",
+      "title": "Первые кадры из драмы Аарон Соркина «Дело чикагской семерки».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12177",
+      "publishedAt": "2020-07-22"
+    }
+  ],
   "tmdb:26388": [
     {
       "id": "tg-kinopoisk-12203",
@@ -17427,6 +18521,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-22"
     }
   ],
+  "tmdb:264644": [
+    {
+      "id": "tg-kinopoisk-35555",
+      "title": "Фильм дня — «Комната».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/35555",
+      "publishedAt": "2023-10-23"
+    },
+    {
+      "id": "tg-kinopoisk-12294",
+      "title": "Что выходит на КиноПоиск HD в августе: Весь Миядзаки, «Комната» и «Битые пиксели» — Стат…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12294",
+      "publishedAt": "2020-07-28"
+    }
+  ],
   "tmdb:504605": [
     {
       "id": "tg-kinopoisk-12295",
@@ -17441,6 +18559,42 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмнавечер"
       ],
       "publishedAt": "2020-07-28"
+    }
+  ],
+  "imdb:tt6905686": [
+    {
+      "id": "tg-kinopoisk-12666",
+      "title": "«Страна Лавкрафта»: экспериментальный хоррор о борьбе с расистами и другими монстрами —…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12666",
+      "publishedAt": "2020-08-17"
+    },
+    {
+      "id": "tg-kinopoisk-20108",
+      "title": "Виктория Махони («Страна Лавкрафта») снимет сиквел «Бессмертной гвардии» с Шарлиз Терон.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/20108",
+      "publishedAt": "2021-08-27"
+    },
+    {
+      "id": "tg-kinopoisk-19099",
+      "title": "«Страну Лавкрафта» не продлили на второй сезон.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/19099",
+      "publishedAt": "2021-07-03",
+      "season": 2
     }
   ],
   "imdb:tt0840196": [
@@ -17491,6 +18645,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-11-13"
     }
   ],
+  "tmdb:35412": [
+    {
+      "id": "tg-kinopoisk-12592",
+      "title": "💦 #ФильмНаВечер — драма «На берегу», экранизация одноименного романа Иэна Макьюэна. Эду…",
+      "author": "Плюс Медиа",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12592",
+      "tags": [
+        "фильмнавечер"
+      ],
+      "publishedAt": "2020-08-13"
+    }
+  ],
   "tmdb:9540": [
     {
       "id": "tg-kinopoisk-12698",
@@ -17513,6 +18683,45 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/725",
       "publishedAt": "2024-11-22"
+    }
+  ],
+  "imdb:tt2304589": [
+    {
+      "id": "tg-kinopoisk-12707",
+      "title": "Почему «Защищая Джейкоба» стал одним из главных прорывов нового стриминга Apple? В чем з…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/12707",
+      "publishedAt": "2020-08-19"
+    },
+    {
+      "id": "tg-logovofilologa-50",
+      "title": "Короче, досмотрела я вчера «Защищая Джейкоба». Крепкий сериал на 4-ку, смотрибельный, по…",
+      "author": "Логово Филолога",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/logovofilologa/50",
+      "publishedAt": "2024-07-26"
+    },
+    {
+      "id": "tg-a_researcher-258",
+      "title": "Весна 2020: из-за пандемии почти все сидят дома, а стриминги переживают неслыханный рост…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/258",
+      "tags": [
+        "reкоммэндэйшн",
+        "streaming"
+      ],
+      "publishedAt": "2024-06-22"
     }
   ],
   "tmdb:63899": [
@@ -17901,6 +19110,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-09-15"
     }
   ],
+  "tmdb:40085": [
+    {
+      "id": "tg-kinopoisk-13275",
+      "title": "Итан Хоук снимет документальный фильм о Поле Ньюмане и Джоэнн Вудворд — легендарной голл…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/13275",
+      "publishedAt": "2020-09-16"
+    }
+  ],
   "tmdb:586384": [
     {
       "id": "tg-kinopoisk-13290",
@@ -17927,6 +19149,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "unverified": true,
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/13314",
+      "publishedAt": "2020-09-17"
+    }
+  ],
+  "tmdb:241239": [
+    {
+      "id": "tg-kinopoisk-13318",
+      "title": "Что смотреть в кино: «После. Глава 2», «Антебеллум» и «Самый жестокий год» — Статьи на К…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/13318",
       "publishedAt": "2020-09-17"
     }
   ],
@@ -18067,6 +19302,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-09-25"
     }
   ],
+  "imdb:tt4277922": [
+    {
+      "id": "tg-kinopoisk-13624",
+      "title": "Как сериал «Десять процентов» показывает любовь французов к кино и чем он отличается от…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/13624",
+      "publishedAt": "2020-09-30"
+    }
+  ],
   "tmdb:581577": [
     {
       "id": "tg-kinopoisk-13637",
@@ -18168,7 +19416,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-10-06"
     }
   ],
-  "tmdb:274870": [
+  "imdb:tt13711860": [
     {
       "id": "tg-kinopoisk-13775",
       "title": "Карен Оганесян снимет для видеосервиса START сериал «Пассажиры». Главную роль в восьмисе…",
@@ -18179,17 +19427,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/13775",
       "publishedAt": "2020-10-06"
-    },
-    {
-      "id": "tg-alarm_cassettes-2301",
-      "title": "«Пассажир»: автостопом по травмам",
-      "author": "Тревожные кассеты",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/alarm_cassettes/2301",
-      "publishedAt": "2023-11-20"
     }
   ],
   "tmdb:517096": [
@@ -18437,19 +19674,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-10-26"
     }
   ],
-  "imdb:tt1043813": [
+  "imdb:tt8134470": [
     {
-      "id": "tg-kinopoisk-31427",
-      "title": "Все когда-нибудь заканчивается. Четвертые сезоны сериалов «Титаны» и «Роковой патруль» б…",
-      "author": "Кинопоиск | Новости",
+      "id": "tg-kinopoisk-14161",
+      "title": "Сериал «Отыграть назад»: Хью Грант превращается в американского психопата — Статьи на Ки…",
+      "author": "Кинопоиск",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/31427",
-      "publishedAt": "2023-01-26",
-      "season": 4
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4003170",
+      "publishedAt": "2020-10-26"
     },
+    {
+      "id": "tg-kinopoisk-14291",
+      "title": "Что смотреть дома: 2-й сезон «Мандалорца», «Отыграть назад», новый сериал Саймона Пегга…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4003224",
+      "publishedAt": "2020-10-30",
+      "season": 2
+    }
+  ],
+  "imdb:tt1043813": [
     {
       "id": "tg-kinopoisk-14201",
       "title": "Брайан Эдвард Хилл («Титаны») напишет новый фильм о «Могучих рейнджерах». Джонатан Энтви…",
@@ -18460,6 +19710,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/14201",
       "publishedAt": "2020-10-28"
+    }
+  ],
+  "tmdb:11772": [
+    {
+      "id": "tg-kinopoisk-14219",
+      "title": "Почему «Призрак дома на холме» — один из самых впечатляющих хорроров последних лет? Поче…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/14219",
+      "publishedAt": "2020-10-28"
+    }
+  ],
+  "tmdb:575463": [
+    {
+      "id": "tg-kinopoisk-14249",
+      "title": "Что смотреть в кино: «Ведьмы», «Вдова» и «Крестная мама» — Статьи на КиноПоиске",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/14249",
+      "publishedAt": "2020-10-29"
     }
   ],
   "tmdb:531219": [
@@ -18473,17 +19749,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4003228",
       "publishedAt": "2020-10-30"
-    },
-    {
-      "id": "tg-kinopoisk-14249",
-      "title": "Что смотреть в кино: «Ведьмы», «Вдова» и «Крестная мама» — Статьи на КиноПоиске",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/14249",
-      "publishedAt": "2020-10-29"
     }
   ],
   "tmdb:9479": [
@@ -18564,6 +19829,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-11-09"
     }
   ],
+  "tmdb:137": [
+    {
+      "id": "tg-kinopoisk-14434",
+      "title": "«КиноПоиску» — 17 лет! Редакция вспоминает свои любимые фильмы юности: «День сурка», Тар…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/14434",
+      "publishedAt": "2020-11-07"
+    }
+  ],
   "tmdb:184155": [
     {
       "id": "tg-kinopoisk-14485",
@@ -18634,19 +19912,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/16223",
       "publishedAt": "2021-01-29"
-    }
-  ],
-  "tmdb:21519": [
-    {
-      "id": "tg-kinopoisk-14678",
-      "title": "Дженнифер Гарнер и Зои Салдана снимутся с Райаном Рейнольдсом в фильме «Проект Адам». Шо…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/14678",
-      "publishedAt": "2020-11-18"
     }
   ],
   "imdb:tt10168312": [
@@ -18926,6 +20191,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-12-17"
     }
   ],
+  "imdb:tt9735318": [
+    {
+      "id": "tg-kinopoisk-15408",
+      "title": "Видео о документалке Питера Джексона «The Beatles: Get Back».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/15408",
+      "publishedAt": "2020-12-21"
+    }
+  ],
   "tmdb:589754": [
     {
       "id": "tg-kinopoisk-15455",
@@ -18987,6 +20265,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-01-08"
     }
   ],
+  "tmdb:614911": [
+    {
+      "id": "tg-kinopoisk-15525",
+      "title": "Что смотреть дома: «Полночное небо», «В чужой шкуре», «2020, тебе конец!» — Статьи на Ки…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4003756",
+      "publishedAt": "2020-12-25"
+    }
+  ],
   "tmdb:43430": [
     {
       "id": "tg-kinopoisk-15563",
@@ -19026,6 +20317,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:1416281": [
     {
+      "id": "tg-avtorskayakomnata-310",
+      "title": "S08e18 — Простоквашино",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/310",
+      "publishedAt": "2026-02-26"
+    },
+    {
       "id": "tg-kinopoisk-15778",
       "title": "«Ну, погоди!», «Простоквашино» и другие картины из золотой коллекции «Союзмультфильма» п…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -19035,6 +20337,46 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/15778",
       "publishedAt": "2021-01-06"
+    }
+  ],
+  "tmdb:654974": [
+    {
+      "id": "tg-kinopoisk-31058",
+      "title": "Почему «Один дома» не просто милая новогодняя комедия",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=DuLOwR0IRio",
+      "previewUrl": "https://i.ytimg.com/vi/DuLOwR0IRio/hqdefault.jpg",
+      "publishedAt": "2022-12-27",
+      "durationMinutes": 16
+    },
+    {
+      "id": "tg-horrorreview-885",
+      "title": "5 фильмов о женской мести",
+      "author": "Невнимательный зритель",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/horrorreview/885",
+      "tags": [
+        "подборка"
+      ],
+      "publishedAt": "2025-03-08"
+    },
+    {
+      "id": "tg-kinopoisk-15806",
+      "title": "«Один дома» — 35 лет! Вспоминаем историю создания культовой комедии — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4003787",
+      "publishedAt": "2021-01-07"
     }
   ],
   "tmdb:87786": [
@@ -19061,6 +20403,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/15900",
       "publishedAt": "2021-01-12"
+    }
+  ],
+  "tmdb:588228": [
+    {
+      "id": "tg-kinopoisk-19249",
+      "title": "Amazon ведет переговоры о сиквеле боевика «Война будущего» с Крисом Праттом. Крис МакКей…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/19249",
+      "publishedAt": "2021-07-09"
+    },
+    {
+      "id": "tg-kinopoisk-19080",
+      "title": "Что смотреть дома: «Без резких движений», «Война будущего», «Пол-литровая мышь» — Статьи…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4004772",
+      "publishedAt": "2021-07-02"
+    },
+    {
+      "id": "tg-kinopoisk-15911",
+      "title": "«Война будущего» с Крисом Праттом может выйти онлайн. Amazon готов заплатить за фильм 20…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/15911",
+      "publishedAt": "2021-01-13"
     }
   ],
   "imdb:tt10234724": [
@@ -19122,6 +20499,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-07-26"
     }
   ],
+  "tmdb:6951": [
+    {
+      "id": "tg-kinopoisk-16044",
+      "title": "МакДжи поставит пилот сериала «Тёрнер и Хуч», основанного на одноименной комедии с Томом…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16044",
+      "publishedAt": "2021-01-20"
+    }
+  ],
   "tmdb:507086": [
     {
       "id": "tg-kinopoisk-16079",
@@ -19179,6 +20569,41 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/24367",
       "publishedAt": "2022-04-18"
+    }
+  ],
+  "imdb:tt12785720": [
+    {
+      "id": "tg-kinopoisk-17201",
+      "title": "Звезда «Викингов» Лоуренс О’Фуорейн снимется в сериале «Ведьмак: Происхождение», приквел…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/17201",
+      "publishedAt": "2021-03-26"
+    },
+    {
+      "id": "tg-kinopoisk-16142",
+      "title": "Джоди Тёрнер-Смит исполнит главную роль в сериале «Ведьмак: Происхождение», приквеле одн…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16142",
+      "publishedAt": "2021-01-25"
+    },
+    {
+      "id": "tg-kinopoisk-19915",
+      "title": "Стали известны новые подробности о мини-сериале «Ведьмак: Происхождение».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/19915",
+      "publishedAt": "2021-08-16"
     }
   ],
   "imdb:tt8103070": [
@@ -19243,7 +20668,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-01-29"
     }
   ],
-  "imdb:tt11192306": [
+  "imdb:tt14068428": [
     {
       "id": "tg-kinopoisk-16268",
       "title": "Сериалы февраля: «Кларисса», «Супермен и Лоис» и «За час до рассвета» — Статьи на Кинопо…",
@@ -19254,17 +20679,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4003960",
       "publishedAt": "2021-02-01"
-    },
-    {
-      "id": "tg-kinopoisk-19251",
-      "title": "Что смотреть дома: «Супермен и Лоис», «Байкал. Удивительные приключения Юмы», «Сплетница…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4004795",
-      "publishedAt": "2021-07-09"
     }
   ],
   "imdb:tt8466564": [
@@ -19415,6 +20829,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-02-16"
     }
   ],
+  "tmdb:520946": [
+    {
+      "id": "tg-kinopoisk-16574",
+      "title": "Из озвучки мультфильма «100% Волк» уберут блогерку Дарью Затееву, известную в сети как I…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16574",
+      "publishedAt": "2021-02-17"
+    }
+  ],
   "imdb:tt10857164": [
     {
       "id": "tg-kinopoisk-26766",
@@ -19487,6 +20914,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-02-24"
     }
   ],
+  "tmdb:502033": [
+    {
+      "id": "tg-kinopoisk-16752",
+      "title": "Что смотреть дома: «Звук металла», «Никогда, редко, иногда, всегда», док про Билли Айлиш…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4004165",
+      "publishedAt": "2021-02-26"
+    }
+  ],
   "tmdb:138832": [
     {
       "id": "tg-kinopoisk-20994",
@@ -19524,7 +20964,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-02-26"
     }
   ],
-  "tmdb:333352": [
+  "tmdb:800815": [
+    {
+      "id": "tg-kinopoisk-21990",
+      "title": "Еще новости кастинга. К хоррору «Всевидящее око» Скотта Купера присоединились Джиллиан А…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/21990",
+      "publishedAt": "2021-12-02"
+    },
     {
       "id": "tg-kinopoisk-31198",
       "title": "«Всевидящее око»: готический детектив о ритуальных убийствах, поэзии и юности Эдгара Алл…",
@@ -19581,6 +21032,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/19631",
       "publishedAt": "2021-07-30"
+    }
+  ],
+  "tmdb:412656": [
+    {
+      "id": "tg-kinopoisk-16845",
+      "title": "Критики разгромили «Поступь хаоса» с Томом Холландом. Вот что они пишут",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/16845",
+      "publishedAt": "2021-03-04"
     }
   ],
   "imdb:tt15276418": [
@@ -19899,6 +21363,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4006861",
       "publishedAt": "2022-10-21"
+    }
+  ],
+  "tmdb:20379": [
+    {
+      "id": "tg-kinopoisk-17178",
+      "title": "Еще одна грустная новость. В возрасте 80 лет скончалась Джессика Уолтер, исполнительница…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/17178",
+      "publishedAt": "2021-03-26"
     }
   ],
   "tmdb:9008": [
@@ -20276,6 +21753,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4004724",
       "publishedAt": "2021-06-18"
+    }
+  ],
+  "tmdb:27371": [
+    {
+      "id": "tg-kinopoisk-17888",
+      "title": "Дэвид Кроненберг определился с новым фильмом: режиссер «Мухи» и «Порока на экспорт» пост…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/17888",
+      "publishedAt": "2021-04-28"
     }
   ],
   "imdb:tt13146488": [
@@ -20965,6 +22455,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-07-08"
     }
   ],
+  "imdb:tt11192306": [
+    {
+      "id": "tg-kinopoisk-19251",
+      "title": "Что смотреть дома: «Супермен и Лоис», «Байкал. Удивительные приключения Юмы», «Сплетница…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4004795",
+      "publishedAt": "2021-07-09"
+    }
+  ],
+  "imdb:tt21828868": [
+    {
+      "id": "tg-kinopoisk-19262",
+      "title": "Грета Гервиг («Леди Бёрд», «Маленькие женщины») станет режиссером фильма про куклу Барби!",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/19262",
+      "publishedAt": "2021-07-09"
+    }
+  ],
   "imdb:tt0397442": [
     {
       "id": "tg-kinopoisk-23691",
@@ -21279,6 +22795,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-09-13"
     }
   ],
+  "tmdb:595975": [
+    {
+      "id": "tg-kinopoisk-39895",
+      "title": "#ФильмДня — «Прекрасная эпоха» ⏳",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39895",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-06-27"
+    },
+    {
+      "id": "tg-kinopoisk-19769",
+      "title": "Гийом Кане («Прекрасная эпоха») сбрил усы, значит, съемки фильма «Астерикс и Обеликс: По…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/19769",
+      "publishedAt": "2021-08-07"
+    }
+  ],
   "tmdb:440642": [
     {
       "id": "tg-kinopoisk-19777",
@@ -21522,6 +23065,36 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-09-16"
     }
   ],
+  "tmdb:592813": [
+    {
+      "id": "tg-kinopoisk-20708",
+      "title": "Посмотрели на «Кинотавре» «Общагу» — режиссерский дебют Романа Васьянова, оператора «Отр…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/20708",
+      "tags": [
+        "кинотавр2021"
+      ],
+      "publishedAt": "2021-09-22"
+    },
+    {
+      "id": "tg-kinopoisk-20719",
+      "title": "«Общага»: советские студенты в поисках свободы — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4005156",
+      "tags": [
+        "кинотавр2021"
+      ],
+      "publishedAt": "2021-09-23"
+    }
+  ],
   "tmdb:281957": [
     {
       "id": "tg-kinopoisk-20829",
@@ -21702,6 +23275,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-01-06"
     }
   ],
+  "imdb:tt5057054": [
+    {
+      "id": "tg-kinopoisk-21046",
+      "title": "Amazon продлил шпионский экшен «Джек Райан» на четвертый сезон. В новых сериях актерский…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/21046",
+      "publishedAt": "2021-10-15",
+      "season": 4
+    }
+  ],
+  "tmdb:10756": [
+    {
+      "id": "tg-kinopoisk-21101",
+      "title": "Дэнни ДэВито снимется в экранизации аттракциона Disney «Особняк с привидениями».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/21101",
+      "publishedAt": "2021-10-19"
+    }
+  ],
   "tmdb:818621": [
     {
       "id": "tg-kinopoisk-21295",
@@ -21810,6 +23410,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/21580",
       "publishedAt": "2021-11-15"
+    }
+  ],
+  "tmdb:517088": [
+    {
+      "id": "tg-kinopoisk-21651",
+      "title": "Николь Кидман и Хавьер Бардем на постерах фильма «Быть Рикардо» Аарона Соркина.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/21651",
+      "publishedAt": "2021-11-17"
     }
   ],
   "tmdb:97666": [
@@ -21997,19 +23610,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-10-09"
     }
   ],
-  "tmdb:545609": [
-    {
-      "id": "tg-kinopoisk-21942",
-      "title": "Режиссер Сэм Харгрейв у себя в Instagram дал зеленый свет началу съемок «Тайлер Рейк: Оп…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/21942",
-      "publishedAt": "2021-11-30"
-    }
-  ],
   "imdb:tt12235718": [
     {
       "id": "tg-kinopoisk-21970",
@@ -22097,6 +23697,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4005471",
       "publishedAt": "2021-12-09"
+    }
+  ],
+  "tmdb:629542": [
+    {
+      "id": "tg-kinopoisk-22340",
+      "title": "Тарантино для детей: что известно о мультфильме-ограблении «Плохие парни»",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/22340",
+      "publishedAt": "2021-12-14"
     }
   ],
   "tmdb:624860": [
@@ -22414,6 +24027,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-01-17"
     }
   ],
+  "imdb:tt12287880": [
+    {
+      "id": "tg-kinopoisk-24178",
+      "title": "Как «Карамора» стал личным проектом Данилы Козловского? Как сценарист Александр Фомин см…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/24178",
+      "publishedAt": "2022-04-06"
+    },
+    {
+      "id": "tg-kinopoisk-22969",
+      "title": "«Карамора»: мыльная опера под маской революции — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4005635",
+      "publishedAt": "2022-01-20"
+    }
+  ],
   "tmdb:929085": [
     {
       "id": "tg-kinopoisk-22988",
@@ -22702,7 +24339,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-02-19"
     }
   ],
-  "tmdb:1650984": [
+  "tmdb:15708": [
     {
       "id": "tg-kinopoisk-23573",
       "title": "55 лет назад родился Курт Кобейн. О нем нет байопика, зато он вдохновил «Последние дни»…",
@@ -22816,6 +24453,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/ireadscripts/6472",
       "publishedAt": "2026-06-15"
+    }
+  ],
+  "tmdb:660000": [
+    {
+      "id": "tg-kinopoisk-23824",
+      "title": "«Утраченные иллюзии»: экранизация романа Бальзака о первых фейк-ньюз — Статьи на Кинопои…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4005941",
+      "publishedAt": "2022-03-18"
+    }
+  ],
+  "tmdb:616651": [
+    {
+      "id": "tg-kinopoisk-23863",
+      "title": "«Тихий омут»: медленный детектив с Мэттом Дэймоном по мотивам тру-крайма — Статьи на Кин…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4005945",
+      "publishedAt": "2022-03-22"
     }
   ],
   "tmdb:31139": [
@@ -23219,6 +24882,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-06-09"
     }
   ],
+  "tmdb:11848": [
+    {
+      "id": "tg-kinopoisk-24432",
+      "title": "Энди Серкис («Веном 2») поставит анимационную адаптацию антиутопии «Скотный двор».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/24432",
+      "publishedAt": "2022-04-20"
+    }
+  ],
   "tmdb:9427": [
     {
       "id": "tg-kinopoisk-24633",
@@ -23398,6 +25074,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/24894",
       "publishedAt": "2022-05-12"
+    }
+  ],
+  "tmdb:752623": [
+    {
+      "id": "tg-kinopoisk-24922",
+      "title": "«Затерянный город»: Ченнинг Татум топлес, Сандра Буллок в пайетках и их приключения в ко…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4006137",
+      "publishedAt": "2022-05-13"
     }
   ],
   "tmdb:339877": [
@@ -23719,19 +25408,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-05-31"
     }
   ],
-  "tmdb:649": [
-    {
-      "id": "tg-kinopoisk-25426",
-      "title": "Французской актрисе Катрин Денёв вручат почетного «Золотого льва» Венецианского кинофест…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/25426",
-      "publishedAt": "2022-06-01"
-    }
-  ],
   "tmdb:239": [
     {
       "id": "tg-kinopoisk-25948",
@@ -23778,6 +25454,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/25589",
       "publishedAt": "2022-06-06"
+    }
+  ],
+  "imdb:tt12879418": [
+    {
+      "id": "tg-kinopoisk-25630",
+      "title": "«Сумерки», но с лисом вместо вампира. Чем хорош сериал «История девятихвостого лиса»?",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/25630",
+      "publishedAt": "2022-06-08"
+    },
+    {
+      "id": "tg-kinopoisk-43770",
+      "title": "#ДорамаНедели — «История девятихвостого лиса» 🦊",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/43770",
+      "tags": [
+        "дораманедели"
+      ],
+      "publishedAt": "2025-02-19"
     }
   ],
   "imdb:tt0262985": [
@@ -24031,6 +25734,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-07-01"
     }
   ],
+  "tmdb:25355": [
+    {
+      "id": "tg-kinopoisk-26264",
+      "title": "«Ирма Веп»: веселый сериал о том, как все сходят с ума на съемках сериала — Статьи на Ки…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4006356",
+      "publishedAt": "2022-07-01"
+    }
+  ],
   "tmdb:949": [
     {
       "id": "tg-shishkino-24411",
@@ -24133,6 +25849,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/26525",
       "publishedAt": "2022-07-12"
+    }
+  ],
+  "tmdb:267279": [
+    {
+      "id": "tg-kinopoisk-26595",
+      "title": "«Журналист» Сергея Герасимова: наш ответ годарам и антонионям — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4006399",
+      "tags": [
+        "кинопанорама"
+      ],
+      "publishedAt": "2022-07-14"
     }
   ],
   "tmdb:517731": [
@@ -24287,6 +26019,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-07-26"
     }
   ],
+  "tmdb:10376": [
+    {
+      "id": "tg-kinopoisk-27082",
+      "title": "По информации Variety, режиссер Джузеппе Торнаторе («Легенда о пианисте») работает над с…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/27082",
+      "publishedAt": "2022-08-01"
+    },
+    {
+      "id": "tg-kinopoisk-36247",
+      "title": "Фильм дня — «Легенда о пианисте» (18+) Джузеппе Торнаторе.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36247",
+      "publishedAt": "2023-11-29"
+    }
+  ],
   "tmdb:24420": [
     {
       "id": "tg-kinopoisk-27085",
@@ -24435,7 +26191,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-08-11"
     }
   ],
-  "tmdb:9366": [
+  "tmdb:6068": [
     {
       "id": "tg-kinopoisk-27484",
       "title": "Умерла актриса Энн Хеч («Донни Браско», «Шесть дней, семь ночей») — спустя неделю после…",
@@ -25037,6 +26793,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-10-14"
     }
   ],
+  "tmdb:616820": [
+    {
+      "id": "tg-kinopoisk-29243",
+      "title": "Недавно вышедший хоррор «Хэллоуин заканчивается», по прогнозам, должен был за первый уик…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/29243",
+      "publishedAt": "2022-10-16"
+    },
+    {
+      "id": "tg-kinopoisk-29196",
+      "title": "«Хэллоуин заканчивается»: очередной прощальный поклон знаменитого слэшера — Статьи на Ки…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4006822",
+      "publishedAt": "2022-10-14"
+    }
+  ],
   "tmdb:8740": [
     {
       "id": "tg-seance2330-1047",
@@ -25254,7 +27034,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-11-08"
     }
   ],
-  "imdb:tt0052520": [
+  "tmdb:15301": [
     {
       "id": "tg-kinopoisk-29954",
       "title": "Начинаем утро с отмены проекта Lucasfilm. Джастин Диллард («Сумеречная зона») больше не…",
@@ -25302,6 +27082,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "evidence": "link",
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/30005",
+      "publishedAt": "2022-11-10"
+    }
+  ],
+  "imdb:tt8291284": [
+    {
+      "id": "tg-kinopoisk-30016",
+      "title": "«Периферийные устройства»: Хлоя Грейс Морец против мира дикого будущего — Статьи на Кино…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4006995",
       "publishedAt": "2022-11-10"
     }
   ],
@@ -25503,6 +27296,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-11-25"
     }
   ],
+  "imdb:tt3184708": [
+    {
+      "id": "tg-kinopoisk-30505",
+      "title": "На Кинопоиске стал доступен южнокорейский сериал «Хороший доктор» о враче с расстройство…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/30505",
+      "publishedAt": "2022-11-27"
+    }
+  ],
   "tmdb:551271": [
     {
       "id": "tg-kinopoisk-30531",
@@ -25514,19 +27320,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4007087",
       "publishedAt": "2022-11-28"
-    }
-  ],
-  "tmdb:788734": [
-    {
-      "id": "tg-kinopoisk-30613",
-      "title": "Режиссер Джон Уотерс продолжает сезон списков-2022.",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/30613",
-      "publishedAt": "2022-12-02"
     }
   ],
   "imdb:tt1796154": [
@@ -25615,6 +27408,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/30838",
       "publishedAt": "2022-12-14"
+    }
+  ],
+  "tmdb:12112": [
+    {
+      "id": "tg-kinopoisk-30936",
+      "title": "«Любит — не любит»: нежное аниме о первых чувствах — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007196",
+      "publishedAt": "2022-12-19"
     }
   ],
   "imdb:tt23025212": [
@@ -25888,6 +27694,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-07-20"
     }
   ],
+  "tmdb:804150": [
+    {
+      "id": "tg-ireadscripts-6268",
+      "title": "Первая страница сценария фильма «Кокаиновый медведь» выглядит прекрасно 😁",
+      "author": "Заскриптованный",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ireadscripts/6268",
+      "publishedAt": "2026-03-16"
+    },
+    {
+      "id": "tg-kinopoisk-32036",
+      "title": "«Кокаиновый медведь»: комедия, в которой лучшая шутка — ее название — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007536",
+      "publishedAt": "2023-03-04"
+    }
+  ],
   "tmdb:77930": [
     {
       "id": "tg-kinopoisk-32068",
@@ -26058,6 +27888,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-04-06"
     }
   ],
+  "tmdb:964980": [
+    {
+      "id": "tg-kinopoisk-32539",
+      "title": "«Air: Большой прыжок» — как Nike заставила Майкла Джордана разлюбить кроссовки Adidas —…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007692",
+      "publishedAt": "2023-04-07"
+    }
+  ],
   "tmdb:796185": [
     {
       "id": "tg-kinopoisk-33350",
@@ -26109,6 +27952,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/TsW7nJCwXoo/hqdefault.jpg",
       "publishedAt": "2023-04-10",
       "durationMinutes": 7
+    }
+  ],
+  "tmdb:27585": [
+    {
+      "id": "tg-kinopoisk-32607",
+      "title": "«Кроличья нора»: параноидальный и смешной шпионский триллер с Кифером Сазерлендом — Стат…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007709",
+      "publishedAt": "2023-04-12"
     }
   ],
   "imdb:tt12439466": [
@@ -26219,6 +28075,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-06-28"
     }
   ],
+  "tmdb:420808": [
+    {
+      "id": "tg-kinopoisk-32844",
+      "title": "«Питер Пэн и Венди»: что пишут критики про новую экранизацию, на этот раз с Эвер Андерсо…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/32844",
+      "publishedAt": "2023-04-29"
+    }
+  ],
   "tmdb:10998": [
     {
       "id": "tg-kinopoisk-32846",
@@ -26320,6 +28189,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-06-27"
     }
   ],
+  "tmdb:603204": [
+    {
+      "id": "tg-kinopoisk-33025",
+      "title": "«Звезды в полдень»: гипнотизирующая шпионская мелодрама, снятая через стакан рома — Стат…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007821",
+      "publishedAt": "2023-05-13"
+    }
+  ],
   "tmdb:921452": [
     {
       "id": "tg-kinopoisk-33053",
@@ -26360,6 +28242,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/33342",
       "publishedAt": "2023-06-05"
+    }
+  ],
+  "tmdb:667538": [
+    {
+      "id": "tg-kinopoisk-33440",
+      "title": "«Трансформеры: Восхождение звероботов». Мегафраншиза превратилась в ЧП районного масштаб…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007960",
+      "publishedAt": "2023-06-12"
+    }
+  ],
+  "tmdb:416051": [
+    {
+      "id": "tg-kinopoisk-33472",
+      "title": "Сериал «Основано на реальных событиях»: черная комедия про убийства в другом здании — Ст…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4007976",
+      "publishedAt": "2023-06-14"
     }
   ],
   "tmdb:6977": [
@@ -26463,6 +28371,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008006",
       "publishedAt": "2023-06-22"
+    }
+  ],
+  "imdb:tt32562643": [
+    {
+      "id": "tg-kinopoisk-33603",
+      "title": "«Противостояние»: первый и последний советский сериал про серийного убийцу и распад всег…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008018",
+      "publishedAt": "2023-06-25"
     }
   ],
   "imdb:tt19854762": [
@@ -26693,6 +28614,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 9
     }
   ],
+  "imdb:tt1051220": [
+    {
+      "id": "tg-kinopoisk-34216",
+      "title": "Сегодня на Кинопоиске вышел сериал «Хроники Шаннары» — двухсезонное приключение, вдохнов…",
+      "author": "Плюс Медиа",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/34216",
+      "publishedAt": "2023-08-03"
+    },
+    {
+      "id": "tg-kinopoisk-34265",
+      "title": "«Хроники Шаннары» — фэнтези-постапокалипсис с эльфами и троллями на фоне разрушенных цив…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008210",
+      "publishedAt": "2023-08-05"
+    }
+  ],
   "tmdb:380": [
     {
       "id": "tg-kinopoisk-34244",
@@ -26704,6 +28649,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/34244",
       "publishedAt": "2023-08-04"
+    }
+  ],
+  "tmdb:614930": [
+    {
+      "id": "tg-kinopoisk-34255",
+      "title": "«Черепашки-ниндзя: Погром мутантов». Сет Роген перезагружает франшизу в духе «Паутины вс…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008215",
+      "publishedAt": "2023-08-05"
     }
   ],
   "imdb:tt2071645": [
@@ -26768,6 +28726,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2024-11-04"
+    }
+  ],
+  "tmdb:724209": [
+    {
+      "id": "tg-kinopoisk-34405",
+      "title": "Какой из фильмов с Галь Гадот худший? Возможно, «Сердце Стоун» — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008245",
+      "publishedAt": "2023-08-15"
     }
   ],
   "tmdb:565770": [
@@ -26961,6 +28932,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-02-27"
     }
   ],
+  "tmdb:522241": [
+    {
+      "id": "tg-kinopoisk-34792",
+      "title": "«Игры шпионов»: исторический триллер с Бенедиктом Камбербэтчем и Мерабом Нинидзе — Стать…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008378",
+      "publishedAt": "2023-09-10"
+    }
+  ],
   "tmdb:28": [
     {
       "id": "tg-alarm_cassettes-166",
@@ -27063,6 +29047,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008435",
       "publishedAt": "2023-09-22"
+    }
+  ],
+  "imdb:tt6486762": [
+    {
+      "id": "tg-kinopoisk-35053",
+      "title": "«Континенталь»: ретробоевик по мотивам «Джона Уика» — Статьи на Кинопоиске",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008441",
+      "publishedAt": "2023-09-25"
     }
   ],
   "tmdb:71": [
@@ -27219,6 +29216,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008501",
       "publishedAt": "2023-10-06"
+    }
+  ],
+  "tmdb:2022": [
+    {
+      "id": "tg-kinopoisk-35291",
+      "title": "Фильм дня — комедия «Миллионер поневоле» с Адамом Сэндлером 💸",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/35291",
+      "publishedAt": "2023-10-07"
     }
   ],
   "imdb:tt0460681": [
@@ -27635,6 +29645,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-11-09"
     }
   ],
+  "tmdb:7972": [
+    {
+      "id": "tg-kinopoisk-35847",
+      "title": "Фильм дня — «Игры дьявола», превосходный триллер Сидни Люмета.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/35847",
+      "publishedAt": "2023-11-09"
+    }
+  ],
   "tmdb:609681": [
     {
       "id": "tg-kinopoisk-35899",
@@ -27737,6 +29760,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-11-17"
     }
   ],
+  "tmdb:77459": [
+    {
+      "id": "tg-kinopoisk-35951",
+      "title": "Фильм дня — «Монстр в Париже» от продюсера Люка Бессона 🇫🇷",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/35951",
+      "publishedAt": "2023-11-13"
+    }
+  ],
   "tmdb:295830": [
     {
       "id": "tg-kinopoisk-36045",
@@ -27774,6 +29810,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "unverified": true,
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008717",
+      "publishedAt": "2023-11-20"
+    }
+  ],
+  "tmdb:10930": [
+    {
+      "id": "tg-kinopoisk-36071",
+      "title": "Дорама недели — «Цветок зла» 🌺",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36071",
       "publishedAt": "2023-11-20"
     }
   ],
@@ -27830,6 +29879,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-11-22"
     }
   ],
+  "tmdb:31203": [
+    {
+      "id": "tg-kinopoisk-36134",
+      "title": "Мультфильм дня — «Маленький Николя».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36134",
+      "publishedAt": "2023-11-23"
+    }
+  ],
   "tmdb:11878": [
     {
       "id": "tg-kinopoisk-36162",
@@ -27843,6 +29905,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "tags": [
         "коротыше"
       ],
+      "publishedAt": "2023-11-25"
+    }
+  ],
+  "tmdb:3432": [
+    {
+      "id": "tg-kinopoisk-36164",
+      "title": "Фильм на вечер — «Кто вы, мистер Брукс?» 🔪",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36164",
       "publishedAt": "2023-11-25"
     }
   ],
@@ -27897,6 +29972,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-11-29"
     }
   ],
+  "tmdb:169917": [
+    {
+      "id": "tg-kinopoisk-36256",
+      "title": "Фильм дня — «Прогулка среди могил», детективный триллер, в котором главную роль сыграл Л…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36256",
+      "publishedAt": "2023-11-30"
+    }
+  ],
   "tmdb:840430": [
     {
       "id": "tg-kinopoisk-36268",
@@ -27908,6 +29996,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008758",
       "publishedAt": "2023-12-01"
+    }
+  ],
+  "tmdb:393559": [
+    {
+      "id": "tg-kinopoisk-36303",
+      "title": "Мультфильм дня — «Жизнь кабачка» 🎬",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36303",
+      "publishedAt": "2023-12-02"
     }
   ],
   "tmdb:582": [
@@ -28040,6 +30141,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-12-12"
     }
   ],
+  "tmdb:10800": [
+    {
+      "id": "tg-kinopoisk-36561",
+      "title": "Фильм на вечер — «Охотники на драконов» 🐉",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36561",
+      "publishedAt": "2023-12-13"
+    }
+  ],
   "tmdb:930564": [
     {
       "id": "tg-kinopoisk-36599",
@@ -28075,6 +30189,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-01-15"
     }
   ],
+  "tmdb:26963": [
+    {
+      "id": "tg-kinopoisk-36620",
+      "title": "Фильм на вечер — «Тайна Келлс» Томма Мура 📙",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36620",
+      "publishedAt": "2023-12-18"
+    }
+  ],
   "tmdb:1179316": [
     {
       "id": "tg-kinopoisk-42944",
@@ -28102,19 +30229,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-12-19"
     }
   ],
-  "tmdb:1573": [
-    {
-      "id": "tg-kinopoisk-36638",
-      "title": "Фильм дня — «Глубокое синее море», триллер Ренни Харлина («Крепкий орешек 2», «Скалолаз»…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/36638",
-      "publishedAt": "2023-12-19"
-    }
-  ],
   "tmdb:572802": [
     {
       "id": "tg-kinopoisk-36666",
@@ -28125,6 +30239,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "unverified": true,
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4008885",
+      "publishedAt": "2023-12-21"
+    }
+  ],
+  "tmdb:509730": [
+    {
+      "id": "tg-kinopoisk-36669",
+      "title": "Мультфильм дня — «Королевский корги» 🐶",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/36669",
       "publishedAt": "2023-12-21"
     }
   ],
@@ -28178,6 +30305,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/36707",
       "publishedAt": "2023-12-24"
+    }
+  ],
+  "tmdb:10805": [
+    {
+      "id": "tg-kinopoisk-36766",
+      "title": "Сколько шаверм съел Игорь Гром? А первый кадр «Остаться в живых» помните? Запустили к Но…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008896",
+      "publishedAt": "2023-12-27"
     }
   ],
   "tmdb:5961": [
@@ -28320,6 +30460,30 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/37046",
       "publishedAt": "2024-01-16"
+    }
+  ],
+  "imdb:tt14203572": [
+    {
+      "id": "tg-kinopoisk-45907",
+      "title": "Режиссер «Хода королевы» и «Месье Спейда» на этот раз занялся скандинавским нуаром и сня…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45907",
+      "publishedAt": "2025-06-02"
+    },
+    {
+      "id": "tg-kinopoisk-37058",
+      "title": "«Месье Спейд» — фанфик-продолжение «Мальтийского сокола». В послевоенной Европе и с Клай…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4008972",
+      "publishedAt": "2024-01-17"
     }
   ],
   "tmdb:586353": [
@@ -28854,6 +31018,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-02-22"
     }
   ],
+  "tmdb:12403": [
+    {
+      "id": "tg-kinopoisk-37717",
+      "title": "#ФильмДня — триллер «Идеальный побег», в котором сыграли среди прочих Тимоти Олифант и М…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/37717",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-02-26"
+    }
+  ],
   "imdb:tt9018736": [
     {
       "id": "tg-kinopoisk-37721",
@@ -28950,6 +31130,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/39796",
       "publishedAt": "2024-06-22"
+    }
+  ],
+  "tmdb:16281": [
+    {
+      "id": "tg-kinopoisk-37825",
+      "title": "Сериал дня — «Калейдоскоп ужасов» 👻",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/37825",
+      "publishedAt": "2024-03-03"
     }
   ],
   "tmdb:70": [
@@ -29245,6 +31438,33 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-27"
     }
   ],
+  "tmdb:758679": [
+    {
+      "id": "tg-kinopoisk-39560",
+      "title": "#ФильмДня — «Материнский инстинкт» 👩‍👦",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39560",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-06-08"
+    },
+    {
+      "id": "tg-kinopoisk-38246",
+      "title": "«Материнский инстинкт»: Джессика Честейн и Энн Хэтэуэй газлайтят друг дружку — Статьи на…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4009270",
+      "publishedAt": "2024-03-28"
+    }
+  ],
   "tmdb:823464": [
     {
       "id": "tg-kinopoisk-38279",
@@ -29333,6 +31553,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-04-13"
     }
   ],
+  "imdb:tt21874396": [
+    {
+      "id": "tg-kinopoisk-38535",
+      "title": "«Паразит: Серый» — кровавый и эффектный южнокорейский хит Netflix от режиссера «Поезда в…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/38535",
+      "publishedAt": "2024-04-15"
+    }
+  ],
   "imdb:tt0442726": [
     {
       "id": "tg-kinopoisk-38541",
@@ -29346,7 +31579,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-04-15"
     }
   ],
-  "imdb:tt6213220": [
+  "tmdb:126319": [
     {
       "id": "tg-kinopoisk-38542",
       "title": "#ФильмДня — «Эрнест и Селестина: Приключения мышки и медведя», трогательный и очень крас…",
@@ -29596,6 +31829,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-05-03"
     }
   ],
+  "tmdb:86838": [
+    {
+      "id": "tg-kinopoisk-38865",
+      "title": "#ФильмДня — «Семь психопатов» 🔫",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/38865",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-05-05"
+    }
+  ],
   "tmdb:618588": [
     {
       "id": "tg-kinopoisk-38882",
@@ -29781,6 +32030,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-05-16"
     }
   ],
+  "tmdb:60670": [
+    {
+      "id": "tg-kinopoisk-39100",
+      "title": "#ФильмДня — «Багровые реки», лютый французский триллер, в котором главные роли сыграли Ж…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39100",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-05-16"
+    }
+  ],
   "tmdb:760774": [
     {
       "id": "tg-kinopoisk-39109",
@@ -29886,6 +32151,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-05-26"
     }
   ],
+  "tmdb:330947": [
+    {
+      "id": "tg-kinopoisk-39334",
+      "title": "#ФильмДня — «Между нами музыка» 🎵",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39334",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-05-28"
+    }
+  ],
   "tmdb:980026": [
     {
       "id": "tg-kinopoisk-39404",
@@ -29916,7 +32197,7 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-05-31"
     }
   ],
-  "tmdb:11092": [
+  "imdb:tt17677860": [
     {
       "id": "tg-kinopoisk-39749",
       "title": "«Презумпция невиновности»: вяловатый детектив в дождливом Чикаго — Статьи на Кинопоиске",
@@ -30184,6 +32465,35 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-06-20"
     }
   ],
+  "tmdb:937746": [
+    {
+      "id": "tg-kinopoisk-39783",
+      "title": "Сегодня в рубрике #КиноПоПятницам — «Я — Капитан», драма, покорившая Венецианский кинофе…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39783",
+      "tags": [
+        "кинопопятницам"
+      ],
+      "publishedAt": "2024-06-21"
+    }
+  ],
+  "imdb:tt16493854": [
+    {
+      "id": "tg-kinopoisk-39802",
+      "title": "#ДорамаДня — «Призрачный доктор» 👻",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/39802",
+      "publishedAt": "2024-06-23"
+    }
+  ],
   "tmdb:9950": [
     {
       "id": "tg-kinopoisk-39840",
@@ -30331,6 +32641,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-03-31"
     }
   ],
+  "tmdb:338189": [
+    {
+      "id": "tg-kinopoisk-40070",
+      "title": "#ФильмДня — «Это всего лишь конец света», история о возвращении к дисфункциональной семь…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/40070",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-07-09"
+    }
+  ],
   "imdb:tt10569934": [
     {
       "id": "tg-kinopoisk-40219",
@@ -30427,7 +32753,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 24
     }
   ],
-  "tmdb:1632": [
+  "tmdb:527729": [
+    {
+      "id": "tg-kinopoisk-40143",
+      "title": "#ФильмДня — «Астерикс и тайное зелье»",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/40143",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-07-13"
+    }
+  ],
+  "tmdb:491584": [
     {
       "id": "tg-kinopoisk-40172",
       "title": "#ФильмДня — «Пылающий», один из лучших корейских триллеров последних лет, снятый по расс…",
@@ -31054,6 +33396,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-09-01"
     }
   ],
+  "tmdb:8374": [
+    {
+      "id": "tg-kinopoisk-40962",
+      "title": "#ФильмДня — «Святые из Бундока».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/40962",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-09-01"
+    }
+  ],
   "tmdb:603692": [
     {
       "id": "tg-kinopoisk-40973",
@@ -31260,6 +33618,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-09-22"
     }
   ],
+  "tmdb:10564": [
+    {
+      "id": "tg-kinopoisk-41394",
+      "title": "#ФильмДня — «Там, где сердце», в котором главную роль сыграла Натали Портман.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/41394",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-09-25"
+    }
+  ],
   "tmdb:866398": [
     {
       "id": "tg-kinopoisk-41410",
@@ -31316,6 +33690,36 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2024-09-30"
+    }
+  ],
+  "tmdb:198277": [
+    {
+      "id": "tg-kinopoisk-45863",
+      "title": "#ФильмДня — «Хоть раз в жизни» с Марком Руффало и Кирой Найтли в главных ролях 🎶",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45863",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-05-31"
+    },
+    {
+      "id": "tg-kinopoisk-41543",
+      "title": "#ФильмДня — «Хоть раз в жизни» Джона Карни 🎵",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/41543",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-10-02"
     }
   ],
   "tmdb:1580": [
@@ -31701,33 +34105,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-11-07"
     }
   ],
-  "tmdb:17473": [
-    {
-      "id": "tg-seance2330-919",
-      "title": "Бывает, что китч фильмов нулевых спустя два десятка лет смотрится наивно и весело, но ес…",
-      "author": "Сеанс в 23:30 📽",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/seance2330/919",
-      "publishedAt": "2025-08-10"
-    },
-    {
-      "id": "tg-kinopoisk-42132",
-      "title": "Переносимся... в 2003 год!",
-      "author": "Кинопоиск | Новости",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/42132",
-      "tags": [
-        "кп_дайджестновостей"
-      ],
-      "publishedAt": "2024-11-07"
-    }
-  ],
   "tmdb:29917": [
     {
       "id": "tg-kinopoisk-42136",
@@ -31822,6 +34199,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2024-11-12"
+    }
+  ],
+  "tmdb:245": [
+    {
+      "id": "tg-kinopoisk-42241",
+      "title": "#ФильмДня — «Мой мальчик» 🎸",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/42241",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2024-11-14"
     }
   ],
   "tmdb:1120911": [
@@ -32163,6 +34556,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-12-17"
     }
   ],
+  "imdb:tt20234568": [
+    {
+      "id": "tg-kinopoisk-42837",
+      "title": "#ДорамаНедели — «Слабый герой» 🖊",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/42837",
+      "tags": [
+        "дораманедели"
+      ],
+      "publishedAt": "2024-12-17"
+    }
+  ],
   "imdb:tt0412142": [
     {
       "id": "tg-kinopoisk-42864",
@@ -32179,6 +34588,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       ],
       "publishedAt": "2024-12-19",
       "durationMinutes": 16
+    }
+  ],
+  "imdb:tt9892936": [
+    {
+      "id": "tg-kinopoisk-42890",
+      "title": "«Сто лет одиночества»: прерванный на середине дословный пересказ Маркеса — Статьи на Кин…",
+      "author": "Кинопоиск",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://kinopoisk.ru/media/article/4010458",
+      "publishedAt": "2024-12-20"
     }
   ],
   "tmdb:1138194": [
@@ -32295,20 +34717,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-01-08"
     }
   ],
-  "tmdb:835113": [
+  "tmdb:11283": [
     {
-      "id": "tg-kinopoisk-43150",
-      "title": "Сегодня в рубрике #КиноПоПятницам отправляемся на телешоу вместе с главной героиней «Сви…",
+      "id": "tg-kinopoisk-43155",
+      "title": "Волшебный и поучительный #ФильмДня — «Моя ужасная няня» ✨",
       "author": "Кинопоиск | Фильмы и сериалы",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/43150",
+      "url": "https://t.me/kinopoisk/43155",
       "tags": [
-        "кинопопятницам"
+        "фильмдня"
       ],
-      "publishedAt": "2025-01-10"
+      "publishedAt": "2025-01-11"
     }
   ],
   "tmdb:223": [
@@ -32518,20 +34940,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-02-11"
-    },
-    {
-      "id": "tg-a_researcher-307",
-      "title": "Ещё 'на заре' канала появилась небольшая заметка о французской картине «Чёрный ящик».",
-      "author": "R⁴²",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/a_researcher/307",
-      "tags": [
-        "reкоммэндэйшн"
-      ],
-      "publishedAt": "2024-11-06"
     }
   ],
   "tmdb:950396": [
@@ -32607,6 +35015,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/758",
       "publishedAt": "2025-01-18"
+    }
+  ],
+  "tmdb:46838": [
+    {
+      "id": "tg-kinopoisk-43785",
+      "title": "#ФильмДня — «Убойные каникулы», ведь четверг — это маленькая пятница 🥤",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/43785",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-02-20"
     }
   ],
   "tmdb:212778": [
@@ -32703,6 +35127,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "сериалнедели"
       ],
       "publishedAt": "2025-03-13"
+    }
+  ],
+  "tmdb:1064486": [
+    {
+      "id": "tg-kinopoisk-44240",
+      "title": "🐌 Вылезаем из раковин, ведь сегодня в рубрике #КиноПоПятницам — «Мемуары улитки», взрос…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/44240",
+      "tags": [
+        "кинопопятницам"
+      ],
+      "publishedAt": "2025-03-14"
     }
   ],
   "tmdb:658224": [
@@ -32857,6 +35297,38 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-03-25"
     }
   ],
+  "tmdb:4347": [
+    {
+      "id": "tg-kinopoisk-44471",
+      "title": "#ФильмДня — «Искупление», драма по одноименному роману Иэна Макьюэна с Джеймсом Макэвоем…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/44471",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-03-26"
+    }
+  ],
+  "tmdb:459992": [
+    {
+      "id": "tg-kinopoisk-44502",
+      "title": "#ФильмДня — «Та еще парочка», романтическая комедия с Шарлиз Терон и Сетом Рогеном.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/44502",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-03-27"
+    }
+  ],
   "tmdb:165213": [
     {
       "id": "tg-kinopoisk-44565",
@@ -32887,6 +35359,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-04-02"
+    }
+  ],
+  "tmdb:11856": [
+    {
+      "id": "tg-kinopoisk-44657",
+      "title": "#ФильмДня — боевик «Эйр Америка», в котором главные роли сыграли Мэл Гибсон и Роберт Дау…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/44657",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-04-05"
     }
   ],
   "imdb:tt29232098": [
@@ -33077,6 +35565,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-02-24"
     }
   ],
+  "tmdb:626735": [
+    {
+      "id": "tg-kinopoisk-45099",
+      "title": "#ФильмДня — «Лулу и Бриггс», драма о ветеране, которому нужно позаботиться о боевой овча…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45099",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-04-26"
+    }
+  ],
   "tmdb:950387": [
     {
       "id": "tg-kinopoisk-45120",
@@ -33155,6 +35659,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-03"
     }
   ],
+  "tmdb:455": [
+    {
+      "id": "tg-kinopoisk-45255",
+      "title": "#ФильмДня — «Играй как Бекхэм» ⚽️",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45255",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-05-03"
+    }
+  ],
   "tmdb:1128655": [
     {
       "id": "tg-kinopoisk-45286",
@@ -33213,6 +35733,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-07"
     }
   ],
+  "imdb:tt2401162": [
+    {
+      "id": "tg-kinopoisk-45342",
+      "title": "#ДорамаНедели — «Принц с чердака» ⭐️",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45342",
+      "tags": [
+        "дораманедели"
+      ],
+      "publishedAt": "2025-05-07"
+    }
+  ],
   "tmdb:23488": [
     {
       "id": "tg-kinopoisk-45357",
@@ -33243,6 +35779,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-05-10"
+    }
+  ],
+  "tmdb:1151244": [
+    {
+      "id": "tg-kinopoisk-45418",
+      "title": "#ФильмДня — «Горная невеста», живописная итальянская драма 🏔",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45418",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-05-12"
     }
   ],
   "tmdb:575265": [
@@ -33453,6 +36005,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-06-04"
     }
   ],
+  "tmdb:376290": [
+    {
+      "id": "tg-kinopoisk-45965",
+      "title": "#ФильмДня — «Опасная игра Слоун» с Джессикой Честейн в главной роли.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/45965",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-06-04"
+    }
+  ],
   "imdb:tt30252752": [
     {
       "id": "tg-kinopoisk-46002",
@@ -33491,6 +36059,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/46061",
       "publishedAt": "2025-06-07"
+    }
+  ],
+  "tmdb:7291": [
+    {
+      "id": "tg-kinopoisk-46153",
+      "title": "Один из лучших полицейских триллеров, снятых во Франции, — «Набережная Орфевр, 36» — наш…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/46153",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-06-10"
     }
   ],
   "tmdb:1258151": [
@@ -33941,6 +36525,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-06-07"
     }
   ],
+  "tmdb:970947": [
+    {
+      "id": "tg-kinopoisk-47636",
+      "title": "#ФильмДня — «Саван», фантастическая драма Дэвида Кроненберга 📱",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/47636",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-08-21"
+    }
+  ],
   "tmdb:980477": [
     {
       "id": "tg-kinopoisk-47778",
@@ -34000,6 +36600,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-09-02"
+    }
+  ],
+  "tmdb:883": [
+    {
+      "id": "tg-kinopoisk-47879",
+      "title": "Сейчас бы чашечку кофе ☕️ И потом сразу смотрим наш #ФильмДня — «Кофе и сигареты».",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/47879",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-09-03"
     }
   ],
   "tmdb:1069905": [
@@ -34103,6 +36719,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-09-14"
+    }
+  ],
+  "tmdb:49687": [
+    {
+      "id": "tg-kinopoisk-48256",
+      "title": "#ФильмДня — «Брак по-итальянски», обворожительная итальянская мелодрама с Софи Лорен и М…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/48256",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-09-21"
     }
   ],
   "tmdb:617126": [
@@ -34297,6 +36929,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "кп_видео"
       ],
       "publishedAt": "2025-10-04"
+    }
+  ],
+  "tmdb:11615": [
+    {
+      "id": "tg-kinopoisk-48538",
+      "title": "Нынешний #ФильмДня — «Жизнь Дэвида Гейла» с Кейт Уинслет в одной из главных ролей.",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/48538",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-10-05"
     }
   ],
   "tmdb:1236470": [
@@ -34544,6 +37192,38 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-11-05"
     }
   ],
+  "tmdb:8265": [
+    {
+      "id": "tg-kinopoisk-49037",
+      "title": "Отправляемся на север Франции, ведь #ФильмДня в этот раз — обаятельная французская комед…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/49037",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-11-06"
+    }
+  ],
+  "tmdb:9662": [
+    {
+      "id": "tg-kinopoisk-49078",
+      "title": "«Мне кажется, что в фильмах слишком много диалогов» — решил аниматор Сильвен Шомэ и созд…",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/49078",
+      "tags": [
+        "фильмдня"
+      ],
+      "publishedAt": "2025-11-08"
+    }
+  ],
   "tmdb:8871": [
     {
       "id": "tg-kinopoisk-49080",
@@ -34627,6 +37307,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-11-13"
+    }
+  ],
+  "tmdb:895371": [
+    {
+      "id": "tg-kinopoisk-49363",
+      "title": "«Лермонтов», «Мой парень — псих» или «Сират»? Настало время выбирать!",
+      "author": "Кинопоиск | Фильмы и сериалы",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinopoisk/49363",
+      "tags": [
+        "кинопопятницам"
+      ],
+      "publishedAt": "2025-11-25"
     }
   ],
   "tmdb:1084242": [
@@ -35331,26 +38027,26 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-09"
     },
     {
-      "id": "tg-shishkino-24540",
-      "title": "Видео со съемок «Надежда» (2026) На Хон-Джина.",
-      "author": "ШишКИНО",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/shishkino/24540",
-      "publishedAt": "2026-09-13"
-    },
-    {
-      "id": "tg-kinopoisk-52144",
-      "title": "Майкл Фассбендер и Алисия Викандер на Каннском кинофестивале — ❤️‍🔥",
-      "author": "Кинопоиск | Фильмы и сериалы",
+      "id": "tg-PiratskiyHronist-1694",
+      "title": "Парусник «Надежда» стал символом юбилейного Парада парусов во Владивостоке",
+      "author": "Росморпорт",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/52144",
-      "publishedAt": "2026-05-18"
+      "url": "https://t.me/PiratskiyHronist/1694",
+      "publishedAt": "2026-09-01"
+    },
+    {
+      "id": "tg-PiratskiyHronist-1761",
+      "title": "Отправляюсь на Дальний Восток в плавание на фрегате \"Надежда\". Моей главной задачей на б…",
+      "author": "piratskiyhronist",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/PiratskiyHronist/1761",
+      "publishedAt": "2026-10-05"
     }
   ],
   "imdb:tt0060009": [
@@ -35685,19 +38381,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-07"
     }
   ],
-  "imdb:tt0335733": [
-    {
-      "id": "tg-kinopoisk-53375",
-      "title": "Нулевые, ты видишь эту заставку и понимаешь, что следующий час будет огонь 🔥",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/53375",
-      "publishedAt": "2026-08-07"
-    }
-  ],
   "tmdb:264999": [
     {
       "id": "tg-kinopoisk-53440",
@@ -35854,6 +38537,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-07-24"
     }
   ],
+  "tmdb:44494": [
+    {
+      "id": "tg-cinema1909-1743",
+      "title": "Аталанта / Ноль за поведение",
+      "author": "Stas Tyrkin Inc.",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cinema1909/1743",
+      "publishedAt": "2024-04-08"
+    }
+  ],
   "tmdb:1923": [
     {
       "id": "tg-cinema1909-2115",
@@ -35891,6 +38587,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cinema1909/2666",
       "publishedAt": "2026-03-17"
+    }
+  ],
+  "tmdb:476299": [
+    {
+      "id": "tg-LifeIsScarier-12",
+      "title": "Посмотрела сегодня \"Страну призраков\". Очень травмирующий фильм. Если бы знала, в чем тв…",
+      "author": "Жизнь страшнее. Фильмы ужасов",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/LifeIsScarier/12",
+      "publishedAt": "2022-07-21"
     }
   ],
   "tmdb:242224": [
@@ -35948,6 +38657,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-04-30"
     }
   ],
+  "tmdb:10234": [
+    {
+      "id": "tg-alarm_cassettes-85",
+      "title": "​​Этот фильм куда более жесток чем «Забавные игры», куда омерзительнее и тяжелее. Все по…",
+      "author": "Тревожные кассеты",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alarm_cassettes/85",
+      "tags": [
+        "offtopкассеты"
+      ],
+      "publishedAt": "2018-05-09"
+    }
+  ],
   "tmdb:882598": [
     {
       "id": "tg-seance2330-730",
@@ -35970,6 +38695,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/alarm_cassettes/1931",
       "publishedAt": "2022-11-22"
+    }
+  ],
+  "tmdb:274870": [
+    {
+      "id": "tg-alarm_cassettes-2301",
+      "title": "«Пассажир»: автостопом по травмам",
+      "author": "Тревожные кассеты",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alarm_cassettes/2301",
+      "publishedAt": "2023-11-20"
     }
   ],
   "tmdb:833339": [
@@ -36004,6 +38742,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-04-21"
     }
   ],
+  "tmdb:394217": [
+    {
+      "id": "tg-alarm_cassettes-2837",
+      "title": "Les confins du monde – жаркая, липкая тяжесть век. Ломота суставов. Рубашка, пропитавшая…",
+      "author": "Тревожные кассеты",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alarm_cassettes/2837",
+      "tags": [
+        "тревожныйсмотр"
+      ],
+      "publishedAt": "2025-05-28"
+    }
+  ],
   "tmdb:18726": [
     {
       "id": "tg-alarm_cassettes-2844",
@@ -36020,6 +38774,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-30"
     }
   ],
+  "tmdb:9885": [
+    {
+      "id": "tg-alarm_cassettes-2854",
+      "title": "«Волчья яма» – конвенциональный слэшер с персонажами-функциями, суть которых, существова…",
+      "author": "Тревожные кассеты",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alarm_cassettes/2854",
+      "tags": [
+        "тревожныйпейзаж"
+      ],
+      "publishedAt": "2025-06-13"
+    }
+  ],
   "tmdb:593946": [
     {
       "id": "tg-alarm_cassettes-2931",
@@ -36034,6 +38804,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "тревожныйсмотр"
       ],
       "publishedAt": "2025-08-08"
+    }
+  ],
+  "tmdb:1205656": [
+    {
+      "id": "tg-alarm_cassettes-2944",
+      "title": "Август выдался тяжёлым. Физически и морально, конечно, скажу откровенно, ухабисто. Но эт…",
+      "author": "Тревожные кассеты",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alarm_cassettes/2944",
+      "tags": [
+        "тревожныйсмотр"
+      ],
+      "publishedAt": "2025-08-27"
     }
   ],
   "tmdb:39279": [
@@ -36479,6 +39265,39 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-09-13"
     }
   ],
+  "tmdb:555285": [
+    {
+      "id": "tg-a_researcher-287",
+      "title": "Когда мама — католик, папа — еврей, на дворе 70-е, внезапно приходится переехать; а ты —…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/287",
+      "tags": [
+        "reкоммэндэйшн"
+      ],
+      "publishedAt": "2024-09-24"
+    }
+  ],
+  "tmdb:13466": [
+    {
+      "id": "tg-a_researcher-290",
+      "title": "'Октябрь киношный', как вариант, можно начать с превосходной биографической драмы «Октяб…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/290",
+      "tags": [
+        "reкоммэндэйшн",
+        "био"
+      ],
+      "publishedAt": "2024-10-01"
+    }
+  ],
   "tmdb:491926": [
     {
       "id": "tg-a_researcher-294",
@@ -36510,6 +39329,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "reкоммэндэйшн"
       ],
       "publishedAt": "2024-11-03"
+    }
+  ],
+  "tmdb:663260": [
+    {
+      "id": "tg-a_researcher-307",
+      "title": "Ещё 'на заре' канала появилась небольшая заметка о французской картине «Чёрный ящик».",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/307",
+      "tags": [
+        "reкоммэндэйшн"
+      ],
+      "publishedAt": "2024-11-06"
     }
   ],
   "tmdb:504949": [
@@ -36865,6 +39700,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-04-05"
     }
   ],
+  "tmdb:554230": [
+    {
+      "id": "tg-a_researcher-595",
+      "title": "В 2021 Netflix приобрёл и выпустил у себя режиссёрский дебют Мэгги Йюлленхаль (родная се…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/595",
+      "publishedAt": "2026-04-20"
+    }
+  ],
   "tmdb:253412": [
     {
       "id": "tg-a_researcher-597",
@@ -36897,6 +39745,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "био"
       ],
       "publishedAt": "2026-05-03"
+    }
+  ],
+  "tmdb:353070": [
+    {
+      "id": "tg-a_researcher-614",
+      "title": "Самой же зрительской киноработой Дэвида Лоури оказалась экранизация реальной истории из…",
+      "author": "R⁴²",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/a_researcher/614",
+      "tags": [
+        "био"
+      ],
+      "publishedAt": "2026-06-12"
     }
   ],
   "tmdb:1020047": [
@@ -36955,6 +39819,32 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/a_researcher/650",
       "publishedAt": "2026-09-26"
+    }
+  ],
+  "wd:Q4155672": [
+    {
+      "id": "tg-filologofrus-40",
+      "title": "​​Почему Христос? Естественно-научная интерпретация поэмы \"Двенадцать\"",
+      "author": "Филолог всея Руси",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/filologofrus/40",
+      "publishedAt": "2022-03-31"
+    }
+  ],
+  "wd:Q19871": [
+    {
+      "id": "tg-filologofrus-42",
+      "title": "После спектакля стою на остановке. Два парня там же тоже вышли после «В ожидании Годо».…",
+      "author": "Филолог всея Руси",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/filologofrus/42",
+      "publishedAt": "2022-04-07"
     }
   ],
   "imdb:tt3774988": [
@@ -37020,6 +39910,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-07-19"
     }
   ],
+  "wd:Q8337": [
+    {
+      "id": "tg-logovofilologa-11",
+      "title": "Miriam Margolyes does not give a *stuff* about Harry Potter ⚡",
+      "author": "Логово Филолога",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/logovofilologa/11",
+      "publishedAt": "2024-07-19"
+    }
+  ],
   "tmdb:863873": [
     {
       "id": "tg-logovofilologa-292",
@@ -37057,17 +39960,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/logovofilologa/576",
       "publishedAt": "2025-06-04"
-    },
-    {
-      "id": "tg-logovofilologa-575",
-      "title": "Невероятное",
-      "author": "Логово Филолога",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/logovofilologa/575",
-      "publishedAt": "2025-05-31"
     }
   ],
   "tmdb:17609": [
@@ -37133,17 +40025,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-07"
     }
   ],
-  "tmdb:802": [
+  "imdb:tt35854736": [
     {
-      "id": "tg-logovofilologa-978",
-      "title": "Друзья, кто ждал разбор «Лолиты»? Именно текста, а не фильма. Я начинаю над ним работу.…",
-      "author": "Логово Филолога",
+      "id": "tg-CutTheChat-2979556",
+      "title": "Стали известны названия первых 13 эпизодов «Аватар: Семь убежищ»:",
+      "author": "Cut The Crap",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "tag",
       "platform": "telegram",
-      "url": "https://t.me/logovofilologa/978",
-      "publishedAt": "2026-08-03"
+      "url": "https://t.me/CutTheChat/2979556",
+      "publishedAt": "2026-10-01",
+      "episode": 13
     }
   ],
   "tmdb:2742": [
@@ -37469,6 +40362,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-07"
     }
   ],
+  "tmdb:5486": [
+    {
+      "id": "tg-ugolokhorror-6479",
+      "title": "▪️Кровавый залив (1971)",
+      "author": "Уютный уголок любителя ужасов",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/ugolokhorror/6479",
+      "tags": [
+        "фильм_ужасов",
+        "слэшер"
+      ],
+      "publishedAt": "2026-06-18"
+    }
+  ],
   "tmdb:24923": [
     {
       "id": "tg-ugolokhorror-6521",
@@ -37486,6 +40396,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-30"
     }
   ],
+  "tmdb:2291": [
+    {
+      "id": "tg-ugolokhorror-6548",
+      "title": "▪️Лестница Иакова (1990)",
+      "author": "Уютный уголок любителя ужасов",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/ugolokhorror/6548",
+      "tags": [
+        "фильм_ужасов",
+        "драма"
+      ],
+      "publishedAt": "2026-07-07"
+    }
+  ],
   "tmdb:457712": [
     {
       "id": "tg-ugolokhorror-6564",
@@ -37501,6 +40428,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "боевик"
       ],
       "publishedAt": "2026-07-17"
+    }
+  ],
+  "tmdb:11349": [
+    {
+      "id": "tg-ugolokhorror-6663",
+      "title": "▪️Мыс страха (1962)",
+      "author": "Уютный уголок любителя ужасов",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/ugolokhorror/6663",
+      "tags": [
+        "триллер",
+        "маньяки"
+      ],
+      "publishedAt": "2026-08-11"
     }
   ],
   "tmdb:1598": [
@@ -37813,49 +40757,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-12-16"
     }
   ],
-  "tmdb:1381027": [
-    {
-      "id": "tg-horrorreview-1323",
-      "title": "На цепи/ Heel, 2025",
-      "author": "Невнимательный зритель",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/horrorreview/1323",
-      "tags": [
-        "драма"
-      ],
-      "publishedAt": "2026-03-11"
-    },
-    {
-      "id": "tg-kinodziga-4823",
-      "title": "«На цепи» поляка Яна Комасы уже в прокате (@volgafilms). Чуть экстремальный ответ «Перех…",
-      "author": "Дзига-аппаратчик",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://film.ru/articles/recenziya-na-film-na-cepi-zvezda-perehodnogo-vozrasta-uchit-semeynym-cennostyam",
-      "publishedAt": "2026-03-20"
-    }
-  ],
-  "tmdb:555974": [
-    {
-      "id": "tg-horrorreview-1397",
-      "title": "Разлучённые души/ Separation, 2021",
-      "author": "Невнимательный зритель",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/horrorreview/1397",
-      "tags": [
-        "мистика"
-      ],
-      "publishedAt": "2026-06-18"
-    }
-  ],
   "tmdb:175502": [
     {
       "id": "tg-ireadscripts-6199",
@@ -38047,6 +40948,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinodziga/4709",
       "publishedAt": "2026-02-08"
+    }
+  ],
+  "tmdb:1381027": [
+    {
+      "id": "tg-kinodziga-4823",
+      "title": "«На цепи» поляка Яна Комасы уже в прокате (@volgafilms). Чуть экстремальный ответ «Перех…",
+      "author": "Дзига-аппаратчик",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "article",
+      "url": "https://film.ru/articles/recenziya-na-film-na-cepi-zvezda-perehodnogo-vozrasta-uchit-semeynym-cennostyam",
+      "publishedAt": "2026-03-20"
     }
   ],
   "tmdb:309": [
@@ -38336,6 +41250,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "season": 3
     }
   ],
+  "tmdb:19548": [
+    {
+      "id": "tg-shtoetobilo-5706",
+      "title": "КИНОУЖИН. РЕСТОРАН ГОСПОДИНА СЕПТИМА",
+      "author": "Што это было",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/shtoetobilo/5706",
+      "tags": [
+        "кудасходить"
+      ],
+      "publishedAt": "2026-08-18"
+    }
+  ],
   "tmdb:86494": [
     {
       "id": "tg-obzoranebudet-302",
@@ -38428,6 +41358,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-10-04"
     }
   ],
+  "tmdb:1032823": [
+    {
+      "id": "tg-seance2330-701",
+      "title": "По давно намеченной традиции, после хорошего \"Времени\" и неплохого \"Стука в хижине\" каче…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/701",
+      "publishedAt": "2024-10-11"
+    }
+  ],
   "tmdb:3035": [
     {
       "id": "tg-seance2330-703",
@@ -38452,19 +41395,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/723",
       "publishedAt": "2024-11-18"
-    }
-  ],
-  "tmdb:207686": [
-    {
-      "id": "tg-seance2330-724",
-      "title": "Вписался в легендарный марафон от Chacun son cinema #альтернативная_история_кино , где г…",
-      "author": "Сеанс в 23:30 📽",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/seance2330/724",
-      "publishedAt": "2024-11-22"
     }
   ],
   "tmdb:1063879": [
@@ -38558,6 +41488,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-04-13"
     }
   ],
+  "tmdb:10754": [
+    {
+      "id": "tg-seance2330-829",
+      "title": "\"Декалог\" (1988) Кшиштофа Кесьлёвского — это десять историй из жизни обитателей одной по…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/829",
+      "publishedAt": "2025-04-16"
+    }
+  ],
   "tmdb:1244944": [
     {
       "id": "tg-seance2330-834",
@@ -38595,6 +41538,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/845",
       "publishedAt": "2025-05-14"
+    }
+  ],
+  "tmdb:277685": [
+    {
+      "id": "tg-seance2330-847",
+      "title": "Screenlife-хоррор вдохнул полной грудью с бекмамбетовским \"Убрать из друзей\" и полностью…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/847",
+      "publishedAt": "2025-05-22"
     }
   ],
   "tmdb:11015": [
@@ -38636,6 +41592,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-06-11"
     }
   ],
+  "tmdb:17473": [
+    {
+      "id": "tg-seance2330-919",
+      "title": "Бывает, что китч фильмов нулевых спустя два десятка лет смотрится наивно и весело, но ес…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/919",
+      "publishedAt": "2025-08-10"
+    }
+  ],
   "tmdb:791570": [
     {
       "id": "tg-seance2330-933",
@@ -38660,6 +41629,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/957",
       "publishedAt": "2025-09-21"
+    }
+  ],
+  "tmdb:481432": [
+    {
+      "id": "tg-seance2330-978",
+      "title": "\"Счастливый Лазарь\" (2018) - теплая и светлая картина, которая не старается быть сентиме…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/978",
+      "publishedAt": "2025-10-12"
     }
   ],
   "tmdb:984": [
@@ -38715,6 +41697,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/1044",
       "publishedAt": "2025-12-21"
+    }
+  ],
+  "tmdb:180969": [
+    {
+      "id": "tg-seance2330-1053",
+      "title": "Запросто опишу \"Вечное возвращение\" (2012) одним словом-фамилией — \"Му-ра-то-ва\". К тону…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/1053",
+      "publishedAt": "2026-01-09"
     }
   ],
   "tmdb:12207": [
@@ -38780,6 +41775,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/seance2330/1152",
       "publishedAt": "2026-07-18"
+    }
+  ],
+  "tmdb:9378": [
+    {
+      "id": "tg-seance2330-1153",
+      "title": "\"Тринадцать привидений\" (2001) — как цветасто наряженный бомж в автобусе: вроде бы любоп…",
+      "author": "Сеанс в 23:30 📽",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/seance2330/1153",
+      "publishedAt": "2026-07-20"
     }
   ],
   "tmdb:10975": [
@@ -38909,6 +41917,40 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-10-08"
     }
   ],
+  "tmdb:11361": [
+    {
+      "id": "tg-mayinharga-1004",
+      "title": "\"Хэллоуин 5: Месть Майкла Майерса\" / \"Halloween V: The Revenge of Michael Myers\", 1989,…",
+      "author": "На майские едем в Хоргу",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/mayinharga/1004",
+      "tags": [
+        "слэшер",
+        "хэллоуин"
+      ],
+      "publishedAt": "2025-10-13"
+    }
+  ],
+  "tmdb:10987": [
+    {
+      "id": "tg-mayinharga-1043",
+      "title": "\"Хэллоуин 6: Проклятие Майкла Майерса\" / \"Halloween VI: The curse of Michael Myers\", 199…",
+      "author": "На майские едем в Хоргу",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/mayinharga/1043",
+      "tags": [
+        "слэшер",
+        "хэллоуин"
+      ],
+      "publishedAt": "2025-10-19"
+    }
+  ],
   "tmdb:11675": [
     {
       "id": "tg-mayinharga-1048",
@@ -38958,6 +42000,23 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "слэшер"
       ],
       "publishedAt": "2025-10-23"
+    }
+  ],
+  "tmdb:24150": [
+    {
+      "id": "tg-mayinharga-1091",
+      "title": "\"Хэллоуин 2\" / \"Halloween II\", 2009, реж. Роб Зомби",
+      "author": "На майские едем в Хоргу",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/mayinharga/1091",
+      "tags": [
+        "хэллоуин",
+        "маньяки"
+      ],
+      "publishedAt": "2025-11-02"
     }
   ],
   "tmdb:48395": [
@@ -39209,6 +42268,153 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "отношения"
       ],
       "publishedAt": "2026-07-19"
+    }
+  ],
+  "tmdb:541796": [
+    {
+      "id": "tg-iron_wind-1702",
+      "title": "ЦИФРОВАЯ ИСТОРИЯ – Егор Яковлев",
+      "author": "iron_wind",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iron_wind/1702",
+      "publishedAt": "2026-03-15"
+    }
+  ],
+  "tmdb:389543": [
+    {
+      "id": "tg-iron_wind-1767",
+      "title": "Музей Падиково",
+      "author": "iron_wind",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iron_wind/1767",
+      "publishedAt": "2026-04-24"
+    }
+  ],
+  "tmdb:458708": [
+    {
+      "id": "tg-iron_wind-1840",
+      "title": "➖7 июня в 18:00 на книжном фестивале «Красная площадь» Артём Драбкин и Алексей Исаев про…",
+      "author": "Я помню",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iron_wind/1840",
+      "publishedAt": "2026-05-30"
+    }
+  ],
+  "imdb:tt12025128": [
+    {
+      "id": "tg-avtorskayakomnata-36",
+      "title": "S02e17 - Меркулова и Чупов: \"Колл-центр\", платье, как инструмент раскрутки инстаграма и…",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/36",
+      "publishedAt": "2020-05-14",
+      "season": 2,
+      "episode": 17
+    }
+  ],
+  "imdb:tt1837341": [
+    {
+      "id": "tg-avtorskayakomnata-37",
+      "title": "Смотреть «Реальные пацаны» 5 сезон 16 серия в хорошем качестве онлайн на сайте PREMIER.ONE",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/37",
+      "publishedAt": "2020-05-28",
+      "season": 5,
+      "episode": 16
+    }
+  ],
+  "tmdb:10868": [
+    {
+      "id": "tg-avtorskayakomnata-83",
+      "title": "‎Авторская комната: S04e06 - Первые пять страниц: техно-фэнтези, приморский вайб и идеал…",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/83",
+      "publishedAt": "2022-02-15"
+    }
+  ],
+  "tmdb:38336": [
+    {
+      "id": "tg-avtorskayakomnata-290",
+      "title": "S08e08 — Разбор: \"Стиляги\"",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/290",
+      "publishedAt": "2025-12-11"
+    }
+  ],
+  "tmdb:20975": [
+    {
+      "id": "tg-avtorskayakomnata-318",
+      "title": "S08e25 — Разбор: \"Девчата\"",
+      "author": "avtorskayakomnata",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/avtorskayakomnata/318",
+      "publishedAt": "2026-04-16"
+    }
+  ],
+  "tmdb:157962": [
+    {
+      "id": "tg-PiratskiyHronist-1459",
+      "title": "Всех православных с Вербным Воскресеньем!",
+      "author": "piratskiyhronist",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/PiratskiyHronist/1459",
+      "publishedAt": "2026-04-05"
+    }
+  ],
+  "tmdb:2323": [
+    {
+      "id": "tg-PiratskiyHronist-1636",
+      "title": "💥 «Камерные сезоны» в Гнёздове и большое открытие на \"Поле Чудес\"!",
+      "author": "Идейный Археолог Василий Новиков",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/PiratskiyHronist/1636",
+      "publishedAt": "2026-07-21"
+    }
+  ],
+  "tmdb:1087891": [
+    {
+      "id": "tg-PiratskiyHronist-1653",
+      "title": "Как же нам всем повезло. «Любителям» истории! 🤪",
+      "author": "Мама на СО (семейное образование)",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/PiratskiyHronist/1653",
+      "publishedAt": "2026-08-19"
     }
   ]
 };

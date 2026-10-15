@@ -23,3 +23,39 @@ ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4178,http://127.0.0.1:
 # сводка подписок на разборы (06.10, worker/follow.ts): воркер сам решает, пора ли (после 10:00 МСК, раз в день)
 [triggers]
 crons = ["*/30 * * * *"]
+
+# ─── Контур Global (ЗП-26, 11.10): то же приложение на Cloudflare — английская сборка, Индия / США / Британия ────
+# Отдельная база (данные пользователей RU и Global не пересекаются), свой бот (у бота один webhook и один адрес
+# приложения), справочники — в R2. Статика — из deploy/global/public (собирает tools/deploy-global.mjs), /api/* — воркер.
+#   собрать и проверить у себя:  node tools/deploy-global.mjs --local     (wrangler dev, база и R2 — локальные)
+#   один раз в аккаунте:         node tools/deploy-global.mjs --setup     (создаёт D1 и R2, печатает database_id)
+#   выкладка:                    node tools/deploy-global.mjs
+#   секреты:                     npx wrangler secret put BOT_TOKEN --env global   (и ADMIN_TOKEN)
+[env.global]
+name = "recomend-global"
+workers_dev = true
+
+[env.global.assets]
+directory = "./deploy/global/public"
+
+[[env.global.d1_databases]]
+binding = "DB"
+database_name = "recomend-global"
+# подставляется после `node tools/deploy-global.mjs --setup`. 11.10 база создавалась и удалена: пока один общий сервер
+# на bothost в Нидерландах (решение владельца), Global на Cloudflare — на будущее, когда bothost станет тесно
+database_id = "pending"
+
+[[env.global.r2_buckets]]
+binding = "REFERENCE"
+bucket_name = "recomend-global-reference"
+
+[env.global.vars]
+ALLOW_DEMO = ""
+ALLOWED_ORIGINS = ""
+PUBLIC_PAGES = ""
+OWNER_USERNAME = "Tacticheskiy_Enot"
+# имя бота Global без @ — после создания в BotFather (пусто — ссылки поведут в российского recomend_media_bot)
+BOT_USERNAME = ""
+
+[env.global.triggers]
+crons = ["*/30 * * * *"]

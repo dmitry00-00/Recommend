@@ -84,6 +84,73 @@ const METRICS = [
 // цель — зелёный, между минимумом и целью — жёлтый, ниже минимума — красный; мало людей — серый
 const mark = (v, t, floor, base, minBase) => (v == null || (base != null && base < minBase) ? 'muted' : v >= t ? 'ok' : floor != null && v >= floor ? 'warn' : 'bad');
 const bound = (t, floor) => (floor != null ? `${pct(floor)} / ${pct(t)}` : `≥ ${pct(t)}`);
+// МА-1/МА-2 (13.10, worker/metrics.ts): «сдвиг» — главная метрика, рядом качество подбора
+const MAP = { movedUp: 'центр вверх', movedDown: 'центр вниз', refined: 'уточнение', same: 'без изменений', noUpdate: 'один снимок' };
+function metricsView(M, MB) {
+  if (!M) return '<div class="card wide"><h2>Сдвиг и качество подбора</h2><p class="muted">на сервере ещё нет метрик МА-1/МА-2 — залейте архив bothost от 13.10</p></div>';
+  const B = M.bounds, S = M.shift, Q = M.quality;
+  const row = (name, v, b, base, of, note = '') => `<tr><td>${name}${note ? ` <span class="muted">· ${note}</span>` : ''}</td>
+    <td class="n ${mark(v, b.target, b.floor, base, MB)}" title="из ${fmt(base)} ${of}">${pct(v)}</td><td class="n muted">${fmt(base)}</td><td class="n">${bound(b.target, b.floor)}</td></tr>`;
+  const g = (x) => (x == null ? '—' : fmt(x, 2));
+  const mapLine = (m) => Object.entries(MAP).map(([k, n]) => `${n} ${fmt(m[k])}`).join(' · ');
+  return `<div class="card wide"><h2>Сдвиг и качество подбора</h2>
+    <table><thead><tr><th>Показатель</th><th class="n">Значение</th><th class="n">Основание</th><th class="n">Минимум / цель</th></tr></thead><tbody>
+      ${row('<b>Сдвиг</b>: ≥ 2 досмотра выше верхней границы стартовой карты', S.cohort.share, B.shifted, S.cohort.users, 'со стартом 4–8 недель назад', `когорта ${esc(S.cohort.from)} — ${esc(S.cohort.to)}`)}
+      <tr><td>g по Хейку: (медиана досмотренного − старт) / (10 − старт) <span class="muted">· низко ${fmt(S.cohort.g.low)}, средне ${fmt(S.cohort.g.mid)}, высоко ${fmt(S.cohort.g.high)}</span></td>
+        <td class="n ${mark(S.cohort.g.median, B.hakeG.target, B.hakeG.floor, S.cohort.g.n, MB)}">${g(S.cohort.g.median)}</td><td class="n muted">${fmt(S.cohort.g.n)}</td><td class="n">${fmt(B.hakeG.floor, 1)} / ${fmt(B.hakeG.target, 1)}</td></tr>
+      ${row('Proxy reward: досмотр + оценка ≥ 4 через ≥ 3 дня + уровень выше привычного', Q.proxyReward.share, B.proxyReward, Q.proxyReward.base, 'досмотров')}
+      ${row('Valued: «стоило ли» (или оценка при досмотре) ≥ 4', Q.valued.share, B.valued, Q.valued.answered, 'ответов', `ответили на ${pct(Q.valued.answerRate)} досмотров`)}
+      ${row('Качественное принятие: принято и «Смотреть» / досмотр, или «Видел» после показа', Q.take.qualityTake, B.qualityTake, Q.take.shown, 'показов', `просто принято ${pct(Q.take.takeRate)}`)}
+      ${row('ECS: разных принятых / всех принятий', Q.ecs.ecs, B.ecs, Q.ecs.takes, 'принятий', `покрытие показанного ${pct(Q.ecs.coverage)} из ${fmt(Q.ecs.shownWorks)}`)}
+      ${row('Разнообразие: GS к центру вкуса упал за недели 4–8', Q.gs.diversified, B.diversified, Q.gs.users, 'человек', `GS неделя 1 ${g(Q.gs.week1)} → 4–8 ${g(Q.gs.later)}`)}
+      ${row('Ограничитель: разброс сложности принятого не упал', Q.gs.spreadHeld, B.spreadHeld, Q.gs.spreadUsers, 'человек')}
+      ${row('Ревизит: открыл карточку уже оценённого или досмотренного', Q.revisit.userShare, B.revisit, Q.revisit.users, 'открывавших карточки', `карточек-ревизитов ${pct(Q.revisit.share)}`)}
+    </tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Сдвиг за всё время: ${fmt(S.all.shifted)} из ${fmt(S.all.users)} со стартовой картой (${pct(S.all.share)}); карта — ${esc(mapLine(S.all.map))};
+      без стартовой карты среди активных за 28 дней — ${fmt(S.noStart)} (меньше трёх размеченных досмотров). Качество — за 28 дней с ${esc(Q.since)}.
+      Досмотр — чек-ин или «Видел» на фильме, который лента показала раньше. Пороги начальные — откалибровать через две недели беты.</p>
+    <table style="margin-top:10px"><thead><tr><th>От активации (первая лента)</th><th class="n">Когорт</th><th class="n">Людей</th><th class="n">В этот день</th><th class="n">В этот день и позже</th></tr></thead><tbody>
+      ${M.retention.map((r) => `<tr><td>D${r.k}</td><td class="n">${fmt(r.cohorts)}</td><td class="n">${fmt(r.users)}</td><td class="n">${pct(r.exactShare)}</td><td class="n">${pct(r.laterShare)}</td></tr>`).join('')}
+    </tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">WAU по неделям (кончаются в этот день): ${M.wau.map((w) => `${esc(w.to.slice(5))} — <b>${fmt(w.users)}</b>`).join(' · ')}</p></div>`;
+}
+// МА-3 (14.10, worker/engagement.ts): голоса, «поделился», источники новых, подбор по настроению, вопросы, задержка оценки
+const SHARE_WHAT = { film: 'фильм', series: 'сериал', book: 'книга', character: 'герой', together: '«выбрать вместе»', friend: 'позвал в приложение' };
+const SHARE_HOW = { message: 'карточкой (выбрал чат)', telegram: 'окном «переслать»', shared: 'системным «Поделиться»', copied: 'скопировал ссылку' };
+const SURVEY = { scale: 'какая оценка у вас обычная' };
+const dur = (s) => (s == null ? '—' : s < 90 ? `${Math.round(s)} с` : s < 5400 ? `${Math.round(s / 60)} мин` : `${fmt(s / 3600, 1)} ч`);
+function engagementView(E) {
+  if (!E) return '<div class="card wide"><h2>Голоса, «поделился», источники</h2><p class="muted">на сервере ещё нет сводки МА-3 — залейте архив bothost от 14.10</p></div>';
+  const O = E.opens, S = E.sharing, N = E.newcomers, M = E.mood, D = E.ratingDelay;
+  const kv = (rows, names) => (rows.length ? rows.map((r) => `${esc(names[r.k] ?? r.k)} — <b>${fmt(r.n)}</b>`).join(' · ') : '<span class="muted">пока пусто</span>');
+  return `
+    <div class="card wide"><h2>Голоса: открытия и дочитывание, 30 дней</h2>
+      <p style="margin:0 0 8px">открытий ${fmt(O.n)} (с автором ${fmt(O.withVoice)}) · вернулись с замером ${fmt(O.timed)} ·
+        дочитали <b>${pct(O.throughShare)}</b> · медиана снаружи ${dur(O.medianDwell)}</p>
+      ${E.voices.length ? `<table><thead><tr><th>Автор</th><th class="n">Открытий</th><th class="n">Людей</th><th class="n">С замером</th><th class="n">Дочитали</th><th class="n">Медиана снаружи</th></tr></thead><tbody>
+        ${E.voices.map((v) => `<tr><td>${esc(v.title ?? v.voiceId)}</td><td class="n">${fmt(v.opens)}</td><td class="n">${fmt(v.users)}</td><td class="n">${fmt(v.timed)}</td>
+          <td class="n ${v.timed >= 5 ? '' : 'muted'}">${pct(v.throughShare)}</td><td class="n">${dur(v.medianDwell)}</td></tr>`).join('')}</tbody></table>`
+        : '<p class="muted">открытий с автором пока нет — автор пишется с 14.10</p>'}
+      <p class="muted" style="font-size:13px;margin:8px 0 0">«Дочитал» — вернулся в приложение не раньше, чем через половину ролика (без длины — через минуту): досмотр снаружи не виден,
+        время отсутствия — лучшее, что есть. Замер есть, когда приложение уходило на второй план и человек вернулся; серым — меньше пяти замеров.</p></div>
+    <div class="card"><h2>Поделились</h2>
+      <p style="margin:0 0 6px">7 дней: <b>${fmt(S.week.n)}</b> от ${fmt(S.week.users)} чел. — <b>${S.week.per100 == null ? '—' : fmt(S.week.per100, 1)}</b> на 100 активных (${fmt(S.week.active)})</p>
+      <p style="margin:0 0 10px">30 дней: ${fmt(S.month.n)} от ${fmt(S.month.users)} чел. — ${S.month.per100 == null ? '—' : fmt(S.month.per100, 1)} на 100 активных (${fmt(S.month.active)})</p>
+      <p class="muted" style="font-size:13px;margin:0 0 4px">что: ${kv(S.what, SHARE_WHAT)}</p>
+      <p class="muted" style="font-size:13px;margin:0">как: ${kv(S.how, SHARE_HOW)}</p></div>
+    <div class="card"><h2>Новые за 30 дней: откуда</h2>
+      <p style="margin:0 0 8px">пришло ${fmt(N.joined)} · по метке посева ${fmt(N.seeded)} · позвал друг ${fmt(N.invited)} · <b>сами — ${fmt(N.organic)} (${pct(N.organicShare)})</b></p>
+      ${N.sources.length ? `<table><thead><tr><th>Метка</th><th class="n">Пришло</th><th class="n">Позвал друг</th></tr></thead><tbody>
+        ${N.sources.map((r) => `<tr><td>${esc(r.source === '—' ? 'без метки' : r.source)}</td><td class="n">${fmt(r.joined)}</td><td class="n">${fmt(r.invited)}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">новых пока нет</p>'}
+      <p class="muted" style="font-size:13px;margin:8px 0 0">«Сами» — ни метки посева (--s), ни приглашения (--r): пришли без нашего участия. Активация по меткам — в воронке с ?source=.</p></div>
+    <div class="card"><h2>Подбор по настроению, 30 дней</h2>
+      <p style="margin:0 0 8px">запросов ${fmt(M.queries)} от ${fmt(M.users)} чел. · открыли карточку из ответа ${fmt(M.opens)} (${M.opensPerQuery == null ? '—' : fmt(M.opensPerQuery, 2)} на запрос)</p>
+      ${M.top.length ? `<table><thead><tr><th>Частые запросы</th><th class="n">Раз</th></tr></thead><tbody>${M.top.map((t) => `<tr><td>${esc(t.text)}</td><td class="n">${fmt(t.n)}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">запросов пока нет</p>'}</div>
+    <div class="card"><h2>Вопросы приложения и оценки</h2>
+      ${E.surveys.length ? E.surveys.map((x) => `<p style="margin:0 0 4px">${esc(SURVEY[x.survey] ?? x.survey)}: ответов ${fmt(x.n)} от ${fmt(x.users)} чел.</p>`).join('') : '<p class="muted" style="margin:0 0 4px">ответов пока нет</p>'}
+      <p style="margin:10px 0 0">Оценка после показа в ленте: ${fmt(D.n)} оценок · медиана ${D.medianDays == null ? '—' : `${fmt(D.medianDays, 1)} дн.`} · в первые сутки ${pct(D.within1)} · через 3 дня и позже ${pct(D.after3)}</p>
+      <p class="muted" style="font-size:13px;margin:6px 0 0">от первого показа произведения в ленте до оценки; «стоило ли» — в «Сдвиге и качестве подбора».</p></div>`;
+}
 function funnelView(F) {
   if (!F || F.error) return `<div class="note">Воронка: ${esc(F?.error ?? 'нет данных')}</div>`;
   const T = F.thresholds, FL = F.floors ?? {}, MB = F.minBase ?? 0, y = F.yesterday, w = F.week,
@@ -107,6 +174,8 @@ function funnelView(F) {
         <p class="muted" style="font-size:13px;margin:8px 0 0">«Видел» за 7 дней — ${fmt(w.seen)}, из них по подсказке ${fmt(w.prompted)}: фильм лента показала в один из прошлых дней, человек вернулся и отметил.</p>
         <p class="muted" style="font-size:13px;margin:8px 0 0">вчера: были ${fmt(y.visitors)}, новых ${fmt(y.joined)} · 7 дней: были ${fmt(w.visitors)}, новых ${fmt(w.joined)}.
           Удержание — по когортам, у которых нужный день уже прошёл. Пустое «—» — не из чего считать.</p></div>
+      ${metricsView(F.metrics, MB)}
+      ${engagementView(F.engagement)}
       <div class="card"><h2>Воронка новых с ${esc(fr.since)}</h2>
         ${FUNNEL.map(([k, name]) => `<div class="hb"><span class="name" title="${esc(name)}">${esc(name)}</span>
           <span class="track"><i style="width:${Math.max(2, (fr[k] / top) * 100)}%"></i></span><span class="v">${fmt(fr[k])} · ${fr.joined ? pct(fr[k] / fr.joined) : '—'}</span></div>`).join('')}

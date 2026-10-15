@@ -18,6 +18,7 @@ import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
 import { bookAnnotations } from '../src/mocks/bookAnnotations.ts';
 import { bookDrafts } from '../src/mocks/bookDrafts.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
+import { isHeldKey } from '../src/mocks/withheldWorks.ts';
 import { userWorks } from '../src/mocks/userHistory.ts';
 import { externalIds } from '../src/mocks/externalIds.ts';
 import { essays } from '../src/mocks/essays.ts';
@@ -60,6 +61,8 @@ export function annotationGap(): Gap {
   for (const x of worksIndex({ all: true })) {
     if (seen.has(x.key)) continue;
     seen.add(x.key);
+    // отложенное владельцем (heldWorks, 13.10): карточка есть, разметки не будет — ни в очередь, ни в счёт «без разметки»
+    if (isHeldKey(x.key)) continue;
     const kind = x.work.type === 'book' ? 'book' : isSeries(x.work) ? 'series' : 'film';
     // уверенность разметки: undefined — разметки нет
     const conf = x.work.primaryOperations.length && x.work.complexityLevel ? 'high'

@@ -5,9 +5,10 @@ import type { WorkCard } from '@/types/tmdf';
 import { WorkBanner } from './WorkBanner';
 import { WorkIssueSheet } from './WorkIssueSheet';
 import { ShareButton } from './ShareButton';
+import { Hurdles } from './Hurdles';
 import { getPlot } from '@/api';
 import { useSwipe } from '@/lib/swipe';
-import { showBackButton, tap } from '@/lib/telegram';
+import { onExternalClick, showBackButton, tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
 import { useFeature } from '@/lib/flags';
@@ -27,6 +28,8 @@ export interface WorkSheetProps {
   plot?: string;
   /** где открыта карточка — для сообщения о неточности: лента, архив, поиск */
   context?: string;
+  /** «Что может мешать» и предыдущая часть (ДФ-7) — карточке того, что ещё предлагают; начатому и виденному не нужно */
+  hurdles?: boolean;
   children?: ReactNode;
 }
 
@@ -34,7 +37,7 @@ export interface WorkSheetProps {
  *  описание, каналы, где посмотреть, действия — ниже и листается отдельно от ленты
  *  (21.09, по замечанию). На Radix Dialog: ловушка фокуса, Escape, возврат фокуса на баннер
  *  ленты. Ширина — телефонная рамка оболочки. Компонента в дизайн-системе нет. */
-export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, children }: WorkSheetProps) {
+export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, hurdles, children }: WorkSheetProps) {
   const [issue, setIssue] = useState(false);
   const navigate = useNavigate();
   const shown = open && work != null;
@@ -47,13 +50,15 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   const [text, setText] = useState<string | undefined>(plot);
   const [asked, setAsked] = useState(false);
   const [loading, setLoading] = useState(false);
-  useEffect(() => { setPlotOpen(false); setText(plot); setAsked(false); setLoading(false); }, [work?.id, plot]);
+  // источник описания под текстом — когда лицензия требует (Википедия у книг, CC BY-SA)
+  const [source, setSource] = useState<{ name: string; url: string }>();
+  useEffect(() => { setPlotOpen(false); setText(plot); setSource(undefined); setAsked(false); setLoading(false); }, [work?.id, plot]);
   const togglePlot = () => {
     if (!work) return;
     if (!plotOpen && !asked) {
       setAsked(true);
       setLoading(true);
-      getPlot(work.id).then((t) => { if (t) setText(t); }).catch(() => undefined).finally(() => setLoading(false));
+      getPlot(work.id).then((p) => { if (p) { setText(p.text); setSource(p.source); } }).catch(() => undefined).finally(() => setLoading(false));
     }
     setPlotOpen(!plotOpen);
   };
@@ -102,7 +107,7 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
           {work ? (
             <>
               <div className={`tm-worksheet__top${plotOpen ? ' tm-worksheet__top--plot' : ''}`}>
-                <WorkBanner work={work} meta={meta} tag={plotOpen ? undefined : tag} expanded={plotOpen} onClick={togglePlot} />
+                <WorkBanner work={work} meta={meta} tag={plotOpen ? undefined : tag} tagAbove expanded={plotOpen} onClick={togglePlot} />
                 {plotOpen ? null : <span className="tm-worksheet__plothint" aria-hidden="true">{ui.plot.hint}</span>}
                 <RD.Title className="tm-sr">{titleOf(work)}</RD.Title>
                 {/* неточность в карточке (02.10): флажок в левом верхнем углу кадра, напротив «закрыть» */}
@@ -127,11 +132,17 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
               {plotOpen ? (
                 <div className="tm-worksheet__plot" role="region" aria-label={ui.plot.title}>
                   <p className="tm-body-sm">{text?.trim() || (loading ? ui.plot.loading : ui.plot.none)}</p>
+                  {source && text ? (
+                    <a className="tm-caption tm-worksheet__plotsrc" href={source.url} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(source.url)}>
+                      {ui.plot.source(source.name)}
+                    </a>
+                  ) : null}
                 </div>
               ) : null}
               <div className="tm-worksheet__body">
                 {/* подпись «Кадр: …» убрана из карточки 24.09: она сдвигала страницу и давала
                     прокрутку. Атрибуция источников (TMDb требует её) — в настройках, «Откуда данные» */}
+                {hurdles ? <Hurdles work={work} /> : null}
                 {children}
               </div>
               <WorkIssueSheet open={issue} onOpenChange={setIssue} work={work} context={context} />

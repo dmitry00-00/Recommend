@@ -24,6 +24,8 @@ import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
 import { primaryKey, withBookWork, workKeys } from '../src/lib/keys.ts';
 import { bookWorks } from '../src/mocks/bookWorks.ts';
+import { withheldWorks } from '../src/mocks/withheldWorks.ts';
+import { cyrillicBrands } from '../src/lib/brands.ts';
 
 export interface IndexedWork {
   key: string;
@@ -72,12 +74,19 @@ function variants(name: string): string[] {
   const out = [name];
   const unquoted = name.replace(/[«»"“”„]/g, '').replace(/\s+/g, ' ').trim();
   if (unquoted !== name && unquoted.length >= 4) out.push(unquoted);
-  const m = /^(?:A|An)\s+(.+)$/.exec(name);
+  // многоточие внутри — в заголовках его опускают: «Однажды в… Голливуде» пишут «Однажды в Голливуде»; без
+  // варианта дословно совпадал тёзка «Однажды в Голливуде» (What Just Happened, 2008) и забирал ролики (12.10)
+  const dotless = name.replace(/\s*(?:…|\.{3})\s*(?=\S)/g, ' ').replace(/\s+/g, ' ').trim();
+  if (dotless !== name && !/(?:…|\.{3})$/.test(name)) out.push(dotless);
+  const m =/^(?:A|An)\s+(.+)$/.exec(name);
   if (m && m[1].split(/\s+/).length >= 3) out.push(m[1]);
   // «Звёздные войны. Эпизод VI: Возвращение джедая» — каналы пишут «Эпизод 6 - Возвращение Джедая» или одно
   // «Возвращение джедая»: подзаголовок эпизода из двух слов и больше — тоже название (OPS-9, 10.10)
   const ep = /Эпизод\s+[IVX]+\s*[:.]\s*(.+)$/u.exec(name);
   if (ep && ep[1].trim().split(/\s+/).length >= 2) out.push(ep[1].trim());
+  // латинская марка кириллицей: «Дьявол носит прада» (15.10, src/lib/brands.ts)
+  const ru = cyrillicBrands(name);
+  if (ru) out.push(ru);
   return out;
 }
 
@@ -135,7 +144,8 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   const out = new Map<string, IndexedWork>();
   for (const work of all) {
     const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
-    if (!key || out.has(key)) continue;
+    // убранное владельцем (withheldWorks) — ни карточки, ни привязок
+    if (!key || out.has(key) || withheldWorks[key]) continue;
     const searchable = [...new Set([work.title, work.originalTitle].filter((t): t is string => Boolean(t)).flatMap(variants))]
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
     const names = bookOnly.has(work.id) ? [] : worldOnly.has(work.id) ? searchable.filter(worldNameOk) : searchable;

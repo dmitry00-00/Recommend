@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node tools/load-budget.mjs",
     "preview": "vite preview",
     "build:standalone": "vite build --mode standalone && node tools/inline-dist.cjs",
     "typecheck": "tsc --noEmit",

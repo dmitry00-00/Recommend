@@ -10,6 +10,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
+import { voices } from '../src/mocks/voices.ts';
 
 loadEnvFile();
 const PAGE = new URL('./behavior-desk.html', import.meta.url);
@@ -18,6 +19,7 @@ const send = (res: ServerResponse, code: number, body: unknown, type = 'applicat
   res.end(typeof body === 'string' ? body : JSON.stringify(body));
 };
 
+const titleOf = new Map(voices.map((v) => [v.id, v.short ?? v.title]));
 const cache = new Map<string, { at: number; body: unknown }>();
 async function data(withOwner: boolean, fresh: boolean): Promise<{ code: number; body: unknown }> {
   const key = withOwner ? '1' : '0';
@@ -37,6 +39,9 @@ async function data(withOwner: boolean, fresh: boolean): Promise<{ code: number;
       .catch((e: Error) => ({ ok: false, status: 0, statusText: e.message }) as Response);
     const funnel = f.ok ? await f.json() as object
       : { error: f.status === 401 || f.status === 404 ? 'на сервере ещё нет воронки (ЗП-3) — залейте архив bothost от 07.10' : `сервер ответил ${f.status} ${f.statusText}` };
+    // МА-3: голос — id реестра; имя — из справочника голосов сборки (у незнакомого id — сам ключ, в нём имя автора)
+    const eng = (funnel as { engagement?: { voices?: { voiceId: string; title?: string }[] } }).engagement;
+    for (const v of eng?.voices ?? []) v.title = titleOf.get(v.voiceId) ?? v.voiceId.replace(/^[a-z]+:/, '');
     const body = { server, ...(await r.json() as object), funnel };
     cache.set(key, { at: Date.now(), body });
     return { code: 200, body };

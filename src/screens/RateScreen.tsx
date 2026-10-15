@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, WorkCard } from '@/types/tmdf';
-import { getRatingDeck, rateWork, type RatingDeck } from '@/api';
+import { getQuickDeck, getRatingDeck, rateWork, type RatingDeck } from '@/api';
 import { Button, ErrorState, Skeleton, useToast } from '@/components';
 import { cx } from '@/lib/cx';
 import { hasMainButton, outcome, pick, showMainButton, tap } from '@/lib/telegram';
@@ -15,6 +15,22 @@ import { saveSettings, useSettings } from '@/lib/settingsStore';
 import { TASTE_SHELVES } from '@/lib/model/taste';
 
 type Score = 1 | 2 | 3 | 4 | 5;
+
+/** Колода пришла заново, а на экране уже есть (РР-5: полная вместо снимка; или ещё раз — когда включился ряд книг).
+ *  Порядок — того, что на экране: новая считается уже после оценок, и оценённое в ней стоит иначе — строки прыгали бы
+ *  под пальцем; карточки — новой (с разметкой), чего на экране не было (ряд сериалов, книги) — следом. Оценки — с
+ *  экрана (ответ api мог ещё не дойти), счётчик — больший из двух. */
+function keepMarks(full: RatingDeck, shown: RatingDeck): RatingDeck {
+  const merge = (next: RatingDeck['items'], was: RatingDeck['items']) => {
+    const fresh = new Map(next.map((i) => [i.work.id, i]));
+    const had = new Set(was.map((i) => i.work.id));
+    return [...was.map((w) => ({ ...(fresh.get(w.work.id) ?? w), rating: w.rating })), ...next.filter((i) => !had.has(i.work.id))];
+  };
+  return {
+    ...full, items: merge(full.items, shown.items), series: merge(full.series, shown.series),
+    ...(full.books ? { books: merge(full.books, shown.books ?? []) } : {}), rated: Math.max(full.rated, shown.rated),
+  };
+}
 const SCORES: Score[] = [1, 2, 3, 4, 5];
 
 /** Оценка по длине свайпа: чуть вправо — «Хорошо», дальше — «Отлично»; влево так же — «Слабо»
@@ -36,22 +52,26 @@ export function RateScreen() {
   const [failed, setFailed] = useState(false);
   const [skipped, setSkipped] = useState<Set<ID>>(new Set());
   const [attempt, setAttempt] = useState(0);
+  // ряд книг (11.10): за тем же флагом, что лента книг
+  const booksOn = useFeature('readShelf');
 
   useEffect(() => {
     let alive = true;
     setFailed(false);
-    getRatingDeck().then((d) => alive && setDeck(d)).catch(() => alive && setFailed(true));
+    // новому человеку — снимок колоды сразу (РР-5), полная — следом; поставленное на снимке не теряется
+    getQuickDeck().then((q) => { if (alive && q) setDeck((d) => d ?? q); }).catch(() => undefined);
+    getRatingDeck({ books: booksOn }).then((d) => alive && setDeck((prev) => (prev ? keepMarks(d, prev) : d))).catch(() => alive && setFailed(true));
     return () => { alive = false; };
-  }, [attempt]);
+  }, [attempt, booksOn]);
 
   const rate = (id: ID, value: Score | null) => {
     if (!deck) return;
     pick();
     const before = deck;
-    const was = [...deck.items, ...deck.series].find((i) => i.work.id === id)?.rating;
+    const was = [...deck.items, ...deck.series, ...(deck.books ?? [])].find((i) => i.work.id === id)?.rating;
     // оценка применяется сразу; счётчик — по ответу api (он же считает и то, что оценено раньше)
     const set = (list: RatingDeck['items']) => list.map((i) => (i.work.id === id ? { ...i, rating: value ?? undefined } : i));
-    setDeck({ ...deck, items: set(deck.items), series: set(deck.series) });
+    setDeck({ ...deck, items: set(deck.items), series: set(deck.series), ...(deck.books ? { books: set(deck.books) } : {}) });
     rateWork(id, value)
       .then(({ rated, needed }) => {
         setDeck((d) => (d ? { ...d, rated, needed } : d));
@@ -74,7 +94,7 @@ export function RateScreen() {
     tap();
     setSavingPicks(true);
     saveSettings({ tasteShelves: picks.includes(id) ? picks.filter((x) => x !== id) : [...picks, id] })
-      .then(() => getRatingDeck())
+      .then(() => getRatingDeck({ books: booksOn }))
       .then((d) => setDeck(d))
       .catch(() => toast({ text: ui.rate.saveError }))
       .finally(() => setSavingPicks(false));
@@ -106,6 +126,22 @@ export function RateScreen() {
           </div>
         ) : null}
         {deck ? <p className="tm-caption tm-rate__gesture">{ui.rate.gesture}</p> : null}
+        {/* ряд книг внизу, под сотней фильмов: читателю — короткий путь к нему */}
+        {deck?.books?.length ? (
+          <p className="tm-caption tm-rate__jump">
+            {ui.rate.booksJumpLead}{' '}
+            <button type="button" className="tm-coldstart__link"
+                    onClick={() => {
+                      tap();
+                      // под липкую шапку со счётчиком, а не за неё: её высота зависит от ширины и строк
+                      const el = document.getElementById('tm-rate-books');
+                      if (el) el.style.scrollMarginTop = `${(document.querySelector('.tm-rate__head') as HTMLElement | null)?.offsetHeight ?? 0}px`;
+                      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }}>
+              {ui.rate.booksJump}
+            </button>
+          </p>
+        ) : null}
       </div>
 
       {picksOn && deck ? (
@@ -129,7 +165,7 @@ export function RateScreen() {
       {failed ? <ErrorState title={ui.rate.error} onRetry={() => setAttempt(attempt + 1)} /> : null}
       {!deck && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 120, marginTop: i ? 8 : 0 }} />)}
         </div>
       ) : null}
@@ -150,6 +186,20 @@ export function RateScreen() {
           <p className="tm-body-sm tm-rate__lead">{ui.rate.seriesLead}</p>
           <ul className="tm-search__list">
             {settledLast(deck.series).map(({ work, rating }) => (
+              <RateRow key={work.id} work={work} rating={rating as Score | undefined}
+                       off={skipped.has(work.id) && !rating}
+                       onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+      {/* книги — своим рядом (11.10): кто больше читает, чем смотрит, соберёт первую ленту и по ним */}
+      {deck?.books?.length ? (
+        <section className="tm-rate__series" id="tm-rate-books">
+          <h2 className="tm-title-3 tm-rate__title">{ui.rate.booksTitle}</h2>
+          <p className="tm-body-sm tm-rate__lead">{ui.rate.booksLead}</p>
+          <ul className="tm-search__list">
+            {settledLast(deck.books).map(({ work, rating }) => (
               <RateRow key={work.id} work={work} rating={rating as Score | undefined}
                        off={skipped.has(work.id) && !rating}
                        onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
@@ -217,7 +267,7 @@ function RateRow({ work, rating, off, onRate, onSkip }: {
             </button>
           ))}
           {!rating ? (
-            <button type="button" className="tm-rate__skip" onClick={() => onSkip(true)}>{ui.rate.skip}</button>
+            <button type="button" className="tm-rate__skip" onClick={() => onSkip(true)}>{work.type === 'book' ? ui.rate.skipBook : ui.rate.skip}</button>
           ) : null}
         </div>
       )}

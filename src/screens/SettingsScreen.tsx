@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useFeature } from '@/lib/flags';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import type { MediaType, Session, SpoilerLevel, UserSettings } from '@/types/tmdf';
-import { deleteAccount, followsAvailable, getCinemaChoices, getFollows, getSession, getShelves, getTesters, importHistory, isOwnerSession, logout, onFollowsChange, setFollow, setTester, type Follow, type Tester } from '@/api';
+import { noteShare, deleteAccount, diaryFile, diaryLink, followsAvailable, getCinemaChoices, getFollows, getSession, getShelves, getTesters, isOwnerSession, logout, onFollowsChange, setFollow, setTester, type Follow, type Tester } from '@/api';
 import { loadSettings, saveSettings } from '@/lib/settingsStore';
 import { Button, ConsentCard, Dialog, EnergySwitch, ErrorState, ImportHistorySheet, Skeleton, useToast } from '@/components';
 import { applyTheme } from '@/lib/theme';
-import { BOT_USERNAME, openExternal, shareUrl, writeAuthorUrl } from '@/lib/telegram';
+import { BOT_USERNAME, confirmNative, openExternal, saveFile, shareUrl, writeAuthorUrl } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { legalComplete } from '@/lib/legal';
 import ui from '@/i18n';
@@ -183,6 +183,28 @@ export function SettingsScreen() {
   // удаление аккаунта (ЗП-5)
   const [erasing, setErasing] = useState(false);
   const [eraseBusy, setEraseBusy] = useState(false);
+  const erase = () => {
+    setEraseBusy(true);
+    deleteAccount()
+      .then(() => {
+        toast({ text: ui.legal.deleted });
+        // с чистого листа: новая сессия заведёт новый аккаунт
+        setTimeout(() => { window.location.hash = '#/today'; window.location.reload(); }, 600);
+      })
+      .catch(() => { setEraseBusy(false); toast({ text: ui.legal.deleteFailed }); });
+  };
+  const [exporting, setExporting] = useState<'csv' | 'json' | null>(null);
+  // выгрузка дневника (ДФ-14): файл собирается здесь, в Telegram скачивается по ссылке сервера
+  const exportDiary = (format: 'csv' | 'json') => {
+    setExporting(format);
+    diaryFile(format)
+      .then(async (file) => {
+        if (!file.count) { toast({ text: ui.legal.exportEmpty }); return; }
+        if (await saveFile(file, () => diaryLink(file))) toast({ text: ui.legal.exportDone(file.count) });
+      })
+      .catch(() => toast({ text: ui.legal.exportFailed }))
+      .finally(() => setExporting(null));
+  };
   const [session, setSession] = useState<Session | null>(null);
   const [consentLater, setConsentLater] = useState(false);
   const [importing, setImporting] = useState(params.get('import') === '1');
@@ -251,12 +273,8 @@ export function SettingsScreen() {
       <ImportHistorySheet
         open={importing}
         onOpenChange={setImporting}
-        onImport={async (texts, ratingNorm) => {
-          // норма шкалы — часть настроек: от неё модель считает вкус и «понравилось»
-          if (ratingNorm) await save({ ratingNorm });
-          const r = await importHistory(texts);
-          return r ? { added: r.entries.length, resolved: r.resolved } : undefined;
-        }}
+        // норма шкалы — часть настроек: от неё модель считает вкус и «понравилось»
+        onNorm={(ratingNorm) => save({ ratingNorm })}
       />
 
       {owner ? (
@@ -496,7 +514,7 @@ export function SettingsScreen() {
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button size="sm" onClick={() => openExternal(writeAuthorUrl)}>{ui.social.write}</Button>
           {together ? <Button size="sm" variant="quiet" onClick={() => navigate('/together')}>{ui.together.entryAction}</Button> : null}
-          <Button size="sm" variant="quiet" onClick={() => openExternal(shareUrl(ui.social.shareText))}>{ui.social.share}</Button>
+          <Button size="sm" variant="quiet" onClick={() => { noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</Button>
         </div>
       </section>
 
@@ -506,6 +524,16 @@ export function SettingsScreen() {
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button size="sm" onClick={() => navigate('/contribute')}>{ui.settings.contributorOpen}</Button>
           <Button size="sm" variant="quiet" onClick={() => openExternal(`https://t.me/${BOT_USERNAME}`)}>{ui.settings.bot}</Button>
+        </div>
+      </section>
+
+      {/* дневник файлом (ДФ-14): таблица читается обратно нашим импортом и импортом Letterboxd */}
+      <section className="tm-settings__section">
+        <h2 className="tm-title-3 tm-settings__h">{ui.legal.export}</h2>
+        <p className="tm-body-sm tm-settings__note">{ui.legal.exportText}</p>
+        <div className="tm-row tm-row--gap-2 tm-row--wrap">
+          <Button size="sm" variant="secondary" loading={exporting === 'csv'} disabled={exporting !== null} onClick={() => exportDiary('csv')}>{ui.legal.exportCsv}</Button>
+          <Button size="sm" variant="quiet" loading={exporting === 'json'} disabled={exporting !== null} onClick={() => exportDiary('json')}>{ui.legal.exportJson}</Button>
         </div>
       </section>
 
@@ -520,20 +548,16 @@ export function SettingsScreen() {
         </div>
         <p className="tm-body-sm tm-settings__note">{ui.legal.deleteText}</p>
         <div className="tm-row tm-row--gap-2">
-          <Button size="sm" variant="danger" onClick={() => setErasing(true)}>{ui.legal.delete}</Button>
+          <Button size="sm" variant="danger" onClick={() => {
+            // в Telegram — его окно (ДФ-3): оно выглядит как остальной мессенджер, и его не спутать с нашим экраном
+            const native = confirmNative(ui.legal.deleteTitle, ui.legal.deleteBody, ui.legal.deleteConfirm);
+            if (native) void native.then((yes) => { if (yes) erase(); });
+            else setErasing(true);
+          }}>{ui.legal.delete}</Button>
         </div>
         <Dialog open={erasing} onOpenChange={setErasing} title={ui.legal.deleteTitle} destructive
                 confirm={ui.legal.deleteConfirm} busy={eraseBusy}
-                onConfirm={() => {
-                  setEraseBusy(true);
-                  deleteAccount()
-                    .then(() => {
-                      toast({ text: ui.legal.deleted });
-                      // с чистого листа: новая сессия заведёт новый аккаунт
-                      setTimeout(() => { window.location.hash = '#/today'; window.location.reload(); }, 600);
-                    })
-                    .catch(() => { setEraseBusy(false); toast({ text: ui.legal.deleteFailed }); });
-                }}>
+                onConfirm={erase}>
           {ui.legal.deleteBody}
         </Dialog>
       </section>

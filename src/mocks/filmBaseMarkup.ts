@@ -4452,7 +4452,7 @@ export const filmBaseMarkup: WorkCard[] = [
   {
     "id": "f-wd35083659",
     "type": "film",
-    "title": "Черновик (фильм)",
+    "title": "Черновик",
     "originalTitle": "A Rough Draft",
     "year": 2018,
     "creators": [
@@ -11298,6 +11298,26 @@ export const filmBaseMarkup: WorkCard[] = [
     "externalIds": {
       "tmdb": 643586,
       "imdb": "tt8114980"
+    }
+  },
+  {
+    "id": "f-wd1332263",
+    "type": "film",
+    "title": "Солдатики",
+    "originalTitle": "Small Soldiers",
+    "year": 1998,
+    "creators": [
+      "Джо Данте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 108,
+    "externalIds": {
+      "tmdb": 11551,
+      "imdb": "tt0122718"
     }
   }
 ];

@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-candidate-media.mts (2026-09-22): внешние ID,
+// Сгенерировано tools/build-candidate-media.mts (2026-10-12): внешние ID,
 // картинки, описание и «где посмотреть» пула кандидатов. Не править руками — перегенерировать.
 import type { WorkCard } from '@/types/tmdf';
 
@@ -96,26 +96,41 @@ export const candidateMedia: Record<string, Partial<WorkCard>> = {
     }
   },
   "c-burning": {
-    "coverUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/2970.jpg",
-    "stillUrl": "https://image.tmdb.org/t/p/w780/sYpNbnOlIKW5nlrPDFOGpnCUlz9.jpg",
-    "imageSource": "kinopoisk_unofficial",
-    "blurb": "Миссисипи, 1964 год, времена расовой сегрегации. Агенты ФБР Андерсон и Уорд приезжают расследовать дело об исчезновении трёх активистов за гражданские права. Здесь жизнь чернокожего не стоит и гроша, а местные копы и ку-клукс-клан не сильно отличаются друг от друга. У матёрого Андерсона свои жёсткие методы работы, а молодой Уорд старается следовать букве закона.",
+    "coverUrl": "https://image.tmdb.org/t/p/w342/yPuYeQSMnXUHkv0fhvORbEK9Y0I.jpg",
+    "stillUrl": "https://image.tmdb.org/t/p/w780/qQEt2FqF8McryFBNX30dyDJKiEK.jpg",
+    "imageSource": "tmdb",
+    "blurb": "Будущий писатель, его школьная подруга после пластической операции и успешный денди-поджигатель — герои мечутся под тихие звуки саксофона на фоне современной Южной Кореи. Пытаются сжечь прошлое, изо всех сил остаться «нормальными» и не потерять себя.",
     "watch": [
       {
-        "platform": "Okko",
-        "url": "https://okko.tv/movie/mississippi-burning?utm_medium=referral&utm_source=yandex_search&utm_campaign=new_search_feed",
-        "logoUrl": "https://avatars.mds.yandex.net/get-ott/239697/7713e586-17d1-42d1-ac62-53e9ef1e70c3/orig",
-        "source": "kinopoisk_unofficial"
+        "platform": "Kinopoisk",
+        "url": "https://www.themoviedb.org/movie/491584/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/oroIyNGCu4ltli1lI4m7em1IYE5.png",
+        "source": "tmdb",
+        "kind": "subscription"
+      },
+      {
+        "platform": "More TV",
+        "url": "https://www.themoviedb.org/movie/491584/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/wHcDyjaZErklrtARmzumQE8TqJp.png",
+        "source": "tmdb",
+        "kind": "ads"
+      },
+      {
+        "platform": "Google Play Movies",
+        "url": "https://www.themoviedb.org/movie/491584/watch?locale=RU",
+        "logoUrl": "https://image.tmdb.org/t/p/w92/aZRENwYILujqs0RVOZutTh0BVGV.png",
+        "source": "tmdb",
+        "kind": "rent"
       }
     ],
-    "durationMinutes": 128,
+    "durationMinutes": 148,
     "countries": [
-      "United States of America"
+      "South Korea",
+      "Japan"
     ],
     "externalIds": {
-      "tmdb": 1632,
-      "imdb": "tt0095647",
-      "kinopoisk": 2970
+      "tmdb": 491584,
+      "imdb": "tt7282468"
     }
   },
   "c-enemy": {

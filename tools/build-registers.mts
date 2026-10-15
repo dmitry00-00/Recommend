@@ -13,6 +13,7 @@ import { watchedWorks } from '../src/mocks/userWatched.ts';
 import { filmBase } from '../src/mocks/filmBase.ts';
 import { pick, tagSource } from './register-tags.mts';
 import type { Register, WorkCard } from '../src/types/tmdf.ts';
+import { isSeries } from '../src/lib/media.ts';
 
 const { tags, save } = tagSource();
 
@@ -32,6 +33,8 @@ let missing = 0;
 for (const w of works) {
   const id = w.externalIds?.tmdb;
   if (id == null) { missing += 1; continue; }
+  // у сериала номер TMDb свой — /movie/<id> отдал бы чужой фильм; регистр сериалов — build-series-registers.mts
+  if (isSeries(w)) continue;
   const t = await tags(id);
   out[w.id] = pick(t.genres, t.keywords);
 }

@@ -1,7 +1,7 @@
 // Сопоставление импортированных записей с каталогом. Точное — по внешним ID, иначе по
 // нормализованному названию (оригинальному или переводному) и году ±1. Что не совпало —
 // возвращается отдельно: это материал для сетки знакомства, а не потеря.
-import type { ISODate, JourneyEntryData, MediaType, WorkCard } from '@/types/tmdf';
+import type { ID, ISODate, JourneyEntryData, MediaType, WorkCard } from '@/types/tmdf';
 import { isSeries } from '@/lib/media';
 import type { ImportedRecord } from './types';
 
@@ -36,6 +36,58 @@ export function matchWork(record: ImportedRecord, works: WorkCard[]): WorkCard |
     const yearOk = record.year == null || Math.abs(w.year - record.year) <= 1;
     return titleOk && yearOk;
   });
+}
+
+/** Насколько мы уверены в сопоставлении (ДФ-11, 14.10): `id` — по внешнему ID; `exact` — название и год
+ *  совпали, и такая карточка одна; `loose` — название совпало, а год ±1, не указан или карточек несколько —
+ *  это человек проверяет сам в предпросмотре. */
+export type MatchHow = 'id' | 'exact' | 'loose';
+export interface ScoredMatch { work: WorkCard; how: MatchHow; alternatives: WorkCard[] }
+
+/** Индекс каталога для сопоставления многих записей: перебор всего каталога на каждую строку выгрузки —
+ *  десятки тысяч нормализаций на запись. Ключи — внешние ID и нормализованные названия. */
+export interface MatchIndex { byId: Map<string, WorkCard>; byTitle: Map<string, WorkCard[]> }
+export function buildMatchIndex(works: WorkCard[]): MatchIndex {
+  const byId = new Map<string, WorkCard>();
+  const byTitle = new Map<string, WorkCard[]>();
+  const putId = (k: string, w: WorkCard) => { if (!byId.has(k)) byId.set(k, w); };
+  for (const w of works) {
+    const ids = w.externalIds;
+    if (ids?.imdb) putId(`imdb:${ids.imdb}`, w);
+    if (ids?.tmdb != null) putId(`tmdb:${kindOf(w)}:${ids.tmdb}`, w);
+    if (ids?.kinopoisk != null) putId(`kp:${ids.kinopoisk}`, w);
+    for (const i of ids?.isbn ?? []) putId(`isbn:${i}`, w);
+    if (ids?.wikidata) putId(`wd:${ids.wikidata}`, w);
+    for (const t of new Set([normalizeTitle(w.title), w.originalTitle ? normalizeTitle(w.originalTitle) : ''])) {
+      if (!t) continue;
+      const list = byTitle.get(t) ?? byTitle.set(t, []).get(t)!;
+      // одна карточка может лежать в каталоге дважды (справочник и история) — второй раз не кладём
+      if (!list.some((x) => x.id === w.id)) list.push(w);
+    }
+  }
+  return { byId, byTitle };
+}
+
+export function matchScored(record: ImportedRecord, index: MatchIndex): ScoredMatch | undefined {
+  if (!KNOWN.includes(record.type)) return undefined;
+  const ids = record.externalIds;
+  const byId = ids && ((ids.imdb && index.byId.get(`imdb:${ids.imdb}`))
+    || (ids.tmdb != null && index.byId.get(`tmdb:${record.type}:${ids.tmdb}`))
+    || (ids.kinopoisk != null && index.byId.get(`kp:${ids.kinopoisk}`))
+    || ids.isbn?.map((i) => index.byId.get(`isbn:${i}`)).find(Boolean)
+    || (ids.wikidata && index.byId.get(`wd:${ids.wikidata}`)));
+  if (byId) return { work: byId, how: 'id', alternatives: [] };
+  const titles = [record.title, record.originalTitle].filter((t): t is string => Boolean(t)).map(normalizeTitle).filter(Boolean);
+  const found = new Map<ID, WorkCard>();
+  for (const t of titles) for (const w of index.byTitle.get(t) ?? []) if (kindOf(w) === record.type) found.set(w.id, w);
+  const near = [...found.values()].filter((w) => record.year == null || Math.abs(w.year - record.year) <= 1);
+  if (!near.length) return undefined;
+  // ближе по году — первым; без года у записи — сначала размеченное, потом новее
+  near.sort((a, b) => (record.year != null ? Math.abs(a.year - record.year) - Math.abs(b.year - record.year) : 0)
+    || (b.complexityLevel > 0 ? 1 : 0) - (a.complexityLevel > 0 ? 1 : 0) || b.year - a.year);
+  const exact = record.year != null && near.filter((w) => w.year === record.year);
+  if (exact && exact.length === 1) return { work: exact[0], how: 'exact', alternatives: near.filter((w) => w !== exact[0]) };
+  return { work: near[0], how: 'loose', alternatives: near.slice(1) };
 }
 
 export interface ImportOutcome {

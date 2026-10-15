@@ -46,7 +46,7 @@ export function PersonScreen() {
       {failed ? <ErrorState title={ui.state.errorPerson} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           <Skeleton kind="block" style={{ height: 72 }} />
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 88, marginTop: 8 }} />)}
         </div>
@@ -69,6 +69,15 @@ export function PersonScreen() {
                 {[data.info.description ? data.info.description[0].toLocaleUpperCase('ru') + data.info.description.slice(1) : undefined,
                   data.info.born ? ui.person.years(data.info.born, data.info.died) : undefined].filter(Boolean).join(' · ')}
               </p>
+            ) : null}
+            {/* почерк (14.10): что его вещи делают со зрителем, обычный уровень и барьеры */}
+            {data.style ? (
+              <>
+                <p className="tm-body tm-person__style">{data.style.what}</p>
+                <p className="tm-caption tm-person__stylemeta">
+                  {[ui.person.styleLevel(data.style.lo, data.style.hi), data.style.barriers.length ? ui.person.styleBarriers(data.style.barriers) : undefined].filter(Boolean).join(' · ')}
+                </p>
+              </>
             ) : null}
             <p className="tm-caption">
               {[data.roles.map((r) => ui.person.role[r]).join(', '), ui.person.works(data.works.length),

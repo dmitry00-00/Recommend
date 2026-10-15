@@ -28,12 +28,13 @@ html = html.replace(/<link[^>]+rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g, (_, 
   return `<style>${inlineAssets(css)}</style>`;
 });
 
-// 3. скрипт — в <script type="module"> без src: инлайновый модуль работает из file://
+// 3. скрипт — в <script> без src: инлайновый модуль работает из file://. Обычный скрипт
+// (telegram-web-app.js) остаётся обычным: модуль выполнился бы позже и в строгом режиме
 html = html.replace(/<script[^>]*src="([^"]+)"[^>]*><\/script>/g, (whole, src) => {
-  // внешние скрипты (telegram-web-app.js) остаются ссылкой: без сети их просто нет
+  // внешние скрипты остаются ссылкой: без сети их просто нет
   if (/^(https?:)?\/\//.test(src)) return whole;
   const js = fs.readFileSync(path.join(DIST, src.replace(/^\.\//, '')), 'utf8');
-  return '<script type="module">' + js + '\n</scr' + 'ipt>';
+  return (/type="module"/.test(whole) ? '<script type="module">' : '<script>') + js + '\n</scr' + 'ipt>';
 });
 
 // 4. предзагрузки модулей больше не нужны

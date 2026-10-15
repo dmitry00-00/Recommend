@@ -395,6 +395,9 @@
 .tm-checkin__stepmark--done::before { background: var(--tm-color-ink-muted); }
 .tm-checkin__note { margin: 0; color: var(--tm-color-ink-faint); }
 .tm-checkin__q { margin: 0 0 var(--tm-space-3); }
+/* «Стоило ли?» после вопросов чек-ина (ДФ-10) */
+.tm-checkin__worth { margin: var(--tm-space-4) 0; display: grid; gap: var(--tm-space-3); }
+.tm-checkin__worth .tm-checkin__q { margin: 0; }
 .tm-checkin__dtitle { margin: 0 0 var(--tm-space-3); }
 .tm-checkin__debrief > * + * { margin-top: var(--tm-space-4); }
 .tm-checkin__exttitle { margin: 0 0 var(--tm-space-2); }
@@ -645,6 +648,22 @@
 .tm-packet__title, .tm-import__title { margin: 0 0 var(--tm-space-3); }
 .tm-import__head { justify-content: space-between; margin-bottom: var(--tm-space-3); }
 .tm-import__sum { color: var(--tm-color-ink-muted); }
+/* импорт как UX (ДФ-11): источник с шагами, предпросмотр, строки «проверьте», успех с отменой */
+.tm-import__guide { display: grid; gap: var(--tm-space-2); margin: var(--tm-space-3) 0; }
+.tm-import__steps { margin: 0; padding-left: 1.4em; display: grid; gap: var(--tm-space-1); }
+.tm-import__progress { color: var(--tm-color-ink-muted); }
+.tm-import__report { display: grid; gap: var(--tm-space-2); margin: var(--tm-space-3) 0; }
+.tm-import__summary { margin: 0; }
+.tm-import__list { margin: 0; padding-left: 1.2em; display: grid; gap: var(--tm-space-1); }
+.tm-import__own { margin: var(--tm-space-1) 0 0; padding-left: 1.2em; max-height: 200px; overflow-y: auto; }
+.tm-import__check { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--tm-space-3); }
+.tm-import__row { display: grid; gap: var(--tm-space-1); padding: var(--tm-space-3) 0; border-top: 1px solid var(--tm-color-line); }
+.tm-import__row--off .tm-import__from { text-decoration: line-through; color: var(--tm-color-ink-muted); }
+.tm-import__from, .tm-import__to { margin: 0; }
+.tm-import__to { color: var(--tm-color-ink-muted); }
+.tm-import__search { display: grid; gap: var(--tm-space-2); margin-top: var(--tm-space-1); }
+.tm-import__error { color: var(--tm-color-signal-stop); }
+.tm-import__done { display: grid; gap: var(--tm-space-2); }
 
 .tm-blind { display: flex; justify-content: space-between; align-items: center; gap: var(--tm-space-4); padding: var(--tm-space-4); border: 1px dashed var(--tm-color-line-strong); border-radius: var(--tm-radius-card); background: var(--tm-color-surface-200); }
 .tm-blind--on { border-style: solid; border-color: var(--tm-color-ink-muted); }

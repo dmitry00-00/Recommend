@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import { lazy, useEffect, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
+import { Skeleton } from '@/components/Skeleton';
 import { loadSettings, useRole, useSettings } from '@/lib/settingsStore';
 import { useFeature, type Feature } from '@/lib/flags';
 // Редкие экраны (механика, кураторская, задания участника) — отдельными кусками: в основной
@@ -10,9 +11,10 @@ import { TodayScreen } from '@/screens/TodayScreen';
 import { WorkScreen } from '@/screens/WorkScreen';
 import { OpenSharedScreen } from '@/screens/OpenSharedScreen';
 import { SearchScreen } from '@/screens/SearchScreen';
-import { MoodScreen } from '@/screens/MoodScreen';
 import { RateScreen } from '@/screens/RateScreen';
-import { VoiceScreen } from '@/screens/VoiceScreen';
+// «Под настроение» и страница автора (ДФ-4, 14.10) — тоже кусками: с ленты в них уходят не сразу и не все
+const MoodScreen = lazy(() => import('@/screens/MoodScreen').then((m) => ({ default: m.MoodScreen })));
+const VoiceScreen = lazy(() => import('@/screens/VoiceScreen').then((m) => ({ default: m.VoiceScreen })));
 const LoopScreen = lazy(() => import('@/screens/LoopScreen').then((m) => ({ default: m.LoopScreen })));
 const OwnerDeskScreen = lazy(() => import('@/screens/OwnerDeskScreen').then((m) => ({ default: m.OwnerDeskScreen })));
 const MapScreen = lazy(() => import('@/screens/MapScreen').then((m) => ({ default: m.MapScreen })));
@@ -32,6 +34,7 @@ const FirstMapScreen = lazy(() => import('@/screens/FirstMapScreen').then((m) =>
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { LegalScreen } from '@/screens/LegalScreen';
 import { TogetherScreen } from '@/screens/TogetherScreen';
+import { CollectionsScreen } from '@/screens/CollectionsScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 const ContributorScreen = lazy(() => import('@/screens/ContributorScreen').then((m) => ({ default: m.ContributorScreen })));
 const ContributorTaskScreen = lazy(() => import('@/screens/ContributorTaskScreen').then((m) => ({ default: m.ContributorTaskScreen })));
@@ -48,6 +51,18 @@ const PacketsScreen = lazy(() => simple().then((m) => ({ default: m.PacketsScree
 const RunsScreen = lazy(() => simple().then((m) => ({ default: m.RunsScreen })));
 const SourcesScreen = lazy(() => simple().then((m) => ({ default: m.SourcesScreen })));
 const TaxonomyScreen = lazy(() => simple().then((m) => ({ default: m.TaxonomyScreen })));
+
+/** Пока кусок экрана грузится (на медленной сети — секунды): заголовок и строки-заготовки, как у самих экранов,
+ *  а не пустое место под меню. Остальные отложенные экраны редкие — у них по-прежнему пусто (App.tsx). */
+function ScreenLoading() {
+  return (
+    <main className="tm-shell__main" aria-busy="true">
+      <Skeleton kind="title" style={{ width: '60%' }} />
+      {[0, 1, 2, 3, 4].map((i) => <Skeleton key={i} kind="block" style={{ height: 74, marginTop: i ? 8 : 16 }} />)}
+    </main>
+  );
+}
+const Loading = ({ children }: { children: ReactNode }) => <Suspense fallback={<ScreenLoading />}>{children}</Suspense>;
 
 /** Только админу (ТВ-3в, 06.10): статистика, петля прогноза, кураторская, разметка владельца. Роль
  *  приходит с настройками — до них ничего не решаем; не админа уводим в ленту. */
@@ -78,9 +93,9 @@ export const routes: RouteObject[] = [
   { path: '/assessment/:id', element: <AssessmentScreen /> },
   { path: '/onboarding/map', element: <FirstMapScreen /> },
   { path: '/search', element: <Gate f="search"><SearchScreen /></Gate> },
-  { path: '/mood', element: <Gate f="search"><MoodScreen /></Gate> },
+  { path: '/mood', element: <Gate f="search"><Loading><MoodScreen /></Loading></Gate> },
   { path: '/rate', element: <RateScreen /> },
-  { path: '/voice/:id', element: <Gate f="pages"><VoiceScreen /></Gate> },
+  { path: '/voice/:id', element: <Gate f="pages"><Loading><VoiceScreen /></Loading></Gate> },
   { path: '/works/:id', element: <WorkScreen /> },
   { path: '/open/:param', element: <OpenSharedScreen /> },
   { path: '/person/:id', element: <Gate f="pages"><PersonScreen /></Gate> },
@@ -100,6 +115,8 @@ export const routes: RouteObject[] = [
   // выбор компанией (ЗП-11): /together — собрать десятку, /together/:id — голосовать и итог
   { path: '/together', element: <Gate f="together"><TogetherScreen /></Gate> },
   { path: '/together/:id', element: <TogetherScreen /> },
+  { path: '/collections', element: <Gate f="collections"><CollectionsScreen /></Gate> },
+  { path: '/collections/:id', element: <Gate f="collections"><CollectionsScreen /></Gate> },
   { path: '/loop', element: <AdminOnly><LoopScreen /></AdminOnly> },
   { path: '/owner', element: <AdminOnly><OwnerDeskScreen /></AdminOnly> },
   { path: '/curator', element: <AdminOnly><CuratorQueueScreen /></AdminOnly> },

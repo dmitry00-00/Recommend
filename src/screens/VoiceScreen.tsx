@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getVoiceWorks, type VoiceWorks } from '@/api';
 import { EmptyState, ErrorState, Skeleton } from '@/components';
-import { monogram } from '@/lib/voices';
 import { onExternalClick } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
 import { WorkThumb } from '@/components/WorkThumb';
+import { Avatar } from '@/components/WorkVoices';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
 
@@ -35,7 +35,6 @@ export function VoiceScreen() {
   }, [id, attempt]);
 
   const voice = data?.voice;
-  const { letter, hue } = monogram(voice?.title ?? '?');
   return (
     <main className="tm-shell__main tm-voicepage">
       <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.voice.back}</button>
@@ -43,7 +42,7 @@ export function VoiceScreen() {
       {failed ? <ErrorState title={ui.state.errorVoice} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {!data && !failed ? (
         <div aria-busy="true">
-          <span className="tm-sr">{ui.today.loading}</span>
+          <span className="tm-sr">{ui.actions.loading}</span>
           <Skeleton kind="block" style={{ height: 96 }} />
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 88, marginTop: 8 }} />)}
         </div>
@@ -53,10 +52,7 @@ export function VoiceScreen() {
       {voice && data ? (
         <>
           <header className="tm-voicepage__head">
-            <span className="tm-voice__avatar tm-voice__avatar--page" aria-hidden="true"
-                  style={voice.avatarUrl ? undefined : { background: `hsl(${hue} 35% 30%)` }}>
-              {voice.avatarUrl ? <img className="tm-voice__img" src={voice.avatarUrl} alt="" /> : letter}
-            </span>
+            <Avatar voice={voice} size="page" />
             <div className="tm-voicepage__who">
               <h1 className="tm-title-2">{voice.title}</h1>
               <p className="tm-caption">{ui.voice.works(data.items.length)}</p>

@@ -8,7 +8,7 @@ export const LEGAL = {
   operator: env(import.meta.env.VITE_LEGAL_OPERATOR),
   email: env(import.meta.env.VITE_LEGAL_EMAIL),
   /** дата редакции — менять вместе с текстами в ru.legal */
-  edition: '07.10.2026',
+  edition: '14.10.2026', // 14.10: выгрузка дневника — срок хранения файла и право скачать (ДФ-14); чей разбор и время до возврата, запросы подбора по настроению, «поделился», ответы на вопросы (МА-3); 13.10: диапазон сложности и «стоило ли» (МА-1/МА-2)
 } as const;
 
 export const legalComplete = Boolean(LEGAL.operator && LEGAL.email);

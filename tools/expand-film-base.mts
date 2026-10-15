@@ -10,6 +10,7 @@
 // Замер, ради которого это написано (23.09): двенадцать новых каналов дали 3730 постов и
 // всего 33 привязки, при том что названий в кавычках там 7427. В справочнике находилось 5–10%,
 // и ровно столько же — у наших нынешних источников. Значит, узкое место не каналы, а база.
+import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { stemOf } from './title-match.mts';
 import { worksIndex } from './works-index.mts';
@@ -134,7 +135,7 @@ for (const { title } of todo) {
       const card: WorkCard = {
         id: `f-wd${qid.slice(1)}`,
         type: 'film',
-        title: ru ?? en ?? title,
+        title: plainTitle(ru ?? en ?? title),
         ...(en && en !== ru ? { originalTitle: en } : {}),
         year,
         creators: [],
