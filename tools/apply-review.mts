@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { draftReview, type ReviewMark } from '../src/mocks/draftReview.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 
 const files = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 if (!files.length) { console.error('нужен файл решений из кураторской (кнопка «Скачать решения»)'); process.exit(1); }

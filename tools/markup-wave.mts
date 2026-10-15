@@ -24,7 +24,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
 import { userWorks } from '../src/mocks/userHistory.ts';
 import { externalIds } from '../src/mocks/externalIds.ts';

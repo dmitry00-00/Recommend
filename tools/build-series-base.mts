@@ -7,7 +7,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex, analysisKey } from './works-index.mts';
 import { normalizeWork } from '../src/lib/media.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 

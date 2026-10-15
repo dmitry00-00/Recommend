@@ -31,7 +31,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex, analysisKeys, idsOf } from './works-index.mts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isWithheld } from '../src/mocks/withheldWorks.ts';

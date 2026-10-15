@@ -14,7 +14,7 @@ import { writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import { userAnnotations } from '../src/mocks/userAnnotations.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 import { bookAnnotations } from '../src/mocks/bookAnnotations.ts';
 import { bookDrafts } from '../src/mocks/bookDrafts.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';

@@ -7,7 +7,7 @@
 import { worksIndex } from './works-index.mts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
-import { seriesAnnotations } from '../src/mocks/seriesAnnotations.ts';
+import { seriesAnnotations } from './series-annotations.mts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';
 import { sources } from '../src/mocks/sources.ts';
