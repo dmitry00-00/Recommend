@@ -786,6 +786,23 @@ button.tm-banner { cursor: pointer; }
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tm-color-ink-faint); }
 .tm-edge__no { color: var(--tm-color-accent-ink); }
 
+/* Заставка-плёнка «Сегодня» (16.10, FilmReel, флаг reel): те же дорожка и вырезы, что у .tm-filmstrip, — фазу
+   перфорации ведёт скрипт через background-position-y. Слои: дорожки → пролетающие кадры (их надпечатка
+   ложится на дорожку) → копии карточек ленты, на которых плёнка встаёт. */
+.tm-reel { --track: 26px; position: fixed; top: 0; bottom: 0; z-index: 60; overflow: hidden; contain: strict;
+  background: var(--tm-color-surface-200); touch-action: none; cursor: pointer; transition: opacity 0.4s ease; }
+.tm-reel.is-done { opacity: 0; pointer-events: none; }
+.tm-reel__track { position: absolute; left: 0; top: 0; bottom: 0; z-index: 1; width: var(--track);
+  background-color: var(--tm-color-surface-200);
+  background-image: linear-gradient(to bottom, var(--tm-color-surface-100) 0 6px, transparent 6px);
+  background-size: 8px 14px; background-repeat: repeat-y; background-position: 15px 4px; }
+.tm-reel__track--right { left: auto; right: 0; background-position-x: 3px; }
+.tm-reel__film { position: absolute; inset: 0; z-index: 2; }
+.tm-reel__frame { position: absolute; top: 0; left: var(--track); right: var(--track); will-change: transform; background: var(--tm-color-surface-100); }
+.tm-reel__frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tm-reel__frame img:not([src]) { visibility: hidden; }
+.tm-reel__land { position: absolute; left: 0; right: 0; top: 0; z-index: 3; will-change: transform; }
+
 /* дневник сериала (Е3): «где вы сейчас» — сезон и серия */
 .tm-serieswhere__row { align-items: center; margin: var(--tm-space-2) 0; }
 .tm-serieswhere__label { min-width: 4.5em; }

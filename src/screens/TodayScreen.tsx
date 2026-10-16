@@ -8,7 +8,7 @@ import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion,
 import { TrailerSheet } from '@/components/TrailerSheet';
 import {
   Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
-  FilmEdge, WorkBanner, WorkSheet, useToast,
+  FilmEdge, FilmReel, WorkBanner, WorkSheet, reelKnow, reelKnown, reelPlayed, reelWanted, useToast,
 } from '@/components';
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
@@ -306,7 +306,16 @@ export function TodayScreen() {
   // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
   const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  // заставка-плёнка (16.10): раз за сессию, пока грузится лента. Решаем сразу при входе: редакция приходит
+  // с настройками позже, поэтому «эталон ли это» помним с прошлого запуска, а доля выката известна сразу
+  const reelOn = useFeature('reel');
+  const [reel, setReel] = useState(() => reelWanted() && (reelOn || reelKnown()));
+  useEffect(() => { if (reel) reelPlayed(); }, [reel]);
+  const settingsLoaded = userSettings != null;
+  useEffect(() => { if (settingsLoaded) reelKnow(reelOn); }, [settingsLoaded, reelOn]);
   const [slate, setSlate] = useState<RecommendationSlate | null>(null);
+  // пролетающие кадры заставки — из ленты человека, как только она есть
+  const reelWorks = useMemo(() => slate?.items.map((r) => r.work) ?? [], [slate]);
   const [spoilerLevel, setSpoilerLevel] = useState<SpoilerLevel>(0);
   const [finishedIds, setFinishedIds] = useState<Set<string>>(new Set());
   const [archived, setArchived] = useState(0);
@@ -558,6 +567,7 @@ export function TodayScreen() {
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
     <main className="tm-shell__main tm-stream" ref={mainRef}>
+      {reel ? <FilmReel works={reelWorks} ready={Boolean(slate) || Boolean(failed)} column={mainRef} onDone={() => setReel(false)} /> : null}
       <h1 className="tm-sr">{ui.nav.today}</h1>
       {plans ? <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
         <span className="tm-stream__archiveicon" aria-hidden="true" />

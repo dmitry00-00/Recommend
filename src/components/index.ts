@@ -76,6 +76,7 @@ export { TropeUsagePicker } from './TropeUsagePicker';
 export { UncertaintyMark } from './UncertaintyMark';
 export { ValidationList } from './ValidationList';
 export { WorkBanner, FilmEdge } from './WorkBanner';
+export { FilmReel, reelKnow, reelKnown, reelPlayed, reelWanted } from './FilmReel';
 export { WorkCover } from './WorkCover';
 export { WorkHeader } from './WorkHeader';
 export { WorkSheet } from './WorkSheet';
