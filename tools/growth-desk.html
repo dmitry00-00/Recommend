@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рост</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8; --bar: #2f5fd0; --bar2: #b9c6ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926; --bar: #7ea2ff; --bar2: #3b4866; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .sub { color: var(--muted); margin: 4px 0 16px; max-width: 860px; }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  button, input, select { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; }
+  button { cursor: pointer; } button:disabled { opacity: .5; cursor: default; }
+  input { padding: 5px 8px; min-width: 0; }
+  label { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 14px; }
+  .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .spacer { flex: 1; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 0 0 18px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+  .card.wide { grid-column: 1 / -1; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  .ci { display: block; color: var(--muted); font-size: 11px; }
+  .weeks { display: flex; align-items: flex-end; gap: 4px; height: 140px; padding-top: 6px; }
+  .weeks .w { flex: 1; display: flex; align-items: flex-end; gap: 2px; height: 100%; }
+  .weeks i { flex: 1; min-height: 1px; border-radius: 3px 3px 0 0; }
+  .weeks i.a { background: var(--bar); } .weeks i.j { background: var(--bar2); }
+  .legend { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .form { display: grid; grid-template-columns: 1fr 1.4fr 1fr .8fr .6fr 2fr auto; gap: 6px; align-items: center; margin: 0 0 10px; }
+  @media (max-width: 900px) { .form { grid-template-columns: 1fr 1fr; } }
+  .note { padding: 10px 14px; border-left: 3px solid var(--warn); background: var(--panel); border-radius: 0 10px 10px 0; margin: 0 0 18px; }
+  .err { color: var(--bad); }
+  .x { border: 0; background: none; color: var(--muted); padding: 0 4px; } .x:hover { color: var(--bad); }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div class="head"><h1>Рост</h1><span class="muted" id="when"></span><span class="spacer"></span>
+    <label><input type="checkbox" id="tg" checked> только Telegram</label>
+    <label><input type="checkbox" id="internal"> с нами (владелец и тестеры)</label>
+    <button id="fresh">Обновить</button></div>
+  <p class="sub">Откуда приходят люди и что с ними дальше: источники с ценой посева, недели, первый вход свайпом против колоды, вирусность.
+    Доли — с интервалом 95 % в скобках: на десятках людей точка обманывает. Владелец и тестеры не в счёте, пока не попросили.</p>
+  <div id="view"><p class="muted">Забираю с сервера…</p></div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (n, d = 0) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('ru-RU', { maximumFractionDigits: d }));
+const pct = (x) => (x == null ? '—' : `${Math.round(x * 100)}%`);
+const dt = (s) => (s ? new Date(s).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—');
+const dd = (s) => (s ? `${s.slice(8, 10)}.${s.slice(5, 7)}` : '—');
+const money = (n, cur = '₽') => (n == null ? '—' : `${fmt(n, n < 100 ? 1 : 0)} ${cur}`);
+// доля и интервал: «45% (30–61)»; пустое основание — «—»
+const sh = (s) => (!s || s.share == null ? '<span class="muted">—</span>' : `${pct(s.share)}<span class="ci">${Math.round(s.lo * 100)}–${Math.round(s.hi * 100)} · из ${fmt(s.of)}</span>`);
+const CUR = { RUB: '₽', KZT: '₸', USD: '$', EUR: '€' };
+const NAME = { organic: 'сами (без метки и приглашения)', invited: 'позвал друг' };
+const name = (s) => NAME[s] ?? s;
+
+function sourcesView(S, cur) {
+  if (!S.length) return '<p class="muted">за 90 дней никто не пришёл</p>';
+  return `<table><thead><tr><th>Источник</th><th class="n">Пришло</th><th class="n">Активация</th><th class="n">D1</th><th class="n">D7</th><th class="n">D30</th>
+      <th class="n">Посевов</th><th class="n">Потрачено</th><th class="n">за пришедшего</th><th class="n">за активированного</th><th class="n">за D7</th></tr></thead><tbody>
+    ${S.map((s) => `<tr><td>${esc(name(s.source))}${s.channels.length ? `<span class="ci">${esc(s.channels.join(', '))}${s.lastPost ? ` · последний ${dd(s.lastPost)}` : ''}</span>` : ''}</td>
+      <td class="n">${fmt(s.joined)}</td><td class="n">${sh(s.activation)}</td><td class="n">${sh(s.d1)}</td><td class="n">${sh(s.d7)}</td><td class="n">${sh(s.d30)}</td>
+      <td class="n">${s.posts ? fmt(s.posts) : '<span class="muted">·</span>'}</td><td class="n">${s.cost == null ? '<span class="muted">·</span>' : money(s.cost, cur)}</td>
+      <td class="n">${money(s.perJoined, cur)}</td><td class="n">${money(s.perActivated, cur)}</td><td class="n">${money(s.perD7, cur)}</td></tr>`).join('')}
+    </tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Активация — первая лента в первые сутки. D1/D7/D30 — вернулся в этот день или позже; в основании только те, у кого этот день уже прошёл.
+      Цена — сумма посевов с этой меткой; «за D7» — цена одного, кто остался на неделю. Пороги беты: активация 40/60 %, D7 15/25 %, D30 7/12 %.</p>`;
+}
+
+function weeksView(W) {
+  const max = Math.max(1, ...W.map((w) => Math.max(w.active, w.joined)));
+  return `<div class="weeks">${W.map((w) => `<div class="w" title="${esc(w.from)} — ${esc(w.to)}: новых ${w.joined}, активных ${w.active}">
+      <i class="j" style="height:${(w.joined / max) * 100}%"></i><i class="a" style="height:${(w.active / max) * 100}%"></i></div>`).join('')}</div>
+    <p class="legend"><i style="background:var(--bar2)"></i>новые <i style="background:var(--bar)"></i>активные за неделю (WAU)</p>
+    <table style="margin-top:10px"><thead><tr><th>Неделя до</th><th class="n">Новые</th><th class="n">Активированы</th><th class="n">По посеву</th><th class="n">По приглашению</th>
+      <th class="n">Активные</th><th class="n">Из них старые</th><th class="n">Поделились</th></tr></thead><tbody>
+    ${[...W].reverse().map((w) => `<tr><td>${esc(dd(w.to))}</td><td class="n">${fmt(w.joined)}</td><td class="n">${w.joined ? `${fmt(w.activated)} · ${pct(w.activated / w.joined)}` : '<span class="muted">·</span>'}</td>
+      <td class="n">${fmt(w.seeded)}</td><td class="n">${fmt(w.invited)}</td><td class="n">${fmt(w.active)}</td><td class="n">${fmt(w.returning)}</td><td class="n">${fmt(w.shares)}</td></tr>`).join('')}
+    </tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">«Старые» — активные на неделе, кто вошёл раньше её начала: рост, который не держится на новых.</p>`;
+}
+
+function onboardingView(O) {
+  const arm = (a, label) => `<tr><td>${label}</td><td class="n">${fmt(a.joined)}</td><td class="n">${sh(a.activation)}</td><td class="n">${sh(a.d1)}</td><td class="n">${sh(a.d7)}</td>
+    <td class="n">${a.ratingsDay1 == null ? '—' : fmt(a.ratingsDay1, 1)}</td><td class="n">${sh(a.ratedDay1)}</td></tr>`;
+  const P = O.perPerson, S = O.steps;
+  return `<table><thead><tr><th>Первый вход, новые за 30 дней</th><th class="n">Людей</th><th class="n">Активация</th><th class="n">D1</th><th class="n">D7</th><th class="n">Оценок в сутки, медиана</th><th class="n">≥ 5 оценок в сутки</th></tr></thead>
+    <tbody>${arm(O.swipe, 'свайп «видел / хочу / не моё»')}${arm(O.deck, 'колода оценок')}</tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Свайп: дошли до конца ${fmt(S.swipeDone)}, пропустили ${fmt(S.swipeSkip)}; любимых выбрали ${fmt(S.favoritesDone)}, пропустили ${fmt(S.favoritesSkip)}.
+      На человека: видел ${fmt(P.seen, 1)}, хочу ${fmt(P.want, 1)}, не моё ${fmt(P.no, 1)}, оценил ${fmt(P.rated, 1)}, любимых ${fmt(P.favorites, 1)}.
+      Свайп за флагом <code>swipeStart</code>: пока доля 0, в строке свайпа только тестеры.</p>`;
+}
+
+function viralityView(V) {
+  return `<div class="tiles" style="margin-bottom:10px">
+      <div class="tile"><b>${V.k == null ? '—' : fmt(V.k, 2)}</b><span>k: приглашённых на активного за 30 дней</span></div>
+      <div class="tile"><b>${fmt(V.invitedJoined)}</b><span>пришли по приглашению · позвали ${fmt(V.inviters)}</span></div>
+      <div class="tile"><b>${fmt(V.shares)}</b><span>«поделился» от ${fmt(V.sharers)} чел. · ${pct(V.sharerShare.share)} активных</span></div>
+      <div class="tile"><b>${V.invitedPerSharer == null ? '—' : fmt(V.invitedPerSharer, 2)}</b><span>пришедших на одного поделившегося</span></div>
+    </div>
+    <table><thead><tr><th>Приглашённые</th><th class="n">Людей</th><th class="n">Активация</th><th class="n">D1</th><th class="n">D7</th></tr></thead>
+      <tbody><tr><td>пришли по ссылке друга</td><td class="n">${fmt(V.invited.joined)}</td><td class="n">${sh(V.invited.activation)}</td><td class="n">${sh(V.invited.d1)}</td><td class="n">${sh(V.invited.d7)}</td></tr></tbody></table>
+    <p style="margin:10px 0 0">Выбор компанией: комнат ${fmt(V.together.sessions)}, голосовали ${fmt(V.together.participants)} чел. (без хозяев).
+      Голосования в чатах: подборок ${fmt(V.inline.polls)}, голосовали ${fmt(V.inline.voters)}, из них не в приложении — <b>${fmt(V.inline.outsiders)}</b>.</p>
+    <p class="muted" style="font-size:13px;margin:6px 0 0">k выше 1 — рост сам по себе; в бете ждём 0,1–0,3. «Не в приложении» — люди, которых бот уже видел в чатах, но они не открывали приложение: первые, кого звать.</p>`;
+}
+
+function seedingView(rows, cur) {
+  return `<form class="form" id="seed">
+      <input name="label" placeholder="метка --s" required pattern="[a-z0-9_]{1,24}" title="латиница, цифры и _, до 24 знаков">
+      <input name="channel" placeholder="канал">
+      <input name="posted_at" type="date">
+      <input name="price" type="number" min="0" step="1" placeholder="цена">
+      <input name="currency" placeholder="RUB" value="${esc(rows.find((s) => s.currency)?.currency ?? 'RUB')}">
+      <input name="note" placeholder="заметка: формат, охват, erid">
+      <button type="submit">Добавить</button></form>
+    ${rows.length ? `<table><thead><tr><th>Метка</th><th>Канал</th><th>Дата</th><th class="n">Цена</th><th>Заметка</th><th></th></tr></thead><tbody>
+      ${rows.map((s) => `<tr><td>${esc(s.label)}</td><td>${esc(s.channel ?? '')}</td><td>${esc(dd(s.posted_at))}</td><td class="n">${s.price == null ? '—' : money(s.price, CUR[s.currency] ?? s.currency ?? cur)}</td>
+        <td class="muted">${esc(s.note ?? '')}</td><td class="n"><button type="button" class="x" data-del="${esc(s.id)}" title="убрать">×</button></td></tr>`).join('')}</tbody></table>`
+      : '<p class="muted">посевов пока нет — первый пост в канале запишите здесь: метка из ссылки, канал, дата, цена</p>'}
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Ссылка посева: <code>t.me/recomend_media_bot?startapp=--s&lt;метка&gt;</code>. Российские каналы — только до 31.12.2026 и с erid (ПР-1).</p>`;
+}
+
+async function load(fresh) {
+  $('#fresh').disabled = true;
+  try {
+    const r = await fetch(`api/data?internal=${$('#internal').checked ? 1 : 0}&tg=${$('#tg').checked ? 1 : 0}${fresh ? '&fresh=1' : ''}`);
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error ?? r.status);
+    render(d);
+  } catch (e) { $('#view').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+  $('#fresh').disabled = false;
+}
+function render(d) {
+  $('#when').textContent = `на ${dt(d.at)} · ${d.server.replace(/^https?:\/\//, '')}`;
+  const S = d.summary, I = d.internal;
+  const rows = d.seedingRows ?? [];
+  const cur = CUR[rows.find((s) => s.currency)?.currency ?? 'RUB'] ?? rows.find((s) => s.currency)?.currency ?? '₽';
+  $('#view').innerHTML = `
+    ${I.owner || I.testers ? `<div class="note">Без внутренних: владелец ${fmt(I.owner)}, тестеров ${fmt(I.testers)} — их заходы и ленты в счёт не идут (МА-4).</div>` : ''}
+    <div class="tiles">
+      <div class="tile"><b>${fmt(S.joined30)}</b><span>новых за 30 дней</span></div>
+      <div class="tile"><b>${pct(S.activation30.share)}</b><span>активация за 30 дней${S.activation30.share != null ? ` · ${Math.round(S.activation30.lo * 100)}–${Math.round(S.activation30.hi * 100)}` : ''}</span></div>
+      <div class="tile"><b>${pct(S.d7.share)}</b><span>D7 по когортам 30 дней${S.d7.share != null ? ` · ${Math.round(S.d7.lo * 100)}–${Math.round(S.d7.hi * 100)}` : ''}</span></div>
+      <div class="tile"><b>${fmt(S.wau)}</b><span>активных за неделю · за 30 дней ${fmt(S.active30)}</span></div>
+      <div class="tile"><b>${S.spend90 ? money(S.spend90, cur) : '—'}</b><span>потрачено на посевы за 90 дней</span></div>
+      <div class="tile"><b>${S.spend90 && S.activation30.n ? money(S.spend90 / S.activation30.n, cur) : '—'}</b><span>за активированного, грубо: все посевы / все активированные</span></div>
+    </div>
+    <div class="cards">
+      <div class="card wide"><h2>Источники за 90 дней</h2>${sourcesView(d.sources, cur)}</div>
+      <div class="card wide"><h2>Посевы</h2><div id="seeding"></div></div>
+      <div class="card wide"><h2>По неделям</h2>${weeksView(d.weeks)}</div>
+      <div class="card wide"><h2>Первый вход: свайп против колоды (ДФ-2)</h2>${onboardingView(d.onboarding)}</div>
+      <div class="card wide"><h2>Вирусность, 30 дней</h2>${viralityView(d.virality)}</div>
+      <div class="card wide"><h2>Чего здесь ещё нет</h2><p class="muted" style="margin:0">Переходы по посту, которые не дошли до входа (нужна своя короткая ссылка или /start бота с меткой); охват и подписчики каналов посева;
+        просмотры роликов авторов рядом с открытиями их разборов; опрос Шона Эллиса (МА-5). Это следующие шаги — по мере появления живых людей.</p></div>
+    </div>`;
+  renderSeeding(rows, cur);
+}
+let seeding = [];
+function renderSeeding(rows, cur) {
+  seeding = rows;
+  $('#seeding').innerHTML = seedingView(rows, cur);
+  $('#seed').onsubmit = async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const body = Object.fromEntries([...f].map(([k, v]) => [k, v === '' ? null : v]));
+    const r = await fetch('api/seeding', { method: 'PUT', headers: { 'x-desk': '1', 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    const j = await r.json();
+    if (!r.ok) { alert(j.hint ?? j.error ?? r.status); return; }
+    load(true);
+  };
+  for (const b of document.querySelectorAll('[data-del]')) b.onclick = async () => {
+    if (!confirm('Убрать этот посев из таблицы?')) return;
+    const r = await fetch(`api/seeding/${b.dataset.del}`, { method: 'DELETE', headers: { 'x-desk': '1' } });
+    if (!r.ok) { alert((await r.json()).error ?? r.status); return; }
+    load(true);
+  };
+}
+$('#fresh').onclick = () => load(true);
+$('#internal').onchange = () => load(false);
+$('#tg').onchange = () => load(false);
+load(false);
+</script>
+</body>
+</html>

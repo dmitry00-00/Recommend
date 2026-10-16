@@ -308,3 +308,9 @@ CREATE TABLE IF NOT EXISTS level_state (user_id TEXT NOT NULL REFERENCES user(id
 -- выгрузка дневника на час: downloadFile Telegram скачивает только по ссылке (ДФ-14)
 CREATE TABLE IF NOT EXISTS export_file (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), name TEXT NOT NULL,
   body TEXT NOT NULL, at TEXT NOT NULL);
+
+-- 16.10, ПР-2: посевы — пост в канале с меткой `--s<метка>` и ценой; по ним вкладка «Рост» (worker/growthRoute.ts)
+-- считает цену пришедшего, активированного и оставшегося на неделю. Пишется из пульта по ADMIN_TOKEN.
+CREATE TABLE IF NOT EXISTS seeding (id TEXT PRIMARY KEY, label TEXT NOT NULL, channel TEXT, posted_at TEXT, price REAL, currency TEXT,
+  note TEXT, created_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS seeding_label ON seeding(label);

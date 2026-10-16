@@ -15,6 +15,7 @@ import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
 import { useBot } from './env';
 import { migrate } from './migrate';
 import { getFunnel, noteVisit, postEvent } from './funnel';
+import { getGrowth, seedingRoute } from './growthRoute';
 import { deleteAccount } from './account';
 import { noteInvite } from './invite';
 import { togetherRoute } from './together';
@@ -858,6 +859,11 @@ export default {
     if (path === '/api/admin/behavior' && req.method === 'GET') return withHead(await getBehavior(req, env), head);
     // воронка и удержание (ЗП-3, 07.10) — вкладка «Поведение» пульта
     if (path === '/api/admin/funnel' && req.method === 'GET') return withHead(await getFunnel(req, env, adminOk(req, env)), head);
+    // рост: источники с ценой посева, недели, первый вход, вирусность (16.10) — вкладка «Рост» пульта; посевы — оттуда же
+    if (path === '/api/admin/growth' && req.method === 'GET') return withHead(await getGrowth(req, env, adminOk(req, env)), head);
+    if (path === '/api/admin/seeding' || path.startsWith('/api/admin/seeding/')) {
+      return withHead(adminOk(req, env) ? await seedingRoute(req, path, env.DB) : json({ error: 'unauthorized' }, 401), head);
+    }
     if (path === '/api/admin/telegram-webhook' && req.method === 'POST') {
       return withHead(adminOk(req, env) ? await adminWebhook(req, env) : json({ error: 'unauthorized' }, 401), head);
     }
