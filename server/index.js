@@ -13,6 +13,7 @@
 //   BOT_TOKEN       — токен бота: им проверяется подпись Telegram (bothost задаёт сам)
 //   KP_API_KEY      — ключ kinopoiskapiunofficial.tech; без него /kp-api отвечает 503
 //   TMDB_API_KEY    — ключ TMDb (v3 или токен чтения v4); без него /tmdb-api отвечает 503
+//   OWNER_TG_ID     — номер аккаунта Telegram владельца; задан — роль админа только по нему, а не по нику
 //   OWNER_USERNAME  — ник владельца: его профиль при первом входе получает историю из seed/owner.json
 //   ALLOW_DEMO      — «0» закрывает гостевой вход вне Telegram (по умолчанию открыт)
 //   ADMIN_TOKEN     — токен сборщика и пультов; им же — копии базы (/api/admin/backups, /api/admin/restore)
@@ -101,6 +102,8 @@ async function startApi() {
     PUBLIC_ORIGIN: process.env.PUBLIC_ORIGIN || '',
     ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || '',
     OWNER_USERNAME: process.env.OWNER_USERNAME || 'Tacticheskiy_Enot',
+    // номер аккаунта Telegram владельца: задан — админ только по нему (ник можно сменить и занять)
+    OWNER_TG_ID: process.env.OWNER_TG_ID || '',
     OWNER_SEED: seed,
   };
   const stop = () => { try { current.close(); } finally { process.exit(0); } };

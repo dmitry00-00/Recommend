@@ -98,7 +98,7 @@ async function postSession(req: Request, env: Env): Promise<Response> {
       // новый участник пришёл по чьей-то ссылке (ЗП-37) — запомнить, кто привёл
       await noteInvite(db, id, check.startParam);
     }
-    const owner = isOwner(env, tg.username);
+    const owner = isOwner(env, tg.username, tg.id);
     if (owner && env.OWNER_SEED) await seedOwner(db, id, env.OWNER_SEED);
     const session = await openSession(db, id);
     return json({ ...session, user: { id, username: tg.username, firstName: tg.first_name, telegram: true, owner } });
@@ -119,19 +119,31 @@ async function postSession(req: Request, env: Env): Promise<Response> {
   return json({ error: 'no_credentials' }, 400);
 }
 
-const isOwner = (env: Env, username?: string): boolean =>
-  Boolean(username && env.OWNER_USERNAME && username.toLowerCase() === env.OWNER_USERNAME.replace(/^@/, '').toLowerCase());
+/** Владелец (ХБ, 16.10): по номеру аккаунта Telegram `OWNER_TG_ID` — ник можно сменить, а освобождённый занять, и
+ *  вместе с ним получить роль админа. Пока `OWNER_TG_ID` не задан — по нику, как раньше. */
+const isOwner = (env: Env, username?: string | null, tgId?: number | null): boolean => {
+  const id = env.OWNER_TG_ID?.trim();
+  if (id) return tgId != null && String(tgId) === id;
+  return Boolean(username && env.OWNER_USERNAME && username.toLowerCase() === env.OWNER_USERNAME.replace(/^@/, '').toLowerCase());
+};
 
 /** Категории участников (ТВ-3в, 06.10). Админ — владелец (OWNER_USERNAME): всё, включая статистику и
  *  механику трансформативного обучения. Тестер — из таблицы `tester`: все полки, без статистики и
  *  механики. Остальные — участник: полки по доле выката. */
 export type Role = 'admin' | 'tester' | 'user';
 const nick = (s: string) => s.trim().replace(/^@/, '').toLowerCase();
-async function roleOf(env: Env, username?: string | null): Promise<Role> {
+async function roleOf(env: Env, username?: string | null, tgId?: number | null): Promise<Role> {
+  if (isOwner(env, username, tgId)) return 'admin';
   if (!username) return 'user';
-  if (isOwner(env, username)) return 'admin';
-  const t = await env.DB.prepare('SELECT 1 AS x FROM tester WHERE username = ?').bind(nick(username)).first<{ x: number }>();
-  return t ? 'tester' : 'user';
+  // тестер — по нику, но при первом входе запоминается номер аккаунта (ХБ, 16.10): тот, кто займёт освободившийся ник,
+  // тестером не станет
+  const t = await env.DB.prepare('SELECT tg_id FROM tester WHERE username = ?').bind(nick(username)).first<{ tg_id: number | null }>();
+  if (!t) return 'user';
+  if (t.tg_id == null && tgId != null) {
+    await env.DB.prepare('UPDATE tester SET tg_id = ? WHERE username = ? AND tg_id IS NULL').bind(tgId, nick(username)).run();
+    return 'tester';
+  }
+  return t.tg_id === tgId ? 'tester' : 'user';
 }
 
 /** История владельца, которая до сервера жила только в моках фронтенда, переезжает в его
@@ -172,6 +184,11 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
   if (!key) return;
   const object = await env.REFERENCE.get(key);
   if (!object) return;
+  // список привязан к нику; кто займёт освободившийся ник, чужую историю не получит (ХБ, 16.10): первый аккаунт, которому
+  // список лёг, запоминается отметкой `nick:<ник>`, другим он больше не кладётся
+  const bind = `nick:${row!.username!.toLowerCase()}`;
+  const other = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE seed = ? AND user_id <> ?').bind(bind, userId).first();
+  if (other) return;
   const seed = JSON.parse(await new Response(object.body).text()) as UserSeed;
   const mark = `user:${seed.version}`;
   const done = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE user_id = ? AND seed = ?').bind(userId, mark).first();
@@ -186,6 +203,7 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)',
     ).bind(userId, r.workId, r.rating, r.raw ?? null, r.work ? JSON.stringify(r.work) : null, new Date(at).toISOString())),
     db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, mark, now()),
+    db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, bind, now()),
   ]);
 }
 
@@ -337,8 +355,8 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
       username: profile?.username ?? undefined,
       firstName: profile?.first_name ?? undefined,
       telegram: profile?.tg_id != null,
-      owner: isOwner(env, profile?.username ?? undefined),
-      role: await roleOf(env, profile?.username),
+      owner: isOwner(env, profile?.username, profile?.tg_id),
+      role: await roleOf(env, profile?.username, profile?.tg_id),
       visitDays: visits?.n ?? 0,
     },
   });
@@ -672,8 +690,8 @@ async function putTester(req: Request, db: D1Database): Promise<Response> {
 }
 
 async function ownerOnly(user: User, env: Env): Promise<boolean> {
-  const row = await env.DB.prepare('SELECT username FROM user WHERE id = ?').bind(user.id).first<{ username: string | null }>();
-  return isOwner(env, row?.username ?? undefined);
+  const row = await env.DB.prepare('SELECT username, tg_id FROM user WHERE id = ?').bind(user.id).first<{ username: string | null; tg_id: number | null }>();
+  return isOwner(env, row?.username, row?.tg_id);
 }
 
 async function getOwnerQueue(env: Env): Promise<Response> {

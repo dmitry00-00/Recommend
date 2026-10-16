@@ -193,7 +193,8 @@ CREATE TABLE IF NOT EXISTS owner_decision (
 -- админ в настройках приложения.
 CREATE TABLE IF NOT EXISTS tester (
   username    TEXT PRIMARY KEY,
-  at          TEXT NOT NULL
+  at          TEXT NOT NULL,
+  tg_id       INTEGER            -- номер аккаунта, запомненный при первом входе (16.10)
 );
 
 -- Присланная история: какие версии списка просмотренного уже разложены в профиль. Список

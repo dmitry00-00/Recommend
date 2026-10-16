@@ -14,6 +14,8 @@ const COLUMNS: { table: string; column: string; ddl: string }[] = [
   { table: 'journal', column: 'inferred', ddl: 'ALTER TABLE journal ADD COLUMN inferred INTEGER' },
   // 30.09, Е3: сериал — сезон и серия, досмотренные сезоны
   { table: 'journal', column: 'series', ddl: 'ALTER TABLE journal ADD COLUMN series TEXT' },
+  // 16.10, ХБ: тестер привязывается к номеру аккаунта при первом входе — ник можно сменить и занять
+  { table: 'tester', column: 'tg_id', ddl: 'ALTER TABLE tester ADD COLUMN tg_id INTEGER' },
   // 07.10, ЗП-37: кто привёл — по ссылке «Поделиться» с хвостом `--r<код>` (worker/invite.ts)
   { table: 'user', column: 'invited_by', ddl: 'ALTER TABLE user ADD COLUMN invited_by TEXT' },
   // 07.10, ЗП-13/38: источник прихода — метка `--s<метка>` в ссылке посева
