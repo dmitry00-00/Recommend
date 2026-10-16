@@ -15,6 +15,8 @@ export interface FilmReelProps {
   works: WorkCard[];
   /** лента нарисована — можно тормозить */
   ready: boolean;
+  /** сохранённой ленты нет — заставку снять сразу: свежая считается на устройстве и заняла бы поток, плёнка бы застыла */
+  cancel?: boolean;
   /** колонка, в которой лежит лента: по ней ширина заставки, в ней ищем карточки */
   column: React.RefObject<HTMLElement | null>;
   onDone: () => void;
@@ -37,7 +39,8 @@ const SPARE = [
 type Frame = { src?: string; edge: string };
 const spare = (i: number): Frame => {
   const [path, year] = SPARE[i % SPARE.length];
-  return { src: `https://image.tmdb.org/t/p/w342${path}`, edge: `${ui.edge.film} · ${year}` };
+  // через imageSrc: где TMDb закрыт, картинки идут своим сервером (/img/tmdb), как у ленты
+  return { src: imageSrc(`https://image.tmdb.org/t/p/w342${path}`, 'w342'), edge: `${ui.edge.film} · ${year}` };
 };
 const fromWork = (w: WorkCard): Frame => ({
   src: imageSrc(w.stillUrl, 'w342'),
@@ -45,10 +48,10 @@ const fromWork = (w: WorkCard): Frame => ({
 });
 const mod = (a: number, n: number) => ((a % n) + n) % n;
 
-export function FilmReel({ works, ready, column, onDone }: FilmReelProps) {
+export function FilmReel({ works, ready, cancel, column, onDone }: FilmReelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const live = useRef({ works, ready, onDone });
-  live.current = { works, ready, onDone };
+  const live = useRef({ works, ready, cancel, onDone });
+  live.current = { works, ready, cancel, onDone };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -144,6 +147,10 @@ export function FilmReel({ works, ready, column, onDone }: FilmReelProps) {
       }
     };
     const tick = (now: number) => {
+      try { step(now); } catch { finish(true); } // ошибка в кадре не должна оставить плёнку поверх ленты
+    };
+    const step = (now: number) => {
+      if (live.current.cancel) { finish(true); return; }
       if (!t0) t0 = now;
       const t = Math.floor(((now - t0) / 1000) * FPS) / FPS;
       // разгон — по параболе, дальше ровно
@@ -163,6 +170,8 @@ export function FilmReel({ works, ready, column, onDone }: FilmReelProps) {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
+    // страховка: что бы ни случилось с кадрами, через 8 с заставки нет
+    timers.push(window.setTimeout(() => { finish(true); live.current.onDone(); }, 8000));
     const skip = () => finish(true);
     root.addEventListener('click', skip);
     return () => {

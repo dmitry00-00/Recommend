@@ -269,6 +269,8 @@ const firstImage = () => new Promise<void>((done) => {
 });
 
 /** «14 октября, 09:12» — когда сохранили ленту с устройства (ДФ-3) */
+const reelGoneIdle = Promise.resolve();
+
 const cachedWhen = (at: string) =>
   new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(at));
 
@@ -311,6 +313,15 @@ export function TodayScreen() {
   const reelOn = useFeature('reel');
   const [reel, setReel] = useState(() => reelWanted() && (reelOn || reelKnown()));
   useEffect(() => { if (reel) reelPlayed(); }, [reel]);
+  // свежая лента считается на устройстве и занимает поток — начинаем её, когда заставка погасла (не позже 8 с),
+  // иначе плёнка застывает поверх ленты; сохранённой ленты нет — заставку снимаем сразу
+  const [reelCancel, setReelCancel] = useState(false);
+  const reelEnd = useRef<() => void>(() => undefined);
+  const reelGone = useRef<Promise<void>>(reelGoneIdle);
+  if (reel && !reelCancel && reelGone.current === reelGoneIdle) {
+    reelGone.current = new Promise<void>((done) => { reelEnd.current = done; setTimeout(done, 8000); });
+  }
+  const reelFinished = () => { reelEnd.current(); setReel(false); };
   const settingsLoaded = userSettings != null;
   useEffect(() => { if (settingsLoaded) reelKnow(reelOn); }, [settingsLoaded, reelOn]);
   const [slate, setSlate] = useState<RecommendationSlate | null>(null);
@@ -360,10 +371,11 @@ export function TodayScreen() {
     // справочник иначе отнимает у этого кадра и сеть, и главный поток
     const head: Promise<unknown> = first
       ? lastSlate(kind).then((c) => {
+        if (!c) { setReelCancel(true); reelEnd.current(); }
         if (!alive || fresh || !c) return;
         setSlate(c.slate);
         shownIds.current = new Set(c.slate.items.map((r) => r.work.id));
-        return firstImage();
+        return Promise.all([firstImage(), reelGone.current]);
       }).catch(() => undefined)
       : Promise.resolve();
     head.then(() => getSettings())
@@ -567,7 +579,7 @@ export function TodayScreen() {
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
     <main className="tm-shell__main tm-stream" ref={mainRef}>
-      {reel ? <FilmReel works={reelWorks} ready={Boolean(slate) || Boolean(failed)} column={mainRef} onDone={() => setReel(false)} /> : null}
+      {reel ? <FilmReel works={reelWorks} ready={Boolean(slate) || Boolean(failed)} cancel={reelCancel} column={mainRef} onDone={reelFinished} /> : null}
       <h1 className="tm-sr">{ui.nav.today}</h1>
       {plans ? <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
         <span className="tm-stream__archiveicon" aria-hidden="true" />
