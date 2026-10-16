@@ -1,4 +1,4 @@
-// Сгенерировано tools/telegram-comments.mts (2026-10-15) по постам tg-gateway.
+// Сгенерировано tools/telegram-comments.mts (2026-10-16) по постам tg-gateway.
 // Канал (в нижнем регистре) → включены ли у него комментарии. Нет канала — неизвестно. Не править руками.
 export const telegramComments: Record<string, boolean> = {
  "a_researcher": true,
