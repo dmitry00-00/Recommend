@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { useLocation, useNavigate, useRoutes } from 'react-router-dom';
-import { routes } from '@/routes';
+import { ScreenLoading, routes } from '@/routes';
 import { AppShell } from '@/components/AppShell';
 import { CuratorShell } from '@/components/CuratorShell';
 import { ToastProvider, useToast } from '@/components/Toast';
@@ -73,7 +73,7 @@ export function App() {
     <ToastProvider>
       {curator
         ? <CuratorShell><Suspense fallback={null}>{element}</Suspense></CuratorShell>
-        : <Shell><Suspense fallback={null}>{element}</Suspense></Shell>}
+        : <Shell><Suspense fallback={<ScreenLoading />}>{element}</Suspense></Shell>}
     </ToastProvider>
   );
 }

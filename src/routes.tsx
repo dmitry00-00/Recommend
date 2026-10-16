@@ -56,7 +56,7 @@ const TaxonomyScreen = lazy(() => simple().then((m) => ({ default: m.TaxonomyScr
 
 /** Пока кусок экрана грузится (на медленной сети — секунды): заголовок и строки-заготовки, как у самих экранов,
  *  а не пустое место под меню. Остальные отложенные экраны редкие — у них по-прежнему пусто (App.tsx). */
-function ScreenLoading() {
+export function ScreenLoading() {
   return (
     <main className="tm-shell__main" aria-busy="true">
       <Skeleton kind="title" style={{ width: '60%' }} />
@@ -71,7 +71,8 @@ const Loading = ({ children }: { children: ReactNode }) => <Suspense fallback={<
 function AdminOnly({ children }: { children: ReactNode }) {
   const role = useRole();
   useEffect(() => { void loadSettings(); }, []);
-  if (role === undefined) return null;
+  // до настроек — заготовки, а не пустота: без экрана меню оболочки встаёт наверх, под кнопки Telegram (16.10)
+  if (role === undefined) return <ScreenLoading />;
   return role === 'admin' ? <>{children}</> : <Navigate to="/today" replace />;
 }
 
@@ -81,7 +82,7 @@ function Gate({ f, children }: { f: Feature; children: ReactNode }) {
   const loaded = useSettings() != null;
   const on = useFeature(f);
   useEffect(() => { void loadSettings(); }, []);
-  if (!loaded) return null;
+  if (!loaded) return <ScreenLoading />;
   return on ? <>{children}</> : <Navigate to="/today" replace />;
 }
 
@@ -91,7 +92,7 @@ function MechanicsOnly({ children }: { children: ReactNode }) {
   const loaded = useSettings() != null;
   const on = useMechanics();
   useEffect(() => { void loadSettings(); }, []);
-  if (!loaded) return null;
+  if (!loaded) return <ScreenLoading />;
   return on ? <>{children}</> : <Navigate to="/today" replace />;
 }
 
@@ -149,4 +150,6 @@ export const routes: RouteObject[] = [
   { path: '/contribute', element: <ContributorScreen /> },
   { path: '/contribute/tasks/:id', element: <ContributorTaskScreen /> },
   { path: '/contribute/profile', element: <ContributorProfileScreen /> },
+  // незнакомый путь (старая ссылка, адрес из Telegram с лишним хвостом) — в ленту, а не пустой экран с одним меню
+  { path: '*', element: <Navigate to="/today" replace /> },
 ];
