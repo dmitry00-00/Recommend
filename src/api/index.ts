@@ -1090,6 +1090,8 @@ const bookDraftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
   const t = (s?: string) => s?.toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   const byTitle = [w.title, w.originalTitle].map((x) => x && bookAnnotations[`t:${t(x)}`]).find(Boolean);
   if (byTitle) return byTitle;
+  // отложенное владельцем (heldWorks, 16.10 — религиозные тексты, эзотерика, Ленин): карточка есть, черновика нет — в подбор не идёт
+  if (keys.some(isHeldKey)) return undefined;
   return keys.filter((k) => reviewMarks()[`draft:${k}`]?.status !== 'rejected').map((k) => bookDrafts[k]).find(Boolean);
 };
 const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {

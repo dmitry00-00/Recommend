@@ -20,6 +20,7 @@ import { bookAnnotations } from '../src/mocks/bookAnnotations.ts';
 import { bookBlurbs } from '../src/mocks/bookBlurbs.ts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import { BOOK_WAVE_BARRIERS } from './book-wave-barriers.mts';
+import { heldWorks, withheldWorks } from '../src/mocks/withheldWorks.ts';
 
 const argv = process.argv.slice(2);
 const opt = (n: string) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : undefined; };
@@ -94,6 +95,8 @@ async function queue() {
     seen.add(key);
     if (bookDrafts[key] || bookAnnotations[key] || [w.title, w.originalTitle].some((x) => x && bookAnnotations[`t:${t(x)}`])) continue;
     if (draftReview[`draft:${key}`] || offered[key]) continue;
+    // убранное и отложенное владельцем (16.10: не-книги, религиозные тексты, эзотерика, Ленин) — не размечаем
+    if (key in withheldWorks || key in heldWorks) continue;
     todo.push({ key, title: w.title, year: w.year, original: w.originalTitle && w.originalTitle !== w.title ? w.originalTitle : undefined, authors: (w.creators ?? []).slice(0, 2) });
   }
   console.error(`книг без разметки: ${todo.length}`);
@@ -151,6 +154,7 @@ function merge() {
       const why = !byKey.has(r.key) ? 'ключа нет в очереди'
         : done.has(r.key) ? 'повтор'
         : bookDrafts[r.key] ? 'уже размечено'
+        : r.key in withheldWorks || r.key in heldWorks ? 'убрано или отложено владельцем'
         : !Array.isArray(r.ops) || !r.ops.length || r.ops.length > 3 || r.ops.some(([o, v]) => !OPS.has(o) || !(v > 0 && v <= 1)) ? 'операции'
         : !(r.level >= 1 && r.level <= 10) ? 'уровень'
         : (r.barriers ?? []).some((x) => !BARRIERS.has(x)) ? `барьер ${(r.barriers ?? []).filter((x) => !BARRIERS.has(x)).join(', ')}`
