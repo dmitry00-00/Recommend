@@ -84,6 +84,11 @@ async function startApi() {
       if (!hit || hit.etag !== httpEtag) refFiles.set(file, (hit = { etag: httpEtag, buf: fs.readFileSync(file) }));
       return { body: new Blob([hit.buf]).stream(), httpEtag, size: hit.buf.length };
     },
+    async delete(key) {
+      const file = path.join(refDir, path.basename(key));
+      refFiles.delete(file);
+      fs.rmSync(file, { force: true });
+    },
     async put(key, value) {
       fs.mkdirSync(refDir, { recursive: true });
       const file = path.join(refDir, path.basename(key));
@@ -133,13 +138,18 @@ async function startApi() {
 
 // справочники приходят целиком: индекс постов — несколько мегабайт
 const MAX_BODY = 32 << 20;
-function readBody(req) {
+// Предел тела — по маршруту (ХБ, 16.10): раньше любой POST в /api/* читал до 32 МБ в память ещё до проверки токена.
+// Большое шлют только сборщики владельца (справочники, списки, копии — по ADMIN_TOKEN, его проверяем ДО чтения) и
+// импорт истории участника; остальное — сотни байт.
+const ADMIN_BODY = /^\/api\/(?:reference\/|admin\/)/;
+const bodyLimit = (p) => (ADMIN_BODY.test(p) ? MAX_BODY : p === '/api/import' ? 8 << 20 : 1 << 20);
+function readBody(req, limit = MAX_BODY) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let size = 0;
     req.on('data', (c) => {
       size += c.length;
-      if (size > MAX_BODY) { reject(new Error('too_large')); req.destroy(); return; }
+      if (size > limit) { reject(new Error('too_large')); req.destroy(); return; }
       chunks.push(c);
     });
     req.on('end', () => resolve(Buffer.concat(chunks)));
@@ -227,7 +237,12 @@ async function handleApi(req, res) {
       });
       return;
     }
-    const body = req.method === 'GET' || req.method === 'HEAD' ? undefined : await readBody(req);
+    // большое тело админских маршрутов — только с верным токеном, иначе не читаем вовсе
+    if (req.method !== 'GET' && req.method !== 'HEAD' && ADMIN_BODY.test(p) && !adminOk(req)) { sendJson(res, 401, { error: 'unauthorized' }); req.resume(); return; }
+    let body;
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      try { body = await readBody(req, bodyLimit(p)); } catch { if (!res.headersSent) sendJson(res, 413, { error: 'too_large' }); return; }
+    }
     const headers = new Headers();
     for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
     const request = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { method: req.method, headers, body });
@@ -299,7 +314,8 @@ function load(file) {
       }
     }
   } catch { /* нет файла */ }
-  cache.set(file, entry);
+  // промахи не запоминаем (ХБ, 16.10): каждый выдуманный адрес оставался в памяти навсегда — рост без предела без входа
+  if (entry) cache.set(file, entry);
   return entry;
 }
 
@@ -519,7 +535,7 @@ const server = http.createServer((req, res) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405).end(); return; }
 
   const file = path.normalize(path.join(ROOT, p));
-  if (!file.startsWith(ROOT)) { res.writeHead(403).end(); return; }
+  if (file !== ROOT && !file.startsWith(ROOT + path.sep)) { res.writeHead(403).end(); return; }
 
   const entry = load(p.endsWith('/') ? path.join(file, 'index.html') : file);
   if (entry) {

@@ -48,6 +48,10 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
     db.prepare('UPDATE user SET invited_by = NULL WHERE invited_by = ?').bind(userId),
     db.prepare('DELETE FROM user WHERE id = ?').bind(userId),
   ]);
+  // присланный список просмотренного (seed--<ник>.json) — тоже данные участника; без этого его получил бы следующий
+  // владелец ника (ХБ, 16.10)
+  const seedFile = me.username && /^[A-Za-z0-9_]{3,40}$/.test(me.username) ? `seed--${me.username.toLowerCase()}.json` : undefined;
+  if (seedFile) await env.REFERENCE?.delete?.(seedFile);
   console.log(`аккаунт удалён по просьбе участника: ${Object.entries(counts).map(([t, n]) => `${t} ${n}`).join(', ') || 'без записей'}`);
   return json({ ok: true, deleted: counts });
 }

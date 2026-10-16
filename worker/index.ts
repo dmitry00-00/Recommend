@@ -10,7 +10,7 @@ import { memberInfo } from './inlineGroup';
 import { publicPage } from './pages';
 import { adminDigest, followDigest, forgetReference, getFollows, noteFresh, putFollow } from './follow';
 import { getInbox, getRegistry, getRegistryLog, getRegistryVersion, getSources, postInbox, postInboxResult, postRegistry } from './registry';
-import { newId, newToken, verifyInitData } from './auth';
+import { newId, newToken, tokenHash, verifyInitData } from './auth';
 import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
 import { useBot } from './env';
 import { migrate } from './migrate';
@@ -54,15 +54,18 @@ interface User { id: string; settings: string }
 async function whoIs(req: Request, db: D1Database): Promise<User | undefined> {
   const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('Authorization') ?? '')?.[1];
   if (!token) return undefined;
+  const hashed = await tokenHash(token);
+  // старые сессии (до 16.10) лежат токеном как есть — находим и их и тут же переводим на хеш
   const row = await db.prepare(
-    `SELECT user.id AS id, user.settings AS settings, session.expires_at AS expires_at
-       FROM session JOIN user ON user.id = session.user_id WHERE session.token = ?`,
-  ).bind(token).first<{ id: string; settings: string; expires_at: string }>();
+    `SELECT user.id AS id, user.settings AS settings, session.expires_at AS expires_at, session.token AS stored
+       FROM session JOIN user ON user.id = session.user_id WHERE session.token IN (?, ?)`,
+  ).bind(hashed, token).first<{ id: string; settings: string; expires_at: string; stored: string }>();
   if (!row) return undefined;
   if (Date.parse(row.expires_at) < Date.now()) {
-    await db.prepare('DELETE FROM session WHERE token = ?').bind(token).run();
+    await db.prepare('DELETE FROM session WHERE token = ?').bind(row.stored).run();
     return undefined;
   }
+  if (row.stored !== hashed) await db.prepare('UPDATE session SET token = ? WHERE token = ?').bind(hashed, row.stored).run();
   return { id: row.id, settings: row.settings };
 }
 
@@ -71,8 +74,12 @@ const SESSION_DAYS = 90;
 async function openSession(db: D1Database, userId: string): Promise<{ token: string; expiresAt: string }> {
   const token = newToken();
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 86400e3).toISOString();
-  await db.prepare('INSERT INTO session (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)')
-    .bind(token, userId, now(), expiresAt).run();
+  // предел (ХБ, 16.10): протухшие уходят, у участника — не больше десяти живых сессий, самые старые снимаются
+  await db.batch([
+    db.prepare('DELETE FROM session WHERE expires_at < ?').bind(now()),
+    db.prepare('DELETE FROM session WHERE user_id = ? AND token NOT IN (SELECT token FROM session WHERE user_id = ? ORDER BY created_at DESC LIMIT 9)').bind(userId, userId),
+    db.prepare('INSERT INTO session (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').bind(await tokenHash(token), userId, now(), expiresAt),
+  ]);
   return { token, expiresAt };
 }
 
@@ -189,6 +196,8 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
   const bind = `nick:${row!.username!.toLowerCase()}`;
   const other = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE seed = ? AND user_id <> ?').bind(bind, userId).first();
   if (other) return;
+  // привязку ставим сразу, ещё до проверки версии: у тех, кому список лёг до 16.10, её не было
+  await db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, bind, now()).run();
   const seed = JSON.parse(await new Response(object.body).text()) as UserSeed;
   const mark = `user:${seed.version}`;
   const done = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE user_id = ? AND seed = ?').bind(userId, mark).first();
@@ -203,7 +212,6 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)',
     ).bind(userId, r.workId, r.rating, r.raw ?? null, r.work ? JSON.stringify(r.work) : null, new Date(at).toISOString())),
     db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, mark, now()),
-    db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, bind, now()),
   ]);
 }
 

@@ -2,6 +2,7 @@
 // колонки в старые таблицы — нет: SQLite не умеет `ADD COLUMN IF NOT EXISTS`. Поэтому колонки
 // добавляются здесь, по проверке `PRAGMA table_info`, один раз на процесс воркера.
 import type { D1Database } from './env';
+import { tokenHash } from './auth';
 
 const COLUMNS: { table: string; column: string; ddl: string }[] = [
   // 24.09, трек Б: прогноз модели вероятностями — для Брайера
@@ -139,6 +140,9 @@ export function migrate(db: D1Database): Promise<void> {
       const info = await db.prepare(`PRAGMA table_info(${c.table})`).all<{ name: string }>();
       if (!info.results.some((r) => r.name === c.column)) await db.prepare(c.ddl).run();
     }
+    // 16.10, ХБ: сессии до хеширования — токеном как есть; переводим разом, чтобы копии базы не хранили живые ключи
+    const raw = (await db.prepare("SELECT token FROM session WHERE token NOT LIKE 'h:%'").all<{ token: string }>()).results ?? [];
+    for (const r of raw) await db.prepare('UPDATE session SET token = ? WHERE token = ?').bind(await tokenHash(r.token), r.token).run();
   })().catch((err) => { done = undefined; throw err; });
   return done;
 }

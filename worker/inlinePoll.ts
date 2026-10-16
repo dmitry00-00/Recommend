@@ -53,7 +53,7 @@ export function pollText(films: PollFilm[], votes: { idx: number; name: string }
   const by = films.map((_, i) => votes.filter((v) => v.idx === i).map((v) => v.name));
   const top = Math.max(0, ...by.map((n) => n.length));
   const lines = films.map((f, i) => {
-    const name = `${esc(f.t)}${f.y ? ` (${f.y})` : ''}`;
+    const name = `${esc(f.t)}${f.y ? ` (${esc(String(f.y))})` : ''}`; // год тоже из карточки — экранируем (ХБ, 16.10)
     const who = by[i].length ? ` — ${by[i].length}: ${esc(by[i].slice(0, 5).join(', '))}${by[i].length > 5 ? ` +${by[i].length - 5}` : ''}` : '';
     return `${i + 1}. ${top && by[i].length === top ? `<b>${name}</b>` : name}${who}`;
   });

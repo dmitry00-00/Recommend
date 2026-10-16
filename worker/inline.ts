@@ -176,6 +176,9 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   }).then((r) => r.json());
   if (b.action === 'set') {
     if (!b.url || !/^https:\/\/[^/]+\/api\/telegram$/.test(b.url)) return Response.json({ error: 'url' }, { status: 400 });
+    // только на этот же сервер (ХБ, 16.10): вебхук на чужой хост отдал бы ему все апдейты бота и секрет вебхука
+    const own = new Set([new URL(req.url).host, env.PUBLIC_ORIGIN ? new URL(env.PUBLIC_ORIGIN).host : ''].filter(Boolean));
+    if (!own.has(new URL(b.url).host)) return Response.json({ error: 'url_host' }, { status: 400 });
     const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message', 'callback_query'], drop_pending_updates: true });
     // команда /together — в подсказках Telegram, в группах и в личке (ЗП-11, 11.10)
     const commands = [{ command: 'together', description: 'Выбрать фильм вместе' }];

@@ -18,6 +18,9 @@ async function hmac(key: ArrayBuffer | Uint8Array, data: string): Promise<ArrayB
 
 const hex = (buf: ArrayBuffer): string => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 
+/** Токен сессии в базе — не сам, а SHA-256 с меткой `h:` (ХБ, 16.10): копия базы больше не ключ к чужим сессиям. */
+export const tokenHash = async (token: string): Promise<string> => `h:${hex(await crypto.subtle.digest('SHA-256', enc.encode(token)))}`;
+
 /** Сравнение подписей за постоянное время: обычное `===` на строках выходит из цикла на
  *  первом несовпавшем символе, и по времени ответа подпись можно подбирать. */
 function same(a: string, b: string): boolean {
@@ -35,7 +38,9 @@ export interface VerifiedInitData {
   reason?: 'no_hash' | 'bad_hash' | 'stale' | 'no_user';
 }
 
-export async function verifyInitData(raw: string, botToken: string, maxAgeSeconds = 86400): Promise<VerifiedInitData> {
+/** Окно initData — час (ХБ, 16.10; было 24 ч): перехваченная строка дольше не меняется на сессию. Telegram выдаёт свежую при
+ *  каждом открытии, а обмен нужен, только когда токена нет или он отозван. Дата из будущего (больше минуты) — не принимаем. */
+export async function verifyInitData(raw: string, botToken: string, maxAgeSeconds = 3600): Promise<VerifiedInitData> {
   const params = new URLSearchParams(raw);
   const hash = params.get('hash');
   if (!hash) return { ok: false, reason: 'no_hash' };
@@ -49,7 +54,8 @@ export async function verifyInitData(raw: string, botToken: string, maxAgeSecond
   if (!same(signature, hash)) return { ok: false, reason: 'bad_hash' };
 
   const authDate = Number(params.get('auth_date'));
-  if (!authDate || Date.now() / 1000 - authDate > maxAgeSeconds) return { ok: false, reason: 'stale' };
+  const age = Date.now() / 1000 - authDate;
+  if (!authDate || age > maxAgeSeconds || age < -60) return { ok: false, reason: 'stale' };
 
   try {
     const user = JSON.parse(params.get('user') ?? 'null') as TgUser | null;

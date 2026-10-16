@@ -31,6 +31,7 @@ export interface R2ObjectBody {
 export interface R2Bucket {
   get(key: string): Promise<R2ObjectBody | null>;
   put(key: string, value: ArrayBuffer | ReadableStream | string): Promise<unknown>;
+  delete?(key: string): Promise<unknown>;
 }
 
 export interface Env {
