@@ -9,4 +9,5 @@ export const trailersOwn: Record<string, { key: string; name: string; lang: stri
   'tmdb:436969': { key: 'o2-DdTP2pzs', name: 'Отряд самоубийц: Миссия навылет — трейлер (WBRussia)', lang: 'ru' },
   'tmdb:460465': { key: 'N9412Dy2e9A', name: 'Мортал Комбат — официальный полный трейлер (WBRussia)', lang: 'ru' },
   'tmdb:273248': { key: 'lmB9VWm0okU', name: 'Омерзительная восьмёрка — основной официальный трейлер (Централ Партнершип)', lang: 'ru' },
+  'tmdb:780609': { key: 'VlgAF2sj4W8', name: 'Род мужской — трейлер (Вольга)', lang: 'ru' },
 };
