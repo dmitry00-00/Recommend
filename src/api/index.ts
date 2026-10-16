@@ -9,6 +9,7 @@ import { ratingDeck } from '@/mocks/ratingDeck';
 import { ratingDeckEn } from '@/mocks/ratingDeckEn';
 import { partsInOrder } from '@/lib/deckOrder';
 import { isWithheld, isHeldKey } from '@/mocks/withheldWorks';
+import { trailersOwn } from '@/mocks/trailersOwn';
 import type { FirstPassAnnotation } from '@/mocks/userAnnotations';
 import type { SeasonDraft, SeriesDraft } from '@/mocks/seriesAnnotations';
 import type { CharacterRecord } from '@/mocks/characters';
@@ -2222,6 +2223,9 @@ export function getTrailer(work: WorkCard): Promise<Trailer | undefined> {
   const ids = work.externalIds ?? externalIds[work.id];
   const tmdb = ids?.tmdb;
   if (tmdb == null || work.type === 'book') return Promise.resolve(undefined);
+  // подобранный владельцем (trailersOwn.ts) — главнее TMDb; у сериала номер TMDb из другого ряда, с фильмами не сверяем
+  const own = !isSeries(work) ? trailersOwn[`tmdb:${tmdb}`] : undefined;
+  if (own) return Promise.resolve(own);
   const path = `${isSeries(work) ? 'tv' : 'movie'}/${tmdb}/videos`;
   const cached = trailers.get(path);
   if (cached) return cached;
