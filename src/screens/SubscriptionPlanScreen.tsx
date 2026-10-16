@@ -4,6 +4,7 @@ import type { WorkCard } from '@/types/tmdf';
 import { getSubscriptionPlan, type SubscriptionPlanView } from '@/api';
 import { titleOf } from '@/lib/format';
 import { Skeleton } from '@/components/Skeleton';
+import { ErrorState } from '@/components/ErrorState';
 import ui from '@/i18n';
 
 const SHOW = 5;
@@ -15,9 +16,17 @@ export function SubscriptionPlanScreen() {
   const S = ui.subsPlan;
   const [plan, setPlan] = useState<SubscriptionPlanView | null>(null);
   const [failed, setFailed] = useState(false);
-  useEffect(() => { getSubscriptionPlan().then(setPlan).catch(() => setFailed(true)); }, []);
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => { setFailed(false); getSubscriptionPlan().then(setPlan).catch(() => setFailed(true)); }, [attempt]);
 
-  if (failed) return <main className="tm-shell__main tm-subsplan"><h1 className="tm-shell__title">{S.title}</h1><p className="tm-body">{S.empty}</p></main>;
+  if (failed) {
+    return (
+      <main className="tm-shell__main tm-subsplan">
+        <h1 className="tm-shell__title">{S.title}</h1>
+        <ErrorState title={S.error} onRetry={() => setAttempt((n) => n + 1)} />
+      </main>
+    );
+  }
   if (!plan) {
     return (
       <main className="tm-shell__main tm-subsplan">

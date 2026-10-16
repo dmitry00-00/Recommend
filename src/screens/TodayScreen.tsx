@@ -4,7 +4,7 @@ import type {
   DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, noteTrailer, notWatched, planWork, sendRecommendationFeedback, startWork, trailerSource, unplanWork, updateSettings, type Trailer } from '@/api';
+import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, noteTrailer, notWatched, planWork, sendRecommendationFeedback, startWork, trailerSource, unplanWork, updateSettings, type Trailer } from '@/api';
 import { TrailerSheet } from '@/components/TrailerSheet';
 import {
   Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
@@ -296,11 +296,13 @@ export function TodayScreen() {
   // полка бесплатной классики (ЗП-43): место «Бесплатная классика» в ленте
   const freeOn = useFeature('freeClassics');
   const booksOn = useFeature('readShelf');
+  // первый вход свайпом (ДФ-2): новому человеку — /start, при 0–4 оценках — общая лента вместо холодного старта
+  const swipeOn = useFeature('swipeStart');
   // кино или книги (11.10): что подбирает лента — переключателем рядом с силой, выбор помнят настройки
   const [kind, setKind] = useState<FeedKind>('screen');
   const bookFeed = booksOn && kind === 'book';
   // «Почитать» в конце ленты кино — только пока лента кино; в ленте книг он не нужен
-  const slateOpts = (k: FeedKind) => ({ subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind });
+  const slateOpts = (k: FeedKind) => ({ general: swipeOn, subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind });
   // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
   const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -385,7 +387,15 @@ export function TodayScreen() {
         setFailed(err instanceof OfflineError ? 'offline' : 'error');
       });
     return () => { alive = false; };
-  }, [attempt, subsOn, freeOn, booksOn]);
+  }, [attempt, subsOn, freeOn, booksOn, swipeOn]);
+  // не прошёл первый вход и оценок меньше порога — сначала /start (один раз: пройденный или пропущенный помнят настройки)
+  const startDone = userSettings ? Boolean(userSettings.swipeStartDone) : undefined;
+  useEffect(() => {
+    if (!swipeOn || startDone !== false || startPassed()) return;
+    let alive = true;
+    coldStartLeft().then((left) => { if (alive && left > 0) navigate('/start', { replace: true }); }).catch(() => undefined);
+    return () => { alive = false; };
+  }, [swipeOn, startDone, navigate]);
 
   const changeEnergy = (e: Energy) => {
     if (e === energy) return;
@@ -613,6 +623,15 @@ export function TodayScreen() {
               <button type="button" className="tm-coldstart__link" onClick={() => openExternal(writeAuthorUrl)}>{ui.social.write}</button>
             </p>
           </section>
+        ) : null}
+        {/* общая лента (ДФ-2): оценок меньше порога — честно говорим, что лента пока не ваша, и как это исправить */}
+        {slate?.general ? (
+          <p className="tm-caption tm-stream__pad tm-stream__general">
+            {ui.today.general(slate.general.rated, slate.general.needed)}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/rate'); }}>{ui.today.generalRate}</button>
+            {' · '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); setImporting(true); }}>{ui.today.coldImport}</button>
+          </p>
         ) : null}
         {slate && !items.length && !slate.coldStart ? (
           <div className="tm-stream__pad">

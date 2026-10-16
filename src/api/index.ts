@@ -42,7 +42,7 @@ import type {
   WatchOption, DismissReason, FeedKind, Register,
 } from '@/types/tmdf';
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
-import { creditsOf, decodeCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
+import { creditsOf, decodeCredits, leadCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
 import { primaryKey, withBookWork, workKeys, type BookWorks } from '@/lib/keys';
 import { desireShard, desiresOf, type DesireRecord } from '@/lib/desires';
 import { cinemaSlug, freeFor, regionOptions, RU_CINEMAS, type WatchProviders } from '@/lib/cinemas';
@@ -1516,24 +1516,40 @@ export async function getTasteProgress(): Promise<{ rated: number; needed: numbe
  *  разбором» — это продолжение ленты, а не её начало. */
 /** Лента с учётом подписок (ЗП-42): экран передаёт, только если функция включена. */
 export interface SlateOptions { subscriptions?: boolean; /** полка бесплатной классики (ЗП-43) */ freeClassics?: boolean; /** «Почитать» — книга в ленте (11.10) */ books?: boolean;
-  /** что подбирать (11.10): 'book' — ленту из книг, по той же модели; нет — кино и сериалы */ kind?: FeedKind }
+  /** что подбирать (11.10): 'book' — ленту из книг, по той же модели; нет — кино и сериалы */ kind?: FeedKind;
+  /** первый вход свайпом (ДФ-2): при 0–4 оценках не холодный старт, а общая лента от среднего уровня */ general?: boolean }
 
 export async function getSlate(energy: Energy = 'normal', more?: ID[], opts: SlateOptions = {}): Promise<RecommendationSlate> {
-  // новому человеку подбирать не от чего — холодный старт сразу, без ядра (РР-5)
-  if (await newcomer()) return { id: 's-cold', generatedAt: new Date().toISOString(), energy, items: [], coldStart: { rated: 0, needed: MIN_RATED } };
+  // новому человеку подбирать не от чего — холодный старт сразу, без ядра (РР-5); при входе свайпом (ДФ-2) — общая лента
+  if (!opts.general && await newcomer()) return { id: 's-cold', generatedAt: new Date().toISOString(), energy, items: [], coldStart: { rated: 0, needed: MIN_RATED } };
   await delay(240);
   await reconnect();
   // Новый участник: подбирать не от чего. Честно говорим, сколько оценок не хватает, а не
   // подсовываем чужую ленту — моки сценария годятся для разработки, но не для живого человека.
   const rated = ratedCount();
-  if ((store.onServer || freshStart) && rated < MIN_RATED) {
+  const cold = (store.onServer || freshStart) && rated < MIN_RATED;
+  if (cold && !opts.general) {
     return { id: 's-cold', generatedAt: new Date().toISOString(), energy, items: [], coldStart: { rated, needed: MIN_RATED } };
   }
+  // общая лента (ДФ-2) — та же сборка, с подписью «пока общая» и счётом оценок
+  if (cold) return { ...(await slateFor(energy, more, opts, rated, newcomerState)), general: { rated, needed: MIN_RATED } };
+  return slateFor(energy, more, opts, rated);
+}
+
+/** Уровень, от которого собирается общая лента (ДФ-2): у колоды первых оценок он 2–4, лента — на шаг выше. Операций
+ *  нет — подбор держится уровня, разборов и разнообразия. Как только оценок хватит на свою карту (от трёх
+ *  досмотренных), берётся она. */
+const NEWCOMER_LEVEL = 4;
+const newcomerState = (): CognitiveState => ({
+  userId: USER_ID, asOf: today(), operations: [], complexityComfort: NEWCOMER_LEVEL, mediaLiteracy: 4, overallConfidence: 'low', source: 'activity',
+});
+
+async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptions, rated: number, fallback?: () => CognitiveState): Promise<RecommendationSlate> {
   // справочник с полками и черновой разметкой: на сервере он грузится фоном, а пул без него беднее. Книги (РР-1) ждёт
   // только лента книг; «Почитать» в общей ленте их не ждёт — зовёт и берёт, когда пришли
   await (opts.kind === 'book' ? catalog() : films());
   if (opts.books && !booksReady) loadBooks().catch(() => undefined);
-  const state = ownState();
+  const state = ownState() ?? fallback?.();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
   // уже показанное в этой ленте («Ещё фильмы») и отказанное на срок — до подбора, чтобы шестёрка была полной
   const shown = new Set([...(more ?? []), ...hiddenFromFeed()]);
@@ -1943,6 +1959,40 @@ export async function rateWork(workId: ID, rating: 1 | 2 | 3 | 4 | 5 | null): Pr
   }
   await store.rating(workId, rating, work);
   return { rated: ratedCount(), needed: MIN_RATED };
+}
+
+/** Колода первого входа свайпом (ДФ-2): 12 узнаваемых фильмов с верха колоды первых оценок — снимок сразу, если человек
+ *  новый, иначе полная. Один фильм на режиссёра: верх колоды — три «Властелина колец» подряд, а нужен разброс. Уже
+ *  оценённое не показываем. */
+export const START_DECK = 12;
+export async function getStartDeck(): Promise<WorkCard[]> {
+  const deck = (await getQuickDeck()) ?? (await getRatingDeck());
+  const leads = new Set<string>();
+  const out: WorkCard[] = [];
+  for (const { work, rating } of deck.items) {
+    if (rating || ratingOf(work.id)) continue;
+    const lead = leadCredits(work)[0]?.name ?? work.creators[0];
+    if (lead && leads.has(lead)) continue;
+    if (lead) leads.add(lead);
+    out.push(work);
+    if (out.length >= START_DECK) break;
+  }
+  return out;
+}
+
+/** «Не моё» на первом входе (ДФ-2): фильм не из ленты — отказ по ключу произведения, как «Не моё» в ленте: насовсем. */
+export async function dismissWork(workId: ID): Promise<void> {
+  dismissals.set(workId, { reason: 'not_interested', at: new Date().toISOString() });
+  await store.feedback(`start-${workId}`, workId, 'dismiss', 'not_interested');
+}
+
+/** Шаг первого входа (ДФ-2): сравнение свайпа с колодой /rate — кто дошёл до ленты, сколько отметил. Замер, не учёт. */
+let startPassedNow = false;
+/** Первый вход пройден в этом запуске (ДФ-2): «Сегодня» не уводит обратно на /start, даже если настройка не дошла до сервера. */
+export const startPassed = (): boolean => startPassedNow;
+export function noteOnboard(step: 'swipe_done' | 'swipe_skip' | 'favorites_done' | 'favorites_skip', detail?: string): void {
+  if (step.startsWith('favorites')) startPassedNow = true;
+  store.event({ kind: 'onboard', place: step, ...(detail ? { detail } : {}) }).catch(() => undefined);
 }
 
 /** Отказы на фильмы ленты (10.10, решение владельца): «Не сейчас» раньше ничего не значило для подбора — с

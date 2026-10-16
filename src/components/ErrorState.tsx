@@ -13,7 +13,7 @@ export interface ErrorStateProps {
 }
 
 /** Ошибка как карточка с меткой «стоп»: что случилось, что делать. Без причин не бывает:
- *  тексты по умолчанию — про соединение и последнее сохранённое. */
+ *  заголовок — свой у каждого экрана (что не загрузилось), текст по умолчанию — «сервер не ответил». */
 export function ErrorState({
   title = ui.state.errorSlate, text = ui.state.errorText, action = ui.actions.retry,
   onRetry, secondary, onSecondary, className,

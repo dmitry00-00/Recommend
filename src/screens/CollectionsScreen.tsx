@@ -53,7 +53,7 @@ function Shelves() {
     <main className="tm-shell__main tm-collections">
       <h1 className="tm-shell__title">{ui.collections.title}</h1>
       <p className="tm-caption tm-collections__lead">{ui.collections.lead}</p>
-      {failed ? <ErrorState onRetry={() => setAttempt((n) => n + 1)} /> : null}
+      {failed ? <ErrorState title={ui.collections.errorList} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {!list && !failed ? (
         <div aria-busy="true">{[0, 1, 2, 3].map((i) => <Skeleton key={i} kind="block" style={{ height: 76, marginTop: i ? 8 : 0 }} />)}</div>
       ) : null}
@@ -130,7 +130,7 @@ function Shelf({ id }: { id: string }) {
           </p>
         </>
       ) : null}
-      {failed ? <ErrorState onRetry={() => setAttempt((n) => n + 1)} /> : null}
+      {failed ? <ErrorState title={ui.collections.errorShelf} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">{[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 98, marginTop: i ? 8 : 0 }} />)}</div>
       ) : null}

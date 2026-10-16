@@ -2,7 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { Skeleton } from '@/components/Skeleton';
-import { loadSettings, useRole, useSettings } from '@/lib/settingsStore';
+import { loadSettings, useMechanics, useRole, useSettings } from '@/lib/settingsStore';
 import { useFeature, type Feature } from '@/lib/flags';
 // Редкие экраны (механика, кураторская, задания участника) — отдельными кусками: в основной
 // бандл идёт только то, что нужно ленте, поиску, карточке и архиву (трек А, цель — меньше
@@ -31,6 +31,7 @@ import { CheckInScreen } from '@/screens/CheckInScreen';
 import { WelcomeScreen } from '@/screens/WelcomeScreen';
 const OnboardingScreen = lazy(() => import('@/screens/OnboardingScreen').then((m) => ({ default: m.OnboardingScreen })));
 const AssessmentScreen = lazy(() => import('@/screens/AssessmentScreen').then((m) => ({ default: m.AssessmentScreen })));
+const StartScreen = lazy(() => import('@/screens/StartScreen').then((m) => ({ default: m.StartScreen })));
 const FirstMapScreen = lazy(() => import('@/screens/FirstMapScreen').then((m) => ({ default: m.FirstMapScreen })));
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { LegalScreen } from '@/screens/LegalScreen';
@@ -84,15 +85,27 @@ function Gate({ f, children }: { f: Feature; children: ReactNode }) {
   return on ? <>{children}</> : <Navigate to="/today" replace />;
 }
 
+/** Старая диагностика (ТВ-14, 16.10, решение владельца): приветствие → анкета → задания → первая карта — только с
+ *  «Показывать механику»; участнику в Telegram она недостижима и не нужна, по старой ссылке — в ленту. */
+function MechanicsOnly({ children }: { children: ReactNode }) {
+  const loaded = useSettings() != null;
+  const on = useMechanics();
+  useEffect(() => { void loadSettings(); }, []);
+  if (!loaded) return null;
+  return on ? <>{children}</> : <Navigate to="/today" replace />;
+}
+
 /** Роуты §17. Все экраны перенесены (22.09). */
 export const routes: RouteObject[] = [
   { path: '/', element: <Navigate to="/today" replace /> },
   { path: '/today', element: <TodayScreen /> },
-  { path: '/welcome', element: <WelcomeScreen /> },
+  { path: '/welcome', element: <MechanicsOnly><WelcomeScreen /></MechanicsOnly> },
+  // первый вход свайпом (ДФ-2): «Сегодня» уводит сюда нового человека из доли `swipeStart`
+  { path: '/start', element: <Gate f="swipeStart"><Loading><StartScreen /></Loading></Gate> },
   { path: '/login', element: <LoginScreen /> },
-  { path: '/onboarding', element: <OnboardingScreen /> },
-  { path: '/assessment/:id', element: <AssessmentScreen /> },
-  { path: '/onboarding/map', element: <FirstMapScreen /> },
+  { path: '/onboarding', element: <MechanicsOnly><OnboardingScreen /></MechanicsOnly> },
+  { path: '/assessment/:id', element: <MechanicsOnly><AssessmentScreen /></MechanicsOnly> },
+  { path: '/onboarding/map', element: <MechanicsOnly><FirstMapScreen /></MechanicsOnly> },
   { path: '/search', element: <Gate f="search"><SearchScreen /></Gate> },
   { path: '/mood', element: <Gate f="search"><Loading><MoodScreen /></Loading></Gate> },
   { path: '/rate', element: <RateScreen /> },
@@ -109,7 +122,7 @@ export const routes: RouteObject[] = [
   { path: '/journal', element: <Gate f="plans"><JournalScreen /></Gate> },
   { path: '/journal/:entryId', element: <Gate f="diary"><JournalEntryScreen /></Gate> },
   { path: '/journal/:entryId/check-in', element: <Gate f="diary"><CheckInScreen /></Gate> },
-  { path: '/checkpoint/:id', element: <AssessmentScreen checkpoint /> },
+  { path: '/checkpoint/:id', element: <MechanicsOnly><AssessmentScreen checkpoint /></MechanicsOnly> },
   { path: '/settings', element: <SettingsScreen /> },
   // какая подписка подходит (15.10): по планам и ленте — по очереди, пара, каждая площадка
   { path: '/subscriptions', element: <Gate f="subscriptions"><Loading><SubscriptionPlanScreen /></Loading></Gate> },

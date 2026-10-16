@@ -1064,3 +1064,40 @@ button.tm-banner { cursor: pointer; }
 .tm-subsplan__price { font-weight: 400; color: var(--tm-color-accent-ink); white-space: nowrap; }
 .tm-subsplan__works { margin: var(--tm-space-1) 0 0; color: var(--tm-color-ink-muted); }
 .tm-subsplan__works a { color: var(--tm-color-ink); }
+
+/* первый вход свайпом (ДФ-2, 16.10, /start): одна карточка с постером, под ней «Не моё · Хочу · Видел»; карточка
+   едет и чуть поворачивается за пальцем, на пороге — штамп того, что встанет. Второй шаг — четыре ячейки любимых и поиск */
+.tm-start { display: flex; flex-direction: column; gap: var(--tm-space-4); padding-bottom: var(--tm-space-6); }
+.tm-start__head { padding: var(--tm-space-4) var(--tm-space-5) 0; }
+.tm-start__title { margin: 0; }
+.tm-start__lead { margin: var(--tm-space-2) 0 0; color: var(--tm-color-ink-muted); max-width: 56ch; }
+.tm-start__empty, .tm-start__finish { display: flex; flex-direction: column; align-items: flex-start; gap: var(--tm-space-3); padding: 0 var(--tm-space-5); }
+.tm-start__card { display: flex; flex-direction: column; align-items: center; gap: var(--tm-space-2); margin: 0 var(--tm-space-5); touch-action: pan-y;
+  transform: translateX(var(--swipe-x, 0px)) rotate(var(--swipe-r, 0deg)); transition: transform 0.18s ease-out; }
+.tm-start__card--drag { transition: none; }
+.tm-start__poster { position: relative; width: min(64vw, 260px); aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--tm-radius-control); background: var(--tm-color-surface-card, var(--tm-color-line)); }
+.tm-start__poster > img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.tm-start__poster > .tm-search__thumb { width: 100%; height: 100%; }
+.tm-start__stamp { position: absolute; top: var(--tm-space-4); padding: var(--tm-space-1) var(--tm-space-3); border: 2px solid currentColor; border-radius: var(--tm-radius-control);
+  background: var(--tm-color-surface-100); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 14px; }
+.tm-start__stamp--seen { left: var(--tm-space-3); color: var(--tm-color-accent-ink); transform: rotate(-8deg); }
+.tm-start__stamp--no { right: var(--tm-space-3); color: var(--tm-color-ink-muted); transform: rotate(8deg); }
+.tm-start__name { margin: var(--tm-space-2) 0 0; text-align: center; text-wrap: balance; }
+.tm-start__meta { margin: 0; color: var(--tm-color-ink-muted); text-align: center; }
+.tm-start__actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--tm-space-2); width: 100%; max-width: 420px; margin-top: var(--tm-space-2); }
+.tm-start__actions .tm-btn { min-height: 44px; }
+.tm-start__ask { display: flex; flex-direction: column; gap: var(--tm-space-2); width: 100%; max-width: 420px; margin-top: var(--tm-space-2); }
+.tm-start__question { margin: 0; text-align: center; font-weight: 600; }
+.tm-start__ask .tm-rate__score { min-height: 44px; }
+.tm-start__ask .tm-rate__skip { text-align: center; }
+.tm-start__gesture { margin: 0; color: var(--tm-color-ink-faint); text-align: center; }
+@media (pointer: fine) { .tm-start__gesture { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-start__card { transition: none; } }
+.tm-start__favs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--tm-space-2); margin: 0; padding: 0 var(--tm-space-5); list-style: none; }
+.tm-start__fav { display: flex; min-width: 0; }
+.tm-start__fav--empty { align-items: center; justify-content: center; aspect-ratio: 3 / 4; border: 1px dashed var(--tm-color-line-strong); border-radius: var(--tm-radius-control); color: var(--tm-color-ink-faint); }
+.tm-start__favbtn { display: flex; flex-direction: column; align-items: center; gap: var(--tm-space-1); width: 100%; min-width: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.tm-start__favname { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-align: center; overflow-wrap: anywhere; }
+.tm-start__search { margin: 0 var(--tm-space-5); width: auto; }
+.tm-start__hit { width: 100%; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.tm-stream__general { margin: var(--tm-space-3) var(--tm-space-5); color: var(--tm-color-ink-muted); }
