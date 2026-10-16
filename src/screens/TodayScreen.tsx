@@ -177,7 +177,18 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
   const canTrailer = trailerSource(r.work);
   const [trailer, setTrailer] = useState<Trailer | null | undefined>(canTrailer ? undefined : null);
   const [playing, setPlaying] = useState<Trailer>();
-  const askTrailer = () => getTrailer(r.work).then((t) => { setTrailer(t ?? null); return t; });
+  const asked = useRef<Promise<Trailer | undefined> | undefined>(undefined);
+  const askTrailer = () => (asked.current ??= getTrailer(r.work).then((t) => { setTrailer(t ?? null); return t ?? undefined; }, () => { asked.current = undefined; return undefined; }));
+  // трейлер — заранее (16.10, владелец: «сразу при свайпе»): спрашиваем, как только карточка подъезжает к экрану, —
+  // к свайпу он уже есть и открывается без ожидания, а подсказка под кадром сразу честная (трейлер или «не сейчас»)
+  const cardRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || trailer !== undefined || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((seen) => { if (seen.some((x) => x.isIntersecting)) { io.disconnect(); askTrailer().catch(() => undefined); } }, { rootMargin: '300px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [trailer]);
   const asking = side === 'ask';
   // те же авторы и в том же порядке, что в карточке: сначала подтверждённые, потом у кого больше
   const voices = useMemo(() => groupByVoice(r.analyses ?? []), [r.analyses]);
@@ -195,6 +206,7 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
       if (end <= -SWIPE) {
         tap('medium');
         if (trailer === null) { setSide('ask'); return; }
+        if (trailer) { noteTrailer(r.work.id, 'feed'); setPlaying(trailer); return; }
         askTrailer().then((t) => { if (t) { noteTrailer(r.work.id, 'feed'); setPlaying(t); } else setSide('ask'); }).catch(() => setSide('ask'));
       }
       // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
@@ -216,7 +228,7 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
   const fill = Math.min(1, Math.abs(dx) / SWIPE);
   const rest = voices.length - PILE;
   return (
-    <article className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', asking && 'tm-stream__item--asking',
+    <article ref={cardRef} className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', asking && 'tm-stream__item--asking',
                            side === 'voices' && 'tm-stream__item--voices')}
              {...swipe}>
       {asking ? (
@@ -682,14 +694,7 @@ export function TodayScreen() {
           <article key={e.id} className={cx('tm-stream__item', 'tm-stream__item--current')}>
             <FilmEdge work={e.work} no={i + 1} short />
             <WorkBanner work={e.work} size="sm" tag={ui.feed.watching} meta={entryMeta(e)} onClick={() => setOpen(e.id)} />
-            {/* сверка в один тап прямо из ленты: «посмотрели?». «Ещё не смотрел» — нормальный
-                ответ: переход в кинотеатр ещё не просмотр, человека могли отвлечь */}
-            <div className="tm-stream__quick">
-              <span className="tm-caption tm-stream__quicklabel">{e.work.type === 'book'
-                ? (age(e) < FRESH_MS ? ui.feed.readingNow : ui.feed.didYouRead)
-                : (age(e) < FRESH_MS ? ui.feed.watchingNow : ui.feed.didYouWatch)}</span>
-              <span className="tm-stream__quickbtns">{answers(e)}</span>
-            </div>
+            {/* «посмотрели?» — внутри карточки (угол шторки, 16.10, владелец): в ленте блок «Сейчас» — один баннер */}
           </article>
         ))}
         {items.map((r, i) => (
