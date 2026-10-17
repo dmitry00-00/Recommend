@@ -55,17 +55,17 @@ async function whoIs(req: Request, db: D1Database): Promise<User | undefined> {
   const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('Authorization') ?? '')?.[1];
   if (!token) return undefined;
   const hashed = await tokenHash(token);
-  // старые сессии (до 16.10) лежат токеном как есть — находим и их и тут же переводим на хеш
+  // Только по хешу (ХБ, 17.10). Сырые токены сессий до 16.10 переводит migrate() при первом запросе после выкладки,
+  // а искать ещё и по сырому значению нельзя: тогда хеш из копии базы подходил бы как Bearer, и смысл хеширования пропадал
   const row = await db.prepare(
-    `SELECT user.id AS id, user.settings AS settings, session.expires_at AS expires_at, session.token AS stored
-       FROM session JOIN user ON user.id = session.user_id WHERE session.token IN (?, ?)`,
-  ).bind(hashed, token).first<{ id: string; settings: string; expires_at: string; stored: string }>();
+    `SELECT user.id AS id, user.settings AS settings, session.expires_at AS expires_at
+       FROM session JOIN user ON user.id = session.user_id WHERE session.token = ?`,
+  ).bind(hashed).first<{ id: string; settings: string; expires_at: string }>();
   if (!row) return undefined;
   if (Date.parse(row.expires_at) < Date.now()) {
-    await db.prepare('DELETE FROM session WHERE token = ?').bind(row.stored).run();
+    await db.prepare('DELETE FROM session WHERE token = ?').bind(hashed).run();
     return undefined;
   }
-  if (row.stored !== hashed) await db.prepare('UPDATE session SET token = ? WHERE token = ?').bind(hashed, row.stored).run();
   return { id: row.id, settings: row.settings };
 }
 
@@ -285,12 +285,17 @@ async function postImpressions(req: Request, user: User, db: D1Database): Promis
     slateId?: string; energy?: string; state?: unknown;
     items?: { recId?: string; workId?: string; slot?: string; rank?: number; level?: unknown; traits?: unknown }[];
   };
-  const items = (body.items ?? []).filter((i) => i.recId && i.workId).slice(0, 20);
-  if (!body.slateId || !items.length) return json({ error: 'no_items' }, 400);
+  // поля — короткие метки из своего словаря, но приходят от клиента (ХБ, 17.10): длину и форму проверяем, иначе один запрос
+  // клал 20 копий строки любого размера
+  const short = (v: unknown, max: number) => (typeof v === 'string' && v.length > 0 && v.length <= max ? v : undefined);
+  const items = (Array.isArray(body.items) ? body.items : []).filter((i) => i && short(i.recId, 120) && short(i.workId, 120)).slice(0, 20);
+  const slateId = short(body.slateId, 120);
+  if (!slateId || !items.length) return json({ error: 'no_items' }, 400);
+  const energy = typeof body.energy === 'string' && /^[\w-]{1,32}$/.test(body.energy) ? body.energy : null;
   const at = now();
   await db.batch(items.map((i) => db.prepare(
     'INSERT INTO impression (id, user_id, slate_id, rec_id, work_id, slot, rank, energy, at, level, traits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  ).bind(newId('i'), user.id, body.slateId, i.recId, i.workId, i.slot ?? null, i.rank ?? null, body.energy ?? null, at, levelOf(i.level), traitsOf(i.traits))));
+  ).bind(newId('i'), user.id, slateId, i.recId, i.workId, short(i.slot, 64) ?? null, typeof i.rank === 'number' && Number.isFinite(i.rank) ? i.rank : null, energy, at, levelOf(i.level), traitsOf(i.traits))));
   await noteLevelState(db, user.id, body.state, at);
   return json({ ok: true, n: items.length });
 }
@@ -371,10 +376,15 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
 }
 
 async function putSettings(req: Request, user: User, db: D1Database): Promise<Response> {
-  const patch = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  // только объект (ХБ, 17.10): строка или массив раскладывались в ключи «0», «1», …; и потолок после слияния
+  const raw = await req.json().catch(() => undefined);
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return json({ error: 'bad_settings' }, 400);
+  const patch = raw as Record<string, unknown>;
   const current = JSON.parse(user.settings || '{}') as Record<string, unknown>;
   const merged = { ...current, ...patch };
-  await db.prepare('UPDATE user SET settings = ?, seen_at = ? WHERE id = ?').bind(JSON.stringify(merged), now(), user.id).run();
+  const text = JSON.stringify(merged);
+  if (text.length > 32_000) return json({ error: 'too_large' }, 413);
+  await db.prepare('UPDATE user SET settings = ?, seen_at = ? WHERE id = ?').bind(text, now(), user.id).run();
   return json(merged);
 }
 
@@ -451,6 +461,9 @@ async function deletePlan(user: User, db: D1Database, entryId: string): Promise<
 
 /** Чек-ин. Пишем каждый, а не последний: человек может передумать, и это тоже наблюдение —
  *  на нём же потом считается калибровка прогноза (трек Б). */
+/** Статусы чек-ина, которые шлёт приложение (src/api/index.ts checkIn): целое досмотрено/брошено, либо сезон или часть. */
+const CHECKIN_STATUS = new Set(['finished', 'abandoned', 'season_finished', 'part_finished']);
+
 async function postCheckIn(req: Request, user: User, db: D1Database, entryId: string): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as {
     workId?: string; status?: string; perceived?: string; reason?: string; progress?: number; payload?: unknown;
@@ -464,15 +477,22 @@ async function postCheckIn(req: Request, user: User, db: D1Database, entryId: st
   const worth = Number.isInteger(body.worth) && (body.worth as number) >= 1 && (body.worth as number) <= 5 ? body.worth as number : null;
   const worthWhy = worth != null && worth <= 2 && typeof body.worthWhy === 'string' && /^[a-z_]{1,32}$/.test(body.worthWhy) ? body.worthWhy : null;
   const status = body.status ?? 'finished';
+  // статус — из своего списка, и проверяем до записи (ХБ, 17.10): раньше чужой статус ложился в checkin, а UPDATE дневника
+  // падал на CHECK — 500 и осиротевшая строка
+  if (!CHECKIN_STATUS.has(status)) return json({ error: 'bad_status' }, 400);
   // сезон или часть дочитаны, а целое — нет: чек-ин пишем, запись дневника остаётся «смотрю/читаю»
   const journalStatus = status === 'season_finished' || status === 'part_finished' ? 'in_progress' : status;
   const series = body.book ? bookJson(body.book) : seriesJson(body.series);
-  await db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at, level, traits, worth, worth_why) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-    .bind(newId('c'), user.id, entryId, body.workId ?? '', status, body.perceived ?? null, body.reason ?? null,
-      body.payload ? JSON.stringify(body.payload) : null, now(), levelOf(body.level), traitsOf(body.traits), worth, worthWhy).run();
-  await db.prepare(
-    `UPDATE journal SET status = ?, progress = COALESCE(?, progress), series = COALESCE(?, series), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
-  ).bind(journalStatus, body.progress ?? null, series, journalStatus === 'in_progress' ? null : now(), user.id, entryId).run();
+  const str = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : null);
+  // чек-ин и запись дневника — одним пакетом: либо оба, либо ничего
+  await db.batch([
+    db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at, level, traits, worth, worth_why) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .bind(newId('c'), user.id, entryId, str(body.workId, 120) ?? '', status, str(body.perceived, 64), str(body.reason, 64),
+        body.payload ? JSON.stringify(body.payload).slice(0, 4000) : null, now(), levelOf(body.level), traitsOf(body.traits), worth, worthWhy),
+    db.prepare(
+      `UPDATE journal SET status = ?, progress = COALESCE(?, progress), series = COALESCE(?, series), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
+    ).bind(journalStatus, typeof body.progress === 'number' && Number.isFinite(body.progress) ? body.progress : null, series, journalStatus === 'in_progress' ? null : now(), user.id, entryId),
+  ]);
   return json({ ok: true });
 }
 

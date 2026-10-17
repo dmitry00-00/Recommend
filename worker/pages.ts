@@ -10,6 +10,8 @@ import { reference } from './follow';
 
 const SITE = 'Transformative Media';
 const PER_PAGE = 40;
+// постеры и обложки на публичных страницах — только отсюда (ХБ, 17.10)
+const PIC_HOSTS = /^https:\/\/(?:image\.tmdb\.org|covers\.openlibrary\.org)\//;
 
 interface PageWork { t: string; o?: string; y?: number; c?: string[]; w?: string; p?: string; s?: 1 }
 interface PageAuthor { n: string; u: string; e?: 1; b?: 1 }
@@ -120,7 +122,9 @@ async function filmPage(req: Request, env: Env, rawKey: string): Promise<Respons
   const sub = [w.o, w.y, by].filter(Boolean).join(' · ');
   const canonical = `${origin(req, env)}/film/${keyToPath(key)}`;
   const section = (title: string, xs: Analysis[]) => (xs.length ? `<h2>${title} · ${xs.length}</h2><ul>${xs.slice(0, PER_PAGE).map((a) => analysisItem(a, d.slugOf)).join('')}</ul>` : '');
-  const body = `<div class="hero">${w.p ? `<img src="${esc(w.p)}" alt="${esc(w.t)}">` : ''}<div>
+  // картинка — только с известных хостов (ХБ, 17.10): в og:image и JSON-LD иначе уходит что угодно из справочника
+  const pic = w.p && PIC_HOSTS.test(w.p) ? w.p : undefined;
+  const body = `<div class="hero">${pic ? `<img src="${esc(pic)}" alt="${esc(w.t)}">` : ''}<div>
 <h1>${esc(w.t)}${year(w)}</h1>${sub ? `<p class="sub">${esc(sub)}</p>` : ''}
 ${w.w ? `<p class="what">${esc(w.w)}</p>` : ''}</div></div>
 <a class="cta" href="${startapp(key)}">Открыть в Telegram — что смотреть после</a>
@@ -129,9 +133,9 @@ ${section('Разборы и эссе', essays)}${section('Обзоры', review
   const jsonLd = {
     '@context': 'https://schema.org', '@type': w.s ? 'TVSeries' : 'Movie', name: w.t, ...(w.o ? { alternateName: w.o } : {}),
     ...(w.y ? { dateCreated: String(w.y) } : {}), ...(w.c?.length ? { [w.s ? 'creator' : 'director']: w.c.map((name) => ({ '@type': 'Person', name })) } : {}),
-    ...(w.p ? { image: w.p } : {}), url: canonical,
+    ...(pic ? { image: pic } : {}), url: canonical,
   };
-  return page({ title: `${w.t}${year(w)} — разборы и обзоры ${kind} | ${SITE}`, description, canonical, image: w.p, body, jsonLd });
+  return page({ title: `${w.t}${year(w)} — разборы и обзоры ${kind} | ${SITE}`, description, canonical, image: pic, body, jsonLd });
 }
 
 async function authorPage(req: Request, env: Env, slug: string): Promise<Response> {

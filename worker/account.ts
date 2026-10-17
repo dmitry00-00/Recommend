@@ -28,6 +28,13 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
   const me = await db.prepare('SELECT username, tg_id FROM user WHERE id = ?').bind(userId).first<{ username: string | null; tg_id: number | null }>();
   if (!me) return json({ error: 'not_found' }, 404);
   const tables = await userTables(db);
+  // присланные списки (seed--<ник>.json) — по привязкам `nick:<ник>` участника (ХБ, 17.10): после смены ника файл лежит
+  // под старым ником, а файл под текущим ником с чужой привязкой трогать нельзя — он не этого участника
+  const nicks = tables.includes('seed_applied')
+    ? ((await db.prepare("SELECT seed FROM seed_applied WHERE user_id = ? AND seed LIKE 'nick:%'").bind(userId).all<{ seed: string }>()).results ?? [])
+      .map((r) => r.seed.slice('nick:'.length)).filter((n) => /^[a-z0-9_]{3,40}$/.test(n))
+    : [];
+  const nick = me.username?.replace(/^@/, '').toLowerCase();
   const counts: Record<string, number> = {};
   for (const t of tables) {
     const row = await db.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE user_id = ?`).bind(userId).first<{ n: number }>();
@@ -43,15 +50,18 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
       db.prepare('DELETE FROM inline_vote WHERE tg_id = ? OR poll_id IN (SELECT id FROM inline_poll WHERE owner_tg = ?)').bind(me.tg_id, me.tg_id),
       db.prepare('DELETE FROM inline_poll WHERE owner_tg = ?').bind(me.tg_id),
     ] : []),
-    ...(me.username ? [db.prepare('DELETE FROM tester WHERE username = ?').bind(me.username.replace(/^@/, '').toLowerCase())] : []),
+    // тестер (ХБ, 17.10): свою строку — по номеру аккаунта, в том числе под старым ником; строку с чужим номером под
+    // своим нынешним ником не трогать — это другой человек
+    ...(me.tg_id != null
+      ? [db.prepare('DELETE FROM tester WHERE tg_id = ? OR (username = ? AND tg_id IS NULL)').bind(me.tg_id, nick ?? '')]
+      : nick ? [db.prepare('DELETE FROM tester WHERE username = ? AND tg_id IS NULL').bind(nick)] : []),
     // кого участник привёл (ЗП-37) — у них ссылка на него стирается
     db.prepare('UPDATE user SET invited_by = NULL WHERE invited_by = ?').bind(userId),
     db.prepare('DELETE FROM user WHERE id = ?').bind(userId),
   ]);
-  // присланный список просмотренного (seed--<ник>.json) — тоже данные участника; без этого его получил бы следующий
-  // владелец ника (ХБ, 16.10)
-  const seedFile = me.username && /^[A-Za-z0-9_]{3,40}$/.test(me.username) ? `seed--${me.username.toLowerCase()}.json` : undefined;
-  if (seedFile) await env.REFERENCE?.delete?.(seedFile);
+  // присланные списки просмотренного — тоже данные участника; без этого их получил бы следующий владелец ника (ХБ, 16.10).
+  // Только по его собственным привязкам (17.10): список под нынешним ником без привязки к нему — чужой
+  for (const n of nicks) await env.REFERENCE?.delete?.(`seed--${n}.json`);
   console.log(`аккаунт удалён по просьбе участника: ${Object.entries(counts).map(([t, n]) => `${t} ${n}`).join(', ') || 'без записей'}`);
   return json({ ok: true, deleted: counts });
 }

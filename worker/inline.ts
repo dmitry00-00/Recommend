@@ -148,7 +148,8 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
   const found = idx ? search(idx, q.query) : [];
   await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300 }),
+    // is_personal (ХБ, 17.10): подписи — на языке спрашивающего, общий кеш Telegram отдавал бы их другим
+    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300, is_personal: true }),
   }).catch((err) => console.error('answerInlineQuery', err));
 }
 
@@ -176,9 +177,13 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   }).then((r) => r.json());
   if (b.action === 'set') {
     if (!b.url || !/^https:\/\/[^/]+\/api\/telegram$/.test(b.url)) return Response.json({ error: 'url' }, { status: 400 });
-    // только на этот же сервер (ХБ, 16.10): вебхук на чужой хост отдал бы ему все апдейты бота и секрет вебхука
-    const own = new Set([new URL(req.url).host, env.PUBLIC_ORIGIN ? new URL(env.PUBLIC_ORIGIN).host : ''].filter(Boolean));
-    if (!own.has(new URL(b.url).host)) return Response.json({ error: 'url_host' }, { status: 400 });
+    // только на этот же сервер (ХБ, 16.10): вебхук на чужой хост отдал бы ему все апдейты бота и секрет вебхука.
+    // 17.10: свой адрес — только из PUBLIC_ORIGIN; Host запроса ставит тот же, кто шлёт запрос, сверять с ним нельзя
+    const origin = env.PUBLIC_ORIGIN?.trim();
+    if (!origin) return Response.json({ error: 'no_public_origin', hint: 'задайте PUBLIC_ORIGIN=https://<адрес сервера> в панели bothost' }, { status: 503 });
+    let ownHost = '';
+    try { ownHost = new URL(origin).host; } catch { return Response.json({ error: 'bad_public_origin' }, { status: 503 }); }
+    if (!ownHost || new URL(b.url).host !== ownHost) return Response.json({ error: 'url_host' }, { status: 400 });
     const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message', 'callback_query'], drop_pending_updates: true });
     // команда /together — в подсказках Telegram, в группах и в личке (ЗП-11, 11.10)
     const commands = [{ command: 'together', description: 'Выбрать фильм вместе' }];
@@ -200,7 +205,7 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
 // потом открывает штатный выбор чата Telegram (`WebApp.shareMessage(id)`). В чат уходит постер или
 // фото героя, название, одна строка о произведении и кнопка, открывающая карточку у получателя.
 // Картинка — только с известных адресов: иначе через бота можно было бы разослать что угодно.
-const IMAGE_HOSTS = /^https:\/\/(?:image\.tmdb\.org|covers\.openlibrary\.org|kinopoiskapiunofficial\.tech|avatars\.mds\.yandex\.net|commons\.wikimedia\.org|upload\.wikimedia\.org|i\.ytimg\.com)\//;
+import { IMAGE_HOSTS } from './hosts';
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
 
 export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together'; by?: string; about?: string; image?: string; lang?: Lang }

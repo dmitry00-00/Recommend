@@ -205,9 +205,9 @@ function render() {
     const h = r.human;
     const cur = h?.lens, also = h ? h.also : undefined;
     return `<div class="row ${i === state.sel ? 'sel' : ''} ${h ? 'done' : ''}" data-i="${i}">
-      <a href="https://www.youtube.com/watch?v=${r.vid}" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/${r.vid}/mqdefault.jpg" alt=""></a>
+      <a href="https://www.youtube.com/watch?v=${esc(r.vid)}" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(r.vid)}/mqdefault.jpg" alt=""></a>
       <div>
-        <a class="t" href="https://www.youtube.com/watch?v=${r.vid}" target="_blank" rel="noopener">${esc(r.title)}</a>
+        <a class="t" href="https://www.youtube.com/watch?v=${esc(r.vid)}" target="_blank" rel="noopener">${esc(r.title)}</a>
         <div class="meta">${esc(r.channel ?? '')}${r.tier === 'review' ? ' · обзорщик' : ''} · ${r.works.map(esc).join(', ')}${r.more ? ` и ещё ${r.more}` : ''}</div>
         <div class="meta"><span class="tag model">модель: ${esc(nameOf(r.lens))}${r.also ? ` + ${esc(nameOf(r.also))}` : ''}${r.conf != null ? ` · ${r.conf}` : ''}</span>${h ? `<span class="tag human">вы: ${esc(nameOf(h.lens))}${h.also ? ` + ${esc(nameOf(h.also))}` : ''}</span>` : ''}<span class="tag">${esc(r.model)}</span></div>
         <div class="lenses">${meta.lenses.map((l, k) => `<button data-l="${l.id}" class="${l.id === r.lens ? 'model' : ''} ${l.id === cur ? 'on' : ''} ${l.id === also ? 'also' : ''}" title="Shift — второй угол"><kbd>${KEYS[k]}</kbd>${esc(l.name)}</button>`).join('')}

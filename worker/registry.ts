@@ -26,6 +26,24 @@ const CHUNK = 400;
 const LOG_DAYS = 365;
 
 interface Change { kind: Kind; id: string; body: unknown | null; ord?: number }
+
+// ХБ (17.10): записи `source` и хвост `doc/sources` сборщик пишет в src/mocks/sources.ts текстом — его исполняют инструменты
+// на Mac владельца и сборка приложения. Поэтому «комментарии» (_before, _after, end) — только пустые строки и «// …» без
+// переводов строки (включая U+2028/2029), а имена полей — только идентификаторы: значения экранирует сам сборщик
+const COMMENT = /^\s*(?:\/\/.*)?$/;
+const LINE_BREAK = /[\r\n\u2028\u2029]/;
+const isComment = (s: unknown): s is string => typeof s === 'string' && !LINE_BREAK.test(s) && COMMENT.test(s);
+const commentLines = (v: unknown): boolean => Array.isArray(v) && v.every(isComment);
+const IDENT = /^[A-Za-z_$][\w$]*$/;
+function sourcesSafe(kind: Kind, id: string, body: Record<string, unknown>): boolean {
+  if (kind === 'source') {
+    if (body._before !== undefined && !commentLines(body._before)) return false;
+    if (body._after !== undefined && !isComment(body._after)) return false;
+    return Object.keys(body).every((k) => IDENT.test(k));
+  }
+  if (kind === 'doc' && id === 'sources') return body.end === undefined || commentLines(body.end);
+  return true;
+}
 interface Row { kind: Kind; id: string; body: string; ord: number | null; at: string; by: string | null }
 
 async function version(db: D1Database): Promise<number> {
@@ -67,6 +85,7 @@ export async function postRegistry(req: Request, env: Env): Promise<Response> {
     if (!c || !isKind(c.kind) || typeof c.id !== 'string' || !c.id || c.id.length > 400) return json({ error: 'bad_change', change: c }, 400);
     if (c.body !== null && (typeof c.body !== 'object' || Array.isArray(c.body))) return json({ error: 'bad_body', id: c.id }, 400);
     if (c.body !== null && JSON.stringify(c.body).length > MAX_BODY) return json({ error: 'body_too_long', id: c.id }, 400);
+    if (c.body !== null && !sourcesSafe(c.kind, c.id, c.body as Record<string, unknown>)) return json({ error: 'bad_comment', id: c.id }, 400);
     changes.push({ kind: c.kind, id: c.id, body: c.body, ...(typeof c.ord === 'number' && Number.isFinite(c.ord) ? { ord: c.ord } : {}) });
   }
   const at = iso();

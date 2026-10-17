@@ -70,7 +70,7 @@ const fmt = (n, d = 0) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLo
 const pct = (x) => (x == null ? '—' : `${Math.round(x * 100)}%`);
 const dt = (s) => (s ? new Date(s).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—');
 const dd = (s) => (s ? `${s.slice(8, 10)}.${s.slice(5, 7)}` : '—');
-const money = (n, cur = '₽') => (n == null ? '—' : `${fmt(n, n < 100 ? 1 : 0)} ${cur}`);
+const money = (n, cur = '₽') => (n == null ? '—' : `${fmt(n, n < 100 ? 1 : 0)} ${esc(cur)}`);
 // доля и интервал: «45% (30–61)»; пустое основание — «—»
 const sh = (s) => (!s || s.share == null ? '<span class="muted">—</span>' : `${pct(s.share)}<span class="ci">${Math.round(s.lo * 100)}–${Math.round(s.hi * 100)} · из ${fmt(s.of)}</span>`);
 const CUR = { RUB: '₽', KZT: '₸', USD: '$', EUR: '€' };

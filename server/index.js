@@ -28,6 +28,12 @@ const zlib = require('zlib');
 const crypto = require('crypto');
 const { createBackups } = require('./backup');
 
+// ХБ (17.10): один неперехваченный бросок где угодно — и процесс падал целиком, а с ним приложение у всех. Теперь такое
+// уходит в журнал, сервер живёт дальше; падать остаётся только при ошибках запуска (см. server.on('error'))
+process.on('uncaughtException', (err) => console.error('uncaughtException:', err && (err.stack || err.message || err)));
+process.on('unhandledRejection', (err) => console.error('unhandledRejection:', err && (err.stack || err.message || err)));
+if (process.env.OWNER_TG_ID && !/^\d{1,20}$/.test(process.env.OWNER_TG_ID.trim())) console.warn('OWNER_TG_ID задан не числом — роль админа не получит никто');
+
 const PORT = Number(process.env.PORT) || 3000;
 const ROOT = path.join(__dirname, 'public');
 const KP_BASE = 'https://kinopoiskapiunofficial.tech/api';
@@ -149,7 +155,8 @@ function readBody(req, limit = MAX_BODY) {
     let size = 0;
     req.on('data', (c) => {
       size += c.length;
-      if (size > limit) { reject(new Error('too_large')); req.destroy(); return; }
+      // переполнение: не рвём сокет здесь — иначе 413 до клиента не доходил (ХБ, 17.10); дочитывать не будем, ответ закроет соединение
+      if (size > limit) { req.pause(); reject(new Error('too_large')); return; }
       chunks.push(c);
     });
     req.on('end', () => resolve(Buffer.concat(chunks)));
@@ -241,7 +248,10 @@ async function handleApi(req, res) {
     if (req.method !== 'GET' && req.method !== 'HEAD' && ADMIN_BODY.test(p) && !adminOk(req)) { sendJson(res, 401, { error: 'unauthorized' }); req.resume(); return; }
     let body;
     if (req.method !== 'GET' && req.method !== 'HEAD') {
-      try { body = await readBody(req, bodyLimit(p)); } catch { if (!res.headersSent) sendJson(res, 413, { error: 'too_large' }); return; }
+      // 413 — ответом с закрытием соединения, а не обрывом сокета: по Content-Length сразу, иначе по счётчику при чтении
+      const tooLarge = () => { res.on('finish', () => req.destroy()); res.writeHead(413, { 'content-type': 'application/json; charset=utf-8', connection: 'close' }).end(JSON.stringify({ error: 'too_large' })); };
+      if (Number(req.headers['content-length']) > bodyLimit(p)) { tooLarge(); return; }
+      try { body = await readBody(req, bodyLimit(p)); } catch { if (!res.headersSent) tooLarge(); else req.destroy(); return; }
     }
     const headers = new Headers();
     for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
@@ -521,9 +531,14 @@ async function proxyImage(req, res, p) {
 }
 
 const server = http.createServer((req, res) => {
-  const url = new URL(req.url || '/', 'http://localhost');
-  let p;
-  try { p = decodeURIComponent(url.pathname); } catch { res.writeHead(400).end(); return; }
+  // ХБ (17.10): разбор адреса — внутри try. `GET http://[ HTTP/1.1` бросал ERR_INVALID_URL до любого try и ронял процесс целиком,
+  // bothost отдавал «404 page not found» всем, пока контейнер поднимался. Цель запроса принимаем только origin-form (с «/»)
+  let url, p;
+  try {
+    if (!(req.url || '/').startsWith('/')) throw new Error('target');
+    url = new URL(req.url || '/', 'http://localhost');
+    p = decodeURIComponent(url.pathname);
+  } catch { res.writeHead(400).end(); return; }
 
   if (p === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }).end('ok'); return; }
   if (p.startsWith('/kp-api/')) { proxyKinopoisk(req, res, p, url.search); return; }
@@ -580,6 +595,8 @@ server.on('error', (err) => {
     setTimeout(() => server.listen(PORT, '0.0.0.0'), killed ? 1000 : 2000);
     return;
   }
-  throw err;
+  // не слушаем — жить незачем (глобальный uncaughtException выше такой бросок иначе проглотил бы)
+  console.error('сервер не слушает:', err && (err.stack || err.message || err));
+  process.exit(1);
 });
 startApi().catch((err) => console.error('api не поднялся:', err && (err.stack || err.message)));

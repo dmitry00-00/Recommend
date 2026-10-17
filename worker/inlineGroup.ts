@@ -10,6 +10,7 @@
 // Только фильмы и сериалы. Спросивший должен быть в боте и оценить не меньше MIN_RATED фильмов (владелец, 15.10): подбор —
 // по вкусу каждого, а с длинной своей историей вычленить из общего списка чужие планы и виденное практически нельзя.
 import type { Env } from './env';
+import { IMAGE_HOSTS } from './hosts';
 import type { PollFilm } from './inlinePoll';
 
 type Lang = 'ru' | 'en';
@@ -68,10 +69,14 @@ export async function groupPick(env: Env, from: number, nicks: string[], lookup:
     const k = lookup(r.work_id);
     const kind = w?.format === 'series' ? 'series' : (w?.type ?? k?.k);
     if (kind !== 'film' && kind !== 'series') return undefined;
-    const t = w?.title || k?.t;
-    if (!t) return undefined;
-    const y = w?.year || k?.y;
-    const i = k?.i || w?.coverUrl;
+    // карточка — из импорта участника, то есть чужой ввод (ХБ, 17.10): название режем, год — только целое, картинка — свои хосты
+    const rawT = w?.title || k?.t;
+    if (typeof rawT !== 'string' || !rawT.trim()) return undefined;
+    const t = rawT.trim().slice(0, 120);
+    const rawY = w?.year ?? k?.y;
+    const y = Number.isInteger(rawY) && (rawY as number) >= 1800 && (rawY as number) <= 2100 ? (rawY as number) : undefined;
+    const rawI = k?.i || w?.coverUrl;
+    const i = typeof rawI === 'string' && rawI.length <= 500 && IMAGE_HOSTS.test(rawI) ? rawI : undefined;
     return { key: `${norm(t)}|${y ?? ''}`, film: { t, ...(y ? { y } : {}), ...(i ? { i } : {}) } };
   };
   const seen = new Map<string, Set<string>>();

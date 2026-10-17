@@ -20,3 +20,8 @@ __pycache__/
 # _tgcache.tgz — state.json и peers.json Telegram, tm-bothost.zip — собранная выкладка
 deploy/*.tgz
 deploy/*.zip
+
+# отчёты и заметки — локально, в публичный репозиторий не идут (находки безопасности, исследования)
+reports/
+research_notes/
+Claude outputs/

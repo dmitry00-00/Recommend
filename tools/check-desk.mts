@@ -160,7 +160,7 @@ function rows(): Row[] {
   }
   // решённое без строки индекса и без разметки модели — тоже видно в «Решено»
   for (const [vid, v] of Object.entries(videos)) {
-    if (seen.has(vid) || v.from !== 'check') continue;
+    if (seen.has(vid) || v.from !== 'check' || !/^[A-Za-z0-9_-]{11}$/.test(vid)) continue;
     out.push({ id: vid, title: v.title ?? vid, verdict: v, group: 'done' });
   }
   const rank: Record<Row['group'], number> = { spor: 0, check: 1, gap: 2, confirmed: 3, done: 4 };

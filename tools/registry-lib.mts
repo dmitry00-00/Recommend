@@ -96,13 +96,25 @@ const lit = (v: unknown): string => {
   throw new Error(`sources.ts: не умею записать ${JSON.stringify(v)}`);
 };
 
+// ХБ (17.10): sources.ts — код, который исполняют сборщики и сборка приложения. Из реестра (а он правится по ADMIN_TOKEN)
+// в него попадают «комментарии» и имена полей как есть — поэтому только пустые строки и «// …» без переводов строки
+// (включая U+2028/2029) и только имена-идентификаторы; иначе файл не пишем вовсе
+const COMMENT = /^\s*(?:\/\/.*)?$/;
+const LINE_BREAK = /[\r\n\u2028\u2029]/;
+const isComment = (s: unknown): s is string => typeof s === 'string' && !LINE_BREAK.test(s) && COMMENT.test(s);
+const IDENT = /^[A-Za-z_$][\w$]*$/;
+
 export function renderSources(head: string, tail: string, entries: Entry[], end: string[]): string {
   const out: string[] = [];
   for (const e of entries) {
-    const { _before, _after, ...obj } = e.body as Record<string, unknown> & { _before?: string[]; _after?: string };
-    if (_before) out.push(..._before);
+    const { _before, _after, ...obj } = e.body as Record<string, unknown> & { _before?: unknown; _after?: unknown };
+    if (_before !== undefined && !(Array.isArray(_before) && _before.every(isComment))) throw new Error(`sources.ts: запись ${e.id}: _before — не комментарий, файл не пишу`);
+    if (_after !== undefined && !isComment(_after)) throw new Error(`sources.ts: запись ${e.id}: _after — не комментарий, файл не пишу`);
+    for (const k of Object.keys(obj)) if (!IDENT.test(k)) throw new Error(`sources.ts: запись ${e.id}: поле «${k}» — не имя, файл не пишу`);
+    if (Array.isArray(_before)) out.push(..._before);
     out.push(`  { ${Object.entries(obj).map(([k, v]) => `${k}: ${lit(v)}`).join(', ')} },${_after ?? ''}`);
   }
+  if (!end.every(isComment)) throw new Error('sources.ts: хвост массива — не комментарии, файл не пишу');
   out.push(...end);
   return `${head}${out.join('\n')}\n${tail}`;
 }

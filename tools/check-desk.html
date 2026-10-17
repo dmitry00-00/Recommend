@@ -514,8 +514,8 @@ function rowHtml(r, i) {
   const ev = r.weak != null ? `<span class="tag warn" title="у этого канала опознаватель по названию часто ошибается — по вашим решениям">канал ошибается: ${Math.round(r.weak * 100)}% верных</span>` : r.stop ? `<span class="tag bad" title="стоп-слово владельца — при следующей сборке индекса привязки не будет">стоп: ${esc(r.stop)}</span>` : r.offFocus ? '<span class="tag warn" title="канал почти всегда о другой вселенной — проверьте">вне профиля канала</span>' : r.evidence ? `<span class="tag ok">${esc(EV_RU[r.evidence] ?? r.evidence)}</span>` : r.key ? '<span class="tag">по названию</span>' : '';
   const meta = [r.channel, r.date, r.minutes ? `${r.minutes} мин` : ''].filter(Boolean).join(' · ');
   return `<tr data-i="${i}" class="${i === sel ? 'sel' : ''} ${decided ? 'done' : ''}">
-    <td class="th"><a href="https://www.youtube.com/watch?v=${r.id}" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/${r.id}/mqdefault.jpg" alt=""></a></td>
-    <td class="vt"><span class="l1" title="${esc(r.title)}"><a href="https://www.youtube.com/watch?v=${r.id}" target="_blank" rel="noopener">${esc(r.title)}</a></span><span class="l2" title="${esc(meta)}">${esc(meta)}</span></td>
+    <td class="th"><a href="https://www.youtube.com/watch?v=${esc(r.id)}" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(r.id)}/mqdefault.jpg" alt=""></a></td>
+    <td class="vt"><span class="l1" title="${esc(r.title)}"><a href="https://www.youtube.com/watch?v=${esc(r.id)}" target="_blank" rel="noopener">${esc(r.title)}</a></span><span class="l2" title="${esc(meta)}">${esc(meta)}</span></td>
     <td class="cell-film"><span class="l1" title="${esc(r.film ?? '')}">${r.film ? esc(r.film) : '<span class="muted">—</span>'}</span><span class="l2">${ev}</span></td>
     <td class="cell-llm">${l ? `<span class="l1"><span class="tag ${FLAG_CLASS[l.flag]}">${esc(l.flagRu)}</span>${l.conf != null ? `<span class="tag">${Math.round(l.conf * 100)}%</span>` : ''}</span><span class="l2" title="${esc(l.note)}">${esc(l.note)}</span>` : '<span class="l1 muted">не размечено</span>'}</td>
     <td class="act">
@@ -675,7 +675,7 @@ document.addEventListener('keydown', (e) => {
   else if (k === '6') { e.preventDefault(); act('person'); }
   else if (k === 'Enter') { e.preventDefault(); act('accept'); }
   else if (k === 'Backspace' || k === '0') { e.preventDefault(); act('undo'); }
-  else if (k === 'o' || k === 'щ') { const r = data.rows[sel]; if (r) window.open(`https://www.youtube.com/watch?v=${r.id}`, '_blank', 'noopener'); }
+  else if (k === 'o' || k === 'щ') { const r = data.rows[sel]; if (r) window.open(`https://www.youtube.com/watch?v=${encodeURIComponent(r.id)}`, '_blank', 'noopener'); }
   else if (k === '/') { e.preventDefault(); $('#f-q').focus(); }
 });
 
