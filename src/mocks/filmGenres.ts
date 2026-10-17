@@ -1,4 +1,4 @@
-// Сгенерировано tools/film-genres.mts (2026-10-15): жанры фильмов TMDb по-русски,
+// Сгенерировано tools/film-genres.mts (2026-10-17): жанры фильмов TMDb по-русски,
 // ключ — «tmdb:<id фильма>». Нужны якорю вкуса новичка (src/lib/model/taste.ts).
 // Не править руками — перегенерировать.
 export const filmGenres: Record<string, string[]> = {
