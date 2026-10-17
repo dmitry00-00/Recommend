@@ -2,6 +2,7 @@
 // колонки в старые таблицы — нет: SQLite не умеет `ADD COLUMN IF NOT EXISTS`. Поэтому колонки
 // добавляются здесь, по проверке `PRAGMA table_info`, один раз на процесс воркера.
 import type { D1Database } from './env';
+import { tokenHash } from './auth';
 
 const COLUMNS: { table: string; column: string; ddl: string }[] = [
   // 24.09, трек Б: прогноз модели вероятностями — для Брайера
@@ -38,6 +39,8 @@ const COLUMNS: { table: string; column: string; ddl: string }[] = [
   // 15.10, ДФ-13: раунд выбора компанией — когда пришёл второй и когда итог открылся всем
   { table: 'together', column: 'round_at', ddl: 'ALTER TABLE together ADD COLUMN round_at TEXT' },
   { table: 'together', column: 'revealed_at', ddl: 'ALTER TABLE together ADD COLUMN revealed_at TEXT' },
+  // 17.10, аудит отказов п. 8: сводка подписок — «шлём» до sendMessage, NULL — отправлено (worker/follow.ts)
+  { table: 'follow_digest', column: 'state', ddl: 'ALTER TABLE follow_digest ADD COLUMN state TEXT' },
 ];
 
 // голоса выбора компанией (ЗП-11; ДФ-13 добавил «может быть» и вето)
@@ -112,6 +115,29 @@ const TABLES: string[] = [
   // 14.10: выгрузка дневника на час — для downloadFile Telegram (ДФ-14)
   `CREATE TABLE IF NOT EXISTS export_file (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES user(id), name TEXT NOT NULL,
     body TEXT NOT NULL, at TEXT NOT NULL)`,
+  // 17.10, аудит отказов п. 7: принятые апдейты Telegram — повтор того же update_id не обрабатываем (worker/inline.ts);
+  // старше двух суток чистит тик (worker/index.ts, scheduled)
+  'CREATE TABLE IF NOT EXISTS tg_update (update_id INTEGER PRIMARY KEY, at TEXT NOT NULL)',
+  'CREATE INDEX IF NOT EXISTS tg_update_at ON tg_update(at)',
+  // 17.10, аудит отказов п. 8: замки периодических работ — сводка подписок (worker/follow.ts). locked_at '' — свободно,
+  // until — не начинать раньше (пауза по 429 от Telegram)
+  "CREATE TABLE IF NOT EXISTS job_lock (name TEXT PRIMARY KEY, locked_at TEXT NOT NULL DEFAULT '', until TEXT NOT NULL DEFAULT '')",
+  // 17.10, решение владельца: послесловие к просмотренному (PUT /api/afterword/<workId>, worker/index.ts)
+  `CREATE TABLE IF NOT EXISTS afterword (user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
+    worth INTEGER CHECK (worth BETWEEN 1 AND 5), pace TEXT, hook TEXT, at TEXT NOT NULL, PRIMARY KEY (user_id, work_id))`,
+  // 17.10: разовые переносы данных (ONCE ниже) — сделанный не повторяется
+  'CREATE TABLE IF NOT EXISTS migration_mark (name TEXT PRIMARY KEY, at TEXT NOT NULL)',
+];
+
+/** Разовые переносы данных (17.10). Не по каждому запуску, как колонки: перенос, повторённый после рестарта, вернул бы
+ *  то, что человек с тех пор снял сам. Сделанный отмечается в migration_mark тем же пакетом, что и перенос. */
+const ONCE: { name: string; sql: string }[] = [
+  // 17.10: «стоило ли» из чек-инов (ДФ-10) — в послесловие: последний по времени чек-ин со «стоило ли» на произведение
+  { name: 'afterword-from-checkin', sql: `INSERT OR IGNORE INTO afterword (user_id, work_id, worth, at)
+      SELECT c.user_id, c.work_id, c.worth, c.at FROM checkin c
+       WHERE c.worth BETWEEN 1 AND 5 AND c.work_id <> '' AND c.user_id IN (SELECT id FROM user)
+         AND NOT EXISTS (SELECT 1 FROM checkin d WHERE d.user_id = c.user_id AND d.work_id = c.work_id AND d.worth BETWEEN 1 AND 5
+                          AND (d.at > c.at OR (d.at = c.at AND d.id > c.id)))` },
 ];
 
 let done: Promise<void> | undefined;
@@ -139,9 +165,26 @@ export function migrate(db: D1Database): Promise<void> {
       const info = await db.prepare(`PRAGMA table_info(${c.table})`).all<{ name: string }>();
       if (!info.results.some((r) => r.name === c.column)) await db.prepare(c.ddl).run();
     }
+    for (const o of ONCE) {
+      if (await db.prepare('SELECT 1 AS x FROM migration_mark WHERE name = ?').bind(o.name).first()) continue;
+      await db.batch([
+        db.prepare(o.sql),
+        db.prepare('INSERT OR IGNORE INTO migration_mark (name, at) VALUES (?, ?)').bind(o.name, new Date().toISOString()),
+      ]);
+    }
     // 16.10, ХБ: сессии до хеширования лежали токеном как есть. 17.10: не переводим в хеш, а снимаем — сырые токены уже
     // уехали в снятые копии базы, и хеш на месте оставил бы их действующими ключами на 90 дней. Telegram-клиент войдёт
-    // заново по initData сам, в браузере — войти заново
+    // заново по initData сам.
+    // 17.10, аудит отказов п. 9 — кроме браузерных гостей (u-anon-…, без tg_id): у гостя другого ключа к профилю нет,
+    // снятая сессия — потерянные оценки навсегда. Их токен переводим в хеш тем же tokenHash, что у whoIs. КОМПРОМИСС
+    // (решение владельца 17.10, чтобы гости не потеряли профили): сырые токены гостей из старых копий базы остаются
+    // действительными до конца срока сессии (90 дней)
+    const guests = await db.prepare(`SELECT s.token AS token FROM session s JOIN user u ON u.id = s.user_id
+      WHERE s.token NOT LIKE 'h:%' AND u.id LIKE 'u-anon-%' AND u.tg_id IS NULL`).all<{ token: string }>();
+    if (guests.results.length) {
+      await db.batch(await Promise.all(guests.results.map(async (g) =>
+        db.prepare('UPDATE OR IGNORE session SET token = ? WHERE token = ?').bind(await tokenHash(g.token), g.token))));
+    }
     await db.prepare("DELETE FROM session WHERE token NOT LIKE 'h:%'").run();
   })().catch((err) => { done = undefined; throw err; });
   return done;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Копия базы участников с сервера на Mac (аудит 17.10, п. 10): каждые 6 ч и сразу после входа/загрузки —
+     Mac бывает выключен ночью (12–13.10 — двое суток без копии). `pull` снимает новую копию на сервере, только
+     если там нет моложе 20 ч, иначе забирает готовую. Включение — в шапке tools/health-watch.mts. -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>tm.recomend.backup</string>
+  <key>WorkingDirectory</key><string>/Users/dmitrij/recomend</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/bash</string><string>-lc</string><string>mkdir -p .cache/backup; echo "── $(date '+%F %T')"; npx --yes tsx tools/db-backup.mts pull</string>
+  </array>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>/Users/dmitrij/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartInterval</key><integer>21600</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/dmitrij/recomend/.cache/backup/launchd.log</string>
+  <key>StandardErrorPath</key><string>/Users/dmitrij/recomend/.cache/backup/launchd.log</string>
+</dict></plist>

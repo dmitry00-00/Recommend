@@ -8,6 +8,7 @@
 // голосовавших видны только в этом чате — их там и так видно; живут голоса 30 дней.
 import type { Env } from './env';
 import { bot } from './env';
+import { tg } from './tg';
 
 export interface PollFilm { t: string; y?: number; i?: string }
 type Lang = 'ru' | 'en';
@@ -107,9 +108,8 @@ export interface CallbackQuery {
   message?: { message_id: number; chat: { id: number } };
 }
 
-const api = (env: Env, method: string, body: unknown) => fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`, {
-  method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
-}).catch((err) => { console.error(method, err); return undefined; });
+// 17.10: через общий tg() — 8 с на вызов, ошибки не бросает
+const api = (env: Env, method: string, body: unknown) => tg(env, method, body);
 
 /** Тап по номеру: «хочу» или снять, перерисовать сообщение. true — нажатие наше. */
 export async function pollVote(env: Env, cb: CallbackQuery): Promise<boolean> {
@@ -130,9 +130,12 @@ export async function pollVote(env: Env, cb: CallbackQuery): Promise<boolean> {
   else await env.DB.prepare('INSERT INTO inline_vote (msg, poll_id, tg_id, name, idx, at) VALUES (?, ?, ?, ?, ?, ?)')
     .bind(msg, id, cb.from.id, name, idx, new Date().toISOString()).run();
   const votes = (await env.DB.prepare('SELECT idx, name FROM inline_vote WHERE msg = ? ORDER BY at').bind(msg).all<{ idx: number; name: string }>()).results ?? [];
-  await api(env, 'answerCallbackQuery', { callback_query_id: cb.id, text: (had ? T[lang].unvoted : T[lang].voted)(films[idx].t) });
   const where = cb.inline_message_id ? { inline_message_id: cb.inline_message_id } : { chat_id: cb.message!.chat.id, message_id: cb.message!.message_id };
-  await api(env, 'editMessageText', { ...where, text: pollText(films, votes, lang), parse_mode: 'HTML', link_preview_options: { is_disabled: true },
-    reply_markup: pollKeyboard(id, films.length, lang, poll.session_id ?? undefined) });
+  // оба вызова разом (17.10): при зависшем Telegram вебхук ждёт один предел (8 с), а не два подряд
+  await Promise.all([
+    api(env, 'answerCallbackQuery', { callback_query_id: cb.id, text: (had ? T[lang].unvoted : T[lang].voted)(films[idx].t) }),
+    api(env, 'editMessageText', { ...where, text: pollText(films, votes, lang), parse_mode: 'HTML', link_preview_options: { is_disabled: true },
+      reply_markup: pollKeyboard(id, films.length, lang, poll.session_id ?? undefined) }),
+  ]);
   return true;
 }

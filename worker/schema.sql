@@ -252,7 +252,9 @@ CREATE TABLE IF NOT EXISTS follow (user_id TEXT NOT NULL REFERENCES user(id), ki
 CREATE TABLE IF NOT EXISTS follow_fresh (url TEXT PRIMARY KEY, key TEXT NOT NULL, title TEXT NOT NULL, author TEXT NOT NULL,
   platform TEXT NOT NULL, spoiler INTEGER NOT NULL DEFAULT 0, tier TEXT, lens TEXT, at TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS follow_fresh_at ON follow_fresh(at);
-CREATE TABLE IF NOT EXISTS follow_digest (user_id TEXT PRIMARY KEY, at TEXT NOT NULL, day TEXT NOT NULL, blocked INTEGER NOT NULL DEFAULT 0);
+-- state (17.10): 'sending' — отметка до sendMessage, NULL — отправлено; повтор после рестарта не дублирует сводку
+CREATE TABLE IF NOT EXISTS follow_digest (user_id TEXT PRIMARY KEY, at TEXT NOT NULL, day TEXT NOT NULL, blocked INTEGER NOT NULL DEFAULT 0,
+  state TEXT);
 -- 07.10, ЗП-17: весть «вышел новый сезон» (worker/seasons.ts) — одна на сезон
 CREATE TABLE IF NOT EXISTS season_notice (user_id TEXT NOT NULL REFERENCES user(id), key TEXT NOT NULL, season INTEGER NOT NULL,
   at TEXT NOT NULL, PRIMARY KEY (user_id, key, season));
@@ -315,3 +317,21 @@ CREATE TABLE IF NOT EXISTS export_file (id TEXT PRIMARY KEY, user_id TEXT NOT NU
 CREATE TABLE IF NOT EXISTS seeding (id TEXT PRIMARY KEY, label TEXT NOT NULL, channel TEXT, posted_at TEXT, price REAL, currency TEXT,
   note TEXT, created_at TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS seeding_label ON seeding(label);
+
+-- 17.10, аудит отказов п. 7: принятые апдейты Telegram — повтор того же update_id вебхук не обрабатывает (worker/inline.ts).
+-- Старше двух суток чистит периодический тик (worker/index.ts, scheduled)
+CREATE TABLE IF NOT EXISTS tg_update (update_id INTEGER PRIMARY KEY, at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS tg_update_at ON tg_update(at);
+
+-- 17.10, аудит отказов п. 8: замки периодических работ (сводка подписок, worker/follow.ts). locked_at '' — свободно,
+-- захват — UPDATE … WHERE locked_at < now−30 мин; until — не начинать раньше (пауза по 429 от Telegram)
+CREATE TABLE IF NOT EXISTS job_lock (name TEXT PRIMARY KEY, locked_at TEXT NOT NULL DEFAULT '', until TEXT NOT NULL DEFAULT '');
+
+-- 17.10, решение владельца: послесловие к просмотренному — «стоило ли» 1–5, темп (slow/ok/fast) и что зацепило
+-- (plot/characters/world/idea); одна строка на произведение, поля сливаются (PUT /api/afterword/<workId>). Все три
+-- пустые — строки нет. Чек-ин со «стоило ли» пишет его и сюда; прежние чек-ины перенесены миграцией (worker/migrate.ts)
+CREATE TABLE IF NOT EXISTS afterword (user_id TEXT NOT NULL REFERENCES user(id), work_id TEXT NOT NULL,
+  worth INTEGER CHECK (worth BETWEEN 1 AND 5), pace TEXT, hook TEXT, at TEXT NOT NULL, PRIMARY KEY (user_id, work_id));
+
+-- 17.10: разовые переносы данных миграцией (worker/migrate.ts) — сделанный не повторяется после рестарта
+CREATE TABLE IF NOT EXISTS migration_mark (name TEXT PRIMARY KEY, at TEXT NOT NULL);

@@ -248,6 +248,50 @@ async function putRating(req: Request, user: User, db: D1Database, workId: strin
   return json({ ok: true });
 }
 
+/** Послесловие к просмотренному (17.10, решение владельца): «стоило ли» 1–5, темп и что зацепило — одна строка на
+ *  произведение (src/types/tmdf.ts, Afterword). Тело — заплатка: значение пишется, null снимает, нет поля — не трогаем.
+ *  Все три пустые после слияния — строки нет. Слияние — в самом upsert, без чтения перед записью. */
+const AFTER_PACE = new Set(['slow', 'ok', 'fast']);
+const AFTER_HOOK = new Set(['plot', 'characters', 'world', 'idea']);
+/** Ключ произведения в адресе (17.10): тот же предел, что режут чек-ин и импорт, — 120 знаков, без пробелов. */
+const AFTER_WORK = /^\S{1,120}$/;
+type AfterRow = { worth: number | null; pace: string | null; hook: string | null; at: string };
+const afterwordOf = (r: AfterRow) => ({
+  ...(r.worth != null ? { worth: r.worth } : {}), ...(r.pace ? { pace: r.pace } : {}), ...(r.hook ? { hook: r.hook } : {}), at: r.at,
+});
+
+async function putAfterword(req: Request, user: User, db: D1Database, rawId: string): Promise<Response> {
+  let workId: string;
+  try { workId = decodeURIComponent(rawId); } catch { return json({ error: 'bad_work' }, 400); }
+  if (!AFTER_WORK.test(workId)) return json({ error: 'bad_work' }, 400);
+  const raw = await req.json().catch(() => undefined);
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return json({ error: 'bad_afterword' }, 400);
+  const b = raw as Record<string, unknown>;
+  const has = (k: string) => Object.prototype.hasOwnProperty.call(b, k) && b[k] !== undefined;
+  if (!has('worth') && !has('pace') && !has('hook')) return json({ error: 'empty' }, 400);
+  if (has('worth') && b.worth !== null && !(Number.isInteger(b.worth) && (b.worth as number) >= 1 && (b.worth as number) <= 5)) {
+    return json({ error: 'bad_worth' }, 400);
+  }
+  if (has('pace') && b.pace !== null && !(typeof b.pace === 'string' && AFTER_PACE.has(b.pace))) return json({ error: 'bad_pace' }, 400);
+  if (has('hook') && b.hook !== null && !(typeof b.hook === 'string' && AFTER_HOOK.has(b.hook))) return json({ error: 'bad_hook' }, 400);
+  // keep = 1 — поля в заплатке нет, у имеющейся строки оно остаётся
+  const val = (k: string) => (has(k) ? b[k] as string | number | null : null);
+  const keep = (k: string) => (has(k) ? 0 : 1);
+  await db.batch([
+    db.prepare(
+      `INSERT INTO afterword (user_id, work_id, worth, pace, hook, at) VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+       ON CONFLICT (user_id, work_id) DO UPDATE SET
+         worth = CASE WHEN ?7 THEN afterword.worth ELSE excluded.worth END,
+         pace = CASE WHEN ?8 THEN afterword.pace ELSE excluded.pace END,
+         hook = CASE WHEN ?9 THEN afterword.hook ELSE excluded.hook END,
+         at = excluded.at`,
+    ).bind(user.id, workId, val('worth'), val('pace'), val('hook'), now(), keep('worth'), keep('pace'), keep('hook')),
+    db.prepare('DELETE FROM afterword WHERE user_id = ? AND work_id = ? AND worth IS NULL AND pace IS NULL AND hook IS NULL').bind(user.id, workId),
+  ]);
+  const row = await db.prepare('SELECT worth, pace, hook, at FROM afterword WHERE user_id = ? AND work_id = ?').bind(user.id, workId).first<AfterRow>();
+  return json({ ok: true, afterword: row ? afterwordOf(row) : null });
+}
+
 /** Показы слейта: что человек увидел и на каком месте. Пишем пачкой — один запрос на ленту. */
 /** Уровень сложности произведения (1–10) и его признаки — операции с интенсивностью и регистры (МА-1/МА-2,
  *  worker/metrics.ts). Приходят от клиента: только обрезаем до разумного, чужое — null. */
@@ -340,7 +384,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
   // присланный список — до чтения профиля, чтобы первый же ответ его уже содержал; не
   // разложился — профиль важнее, попробуем при следующем входе
   await applyUserSeed(db, env, user.id).catch((err) => console.error('seed', user.id, err));
-  const [watched, journal, predictions, verdicts, ratings, profile, dismissals, visits] = await Promise.all([
+  const [watched, journal, predictions, verdicts, ratings, profile, dismissals, visits, afterwords] = await Promise.all([
     db.prepare('SELECT work_id, state, work FROM watched WHERE user_id = ? ORDER BY at DESC').bind(user.id).all<{ work_id: string; state: string; work: string | null }>(),
     db.prepare('SELECT entry_id, work_id, work, status, progress, started_at, finished_at, eagerness, inferred, series FROM journal WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
     db.prepare('SELECT entry_id, work_id, expected, model, model_p, at FROM prediction WHERE user_id = ?').bind(user.id).all<Record<string, unknown>>(),
@@ -354,6 +398,8 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
                 GROUP BY work_id`).bind(user.id, new Date(Date.now() - 183 * 864e5).toISOString()).all<{ work_id: string; reason: string | null; at: string }>(),
     // дни захода (ДФ-3): с третьего клиент предлагает ярлык на экран телефона
     db.prepare('SELECT COUNT(*) AS n FROM visit WHERE user_id = ?').bind(user.id).first<{ n: number }>(),
+    // послесловие к просмотренному (17.10)
+    db.prepare('SELECT work_id, worth, pace, hook, at FROM afterword WHERE user_id = ? ORDER BY at').bind(user.id).all<AfterRow & { work_id: string }>(),
   ]);
   const parse = (raw: unknown) => (typeof raw === 'string' ? JSON.parse(raw) : undefined);
   return json({
@@ -364,6 +410,7 @@ async function getState(user: User, db: D1Database, env: Env): Promise<Response>
     verdicts: verdicts.results,
     dismissals: dismissals.results.map((r) => ({ workId: r.work_id, ...(r.reason ? { reason: r.reason } : {}), at: r.at })),
     ratings: ratings.results.map((r) => ({ workId: r.work_id, rating: r.rating, ...(r.raw != null ? { raw: r.raw } : {}), work: parse(r.work), at: r.at })),
+    afterwords: afterwords.results.map((r) => ({ workId: r.work_id, ...afterwordOf(r) })),
     profile: {
       username: profile?.username ?? undefined,
       firstName: profile?.first_name ?? undefined,
@@ -484,14 +531,21 @@ async function postCheckIn(req: Request, user: User, db: D1Database, entryId: st
   const journalStatus = status === 'season_finished' || status === 'part_finished' ? 'in_progress' : status;
   const series = body.book ? bookJson(body.book) : seriesJson(body.series);
   const str = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : null);
+  const workId = str(body.workId, 120) ?? '';
+  const at = now();
   // чек-ин и запись дневника — одним пакетом: либо оба, либо ничего
   await db.batch([
     db.prepare('INSERT INTO checkin (id, user_id, entry_id, work_id, status, perceived, reason, payload, at, level, traits, worth, worth_why) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-      .bind(newId('c'), user.id, entryId, str(body.workId, 120) ?? '', status, str(body.perceived, 64), str(body.reason, 64),
-        body.payload ? JSON.stringify(body.payload).slice(0, 4000) : null, now(), levelOf(body.level), traitsOf(body.traits), worth, worthWhy),
+      .bind(newId('c'), user.id, entryId, workId, status, str(body.perceived, 64), str(body.reason, 64),
+        body.payload ? JSON.stringify(body.payload).slice(0, 4000) : null, at, levelOf(body.level), traitsOf(body.traits), worth, worthWhy),
     db.prepare(
       `UPDATE journal SET status = ?, progress = COALESCE(?, progress), series = COALESCE(?, series), finished_at = ? WHERE user_id = ? AND entry_id = ?`,
     ).bind(journalStatus, typeof body.progress === 'number' && Number.isFinite(body.progress) ? body.progress : null, series, journalStatus === 'in_progress' ? null : now(), user.id, entryId),
+    // 17.10: «стоило ли» — и в послесловие к произведению (темп и зацепку не трогаем)
+    ...(worth != null && workId ? [db.prepare(
+      `INSERT INTO afterword (user_id, work_id, worth, at) VALUES (?, ?, ?, ?)
+       ON CONFLICT (user_id, work_id) DO UPDATE SET worth = excluded.worth, at = excluded.at`,
+    ).bind(user.id, workId, worth, at)] : []),
   ]);
   return json({ ok: true });
 }
@@ -990,6 +1044,10 @@ export default {
       const rating = /^\/api\/rating\/(.+)$/.exec(path);
       if (rating && req.method === 'PUT') return putRating(req, user, env.DB, decodeURIComponent(rating[1]));
 
+      // послесловие к просмотренному (17.10)
+      const afterword = /^\/api\/afterword\/(.+)$/.exec(path);
+      if (afterword && req.method === 'PUT') return putAfterword(req, user, env.DB, afterword[1]);
+
       const watched = /^\/api\/watched\/(.+)$/.exec(path);
       if (watched && req.method === 'PUT') return putWatched(req, user, env.DB, decodeURIComponent(watched[1]));
 
@@ -1012,7 +1070,10 @@ export default {
   async scheduled(_event: unknown, env: Env): Promise<void> {
     useBot(env);
     await migrate(env.DB);
+    // принятые апдейты Telegram (17.10): повтор приходит за минуты, двух суток с запасом
+    await env.DB.prepare('DELETE FROM tg_update WHERE at < ?').bind(new Date(Date.now() - 2 * 864e5).toISOString()).run()
+      .catch((err) => console.error('tg_update:', err));
     const r = await followDigest(env);
-    if (r.users) console.log(`подписки: ${JSON.stringify(r)}`);
+    if (r.users || r.stopped || r.pausedUntil) console.log(`подписки: ${JSON.stringify(r)}`);
   },
 };

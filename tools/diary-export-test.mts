@@ -11,7 +11,8 @@ import type { WorkCard } from '../src/types/tmdf.ts';
 
 const rows: DiaryRow[] = [
   { workId: 'w-stalker', type: 'film', title: 'Сталкер', year: 1979, status: 'finished', rating: 4, raw: 7,
-    startedAt: '2026-09-01', finishedAt: '2026-09-02', ids: { tmdb: 1398, imdb: 'tt0079944', wikidata: 'Q319137', kinopoisk: 43911 } },
+    startedAt: '2026-09-01', finishedAt: '2026-09-02', ids: { tmdb: 1398, imdb: 'tt0079944', wikidata: 'Q319137', kinopoisk: 43911 },
+    afterword: { worth: 5, pace: 'slow', at: '2026-09-02T20:00:00.000Z' } },
   { workId: 'u-tmdbtv1396', type: 'series', title: 'Во все тяжкие', originalTitle: 'Breaking Bad', year: 2008, status: 'in_progress',
     startedAt: '2026-10-01', ids: { tmdb: 1396, imdb: 'tt0903747' } },
   { workId: 'b-master', type: 'book', title: 'Мастер и Маргарита', year: 1967, status: 'finished', rating: 5,
@@ -29,6 +30,10 @@ assert.deepEqual(table.header.slice(0, 7), ['Title', 'Year', 'Rating10', 'Watche
 assert.equal(table.rows[1]['tmdbID'], '', 'у сериала tmdbID пуст');
 assert.equal(table.rows[1]['TmdbTvID'], '1396', 'номер сериала — в своей колонке');
 assert.equal(table.rows[3]['Title'], 'Дом, который "построил" Джек', 'запятая и кавычки в названии');
+// послесловие (17.10): колонки в конце, у записи без него — пусто
+assert.deepEqual(table.header.slice(-3), ['Worth', 'Pace', 'Hook'], 'послесловие — последними колонками');
+assert.deepEqual([table.rows[0]['Worth'], table.rows[0]['Pace'], table.rows[0]['Hook']], ['5', 'slow', ''], 'послесловие в CSV');
+assert.equal(table.rows[1]['Worth'], '', 'без послесловия — пусто');
 
 const parsed = parseExport(csv, 'recomend-diary-2026-10-14.csv');
 assert.ok(parsed, 'формат узнан');
@@ -72,5 +77,7 @@ assert.equal(json.format, 'recomend-diary');
 assert.equal(json.entries.length, rows.length);
 assert.equal(json.entries[0].rating10, 7);
 assert.equal(json.entries[4].abandonReason, 'not_engaging');
+assert.deepEqual(json.entries[0].afterword, { worth: 5, pace: 'slow', at: '2026-09-02T20:00:00.000Z' }, 'послесловие в JSON');
+assert.equal(json.entries[1].afterword, undefined);
 
 console.log(`ДФ-14: ${rows.length} строк туда и обратно — без потерь`);

@@ -13,7 +13,8 @@
     "api:init": "wrangler d1 execute recomend --local --file worker/schema.sql",
     "typecheck:worker": "tsc -p tsconfig.worker.json",
     "build:bothost": "node tools/build-bothost.mjs",
-    "deploy:github": "node tools/deploy-github.mjs"
+    "deploy:github": "node tools/deploy-github.mjs",
+    "deploy:rollback": "node tools/deploy-github.mjs --rollback"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",

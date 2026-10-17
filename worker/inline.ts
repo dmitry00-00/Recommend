@@ -12,6 +12,7 @@ import { withRef } from './invite';
 import { togetherCommand, type ChatMessage } from './together';
 import { lastDeck, pollQuery, pollResult, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
 import { GROUP_T, groupPick, groupQuery, type Known } from './inlineGroup';
+import { tg } from './tg';
 
 interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
 interface InlineQuery { id: string; query: string; from?: { id: number; language_code?: string } }
@@ -106,11 +107,8 @@ async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: typeof ca
     if (deck) ({ films, session } = deck);
   }
   const results = films.length >= 2 && q.from ? [await pollResult(env, films, q.from.id, lang, session)] : [];
-  await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ inline_query_id: q.id, results, cache_time: 0, is_personal: true,
-      ...(results.length ? {} : { button: { text: POLL_HINT[lang], start_parameter: 'together' } }) }),
-  }).catch((err) => console.error('answerInlineQuery poll', err));
+  await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results, cache_time: 0, is_personal: true,
+    ...(results.length ? {} : { button: { text: POLL_HINT[lang], start_parameter: 'together' } }) });
 }
 
 /** «для @anya @lyosha» — подбор компании (worker/inlineGroup.ts) тем же голосованием. Не вышло — без результатов, с
@@ -131,11 +129,8 @@ async function answerGroup(env: Env, q: InlineQuery, nicks: string[], idx: typeo
         { title: T.title(r.names), ...(r.missing.length ? { note: T.missing(r.missing) } : {}) })];
     } else hint = r.error === 'nobody' ? T.nobody(r.missing) : T[r.error];
   }
-  await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ inline_query_id: q.id, results, cache_time: 0, is_personal: true,
-      ...(results.length ? {} : { button: { text: hint, start_parameter: 'together' } }) }),
-  }).catch((err) => console.error('answerInlineQuery group', err));
+  await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results, cache_time: 0, is_personal: true,
+    ...(results.length ? {} : { button: { text: hint, start_parameter: 'together' } }) });
 }
 
 async function answer(env: Env, q: InlineQuery): Promise<void> {
@@ -146,23 +141,32 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
   const rest = pollQuery(q.query);
   if (rest !== undefined) return answerPoll(env, q, rest, idx, lang);
   const found = idx ? search(idx, q.query) : [];
-  await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/answerInlineQuery`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    // is_personal (ХБ, 17.10): подписи — на языке спрашивающего, общий кеш Telegram отдавал бы их другим
-    body: JSON.stringify({ inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300, is_personal: true }),
-  }).catch((err) => console.error('answerInlineQuery', err));
+  // is_personal (ХБ, 17.10): подписи — на языке спрашивающего, общий кеш Telegram отдавал бы их другим
+  await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300, is_personal: true });
 }
 
-/** Событие от Telegram. Отвечаем 200 всегда, кроме чужого секрета: иначе Telegram будет повторять. */
+/** Событие от Telegram. Отвечаем 200 всегда, кроме чужого секрета: иначе Telegram будет повторять.
+ *  17.10 (аудит отказов, п. 7): повтор того же update_id (Telegram шлёт снова, если не дождался ответа) — сразу 200, без
+ *  обработки: иначе голос в чате ставился и тут же снимался, сообщения уходили дважды. Любая ошибка внутри (битый
+ *  inlineIndex.json, база) — в журнал и всё равно 200: на 500 Telegram повторял бы апдейт вечно и копил очередь. */
 export async function telegramUpdate(req: Request, env: Env): Promise<Response> {
   if (!env.BOT_TOKEN) return new Response('no bot', { status: 503 });
   if (req.headers.get('x-telegram-bot-api-secret-token') !== await webhookSecret(env.BOT_TOKEN)) return new Response('forbidden', { status: 403 });
-  const update = (await req.json().catch(() => ({}))) as { inline_query?: InlineQuery; message?: ChatMessage; callback_query?: CallbackQuery };
-  if (update.inline_query) await answer(env, update.inline_query);
-  // тап по номеру в голосовании в чате (15.10)
-  if (update.callback_query) await pollVote(env, update.callback_query).catch((err) => console.error('poll vote', err));
-  // «/together» в чате — выбор компанией (ЗП-11, 11.10)
-  if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
+  try {
+    const update = (await req.json().catch(() => ({}))) as { update_id?: number; inline_query?: InlineQuery; message?: ChatMessage; callback_query?: CallbackQuery };
+    if (typeof update.update_id === 'number') {
+      // строки старше двух суток чистит периодический тик (worker/index.ts, scheduled)
+      const seen = await env.DB.prepare('INSERT OR IGNORE INTO tg_update (update_id, at) VALUES (?, ?)').bind(update.update_id, new Date().toISOString()).run();
+      if (seen.meta?.changes === 0) return new Response('ok');
+    }
+    if (update.inline_query) await answer(env, update.inline_query);
+    // тап по номеру в голосовании в чате (15.10)
+    if (update.callback_query) await pollVote(env, update.callback_query).catch((err) => console.error('poll vote', err));
+    // «/together» в чате — выбор компанией (ЗП-11, 11.10)
+    if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
+  } catch (err) {
+    console.error('telegram update:', (err as Error)?.stack ?? err);
+  }
   return new Response('ok');
 }
 
@@ -172,9 +176,7 @@ export async function telegramUpdate(req: Request, env: Env): Promise<Response> 
 export async function adminWebhook(req: Request, env: Env): Promise<Response> {
   if (!env.BOT_TOKEN) return Response.json({ error: 'no_bot_token' }, { status: 503 });
   const b = (await req.json().catch(() => ({}))) as { action?: string; url?: string };
-  const api = (method: string, body?: unknown) => fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`, {
-    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body ?? {}),
-  }).then((r) => r.json());
+  const api = (method: string, body?: unknown) => tg(env, method, body);
   if (b.action === 'set') {
     if (!b.url || !/^https:\/\/[^/]+\/api\/telegram$/.test(b.url)) return Response.json({ error: 'url' }, { status: 400 });
     // только на этот же сервер (ХБ, 16.10): вебхук на чужой хост отдал бы ему все апдейты бота и секрет вебхука.
@@ -238,12 +240,11 @@ export async function prepareShare(req: Request, tgId: number | null | undefined
   const card: ShareCard = { param: userId ? withRef(param, userId) : param, title, ...(typeof b.year === 'number' && b.year > 1800 && b.year < 2100 ? { year: b.year } : {}),
     ...(kind ? { kind } : {}), ...(clip(b.by, 80) ? { by: clip(b.by, 80) } : {}), ...(clip(b.about, 300) ? { about: clip(b.about, 300) } : {}),
     ...(IMAGE_HOSTS.test(image) ? { image } : {}), ...(b.lang === 'en' ? { lang: 'en' as const } : {}) };
-  const save = (result: unknown) => fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/savePreparedInlineMessage`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ user_id: tgId, result, allow_user_chats: true, allow_group_chats: true, allow_channel_chats: true, allow_bot_chats: false }),
-  }).then((r) => r.json() as Promise<{ ok: boolean; result?: { id: string }; description?: string }>);
+  const save = (result: unknown) => tg<{ id: string }>(env, 'savePreparedInlineMessage',
+    { user_id: tgId, result, allow_user_chats: true, allow_group_chats: true, allow_channel_chats: true, allow_bot_chats: false });
   let r = await save(shareResult(card));
-  // картинку Telegram может не принять (формат, размер) — тогда без неё, текстом с кнопкой
-  if (!r.ok && card.image) r = await save(shareResult({ ...card, image: undefined }));
+  // картинку Telegram может не принять (формат, размер) — тогда без неё, текстом с кнопкой. 17.10: не достучались
+  // (error_code 0, предел 8 с) — второй раз не ждём
+  if (!r.ok && card.image && r.error_code !== 0) r = await save(shareResult({ ...card, image: undefined }));
   return r.ok && r.result ? Response.json({ id: r.result.id }) : Response.json({ error: 'telegram', reason: r.description }, { status: 502 });
 }

@@ -5,13 +5,37 @@
 //
 // Фронт собирается с VITE_API_URL=/ — API на том же адресе, что и страница. Ключи TMDb
 // и Кинопоиска в сборку не попадают (TMDb — с 13.10): их знает только сервер (TMDB_API_KEY, KP_API_KEY).
+//
+// С 17.10 (аудит, волна 1, пп. 2 и 11):
+//   - version.json рядом с index.js — {commit, dirty, builtAt}: сервер отдаёт его по GET /api/version, выкладка
+//     (tools/deploy-github.mjs) по нему ждёт, что поднялась именно эта сборка; dirty — есть ли незакоммиченное
+//     в отслеживаемых файлах;
+//   - в public/assets кладутся и файлы прошлой сборки (только одного поколения: её собственные, без перенесённых
+//     ею самой): у открытого до выкладки приложения ленивые экраны просят старые чанки, и без них — 404.
+//     Список — assets.json рядом с index.js ({own, carried}); бюджет первой загрузки их не считает (он по манифесту).
 import { execSync } from 'node:child_process';
-import { cpSync, mkdirSync, rmSync, writeFileSync, existsSync } from 'node:fs';
+import { cpSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = process.cwd();
 const out = join(root, 'deploy', 'bothost');
 const run = (cmd, env = {}) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, ...env } });
+const git = (cmd) => execSync(`git ${cmd}`, { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+
+// 0. ассеты прошлой сборки — в сторону до очистки: только её собственные (own), перенесённые ею — уже третье поколение.
+// Папка в стороне живёт до удачной сборки: упадёт vite — следующая попытка возьмёт прошлые ассеты оттуда
+const prevAssets = join(out, 'public', 'assets');
+const keepDir = join(root, 'node_modules', '.cache', 'bothost-prev-assets');
+if (existsSync(prevAssets)) {
+  let manifest;
+  try { manifest = JSON.parse(readFileSync(join(out, 'assets.json'), 'utf8')); } catch { /* сборка до 17.10 — все её файлы свои */ }
+  const carried = new Set(manifest?.carried ?? []);
+  const mine = (manifest?.own ?? readdirSync(prevAssets)).filter((f) => !carried.has(f) && existsSync(join(prevAssets, f)));
+  rmSync(keepDir, { recursive: true, force: true });
+  mkdirSync(keepDir, { recursive: true });
+  for (const f of mine) renameSync(join(prevAssets, f), join(keepDir, f));
+}
+const prevOwn = existsSync(keepDir) ? readdirSync(keepDir) : [];
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(join(out, 'seed'), { recursive: true });
@@ -24,6 +48,17 @@ run('npx tsc -b && npx vite build --outDir deploy/bothost/public --emptyOutDir',
 // бюджет первой загрузки (РР-0): превышен — сборка падает; манифест нужен только проверке, на сервер не едет
 run('node tools/load-budget.mjs deploy/bothost/public');
 rmSync(join(out, 'public', '.vite'), { recursive: true, force: true });
+
+// 1б. прошлые ассеты рядом с новыми (имена с хешем: совпавшие — тот же файл, их не трогаем)
+const assets = join(out, 'public', 'assets');
+const own = readdirSync(assets).sort();
+const ownSet = new Set(own);
+const carried = prevOwn.filter((f) => !ownSet.has(f) && statSync(join(keepDir, f)).isFile()).sort();
+for (const f of carried) cpSync(join(keepDir, f), join(assets, f));
+rmSync(keepDir, { recursive: true, force: true });
+const mb = (files) => (files.reduce((n, f) => n + statSync(join(assets, f)).size, 0) / 1048576).toFixed(1);
+writeFileSync(join(out, 'assets.json'), JSON.stringify({ own, carried }, null, 1) + '\n');
+console.log(`ассеты: своих ${own.length} (${mb(own)} МБ), от прошлой сборки ${carried.length} (${mb(carried)} МБ)`);
 
 // 2. воркер → CommonJS для Node
 run('npx esbuild worker/index.ts --bundle --platform=node --target=node20 --format=cjs --outfile=deploy/bothost/worker.cjs --log-level=warning');
@@ -57,8 +92,17 @@ writeFileSync(join(out, 'Dockerfile'), [
   '',
 ].join('\n'));
 
+// 4б. какая это сборка — для /api/version и проверки после выкладки
+let commit = 'unknown', dirty = true;
+try {
+  commit = git('rev-parse HEAD');
+  dirty = git('status --porcelain --untracked-files=no').length > 0;
+} catch { /* не репозиторий — сборка всё равно годится, но выкладка её не примет */ }
+writeFileSync(join(out, 'version.json'), JSON.stringify({ commit, dirty, builtAt: new Date().toISOString() }) + '\n');
+console.log(`version.json: ${commit.slice(0, 7)}${dirty ? ' + незакоммиченное' : ''}`);
+
 // 5. архив
 const zip = join(root, 'deploy', 'tm-bothost.zip');
 if (existsSync(zip)) rmSync(zip);
 run(`cd deploy/bothost && zip -qr ../tm-bothost.zip .`);
-console.log(`готово: ${zip}`);
+console.log(`готово: ${zip}, ${(statSync(zip).size / 1048576).toFixed(1)} МБ`);

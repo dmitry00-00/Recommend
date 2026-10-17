@@ -30,7 +30,16 @@ const { createBackups } = require('./backup');
 
 // ХБ (17.10): один неперехваченный бросок где угодно — и процесс падал целиком, а с ним приложение у всех. Теперь такое
 // уходит в журнал, сервер живёт дальше; падать остаётся только при ошибках запуска (см. server.on('error'))
-process.on('uncaughtException', (err) => console.error('uncaughtException:', err && (err.stack || err.message || err)));
+// 17.10, аудит отказов п. 5: но больше 20 бросков за минуту — процесс уже не в себе (цикл ошибок, утечка): выходим с
+// кодом 1, bothost поднимет заново
+const CRASHES = [];
+process.on('uncaughtException', (err) => {
+  console.error('uncaughtException:', err && (err.stack || err.message || err));
+  const t = Date.now();
+  CRASHES.push(t);
+  while (CRASHES.length && CRASHES[0] < t - 60e3) CRASHES.shift();
+  if (CRASHES.length > 20) { console.error('больше 20 uncaughtException за минуту — выходим'); process.exit(1); }
+});
 process.on('unhandledRejection', (err) => console.error('unhandledRejection:', err && (err.stack || err.message || err)));
 if (process.env.OWNER_TG_ID && !/^\d{1,20}$/.test(process.env.OWNER_TG_ID.trim())) console.warn('OWNER_TG_ID задан не числом — роль админа не получит никто');
 
@@ -44,11 +53,16 @@ const TMDB_KEY = process.env.TMDB_API_KEY || '';
 // /videos (15.10) — трейлер по смахиванию карточки ленты влево (src/api/index.ts, getTrailer)
 const TMDB_PATHS = /^\/(?:find\/tt\d+|search\/(?:movie|tv)|(?:movie|tv)\/\d+(?:\/external_ids|\/watch\/providers|\/videos)?)$/;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+// предел ожидания TMDb и Кинопоиска (17.10, аудит отказов п. 6)
+const PROXY_TIMEOUT = 10e3;
 
 // ---------- API: воркер + D1 на SQLite ----------
 let api = null;
 let backups = null;
 const DB_FILE = path.join(DATA_DIR, 'tm.sqlite');
+/** закрыть базу при остановке — ставит startApi, когда база открыта */
+let closeDb = () => {};
+let stopping = false;
 
 function sqliteBuiltin() {
   if (process.env.DB_ENGINE === 'sqljs') return false;
@@ -117,9 +131,8 @@ async function startApi() {
     OWNER_TG_ID: process.env.OWNER_TG_ID || '',
     OWNER_SEED: seed,
   };
-  const stop = () => { try { current.close(); } finally { process.exit(0); } };
-  process.on('SIGTERM', stop);
-  process.on('SIGINT', stop);
+  // сигналы остановки (17.10) вешаются при старте процесса, ниже по файлу (shutdown); отсюда — только закрытие базы
+  closeDb = () => current.close();
   backups = createBackups({
     getDb: () => current,
     dir: path.join(DATA_DIR, 'backups'),
@@ -349,6 +362,8 @@ async function proxyKinopoisk(req, res, urlPath, search) {
   try {
     const upstream = await fetch(KP_BASE + urlPath.replace(/^\/kp-api/, '') + search, {
       headers: { 'X-API-KEY': KP_KEY, accept: 'application/json' },
+      // 17.10: без предела зависший Кинопоиск держал запрос до 300 с (сигнал обрывает и чтение тела)
+      signal: AbortSignal.timeout(PROXY_TIMEOUT),
     });
     const body = Buffer.from(await upstream.arrayBuffer());
     res.writeHead(upstream.status, {
@@ -359,7 +374,9 @@ async function proxyKinopoisk(req, res, urlPath, search) {
     res.end(body);
   } catch (err) {
     console.error('kp-api:', err && err.message);
-    res.writeHead(502, { 'content-type': 'application/json' }).end('{"error":"kp_upstream"}');
+    if (res.headersSent) { res.destroy(); return; }
+    const timeout = err && err.name === 'TimeoutError';
+    res.writeHead(timeout ? 504 : 502, { 'content-type': 'application/json', 'cache-control': 'no-store' }).end(timeout ? '{"error":"kp_timeout"}' : '{"error":"kp_upstream"}');
   }
 }
 
@@ -375,6 +392,7 @@ async function proxyTmdb(req, res, urlPath, search) {
   try {
     const upstream = await fetch(`${TMDB_BASE}${rest}?${qs}`, {
       headers: { accept: 'application/json', ...(bearer ? { authorization: `Bearer ${TMDB_KEY}` } : {}) },
+      signal: AbortSignal.timeout(PROXY_TIMEOUT),
     });
     const body = Buffer.from(await upstream.arrayBuffer());
     res.writeHead(upstream.status, {
@@ -385,7 +403,9 @@ async function proxyTmdb(req, res, urlPath, search) {
     res.end(body);
   } catch (err) {
     console.error('tmdb-api:', err && err.message);
-    res.writeHead(502, { 'content-type': 'application/json' }).end('{"error":"tmdb_upstream"}');
+    if (res.headersSent) { res.destroy(); return; }
+    const timeout = err && err.name === 'TimeoutError';
+    res.writeHead(timeout ? 504 : 502, { 'content-type': 'application/json', 'cache-control': 'no-store' }).end(timeout ? '{"error":"tmdb_timeout"}' : '{"error":"tmdb_upstream"}');
   }
 }
 
@@ -530,6 +550,53 @@ async function proxyImage(req, res, p) {
   }
 }
 
+// ---------- живость, версия, остановка (17.10, аудит отказов п. 5, 11) ----------
+/** /healthz: 200 — только когда API поднят и база отвечает на SELECT 1; до готовности и при остановке — 503 */
+async function healthz(res) {
+  const head = { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' };
+  if (stopping) { res.writeHead(503, head).end('stopping'); return; }
+  if (!api) { res.writeHead(503, head).end('starting'); return; }
+  try {
+    await api.env.DB.prepare('SELECT 1 AS ok').first();
+    res.writeHead(200, head).end('ok');
+  } catch (err) {
+    console.error('healthz:', err && err.message);
+    res.writeHead(503, head).end('db');
+  }
+}
+
+/** /api/version: version.json рядом с сервером (пишет сборка: commit, dirty, builtAt) как есть; нет файла — commit «dev».
+ *  Читаем на каждый запрос — файл крошечный, а после выкладки должен быть виден сразу */
+function version(res) {
+  let body;
+  try { body = JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'), 'utf8')); } catch { body = { commit: 'dev' }; }
+  sendJson(res, 200, body);
+}
+
+/** Плавная остановка: новых соединений не берём, запросы на лету дожидаемся до 8 с, потом рвём оставшиеся, закрываем
+ *  базу (журнал — в основной файл) и выходим. Раньше SIGTERM сразу закрывал базу и обрывал запросы на лету. */
+const STOP_WAIT = 8e3;
+function shutdown(signal) {
+  if (stopping) return;
+  stopping = true;
+  console.log(`${signal}: останавливаемся, ждём запросы на лету до ${STOP_WAIT / 1000} с`);
+  const done = (code) => {
+    try { closeDb(); } catch (err) { console.error('база не закрылась:', err && err.message); }
+    process.exit(code);
+  };
+  const timer = setTimeout(() => {
+    console.warn('не дождались запросов на лету — обрываем');
+    server.closeAllConnections?.();
+    done(0);
+  }, STOP_WAIT);
+  server.close(() => { clearTimeout(timer); done(0); });
+  // простаивающие keep-alive соединения server.close сам не закрывает до Node 19 — закрыть их сразу
+  server.closeIdleConnections?.();
+}
+// сразу при старте (17.10): раньше вешались внутри startApi, и пока база открывалась, SIGTERM убивал процесс как придётся
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+
 const server = http.createServer((req, res) => {
   // ХБ (17.10): разбор адреса — внутри try. `GET http://[ HTTP/1.1` бросал ERR_INVALID_URL до любого try и ронял процесс целиком,
   // bothost отдавал «404 page not found» всем, пока контейнер поднимался. Цель запроса принимаем только origin-form (с «/»)
@@ -540,7 +607,8 @@ const server = http.createServer((req, res) => {
     p = decodeURIComponent(url.pathname);
   } catch { res.writeHead(400).end(); return; }
 
-  if (p === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }).end('ok'); return; }
+  if (p === '/healthz') { healthz(res); return; }
+  if (p === '/api/version') { version(res); return; }
   if (p.startsWith('/kp-api/')) { proxyKinopoisk(req, res, p, url.search); return; }
   if (p.startsWith('/tmdb-api/')) { proxyTmdb(req, res, p, url.search); return; }
   if (p.startsWith('/img/')) { proxyImage(req, res, p); return; }
@@ -599,4 +667,9 @@ server.on('error', (err) => {
   console.error('сервер не слушает:', err && (err.stack || err.message || err));
   process.exit(1);
 });
-startApi().catch((err) => console.error('api не поднялся:', err && (err.stack || err.message)));
+// 17.10, аудит отказов п. 5: API не поднялся (нет DATA_DIR, битая база, нет worker.cjs) — раньше процесс жил дальше с
+// /api/* 503 навсегда, а /healthz отвечал «ok», и bothost не перезапускал. Теперь — выход с кодом 1: платформа поднимет заново
+startApi().catch((err) => {
+  console.error('api не поднялся:', err && (err.stack || err.message));
+  process.exit(1);
+});

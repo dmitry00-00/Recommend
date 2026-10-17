@@ -160,5 +160,8 @@ if (!process.argv.includes('--no-publish') && process.env.TM_GLOBAL_SERVER) step
 // свежая очередь разметки для телефона — после всех шагов: в ней уже новые ролики и решения ночи
 if (!process.argv.includes('--no-publish')) step('очередь разметки для телефона', ...tsx('tools/owner-queue.mts'), { optional: true });
 // копия базы участников — к себе на Mac (ЗП-4, 06.10): ночная копия сервера лежит на его же диске
-if (!process.argv.includes('--no-publish')) step('копия базы', ...tsx('tools/db-backup.mts', 'pull'), { optional: true });
+// 17.10: копию забирает и свой агент launchd каждые 6 ч (tools/launchd/tm.recomend.backup.plist) — здесь лишняя попытка;
+// `pull` не снимает новую, если на сервере есть моложе 20 ч (обычно — ночная), а неудача видна строкой в конце лога
+const backupOk = process.argv.includes('--no-publish') || step('копия базы', ...tsx('tools/db-backup.mts', 'pull'), { optional: true });
+if (!backupOk) say('ВНИМАНИЕ: копия базы участников НЕ забрана — см. шаг «копия базы» выше и .cache/backup/launchd.log');
 say(`\nлог: ${log}`);

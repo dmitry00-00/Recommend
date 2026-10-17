@@ -16,6 +16,7 @@
 // отдаёт только свои голоса и сколько прошёл каждый. Если подборка пришла в чат командой /together, итог уходит и туда.
 import type { D1Database, Env } from './env';
 import { bot } from './env';
+import { tg } from './tg';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const DECK_MIN = 4;
@@ -103,10 +104,8 @@ const lang = (code?: string | null) => (code && /^en/i.test(code) ? 'en' : 'ru')
 
 async function send(env: Env, body: Record<string, unknown>): Promise<boolean> {
   if (!env.BOT_TOKEN) return false;
-  const r = await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`, {
-    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
-  }).catch((err) => { console.error('together send', err); return undefined; });
-  return Boolean(r?.ok);
+  // 17.10: через общий tg() — 8 с; раньше ok смотрели у HTTP, а не у ответа Telegram
+  return (await tg(env, 'sendMessage', body)).ok;
 }
 
 export interface ChatMessage { message_id: number; text?: string; chat: { id: number; type: string; title?: string }; from?: { language_code?: string } }

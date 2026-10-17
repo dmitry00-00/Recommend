@@ -109,5 +109,31 @@ const polls = await DB.prepare('SELECT COUNT(*) AS n FROM inline_poll WHERE owne
 assert.equal(Number(after?.n), 0);
 assert.equal(Number(polls?.n), 0);
 
+// 9. (17.10) повтор апдейта с тем же update_id — второй раз не обрабатывается: голос не снимается, ответ один
+calls.length = 0;
+const upd = { update_id: 9001, callback_query: { id: 'cb-r', data: data(1), inline_message_id: 'M3', from: lyosha } };
+assert.equal((await send(upd)).status, 200);
+assert.equal((await send(upd)).status, 200);
+const m3 = await DB.prepare("SELECT COUNT(*) AS n FROM inline_vote WHERE msg = 'M3'").first<{ n: number }>();
+assert.equal(Number(m3?.n), 1);
+assert.equal(calls.filter((c) => c.method === 'answerCallbackQuery').length, 1);
+// новый update_id с тем же тапом — снимает, как и положено
+await send({ ...upd, update_id: 9002 });
+assert.equal(Number((await DB.prepare("SELECT COUNT(*) AS n FROM inline_vote WHERE msg = 'M3'").first<{ n: number }>())?.n), 0);
+
+// 10. (17.10) ошибка внутри обработчика (база) — всё равно 200, иначе Telegram повторял бы вечно
+const broken = { ...env, DB: { prepare() { throw new Error('boom'); } } } as unknown as Env;
+const quiet = console.error; console.error = () => {};
+const res = await telegramUpdate(new Request('https://x/api/telegram', {
+  method: 'POST', headers: { 'x-telegram-bot-api-secret-token': secret }, body: JSON.stringify({ update_id: 9003, message: { message_id: 1, text: '/together', chat: { id: 1, type: 'group' } } }) }), broken);
+console.error = quiet;
+assert.equal(res.status, 200);
+
+// 11. (17.10) Telegram ответил не JSON (502 от прокси) — не падаем
+globalThis.fetch = (async () => new Response('<html>bad gateway</html>', { status: 502 })) as typeof fetch;
+console.error = () => {};
+assert.equal((await send({ update_id: 9004, inline_query: { id: 'q9', query: 'интерстеллар', from: { id: 100 } } })).status, 200);
+console.error = quiet;
+
 rmSync(dir, { recursive: true, force: true });
 console.log('голосование в чате: все проверки прошли');

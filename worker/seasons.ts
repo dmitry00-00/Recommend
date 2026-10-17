@@ -36,7 +36,8 @@ export function waitedFor(status: string, progress: Progress | null, n: number):
 }
 
 /** Вести о сезонах для участников: дневник и подписки, без уже отправленных. Ключ — id участника. */
-export async function seasonNews(env: Env, seasons: Record<string, SeasonInfo>, now = new Date()): Promise<Map<string, SeasonNews[]>> {
+/** `users` (17.10) — только для этих участников (кому сегодня ещё можно слать сводку); не задан — для всех. */
+export async function seasonNews(env: Env, seasons: Record<string, SeasonInfo>, now = new Date(), users?: string[]): Promise<Map<string, SeasonNews[]>> {
   const out = new Map<string, SeasonNews[]>();
   const fresh = freshSeasons(seasons, now);
   if (!fresh.size) return out;
@@ -45,8 +46,10 @@ export async function seasonNews(env: Env, seasons: Record<string, SeasonInfo>, 
     if (!list.some((x) => x.key === n.key)) list.push(n);
     out.set(user, list);
   };
-  const journal = await env.DB.prepare(`SELECT user_id, work_id, work, status, series FROM journal WHERE status IN ('in_progress', 'finished') AND work IS NOT NULL`)
-    .all<{ user_id: string; work_id: string; work: string; status: string; series: string | null }>();
+  const only = users ? ' AND user_id IN (SELECT value FROM json_each(?))' : '';
+  const scope = users ? [JSON.stringify(users)] : [];
+  const journal = await env.DB.prepare(`SELECT user_id, work_id, work, status, series FROM journal WHERE status IN ('in_progress', 'finished') AND work IS NOT NULL${only}`)
+    .bind(...scope).all<{ user_id: string; work_id: string; work: string; status: string; series: string | null }>();
   for (const r of journal.results) {
     let work: { type?: string; title?: string; externalIds?: { imdb?: string } } | null = null;
     try { work = JSON.parse(r.work); } catch { continue; }
@@ -57,7 +60,7 @@ export async function seasonNews(env: Env, seasons: Record<string, SeasonInfo>, 
     try { progress = r.series ? JSON.parse(r.series) : null; } catch { /* битый прогресс — как без него */ }
     if (waitedFor(r.status, progress, s.n)) add(r.user_id, { key, title: work?.title ?? key, season: s.n, at: s.at, why: 'watched' });
   }
-  const follows = await env.DB.prepare(`SELECT user_id, ref, keys, title FROM follow WHERE kind = 'work'`).all<{ user_id: string; ref: string; keys: string; title: string }>();
+  const follows = await env.DB.prepare(`SELECT user_id, ref, keys, title FROM follow WHERE kind = 'work'${only}`).bind(...scope).all<{ user_id: string; ref: string; keys: string; title: string }>();
   for (const f of follows.results) {
     for (const key of new Set([f.ref, ...f.keys.split(',')])) {
       const s = fresh.get(key);

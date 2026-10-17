@@ -68,7 +68,14 @@ async function openD1({ file, schema }) {
         db.exec('COMMIT');
         return out;
       } catch (err) {
-        db.exec('ROLLBACK');
+        // 17.10 (аудит отказов): ROLLBACK не прошёл и транзакция осталась открытой — каждая следующая запись упадёт на
+        // BEGIN («transaction within a transaction»), а чтения будут видеть недописанное. Чинить на ходу нечем: журнал и
+        // выход с кодом 1, платформа поднимет процесс заново, SQLite откатит недописанное по журналу сам
+        try { db.exec('ROLLBACK'); } catch (rb) { console.error('d1-sqlite: ROLLBACK не прошёл:', rb && rb.message); }
+        if (db.isTransaction === true) {
+          console.error('d1-sqlite: транзакция осталась открытой после ROLLBACK — выходим. Исходная ошибка:', err && (err.stack || err.message));
+          process.exit(1);
+        }
         throw err;
       }
     },
