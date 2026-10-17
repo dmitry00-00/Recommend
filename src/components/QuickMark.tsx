@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import { markWork } from '@/api';
 import { Button } from './Button';
+import { RatingWheel } from './RatingWheel';
 import { useToast } from './Toast';
 import { pick, tap } from '@/lib/telegram';
 import ui from '@/i18n';
 
 type Score = 1 | 2 | 3 | 4 | 5;
-const SCORES: Score[] = [1, 2, 3, 4, 5];
 
 export interface QuickMarkProps {
   work: WorkCard;
@@ -61,15 +61,9 @@ export function QuickMark({ work, primary, disabled, extra, rowClassName, abando
     return (
       <div className="tm-quick" role="group" aria-label={ui.quick.how}>
         <span className="tm-caption tm-quick__how">{ui.quick.how}</span>
+        {/* оценка барабаном (17.10): «Нормально» — одним нажатием, остальное — прокруткой */}
         <span className="tm-quick__scale">
-          {SCORES.map((s) => (
-            <Button key={s} size="sm" variant={s >= 4 ? 'primary' : 'secondary'} disabled={busy}
-                    onClick={() => { pick(); send('finished', s); }}>
-              {ui.rate.scale[s - 1]}
-            </Button>
-          ))}
-        </span>
-        <span className="tm-quick__scale">
+          <RatingWheel label={ui.rate.scaleLabel(work.title)} disabled={busy} onPick={(s) => { pick(); send('finished', s); }} />
           <Button size="sm" variant="quiet" disabled={busy} onClick={() => { tap(); send('finished'); }}>{ui.quick.noRating}</Button>
           <Button size="sm" variant="quiet" disabled={busy} onClick={() => { tap(); setStep('idle'); }}>{ui.quick.back}</Button>
         </span>

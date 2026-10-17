@@ -9,12 +9,18 @@ import { applyTheme } from '@/lib/theme';
 import { BOT_USERNAME, confirmNative, openExternal, saveFile, shareUrl, writeAuthorUrl } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { legalComplete } from '@/lib/legal';
+import { DIM_DEFAULT } from '@/lib/model/fame';
 import ui from '@/i18n';
 
 const THEMES: { value: UserSettings['theme']; label: string }[] = [
   { value: 'system', label: ui.settings.themeSystem },
   { value: 'dark', label: ui.settings.themeDark },
   { value: 'light', label: ui.settings.themeLight },
+];
+const DIM: { value: NonNullable<UserSettings['dimFamous']>; label: string }[] = [
+  { value: 'off', label: ui.settings.dimOff },
+  { value: 'soft', label: ui.settings.dimSoft },
+  { value: 'strong', label: ui.settings.dimStrong },
 ];
 const MEDIA: { value: MediaType; label: string }[] = [
   { value: 'film', label: ui.settings.mediaFilm },
@@ -370,6 +376,14 @@ export function SettingsScreen() {
           <EnergySwitch value={settings.energy ?? 'normal'} onChange={(energy) => save({ energy })} />
         </section>
       ) : null}
+
+      {/* засветка топами (17.10, src/lib/model/fame.ts) */}
+      <section className="tm-settings__section">
+        <h2 className="tm-title-3 tm-settings__h">{ui.settings.dimFamous}</h2>
+        <p className="tm-body-sm tm-settings__note">{ui.settings.dimFamousText}</p>
+        <Choice label={ui.settings.dimFamous} options={DIM} value={settings.dimFamous ?? DIM_DEFAULT} disabled={saving}
+                onPick={(dimFamous) => save({ dimFamous })} />
+      </section>
 
       {subsOn ? <SubscriptionsSection settings={settings} saving={saving} save={save} /> : null}
 

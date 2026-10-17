@@ -84,4 +84,5 @@ export { Hurdles } from './Hurdles';
 export { WorkVoices, VoiceStrip, useVoices, Material, Post, Avatar } from './WorkVoices';
 export { FilmTabs } from './FilmTabs';
 export { QuickMark } from './QuickMark';
+export { RatingWheel, type Score } from './RatingWheel';
 export { WorkThumb } from './WorkThumb';

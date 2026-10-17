@@ -10,6 +10,7 @@ import { operations } from '@/lib/operations';
 import { registers } from '@/lib/registers';
 import { opLoad } from './deriveState';
 import { isSeries, isShortSeries, seriesHours } from '@/lib/media';
+import { fameExcluded, famePenalty, type DimFamous } from './fame';
 
 export interface Candidate {
   work: WorkCard;
@@ -33,6 +34,8 @@ export interface RecommendOptions {
   essayFirst?: number;
   /** якорь вкуса новичка (taste.ts): близость к оценённому от −1 до 1 и её вес в счёте */
   content?: { fit: (work: WorkCard) => number; weight: number };
+  /** засветка топами (fame.ts): известность произведения 0…3 и насколько её приглушать */
+  fame?: { level: (work: WorkCard) => number | undefined; mode: DimFamous };
 }
 /** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
  *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
@@ -219,8 +222,10 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
   const scored = candidates
     // новичку в сериалах — только короткий вход
     .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
+    .filter((c) => !options.fame || !fameExcluded(options.fame.level(c.work), options.fame.mode))
     .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0)
-      + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0) }))
+      + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0)
+      - (options.fame ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];

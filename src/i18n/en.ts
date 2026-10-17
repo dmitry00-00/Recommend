@@ -56,14 +56,17 @@ export const en: Strings = {
   energy: {
   "low": {
     "label": "Easy going",
+    "short": "Easier",
     "note": "nothing heavy"
   },
   "normal": {
     "label": "As usual",
+    "short": "Usual",
     "note": "the usual mix"
   },
   "high": {
     "label": "Up for a challenge",
+    "short": "Harder",
     "note": "something hard is fine"
   }
 },
@@ -231,6 +234,7 @@ export const en: Strings = {
   "clear": "Clear"
 },
   shell: {
+  "brand": "Transformative Media",
   "navLabel": "Main navigation",
   "homeScreen": "Add the app to your home screen — open it in one tap",
   "homeScreenAdd": "Add"
@@ -511,6 +515,7 @@ export const en: Strings = {
   "title": "Search films",
   "placeholder": "Film, series or book",
   "hint": "We search our own list — by both the Russian and the original title.",
+  "byMood": "By description",
   "watchedHint": "Here's what you've already marked as watched. It won't show up in your feed, and it's what we use to learn your taste.",
   "watchedCount": (n: number) => `Marked: ${n}.`,
   "mark": "Watched",
@@ -1152,6 +1157,8 @@ export const en: Strings = {
   /* лента баннеров и архив */
   feed: {
   /* «Ещё фильмы» в конце ленты (ТВ-11) */
+  "tune": "Feed options",
+  "tuneHint": "Tap “Today” again — films or books and difficulty",
   "moreFilms": "More films",
   "moreBooks": "More books",
   "moreLoading": "Picking…",
@@ -1536,6 +1543,11 @@ export const en: Strings = {
   "themeDark": "Dark",
   "energy": "Effort",
   "energyText": "How much energy to build “Today” for: easy going — nothing demanding, as usual — your usual mix, up for a challenge — something harder gets added.",
+  "dimFamous": "Hype glare",
+  "dimFamousText": "The loudest films and books outshine the rest, the way city lights hide the stars. We dim the loudest in your picks — search still finds them.",
+  "dimOff": "Don’t dim",
+  "dimSoft": "Dim",
+  "dimStrong": "Hide the loudest",
   "diary": "Detailed diary",
   "diaryText": "Mark what you're watching, track where you are in a book or series, and answer a couple of questions afterwards — this helps picks match your effort better. When off, it's just “watched” with a rating and “dropped”.",
   "edition": "Minimal edition",

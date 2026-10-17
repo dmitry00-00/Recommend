@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import { dismissWork, getStartDeck, noteOnboard, planWork, rateWork, searchWorks, setWatched, type SearchHit } from '@/api';
-import { Button, ErrorState, Skeleton, useToast } from '@/components';
+import { Button, ErrorState, RatingWheel, Skeleton, useToast } from '@/components';
 import { WorkThumb } from '@/components/WorkThumb';
 import { cx } from '@/lib/cx';
 import { imageSrc, useImageRetry } from '@/lib/images';
@@ -14,7 +14,6 @@ import { saveSettings } from '@/lib/settingsStore';
 import ui from '@/i18n';
 
 type Score = 1 | 2 | 3 | 4 | 5;
-const SCORES: Score[] = [1, 2, 3, 4, 5];
 /** сколько любимых спрашиваем: четыре — как у Letterboxd, больше на втором экране не набирают */
 const FAVORITES = 4;
 /** свайп засчитывается, когда карточка ушла на столько вбок */
@@ -151,10 +150,9 @@ function SwipeCard({ work, asking, onMark, onRate }: {
       {asking ? (
         <div className="tm-start__ask">
           <p className="tm-body-sm tm-start__question">{S.how}</p>
-          <div className="tm-rate__scale" role="group" aria-label={ui.rate.scaleLabel(titleOf(work))}>
-            {SCORES.map((v) => (
-              <button key={v} type="button" className="tm-rate__score" onClick={() => onRate(v)}>{ui.rate.scale[v - 1]}</button>
-            ))}
+          {/* оценка барабаном (17.10): «Нормально» — одним нажатием, остальное — прокруткой */}
+          <div className="tm-rate__scale tm-rate__scale--wheel">
+            <RatingWheel label={ui.rate.scaleLabel(titleOf(work))} onPick={(v) => onRate(v)} />
           </div>
           <button type="button" className="tm-rate__skip" onClick={() => onRate(null)}>{S.noMemory}</button>
         </div>

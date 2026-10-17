@@ -1118,3 +1118,61 @@ button.tm-banner { cursor: pointer; }
 .tm-start__search { margin: 0 var(--tm-space-5); width: auto; }
 .tm-start__hit { width: 100%; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .tm-stream__general { margin: var(--tm-space-3) var(--tm-space-5); color: var(--tm-color-ink-muted); }
+
+/* Выбор ленты (17.10, владелец): кино или книги, сложность, «только подписки» — панель над нижним меню по повторному
+   нажатию «Сегодня» (AppShell, событие tm:tune). Ленту она не занимает; стрелка на пункте меню показывает, что панель
+   есть. Архив — наверху, как в главной Telegram. */
+.tm-tune__scrim { position: fixed; inset: 0; z-index: 30; border: 0; padding: 0; background: rgb(0 0 0 / 0.35); cursor: default; }
+.tm-tune { position: fixed; left: 0; right: 0; z-index: 31; bottom: 0; display: flex; flex-direction: column; align-items: flex-end; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
+.tm-tune > .tm-stream__energy { padding: 0; flex-wrap: nowrap; width: 100%; }
+.tm-tune .tm-energy { flex: none; }
+.tm-tune .tm-energy + .tm-energy { flex: 1; }
+.tm-tune .tm-energy__opt { min-height: 40px; padding: 0 var(--tm-space-2); white-space: nowrap; }
+.tm-nav__item--tune { position: relative; }
+.tm-nav__tune { display: none; }
+:root[data-tune] .tm-nav__tune { display: block; position: absolute; top: 9px; left: calc(50% + 14px); width: 6px; height: 6px; border-top: 1.5px solid currentColor; border-left: 1.5px solid currentColor; transform: rotate(45deg); }
+
+/* Поиск по описанию в общем поиске (17.10): «чего хочется» и название — одно поле */
+.tm-search__mood { margin-top: var(--tm-space-5); }
+.tm-search__moodh { margin: 0 var(--tm-space-5) var(--tm-space-1); }
+
+/* Шапка на уровне кнопок Telegram (17.10, владелец, AppShell): видна, только когда Telegram даёт зону под свои кнопки
+   (признак data-tg-chrome: полноэкранный режим, кнопки Telegram поверх экрана) и экран высокий. Ниже 750 точек — как раньше, без шапки. Высота —
+   зона устройства плюс зона кнопок (lib/telegram.ts applySafeArea); название — в нижней части, по линии кнопок. */
+.tm-tghead { display: none; }
+@media (min-height: 750px) {
+  :root[data-tg-chrome] .tm-shell--telegram .tm-tghead { display: flex; position: absolute; top: 0; left: 0; right: 0; z-index: 20; height: var(--tm-safe-top); align-items: center; justify-content: center; padding-top: calc(var(--tm-safe-top) - var(--tm-safe-content-top)); background: var(--tm-color-surface-100); border-bottom: 1px solid var(--tm-color-line); pointer-events: none; }
+  :root[data-tg-chrome] .tm-shell--telegram .tm-shell__main { margin-top: var(--tm-safe-top); padding-top: var(--tm-space-4); }
+  /* лента — во всю ширину и без отступа сверху: архив встаёт прямо под шапку */
+  :root[data-tg-chrome] .tm-shell--telegram .tm-stream { padding-top: 0; }
+}
+.tm-tghead__brand { font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: 0.02em; color: var(--tm-color-ink-muted); }
+
+/* Оценка барабаном (17.10, владелец, RatingWheel): свёрнутый — место одной кнопки; тронули — три строки поверх соседних.
+   Дорожка всегда высотой в три строки и сдвинута на строку вверх; в покое обёртка прячет лишнее (overflow: hidden режет
+   и касания — соседние кнопки под ней нажимаются). */
+.tm-wheel { position: relative; flex: none; width: 132px; height: 40px; outline: none; overflow: hidden; }
+.tm-wheel--open { overflow: visible; z-index: 6; }
+.tm-wheel::after { content: ''; position: absolute; inset: 0; border: 1px dashed var(--tm-color-line-strong); pointer-events: none; }
+.tm-wheel--set::after { border-style: solid; border-color: var(--tm-color-accent); }
+.tm-wheel:focus-visible::after { border: 2px solid var(--tm-color-focus); }
+.tm-wheel__track { position: absolute; left: 0; right: 0; top: -40px; height: 120px; padding: 40px 0; box-sizing: border-box; overflow-y: scroll; overscroll-behavior: contain; scroll-snap-type: y mandatory; scrollbar-width: none; transition: box-shadow 0.16s ease; }
+.tm-wheel__track::-webkit-scrollbar { display: none; }
+.tm-wheel--open .tm-wheel__track { z-index: 6; background: var(--tm-color-surface-card); box-shadow: 0 8px 24px rgb(0 0 0 / 0.35); }
+.tm-wheel__row { display: flex; align-items: center; justify-content: center; width: 100%; height: 40px; scroll-snap-align: center; border: 0; padding: 0 var(--tm-space-2); background: transparent; color: var(--tm-color-ink-faint); font-family: var(--font-text); font-size: 14px; font-weight: 600; cursor: pointer; }
+.tm-wheel__row--on { color: var(--tm-color-ink); }
+.tm-wheel--set .tm-wheel__row--on, .tm-wheel__row--on.tm-wheel__row--good { color: var(--tm-color-accent); }
+.tm-wheel--off { opacity: 0.5; pointer-events: none; }
+/* в покое — намёк, что крутится: уголки сверху и снизу */
+.tm-wheel__hint { position: absolute; right: 8px; width: 5px; height: 5px; border-left: 1.5px solid var(--tm-color-ink-faint); border-top: 1.5px solid var(--tm-color-ink-faint); pointer-events: none; }
+.tm-wheel__hint--up { top: 8px; transform: rotate(45deg); }
+.tm-wheel__hint--down { bottom: 8px; transform: rotate(225deg); }
+.tm-wheel--open .tm-wheel__hint { display: none; }
+@media (prefers-reduced-motion: reduce) { .tm-wheel__track { transition: none; } }
+/* список оценок с барабаном (17.10): описание слева, барабан справа, «не смотрел» — под ним. Строка режет только по
+   горизонтали (свайп), чтобы раскрытый барабан не обрезался сверху и снизу */
+.tm-rate__item:has(.tm-rate__scale--wheel) { flex-direction: row; align-items: center; overflow-x: clip; overflow-y: visible; }
+.tm-rate__item:has(.tm-rate__scale--wheel) > .tm-search__open { flex: 1; min-width: 0; }
+.tm-rate__scale--wheel { flex: none; flex-direction: column; align-items: flex-end; gap: var(--tm-space-1); }
+.tm-rate__scale--wheel .tm-rate__skip { padding: 0; }
+.tm-start__ask .tm-rate__scale--wheel { align-items: center; }

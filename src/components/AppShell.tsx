@@ -66,6 +66,10 @@ export function AppShell({ variant, nav, children }: AppShellProps) {
 
   return (
     <div className={cx('tm-shell', 'tm-shell--mobile', 'tm-shell--app', inTelegram && 'tm-shell--telegram')}>
+      {/* шапка на уровне кнопок Telegram (17.10, владелец): в полноэкранном окне его «Закрыть» и меню лежат поверх нашего
+          экрана, и при прокрутке кадры уходили под них — кнопки перетягивали внимание. Полоса неподвижна, высотой ровно с зону
+          кнопок, название — между ними. На низких экранах (iPhone mini и подобные) её нет: там каждая строка ленты дороже */}
+      {inTelegram ? <header className="tm-tghead" aria-hidden="true"><span className="tm-tghead__brand">{ui.shell.brand}</span></header> : null}
       {children}
       <ToastViewport />
       <nav className="tm-nav tm-nav--mobile" aria-label={ui.shell.navLabel}>
@@ -74,12 +78,19 @@ export function AppShell({ variant, nav, children }: AppShellProps) {
             <li key={item.id}>
               <NavLink
                 to={item.to}
-                className={({ isActive }) => cx('tm-nav__item', isActive && 'tm-nav__item--on')}
+                className={({ isActive }) => cx('tm-nav__item', isActive && 'tm-nav__item--on', item.id === 'today' && 'tm-nav__item--tune')}
+                // повторное нажатие «Сегодня» в ленте — панель выбора ленты (17.10, владелец): кино или книги, сложность
+                onClick={(e) => {
+                  if (item.id !== 'today' || location.pathname !== item.to) return;
+                  e.preventDefault();
+                  window.dispatchEvent(new Event('tm:tune'));
+                }}
               >
                 {({ isActive }) => (
                   <>
                     <NavMark id={item.id} active={isActive} />
                     <span>{item.label}</span>
+                    {item.id === 'today' && isActive ? <span className="tm-nav__tune" aria-hidden="true" /> : null}
                   </>
                 )}
               </NavLink>

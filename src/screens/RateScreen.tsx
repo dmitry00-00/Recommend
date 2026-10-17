@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, WorkCard } from '@/types/tmdf';
 import { getQuickDeck, getRatingDeck, rateWork, type RatingDeck } from '@/api';
-import { Button, ErrorState, Skeleton, useToast } from '@/components';
+import { Button, ErrorState, RatingWheel, Skeleton, useToast } from '@/components';
 import { cx } from '@/lib/cx';
 import { hasMainButton, outcome, pick, showMainButton, tap } from '@/lib/telegram';
 import { useSwipe } from '@/lib/swipe';
@@ -258,14 +258,9 @@ function RateRow({ work, rating, off, onRate, onSkip }: {
           <Button size="sm" variant="quiet" onClick={() => onSkip(false)}>{ui.rate.unskip}</Button>
         </div>
       ) : (
-        <div className="tm-rate__scale" role="group" aria-label={ui.rate.scaleLabel(titleOf(work))}>
-          {SCORES.map((v) => (
-            <button key={v} type="button" aria-pressed={rating === v}
-                    className={cx('tm-rate__score', rating === v && 'tm-rate__score--on')}
-                    onClick={() => onRate(rating === v ? null : v)}>
-              {ui.rate.scale[v - 1]}
-            </button>
-          ))}
+        <div className="tm-rate__scale tm-rate__scale--wheel">
+          {/* оценка барабаном (17.10): та же оценка ещё раз — снять */}
+          <RatingWheel label={ui.rate.scaleLabel(titleOf(work))} value={rating ?? null} onPick={(v) => onRate(rating === v ? null : v)} />
           {!rating ? (
             <button type="button" className="tm-rate__skip" onClick={() => onSkip(true)}>{work.type === 'book' ? ui.rate.skipBook : ui.rate.skip}</button>
           ) : null}

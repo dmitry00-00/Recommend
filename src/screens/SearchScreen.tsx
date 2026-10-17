@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { FeedKind, ID, Register } from '@/types/tmdf';
-import { coldStartLeft, notWatched, searchCharacters, searchWorks, setWatched, startWork, type SearchHit } from '@/api';
+import { coldStartLeft, getMoodSlate, notWatched, searchCharacters, searchWorks, setWatched, startWork, type MoodSlate, type SearchHit } from '@/api';
+import { loadSettings } from '@/lib/settingsStore';
 import { Button, EmptyState, ErrorState, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration, titleOf } from '@/lib/format';
 import { registers } from '@/lib/registers';
@@ -9,13 +10,17 @@ import { cx } from '@/lib/cx';
 import { pick, tap } from '@/lib/telegram';
 import { leadName } from '@/lib/credits';
 import { WorkThumb } from '@/components/WorkThumb';
-import ui from '@/i18n';
+import ui, { language } from '@/i18n';
 import { isSeries } from '@/lib/media';
 import { useDiary } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
 import { WorkCardSheet } from './WorkCardSheet';
 
 const DEBOUNCE = 250;
+/** поиск по описанию — реже: каждый запрос словами пишется в замер (mood_query), набор по букве — не запрос */
+const MOOD_DEBOUNCE = 700;
+/** сколько найденного по описанию показывать */
+const MOOD_SHOWN = 6;
 
 /** Поиск (/search): найти фильм и сказать, что видел его, — или снять отметку.
  *  Пустой запрос показывает то, что уже отмечено: это и список, и способ его почистить.
@@ -51,6 +56,24 @@ export function SearchScreen() {
   }, [query]);
 
   useEffect(() => { input.current?.focus(); }, []);
+
+  // «Чего хочется» — в общем поиске (17.10, владелец: для человека это одно и то же): тот же запрос идёт и в подбор по
+  // описанию (getMoodSlate, словарь src/lib/mood.ts — только русский). Понял запрос — раздел «По описанию»; не понял —
+  // раздела нет, остаётся поиск по названию
+  const [mood, setMood] = useState<MoodSlate | null>(null);
+  const moodOn = useFeature('search') && language === 'ru';
+  useEffect(() => {
+    setMood(null);
+    const q = query.trim();
+    if (!moodOn || q.length < 3) return undefined;
+    let alive = true;
+    const timer = setTimeout(() => {
+      loadSettings().then((st) => getMoodSlate(q, st.energy ?? 'normal'))
+        .then((m) => alive && setMood(m.understood.length && m.items.length ? m : null))
+        .catch(() => alive && setMood(null));
+    }, MOOD_DEBOUNCE);
+    return () => { alive = false; clearTimeout(timer); };
+  }, [query, moodOn]);
 
   useEffect(() => {
     let alive = true;
@@ -96,6 +119,8 @@ export function SearchScreen() {
     setHits((prev) => (prev ?? [])
       .map((h) => (h.work.id === id ? { ...h, watched } : h))
       .filter((h) => query || h.watched));
+    // отмеченное из найденного по описанию уходит из него — как кадр из ленты
+    if (watched) setMood((m) => (m ? { ...m, items: m.items.filter((x) => x.work.id !== id) } : m));
     setWatched(id, watched)
       // пока первой ленты нет, «Смотрел» её не приближает — говорим это сразу (02.10)
       .then(() => (watched ? coldStartLeft() : 0))
@@ -123,6 +148,31 @@ export function SearchScreen() {
   if (!query) for (const h of list) for (const r of h.work.registers ?? []) counts.set(r, (counts.get(r) ?? 0) + 1);
   const chips = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
   const shown = !query && reg ? list.filter((h) => h.work.registers?.includes(reg)) : list;
+
+  const moodSection = (
+    <>
+      {/* по описанию (17.10): то же поле — «тихое про семью»; кадры те же строки, «Смотрел» — как у найденного по названию */}
+      {query && mood ? (
+        <section className="tm-search__mood" aria-label={ui.search.byMood}>
+          <h2 className="tm-label tm-search__moodh">{ui.search.byMood}</h2>
+          <p className="tm-caption tm-search__hint">{ui.mood.understood} {mood.understood.join(' · ')}{mood.like ? ` ${ui.mood.likeFound(mood.like.title)}` : ''}</p>
+          <ul className="tm-search__list">
+            {mood.items.slice(0, MOOD_SHOWN).map((x) => (
+              <li key={x.work.id} className="tm-search__item">
+                <button type="button" className="tm-search__open" onClick={() => { tap(); setOpenId(x.work.id); }}>
+                  <WorkThumb work={x.work} />
+                  <span className="tm-search__text">
+                    <span className="tm-search__name">{titleOf(x.work)}</span>
+                    <span className="tm-search__meta">{[x.work.year, leadName(x.work), formatDuration(x.work.durationMinutes)].filter(Boolean).join(' · ')}</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </>
+  );
 
   const meta = (hit: SearchHit) =>
     [hit.work.year, leadName(hit.work), formatDuration(hit.work.durationMinutes)].filter(Boolean).join(' · ');
@@ -188,7 +238,7 @@ export function SearchScreen() {
           {[0, 1, 2].map((i) => <Skeleton key={i} kind="block" style={{ height: 106, marginTop: i ? 8 : 0 }} />)}
         </div>
       ) : null}
-      {hits && !hits.length ? (
+      {hits && !hits.length && !(query && mood) ? (
         <EmptyState title={query ? ui.search.empty : ui.search.watchedEmpty}
                     text={query ? ui.search.emptyText : ui.search.watchedEmptyText} />
       ) : null}
@@ -210,6 +260,7 @@ export function SearchScreen() {
         </p>
       ) : null}
 
+      {hits && !shown.length ? moodSection : null}
       <ul className="tm-search__list">
         {shown.map((hit) => (
           <li key={hit.work.id} className="tm-search__item">
@@ -245,8 +296,12 @@ export function SearchScreen() {
         ))}
       </ul>
 
+      {shown.length ? moodSection : null}
+
       {(() => {
-        const open = openId ? list.find((h) => h.work.id === openId) : undefined;
+        // карточка — и найденного по названию, и по описанию (у второго «Смотрел» — по общему списку отметок)
+        const moodHit = openId && !list.some((h) => h.work.id === openId) ? mood?.items.find((x) => x.work.id === openId) : undefined;
+        const open = openId ? list.find((h) => h.work.id === openId) ?? (moodHit ? { work: moodHit.work, watched: false } : undefined) : undefined;
         return (
           <WorkCardSheet work={open?.work ?? null} onClose={() => setOpenId(null)} seen={open?.watched}
                          tag={open?.watched ? ui.card.seen : open?.watching ? (open.work.type === 'book' ? ui.feed.readingOn : ui.feed.watchingOn) : undefined}

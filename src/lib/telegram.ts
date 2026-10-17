@@ -229,6 +229,9 @@ function applySafeArea(wa: TelegramWebApp) {
   const bottom = (device?.bottom ?? 0) + (content?.bottom ?? 0);
   root().style.setProperty('--tm-safe-top', `${top}px`);
   root().style.setProperty('--tm-safe-bottom', `${bottom}px`);
+  // кнопки Telegram лежат поверх экрана (полноэкранное окно): шапка приложения встаёт на их уровень (AppShell, 17.10)
+  root().style.setProperty('--tm-safe-content-top', `${content?.top ?? 0}px`);
+  root().toggleAttribute('data-tg-chrome', (content?.top ?? 0) > 0);
 }
 
 /** Высота вьюпорта в переменной — для того, что должно знать видимую часть окна. Высоту

@@ -17,7 +17,8 @@ import { nameForms, nameRegex, sharedWords } from '@/lib/characters';
 import { hubWeight, listLike } from '@/lib/relations';
 import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { complexitySpan, deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
-import { difficultyOdds, expectedDifficulty, heaviness, recommend, scoreCandidate, type Candidate } from '@/lib/model/recommend';
+import { difficultyOdds, expectedDifficulty, heaviness, recommend, scoreCandidate, type Candidate, type RecommendOptions } from '@/lib/model/recommend';
+import { DIM_DEFAULT } from '@/lib/model/fame';
 import { contentFit, contentWeight, deriveContentTaste, onPickedShelf } from '@/lib/model/taste';
 import { COLLECTIONS, collectionById, inCollection, levelPath, type Collection, type VoicePlaylist, type VoicePlaylists } from '@/lib/model/collections';
 import { moodFit, parseMood } from '@/lib/mood';
@@ -27,6 +28,7 @@ import { webApp } from '@/lib/telegram';
 import { attachLenses } from '@/lib/lenses';
 import { attachSpoilers } from '@/lib/spoilers';
 import { cyrillicBrands } from '@/lib/brands';
+import { splitYear } from '@/lib/searchYear';
 import { weightOf } from '@/lib/weights';
 import { apiBase, deleteImport, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, postExport, postImport, prepareShareMessage, store, workMeta, type FollowRow, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
@@ -325,14 +327,29 @@ const freshStart: boolean = !store.onServer && (() => {
 
 /** Весь справочник: фильмы, сериалы, книги и история владельца. Повторный вызов ждёт ту же загрузку. */
 function catalog(): Promise<void> {
-  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki(), loadFilmLinks()])).then(() => undefined);
+  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki(), loadFilmLinks(), loadFame()])).then(() => undefined);
   return catalogLoad;
 }
+
+/** Засветка топами (17.10, src/lib/model/fame.ts): известность произведений 1–3 (tools/build-fame.mts). Не в первой
+ *  загрузке: первая лента новичка обходится без неё, а к подбору по своим оценкам таблица уже приходит. */
+let fameLevels: Record<string, number> = {};
+let fameLoad: Promise<void> | undefined;
+function loadFame(): Promise<void> {
+  fameLoad ??= import('@/mocks/fame').then((m) => { fameLevels = m.fame; }).catch((err) => { fameLoad = undefined; console.warn('известность не загрузилась', err); });
+  return fameLoad;
+}
+/** Опция подбора: как приглушать громкое — по настройке участника */
+const fameOpts = (): Pick<RecommendOptions, 'fame'> => {
+  const mode = settings.dimFamous ?? DIM_DEFAULT;
+  return mode === 'off' ? {} : { fame: { level: (w) => fameLevels[w.id], mode } };
+};
 
 /** Справочник для первой ленты и колоды (РР-1): без книг, если своих книг у человека нет. Свои есть — ждём и книги:
  *  модели вкуса нужна их разметка. */
 function films(): Promise<void> {
-  return loadFilms().then(() => ([...history().map((e) => e.work), ...watchedNow()].some((w) => w.type === 'book') ? loadBooks() : undefined));
+  // таблица известности — следом, не задерживая первую ленту
+  return loadFilms().then(() => { void loadFame(); return [...history().map((e) => e.work), ...watchedNow()].some((w) => w.type === 'book') ? loadBooks() : undefined; });
 }
 
 /** Справочник под действие с произведением (РР-1): книге — с книгами, фильму и сериалу хватает `films()` — оценки в
@@ -1571,7 +1588,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   for (const id of shown) keys.add(id);
   // лента книг (11.10): шесть книг по той же модели — без вставок кино (вселенная, классика, фокус на полке)
   if (books) {
-    const items = state ? recommend(state, bookPool(keys), energy, 6, today()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
+    const items = state ? recommend(state, bookPool(keys), energy, 6, today(), fameOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
     return finishSlate({ id: `s-book-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items }, items);
   }
   const pool = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
@@ -1583,7 +1600,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   const anchor = anchorWeight ? deriveContentTaste(history().filter((e) => e.status === 'finished'), genresOf, settings.ratingNorm, settings.tasteShelves) : undefined;
   const content = anchor ? { weight: anchorWeight, fit: (w: WorkCard) => contentFit(anchor, w, genresOf) } : undefined;
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}) }) }
+    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...fameOpts() }) }
     : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
   // доступное без доплаты — вперёд, порядок внутри групп прежний (ЗП-42); новичку первые три с разбором
@@ -1677,7 +1694,7 @@ export async function getMoodSlate(text: string, energy: Energy = 'normal', opts
   out.matched = fits.length;
   const state = ownState();
   const picked = state && ratedCount() >= MIN_RATED
-    ? recommend(state, fits.slice(0, 40).map((x) => x.c), q.energy ?? energy, 6, today(), { seriesNovice: seriesNovice(), maxSeries: q.kind === 'series' ? 6 : 2 })
+    ? recommend(state, fits.slice(0, 40).map((x) => x.c), q.energy ?? energy, 6, today(), { seriesNovice: seriesNovice(), maxSeries: q.kind === 'series' ? 6 : 2, ...fameOpts() })
       .map((r) => ({ work: r.work, what: r.explanation.what }))
     : [];
   // модель отсеяла всё (не по силам) или вкуса ещё нет — лучшие по запросу
@@ -1794,7 +1811,7 @@ async function universePick(state: CognitiveState, energy: Energy, items: Recomm
 function freePick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Recommendation | undefined {
   if (!freeRef || items.some((r) => freeFor_(r.work).length)) return undefined;
   const pool = candidates().filter((c) => freeFor_(c.work).length && !seen(c.work, keys) && !keys.has(c.work.id) && !items.some((r) => r.work.id === c.work.id));
-  const [rec] = recommend(state, pool, energy, 1, today());
+  const [rec] = recommend(state, pool, energy, 1, today(), fameOpts());
   return rec ? { ...rec, id: `rec-free-${rec.work.id}`, slot: 'free' } : undefined;
 }
 
@@ -1804,7 +1821,7 @@ function freePick(state: CognitiveState, energy: Energy, items: Recommendation[]
  *  же: книга совсем не по силам или слишком простая не пройдёт. */
 function bookPick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Recommendation | undefined {
   if (items.some((r) => r.work.type === 'book')) return undefined;
-  const [rec] = recommend(state, bookPool(keys), energy, 1, today());
+  const [rec] = recommend(state, bookPool(keys), energy, 1, today(), fameOpts());
   return rec ? { ...rec, id: `rec-book-${rec.work.id}`, slot: 'book' } : undefined;
 }
 /** Книги для подбора: справочник и история с разметкой (не low), не прочитанные и не отказанные, и только те, чья
@@ -1845,7 +1862,7 @@ async function focusPick(state: CognitiveState, energy: Energy, items: Recommend
   if (items.some((r) => keyList(r.work).some((k) => onShelf.has(k)))) return undefined;
   const pool = shelfCandidates([...onShelf.keys()].flatMap((k) => shelfWorks.get(k) ?? []))
     .filter((c) => !seen(c.work, keys) && !keys.has(c.work.id));
-  const [pick] = recommend(state, pool, energy, 1, today());
+  const [pick] = recommend(state, pool, energy, 1, today(), fameOpts());
   if (!pick) return undefined;
   const shelf = shelves[onShelf.get(keyList(pick.work).find((k) => onShelf.has(k))!)!];
   return { ...pick, explanation: { ...pick.explanation, why: ui.today.fromShelf(shelf.title) + pick.explanation.why } };
@@ -2393,6 +2410,9 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
   if (!q) return watchedNow().map((work) => ({ work: withRegisters(work), watched: true }));
   const seenKey = new Set<string>();
   const hits: { work: WorkCard; rank: number }[] = [];
+  // «дюна 2021»: название без года и сам год (17.10). Запрос целиком всё равно сравниваем — «бегущий по лезвию 2049»
+  const withYear = splitYear(q);
+  const level = (n: string, s: string) => (n === s ? 0 : n.startsWith(s) ? 1 : n.includes(s) ? 2 : 9);
   for (const work of knownWorks()) {
     const ids = work.externalIds ?? externalIds[work.id];
     // один и тот же фильм лежит и в каталоге, и в справочнике — показываем один раз
@@ -2401,7 +2421,13 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
     // и марка кириллицей: «дьявол носит прада» (src/lib/brands.ts)
     const names = [work.title, work.originalTitle, cyrillicBrands(work.title)].filter(Boolean).map((t) => searchKey(t as string));
     // точное совпадение выше начала строки, начало — выше вхождения в середину
-    const rank = Math.min(...names.map((n) => (n === q ? 0 : n.startsWith(q) ? 1 : n.includes(q) ? 2 : 9)));
+    let rank = Math.min(...names.map((n) => level(n, q)));
+    if (withYear && work.year) {
+      // год совпал — как точное по названию; на год мимо (прокат и премьера расходятся) — чуть ниже; дальше — не то
+      const off = Math.abs(work.year - withYear.year);
+      const byTitle = Math.min(...names.map((n) => level(n, withYear.title)));
+      if (byTitle < 9 && off <= 1) rank = Math.min(rank, byTitle + (off ? 0.5 : 0));
+    }
     if (rank === 9) continue;
     seenKey.add(key);
     hits.push({ work, rank });
@@ -2768,7 +2794,7 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     if (state) {
       result.newState = state;
       // «что дальше» — из настоящего подбора, а не из сценария с книгой (найдено 24.09)
-      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today(), { seriesNovice: seriesNovice() })[0];
+      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today(), { seriesNovice: seriesNovice(), ...fameOpts() })[0];
       if (next) result.nextRecommendation = next;
     }
   }

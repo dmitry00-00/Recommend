@@ -21,7 +21,7 @@ import { formatDuration, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
 import { SearchLine, WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
-import { MoodLine, useMoodQuery } from './MoodLine';
+import { useMoodQuery } from './MoodLine';
 import ui, { language, plural } from '@/i18n';
 import { lastSlate, saveSlate } from '@/lib/slateCache';
 import { readingHours } from '@/lib/reading';
@@ -297,11 +297,11 @@ export function TodayScreen() {
   const searchOn = useFeature('search');
   const together = useFeature('together');
   const collections = useFeature('collections');
-  // поиск словами в ленте (ДФ-12): пока запрос есть, его ответ стоит на месте кадров ленты
+  // поиск словами (ДФ-12) с 17.10 — в общем поиске (владелец: для человека «чего хочется» и поиск — одно); старые
+  // ссылки на ленту с запросом (`?m=`) ведут туда
   const moodQuery = useMoodQuery();
-  // словарь запросов (src/lib/mood.ts) понимает только русский: по-английски каждый чип кончался бы отказом
-  const moodLine = searchOn && language === 'ru';
-  const moodOn = moodLine && Boolean(moodQuery);
+  const moodOn = false;
+  useEffect(() => { if (moodQuery) navigate(`/search?q=${encodeURIComponent(moodQuery)}`, { replace: true }); }, [moodQuery, navigate]);
   // мои подписки (ЗП-42): лента ставит вперёд доступное без доплаты, в мете — «в подписке Okko»
   const subsOn = useFeature('subscriptions');
   const userSettings = useSettings();
@@ -342,6 +342,13 @@ export function TodayScreen() {
   const [spoilerLevel, setSpoilerLevel] = useState<SpoilerLevel>(0);
   const [finishedIds, setFinishedIds] = useState<Set<string>>(new Set());
   const [archived, setArchived] = useState(0);
+  // панель выбора ленты (17.10): открывается повторным нажатием «Сегодня» в нижнем меню (AppShell шлёт tm:tune)
+  const [tuning, setTuning] = useState(false);
+  useEffect(() => {
+    const toggle = () => setTuning((t) => !t);
+    window.addEventListener('tm:tune', toggle);
+    return () => window.removeEventListener('tm:tune', toggle);
+  }, []);
   // настраиваемая лента (ТВ-11): сила — переключателем над лентой, «Ещё фильмы» — в конце
   const [energy, setEnergy] = useState<Energy>('normal');
   const [moreBusy, setMoreBusy] = useState(false);
@@ -586,6 +593,15 @@ export function TodayScreen() {
     pick();
     saveSettings({ subscriptionsOnly: !subsOnly }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
   };
+  const showChoice = Boolean(slate && !slate.coldStart && (items.length || current.length || subsOnly || bookFeed) && (energyOn || subs.length || booksOn));
+  // панель встаёт ровно над нижним меню, какой бы высоты оно ни было (безопасная зона Telegram, крупный шрифт)
+  const navTop = () => { const nav = document.querySelector('.tm-nav--mobile'); return nav ? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top) : 0; };
+  // стрелка на «Сегодня» в нижнем меню — только когда выбирать есть что
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-tune', showChoice);
+    return () => document.documentElement.removeAttribute('data-tune');
+  }, [showChoice]);
+  useEffect(() => { if (!showChoice) setTuning(false); }, [showChoice]);
   // вопрос «посмотрели?» стоит под баннером — в мете его не повторяем
   const entryMeta = (e: JourneyEntryData) =>
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
@@ -678,16 +694,6 @@ export function TodayScreen() {
             <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ui.feed.swipeHintOk}</Button>
           </div>
         ) : null}
-        {slate && !slate.coldStart && (items.length || current.length || subsOnly || bookFeed) && (energyOn || subs.length || booksOn) ? (
-          <div className="tm-stream__pad tm-stream__energy">
-            {booksOn ? <FeedKindSwitch value={kind} onChange={changeKind} /> : null}
-            {energyOn ? <EnergySwitch value={energy} onChange={changeEnergy} /> : null}
-            {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
-          </div>
-        ) : null}
-        {/* ДФ-12 (14.10): то же, но словами — «тихое про семью, не грустное» — строкой прямо в ленте, а не экраном /mood;
-            из ленты книг — по книгам */}
-        {moodLine && slate && !slate.coldStart ? <MoodLine kind={bookFeed ? 'book' : 'screen'} energy={energy} /> : null}
         {!moodOn && (shownCurrent.length || items.length) ? <div className="tm-filmstrip">
         {/* Что смотрите сейчас — первым: чек-ин после просмотра кормит подбор, прятать его в архив нельзя */}
         {shownCurrent.map((e, i) => (
@@ -733,6 +739,21 @@ export function TodayScreen() {
           </p>
         ) : null}
       </div>
+
+      {/* выбор ленты — кино или книги, сложность, «только подписки» (17.10, владелец): по кнопке нижнего меню — повторное
+          нажатие «Сегодня» открывает панель над меню; ленту она не занимает. Архив — наверху, как в главной Telegram */}
+      {tuning && showChoice ? (
+        <>
+          <button type="button" className="tm-tune__scrim" aria-label={ui.actions.close} onClick={() => setTuning(false)} />
+          <div className="tm-tune" role="dialog" aria-label={ui.feed.tune} style={{ bottom: navTop() }}>
+            <div className="tm-stream__energy">
+              {booksOn ? <FeedKindSwitch value={kind} onChange={(k) => { changeKind(k); setTuning(false); }} /> : null}
+              {energyOn ? <EnergySwitch value={energy} onChange={(e) => { changeEnergy(e); setTuning(false); }} compact /> : null}
+            </div>
+            {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={() => { toggleSubsOnly(); setTuning(false); }}>{ui.feed.subsOnly}</Button> : null}
+          </div>
+        </>
+      ) : null}
 
       <ImportHistorySheet
         open={importing}
