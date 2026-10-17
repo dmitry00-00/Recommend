@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { Skeleton } from '@/components/Skeleton';
 import { loadSettings, useMechanics, useRole, useSettings } from '@/lib/settingsStore';
@@ -13,7 +13,6 @@ import { OpenSharedScreen } from '@/screens/OpenSharedScreen';
 import { SearchScreen } from '@/screens/SearchScreen';
 import { RateScreen } from '@/screens/RateScreen';
 // «Под настроение» и страница автора (ДФ-4, 14.10) — тоже кусками: с ленты в них уходят не сразу и не все
-const MoodScreen = lazy(() => import('@/screens/MoodScreen').then((m) => ({ default: m.MoodScreen })));
 const VoiceScreen = lazy(() => import('@/screens/VoiceScreen').then((m) => ({ default: m.VoiceScreen })));
 const LoopScreen = lazy(() => import('@/screens/LoopScreen').then((m) => ({ default: m.LoopScreen })));
 const OwnerDeskScreen = lazy(() => import('@/screens/OwnerDeskScreen').then((m) => ({ default: m.OwnerDeskScreen })));
@@ -66,6 +65,13 @@ export function ScreenLoading() {
 }
 const Loading = ({ children }: { children: ReactNode }) => <Suspense fallback={<ScreenLoading />}>{children}</Suspense>;
 
+/** /mood (17.10): входов на экран не осталось, а «чего хочется» живёт в общем поиске (раздел «По описанию») —
+ *  старую ссылку уводим в поиск, запрос из адреса переносим. Сам MoodScreen пока лежит в коде, но не подключён. */
+function MoodRedirect() {
+  const q = useSearchParams()[0].get('q')?.trim();
+  return <Navigate to={q ? `/search?q=${encodeURIComponent(q)}` : '/search'} replace />;
+}
+
 /** Только админу (ТВ-3в, 06.10): статистика, петля прогноза, кураторская, разметка владельца. Роль
  *  приходит с настройками — до них ничего не решаем; не админа уводим в ленту. */
 function AdminOnly({ children }: { children: ReactNode }) {
@@ -108,7 +114,7 @@ export const routes: RouteObject[] = [
   { path: '/assessment/:id', element: <MechanicsOnly><AssessmentScreen /></MechanicsOnly> },
   { path: '/onboarding/map', element: <MechanicsOnly><FirstMapScreen /></MechanicsOnly> },
   { path: '/search', element: <Gate f="search"><SearchScreen /></Gate> },
-  { path: '/mood', element: <Gate f="search"><Loading><MoodScreen /></Loading></Gate> },
+  { path: '/mood', element: <MoodRedirect /> },
   { path: '/rate', element: <RateScreen /> },
   { path: '/voice/:id', element: <Gate f="pages"><Loading><VoiceScreen /></Loading></Gate> },
   { path: '/works/:id', element: <WorkScreen /> },

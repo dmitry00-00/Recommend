@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useRoutes } from 'react-router-dom';
 import { ScreenLoading, routes } from '@/routes';
 import { AppShell } from '@/components/AppShell';
 import { CuratorShell } from '@/components/CuratorShell';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ToastProvider, useToast } from '@/components/Toast';
 import { visitDays } from '@/api';
 import { loadSettings, useMechanics } from '@/lib/settingsStore';
@@ -67,13 +68,18 @@ export function App() {
   const element = useRoutes(routes);
   useSharedStart();
   // Кураторская — десктопная оболочка с боковой навигацией; всё остальное — телефонная.
-  const curator = useLocation().pathname.startsWith('/curator');
+  const location = useLocation();
+  const curator = location.pathname.startsWith('/curator');
   useEffect(() => { loadSettings().catch(() => undefined); }, []);
+  // граница — внутри оболочки (17.10): сбой одного экрана не снимает меню, переход на другой экран (новый
+  // location.key) сбрасывает ошибку; путь — в придачу к ключу: переход простой ссылкой или правкой адреса, мимо
+  // роутера, ключа не даёт (у всех таких 'default')
+  const screenKey = `${location.key}:${location.pathname}`;
   return (
     <ToastProvider>
       {curator
-        ? <CuratorShell><Suspense fallback={null}>{element}</Suspense></CuratorShell>
-        : <Shell><Suspense fallback={<ScreenLoading />}>{element}</Suspense></Shell>}
+        ? <CuratorShell><ErrorBoundary resetKey={screenKey}><Suspense fallback={null}>{element}</Suspense></ErrorBoundary></CuratorShell>
+        : <Shell><ErrorBoundary resetKey={screenKey}><Suspense fallback={<ScreenLoading />}>{element}</Suspense></ErrorBoundary></Shell>}
     </ToastProvider>
   );
 }

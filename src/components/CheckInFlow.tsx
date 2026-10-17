@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type {
-  AbandonReason, CheckInRequest, CognitiveOperation, Debrief, DifficultyPrediction, DiscussionPlace,
+  AfterHook, AfterPace, AfterwordPatch, AbandonReason, CheckInRequest, CognitiveOperation, Debrief, DifficultyPrediction, DiscussionPlace,
   PerceivedDifficulty, ReflectionPromptData, WorkCard, WorthReason,
 } from '@/types/tmdf';
+import { nextExtraFor, setAfterword } from '@/api';
+import type { Extra } from '@/lib/model/afterword';
+import { AfterwordAsk } from './AfterwordAsk';
 import { Button } from './Button';
 import { DifficultyPicker } from './DifficultyPicker';
 import { DiscussionLink } from './DiscussionLink';
 import { ExternalAnalysisLink } from './ExternalAnalysisLink';
 import { PredictionNote } from './PredictionNote';
 import { ReasonPicker } from './ReasonPicker';
+import { RatingWheel } from './RatingWheel';
 import { ReflectionPrompt } from './ReflectionPrompt';
 import { Skeleton } from './Skeleton';
 import { StateChangeNote } from './StateChangeNote';
 import { TropeInsight } from './TropeInsight';
+import { useToast } from './Toast';
 import { cx } from '@/lib/cx';
 import ui from '@/i18n';
 import { isScreen } from '@/lib/media';
+import { hasMainButton, showMainButton, tap } from '@/lib/telegram';
 
 export interface CheckInFlowProps {
   work: WorkCard;
@@ -36,6 +42,8 @@ export interface CheckInFlowProps {
   season?: number;
   /** книга (З5): чек-ин о части — если человек отмечает части */
   part?: number;
+  /** пришли с «Досмотрел»/«Дочитал» (17.10): у сериала и книги по частям в шаге «сезон/часть или всё» нет «Бросаю» */
+  finish?: boolean;
 }
 
 const DEBRIEF = 3;
@@ -45,7 +53,7 @@ const ABANDON = 9;
  *  ответы; что они значат для карты — решает сервер и возвращает в разборе. */
 export function CheckInFlow({
   work, prompts = [], debrief, discussions = [], step: initial = 0, changedOperations = [],
-  prediction, showModel, onSubmit, season, part,
+  prediction, showModel, onSubmit, season, part, finish,
 }: CheckInFlowProps) {
   const [step, setStep] = useState(initial);
   const [last, setLast] = useState(false);
@@ -54,6 +62,17 @@ export function CheckInFlow({
   // «Стоило ли?» (ДФ-10): одно касание, при 1–2 — что не так; можно не отвечать
   const [worth, setWorth] = useState<CheckInRequest['worth']>();
   const [worthWhy, setWorthWhy] = useState<WorthReason | undefined>();
+  // послесловие (17.10): после «Стоило ли?» — иногда один вопрос о человеке; решается при первом ответе и не меняется.
+  // Ответ пишется сразу (setAfterword), «стоило» уходит с чек-ином — сервер сводит их в одну запись
+  const [extraQ, setExtraQ] = useState<Extra | null | undefined>();
+  const [extraVal, setExtraVal] = useState<AfterPace | AfterHook | undefined>();
+  const toast = useToast();
+  const pickExtra = (k: Extra, v: AfterPace | AfterHook) => {
+    const before = extraVal;
+    const next = before === v ? undefined : v;
+    setExtraVal(next);
+    setAfterword(work.id, { [k]: next ?? null } as AfterwordPatch).catch(() => { setExtraVal(before); toast({ text: ui.settings.errorSave }); });
+  };
   const steps = ui.checkin.steps;
   const shown = step === ABANDON ? 1 : step;
 
@@ -69,6 +88,12 @@ export function CheckInFlow({
     });
     setStep(DEBRIEF);
   };
+  // «Дальше» (17.10): в Telegram — главной кнопкой мессенджера, она не уходит под нижнее меню; иначе — липкой
+  // полосой над ним. Ответы собраны в нижней трети экрана, вопрос — над ними
+  const submitRef = useRef(submit);
+  submitRef.current = submit;
+  useEffect(() => (step === 2 ? showMainButton(ui.actions.next, () => { tap('medium'); submitRef.current('finished'); }) : undefined), [step]);
+  const mainInTelegram = step === 2 && hasMainButton();
 
   let body;
   if (step === 0 && season) {
@@ -78,7 +103,7 @@ export function CheckInFlow({
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ui.seriesDiary.finishedSeason(season)}</Button>
           <Button onClick={() => { setLast(true); setStep(1); }}>{ui.seriesDiary.finishedAll}</Button>
-          <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>
+          {finish ? null : <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>}
         </div>
       </div>
     );
@@ -89,7 +114,7 @@ export function CheckInFlow({
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button variant="primary" onClick={() => { setLast(false); setStep(1); }}>{ui.bookDiary.finishedPart(part)}</Button>
           <Button onClick={() => { setLast(true); setStep(1); }}>{ui.bookDiary.finishedAll}</Button>
-          <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>
+          {finish ? null : <Button onClick={() => setStep(ABANDON)}>{ui.actions.abandon}</Button>}
         </div>
       </div>
     );
@@ -121,14 +146,17 @@ export function CheckInFlow({
                             onSkip={() => { const next = { ...answers }; delete next[pr.id]; setAnswers(next); }} />
         ))}
         <div className="tm-checkin__worth" role="group" aria-label={ui.checkin.worthQ}>
-          <p className="tm-checkin__q">{ui.checkin.worthQ}</p>
-          <div className="tm-row tm-row--gap-2 tm-row--wrap">
-            {([1, 2, 3, 4, 5] as const).map((w) => (
-              <Button key={w} size="sm" variant="secondary" pressed={worth === w}
-                      onClick={() => { setWorth(worth === w ? undefined : w); if (w > 2) setWorthWhy(undefined); }}>
-                {ui.checkin.worthScale[w - 1]}
-              </Button>
-            ))}
+          {/* «Стоило ли?» барабаном (17.10) вместо пяти кнопок в две строки: вопрос слева, ответ справа; не тронули —
+              не ответили (отдельный «Пропустить» не нужен), тот же ответ ещё раз — снять */}
+          <div className="tm-checkin__worthrow">
+            <p className="tm-checkin__q">{ui.checkin.worthQ}</p>
+            <RatingWheel label={ui.checkin.worthQ} labels={ui.checkin.worthScale} good={4} placeholder={ui.checkin.worthPick}
+                         value={worth ?? null}
+                         onPick={(w) => {
+                           setWorth(worth === w ? undefined : w);
+                           if (w > 2) setWorthWhy(undefined);
+                           if (extraQ === undefined) setExtraQ(nextExtraFor(work.id, w));
+                         }} />
           </div>
           {worth && worth <= 2 ? (
             <>
@@ -143,8 +171,13 @@ export function CheckInFlow({
               </div>
             </>
           ) : null}
+          {extraQ ? <AfterwordAsk kind={extraQ} value={extraVal} onPick={(v) => pickExtra(extraQ, v)} /> : null}
         </div>
-        <Button variant="primary" onClick={() => submit('finished')}>{ui.actions.next}</Button>
+        {mainInTelegram ? null : (
+          <div className="tm-checkin__dock">
+            <Button variant="primary" onClick={() => submit('finished')}>{ui.actions.next}</Button>
+          </div>
+        )}
       </div>
     );
   } else if (step === ABANDON) {
@@ -186,7 +219,7 @@ export function CheckInFlow({
   }
 
   return (
-    <section className="tm-checkin">
+    <section className={cx('tm-checkin', step !== DEBRIEF && 'tm-checkin--ask')}>
       <div className="tm-checkin__head">
         <ol className="tm-checkin__steps">
           {steps.map((label, i) => (
@@ -198,7 +231,7 @@ export function CheckInFlow({
         </ol>
         <p className="tm-checkin__note">{ui.checkin.note}</p>
       </div>
-      {body}
+      <div className="tm-checkin__body">{body}</div>
     </section>
   );
 }

@@ -69,7 +69,7 @@ export function JournalEntryScreen() {
   return (
     <main className="tm-shell__main">
       <JourneyEntry entry={entry} linkTo="work"
-                    onFinish={() => navigate(`/journal/${entry.id}/check-in`)}
+                    onFinish={() => navigate(`/journal/${entry.id}/check-in?finish=1`)}
                     onAbandon={() => navigate(`/journal/${entry.id}/check-in?abandon=1`)} />
       <div className="tm-journal__sections">
         {entry.status === 'in_progress' && isSeries(entry.work) ? (

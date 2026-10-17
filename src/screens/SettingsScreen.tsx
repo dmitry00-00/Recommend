@@ -4,54 +4,49 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import type { MediaType, Session, SpoilerLevel, UserSettings } from '@/types/tmdf';
 import { noteShare, deleteAccount, diaryFile, diaryLink, followsAvailable, getCinemaChoices, getFollows, getSession, getShelves, getTesters, isOwnerSession, logout, onFollowsChange, setFollow, setTester, type Follow, type Tester } from '@/api';
 import { loadSettings, saveSettings } from '@/lib/settingsStore';
-import { Button, ConsentCard, Dialog, EnergySwitch, ErrorState, ImportHistorySheet, Skeleton, useToast } from '@/components';
+import {
+  Button, ConsentCard, Dialog, ErrorState, ImportHistorySheet, SettingHead, SettingMulti, SettingPicker, SettingRow, SettingSwitch,
+  Sheet, Skeleton, useToast, type PickOption,
+} from '@/components';
 import { applyTheme } from '@/lib/theme';
 import { BOT_USERNAME, confirmNative, openExternal, saveFile, shareUrl, writeAuthorUrl } from '@/lib/telegram';
-import { cx } from '@/lib/cx';
 import { legalComplete } from '@/lib/legal';
 import { DIM_DEFAULT } from '@/lib/model/fame';
 import ui from '@/i18n';
 
-const THEMES: { value: UserSettings['theme']; label: string }[] = [
+// 17.10 (аудит удобства, reports/ui-efficiency-1710.md): столбики вариантов → строки «название — значение» с выбором
+// в нижнем листе (src/components/SettingRow.tsx); пояснения — в одну строку, длинное под «?» или в листе; «Уровень
+// усилия» убран — он в панели повторного «Сегодня»; разделы владельца — одним раскрывающимся «Для владельца» внизу;
+// тост — только на ошибку.
+
+const THEMES: PickOption<UserSettings['theme']>[] = [
   { value: 'system', label: ui.settings.themeSystem },
   { value: 'dark', label: ui.settings.themeDark },
   { value: 'light', label: ui.settings.themeLight },
 ];
-const DIM: { value: NonNullable<UserSettings['dimFamous']>; label: string }[] = [
+const DIM: PickOption<NonNullable<UserSettings['dimFamous']>>[] = [
   { value: 'off', label: ui.settings.dimOff },
   { value: 'soft', label: ui.settings.dimSoft },
   { value: 'strong', label: ui.settings.dimStrong },
 ];
-const MEDIA: { value: MediaType; label: string }[] = [
-  { value: 'film', label: ui.settings.mediaFilm },
-  { value: 'book', label: ui.settings.mediaBook },
+type MediaPick = 'both' | 'film' | 'book';
+const MEDIA: PickOption<MediaPick>[] = (['both', 'film', 'book'] as const).map((v) => ({ value: v, label: ui.settings.mediaValues[v] }));
+const SPOILERS: PickOption<SpoilerLevel>[] = ([0, 1, 2] as const).map((v) => ({
+  value: v, label: ui.settings.spoilerShort[v], note: ui.settings.spoilerNotes[v],
+}));
+const LANGUAGES: PickOption<UserSettings['language']>[] = [
+  { value: 'ru', label: ui.settings.languageRu },
+  { value: 'en', label: ui.settings.languageEn },
 ];
-const LANGS: { value: 'ru' | 'en'; label: string }[] = [
-  { value: 'ru', label: ui.settings.langRu },
-  { value: 'en', label: ui.settings.langEn },
-];
-const SPOILERS: SpoilerLevel[] = [0, 1, 2];
 
-/** Группа взаимоисключающих вариантов на классах задания диагностики: те же кнопки-строки. */
-function Choice<T extends string | number>({ label, options, value, onPick, disabled }: {
-  label: string; options: { value: T; label: string; disabled?: boolean }[]; value: T; onPick: (v: T) => void; disabled?: boolean;
-}) {
-  return (
-    <div className="tm-achoice" role="radiogroup" aria-label={label}>
-      {options.map((o) => {
-        const on = o.value === value;
-        return (
-          <button key={String(o.value)} type="button" role="radio" aria-checked={on ? 'true' : 'false'}
-                  className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')}
-                  disabled={disabled || o.disabled} onClick={() => onPick(o.value)}>
-            <span className="tm-achoice__mark" aria-hidden="true" />
-            {o.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
+/** «Что рекомендовать» одним значением из трёх (17.10): прочие типы в списке (сериалы) сохраняются как были. */
+const mediaPick = (types: MediaType[]): MediaPick =>
+  types.includes('film') && types.includes('book') ? 'both' : types.includes('book') ? 'book' : 'film';
+const mediaTypesFor = (types: MediaType[], pick: MediaPick): MediaType[] => [
+  ...types.filter((t) => t !== 'film' && t !== 'book'),
+  ...(pick === 'book' ? [] : ['film' as const]),
+  ...(pick === 'film' ? [] : ['book' as const]),
+];
 
 /** Тестеры (ТВ-3в, 06.10): админ добавляет и убирает по нику Telegram. Тестер видит все полки
  *  рубрик, но не статистику и не механику. */
@@ -71,9 +66,8 @@ function TestersSection() {
   };
   const nick = text.trim().replace(/^@/, '');
   return (
-    <section className="tm-settings__section">
-      <h2 className="tm-title-3 tm-settings__h">{T.title}</h2>
-      <p className="tm-body-sm tm-settings__note">{T.text}</p>
+    <div className="tm-settings__sub">
+      <SettingHead title={T.title} note={ui.settings.testersShort} more={T.text} />
       {list === null ? <Skeleton kind="block" style={{ height: 48 }} /> : list.length ? (
         <ul className="tm-settings__list">
           {list.map((t) => (
@@ -89,7 +83,7 @@ function TestersSection() {
                spellCheck={false} onChange={(e) => setText(e.target.value)} aria-label={T.placeholder} />
         <Button size="sm" disabled={busy || !/^[A-Za-z0-9_]{3,32}$/.test(nick)} onClick={() => change(nick, true)}>{T.add}</Button>
       </form>
-    </section>
+    </div>
   );
 }
 
@@ -110,8 +104,7 @@ function FollowsSection() {
   const to = (f: Follow) => (f.kind === 'character' ? `/character/${f.ref}` : `/open/w-${f.ref.replace(':', '_')}`);
   return (
     <section className="tm-settings__section">
-      <h2 className="tm-title-3 tm-settings__h">{F.title}</h2>
-      <p className="tm-body-sm tm-settings__note">{F.text}</p>
+      <SettingHead title={F.title} note={ui.settings.followsShort} more={F.text} />
       {list === null ? <Skeleton kind="block" style={{ height: 48 }} /> : list.length ? (
         <ul className="tm-settings__list">
           {list.map((f) => (
@@ -127,46 +120,28 @@ function FollowsSection() {
   );
 }
 
-/** Экран «Профиль и настройки» (/settings). Каждое изменение уходит на сервер сразу и
- *  подтверждается тостом; отзыв согласия — через диалог, потому что данные удаляются. */
 /** Мои подписки (ЗП-42, 10.10): кинотеатры, за которые человек уже платит, и «только без доплаты» для ленты.
- *  Список — из справочника наличия (что там бывает по подписке), без него — общий список России. */
-function SubscriptionsSection({ settings, saving, save }: { settings: UserSettings; saving: boolean; save: (patch: Partial<UserSettings>) => void }) {
+ *  Список — из справочника наличия (что там бывает по подписке), без него — общий список России.
+ *  17.10: строка «Мои подписки — Кинопоиск, Okko ›» с выбором в листе вместо пяти строк-флажков. */
+function SubscriptionsRows({ settings, saving, save }: { settings: UserSettings; saving: boolean; save: (patch: Partial<UserSettings>) => void }) {
   const [choices, setChoices] = useState<{ slug: string; name: string }[] | null>(null);
   useEffect(() => { getCinemaChoices().then(setChoices).catch(() => setChoices([])); }, []);
   const chosen = settings.subscriptions ?? [];
+  const names = chosen.map((s) => choices?.find((c) => c.slug === s)?.name ?? s);
   return (
-    <section className="tm-settings__section">
-      <h2 className="tm-title-3 tm-settings__h">{ui.settings.subs}</h2>
-      <p className="tm-body-sm tm-settings__note">{ui.settings.subsText}</p>
-      {choices ? (
-        <div className="tm-achoice" role="group" aria-label={ui.settings.subs}>
-          {choices.map((c) => {
-            const on = chosen.includes(c.slug);
-            return (
-              <button key={c.slug} type="button" aria-pressed={on ? 'true' : 'false'}
-                      className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving}
-                      onClick={() => save({ subscriptions: on ? chosen.filter((x) => x !== c.slug) : [...chosen, c.slug] })}>
-                <span className="tm-achoice__mark" aria-hidden="true" />
-                {c.name}
-              </button>
-            );
-          })}
-        </div>
-      ) : <Skeleton kind="block" style={{ height: 40 }} />}
+    <>
+      <SettingMulti label={ui.settings.subs} note={ui.settings.subsShort} disabled={saving}
+                    summary={names.length ? names.join(', ') : ui.settings.subsNone}
+                    values={chosen} options={choices ? choices.map((c) => ({ value: c.slug, label: c.name })) : null}
+                    onChange={(subscriptions) => save({ subscriptions })}
+                    intro={ui.settings.subsText}
+                    footer={<p className="tm-caption tm-settings__note tm-srow__foot">{ui.settings.subsNote}</p>} />
       {chosen.length ? (
-        <label className="tm-settings__switch">
-          <input type="checkbox" role="switch" checked={settings.subscriptionsOnly ?? false} disabled={saving}
-                 onChange={(e) => save({ subscriptionsOnly: e.target.checked })} />
-          <span>
-            <span className="tm-body tm-settings__h">{ui.settings.subsOnly}</span>
-            <span className="tm-body-sm tm-settings__note">{ui.settings.subsOnlyText}</span>
-          </span>
-        </label>
+        <SettingSwitch label={ui.settings.subsOnly} note={ui.settings.subsOnlyShort} more={ui.settings.subsOnlyText} checked={settings.subscriptionsOnly ?? false}
+                       disabled={saving} onChange={(subscriptionsOnly) => save({ subscriptionsOnly })} />
       ) : null}
-      <p className="tm-caption tm-settings__note">{ui.settings.subsNote}</p>
-      <p className="tm-body-sm"><Link to="/subscriptions">{ui.subsPlan.entry}</Link></p>
-    </section>
+      <SettingRow label={ui.subsPlan.entry} to="/subscriptions" />
+    </>
   );
 }
 
@@ -175,11 +150,9 @@ export function SettingsScreen() {
   const navigate = useNavigate();
   const toast = useToast();
   const [owner, setOwner] = useState(false);
-  // редакция (10.10): в минимуме нет силы, подробного дневника и подписок
-  const energyOn = useFeature('energy');
+  // редакция (10.10): в минимуме нет подробного дневника и подписок
   const diaryOn = useFeature('diary');
   const follows = useFeature('follows');
-  const together = useFeature('together');
   const subsOn = useFeature('subscriptions');
   useEffect(() => { isOwnerSession().then(setOwner).catch(() => undefined); }, []);
   const [settings, setSettings] = useState<UserSettings | null>(null);
@@ -201,13 +174,15 @@ export function SettingsScreen() {
       .catch(() => { setEraseBusy(false); toast({ text: ui.legal.deleteFailed }); });
   };
   const [exporting, setExporting] = useState<'csv' | 'json' | null>(null);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [sourcesOpen, setSourcesOpen] = useState(false);
   // выгрузка дневника (ДФ-14): файл собирается здесь, в Telegram скачивается по ссылке сервера
   const exportDiary = (format: 'csv' | 'json') => {
     setExporting(format);
     diaryFile(format)
       .then(async (file) => {
         if (!file.count) { toast({ text: ui.legal.exportEmpty }); return; }
-        if (await saveFile(file, () => diaryLink(file))) toast({ text: ui.legal.exportDone(file.count) });
+        if (await saveFile(file, () => diaryLink(file))) { toast({ text: ui.legal.exportDone(file.count) }); setExportOpen(false); }
       })
       .catch(() => toast({ text: ui.legal.exportFailed }))
       .finally(() => setExporting(null));
@@ -228,7 +203,9 @@ export function SettingsScreen() {
     return () => { alive = false; };
   }, [attempt]);
 
-  const save = (patch: Partial<UserSettings>, note: string = ui.toast.saved) => {
+  /** Сохранение сразу, с откатом на ошибке. 17.10: тост «Сохранено» на каждое переключение убран — новое значение и так
+   *  видно в строке; тост — на ошибку и там, где передан свой текст (согласие, отзыв). */
+  const save = (patch: Partial<UserSettings>, note?: string) => {
     if (!settings) return Promise.resolve();
     const optimistic = { ...settings, ...patch };
     setSettings(optimistic);
@@ -237,7 +214,7 @@ export function SettingsScreen() {
       .then((next) => {
         setSettings(next);
         if (patch.theme) applyTheme(next.theme);
-        toast({ text: note });
+        if (note) toast({ text: note });
       })
       .catch(() => {
         setSettings(settings);
@@ -265,16 +242,59 @@ export function SettingsScreen() {
     );
   }
 
+  // новичок до загрузки ядра получает настройки без умолчаний (getSettings → newcomer): не падаем на пустых списках
+  const mediaTypes = settings.mediaTypes ?? ['film', 'book'];
+  const warnings = settings.excludedWarnings ?? [];
+  const langs = settings.materialLanguages ?? ['ru'];
+  const focus = settings.shelves ?? [];
+
   return (
     <main className="tm-shell__main tm-settings">
       <h1 className="tm-shell__title">{ui.settings.title}</h1>
 
+      {/* подбор: что, сколько громкого, спойлеры, языки разборов, подписки, история */}
       <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.history}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.historyText}</p>
-        <div className="tm-row tm-row--gap-2">
-          <Button size="sm" onClick={() => setImporting(true)}>{ui.settings.historyImport}</Button>
-        </div>
+        <SettingHead title={ui.settings.groupPicks} />
+        <SettingRow label={ui.settings.historyImport} note={ui.settings.historyShort}
+                    onClick={() => setImporting(true)} />
+        <SettingPicker label={ui.settings.media} value={mediaPick(mediaTypes)} options={MEDIA} disabled={saving}
+                       onPick={(pick) => save({ mediaTypes: mediaTypesFor(mediaTypes, pick) })} />
+        {/* засветка топами (17.10, src/lib/model/fame.ts) */}
+        <SettingPicker label={ui.settings.dimFamous} value={settings.dimFamous ?? DIM_DEFAULT} options={DIM} disabled={saving}
+                       intro={ui.settings.dimFamousText} onPick={(dimFamous) => save({ dimFamous })} />
+        <SettingPicker label={ui.settings.spoilers} value={settings.spoilerLevel} options={SPOILERS} disabled={saving}
+                       intro={ui.settings.spoilersText} onPick={(spoilerLevel) => save({ spoilerLevel })} />
+        {/* язык разборов (17.10): русские есть всегда, английские — тумблером; сохранённое «только английские» не теряем */}
+        <SettingSwitch label={ui.settings.langsEn} checked={langs.includes('en')} disabled={saving}
+                       note={langs.includes('ru') ? ui.settings.langsEnNote : ui.settings.langsOnlyEn} more={ui.settings.langsText}
+                       onChange={(on) => save({ materialLanguages: on ? [...langs.filter((x) => x !== 'en'), 'en'] : ['ru'] })} />
+        {shelves.length ? (
+          <SettingMulti label={ui.settings.focus} disabled={saving}
+                        summary={focus.length ? shelves.filter((sh) => focus.includes(sh.id)).map((sh) => sh.title).join(', ') || focus.length : ui.settings.focusNone}
+                        values={focus} options={shelves.map((sh) => ({ value: sh.id, label: sh.title, note: ui.settings.focusFilms(sh.films) }))}
+                        intro={ui.settings.focusText} onChange={(next) => save({ shelves: next })} />
+        ) : null}
+        {subsOn ? <SubscriptionsRows settings={settings} saving={saving} save={save} /> : null}
+        {diaryOn ? (
+          <SettingSwitch label={ui.settings.diary} note={ui.settings.diaryShort} more={ui.settings.diaryText}
+                         checked={settings.diary ?? false} disabled={saving} onChange={(diary) => save({ diary })} />
+        ) : null}
+        {warnings.length ? (
+          <>
+            <SettingRow label={ui.settings.warnings} />
+            <ul className="tm-settings__list">
+              {warnings.map((w) => (
+                <li key={w}>
+                  <span>{w}</span>
+                  <Button size="sm" variant="quiet" disabled={saving}
+                          onClick={() => save({ excludedWarnings: warnings.filter((x) => x !== w) })}>
+                    {ui.actions.remove}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : <SettingRow label={ui.settings.warnings} value={ui.settings.warningsNone} more={ui.settings.warningsHint} />}
       </section>
 
       <ImportHistorySheet
@@ -284,232 +304,21 @@ export function SettingsScreen() {
         onNorm={(ratingNorm) => save({ ratingNorm })}
       />
 
-      {owner ? (
-        <section className="tm-settings__section">
-          <h2 className="tm-title-3 tm-settings__h">{ui.loop.open}</h2>
-          <p className="tm-body-sm tm-settings__note">{ui.loop.openHint}</p>
-          <div className="tm-row tm-row--gap-2">
-            <Button size="sm" onClick={() => navigate('/loop')}>{ui.loop.open}</Button>
-          </div>
-        </section>
-      ) : null}
-
-      {/* разметка владельца с телефона (06.10): очередь «Проверки» и «Рубрик» пульта */}
-      {owner ? (
-        <section className="tm-settings__section">
-          <h2 className="tm-title-3 tm-settings__h">{ui.owner.open}</h2>
-          <p className="tm-body-sm tm-settings__note">{ui.owner.openHint}</p>
-          <div className="tm-row tm-row--gap-2">
-            <Button size="sm" onClick={() => navigate('/owner')}>{ui.owner.open}</Button>
-          </div>
-        </section>
-      ) : null}
-
-      {/* полки рубрик (ТВ-3г): владелец смотрит интерфейс до выката — участникам его решает доля */}
-      {owner ? (
-        <section className="tm-settings__section">
-          <label className="tm-settings__switch">
-            <input type="checkbox" role="switch" checked={settings.lensShelves ?? true} disabled={saving}
-                   onChange={(e) => save({ lensShelves: e.target.checked })} />
-            <span>
-              <span className="tm-title-3 tm-settings__h">{ui.lens.toggle}</span>
-              <span className="tm-body-sm tm-settings__note">{ui.lens.toggleText}</span>
-            </span>
-          </label>
-        </section>
-      ) : null}
-
-      {/* карточка по глубине (15.10): владелец сравнивает с прежней до выката */}
-      {owner ? (
-        <section className="tm-settings__section">
-          <label className="tm-settings__switch">
-            <input type="checkbox" role="switch" checked={settings.depthCard ?? true} disabled={saving}
-                   onChange={(e) => save({ depthCard: e.target.checked })} />
-            <span>
-              <span className="tm-title-3 tm-settings__h">{ui.depth.toggle}</span>
-              <span className="tm-body-sm tm-settings__note">{ui.depth.toggleText}</span>
-            </span>
-          </label>
-        </section>
-      ) : null}
-
-      {/* редакция (10.10): владелец смотрит минимум глазами участника */}
-      {owner ? (
-        <section className="tm-settings__section">
-          <label className="tm-settings__switch">
-            <input type="checkbox" role="switch" checked={settings.edition === 'minimum'} disabled={saving}
-                   onChange={(e) => save({ edition: e.target.checked ? 'minimum' : 'full' })} />
-            <span>
-              <span className="tm-title-3 tm-settings__h">{ui.settings.edition}</span>
-              <span className="tm-body-sm tm-settings__note">{ui.settings.editionText}</span>
-            </span>
-          </label>
-        </section>
-      ) : null}
+      <section className="tm-settings__section">
+        <SettingHead title={ui.settings.groupApp} />
+        <SettingPicker label={ui.settings.theme} value={settings.theme} options={THEMES} disabled={saving}
+                       onPick={(theme) => save({ theme })} />
+        {/* язык меню перезапускает приложение — поэтому выбор в листе, а не тумблер от случайного касания */}
+        <SettingPicker label={ui.settings.language} value={settings.language} options={LANGUAGES} disabled={saving}
+                       intro={ui.settings.languageNote} onPick={(language) => save({ language })} />
+        {session ? (
+          <SettingRow label={ui.login.signedIn(session.user.name)}
+                      aside={<Button size="sm" variant="quiet" onClick={() => logout().then(() => navigate('/login'))}>{ui.login.signOut}</Button>} />
+        ) : null}
+      </section>
 
       {/* подписки на разборы (06.10): сводка от бота раз в день */}
       {follows && followsAvailable() ? <FollowsSection /> : null}
-
-      {/* тестеры (ТВ-3в): все полки, без статистики и механики; список ведёт админ */}
-      {owner ? <TestersSection /> : null}
-
-      {session ? (
-        <section className="tm-settings__section">
-          <h2 className="tm-title-3 tm-settings__h">{ui.login.account}</h2>
-          <p className="tm-body tm-settings__note">{ui.login.signedIn(session.user.name)}</p>
-          <div className="tm-row tm-row--gap-2">
-            <Button size="sm" onClick={() => logout().then(() => navigate('/login'))}>{ui.login.signOut}</Button>
-          </div>
-        </section>
-      ) : null}
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.theme}</h2>
-        <Choice label={ui.settings.theme} options={THEMES} value={settings.theme} disabled={saving}
-                onPick={(theme) => save({ theme })} />
-      </section>
-
-      {energyOn ? (
-        <section className="tm-settings__section">
-          <h2 className="tm-title-3 tm-settings__h">{ui.settings.energy}</h2>
-          <p className="tm-body-sm tm-settings__note">{ui.settings.energyText}</p>
-          <EnergySwitch value={settings.energy ?? 'normal'} onChange={(energy) => save({ energy })} />
-        </section>
-      ) : null}
-
-      {/* засветка топами (17.10, src/lib/model/fame.ts) */}
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.dimFamous}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.dimFamousText}</p>
-        <Choice label={ui.settings.dimFamous} options={DIM} value={settings.dimFamous ?? DIM_DEFAULT} disabled={saving}
-                onPick={(dimFamous) => save({ dimFamous })} />
-      </section>
-
-      {subsOn ? <SubscriptionsSection settings={settings} saving={saving} save={save} /> : null}
-
-      {diaryOn ? (
-        <section className="tm-settings__section">
-          <label className="tm-settings__switch">
-            <input type="checkbox" role="switch" checked={settings.diary ?? false} disabled={saving}
-                   onChange={(e) => save({ diary: e.target.checked })} />
-            <span>
-              <span className="tm-title-3 tm-settings__h">{ui.settings.diary}</span>
-              <span className="tm-body-sm tm-settings__note">{ui.settings.diaryText}</span>
-            </span>
-          </label>
-        </section>
-      ) : null}
-
-      {/* механика — данные трансформативного обучения, только админу (ТВ-3в) */}
-      {owner ? (
-      <section className="tm-settings__section">
-        <label className="tm-settings__switch">
-          <input type="checkbox" role="switch" checked={settings.showDetails} disabled={saving}
-                 onChange={(e) => save({ showDetails: e.target.checked })} />
-          <span>
-            <span className="tm-title-3 tm-settings__h">{ui.settings.details}</span>
-            <span className="tm-body-sm tm-settings__note">{ui.settings.detailsText}</span>
-          </span>
-        </label>
-        {settings.showDetails ? (
-          <Button size="sm" variant="quiet" onClick={() => navigate('/map')}>{ui.settings.openMap}</Button>
-        ) : null}
-      </section>
-      ) : null}
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.media}</h2>
-        <div className="tm-achoice" role="group" aria-label={ui.settings.media}>
-          {MEDIA.map((m) => {
-            const on = settings.mediaTypes.includes(m.value);
-            const last = on && settings.mediaTypes.length === 1;
-            return (
-              <button key={m.value} type="button" aria-pressed={on ? 'true' : 'false'}
-                      className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving || last}
-                      onClick={() => save({ mediaTypes: on ? settings.mediaTypes.filter((t) => t !== m.value) : [...settings.mediaTypes, m.value] })}>
-                <span className="tm-achoice__mark" aria-hidden="true" />
-                {m.label}
-              </button>
-            );
-          })}
-        </div>
-        <p className="tm-caption tm-settings__note">{ui.settings.mediaNote}</p>
-      </section>
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.langs}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.langsText}</p>
-        <div className="tm-achoice" role="group" aria-label={ui.settings.langs}>
-          {LANGS.map((l) => {
-            const langs = settings.materialLanguages ?? ['ru'];
-            const on = langs.includes(l.value);
-            const last = on && langs.length === 1;
-            return (
-              <button key={l.value} type="button" aria-pressed={on ? 'true' : 'false'}
-                      className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving || last}
-                      onClick={() => save({ materialLanguages: on ? langs.filter((x) => x !== l.value) : [...langs, l.value] })}>
-                <span className="tm-achoice__mark" aria-hidden="true" />
-                {l.label}
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {shelves.length ? (
-        <section className="tm-settings__section">
-          <h2 className="tm-title-3 tm-settings__h">{ui.settings.focus}</h2>
-          <p className="tm-body-sm tm-settings__note">{ui.settings.focusText}</p>
-          <div className="tm-achoice" role="group" aria-label={ui.settings.focus}>
-            {shelves.map((sh) => {
-              const chosen = settings.shelves ?? [];
-              const on = chosen.includes(sh.id);
-              return (
-                <button key={sh.id} type="button" aria-pressed={on ? 'true' : 'false'} title={sh.why}
-                        className={cx('tm-achoice__opt', on && 'tm-achoice__opt--on')} disabled={saving}
-                        onClick={() => save({ shelves: on ? chosen.filter((x) => x !== sh.id) : [...chosen, sh.id] })}>
-                  <span className="tm-achoice__mark" aria-hidden="true" />
-                  {sh.title}
-                </button>
-              );
-            })}
-          </div>
-          <p className="tm-caption tm-settings__note">{shelves.map((sh) => `${sh.title}: ${ui.settings.focusFilms(sh.films)}`).join(' · ')}</p>
-        </section>
-      ) : null}
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.spoilers}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.spoilersText}</p>
-        <Choice label={ui.settings.spoilers} value={settings.spoilerLevel} disabled={saving}
-                options={SPOILERS.map((v) => ({ value: v, label: ui.settings.spoilerLevels[v] }))}
-                onPick={(spoilerLevel) => save({ spoilerLevel })} />
-      </section>
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.warnings}</h2>
-        {settings.excludedWarnings.length ? (
-          <ul className="tm-settings__list">
-            {settings.excludedWarnings.map((w) => (
-              <li key={w}>
-                <span>{w}</span>
-                <Button size="sm" variant="quiet" disabled={saving}
-                        onClick={() => save({ excludedWarnings: settings.excludedWarnings.filter((x) => x !== w) })}>
-                  {ui.actions.remove}
-                </Button>
-              </li>
-            ))}
-          </ul>
-        ) : <p className="tm-body-sm tm-settings__note">{ui.settings.warningsEmpty}</p>}
-      </section>
-
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.language}</h2>
-        <Choice label={ui.settings.language} value={settings.language} disabled={saving}
-                options={[{ value: 'ru', label: ui.settings.languageRu }, { value: 'en', label: ui.settings.languageEn }]}
-                onPick={(language) => save({ language })} />
-        <p className="tm-caption tm-settings__note">{ui.settings.languageNote}</p>
-      </section>
 
       <section className="tm-settings__section">
         <h2 className="tm-title-3 tm-settings__h">{ui.settings.research}</h2>
@@ -537,53 +346,55 @@ export function SettingsScreen() {
         )}
       </section>
 
+      {/* обратная связь; «Выбрать вместе» убрано 17.10 — вход есть в ленте */}
       <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.social.title}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.social.text}</p>
+        <SettingHead title={ui.social.title} note={ui.settings.socialShort} more={ui.social.text} />
         <div className="tm-row tm-row--gap-2 tm-row--wrap">
           <Button size="sm" onClick={() => openExternal(writeAuthorUrl)}>{ui.social.write}</Button>
-          {together ? <Button size="sm" variant="quiet" onClick={() => navigate('/together')}>{ui.together.entryAction}</Button> : null}
           <Button size="sm" variant="quiet" onClick={() => { noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</Button>
         </div>
       </section>
 
       <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.contributor}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.contributorText}</p>
-        <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <Button size="sm" onClick={() => navigate('/contribute')}>{ui.settings.contributorOpen}</Button>
-          <Button size="sm" variant="quiet" onClick={() => openExternal(`https://t.me/${BOT_USERNAME}`)}>{ui.settings.bot}</Button>
-        </div>
+        <SettingRow label={ui.settings.contributor} note={ui.settings.contributorShort} onClick={() => navigate('/contribute')} />
+        <SettingRow label={ui.settings.bot} onClick={() => openExternal(`https://t.me/${BOT_USERNAME}`)} />
       </section>
 
-      {/* дневник файлом (ДФ-14): таблица читается обратно нашим импортом и импортом Letterboxd */}
+      {/* документы, данные, удаление аккаунта (ЗП-5): правила подбора (149-ФЗ), политика данных (152-ФЗ) */}
       <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.legal.export}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.legal.exportText}</p>
-        <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <Button size="sm" variant="secondary" loading={exporting === 'csv'} disabled={exporting !== null} onClick={() => exportDiary('csv')}>{ui.legal.exportCsv}</Button>
-          <Button size="sm" variant="quiet" loading={exporting === 'json'} disabled={exporting !== null} onClick={() => exportDiary('json')}>{ui.legal.exportJson}</Button>
-        </div>
-      </section>
-
-      {/* документы и удаление аккаунта (ЗП-5): правила подбора (149-ФЗ), политика данных (152-ФЗ) */}
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.legal.docs}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.legal.docsText}</p>
+        <SettingHead title={ui.legal.docs} />
         {owner && !legalComplete ? <p className="tm-caption tm-settings__note tm-settings__warn">{ui.legal.missing}</p> : null}
-        <div className="tm-row tm-row--gap-2 tm-row--wrap">
-          <Button size="sm" variant="quiet" onClick={() => navigate('/legal/rules')}>{ui.legal.rules}</Button>
-          <Button size="sm" variant="quiet" onClick={() => navigate('/legal/privacy')}>{ui.legal.privacy}</Button>
-        </div>
-        <p className="tm-body-sm tm-settings__note">{ui.legal.deleteText}</p>
-        <div className="tm-row tm-row--gap-2">
-          <Button size="sm" variant="danger" onClick={() => {
-            // в Telegram — его окно (ДФ-3): оно выглядит как остальной мессенджер, и его не спутать с нашим экраном
-            const native = confirmNative(ui.legal.deleteTitle, ui.legal.deleteBody, ui.legal.deleteConfirm);
-            if (native) void native.then((yes) => { if (yes) erase(); });
-            else setErasing(true);
-          }}>{ui.legal.delete}</Button>
-        </div>
+        {/* дневник файлом (ДФ-14): одна строка «Выгрузить»; CSV — главное, JSON — вторым вариантом в листе (17.10) */}
+        <SettingRow label={ui.legal.export} note={ui.settings.exportShort} onClick={() => setExportOpen(true)} />
+        <Sheet open={exportOpen} onOpenChange={setExportOpen} title={ui.legal.export}>
+          <p className="tm-body-sm tm-srow__intro">{ui.legal.exportText}</p>
+          <div className="tm-srow__actions">
+            <Button block variant="primary" loading={exporting === 'csv'} disabled={exporting !== null} onClick={() => exportDiary('csv')}>{ui.legal.exportCsv}</Button>
+            <Button block variant="quiet" loading={exporting === 'json'} disabled={exporting !== null} onClick={() => exportDiary('json')}>{ui.settings.exportOther}</Button>
+          </div>
+        </Sheet>
+        <SettingRow label={ui.legal.rules} onClick={() => navigate('/legal/rules')} />
+        <SettingRow label={ui.legal.privacy} onClick={() => navigate('/legal/privacy')} />
+        {/* откуда данные (17.10): одна строка, список — в листе; строка TMDb видна всегда — так требуют условия TMDb */}
+        <SettingRow label={ui.settings.sources} note={ui.settings.sourcesShort} onClick={() => setSourcesOpen(true)} />
+        <Sheet open={sourcesOpen} onOpenChange={setSourcesOpen} title={ui.settings.sources}>
+          <p className="tm-body-sm tm-srow__intro">{ui.settings.sourcesText}</p>
+          <ul className="tm-settings__list tm-settings__sources">
+            <li className="tm-body-sm">{ui.settings.sourceWikidata}</li>
+            <li className="tm-body-sm">{ui.settings.sourceTmdb}</li>
+            <li className="tm-body-sm">{ui.settings.sourceKinopoisk}</li>
+            <li className="tm-body-sm">{ui.settings.sourceOpenLibrary}</li>
+          </ul>
+          <p className="tm-caption tm-settings__note tm-settings__tmdb">{ui.settings.tmdbNotice}</p>
+        </Sheet>
+        <p className="tm-caption tm-settings__note tm-settings__tmdb">{ui.settings.tmdbNotice}</p>
+        {/* полный текст последствий — в окне подтверждения (deleteBody), на экране только строка */}
+        <SettingRow label={ui.legal.delete} tone="danger" onClick={() => {
+          // в Telegram — его окно (ДФ-3): оно выглядит как остальной мессенджер, и его не спутать с нашим экраном
+          const native = confirmNative(ui.legal.deleteTitle, ui.legal.deleteBody, ui.legal.deleteConfirm);
+          if (native) void native.then((yes) => { if (yes) erase(); });
+          else setErasing(true);
+        }} />
         <Dialog open={erasing} onOpenChange={setErasing} title={ui.legal.deleteTitle} destructive
                 confirm={ui.legal.deleteConfirm} busy={eraseBusy}
                 onConfirm={erase}>
@@ -591,17 +402,32 @@ export function SettingsScreen() {
         </Dialog>
       </section>
 
-      <section className="tm-settings__section">
-        <h2 className="tm-title-3 tm-settings__h">{ui.settings.sources}</h2>
-        <p className="tm-body-sm tm-settings__note">{ui.settings.sourcesText}</p>
-        <ul className="tm-settings__list tm-settings__sources">
-          <li className="tm-body-sm">{ui.settings.sourceWikidata}</li>
-          <li className="tm-body-sm">{ui.settings.sourceTmdb}</li>
-          <li className="tm-body-sm">{ui.settings.sourceKinopoisk}</li>
-          <li className="tm-body-sm">{ui.settings.sourceOpenLibrary}</li>
-        </ul>
-        <p className="tm-caption tm-settings__note tm-settings__tmdb">{ui.settings.tmdbNotice}</p>
-      </section>
+      {/* разделы владельца (17.10): одним раскрывающимся внизу — участнику их не видно, владельцу не мешают сверху */}
+      {owner ? (
+        <section className="tm-settings__section">
+        <details className="tm-settings__owner">
+          <summary className="tm-title-3 tm-settings__ownerhead">{ui.settings.owner}</summary>
+          <SettingRow label={ui.loop.open} note={ui.loop.openHint} onClick={() => navigate('/loop')} />
+          {/* разметка владельца с телефона (06.10): очередь «Проверки» и «Рубрик» пульта */}
+          <SettingRow label={ui.owner.open} note={ui.owner.openHint} onClick={() => navigate('/owner')} />
+          {/* полки рубрик (ТВ-3г): владелец смотрит интерфейс до выката — участникам его решает доля */}
+          <SettingSwitch label={ui.lens.toggle} more={ui.lens.toggleText} checked={settings.lensShelves ?? true} disabled={saving}
+                         onChange={(lensShelves) => save({ lensShelves })} />
+          {/* карточка по глубине (15.10): владелец сравнивает с прежней до выката */}
+          <SettingSwitch label={ui.depth.toggle} more={ui.depth.toggleText} checked={settings.depthCard ?? true} disabled={saving}
+                         onChange={(depthCard) => save({ depthCard })} />
+          {/* редакция (10.10): владелец смотрит минимум глазами участника */}
+          <SettingSwitch label={ui.settings.edition} more={ui.settings.editionText} checked={settings.edition === 'minimum'} disabled={saving}
+                         onChange={(on) => save({ edition: on ? 'minimum' : 'full' })} />
+          {/* механика — данные трансформативного обучения, только админу (ТВ-3в) */}
+          <SettingSwitch label={ui.settings.details} more={ui.settings.detailsText} checked={settings.showDetails} disabled={saving}
+                         onChange={(showDetails) => save({ showDetails })} />
+          {settings.showDetails ? <SettingRow label={ui.settings.openMap} onClick={() => navigate('/map')} /> : null}
+          {/* тестеры (ТВ-3в): все полки, без статистики и механики; список ведёт админ */}
+          <TestersSection />
+        </details>
+        </section>
+      ) : null}
     </main>
   );
 }

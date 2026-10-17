@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCharacter, getSettings, type CharacterPage } from '@/api';
 import type { SpoilerLevel, WorkCard } from '@/types/tmdf';
-import { DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
+import { BackLink, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
 import { useMechanics } from '@/lib/settingsStore';
 import { WorkThumb } from '@/components/WorkThumb';
 import { HERO_ID } from '@/components/ShareButton';
@@ -35,10 +35,11 @@ export function CharacterScreen() {
   }, [id, attempt]);
 
   const counts = data?.byKind.map((g) => ui.universe.count(g.kind, g.works.length)).join(' · ');
+  const shownAbove = new Set([data?.first?.id, data?.startWith?.work.id].filter((x): x is string => Boolean(x)));
 
   return (
     <main className="tm-shell__main tm-voicepage tm-person tm-hero">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.person.back}</button>
+      <BackLink label={ui.person.back} />
       {failed ? <ErrorState title={ui.state.errorCharacter} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">
@@ -107,7 +108,9 @@ export function CharacterScreen() {
             </section>
           ) : null}
 
-          {data.byKind.map((g) => (
+          {/* повторов нет (17.10): что уже стоит в «Откуда он» и «С чего начать», в разделах по родам не повторяем; счёт в шапке —
+              по всем */}
+          {data.byKind.map((g) => ({ ...g, works: g.works.filter(({ work }) => !shownAbove.has(work.id)) })).filter((g) => g.works.length).map((g) => (
             <section key={g.kind} className="tm-person__section">
               <h2 className="tm-title-3">{ui.universe.group[g.kind]}</h2>
               <ul className="tm-search__list">
@@ -126,9 +129,10 @@ export function CharacterScreen() {
             <h2 className="tm-title-3">{ui.hero.essaysTitle}</h2>
             {data.analyses.length ? (
               <ul className="tm-person__essays">
-                {data.analyses.map(({ work, analysis, seen }) => (
+                {/* по вещам (17.10): название — один раз над её разборами */}
+                {byWorkFirst(data.analyses).map(({ work, analysis, seen }, i, list) => (
                   <li key={analysis.url}>
-                    <p className="tm-caption tm-person__about">{titleOf(work)}{work.year ? `, ${work.year}` : ''}</p>
+                    {i && list[i - 1].work.id === work.id ? null : <p className="tm-caption tm-person__about">{titleOf(work)}{work.year ? `, ${work.year}` : ''}</p>}
                     {/* как в карточке: видели произведение — открыто всё, нет — по настройке спойлеров */}
                     <OpenContext.Provider value={{ place: 'character', workId: work.id }}>
                       <ExternalAnalysisLink analysis={analysis} spoilerLevel={seen ? 2 : spoilers} />
@@ -163,4 +167,12 @@ function WorkRow({ work, onOpen, note, meta = [] }: { work: WorkCard; onOpen: ()
       </span>
     </button>
   );
+}
+
+type Essay = CharacterPage['analyses'][number];
+/** Разборы вместе по вещам, вещи — в порядке первого разбора (17.10). */
+function byWorkFirst(list: Essay[]): Essay[] {
+  const groups = new Map<string, Essay[]>();
+  for (const x of list) groups.set(x.work.id, [...(groups.get(x.work.id) ?? []), x]);
+  return [...groups.values()].flat();
 }

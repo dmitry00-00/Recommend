@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getSettings, getUniverse, type UniverseMember, type UniversePage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
-import { DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
+import { BackLink, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
 import { cx } from '@/lib/cx';
 import { onExternalClick } from '@/lib/telegram';
 import { useMechanics, useRole } from '@/lib/settingsStore';
@@ -39,7 +39,7 @@ export function UniverseScreen() {
 
   return (
     <main className="tm-shell__main tm-voicepage tm-universe">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.person.back}</button>
+      <BackLink label={ui.person.back} />
       {failed ? <ErrorState title={ui.state.errorUniverse} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">

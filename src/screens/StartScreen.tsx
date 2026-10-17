@@ -36,6 +36,8 @@ export function StartScreen() {
   // после «Видел» — та же карточка спрашивает «как вам»
   const [asking, setAsking] = useState(false);
   const [step, setStep] = useState<'swipe' | 'favorites'>('swipe');
+  // подсказка про свайп под кнопками (17.10) — до первого свайпа: дальше жест уже знаком
+  const [swiped, setSwiped] = useState(false);
   const counts = useRef({ seen: 0, want: 0, no: 0, rated: 0 });
 
   useEffect(() => {
@@ -107,16 +109,17 @@ export function StartScreen() {
         </div>
       ) : null}
       {work ? (
-        <SwipeCard key={work.id} work={work} asking={asking} onMark={mark} onRate={rate} />
+        <SwipeCard key={work.id} work={work} asking={asking} hint={!swiped} onMark={mark} onRate={rate}
+                   onSwiped={() => setSwiped(true)} />
       ) : null}
     </main>
   );
 }
 
 /** Карточка: постер, название, год и режиссёр; вправо — «Видел», влево — «Не моё». После «Видел» вместо кнопок — шкала. */
-function SwipeCard({ work, asking, onMark, onRate }: {
-  work: WorkCard; asking: boolean;
-  onMark: (m: 'seen' | 'want' | 'no') => void; onRate: (v: Score | null) => void;
+function SwipeCard({ work, asking, hint, onMark, onRate, onSwiped }: {
+  work: WorkCard; asking: boolean; hint: boolean;
+  onMark: (m: 'seen' | 'want' | 'no') => void; onRate: (v: Score | null) => void; onSwiped: () => void;
 }) {
   const S = ui.start;
   const [dx, setDx] = useState(0);
@@ -129,6 +132,7 @@ function SwipeCard({ work, asking, onMark, onRate }: {
     },
     onEnd(end) {
       setDx(0);
+      if (end >= FAR || end <= -FAR) onSwiped();
       if (end >= FAR) onMark('seen');
       else if (end <= -FAR) onMark('no');
     },
@@ -163,7 +167,7 @@ function SwipeCard({ work, asking, onMark, onRate }: {
           <Button variant="primary" onClick={() => onMark('seen')}>{S.seen}</Button>
         </div>
       )}
-      {asking ? null : <p className="tm-caption tm-start__gesture">{S.gesture}</p>}
+      {asking || !hint ? null : <p className="tm-caption tm-start__gesture">{S.gesture}</p>}
     </article>
   );
 }

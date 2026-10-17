@@ -11,6 +11,7 @@ import { registers } from '@/lib/registers';
 import { opLoad } from './deriveState';
 import { isSeries, isShortSeries, seriesHours } from '@/lib/media';
 import { fameExcluded, famePenalty, type DimFamous } from './fame';
+import { afterwordBonus, deriveWorthProfile, type AfterwordInput } from './worth';
 
 export interface Candidate {
   work: WorkCard;
@@ -36,6 +37,9 @@ export interface RecommendOptions {
   content?: { fit: (work: WorkCard) => number; weight: number };
   /** засветка топами (fame.ts): известность произведения 0…3 и насколько её приглушать */
   fame?: { level: (work: WorkCard) => number | undefined; mode: DimFamous };
+  /** послесловия (17.10, worth.ts): «стоило» — отдельная ось от «понравилось», плюс темп и что держало.
+   *  Без явных ответов профиля нет, и подбор ровно прежний */
+  afterwords?: AfterwordInput;
 }
 /** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
  *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
@@ -219,13 +223,15 @@ const likesRegister = (state: CognitiveState, work: WorkCard): boolean =>
  *  один кадр на другом языке, чем привычный, — шаг в сторону по вкусу, не по сложности. */
 export function recommend(state: CognitiveState, candidates: Candidate[], energy: Energy, limit = 6, createdAt = '', options: RecommendOptions = {}): Recommendation[] {
   const maxSeries = options.maxSeries ?? 1;
+  const worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined;
   const scored = candidates
     // новичку в сериалах — только короткий вход
     .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
     .filter((c) => !options.fame || !fameExcluded(options.fame.level(c.work), options.fame.mode))
     .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0)
       + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0)
-      - (options.fame ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0) }))
+      - (options.fame ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0)
+      + (worth ? afterwordBonus(worth, c.work) : 0) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];

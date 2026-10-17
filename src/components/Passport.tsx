@@ -46,7 +46,7 @@ export function Passport({ work, hurdles }: { work: WorkCard; hurdles?: boolean 
 
   const details = form.length > 0 || warnings.length > 0;
   const chip = (c: Chip): ReactNode => {
-    const body = <><span className="tm-passport__icon" aria-hidden="true">{c.icon}</span>{c.text}</>;
+    const body = <><span className="tm-passport__icon" aria-hidden="true">{c.icon}</span><span className="tm-passport__text">{c.text}</span></>;
     return (
       <li key={`${c.icon}${c.text}`} className="tm-passport__chip">
         {c.to ? <Link to={c.to} className="tm-passport__link">{body}</Link> : body}

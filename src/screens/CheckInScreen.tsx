@@ -14,7 +14,9 @@ import { titleOf } from '@/lib/format';
 interface Loaded { entry: JourneyEntryData; prompts: ReflectionPromptData[]; discussions: DiscussionPlace[] }
 
 /** Экран «После просмотра» (/journal/:entryId/check-in). Поток собирает ответы, сервер
- *  возвращает разбор, изменение карты, следующий кадр и, если было, перестроение маршрута. */
+ *  возвращает разбор, изменение карты, следующий кадр и, если было, перестроение маршрута.
+ *  ?finish=1 (17.10) — пришли с «Досмотрел»/«Дочитал»: «досмотрели или бросили?» не переспрашиваем, у фильма и
+ *  книги без частей сразу «Сложность»; у сериала и книги по частям остаётся «сезон/часть или всё». ?abandon=1 — причины. */
 export function CheckInScreen() {
   const { entryId = '' } = useParams();
   const [params] = useSearchParams();
@@ -90,7 +92,8 @@ export function CheckInScreen() {
     <main className="tm-shell__main">
       <h1 className="tm-shell__title">{titleOf(entry.work)}</h1>
       <CheckInFlow work={entry.work} prompts={prompts} discussions={discussions}
-                   step={params.get('abandon') ? 9 : 0} debrief={result?.debrief}
+                   step={params.get('abandon') ? 9 : params.get('finish') && season == null && part == null ? 1 : 0}
+                   finish={Boolean(params.get('finish'))} debrief={result?.debrief}
                    prediction={result?.entry.prediction ?? entry.prediction} showModel={mechanics}
                    changedOperations={changed} onSubmit={submit} season={season} part={part} />
       {result ? (

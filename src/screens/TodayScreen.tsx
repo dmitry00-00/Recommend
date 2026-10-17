@@ -6,6 +6,7 @@ import type {
 } from '@/types/tmdf';
 import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, noteTrailer, notWatched, planWork, sendRecommendationFeedback, startWork, trailerSource, unplanWork, updateSettings, type Trailer } from '@/api';
 import { TrailerSheet } from '@/components/TrailerSheet';
+import { RatingWheel } from '@/components/RatingWheel';
 import {
   Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
   FilmEdge, FilmReel, WorkBanner, WorkSheet, reelKnow, reelKnown, reelPlayed, reelWanted, useToast,
@@ -30,6 +31,8 @@ import { isScreen, isSeries } from '@/lib/media';
 const ARCHIVE_ROW = 56;
 
 const WATCH_SHOWN = 6;
+/** причины «не сейчас», которых в шторке нет (17.10): «Уже знаю» пишет «Видел», «Другое» — то же, что не отвечать */
+const SHEET_OMIT: DismissReason[] = ['already_know', 'other'];
 
 /** «Где посмотреть»: кнопки площадок, первые шесть — остальные по «ещё N». Логотипы не
  *  рисуем: чужие марки в нашей типографике только шумят. */
@@ -98,18 +101,22 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
           </>
         )}
         // «Начать смотреть» убрано из карточки (24.09, решение владельца); «видел», «в планы» и «не
-        // сейчас» — в правом углу текста под кадром материала, причины — под материалом. «Видел» с оценкой —
-        // в обеих редакциях (11.10: в полной его не было — уже виденный фильм некуда было деть, кроме «не сейчас»)
+        // сейчас» — в правом углу текста под кадром материала. «Видел» с оценкой — в обеих редакциях (11.10: в полной
+        // его не было — уже виденный фильм некуда было деть, кроме «не сейчас»). Причины «не сейчас» (17.10) — сразу под
+        // рядом кнопок, а не внизу вкладки за краем экрана; «Уже знаю» (= «Видел») и «Другое» (= не отвечать) убраны:
+        // не выбрал причину — ничего не уходит, как и раньше
         corner={finished ? undefined : (
-          <QuickMark work={r.work} abandon={false} label={r.work.type === 'book' ? ui.quick.read : ui.quick.seen} onDone={onSeen}
-                     extra={(
-                       <>
-                         {plans ? <Button size="sm" onClick={onSave}>{ui.actions.save}</Button> : null}
-                         <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
-                       </>
-                     )} />
+          <div className="tm-mark">
+            <QuickMark work={r.work} abandon={false} label={r.work.type === 'book' ? ui.quick.read : ui.quick.seen} onDone={onSeen}
+                       extra={(
+                         <>
+                           {plans ? <Button size="sm" onClick={onSave}>{ui.actions.save}</Button> : null}
+                           <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
+                         </>
+                       )} />
+            {reasons ? <ReasonPicker variant="dismiss" inline omit={SHEET_OMIT} onPick={onDismiss} /> : null}
+          </div>
         )}
-        actions={reasons ? <ReasonPicker variant="dismiss" onPick={onDismiss} /> : undefined}
       />
     </div>
   );
@@ -118,22 +125,21 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
 /** Кадр ленты со свайпом (24.09). Под пальцем нарастает заливка — она же и остаётся на месте
  *  кадра, когда тот уезжает.
  *
- *  Влево — «не сейчас»: кадр уходит, а на заливке встают причины отказа крупными кнопками.
- *  Причина необязательна: через ASK_MS уезжает `other`, то есть ровно то, что было раньше.
- *  Спрашиваем, но не держим — иначе люди просто перестанут отказываться.
+ *  Влево — трейлер (15.10; с 17.10 всегда, владелец): трейлера нет — кадр пружинит назад и короткий тост «трейлера
+ *  нет». Причин «не сейчас» под пальцем больше нет: одно направление — одно действие, «не сейчас» — в карточке.
  *
  *  Вправо — кто разбирал (28.09, решение владельца: шкала «хочется» звёздами в формат
  *  приложения не легла). Под пальцем выступают логотипы каналов, у которых есть материал об
  *  этом фильме; дотянул до порога — кадр встаёт открытым, и логотипы становятся кнопками.
  *  Тап ведёт не в сам ролик, а в карточку на материале этого автора: в карточке работает
  *  штриховка спойлеров, а фильм человек ещё не видел. «В планы» осталось кнопкой в карточке.
+ *  Открытая панель авторов (17.10) закрывается свайпом в любую сторону и сама — когда кадр ушёл с экрана.
  *
  *  Пороги намеренно большие: лента прокручивается вертикально, случайный сдвиг вбок ничего
  *  делать не должен. */
 const SWIPE = 96;
 // кадр уходит на DRAG от длины свайпа: в освободившуюся полосу должны влезать логотипы внахлёст
 const DRAG = 0.8;
-const ASK_MS = 8000;
 /** сколько логотипов показывать под пальцем; остальные — числом «+N» */
 const PILE = 4;
 
@@ -147,6 +153,21 @@ const hintWanted = (): boolean => {
   } catch { return false; }
 };
 const hintDone = () => { try { localStorage.setItem(HINT_KEY, '1'); } catch { /* не страшно */ } };
+
+/** Хвост ленты (17.10): из приглашений («выбрать вместе», подборки, позвать друга) — одно за раз, по очереди между
+ *  запусками. Очередь — счётчиком на устройстве; хранилища нет — всегда первое, это не страшно. Номер берётся один
+ *  раз за запуск: переход между экранами приглашение не меняет. */
+const TAIL_KEY = 'tm.feed.tailTurn';
+let tailTurn: number | undefined;
+const tailTurnNow = (): number => {
+  if (tailTurn !== undefined) return tailTurn;
+  try {
+    const n = Number(localStorage.getItem(TAIL_KEY)) || 0;
+    localStorage.setItem(TAIL_KEY, String(n + 1));
+    tailTurn = n;
+  } catch { tailTurn = 0; }
+  return tailTurn;
+};
 
 /** Начатое спрашиваем «посмотрели?» не сразу: первые FRESH_MS после перехода в кинотеатр
  *  человек, скорее всего, смотрит. Без ответа STALE_MS — вопрос тихо снимается, фильм
@@ -164,23 +185,26 @@ const stale = (e: JourneyEntryData): boolean => {
   return last > 0 && Date.now() - last > LONG_STALE_MS;
 };
 
-function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
+function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
   /** номер кадра на плёнке — в надпечатке по кромке */
   no: number;
   r: Recommendation; meta?: string; tag?: string;
-  onOpen: () => void; onVoice: (voiceId: string) => void; onDismiss: (reason: DismissReason) => void;
+  onOpen: () => void; onVoice: (voiceId: string) => void;
+  /** человек свайпнул сам — подсказка про свайп больше не нужна */
+  onSwiped: () => void;
 }) {
+  const toast = useToast();
   const [dx, setDx] = useState(0);
-  const [side, setSide] = useState<'none' | 'ask' | 'voices'>('none');
+  const [side, setSide] = useState<'none' | 'voices'>('none');
   // влево — трейлер (15.10, владелец): «Не сейчас» переехало в карточку фильма. Трейлер спрашиваем, как только карточку
-  // повели влево, — к отпусканию он обычно уже есть; не нашёлся — смахивание работает по-старому (причины «не сейчас»)
+  // повели влево, — к отпусканию он обычно уже есть; не нашёлся — кадр пружинит назад и тост «трейлера нет» (17.10)
   const canTrailer = trailerSource(r.work);
   const [trailer, setTrailer] = useState<Trailer | null | undefined>(canTrailer ? undefined : null);
   const [playing, setPlaying] = useState<Trailer>();
   const asked = useRef<Promise<Trailer | undefined> | undefined>(undefined);
   const askTrailer = () => (asked.current ??= getTrailer(r.work).then((t) => { setTrailer(t ?? null); return t ?? undefined; }, () => { asked.current = undefined; return undefined; }));
   // трейлер — заранее (16.10, владелец: «сразу при свайпе»): спрашиваем, как только карточка подъезжает к экрану, —
-  // к свайпу он уже есть и открывается без ожидания, а подсказка под кадром сразу честная (трейлер или «не сейчас»)
+  // к свайпу он уже есть и открывается без ожидания, а подсказка под кадром сразу честная (трейлер или «трейлера нет»)
   const cardRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = cardRef.current;
@@ -189,67 +213,64 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onDismiss }: {
     io.observe(el);
     return () => io.disconnect();
   }, [trailer]);
-  const asking = side === 'ask';
+  // панель авторов (17.10): кадр ушёл с экрана — закрываем сама, чтобы, вернувшись, человек видел ленту, а не панель
+  const voicesOpen = side === 'voices';
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || !voicesOpen || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((seen) => { if (seen.every((x) => !x.isIntersecting)) setSide('none'); });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [voicesOpen]);
   // те же авторы и в том же порядке, что в карточке: сначала подтверждённые, потом у кого больше
   const voices = useMemo(() => groupByVoice(r.analyses ?? []), [r.analyses]);
+  const noTrailer = () => toast({ text: ui.trailer.none, duration: 2000 });
+  const play = (t: Trailer) => { noteTrailer(r.work.id, 'feed'); setPlaying(t); };
   const dropping = dx <= -SWIPE;
   const showing = dx >= SWIPE && voices.length > 0;
   const swipe = useSwipe({
-    enabled: side === 'none',
     onMove(next) {
+      // открыта панель авторов — кадр не тянем: свайп в любую сторону её закрывает
+      if (voicesOpen) return;
       if ((next <= -SWIPE) !== dropping || (next >= SWIPE && voices.length > 0) !== showing) tap();
       if (next < 0 && trailer === undefined) askTrailer().catch(() => undefined);
       setDx(next);
     },
     onEnd(end) {
       setDx(0);
+      if (voicesOpen) { if (Math.abs(end) >= SWIPE / 2) { tap(); setSide('none'); } return; }
       if (end <= -SWIPE) {
+        onSwiped();
+        if (trailer === null) { tap(); noTrailer(); return; }
         tap('medium');
-        if (trailer === null) { setSide('ask'); return; }
-        if (trailer) { noteTrailer(r.work.id, 'feed'); setPlaying(trailer); return; }
-        askTrailer().then((t) => { if (t) { noteTrailer(r.work.id, 'feed'); setPlaying(t); } else setSide('ask'); }).catch(() => setSide('ask'));
+        if (trailer) { play(trailer); return; }
+        askTrailer().then((t) => { if (t) play(t); else noTrailer(); }).catch(noTrailer);
       }
       // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
-      else if (end >= SWIPE && voices.length) { tap('medium'); setSide('voices'); }
+      else if (end >= SWIPE && voices.length) { onSwiped(); tap('medium'); setSide('voices'); }
     },
   });
-
-  // ссылкой, а не зависимостью: onDismiss приходит новой стрелкой на каждый рендер ленты, и
-  // в зависимостях таймер перезапускался бы бесконечно
-  const later = useRef(onDismiss);
-  later.current = onDismiss;
-  useEffect(() => {
-    if (!asking) return;
-    const t = setTimeout(() => later.current('other'), ASK_MS);
-    return () => clearTimeout(t);
-  }, [asking]);
 
   const right = dx > 0;
   const fill = Math.min(1, Math.abs(dx) / SWIPE);
   const rest = voices.length - PILE;
   return (
-    <article ref={cardRef} className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', asking && 'tm-stream__item--asking',
-                           side === 'voices' && 'tm-stream__item--voices')}
+    <article ref={cardRef} className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', voicesOpen && 'tm-stream__item--voices')}
              {...swipe}>
-      {asking ? (
-        <div className="tm-stream__ask" data-noswipe>
-          <ReasonPicker variant="dismiss" onPick={onDismiss} />
-          <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ui.feed.keep}</Button>
-        </div>
-      ) : side === 'voices' ? (
-        <div className="tm-stream__voices" data-noswipe>
-          <p className="tm-label tm-stream__voicestitle">{ui.feed.voicesTitle(titleOf(r.work))}</p>
-          <VoiceStrip groups={voices} onPick={(id) => { tap(); setSide('none'); onVoice(id); }} />
-          <div className="tm-stream__voicesfoot">
-            <span className="tm-caption">{ui.feed.voicesHint}</span>
+      {voicesOpen ? (
+        // свайп по панели закрывает её (17.10); ленту авторов useSwipe не трогает — она листается сама
+        <div className="tm-stream__voices">
+          <div className="tm-stream__voiceshead">
+            <p className="tm-label tm-stream__voicestitle">{ui.feed.voicesTitle(titleOf(r.work))}</p>
             <Button variant="quiet" size="sm" onClick={() => { tap(); setSide('none'); }}>{ui.feed.voicesBack}</Button>
           </div>
+          <VoiceStrip groups={voices} onPick={(id) => { tap(); setSide('none'); onVoice(id); }} />
         </div>
       ) : (
         <span className={cx('tm-stream__hint', right ? 'tm-stream__hint--voices' : 'tm-stream__hint--dismiss',
                             (showing || dropping) && 'tm-stream__hint--on')}
               style={{ '--fill': fill } as CSSProperties} aria-hidden="true">
-          {!right ? (trailer === null ? ui.actions.dismiss : ui.trailer.swipe) : voices.length ? (
+          {!right ? (trailer === null ? ui.trailer.none : ui.trailer.swipe) : voices.length ? (
             <span className="tm-stream__pile">
               {voices.slice(0, PILE).map((g) => <Avatar key={g.voice.id} voice={g.voice} size="sm" />)}
               {rest > 0 ? <span className="tm-stream__pilemore">+{rest}</span> : null}
@@ -306,7 +327,9 @@ export function TodayScreen() {
   const subsOn = useFeature('subscriptions');
   const userSettings = useSettings();
   const subs = subsOn ? userSettings?.subscriptions ?? [] : [];
-  const subsOnly = subsOn && Boolean(userSettings?.subscriptionsOnly);
+  // «только подписки» — сразу на кнопке (17.10): ответа сервера не ждём, панель выбора открыта и отклик должен быть виден
+  const [subsOnlyNow, setSubsOnlyNow] = useState<boolean | undefined>();
+  const subsOnly = subsOn && (subsOnlyNow ?? Boolean(userSettings?.subscriptionsOnly));
   // полка бесплатной классики (ЗП-43): место «Бесплатная классика» в ленте
   const freeOn = useFeature('freeClassics');
   const booksOn = useFeature('readShelf');
@@ -552,7 +575,7 @@ export function TodayScreen() {
                extra={<Button variant="quiet" size="sm" onClick={() => notYet(e)}>{e.work.type === 'book' ? ui.feed.notYetRead : ui.feed.notYet}</Button>} />
   ) : (
     <>
-      <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in`); }}>
+      <Button variant={big ? 'primary' : 'secondary'} size="sm" onClick={() => { tap(); navigate(`/journal/${e.id}/check-in?finish=1`); }}>
         {isSeries(e.work) ? ui.seriesDiary.finishSeason(e.seriesProgress?.season ?? 1)
           : e.work.type === 'book' && e.bookProgress?.part ? ui.bookDiary.finishPart(e.bookProgress.part)
           : isScreen(e.work) ? ui.actions.finishFilm : ui.actions.finishBook}
@@ -591,9 +614,19 @@ export function TodayScreen() {
   const readTime = (pages?: number) => { const h = readingHours(pages); return h ? ui.feed.readTime(h) : undefined; };
   const toggleSubsOnly = () => {
     pick();
-    saveSettings({ subscriptionsOnly: !subsOnly }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
+    const next = !subsOnly;
+    setSubsOnlyNow(next);
+    saveSettings({ subscriptionsOnly: next }).then(() => setAttempt((a) => a + 1))
+      .catch(() => toast({ text: ui.settings.errorSave }))
+      .finally(() => setSubsOnlyNow(undefined));
   };
-  const showChoice = Boolean(slate && !slate.coldStart && (items.length || current.length || subsOnly || bookFeed) && (energyOn || subs.length || booksOn));
+  // пока лента пересчитывается после выбора, панель не прячем (17.10): выбор применён, а она открыта до касания вне её
+  const choiceWas = useRef(false);
+  const showChoice = slate
+    // пустая лента после выбора сложности не прячет панель (17.10): иначе вернуть сложность негде
+    ? Boolean(!slate.coldStart && (items.length || current.length || subsOnly || bookFeed || energy !== 'normal' || choiceWas.current) && (energyOn || subs.length || booksOn))
+    : choiceWas.current && !failed;
+  choiceWas.current = showChoice;
   // панель встаёт ровно над нижним меню, какой бы высоты оно ни было (безопасная зона Telegram, крупный шрифт)
   const navTop = () => { const nav = document.querySelector('.tm-nav--mobile'); return nav ? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top) : 0; };
   // стрелка на «Сегодня» в нижнем меню — только когда выбирать есть что
@@ -602,6 +635,13 @@ export function TodayScreen() {
     return () => document.documentElement.removeAttribute('data-tune');
   }, [showChoice]);
   useEffect(() => { if (!showChoice) setTuning(false); }, [showChoice]);
+  // хвост ленты (17.10): одно приглашение за запуск, по очереди
+  const invites = [
+    together ? { id: 'together', lead: ui.together.entry, action: ui.together.entryAction, go: () => navigate('/together') } : null,
+    collections ? { id: 'collections', lead: ui.collections.entry, action: ui.collections.entryAction, go: () => navigate('/collections') } : null,
+    { id: 'share', lead: ui.today.shareLead, action: ui.social.share, go: () => { noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); } },
+  ].filter((x) => x != null);
+  const invite = invites[tailTurnNow() % invites.length];
   // вопрос «посмотрели?» стоит под баннером — в мете его не повторяем
   const entryMeta = (e: JourneyEntryData) =>
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
@@ -625,10 +665,11 @@ export function TodayScreen() {
           <section className="tm-stream__pad tm-import__norm">
             <h2 className="tm-label">{ui.today.normTitle}</h2>
             <p className="tm-caption tm-import__normwhy">{ui.today.normWhy(scale.count, scale.median)}</p>
-            <div className="tm-row tm-row--gap-2 tm-row--wrap">
-              {scale.options.map((n) => (
-                <Button key={n} size="sm" variant={n === scale.median ? 'primary' : undefined} onClick={() => answerScale(n)}>{String(n)}</Button>
-              ))}
+            {/* норма барабаном (17.10) вместо ряда из шести кнопок: начинается с медианы истории, одно нажатие — она */}
+            <div className="tm-row tm-row--gap-2 tm-import__normrow">
+              <RatingWheel<number> label={ui.today.normTitle} labels={scale.options.map(String)}
+                           start={Math.max(0, scale.options.indexOf(scale.median)) + 1}
+                           onPick={(i) => answerScale(scale.options[i - 1])} />
               <Button size="sm" variant="quiet" onClick={() => answerScale(scale.median)}>{ui.today.normKeep(scale.median)}</Button>
             </div>
           </section>
@@ -689,6 +730,7 @@ export function TodayScreen() {
           </div>
         ) : null}
         {hint && items.length && !moodOn ? (
+          // одна строка (17.10) и своя точка привязки прокрутки: иначе обязательная привязка откатывала ленту к архиву
           <div className="tm-stream__swipehint" role="note">
             <span className="tm-caption">{ui.feed.swipeHint}</span>
             <Button variant="quiet" size="sm" onClick={() => { tap(); learned(); }}>{ui.feed.swipeHintOk}</Button>
@@ -707,9 +749,10 @@ export function TodayScreen() {
           <FeedCard key={r.id} r={r} no={shownCurrent.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' || r.slot === 'free' || r.slot === 'book' ? ui.slot[r.slot].label : undefined}
                     onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
                     onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
-                    onDismiss={(reason) => { learned(); dismiss(r, reason); }} />
+                    onSwiped={learned} />
         ))}
-        </div> : null}
+        {/* хвост под подборкой — «Ещё фильмы» и приглашения — на той же плёнке (17.10, владелец): дорожка не обрывается */}
+        <div className="tm-filmstrip__tail">
         {!moodOn && items.length && slate && !slate.coldStart ? (
           <div className="tm-stream__pad tm-stream__more">
             {moreDone
@@ -717,27 +760,17 @@ export function TodayScreen() {
               : <Button variant="secondary" onClick={loadMore} disabled={moreBusy}>{moreBusy ? ui.feed.moreLoading : bookFeed ? ui.feed.moreBooks : ui.feed.moreFilms}</Button>}
           </div>
         ) : null}
-        {/* выбор компанией (ЗП-11): тот, кто долистал, — кандидат собрать вечер на двоих и больше */}
-        {!moodOn && together && items.length && slate && !slate.coldStart ? (
+        {/* приглашения под лентой (17.10): одно за раз, по очереди между запусками — три подряд загромождали хвост.
+            «Вместе» (ЗП-11): тот, кто долистал, — кандидат собрать вечер на двоих и больше; подборки (ЗП-45, шаг 2) —
+            пойти вглубь по стране или школе; позвать друга — тихо: тот, кто долистал, лентой доволен (02.10) */}
+        {!moodOn && invite && items.length && slate && !slate.coldStart ? (
           <p className="tm-caption tm-stream__pad tm-coldstart__share">
-            {ui.together.entry}{' '}
-            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/together'); }}>{ui.together.entryAction}</button>
+            {invite.lead}{' '}
+            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); invite.go(); }}>{invite.action}</button>
           </p>
         ) : null}
-        {/* культурные подборки (ЗП-45, шаг 2): кто долистал ленту — кандидат пойти вглубь по стране или школе */}
-        {!moodOn && collections && items.length && slate && !slate.coldStart ? (
-          <p className="tm-caption tm-stream__pad tm-coldstart__share">
-            {ui.collections.entry}{' '}
-            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); navigate('/collections'); }}>{ui.collections.entryAction}</button>
-          </p>
-        ) : null}
-        {/* позвать друга — под лентой, тихо: тот, кто долистал, лентой доволен (02.10) */}
-        {!moodOn && items.length ? (
-          <p className="tm-caption tm-stream__pad tm-coldstart__share">
-            {ui.today.shareLead}{' '}
-            <button type="button" className="tm-coldstart__link" onClick={() => { tap(); noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); }}>{ui.social.share}</button>
-          </p>
-        ) : null}
+        </div>
+        </div> : null}
       </div>
 
       {/* выбор ленты — кино или книги, сложность, «только подписки» (17.10, владелец): по кнопке нижнего меню — повторное
@@ -745,12 +778,14 @@ export function TodayScreen() {
       {tuning && showChoice ? (
         <>
           <button type="button" className="tm-tune__scrim" aria-label={ui.actions.close} onClick={() => setTuning(false)} />
-          <div className="tm-tune" role="dialog" aria-label={ui.feed.tune} style={{ bottom: navTop() }}>
+          {/* не закрывается после выбора (17.10): выбор применяется сразу, лента пересчитывается под панелью — полоска
+              сверху панели идёт, пока новой ленты нет; закрыть — касанием вне её или ещё раз «Сегодня» */}
+          <div className="tm-tune" role="dialog" aria-label={ui.feed.tune} aria-busy={slate ? undefined : 'true'} style={{ bottom: navTop() }}>
             <div className="tm-stream__energy">
-              {booksOn ? <FeedKindSwitch value={kind} onChange={(k) => { changeKind(k); setTuning(false); }} /> : null}
-              {energyOn ? <EnergySwitch value={energy} onChange={(e) => { changeEnergy(e); setTuning(false); }} compact /> : null}
+              {booksOn ? <FeedKindSwitch value={kind} onChange={changeKind} /> : null}
+              {energyOn ? <EnergySwitch value={energy} onChange={changeEnergy} compact /> : null}
             </div>
-            {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={() => { toggleSubsOnly(); setTuning(false); }}>{ui.feed.subsOnly}</Button> : null}
+            {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
           </div>
         </>
       ) : null}

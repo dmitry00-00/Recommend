@@ -3,11 +3,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { FeedKind, ID, Register } from '@/types/tmdf';
 import { coldStartLeft, getMoodSlate, notWatched, searchCharacters, searchWorks, setWatched, startWork, type MoodSlate, type SearchHit } from '@/api';
 import { loadSettings } from '@/lib/settingsStore';
-import { Button, EmptyState, ErrorState, Skeleton, SuggestSheet, useToast } from '@/components';
+import { Button, EmptyState, ErrorState, FilterMenu, KindFilter, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration, titleOf } from '@/lib/format';
 import { registers } from '@/lib/registers';
-import { cx } from '@/lib/cx';
-import { pick, tap } from '@/lib/telegram';
+import { tap } from '@/lib/telegram';
 import { leadName } from '@/lib/credits';
 import { WorkThumb } from '@/components/WorkThumb';
 import ui, { language } from '@/i18n';
@@ -31,7 +30,10 @@ export function SearchScreen() {
   const toast = useToast();
   const diary = useDiary();
   // «Искать по названию» из запроса словами в ленте (ДФ-12): текст приходит в адресе
-  const [query, setQuery] = useState(useSearchParams()[0].get('q') ?? '');
+  const [params] = useSearchParams();
+  const [query, setQuery] = useState(params.get('q') ?? '');
+  // автофокус (17.10) — только когда пришли ввести (?focus=1): клавиатура Telegram закрывала «Отмеченное» и результаты
+  const focusOnOpen = params.get('focus') === '1';
   const [hits, setHits] = useState<SearchHit[] | null>(null);
   const [failed, setFailed] = useState(false);
   // «Повторить» (ТВ-9): тот же запрос строкой не перезапускал поиск — React не видит перемены
@@ -55,7 +57,7 @@ export function SearchScreen() {
     return () => { alive = false; clearTimeout(timer); };
   }, [query]);
 
-  useEffect(() => { input.current?.focus(); }, []);
+  useEffect(() => { if (focusOnOpen) input.current?.focus(); }, [focusOnOpen]);
 
   // «Чего хочется» — в общем поиске (17.10, владелец: для человека это одно и то же): тот же запрос идёт и в подбор по
   // описанию (getMoodSlate, словарь src/lib/mood.ts — только русский). Понял запрос — раздел «По описанию»; не понял —
@@ -110,17 +112,35 @@ export function SearchScreen() {
       .finally(() => setBusy((b) => b.filter((x) => x !== id)));
   };
 
-  const isBook = (id: ID) => hits?.find((h) => h.work.id === id)?.work.type === 'book';
+  const isBook = (id: ID) => (hits?.find((h) => h.work.id === id)?.work ?? mood?.items.find((x) => x.work.id === id)?.work)?.type === 'book';
   const addedText = (id: ID) => (isBook(id) ? ui.search.addedBook : ui.search.added);
+  // что ушло из списков по отметке — чтобы «Отменить» в тосте вернуло строку на место (17.10): «Убрать» осталось только
+  // в карточке, и без возврата отменённое пропадало из «Отмеченного» до нового поиска
+  const gone = useRef(new Map<ID, { hit?: { item: SearchHit; at: number }; mood?: { item: MoodSlate['items'][number]; at: number } }>());
   const apply = (id: ID, watched: boolean, undo = true) => {
     tap();
     setBusy((b) => [...b, id]);
+    const back = undo ? undefined : gone.current.get(id);
+    if (undo) {
+      const at = !query && !watched ? (hits ?? []).findIndex((h) => h.work.id === id) : -1;
+      const mat = watched ? mood?.items.findIndex((x) => x.work.id === id) ?? -1 : -1;
+      gone.current.set(id, {
+        ...(at >= 0 ? { hit: { item: hits![at], at } } : {}),
+        ...(mat >= 0 ? { mood: { item: mood!.items[mat], at: mat } } : {}),
+      });
+    } else gone.current.delete(id);
     // список пустого запроса — это и есть просмотренное: снятое из него уходит
-    setHits((prev) => (prev ?? [])
-      .map((h) => (h.work.id === id ? { ...h, watched } : h))
-      .filter((h) => query || h.watched));
-    // отмеченное из найденного по описанию уходит из него — как кадр из ленты
+    setHits((prev) => {
+      const list = [...(prev ?? [])];
+      if (back?.hit && watched && !list.some((h) => h.work.id === id)) list.splice(back.hit.at, 0, back.hit.item);
+      return list.map((h) => (h.work.id === id ? { ...h, watched } : h)).filter((h) => query || h.watched);
+    });
+    // отмеченное из найденного по описанию уходит из него — как кадр из ленты; отменили — возвращается
     if (watched) setMood((m) => (m ? { ...m, items: m.items.filter((x) => x.work.id !== id) } : m));
+    else if (back?.mood) {
+      const { item, at } = back.mood;
+      setMood((m) => (m && !m.items.some((x) => x.work.id === id) ? { ...m, items: [...m.items.slice(0, at), item, ...m.items.slice(at)] } : m));
+    }
     setWatched(id, watched)
       // пока первой ленты нет, «Смотрел» её не приближает — говорим это сразу (02.10)
       .then(() => (watched ? coldStartLeft() : 0))
@@ -141,12 +161,12 @@ export function SearchScreen() {
   const kindOf = (h: SearchHit): FeedKind => (h.work.type === 'book' ? 'book' : 'screen');
   const kindCounts = new Map<FeedKind, number>();
   if (!query) for (const h of all) kindCounts.set(kindOf(h), (kindCounts.get(kindOf(h)) ?? 0) + 1);
-  const kindChips = booksOn && !query && kindCounts.size > 1 ? (['screen', 'book'] as FeedKind[]) : [];
+  const kindOn = booksOn && !query && kindCounts.size > 1;
   // регистры — внутри выбранного рода: число на кнопке — сколько она покажет
   const list = !query && kind ? all.filter((h) => kindOf(h) === kind) : all;
   const counts = new Map<Register, number>();
   if (!query) for (const h of list) for (const r of h.work.registers ?? []) counts.set(r, (counts.get(r) ?? 0) + 1);
-  const chips = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const chips = [...counts.entries()].sort((a, b) => b[1] - a[1]);
   const shown = !query && reg ? list.filter((h) => h.work.registers?.includes(reg)) : list;
 
   const moodSection = (
@@ -166,6 +186,12 @@ export function SearchScreen() {
                     <span className="tm-search__meta">{[x.work.year, leadName(x.work), formatDuration(x.work.durationMinutes)].filter(Boolean).join(' · ')}</span>
                   </span>
                 </button>
+                {/* «Смотрел» справа (17.10) — как у найденного по названию */}
+                <span className="tm-search__acts">
+                  <Button size="sm" variant="primary" disabled={busy.includes(x.work.id)} onClick={() => apply(x.work.id, true)}>
+                    {x.work.type === 'book' ? ui.search.markRead : ui.search.mark}
+                  </Button>
+                </span>
               </li>
             ))}
           </ul>
@@ -184,40 +210,25 @@ export function SearchScreen() {
         <input ref={input} className="tm-search__input" type="search" value={query} inputMode="search"
                placeholder={ui.search.placeholder} aria-label={ui.search.placeholder}
                onChange={(e) => setQuery(e.target.value)} />
+        {/* одна очистка (17.10): своя ✕, системная у type=search спрятана в app.css */}
         {query ? (
-          <Button variant="quiet" size="sm" onClick={() => { setQuery(''); input.current?.focus(); }}>
-            {ui.actions.clear}
-          </Button>
+          <button type="button" className="tm-search__clear" aria-label={ui.actions.clear}
+                  onClick={() => { setQuery(''); input.current?.focus(); }}>✕</button>
         ) : null}
       </div>
 
-      <p className="tm-caption tm-search__hint">
-        {query ? ui.search.hint : booksOn ? ui.search.watchedHintBooks : ui.search.watchedHint}
-        {!query && hits?.length ? ` ${ui.search.watchedCount(hits.length)}` : null}
-      </p>
-
-      {kindChips.length ? (
-        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterKind}>
-          <button type="button" className={cx('tm-voice__chip', !kind && 'tm-voice__chip--on')}
-                  onClick={() => { pick(); setKind(null); setReg(null); }}>{ui.search.filterAll}</button>
-          {kindChips.map((k) => (
-            <button key={k} type="button" className={cx('tm-voice__chip', kind === k && 'tm-voice__chip--on')}
-                    onClick={() => { pick(); setKind(kind === k ? null : k); setReg(null); }}>
-              {ui.feed.kind[k]} <span className="tm-search__count">{kindCounts.get(k) ?? 0}</span>
-            </button>
-          ))}
-        </div>
-      ) : null}
-      {!query && chips.length > 1 ? (
-        <div className="tm-search__filters">
-          <button type="button" className={cx('tm-voice__chip', !reg && 'tm-voice__chip--on')}
-                  onClick={() => { pick(); setReg(null); }}>{ui.search.filterAll}</button>
-          {chips.map(([r, n]) => (
-            <button key={r} type="button" className={cx('tm-voice__chip', reg === r && 'tm-voice__chip--on')}
-                    onClick={() => { pick(); setReg(reg === r ? null : r); }}>
-              {registers[r].name} <span className="tm-search__count">{n}</span>
-            </button>
-          ))}
+      {/* подсказки в 3 строки нет (17.10): плейсхолдер уже говорит «название или чего хочется». У отмеченного — счёт слева,
+          фильтры справа: род тогглом, регистр — «Фильтр ▾» с листом вместо двух рядов чипов */}
+      {!query && hits?.length ? (
+        <div className="tm-fbar">
+          <p className="tm-caption tm-fbar__what">{ui.search.watchedCount(hits.length)}</p>
+          {kindOn ? <KindFilter value={kind} onChange={(k) => { setKind(k); setReg(null); }} /> : null}
+          {chips.length > 1 ? (
+            <FilterMenu<Register> label={reg ? registers[reg].name : ui.search.filter} title={ui.search.filterTitle}
+                        value={reg} onChange={setReg}
+                        options={[{ key: null, label: ui.search.filterAll, count: list.length },
+                                  ...chips.map(([r, n]) => ({ key: r, label: registers[r].name, count: n }))]} />
+          ) : null}
         </div>
       ) : null}
 
@@ -241,15 +252,6 @@ export function SearchScreen() {
       {hits && !hits.length && !(query && mood) ? (
         <EmptyState title={query ? ui.search.empty : ui.search.watchedEmpty}
                     text={query ? ui.search.emptyText : ui.search.watchedEmptyText} />
-      ) : null}
-      {/* «не нашли» — не только у пустого списка: искали «Солярис», нашли не тот. Ссылка
-          стоит под результатами, а не над ними: сначала список, потом жалоба на список */}
-      {query && hits ? (
-        <p className="tm-caption tm-search__hint">
-          <button type="button" className="tm-search__link" onClick={() => { tap(); setAsking(true); }}>
-            {booksOn ? ui.search.missingBooks : ui.search.missing}
-          </button>
-        </p>
       ) : null}
       {/* список растёт не только по одному фильму: отсюда же виден вход в импорт */}
       {!query ? (
@@ -277,7 +279,9 @@ export function SearchScreen() {
             </button>
             {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного. «Убрать» у
                 просмотренного — тихая (28.09): белая рамка в каждой строке спорила с названиями */}
-            <span className="tm-search__acts">
+            {/* в «Отмеченном» (пустой запрос) кнопок в строке нет (17.10): «Убрать» в каждой строке — лишнее, оно в карточке,
+                с «Отменить» в тосте */}
+            {query ? <span className="tm-search__acts">
               <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
                       onClick={() => apply(hit.work.id, !hit.watched)}>
                 {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
@@ -291,12 +295,22 @@ export function SearchScreen() {
                     : (hit.watching ? ui.feed.watchingOn : ui.feed.watchingMark)}
                 </Button>
               ) : null}
-            </span>
+            </span> : null}
           </li>
         ))}
       </ul>
 
       {shown.length ? moodSection : null}
+
+      {/* «не нашли» — не только у пустого списка: искали «Солярис», нашли не тот. Ссылка
+          стоит под результатами и «По описанию» (17.10): сначала списки, потом жалоба на них */}
+      {query && hits ? (
+        <p className="tm-caption tm-search__hint">
+          <button type="button" className="tm-search__link" onClick={() => { tap(); setAsking(true); }}>
+            {booksOn ? ui.search.missingBooks : ui.search.missing}
+          </button>
+        </p>
+      ) : null}
 
       {(() => {
         // карточка — и найденного по названию, и по описанию (у второго «Смотрел» — по общему списку отметок)

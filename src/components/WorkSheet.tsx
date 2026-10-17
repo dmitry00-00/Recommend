@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import type { WorkCard } from '@/types/tmdf';
 import { WorkBanner } from './WorkBanner';
 import { WorkIssueSheet } from './WorkIssueSheet';
-import { ShareButton } from './ShareButton';
+import { useShare } from './ShareButton';
 import { Hurdles } from './Hurdles';
 import { Passport } from './Passport';
 import { getPlot } from '@/api';
 import { useSwipe } from '@/lib/swipe';
-import { onExternalClick, showBackButton, tap } from '@/lib/telegram';
+import { isTelegram, onExternalClick, showBackButton, tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
 import { useDepthCard, useFeature } from '@/lib/flags';
@@ -46,6 +46,18 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   const pages = useFeature('pages');
   // карточка по глубине (15.10): паспорт иконками у любой карточки вместо строки «Что может мешать»
   const depth = useDepthCard();
+  // шапка (17.10): ⚑ и «Поделиться» — одним меню «⋯»; × — только вне Telegram: там есть «Назад» и смахивание вбок
+  const share = useShare({ work: work ?? undefined });
+  const inTelegram = isTelegram();
+  const [menu, setMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { setMenu(false); }, [work?.id, shown]);
+  useEffect(() => {
+    if (!menu) return;
+    const away = (e: PointerEvent) => { if (!menuRef.current?.contains(e.target as Node)) setMenu(false); };
+    document.addEventListener('pointerdown', away, true);
+    return () => document.removeEventListener('pointerdown', away, true);
+  }, [menu]);
   // Фабула (02.10, предложение владельца): спрятана, чтобы не спорить с разборами. Тап по баннеру —
   // кадр уезжает вверх до шторки с названием, на освободившемся месте — описание со своей
   // прокруткой; тап по шторке — кадр возвращается.
@@ -106,31 +118,49 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
       <RD.Portal>
         <RD.Overlay className="tm-overlay" />
         <RD.Content ref={card} className="tm-worksheet" aria-describedby={undefined}
-                    onCloseAutoFocus={(e) => { e.preventDefault(); returnTo.current?.focus(); }} {...swipe}>
+                    onCloseAutoFocus={(e) => { e.preventDefault(); returnTo.current?.focus(); }}
+                    onEscapeKeyDown={(e) => { if (menu) { e.preventDefault(); setMenu(false); } }} {...swipe}>
           {work ? (
             <>
               <div className={`tm-worksheet__top${plotOpen ? ' tm-worksheet__top--plot' : ''}`}>
                 <WorkBanner work={work} meta={meta} tag={plotOpen ? undefined : tag} tagAbove expanded={plotOpen} onClick={togglePlot} />
                 {plotOpen ? null : <span className="tm-worksheet__plothint" aria-hidden="true">{ui.plot.hint}</span>}
                 <RD.Title className="tm-sr">{titleOf(work)}</RD.Title>
-                {/* неточность в карточке (02.10): флажок в левом верхнем углу кадра, напротив «закрыть» */}
-                <button type="button" className="tm-worksheet__report" aria-label={ui.issue.buttonLabel} title={ui.issue.buttonLabel}
-                        onClick={() => setIssue(true)}>
-                  <span aria-hidden="true">⚑</span>
-                </button>
-                {/* полная страница (ТВ-4, 06.10): жест вбок занят возвратом в ленту, поэтому — кнопка
-                    рядом с флажком; шторка закрывается, «Назад» со страницы ведёт в ленту */}
+                {/* полная страница (ТВ-4, 06.10): жест вбок занят возвратом в ленту, поэтому — кнопка в углу кадра;
+                    шторка закрывается, «Назад» со страницы ведёт в ленту. 17.10: «Вся страница» — слева, где был ⚑ */}
                 {pages ? (
                   <button type="button" className="tm-worksheet__page" aria-label={ui.plot.pageLabel}
                           onClick={() => { const id = work.id; onOpenChange(false); navigate(`/works/${id}`); }}>
                     {ui.plot.page}
                   </button>
                 ) : null}
-                {/* «Поделиться» (05.10): рядом с «закрыть», ссылка открывает у друга эту же карточку */}
-                <ShareButton work={work} round />
-                <RD.Close className="tm-worksheet__close" aria-label={ui.actions.close}>
-                  <span aria-hidden="true">×</span>
-                </RD.Close>
+                {/* «⋯» (17.10): «Поделиться» (05.10) и неточность в карточке (02.10) — редкие действия, в шапке им по кнопке не нужно */}
+                <div ref={menuRef} className={`tm-worksheet__menuwrap${inTelegram ? ' tm-worksheet__menuwrap--edge' : ''}`}>
+                  <button type="button" className="tm-worksheet__more" aria-label={ui.plot.menu} title={ui.plot.menu}
+                          aria-haspopup="menu" aria-expanded={menu} onClick={() => { tap(); setMenu(!menu); }}>
+                    <span aria-hidden="true">⋯</span>
+                  </button>
+                  {menu ? (
+                    <div className="tm-worksheet__menu" role="menu">
+                      {share ? (
+                        <button type="button" role="menuitem" className="tm-worksheet__menuitem" onClick={() => { setMenu(false); void share(); }}>
+                          <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 3v12" /><path d="M7 8l5-5 5 5" /><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" />
+                          </svg>
+                          {ui.share.button}
+                        </button>
+                      ) : null}
+                      <button type="button" role="menuitem" className="tm-worksheet__menuitem" onClick={() => { tap(); setMenu(false); setIssue(true); }}>
+                        <span aria-hidden="true">⚑</span> {ui.plot.menuIssue}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+                {inTelegram ? null : (
+                  <RD.Close className="tm-worksheet__close" aria-label={ui.actions.close}>
+                    <span aria-hidden="true">×</span>
+                  </RD.Close>
+                )}
               </div>
               {plotOpen ? (
                 <div className="tm-worksheet__plot" role="region" aria-label={ui.plot.title}>

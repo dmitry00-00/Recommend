@@ -46,8 +46,13 @@ export interface ScoredMatch { work: WorkCard; how: MatchHow; alternatives: Work
 
 /** Индекс каталога для сопоставления многих записей: перебор всего каталога на каждую строку выгрузки —
  *  десятки тысяч нормализаций на запись. Ключи — внешние ID и нормализованные названия. */
-export interface MatchIndex { byId: Map<string, WorkCard>; byTitle: Map<string, WorkCard[]> }
-export function buildMatchIndex(works: WorkCard[]): MatchIndex {
+export interface MatchIndex {
+  byId: Map<string, WorkCard>;
+  byTitle: Map<string, WorkCard[]>;
+  /** известность 1–3 (src/mocks/fame.ts, 17.10): у записи без года — кого подставлять первым */
+  fame?: (w: WorkCard) => number | undefined;
+}
+export function buildMatchIndex(works: WorkCard[], opts: { fame?: (w: WorkCard) => number | undefined } = {}): MatchIndex {
   const byId = new Map<string, WorkCard>();
   const byTitle = new Map<string, WorkCard[]>();
   const putId = (k: string, w: WorkCard) => { if (!byId.has(k)) byId.set(k, w); };
@@ -65,8 +70,18 @@ export function buildMatchIndex(works: WorkCard[]): MatchIndex {
       if (!list.some((x) => x.id === w.id)) list.push(w);
     }
   }
-  return { byId, byTitle };
+  return { byId, byTitle, ...(opts.fame ? { fame: opts.fame } : {}) };
 }
+
+/** Одна и та же вещь под разными id (17.10): справочник, каталог и история заводят свои карточки — «Сталкер, 1979»
+ *  приходил дважды, а «Маяк» 2019 из-за трёх копий не считался точным. Тот же год и не спорящие внешние ID — одна. */
+const sameThing = (a: WorkCard, b: WorkCard): boolean => {
+  if (a.year !== b.year) return false;
+  const x = a.externalIds, y = b.externalIds;
+  if (x?.tmdb != null && y?.tmdb != null && x.tmdb !== y.tmdb) return false;
+  if (x?.imdb && y?.imdb && x.imdb !== y.imdb) return false;
+  return true;
+};
 
 export function matchScored(record: ImportedRecord, index: MatchIndex): ScoredMatch | undefined {
   if (!KNOWN.includes(record.type)) return undefined;
@@ -80,10 +95,25 @@ export function matchScored(record: ImportedRecord, index: MatchIndex): ScoredMa
   const titles = [record.title, record.originalTitle].filter((t): t is string => Boolean(t)).map(normalizeTitle).filter(Boolean);
   const found = new Map<ID, WorkCard>();
   for (const t of titles) for (const w of index.byTitle.get(t) ?? []) if (kindOf(w) === record.type) found.set(w.id, w);
-  const near = [...found.values()].filter((w) => record.year == null || Math.abs(w.year - record.year) <= 1);
-  if (!near.length) return undefined;
-  // ближе по году — первым; без года у записи — сначала размеченное, потом новее
+  const candidates = [...found.values()].filter((w) => record.year == null || Math.abs(w.year - record.year) <= 1);
+  if (!candidates.length) return undefined;
+  // копии одной вещи — в одну: представитель — размеченный, потом с известностью; известность группы — наибольшая
+  const groups: WorkCard[][] = [];
+  for (const w of candidates) {
+    const g = groups.find((x) => sameThing(x[0], w));
+    if (g) g.push(w); else groups.push([w]);
+  }
+  const fameOf = (w: WorkCard) => index.fame?.(w) ?? 0;
+  const groupFame = new Map<WorkCard, number>();
+  const near = groups.map((g) => {
+    const best = [...g].sort((a, b) => (b.complexityLevel > 0 ? 1 : 0) - (a.complexityLevel > 0 ? 1 : 0) || fameOf(b) - fameOf(a))[0];
+    groupFame.set(best, Math.max(...g.map(fameOf)));
+    return best;
+  });
+  // ближе по году — первым; без года у записи — более известное (17.10: «Сталкер» без года — Тарковский, а не 2023,
+  // «Начало» — Нолан 2010, «Солярис» — 1972), потом размеченное, потом новее
   near.sort((a, b) => (record.year != null ? Math.abs(a.year - record.year) - Math.abs(b.year - record.year) : 0)
+    || (record.year == null ? (groupFame.get(b) ?? 0) - (groupFame.get(a) ?? 0) : 0)
     || (b.complexityLevel > 0 ? 1 : 0) - (a.complexityLevel > 0 ? 1 : 0) || b.year - a.year);
   const exact = record.year != null && near.filter((w) => w.year === record.year);
   if (exact && exact.length === 1) return { work: exact[0], how: 'exact', alternatives: near.filter((w) => w !== exact[0]) };

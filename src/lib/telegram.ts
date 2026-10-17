@@ -212,11 +212,16 @@ function applyColorScheme(wa: TelegramWebApp) {
   root().dataset.theme = wa.colorScheme;
   // Шапку и подложку рисует мессенджер — красим их в наши поверхности, чтобы
   // граница между его хромом и нашим экраном не читалась.
-  if (wa.isVersionAtLeast('6.1')) {
-    wa.setHeaderColor(readToken('--tm-color-surface-100'));
-    wa.setBackgroundColor(readToken('--tm-color-surface-100'));
-  }
-  if (wa.isVersionAtLeast('7.10')) wa.setBottomBarColor?.(readToken('--tm-color-surface-card'));
+  // Каждый цвет — в своём try (17.10): SDK бросает на неподходящем значении (пустой токен до загрузки стилей,
+  // hex в шапке старого клиента), а исключение отсюда роняло весь запуск — белый экран вместо приложения.
+  // Шапка: hex Telegram принимает с 6.9, на 6.1–6.8 — только ключ темы ('bg_color'), иначе WebAppHeaderColorKeyInvalid
+  try {
+    if (wa.isVersionAtLeast('6.9')) wa.setHeaderColor(readToken('--tm-color-surface-100'));
+    else if (wa.isVersionAtLeast('6.1')) wa.setHeaderColor('bg_color');
+  } catch { /* старый клиент — шапка в цвете мессенджера */ }
+  // подложка — hex с 6.1, нижняя панель — с 7.10
+  try { if (wa.isVersionAtLeast('6.1')) wa.setBackgroundColor(readToken('--tm-color-surface-100')); } catch { /* как выше */ }
+  try { if (wa.isVersionAtLeast('7.10')) wa.setBottomBarColor?.(readToken('--tm-color-surface-card')); } catch { /* как выше */ }
 }
 
 /** Безопасные зоны: сумма зоны устройства и зоны интерфейса Telegram. На клиентах

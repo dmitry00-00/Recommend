@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, WorkCard } from '@/types/tmdf';
 import { getQuickDeck, getRatingDeck, rateWork, type RatingDeck } from '@/api';
@@ -52,6 +52,18 @@ export function RateScreen() {
   const [failed, setFailed] = useState(false);
   const [skipped, setSkipped] = useState<Set<ID>>(new Set());
   const [attempt, setAttempt] = useState(0);
+  // шапка (17.10): ~226 px — четверть экрана — всё время; при прокрутке и после первой оценки здесь — одна строка
+  // «счётчик + кнопка», вступление и подсказка про жесты уходят
+  const [scrolled, setScrolled] = useState(false);
+  const [ratedHere, setRatedHere] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
+  const onScroll = () => {
+    const top = mainRef.current?.scrollTop ?? 0;
+    // с запасом в обе стороны: свёрнутая шапка ниже, и без него край дрожал бы
+    if (!scrolled && top > 48) setScrolled(true);
+    else if (scrolled && top < 8) setScrolled(false);
+  };
+  const compact = scrolled || ratedHere;
   // ряд книг (11.10): за тем же флагом, что лента книг
   const booksOn = useFeature('readShelf');
 
@@ -67,6 +79,7 @@ export function RateScreen() {
   const rate = (id: ID, value: Score | null) => {
     if (!deck) return;
     pick();
+    if (value) setRatedHere(true);
     const before = deck;
     const was = [...deck.items, ...deck.series, ...(deck.books ?? [])].find((i) => i.work.id === id)?.rating;
     // оценка применяется сразу; счётчик — по ответу api (он же считает и то, что оценено раньше)
@@ -107,10 +120,10 @@ export function RateScreen() {
   const mainInTelegram = ready && hasMainButton();
 
   return (
-    <main className="tm-shell__main tm-search tm-rate">
-      <div className="tm-rate__head">
-        <h1 className="tm-title-3 tm-rate__title">{ui.rate.title}</h1>
-        <p className="tm-body-sm tm-rate__lead">{ui.rate.lead}</p>
+    <main className="tm-shell__main tm-search tm-rate" ref={mainRef} onScroll={onScroll}>
+      <div className={cx('tm-rate__head', compact && 'tm-rate__head--min')}>
+        <h1 className={cx('tm-title-3 tm-rate__title', compact && 'tm-sr')}>{ui.rate.title}</h1>
+        {compact ? null : <p className="tm-body-sm tm-rate__lead">{ui.rate.lead}</p>}
         {deck ? (
           <div className="tm-rate__bar">
             <span className="tm-rate__meter" aria-hidden="true">
@@ -125,24 +138,28 @@ export function RateScreen() {
             )}
           </div>
         ) : null}
-        {deck ? <p className="tm-caption tm-rate__gesture">{ui.rate.gesture}</p> : null}
-        {/* ряд книг внизу, под сотней фильмов: читателю — короткий путь к нему */}
-        {deck?.books?.length ? (
-          <p className="tm-caption tm-rate__jump">
-            {ui.rate.booksJumpLead}{' '}
-            <button type="button" className="tm-coldstart__link"
-                    onClick={() => {
-                      tap();
-                      // под липкую шапку со счётчиком, а не за неё: её высота зависит от ширины и строк
-                      const el = document.getElementById('tm-rate-books');
-                      if (el) el.style.scrollMarginTop = `${(document.querySelector('.tm-rate__head') as HTMLElement | null)?.offsetHeight ?? 0}px`;
-                      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}>
-              {ui.rate.booksJump}
-            </button>
-          </p>
-        ) : null}
+        {deck && !compact ? <p className="tm-caption tm-rate__gesture">{ui.rate.gesture}</p> : null}
       </div>
+
+      {/* ряд книг внизу, под сотней фильмов: читателю — короткий путь к нему. С 17.10 — под шапкой, а не в ней:
+          липкой шапке хватает счётчика */}
+      {deck?.books?.length ? (
+        <p className="tm-caption tm-rate__jump">
+          {ui.rate.booksJumpLead}{' '}
+          <button type="button" className="tm-coldstart__link tm-rate__jumpbtn"
+                  onClick={() => {
+                    tap();
+                    // под липкую шапку со счётчиком, а не за неё. После прокрутки она свёрнута до строки счётчика (17.10) —
+                    // отступ по ней, а не по полной высоте шапки сейчас
+                    const el = document.getElementById('tm-rate-books');
+                    const bar = (document.querySelector('.tm-rate__bar') as HTMLElement | null)?.offsetHeight ?? 36;
+                    if (el) el.style.scrollMarginTop = `${bar + 16}px`;
+                    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}>
+            {ui.rate.booksJump}
+          </button>
+        </p>
+      ) : null}
 
       {picksOn && deck ? (
         <section className="tm-rate__picks" aria-labelledby="tm-rate-picks">
@@ -260,7 +277,10 @@ function RateRow({ work, rating, off, onRate, onSkip }: {
       ) : (
         <div className="tm-rate__scale tm-rate__scale--wheel">
           {/* оценка барабаном (17.10): та же оценка ещё раз — снять */}
-          <RatingWheel label={ui.rate.scaleLabel(titleOf(work))} value={rating ?? null} onPick={(v) => onRate(rating === v ? null : v)} />
+          {/* в покое без оценки — «Оценить», а не «Нормально» (17.10): иначе неоценённая строка не отличалась от
+              оценённой; касание раскрывает барабан на «Нормально» */}
+          <RatingWheel label={ui.rate.scaleLabel(titleOf(work))} value={rating ?? null} placeholder={ui.rate.cta}
+                       onPick={(v) => onRate(rating === v ? null : v)} />
           {!rating ? (
             <button type="button" className="tm-rate__skip" onClick={() => onSkip(true)}>{work.type === 'book' ? ui.rate.skipBook : ui.rate.skip}</button>
           ) : null}

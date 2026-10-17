@@ -19,6 +19,7 @@ import { draftReview, type ReviewMark } from '@/mocks/draftReview';
 import { complexitySpan, deriveMap, deriveState, type RatedEntry } from '@/lib/model/deriveState';
 import { difficultyOdds, expectedDifficulty, heaviness, recommend, scoreCandidate, type Candidate, type RecommendOptions } from '@/lib/model/recommend';
 import { DIM_DEFAULT } from '@/lib/model/fame';
+import { extraHistory, nextExtra, shouldAskWorth, type Extra } from '@/lib/model/afterword';
 import { contentFit, contentWeight, deriveContentTaste, onPickedShelf } from '@/lib/model/taste';
 import { COLLECTIONS, collectionById, inCollection, levelPath, type Collection, type VoicePlaylist, type VoicePlaylists } from '@/lib/model/collections';
 import { moodFit, parseMood } from '@/lib/mood';
@@ -35,7 +36,7 @@ import { displayName, parseInitData } from '@/lib/telegramAuth';
 import type { LoopReport as LoopReportCore, WorkSignal } from '../../worker/loop';
 export type LoopReportData = LoopReportCore & { scope: 'all' | 'me' };
 import type {
-  AgreementReport, AnnotationProvider, AnnotationReviewItem, AnnotationStatus, AssessmentAnswer, AssessmentMode,
+  Afterword, AfterwordPatch, AgreementReport, AnnotationProvider, AnnotationReviewItem, AnnotationStatus, AssessmentAnswer, AssessmentMode,
   AssessmentSession, CheckInRequest, CheckInResult, CognitiveMapData, CognitiveOperation,
   AgreementCeilingData, AnnotationDiffRow, AnnotationRun, CoMention, Confidence, ContributorAnswer, ContributorProfile, ContributorTask,
   ContributorTaskKind, DiscussionPlace, ExternalAnalysis, FilmForm, QualityMetric, TagNeighbour, TropeMention, TropeTreeNode, Energy, ID, JourneyEntryData,
@@ -972,6 +973,8 @@ function curatorRefs(): Promise<void> {
  *  которых жила правка в памяти. Пока оно едет, ни одна функция api не отвечает: иначе лента
  *  успеет посчитаться по пустому просмотренному, а потом дёрнется. */
 let unreachable = false;
+/** отказ при запуске (17.10): 'fresh' — экраны о нём ещё не спрашивали, число — когда первый из них получил «нет связи» */
+let startupFailure: 'fresh' | number | undefined;
 /** Профиль с сервера — тот же запрос, что ждёт `ready`; первые экраны нового человека (РР-5) ждут только его. */
 const stateLoad = loadState();
 /** `ready` прошёл: ядро пришло, профиль разложен (`hydrate`) */
@@ -982,7 +985,7 @@ const ready: Promise<void> = (async () => {
   // отнимают сеть и главный поток у первой отрисовки; экран, которому он нужен раньше, позовёт его сам. Книги в прогрев
   // не входят (РР-1): их зовёт `catalog()` — поиск, страницы, книжные лента и колода
   if (store.onServer) setTimeout(() => { films().catch(() => undefined); }, 3000);
-  if (state === 'unreachable') { unreachable = true; return; }
+  if (state === 'unreachable') { unreachable = true; startupFailure = 'fresh'; return; }
   if (!state) return;
   hydrate(state);
 })().finally(() => { readyDone = true; });
@@ -1006,6 +1009,11 @@ export class OfflineError extends Error {
 }
 async function reconnect(): Promise<void> {
   if (!unreachable) return;
+  // первый экран зовёт reconnect вслед за `ready`: отказ только что был (и чтение уже повторилось в store.call) —
+  // второй заход удваивал ожидание при зависшем сервере, 15 → 30 с до экрана «нет связи» (17.10). Первому экрану
+  // и его соседям в ту же секунду — сразу «нет связи»; «Повторить» человек жмёт позже, и тогда спрашиваем по-настоящему
+  if (startupFailure === 'fresh') startupFailure = Date.now();
+  if (startupFailure !== undefined && Date.now() - startupFailure < 1000) throw new OfflineError();
   const state = await loadState();
   if (state === 'unreachable') throw new OfflineError();
   unreachable = false;
@@ -1164,6 +1172,69 @@ const baseWatched = (): WorkCard[] => (store.onServer ? [] : watchedWorks);
 const ratings = new Map<ID, { rating: 1 | 2 | 3 | 4 | 5; raw?: number }>();
 const ratedCards = new Map<ID, WorkCard>();
 const ratingOf = (id: ID) => ratings.get(id) ?? (store.onServer ? undefined : userRatings[id]);
+
+/** Послесловие к просмотренному (17.10, src/lib/model/afterword.ts): «Стоило ли?» и один вопрос о человеке — темп или
+ *  что держало. С сервера — при загрузке; без сервера — только поставленное в этой вкладке, как оценки. */
+const afterwords = new Map<ID, Afterword>();
+/** Все послесловия — для опции подбора. */
+export const afterwordsMap = (): ReadonlyMap<ID, Afterword> => afterwords;
+/** Ось «стоило» в подборе (17.10, src/lib/model/worth.ts): без послесловий — пусто, подбор прежний. Жанры догружаются
+ *  лениво: до них ось держится на авторах, странах и регистре. */
+const afterwordOpts = (): Pick<RecommendOptions, 'afterwords'> => {
+  if (!afterwords.size) return {};
+  void loadGenres();
+  return { afterwords: {
+    get: (id) => afterwords.get(id),
+    entries: history().filter((e) => e.status === 'finished').map((e) => ({ work: withCredits(e.work), rating: e.rating })),
+    genresOf,
+  } };
+};
+/** Общие поправки подбора: засветка топами и ось «стоило». */
+const pickOpts = (): Pick<RecommendOptions, 'fame' | 'afterwords'> => ({ ...fameOpts(), ...afterwordOpts() });
+export const afterwordOf = (workId: ID): Afterword | undefined => afterwords.get(workId);
+/** Применить правку: значение — записать, null — снять, нет поля — не трогать. Пустое послесловие — нет записи. */
+function patchAfterword(prev: Afterword | undefined, patch: AfterwordPatch): Afterword | undefined {
+  const next: Afterword = { ...prev };
+  for (const k of ['worth', 'pace', 'hook'] as const) {
+    if (!(k in patch)) continue;
+    const v = patch[k];
+    if (v == null) delete next[k];
+    else (next as Record<string, unknown>)[k] = v;
+  }
+  next.at = new Date().toISOString();
+  return next.worth || next.pace || next.hook ? next : undefined;
+}
+/** Записать послесловие: сразу в память, потом на сервер; не записалось — откатить и бросить, как у оценок. */
+export async function setAfterword(workId: ID, patch: AfterwordPatch): Promise<Afterword | undefined> {
+  const before = afterwords.get(workId);
+  const next = patchAfterword(before, patch);
+  if (next) afterwords.set(workId, next); else afterwords.delete(workId);
+  try {
+    await store.afterword(workId, patch);
+  } catch (err) {
+    if (before) afterwords.set(workId, before); else afterwords.delete(workId);
+    throw err;
+  }
+  return afterwords.get(workId);
+}
+/** Спрашивать ли «Стоило ли?» после оценки (17.10): уровень вещи против привычного уровня человека и известность. */
+export function askWorthFor(workId: ID, rating: 1 | 2 | 3 | 4 | 5): boolean {
+  if (rating === 3) return true;
+  void loadFame();
+  const raw = ratedCards.get(workId) ?? deckCard(workId) ?? history().find((e) => e.work.id === workId)?.work;
+  const work = raw && !raw.complexityLevel ? annotated(raw) : raw;
+  const workLevel = work && work.complexityLevel > 0 ? work.complexityLevel : undefined;
+  const comfort = workLevel != null ? ownState()?.complexityComfort : undefined;
+  return shouldAskWorth({ rating, workLevel, comfort, fame: fameLevels[workId] ?? 0, workId });
+}
+/** Какой один вопрос о человеке задать после этого просмотра — или никакого (по очереди, не два раза подряд).
+ *  «Что держало?» после «не понравилось» / «не стоило» не задаём: держать было нечему. Послесловие этой же вещи
+ *  (только что записанное «стоило») в историю не идёт — иначе «прошлым» всегда был бы этот просмотр без вопроса. */
+export function nextExtraFor(workId?: ID, score?: number): Extra | null {
+  const { asked, lastWasExtra } = extraHistory([...afterwords].filter(([id]) => id !== workId).map(([, a]) => a));
+  const extra = nextExtra(asked, lastWasExtra);
+  return extra === 'hook' && score != null && score <= 2 ? null : extra;
+}
 
 /** Оценённое, чего нет в дневнике, — тоже досмотренное: без дат, но с весом. Так новый
  *  участник собирает себе историю, с которой модели есть от чего считать. */
@@ -1588,7 +1659,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   for (const id of shown) keys.add(id);
   // лента книг (11.10): шесть книг по той же модели — без вставок кино (вселенная, классика, фокус на полке)
   if (books) {
-    const items = state ? recommend(state, bookPool(keys), energy, 6, today(), fameOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
+    const items = state ? recommend(state, bookPool(keys), energy, 6, today(), pickOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
     return finishSlate({ id: `s-book-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items }, items);
   }
   const pool = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
@@ -1600,7 +1671,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   const anchor = anchorWeight ? deriveContentTaste(history().filter((e) => e.status === 'finished'), genresOf, settings.ratingNorm, settings.tasteShelves) : undefined;
   const content = anchor ? { weight: anchorWeight, fit: (w: WorkCard) => contentFit(anchor, w, genresOf) } : undefined;
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...fameOpts() }) }
+    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...pickOpts() }) }
     : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
   // доступное без доплаты — вперёд, порядок внутри групп прежний (ЗП-42); новичку первые три с разбором
@@ -1694,7 +1765,7 @@ export async function getMoodSlate(text: string, energy: Energy = 'normal', opts
   out.matched = fits.length;
   const state = ownState();
   const picked = state && ratedCount() >= MIN_RATED
-    ? recommend(state, fits.slice(0, 40).map((x) => x.c), q.energy ?? energy, 6, today(), { seriesNovice: seriesNovice(), maxSeries: q.kind === 'series' ? 6 : 2, ...fameOpts() })
+    ? recommend(state, fits.slice(0, 40).map((x) => x.c), q.energy ?? energy, 6, today(), { seriesNovice: seriesNovice(), maxSeries: q.kind === 'series' ? 6 : 2, ...pickOpts() })
       .map((r) => ({ work: r.work, what: r.explanation.what }))
     : [];
   // модель отсеяла всё (не по силам) или вкуса ещё нет — лучшие по запросу
@@ -1811,7 +1882,7 @@ async function universePick(state: CognitiveState, energy: Energy, items: Recomm
 function freePick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Recommendation | undefined {
   if (!freeRef || items.some((r) => freeFor_(r.work).length)) return undefined;
   const pool = candidates().filter((c) => freeFor_(c.work).length && !seen(c.work, keys) && !keys.has(c.work.id) && !items.some((r) => r.work.id === c.work.id));
-  const [rec] = recommend(state, pool, energy, 1, today(), fameOpts());
+  const [rec] = recommend(state, pool, energy, 1, today(), pickOpts());
   return rec ? { ...rec, id: `rec-free-${rec.work.id}`, slot: 'free' } : undefined;
 }
 
@@ -1821,7 +1892,7 @@ function freePick(state: CognitiveState, energy: Energy, items: Recommendation[]
  *  же: книга совсем не по силам или слишком простая не пройдёт. */
 function bookPick(state: CognitiveState, energy: Energy, items: Recommendation[], keys: Set<string>): Recommendation | undefined {
   if (items.some((r) => r.work.type === 'book')) return undefined;
-  const [rec] = recommend(state, bookPool(keys), energy, 1, today(), fameOpts());
+  const [rec] = recommend(state, bookPool(keys), energy, 1, today(), pickOpts());
   return rec ? { ...rec, id: `rec-book-${rec.work.id}`, slot: 'book' } : undefined;
 }
 /** Книги для подбора: справочник и история с разметкой (не low), не прочитанные и не отказанные, и только те, чья
@@ -1862,7 +1933,7 @@ async function focusPick(state: CognitiveState, energy: Energy, items: Recommend
   if (items.some((r) => keyList(r.work).some((k) => onShelf.has(k)))) return undefined;
   const pool = shelfCandidates([...onShelf.keys()].flatMap((k) => shelfWorks.get(k) ?? []))
     .filter((c) => !seen(c.work, keys) && !keys.has(c.work.id));
-  const [pick] = recommend(state, pool, energy, 1, today(), fameOpts());
+  const [pick] = recommend(state, pool, energy, 1, today(), pickOpts());
   if (!pick) return undefined;
   const shelf = shelves[onShelf.get(keyList(pick.work).find((k) => onShelf.has(k))!)!];
   return { ...pick, explanation: { ...pick.explanation, why: ui.today.fromShelf(shelf.title) + pick.explanation.why } };
@@ -2487,6 +2558,13 @@ function hydrate(state: StoredState | undefined): void {
     ratings.set(r.workId, { rating: r.rating, ...(r.raw != null ? { raw: r.raw } : {}) });
     ratedCards.set(r.workId, work);
   }
+  // послесловия (17.10): null с сервера — не ответил
+  for (const a of state.afterwords ?? []) {
+    const one: Afterword = {
+      ...(a.worth ? { worth: a.worth } : {}), ...(a.pace ? { pace: a.pace } : {}), ...(a.hook ? { hook: a.hook } : {}), ...(a.at ? { at: a.at } : {}),
+    };
+    if (one.worth || one.pace || one.hook) afterwords.set(a.workId, one);
+  }
   // сервер отдаёт свежее первым; кладём от старого к новому — watchedNow() развернёт обратно
   for (const row of [...state.watched].reverse()) {
     const declared = baseWatched().some((w) => w.id === row.workId);
@@ -2794,7 +2872,7 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     if (state) {
       result.newState = state;
       // «что дальше» — из настоящего подбора, а не из сценария с книгой (найдено 24.09)
-      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today(), { seriesNovice: seriesNovice(), ...fameOpts() })[0];
+      const next = recommend(state, candidates(), settings.energy ?? 'normal', 1, today(), { seriesNovice: seriesNovice(), ...pickOpts() })[0];
       if (next) result.nextRecommendation = next;
     }
   }
@@ -2809,6 +2887,9 @@ export async function checkIn(entryId: ID, request: CheckInRequest): Promise<Che
     ...(request.worth ? { worth: request.worth, ...(request.worthWhy ? { worthWhy: request.worthWhy } : {}) } : {}),
     payload: request,
   });
+  // «Стоило ли?» из чек-ина (17.10): сервер сам пишет послесловие, здесь — то же в памяти
+  const workId = entry?.work.id ?? result.entry.work.id;
+  if (request.status === 'finished' && request.worth) afterwords.set(workId, patchAfterword(afterwords.get(workId), { worth: request.worth })!);
   return result;
 }
 
@@ -2874,6 +2955,8 @@ export async function completeAssessment(id: ID): Promise<CognitiveMapData> {
 // Настройки в моке живут в памяти: экран «Профиль» меняет их, остальные экраны видят.
 // заполняется при загрузке core (mocks.settings) и поверх — с сервера
 let settings: UserSettings = {} as UserSettings;
+/** То из умолчаний mocks.settings, без чего экраны падают, — для новичка до загрузки ядра (17.10). */
+const SETTINGS_BASE: Partial<UserSettings> = { mediaTypes: ['film', 'book'], excludedWarnings: [], spoilerLevel: 0, showDetails: false, researchConsent: false, theme: 'system' };
 /** Разбор на языке, который участник выбрал в настройках (`materialLanguages`, по умолчанию
  *  только русский). Вес обсуждения в рейтинге (`weightsByKey`) язык не учитывает: это сигнал
  *  о произведении, а не то, что показываем. */
@@ -2894,7 +2977,8 @@ const visibleSettings = (s: UserSettings): UserSettings => (sessionRole() === 'a
 export async function getSettings(): Promise<UserSettings> {
   // новому человеку — настройки из профиля, пока ядро едет (РР-5); после `ready` — как всегда: правки этой вкладки главнее
   const fresh = readyDone ? undefined : await newcomer();
-  if (fresh) return visibleSettings({ ...settings, ...fresh });
+  // умолчания ядра (mocks.settings) ещё не приехали — без них экран настроек получал settings без mediaTypes (17.10)
+  if (fresh) return visibleSettings({ ...SETTINGS_BASE, ...settings, ...fresh });
   await delay(140);
   return visibleSettings(settings);
 }
@@ -3512,7 +3596,8 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
         if (a.lens === 'author' || a.lensAlso === 'author') { seenUrl.add(a.url); authorish.push(a); continue; }
         if (a.tier === 'review') continue;
         seenUrl.add(a.url);
-        analyses.push({ work, analysis: a, seen });
+        // тот же ролик у той же вещи под другим ключом (17.10) — один раз
+        if (!analyses.some((x) => x.analysis.url === a.url)) analyses.push({ work, analysis: a, seen });
       }
     }
     count.set(key, seenUrl.size);
@@ -3527,7 +3612,19 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
   const works = [...byWork.values()].map(({ work, roles, key }) => ({
     work, roles, analyses: key ? count.get(key) ?? 0 : 0,
     seen: seenIds.has(work.id) || Boolean(key && seenKeys.has(key)),
-  })).sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
+  })).sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999))
+    // одна вещь под разными ключами (17.10: «Иваново детство» ×2 — карточка каталога и справочника с разными id) —
+    // одной строкой: название + год + тип; побеждает размеченная, потом — с разборами; роли и «видел» складываем
+    .reduce<{ work: WorkCard; roles: CreditRole[]; analyses: number; seen: boolean }[]>((acc, x) => {
+      const same = acc.find((y) => y.work.type === x.work.type && y.work.year === x.work.year
+        && y.work.title.toLocaleLowerCase('ru') === x.work.title.toLocaleLowerCase('ru'));
+      if (!same) { acc.push(x); return acc; }
+      if ((!same.work.complexityLevel && x.work.complexityLevel) || (!same.analyses && x.analyses)) same.work = x.work;
+      for (const r of x.roles) if (!same.roles.includes(r)) same.roles.push(r);
+      same.analyses = Math.max(same.analyses, x.analyses);
+      same.seen ||= x.seen;
+      return acc;
+    }, []);
 
   // с чего начать: чуть выше привычного (зона ближайшего развития), при равенстве — где больше разборов
   const comfort = ownState()?.complexityComfort;
@@ -3536,7 +3633,7 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
     ? Math.abs(a.work.complexityLevel - (comfort + 1)) - Math.abs(b.work.complexityLevel - (comfort + 1))
     : a.work.complexityLevel - b.work.complexityLevel) || b.analyses - a.analyses)[0];
 
-  const mineIds = new Set(works.map((x) => x.work.id));
+  const mineIds = new Set([...byWork.values()].map((x) => x.work.id));
   const mineKeys = new Set([...byWork.values()].map((x) => x.key).filter(Boolean));
   const trajectories = mocks.trajectories
     .filter((t) => t.steps.some((st) => mineIds.has(st.work.id) || mineKeys.has(workKey(st.work, st.work.externalIds ?? externalIds[st.work.id]) ?? '')))
@@ -3684,7 +3781,10 @@ export async function previewImport(files: ExportFile | ExportFile[], onProgress
   onProgress?.({ stage: 'match', done: 0, total: records.length });
   // Сверяемся со всем, что уже знаем: каталог, история, отметки и справочники. Иначе знакомый фильм уходит в
   // резолвер по сети и заводится второй раз.
-  const index = buildMatchIndex(knownWorks().map((w) => ({ ...w, externalIds: w.externalIds ?? externalIds[w.id] })));
+  // известность (17.10): у названия без года первым подставляем громкое — «Сталкер» Тарковского, а не 2023-го. Таблица
+  // приходит с каталогом (loadCatalog → loadFame); не пришла — порядок прежний
+  const index = buildMatchIndex(knownWorks().map((w) => ({ ...w, externalIds: w.externalIds ?? externalIds[w.id] })),
+    { fame: (w) => fameLevels[w.id] });
   const found: (ImportRow | undefined)[] = records.map((record, i) => {
     const m = matchScored(record, index);
     return m ? { i, record, work: m.work, how: m.how, alternatives: m.alternatives, already: false, repeat: false } : undefined;
@@ -3807,6 +3907,8 @@ async function diaryRows(): Promise<DiaryRow[]> {
   }));
   const have = new Set(rows.map((r) => r.workId));
   for (const w of watchedNow()) if (!have.has(w.id)) { have.add(w.id); rows.push({ ...base(w), status: 'finished', seenList: true }); }
+  // послесловие (17.10) — к записи того же произведения
+  for (const r of rows) { const a = afterwords.get(r.workId); if (a) r.afterword = a; }
   return rows;
 }
 

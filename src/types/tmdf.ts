@@ -571,6 +571,19 @@ export interface CheckInRequest {
 
 export type WorthReason = 'not_mine' | 'boring' | 'too_heavy' | 'expected_other';
 
+/** Послесловие к просмотренному (17.10, владелец): «понравилось» и «стоило» — разные оси. Отлично, но пусто —
+ *  «проглотил и забыл»; мимо, но стоило — «тяжело, но рад, что посмотрел». Плюс один вопрос о человеке, а не о
+ *  вещи: темп для него и что держало. Хранится отдельно от оценки (таблица afterword), поле `null` — снять ответ. */
+export type AfterPace = 'slow' | 'ok' | 'fast';
+export type AfterHook = 'plot' | 'characters' | 'world' | 'idea';
+export interface Afterword {
+  worth?: 1 | 2 | 3 | 4 | 5;
+  pace?: AfterPace;
+  hook?: AfterHook;
+  at?: ISODate;
+}
+export type AfterwordPatch = { [K in 'worth' | 'pace' | 'hook']?: Afterword[K] | null };
+
 export interface Debrief {
   summary: string;
   tropeInsights: TropeInsightData[];

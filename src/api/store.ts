@@ -7,7 +7,7 @@
 // Правило слоя: сервер хранит факты участника, а не собирает ленту. Подбор по-прежнему
 // считается на клиенте, каталог и разборы — общие данные и приходят отдельно. Поэтому здесь
 // нет ни одного запроса «дай рекомендации» — только «запиши, что человек сделал».
-import type { BookProgress, ID, PerceivedDifficulty, SeriesProgress, UserSettings, WorkCard } from '@/types/tmdf';
+import type { AfterHook, AfterPace, AfterwordPatch, BookProgress, ID, PerceivedDifficulty, SeriesProgress, UserSettings, WorkCard } from '@/types/tmdf';
 import { webApp } from '@/lib/telegram';
 import type { ComplexitySpan } from '@/lib/model/deriveState';
 
@@ -43,6 +43,8 @@ export interface StoredState {
   ratings?: { workId: ID; rating: 1 | 2 | 3 | 4 | 5; raw?: number; work?: WorkCard; at: string }[];
   /** последний отказ на фильм ленты (10.10): по нему фильм не возвращается в ленту на срок по причине */
   dismissals?: { workId: ID; reason?: string; at: string }[];
+  /** послесловие к просмотренному (17.10): «стоило ли», темп, что держало; null — не ответил */
+  afterwords?: { workId: ID; worth?: 1 | 2 | 3 | 4 | 5 | null; pace?: AfterPace | null; hook?: AfterHook | null; at?: string }[];
   profile?: { username?: string; firstName?: string; telegram: boolean; owner: boolean; role?: 'admin' | 'tester' | 'user'; /** дни захода (ДФ-3) */ visitDays?: number };
 }
 
@@ -67,12 +69,13 @@ const writeToken = (token: string | undefined) => {
 /** Вход: подписью Telegram, если приложение открыто в мессенджере, иначе — демо-участником.
  *  Демо разрешает сервер, а не клиент: в боевом окружении `ALLOW_DEMO` пуст, и такой вход
  *  просто не работает. */
-async function openSession(): Promise<string | undefined> {
+async function openSession(signal?: AbortSignal): Promise<string | undefined> {
   const initData = webApp()?.initData;
   const res = await fetch(`${API}/api/session`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(initData ? { initData } : { demo: true }),
+    signal,
   });
   if (!res.ok) return undefined;
   const body = await res.json() as { token?: string };
@@ -80,19 +83,73 @@ async function openSession(): Promise<string | undefined> {
   return body.token;
 }
 
+// Срок ответа и повтор (17.10, аудит отказоустойчивости, п. 6): без срока зависший сервер или оборванное мобильное
+// соединение держали запрос минутами — экран вечно грузился вместо «нет связи». Срок — один на весь вызов (вход,
+// запрос, повтор), чтобы экран ошибки появлялся через ~15 с, а не через сумму попыток. Таймер свой, а не
+// AbortSignal.timeout: тот не отменить, а срок нужен только до заголовков — тело большого состояния на медленной
+// сети читается дольше 15 с, и обрывать его нельзя (заодно работает и в старых WebView, где timeout нет).
+const TIMEOUT_MS = 15_000;
+/** пауза перед повтором чтения: сеть успевает переключиться, сервер — подняться после перезапуска */
+const RETRY_PAUSE_MS = 800;
+/** ответы прокси и балансировщика, после которых чтение стоит повторить */
+const RETRY_STATUS = new Set([502, 503, 504]);
+
+function deadline(ms: number): { signal: AbortSignal; done: () => void } {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(new DOMException(`нет ответа за ${ms / 1000} с`, 'TimeoutError')), ms);
+  return { signal: ctrl.signal, done: () => clearTimeout(timer) };
+}
+const pause = (ms: number) => new Promise((done) => setTimeout(done, ms));
+
+/** fetch с одним повтором для чтения (GET) при сетевой ошибке и 502/503/504. Записи не повторяем: сервер мог
+ *  принять первую попытку, и повтор поставил бы оценку или отметку дважды. Вышел срок — без повтора. */
+async function request(url: string, init: RequestInit & { signal: AbortSignal }): Promise<Response> {
+  if ((init.method ?? 'GET').toUpperCase() !== 'GET') return fetch(url, init);
+  let first: Response | undefined;
+  try {
+    first = await fetch(url, init);
+    if (!RETRY_STATUS.has(first.status)) return first;
+  } catch (e) {
+    if (init.signal.aborted) throw e;
+  }
+  await pause(RETRY_PAUSE_MS);
+  if (init.signal.aborted) {
+    if (first) return first;
+    throw init.signal.reason ?? new DOMException('нет ответа', 'TimeoutError');
+  }
+  try {
+    return await fetch(url, init);
+  } catch (e) {
+    // повтор не дошёл — отдаём первый ответ (503 и т. п.): его экраны уже умеют показать
+    if (first) return first;
+    throw e;
+  }
+}
+
 /** Запрос с токеном. Протухшую сессию не показываем пользователю ошибкой: заходим заново и
- *  повторяем — для него это просто продолжение работы. */
-async function call(path: string, init: RequestInit = {}, retry = true): Promise<Response | undefined> {
+ *  повторяем — для него это просто продолжение работы. Нет ответа за срок — исключение TimeoutError:
+ *  оно идёт теми же путями, что и обрыв сети («нет связи», откат отметки). */
+async function call(path: string, init: RequestInit = {}): Promise<Response | undefined> {
   if (API === undefined) return undefined;
-  const token = readToken() ?? await openSession();
+  const limit = deadline(TIMEOUT_MS);
+  try {
+    return await authed(path, init, limit.signal, true);
+  } finally {
+    // ответ пришёл (или не придёт) — тело читает вызывающий, уже без срока
+    limit.done();
+  }
+}
+async function authed(path: string, init: RequestInit, signal: AbortSignal, retry: boolean): Promise<Response | undefined> {
+  const token = readToken() ?? await openSession(signal);
   if (!token) return undefined;
-  const res = await fetch(`${API}${path}`, {
+  const res = await request(`${API}${path}`, {
     ...init,
     headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}`, ...(init.headers ?? {}) },
+    signal,
   });
   if (res.status === 401 && retry) {
     writeToken(undefined);
-    return call(path, init, false);
+    return authed(path, init, signal, false);
   }
   return res;
 }
@@ -244,4 +301,8 @@ export const store = {
     send('/api/owner/decision', 'PUT', decision),
   rating: (workId: ID, rating: number | null, work?: WorkCard) =>
     send(`/api/rating/${encodeURIComponent(workId)}`, 'PUT', { rating, work }),
+  /** послесловие (17.10): значение — записать, null — снять, нет поля — не трогать. Без сервера — ничего наружу,
+   *  как у оценок: послесловие живёт в памяти вкладки */
+  afterword: (workId: ID, patch: AfterwordPatch) =>
+    send(`/api/afterword/${encodeURIComponent(workId)}`, 'PUT', patch),
 };

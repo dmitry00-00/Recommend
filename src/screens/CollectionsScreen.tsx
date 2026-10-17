@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { ID } from '@/types/tmdf';
 import { getCollection, getCollections, setWatched, type CollectionPage } from '@/api';
-import { Button, EmptyState, ErrorState, Skeleton, useToast } from '@/components';
+import { BackLink, Button, EmptyState, ErrorState, Skeleton, useToast } from '@/components';
 import { WorkThumb } from '@/components/WorkThumb';
 import { formatDuration, titleOf } from '@/lib/format';
 import { leadName } from '@/lib/credits';
@@ -113,7 +113,7 @@ function Shelf({ id }: { id: string }) {
 
   return (
     <main className="tm-shell__main tm-collections">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate('/collections')}>{ui.collections.title}</button>
+      <BackLink to="/collections" label={ui.collections.title} />
       {data === undefined ? <EmptyState title={ui.collections.missing} /> : null}
       {/* у полки страны — свои строки; у подборки голоса — название плейлиста и автор */}
       {text || data?.title ? (

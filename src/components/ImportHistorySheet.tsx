@@ -8,6 +8,8 @@ import {
 } from '@/api';
 import { Sheet } from './Sheet';
 import { Button } from './Button';
+import { ImportSourceLogo } from './ImportSourceLogo';
+import { RatingWheel } from './RatingWheel';
 import { cx } from '@/lib/cx';
 import { isSeries } from '@/lib/media';
 import ui from '@/i18n';
@@ -34,6 +36,7 @@ export function ImportHistorySheet({ open, onOpenChange, onNorm, onChanged }: Im
   const [guide, setGuide] = useState<(typeof GUIDES)[number] | null>(null);
   const [pasted, setPasted] = useState('');
   const [fileTexts, setFileTexts] = useState<ExportFile[]>([]);
+  const [fileNames, setFileNames] = useState<string[]>([]);
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [progress, setProgress] = useState<ImportProgress | null>(null);
   const [choices, setChoices] = useState<Record<number, ImportChoice>>({});
@@ -51,7 +54,7 @@ export function ImportHistorySheet({ open, onOpenChange, onNorm, onChanged }: Im
     if (open) return;
     run.current += 1;
     clearTimeout(pasteTimer.current);
-    setPasted(''); setFileTexts([]); setPreview(null); setProgress(null); setChoices({}); setNorm(undefined);
+    setPasted(''); setFileTexts([]); setFileNames([]); setPreview(null); setProgress(null); setChoices({}); setNorm(undefined);
     setError(null); setDone(null); setUndone(null); setShowOwn(false); setShowAllCheck(false);
   }, [open]);
 
@@ -179,15 +182,20 @@ export function ImportHistorySheet({ open, onOpenChange, onNorm, onChanged }: Im
 
           <section className="tm-import__guide">
             <h3 className="tm-label">{ui.importSheet.guideTitle}</h3>
-            <div className="tm-row tm-row--gap-2 tm-row--wrap">
+            {/* источники — плитками со знаком сервиса (17.10, владелец): быстрее считывается и в один ряд; название —
+                в подписи для чтения с экрана и строкой над шагами у выбранного */}
+            <div className={cx('tm-import__srcs', guide && 'tm-import__srcs--picked')} role="group" aria-label={ui.importSheet.guideTitle}>
               {GUIDES.map((g) => (
-                <Button key={g} size="sm" variant="secondary" pressed={guide === g} onClick={() => setGuide(guide === g ? null : g)}>
-                  {ui.importSheet.guides[g].name}
-                </Button>
+                <button key={g} type="button" className={cx('tm-import__src', `tm-import__src--${g}`, guide === g && 'tm-import__src--on')}
+                        aria-pressed={guide === g} aria-label={ui.importSheet.guides[g].name} title={ui.importSheet.guides[g].name}
+                        onClick={() => setGuide(guide === g ? null : g)}>
+                  <ImportSourceLogo id={g} />
+                </button>
               ))}
             </div>
             {guide ? (
               <>
+                <p className="tm-body-sm tm-import__srcname">{ui.importSheet.guides[guide].name}</p>
                 <ol className="tm-import__steps">
                   {ui.importSheet.guides[guide].steps.map((s) => <li key={s} className="tm-body-sm">{s}</li>)}
                 </ol>
@@ -198,10 +206,19 @@ export function ImportHistorySheet({ open, onOpenChange, onNorm, onChanged }: Im
 
           <p className="tm-caption tm-import__privacy">{ui.importSheet.privacy}</p>
           {guide !== 'list' ? (
-            <label className="tm-import__file">
+            // выбор файла — обычной кнопкой приложения (17.10): системное «Выбрать файлы / Файл не выбран» спрятано,
+            // выбранное — подписью рядом
+            <div className="tm-import__file">
               <span className="tm-label">{ui.importSheet.files}</span>
-              <input type="file" multiple accept=".zip,.csv,.json,.html,.htm,.txt,.md" onChange={(e) => void readFiles(e.target.files)} />
-            </label>
+              <div className="tm-import__filerow">
+                <label className="tm-btn tm-btn--secondary tm-btn--sm tm-import__pick">
+                  {ui.importSheet.pickFiles}
+                  <input className="tm-sr" type="file" multiple accept=".zip,.csv,.json,.html,.htm,.txt,.md"
+                         onChange={(e) => { const f = e.target.files; setFileNames(f ? [...f].map((x) => x.name) : []); void readFiles(f); }} />
+                </label>
+                {fileNames.length ? <span className="tm-caption tm-import__picked">{ui.importSheet.picked(fileNames.length, fileNames[0])}</span> : null}
+              </div>
+            </div>
           ) : null}
           <label className="tm-import__paste">
             <span className="tm-label">{ui.importSheet.paste}</span>
@@ -255,35 +272,43 @@ export function ImportHistorySheet({ open, onOpenChange, onNorm, onChanged }: Im
             <section className="tm-import__norm">
               <h3 className="tm-label">{ui.importSheet.normTitle}</h3>
               <p className="tm-caption tm-import__normwhy">{ui.importSheet.normWhy}</p>
-              <div className="tm-row tm-row--gap-2 tm-row--wrap">
-                {NORMS.map((n) => (
-                  <Button key={n} size="sm" variant="secondary" pressed={(norm ?? median) === n} onClick={() => setNorm(n)}>
-                    {String(n)}
-                  </Button>
-                ))}
+              {/* норма барабаном (17.10) вместо ряда из шести кнопок: с медианы истории (вне 4…9 — с ближнего края) */}
+              <div className="tm-row tm-row--gap-2 tm-import__normrow">
+                <RatingWheel<number> label={ui.importSheet.normTitle} labels={NORMS.map(String)}
+                                     value={norm != null ? NORMS.indexOf(norm as (typeof NORMS)[number]) + 1 : null}
+                                     start={Math.max(1, Math.min(NORMS.length, (median ?? 7) - NORMS[0] + 1))}
+                                     onPick={(i) => setNorm(NORMS[i - 1])} />
               </div>
             </section>
           ) : null}
 
           {error ? <p className="tm-caption tm-import__error" role="alert">{error}</p> : null}
 
-          <div className="tm-row tm-row--gap-2 tm-import__actions">
-            <Button variant="primary" size="sm" loading={busy} disabled={!preview || !stats?.toAdd || busy || progress != null}
-                    onClick={() => void commit()}>
-              {stats && !stats.toAdd ? ui.importSheet.nothingToAdd : ui.importSheet.add(stats?.toAdd ?? 0)}
-            </Button>
-            <Button variant="quiet" size="sm" onClick={() => onOpenChange(false)}>{ui.actions.close}</Button>
-          </div>
+          {/* «Добавить: N» — липкой полосой внизу листа (17.10): длинный список «проверьте» не уводит её за край; нижнее
+              «Закрыть» убрано — оно есть в шапке. До разбора её нет: добавлять ещё нечего */}
+          {preview ? (
+            <div className="tm-import__actions tm-import__actions--sticky">
+              <Button variant="primary" block loading={busy} disabled={!stats?.toAdd || busy || progress != null}
+                      onClick={() => void commit()}>
+                {stats && !stats.toAdd ? ui.importSheet.nothingToAdd : ui.importSheet.add(stats?.toAdd ?? 0)}
+              </Button>
+            </div>
+          ) : null}
         </>
       )}
     </Sheet>
   );
 }
 
-/** Строка «проверьте»: что было в выгрузке → какую карточку мы подставили; «Верно», другая карточка с тем же
- *  названием, поиск по каталогу, «Оставить как есть» (своя запись) или «Не добавлять». */
+/** Одна вещь под разными id (17.10): «Сталкер, 1979» приходил в альтернативах дважды. */
+const sameCard = (a: WorkCard, b: WorkCard) => a.id === b.id || (a.title === b.title && a.year === b.year && a.type === b.type);
+const uniqueCards = (list: WorkCard[]) => list.reduce<WorkCard[]>((acc, w) => (acc.some((x) => sameCard(x, w)) ? acc : [...acc, w]), []);
+
+/** Строка «проверьте» (17.10, компактно): слева — что было в выгрузке и «у нас: X», справа — одна кнопка «Изменить ▾».
+ *  Лист выбора: подставленная карточка и другие с тем же названием (без копий), поиск по каталогу, «Оставить как есть»
+ *  (своя запись) и «Не добавлять». Раньше — 5–7 кнопок в строке. */
 function CheckRow({ row, choice, onChoose }: { row: ImportRow; choice?: ImportChoice; onChoose: (c: ImportChoice | null) => void }) {
-  const [searching, setSearching] = useState(false);
+  const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const [hits, setHits] = useState<WorkCard[] | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -302,41 +327,45 @@ function CheckRow({ row, choice, onChoose }: { row: ImportRow; choice?: ImportCh
         .slice(0, 6)));
     }, 250);
   };
+  // подставленная — первой, за ней другие с тем же названием; копии одной вещи — один раз
+  const options = uniqueCards([row.work, ...row.alternatives]).slice(0, 4);
+  const found = hits ? uniqueCards(hits).filter((w) => !options.some((x) => sameCard(x, w))) : null;
+  const picked = (w: WorkCard) => !choice?.own && !choice?.drop && sameCard(shown, w);
+  const take = (c: ImportChoice | null) => { onChoose(c); setOpen(false); };
+  const option = (w: WorkCard) => (
+    <li key={w.id}>
+      <button type="button" className={cx('tm-fmenu__opt', picked(w) && 'tm-fmenu__opt--on')} aria-pressed={picked(w) ? 'true' : 'false'}
+              onClick={() => take(sameCard(w, row.work) ? null : { work: w })}>
+        <span>{label(w)}</span>
+        {sameCard(w, row.work) ? <span className="tm-fmenu__count">{ui.importSheet.rowProposed}</span> : null}
+      </button>
+    </li>
+  );
+  const fromText = ui.importSheet.row(r.title || r.originalTitle || '—', r.year);
   return (
-    <li className={cx('tm-import__row', choice?.drop && 'tm-import__row--off')}>
-      <p className="tm-body-sm tm-import__from">{ui.importSheet.row(r.title || r.originalTitle || '—', r.year)}</p>
-      <p className="tm-caption tm-import__to">
-        {choice?.drop ? ui.importSheet.rowDropped : choice?.own ? ui.importSheet.rowKept : <>{ui.importSheet.ours}: <b>{label(shown)}</b></>}
-      </p>
-      <div className="tm-row tm-row--gap-2 tm-row--wrap">
-        <Button size="sm" variant="secondary" pressed={!choice} onClick={() => { onChoose(null); setSearching(false); }}>{ui.importSheet.rowOk}</Button>
-        {row.alternatives.slice(0, 3).map((w) => (
-          <Button key={w.id} size="sm" variant="secondary" pressed={choice?.work?.id === w.id} onClick={() => onChoose({ work: w })}>
-            {`${w.title}${w.year ? `, ${w.year}` : ''}`}
-          </Button>
-        ))}
-        <Button size="sm" variant="quiet" pressed={searching} onClick={() => setSearching((v) => !v)}>{ui.importSheet.rowOther}</Button>
-        <Button size="sm" variant="quiet" pressed={Boolean(choice?.own)} onClick={() => onChoose({ own: true })}>{ui.importSheet.rowKeep}</Button>
-        <Button size="sm" variant="quiet" pressed={Boolean(choice?.drop)} onClick={() => onChoose({ drop: true })}>{ui.importSheet.rowDrop}</Button>
+    <li className={cx('tm-import__row', 'tm-import__row--compact', choice?.drop && 'tm-import__row--off')}>
+      <div className="tm-import__rowtext">
+        <p className="tm-body-sm tm-import__from">{fromText}</p>
+        <p className="tm-caption tm-import__to">
+          {choice?.drop ? ui.importSheet.rowDropped : choice?.own ? ui.importSheet.rowKept : <>{ui.importSheet.ours}: <b>{label(shown)}</b></>}
+        </p>
       </div>
-      {searching ? (
+      <button type="button" className={cx('tm-fmenu__btn', choice && 'tm-fmenu__btn--on')} aria-haspopup="dialog" onClick={() => setOpen(true)}>
+        <span className="tm-fmenu__label">{ui.importSheet.rowChange}</span><span aria-hidden="true">▾</span>
+      </button>
+      <Sheet open={open} onOpenChange={setOpen} title={fromText}>
+        <ul className="tm-fmenu__list">{options.map(option)}</ul>
         <div className="tm-import__search">
-          <input className="tm-input" type="search" value={q} placeholder={ui.importSheet.searchPlaceholder} autoFocus
+          <h3 className="tm-label">{ui.importSheet.rowSearch}</h3>
+          <input className="tm-input" type="search" value={q} placeholder={ui.importSheet.searchPlaceholder}
                  onChange={(e) => find(e.target.value)} aria-label={ui.importSheet.searchPlaceholder} />
-          {hits ? (
-            hits.length ? (
-              <div className="tm-row tm-row--gap-2 tm-row--wrap">
-                {hits.map((w) => (
-                  <Button key={w.id} size="sm" variant="secondary" pressed={choice?.work?.id === w.id}
-                          onClick={() => { onChoose({ work: w }); setSearching(false); }}>
-                    {label(w)}
-                  </Button>
-                ))}
-              </div>
-            ) : <p className="tm-caption">{ui.importSheet.searchNothing}</p>
-          ) : null}
+          {found ? (found.length ? <ul className="tm-fmenu__list">{found.map(option)}</ul> : <p className="tm-caption">{ui.importSheet.searchNothing}</p>) : null}
         </div>
-      ) : null}
+        <div className="tm-row tm-row--gap-2 tm-row--wrap tm-import__rowends">
+          <Button size="sm" variant="secondary" pressed={Boolean(choice?.own)} onClick={() => take({ own: true })}>{ui.importSheet.rowKeep}</Button>
+          <Button size="sm" variant="quiet" pressed={Boolean(choice?.drop)} onClick={() => take({ drop: true })}>{ui.importSheet.rowDrop}</Button>
+        </div>
+      </Sheet>
     </li>
   );
 }

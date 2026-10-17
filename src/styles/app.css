@@ -107,6 +107,14 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-journal__a { margin: 0; }
 .tm-journal__hint { margin: 0; color: var(--tm-color-ink-faint); }
 .tm-checkinscreen__after { display: flex; flex-direction: column; gap: var(--tm-space-5); margin-top: var(--tm-space-6); }
+/* Чек-ин (17.10): вопросы с ответами — в нижней трети экрана, под большой палец; шаги и пояснение — сверху.
+   «Дальше» вне Telegram — липкой полосой над нижним меню (в Telegram — главная кнопка мессенджера). */
+.tm-checkin--ask { display: flex; flex-direction: column; min-height: calc(100% - 56px); }
+.tm-checkin--ask > .tm-checkin__body { margin-top: auto; }
+.tm-checkin__worthrow { display: flex; align-items: center; justify-content: space-between; gap: var(--tm-space-3); }
+.tm-checkin__dock { position: sticky; bottom: calc(-1 * var(--tm-space-5)); z-index: 3; margin: var(--tm-space-4) calc(-1 * var(--tm-space-5)) 0; padding: var(--tm-space-3) var(--tm-space-5); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
+.tm-checkin__dock > .tm-btn { width: 100%; }
+.tm-shell:not(:has(.tm-nav--mobile)) .tm-checkin__dock { padding-bottom: calc(var(--tm-space-3) + var(--tm-safe-bottom, 0px)); }
 .tm-checkinscreen__after > .tm-title-3 { margin: 0 0 calc(-1 * var(--tm-space-3)); }
 
 /* Экраны входа: приветствие, выбор диагностики, задания, первая карта. Только отступы;
@@ -186,6 +194,16 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-settings__switch .tm-settings__h { margin-bottom: var(--tm-space-1); }
 .tm-settings__list { list-style: none; margin: 0; padding: 0; }
 .tm-settings__list li { display: flex; justify-content: space-between; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-2) 0; border-top: 1px solid var(--tm-color-line); }
+/* «Для владельца» (17.10): разделы владельца одним раскрывающимся внизу экрана */
+.tm-settings__ownerhead { display: flex; align-items: center; justify-content: space-between; min-height: 44px; margin: 0; cursor: pointer; list-style: none; }
+.tm-settings__ownerhead::-webkit-details-marker { display: none; }
+.tm-settings__ownerhead::after { content: "›"; color: var(--tm-color-ink-faint); font-size: 22px; transition: transform 150ms ease; }
+.tm-settings__owner[open] .tm-settings__ownerhead { margin-bottom: var(--tm-space-2); }
+.tm-settings__owner[open] .tm-settings__ownerhead::after { transform: rotate(90deg); }
+.tm-settings__sub { margin-top: var(--tm-space-4); }
+/* строки настроек (17.10): у первой строки раздела без заголовка черту даёт сам раздел */
+.tm-settings__section > .tm-srow__wrap:first-child { border-top: 0; }
+.tm-srow__wrap + .tm-settings__tmdb { margin-top: 0; }
 .tm-login__lead { margin: 0 0 var(--tm-space-5); max-width: 56ch; }
 .tm-login__error { margin-bottom: var(--tm-space-5); }
 .tm-today__error { margin-top: var(--tm-space-5); }
@@ -236,6 +254,9 @@ body { background: var(--tm-color-surface-100); color: var(--tm-color-ink); font
 .tm-shell--app .tm-stream { padding: 0; scroll-snap-type: y mandatory; }
 .tm-stream__archive { scroll-snap-align: start; }
 .tm-stream__item { scroll-snap-align: start; scroll-snap-stop: always; }
+/* подсказка свайпов — тоже остановка (17.10): без неё scrollTop на высоте архива некуда было прилипнуть, и
+   обязательная привязка откатывала ленту к нулю — архив переставал прятаться */
+.tm-stream__swipehint { scroll-snap-align: start; }
 /* блоки над лентой — плашка «нет связи» с лентой с устройства (ДФ-3) и вопрос о норме шкалы — тоже точки прилипания:
    без этого обязательная прилипалка проскакивала их к первой карточке, и человек их не видел */
 .tm-stream__body > .tm-error, .tm-stream__body > .tm-import__norm { scroll-snap-align: start; scroll-margin-top: var(--tm-space-5); }
@@ -352,8 +373,23 @@ button.tm-banner { cursor: pointer; }
 .tm-import__skip { color: var(--tm-color-ink-faint); }
 .tm-import__norm { margin-bottom: var(--tm-space-4); }
 .tm-import__normwhy { margin: var(--tm-space-1) 0 var(--tm-space-2); color: var(--tm-color-ink-faint); max-width: 48ch; }
+/* норма барабаном (17.10): барабан раскрывается на строку вверх и вниз — место под это */
+.tm-import__normrow { align-items: center; padding: var(--tm-space-1) 0; }
 .tm-import__done { margin: 0 0 var(--tm-space-3); color: var(--tm-color-accent-ink); }
 .tm-import__actions { margin-top: var(--tm-space-2); }
+/* импорт (17.10): «Добавить: N» — липкой полосой внизу листа; выбор файла — кнопкой приложения; строка «проверьте» —
+   описание слева, «Изменить ▾» справа */
+.tm-import__actions--sticky { position: sticky; bottom: calc(-1 * (var(--tm-space-6) + var(--tm-safe-bottom))); z-index: 2; margin: var(--tm-space-3) calc(-1 * var(--tm-space-5)) calc(-1 * (var(--tm-space-6) + var(--tm-safe-bottom))); padding: var(--tm-space-3) var(--tm-space-5) calc(var(--tm-space-3) + var(--tm-safe-bottom)); background: var(--tm-color-surface-card); border-top: 1px solid var(--tm-color-line); }
+.tm-import__filerow { display: flex; align-items: center; gap: var(--tm-space-3); min-width: 0; }
+.tm-import__pick { position: relative; flex: none; cursor: pointer; }
+.tm-import__pick:focus-within { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-import__picked { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--tm-color-ink-muted); }
+.tm-import__row--compact { display: flex; align-items: center; gap: var(--tm-space-3); }
+.tm-import__rowtext { flex: 1; min-width: 0; display: grid; gap: var(--tm-space-1); }
+.tm-import__search { margin-top: var(--tm-space-4); }
+.tm-import__search .tm-label { display: block; margin: 0 0 var(--tm-space-2); color: var(--tm-color-ink-muted); }
+.tm-import__search .tm-input { width: 100%; box-sizing: border-box; }
+.tm-import__rowends { margin-top: var(--tm-space-4); }
 
 /* Поиск фильмов и отметка просмотренного */
 .tm-search { padding: 0 0 var(--tm-space-5); }
@@ -538,7 +574,7 @@ button.tm-banner { cursor: pointer; }
 
 /* Страница автора (/voice/:id): всё, что он разбирал из того, что мы знаем. */
 .tm-voicepage { padding: var(--tm-space-4); }
-.tm-voicepage__back { margin: 0 0 var(--tm-space-3); padding: 0; border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; cursor: pointer; }
+.tm-voicepage__back { margin: 0 0 var(--tm-space-3); padding: 0; border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; cursor: pointer; text-decoration: none; display: inline-block; }
 .tm-voicepage__head { display: flex; align-items: center; gap: var(--tm-space-3); }
 .tm-voice__avatar--page { width: 64px; height: 64px; font-size: 24px; flex: none; }
 .tm-voicepage__who { min-width: 0; }
@@ -594,6 +630,9 @@ button.tm-banner { cursor: pointer; }
 .tm-rate__fill { display: block; height: 100%; background: var(--tm-color-accent); transition: width 0.2s ease; }
 .tm-rate__count { flex: none; color: var(--tm-color-ink-muted); }
 .tm-rate__bar .tm-btn { flex: none; white-space: nowrap; }
+/* шапка списка оценок свёрнута до строки «счётчик + кнопка» (17.10) — при прокрутке и после первой оценки */
+.tm-rate__head--min { padding-top: var(--tm-space-2); padding-bottom: var(--tm-space-2); }
+.tm-rate__head--min .tm-rate__bar { margin-top: 0; }
 .tm-rate__item { display: flex; flex-direction: column; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); border-top: 1px solid var(--tm-color-line); }
 .tm-rate__item--off .tm-search__open { opacity: 0.45; }
 /* свайп оценки: строка едет за пальцем, из-под неё — оценка, которая встанет, если отпустить */
@@ -609,6 +648,10 @@ button.tm-banner { cursor: pointer; }
 .tm-rate__picks { padding: var(--tm-space-3) var(--tm-space-5) var(--tm-space-2); }
 .tm-rate__picks-title { margin: 0; font-weight: 600; }
 .tm-rate__pick-list { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); margin-top: var(--tm-space-2); }
+/* полки вкуса (17.10): одна полоса с прокруткой вбок, а не 15 чипов на пол-экрана; полоса — до краёв экрана */
+.tm-rate .tm-rate__pick-list { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin-inline: calc(-1 * var(--tm-space-5)); padding: 4px var(--tm-space-5); scroll-padding-inline: var(--tm-space-5); }
+.tm-rate .tm-rate__pick-list::-webkit-scrollbar { display: none; }
+.tm-rate .tm-rate__pick { flex: none; min-height: 40px; white-space: nowrap; }
 .tm-rate__pick { min-height: 36px; padding: 0 var(--tm-space-3); border: 1px solid var(--tm-color-line-strong); border-radius: 999px;
   background: var(--tm-color-surface-200); color: var(--tm-color-ink); font: inherit; font-size: 14px; cursor: pointer; }
 .tm-rate__pick--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash); }
@@ -715,7 +758,7 @@ button.tm-banner { cursor: pointer; }
 .tm-loop__facts dt { color: var(--tm-color-ink-muted); }
 .tm-loop__facts dd { margin: 0; text-align: right; }
 
-/* Свайп по кадру ленты (24.09): влево — «не сейчас», вправо — кто разбирал (28.09). Та же механика, что
+/* Свайп по кадру ленты (24.09): влево — трейлер (с 17.10 всегда), вправо — кто разбирал (28.09). Та же механика, что
    у оценки на /rate и у страниц карточки, поэтому и вид тот же: кадр идёт за пальцем, из-под
    него выступает подпись операции, а на пороге она загорается. Вертикальную прокрутку ленты
    жест не трогает — ось выбирает `useSwipe`, а `touch-action: pan-y` оставляет её браузеру. */
@@ -737,16 +780,6 @@ button.tm-banner { cursor: pointer; }
 .tm-stream__hint--voices { justify-content: flex-start; padding-left: var(--tm-space-3); background: var(--tm-color-mark-wash); }
 .tm-stream__hint--dismiss { justify-content: flex-end; background: var(--tm-color-signal-stop-wash); }
 .tm-stream__hint--on { color: var(--tm-color-ink); }
-/* причины поверх освободившегося места: кнопки крупные — палец только что ушёл с экрана */
-.tm-stream__ask { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
-  align-items: flex-start; justify-content: center; gap: var(--tm-space-3);
-  padding: var(--tm-space-4) var(--tm-space-5); background: var(--tm-color-signal-stop-wash); }
-.tm-stream__ask .tm-reasons { margin-top: 0; padding-top: 0; border-top: 0; }
-.tm-stream__ask .tm-reasons__title { color: var(--tm-color-ink); }
-.tm-stream__ask .tm-reasons__opt { padding: var(--tm-space-2) var(--tm-space-4);
-  border-color: var(--tm-color-line-strong); background: var(--tm-color-surface-card); color: var(--tm-color-ink); }
-.tm-stream__ask .tm-reasons__opt--on { border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash);
-  color: var(--tm-color-accent-ink); }
 /* логотипы под пальцем: внахлёст, чтобы уместиться в выступающую полосу, лишние — числом */
 .tm-stream__pile { display: flex; align-items: center; }
 .tm-stream__pile .tm-voice__avatar { box-shadow: 0 0 0 2px var(--tm-color-mark-wash); }
@@ -759,11 +792,14 @@ button.tm-banner { cursor: pointer; }
 .tm-stream__voicestitle { margin: 0; color: var(--tm-color-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tm-stream__voices .tm-voice__strip { height: 78px; margin: 0 calc(-1 * var(--tm-space-5)); padding: 0 var(--tm-space-5); }
 .tm-stream__voices .tm-voice__tab { color: var(--tm-color-ink); }
-.tm-stream__voicesfoot { display: flex; align-items: center; justify-content: space-between; gap: var(--tm-space-3); }
-/* подсказка про свайп над лентой — один раз */
-.tm-stream__swipehint { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-2) var(--tm-space-5);
+/* 17.10: подпись «Тап — открыть разбор» убрана, «Вернуть» — справа от заголовка */
+.tm-stream__voiceshead { display: flex; align-items: center; justify-content: space-between; gap: var(--tm-space-3); min-width: 0; }
+.tm-stream__voiceshead .tm-btn { flex: none; }
+.tm-stream__voiceshead .tm-stream__voicestitle { flex: 1 1 auto; min-width: 0; }
+/* подсказка про свайп над лентой — один раз, в одну строку (17.10) */
+.tm-stream__swipehint { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-1) var(--tm-space-5);
   background: var(--tm-color-surface-200); border-bottom: 1px solid var(--tm-color-line); color: var(--tm-color-ink-muted); }
-.tm-stream__swipehint .tm-caption { flex: 1; }
+.tm-stream__swipehint .tm-caption { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tm-stream__swipehint .tm-btn { flex: none; }
 @media (prefers-reduced-motion: reduce) {
   .tm-stream__drag, .tm-stream__hint { transition: none; }
@@ -785,6 +821,10 @@ button.tm-banner { cursor: pointer; }
 .tm-edge > span { writing-mode: vertical-rl; white-space: nowrap; font-family: var(--font-display); font-size: 10px; line-height: 12px;
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tm-color-ink-faint); }
 .tm-edge__no { color: var(--tm-color-accent-ink); }
+/* хвост ленты (17.10): «Ещё фильмы» и приглашения — пустой ракорд той же плёнки, перфорация идёт дальше без шва */
+/* у кадров край дорожки виден по картинке; у пустого хвоста фон тот же — дорожку отделяет контрастная линия */
+.tm-filmstrip__tail { padding: var(--tm-space-2) 0 var(--tm-space-5); border-left: 1px solid var(--tm-color-line-strong); }
+.tm-filmstrip__tail > .tm-stream__pad { margin-top: 0; margin-bottom: 0; }
 
 /* Заставка-плёнка «Сегодня» (16.10, FilmReel, флаг reel): те же дорожка и вырезы, что у .tm-filmstrip, — фазу
    перфорации ведёт скрипт через background-position-y. Слои: дорожки → пролетающие кадры (их надпечатка
@@ -832,6 +872,20 @@ button.tm-banner { cursor: pointer; }
 .tm-quick.tm-row { flex-direction: row; }
 .tm-quick__how { color: var(--tm-color-ink-faint); }
 .tm-quick__scale { display: flex; flex-wrap: wrap; gap: var(--tm-space-1); }
+/* 17.10: «Без оценки» — компактно рядом с барабаном; «⋯» — квадратная кнопка с остальными ответами */
+.tm-quick__scale .tm-btn.tm-quick__norate { flex: none; padding-inline: var(--tm-space-2); }
+.tm-quick__more { min-width: 40px; padding-inline: var(--tm-space-2); letter-spacing: 0.1em; }
+/* послесловие (17.10): «Стоило ли?» — барабан на месте оценки, вопрос рядом; доп. вопрос — строка и ряд вариантов */
+.tm-quick__scale--worth { align-items: center; flex-wrap: nowrap; gap: var(--tm-space-2); }
+.tm-quick__q { color: var(--tm-color-ink-muted); font-size: 14px; font-weight: 600; white-space: nowrap; }
+.tm-after { display: grid; gap: var(--tm-space-1); }
+.tm-after__q { margin: 0; color: var(--tm-color-ink-muted); font-size: 14px; font-weight: 600; }
+.tm-after__opts { display: flex; flex-wrap: wrap; gap: var(--tm-space-1); }
+.tm-after__opts .tm-btn { flex: none; padding-inline: var(--tm-space-2); }
+/* в углу карточки ленты (.tm-mark прижат вправо) — по правому краю, как барабан и «Без оценки» */
+.tm-mark .tm-after { justify-items: end; text-align: right; }
+.tm-mark .tm-after__q { padding-right: var(--tm-space-2); }
+.tm-mark .tm-after__opts { justify-content: flex-end; }
 
 /* фабула в карточке (02.10): тап по баннеру — кадр уезжает вверх до шторки, под ней описание */
 .tm-worksheet__top .tm-banner { transition: max-height .28s ease, min-height .28s ease; }
@@ -914,12 +968,24 @@ button.tm-banner { cursor: pointer; }
 /* неточность в карточке (02.10): флажок в кадре карточки и отметки в шторке */
 .tm-worksheet__report { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); left: var(--tm-space-3); width: 36px; height: 36px; padding: 0; border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink-muted); font: inherit; font-size: 17px; line-height: 36px; text-align: center; cursor: pointer; }
 .tm-worksheet__report:hover { color: var(--tm-color-ink); }
-.tm-worksheet__page { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); left: calc(var(--tm-space-3) + 44px); height: 36px; padding: 0 var(--tm-space-3); border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); font: inherit; font-size: 14px; line-height: 36px; cursor: pointer; }
+/* 17.10: «Вся страница» — в левом углу, где был ⚑ (флажок ушёл в меню «⋯») */
+.tm-worksheet__page { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); left: var(--tm-space-3); height: 36px; padding: 0 var(--tm-space-3); border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); font: inherit; font-size: 14px; line-height: 36px; cursor: pointer; }
 .tm-worksheet__page:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
 .tm-worksheet__report:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
 /* «Поделиться» (05.10): кружок левее «закрыть», того же вида, что ⚑ */
 .tm-worksheet__share { position: absolute; z-index: 3; top: calc(var(--tm-space-3) + var(--tm-safe-top)); right: calc(var(--tm-space-3) + 44px); width: 36px; height: 36px; padding: 0; border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .tm-worksheet__share:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+/* «⋯» (17.10): «Поделиться» и неточность одним меню; левее «закрыть», а в Telegram (× нет) — в самом углу */
+.tm-worksheet__menuwrap { position: absolute; z-index: 4; top: calc(var(--tm-space-3) + var(--tm-safe-top)); right: calc(var(--tm-space-3) + 44px); }
+.tm-worksheet__menuwrap--edge { right: var(--tm-space-3); }
+.tm-worksheet__more { position: relative; display: block; width: 36px; height: 36px; padding: 0; border: 0; border-radius: var(--tm-radius-full); background: color-mix(in srgb, var(--tm-color-surface-100) 72%, transparent); color: var(--tm-color-ink); font: inherit; font-size: 20px; line-height: 34px; text-align: center; cursor: pointer; touch-action: manipulation; }
+.tm-worksheet__more::after { content: ""; position: absolute; inset: -4px; }
+.tm-worksheet__more[aria-expanded="true"] { background: var(--tm-color-surface-100); }
+.tm-worksheet__more:focus-visible, .tm-worksheet__menuitem:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: -2px; }
+.tm-worksheet__menu { position: absolute; top: calc(100% + 6px); right: 0; min-width: 220px; display: flex; flex-direction: column; padding: var(--tm-space-1) 0; background: var(--tm-color-surface-card); border: 1px solid var(--tm-color-line-strong); border-radius: var(--tm-radius-card); box-shadow: 0 6px 24px rgb(0 0 0 / 0.18); }
+.tm-worksheet__menuitem { display: flex; align-items: center; gap: var(--tm-space-2); min-height: 44px; padding: 0 var(--tm-space-4); border: 0; background: none; color: var(--tm-color-ink); font: inherit; font-size: 15px; text-align: left; cursor: pointer; white-space: nowrap; }
+.tm-worksheet__menuitem + .tm-worksheet__menuitem { border-top: 1px solid var(--tm-color-line); }
+.tm-worksheet__menuitem:active { background: var(--tm-color-surface-200); }
 .tm-issue__fields { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--tm-space-3) 0; }
 
 .tm-work__share { margin-top: var(--tm-space-2); }
@@ -944,6 +1010,26 @@ button.tm-banner { cursor: pointer; }
 .tm-voicepage__outlets, .tm-work__statslink { overflow: visible; }
 .tm-search__filters { padding-top: 10px; padding-bottom: 10px; margin-top: -10px; pointer-events: none; }
 .tm-search__filters > * { pointer-events: auto; }
+
+/* «Фильтр ▾» + тоггл рода (17.10) вместо рядов чипов: в архиве и в отмеченном поиска. Описание слева, кнопки справа */
+.tm-fbar { display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-5); }
+.tm-fbar__what { flex: 1; min-width: 0; margin: 0; color: var(--tm-color-ink-faint); }
+.tm-fmenu__btn { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; max-width: 160px; padding: 0 var(--tm-space-3); border: 1px solid var(--tm-color-line); background: var(--tm-color-surface-card); color: var(--tm-color-ink-muted); font-family: var(--font-text); font-size: 13px; font-weight: 600; cursor: pointer; }
+.tm-fmenu__btn--on { color: var(--tm-color-ink); border-color: var(--tm-color-accent); }
+.tm-fmenu__btn:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-fmenu__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tm-fmenu__list { list-style: none; margin: 0; padding: 0; }
+.tm-fmenu__list li + li { border-top: 1px solid var(--tm-color-line); }
+.tm-fmenu__opt { display: flex; align-items: center; justify-content: space-between; gap: var(--tm-space-3); width: 100%; min-height: 48px; padding: 0 var(--tm-space-1); border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; text-align: left; cursor: pointer; }
+.tm-fmenu__opt--on { color: var(--tm-color-ink); font-weight: 600; box-shadow: inset 3px 0 0 var(--tm-color-accent); padding-left: var(--tm-space-3); }
+.tm-fmenu__count { flex: none; color: var(--tm-color-ink-faint); font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 400; }
+.tm-kindf { flex: none; }
+.tm-kindf .tm-energy__opt { min-height: 40px; padding: 0 var(--tm-space-2); white-space: nowrap; border-top-width: 0; }
+.tm-archive__head .tm-fmenu__btn:first-of-type { margin-left: auto; }
+/* одна очистка поля (17.10): своя ✕ — системную прячем, на iOS она видна только при открытой клавиатуре */
+.tm-search__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+.tm-search__clear { flex: none; width: 40px; height: 40px; border: 0; background: none; color: var(--tm-color-ink-faint); font-size: 18px; line-height: 1; cursor: pointer; }
+.tm-search__clear:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: -2px; }
 
 /* лента (ТВ-11): переключатель силы над плёнкой и «Ещё фильмы» под ней */
 .tm-stream__energy { padding-top: var(--tm-space-3); padding-bottom: var(--tm-space-3); display: flex; flex-wrap: wrap; align-items: center; gap: var(--tm-space-2); }
@@ -1033,16 +1119,28 @@ button.tm-banner { cursor: pointer; }
 .tm-passport + .tm-stream__panel { padding-top: var(--tm-space-2); }
 .tm-passport__row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .tm-passport__chip { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; padding: 3px 9px; border: 1px solid var(--tm-color-line); border-radius: 999px;
-  font-family: var(--font-text); font-size: 12px; line-height: 16px; color: var(--tm-color-ink-muted); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  font-family: var(--font-text); font-size: 12px; line-height: 16px; color: var(--tm-color-ink-muted); white-space: nowrap; }
 .tm-passport__icon { flex: none; font-size: 12px; line-height: 1; color: var(--tm-color-ink); }
-.tm-passport__link { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--tm-color-ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; }
+/* многоточие — у текста, а не у плашки (17.10): `overflow` плашки обрезал бы слой касания ссылки */
+.tm-passport__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tm-passport__link { position: relative; display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--tm-color-ink); text-decoration: none; touch-action: manipulation; }
 .tm-passport__more { border-style: dashed; padding: 0; }
-.tm-passport__more button { padding: 3px 9px; border: 0; background: none; color: var(--tm-color-ink-faint); font: inherit; cursor: pointer; }
+.tm-passport__more button { position: relative; padding: 3px 9px; border: 0; background: none; color: var(--tm-color-ink-faint); font: inherit; cursor: pointer; touch-action: manipulation; }
+/* цели касания ≥40 px (17.10): плашка на вид 22 px, слой касания — 40 по вертикали и на всю плашку по горизонтали */
+.tm-passport__link::after, .tm-passport__more button::after { content: ""; position: absolute; top: 50%; height: 40px; transform: translateY(-50%); }
+.tm-passport__link::after { left: -10px; right: -10px; }
+.tm-passport__more button::after { left: -1px; right: -1px; }
 .tm-passport__more button:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
 .tm-passport .tm-hurdles__list { margin-top: var(--tm-space-2); }
 
 .tm-depth__list { display: flex; flex-direction: column; }
 .tm-depth__corner { display: flex; justify-content: flex-end; margin-bottom: var(--tm-space-2); }
+/* ряд «Видел / В планы / Не сейчас» и причины «не сейчас» сразу под ним (17.10) — одним столбиком, кнопки справа */
+.tm-mark { display: flex; flex-direction: column; align-items: flex-end; gap: var(--tm-space-2); min-width: 0; max-width: 100%; }
+.tm-voice__corner .tm-mark { align-items: stretch; }
+.tm-reasons.tm-reasons--inline { margin-top: 0; padding-top: var(--tm-space-2); }
+.tm-mark .tm-reasons--inline .tm-row { justify-content: flex-end; }
+.tm-voice__corner .tm-mark .tm-reasons--inline .tm-row { justify-content: flex-start; }
 .tm-depth__hint { margin: 0 0 var(--tm-space-3); color: var(--tm-color-ink-faint); }
 .tm-opinion { display: flex; align-items: center; gap: var(--tm-space-3); min-height: 52px; padding: var(--tm-space-2) 0; border-bottom: 1px solid var(--tm-color-line); color: inherit; text-decoration: none; }
 .tm-opinion:last-child { border-bottom: 0; }
@@ -1107,6 +1205,8 @@ button.tm-banner { cursor: pointer; }
 .tm-start__question { margin: 0; text-align: center; font-weight: 600; }
 .tm-start__ask .tm-rate__score { min-height: 44px; }
 .tm-start__ask .tm-rate__skip { text-align: center; }
+/* «Не помню» (17.10): цель касания 40 px, а не строка текста в 20 px */
+.tm-start__ask .tm-rate__skip { flex-basis: auto; align-self: center; min-height: 40px; min-width: 120px; padding: 0 var(--tm-space-3); }
 .tm-start__gesture { margin: 0; color: var(--tm-color-ink-faint); text-align: center; }
 @media (pointer: fine) { .tm-start__gesture { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tm-start__card { transition: none; } }
@@ -1115,7 +1215,8 @@ button.tm-banner { cursor: pointer; }
 .tm-start__fav--empty { align-items: center; justify-content: center; aspect-ratio: 3 / 4; border: 1px dashed var(--tm-color-line-strong); border-radius: var(--tm-radius-control); color: var(--tm-color-ink-faint); }
 .tm-start__favbtn { display: flex; flex-direction: column; align-items: center; gap: var(--tm-space-1); width: 100%; min-width: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
 .tm-start__favname { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-align: center; overflow-wrap: anywhere; }
-.tm-start__search { margin: 0 var(--tm-space-5); width: auto; }
+/* flex: none (17.10): у .tm-search__input flex: 1 — в колонке .tm-start поле растягивалось в высоту до 454 px */
+.tm-start__search { flex: none; margin: 0 var(--tm-space-5); width: auto; }
 .tm-start__hit { width: 100%; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .tm-stream__general { margin: var(--tm-space-3) var(--tm-space-5); color: var(--tm-color-ink-muted); }
 
@@ -1123,11 +1224,24 @@ button.tm-banner { cursor: pointer; }
    нажатию «Сегодня» (AppShell, событие tm:tune). Ленту она не занимает; стрелка на пункте меню показывает, что панель
    есть. Архив — наверху, как в главной Telegram. */
 .tm-tune__scrim { position: fixed; inset: 0; z-index: 30; border: 0; padding: 0; background: rgb(0 0 0 / 0.35); cursor: default; }
-.tm-tune { position: fixed; left: 0; right: 0; z-index: 31; bottom: 0; display: flex; flex-direction: column; align-items: flex-end; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
+/* по колонке приложения (.tm-shell--mobile, 420px), а не по ширине окна */
+.tm-tune { position: fixed; left: 0; right: 0; max-width: 420px; margin: 0 auto; box-sizing: border-box; z-index: 31; bottom: 0; display: flex; flex-direction: column; align-items: flex-end; gap: var(--tm-space-2); padding: var(--tm-space-3) var(--tm-space-5); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
 .tm-tune > .tm-stream__energy { padding: 0; flex-wrap: nowrap; width: 100%; }
 .tm-tune .tm-energy { flex: none; }
 .tm-tune .tm-energy + .tm-energy { flex: 1; }
 .tm-tune .tm-energy__opt { min-height: 40px; padding: 0 var(--tm-space-2); white-space: nowrap; }
+/* панель не закрывается после выбора (17.10) — отклик виден на самой кнопке: нажатие проседает, а пока лента
+   пересчитывается, по верхнему краю панели бежит полоска */
+.tm-tune .tm-energy__opt, .tm-tune .tm-btn { transition: transform 0.08s ease, background-color 0.16s ease; }
+.tm-tune .tm-energy__opt:active, .tm-tune .tm-btn:active { transform: scale(0.96); }
+.tm-tune[aria-busy="true"]::before { content: ""; position: absolute; top: -1px; left: 0; height: 2px; width: 30%; background: var(--tm-color-accent); animation: tm-tune-busy 0.9s ease-in-out infinite alternate; }
+@keyframes tm-tune-busy { from { left: 0; } to { left: 70%; } }
+@media (prefers-reduced-motion: reduce) { .tm-tune[aria-busy="true"]::before { animation: none; width: 100%; opacity: 0.5; } .tm-tune .tm-energy__opt:active, .tm-tune .tm-btn:active { transform: none; } }
+/* кино/книги — одна кнопка-тоггл (17.10): ширина не прыгает между «Кино» и «Книги», значок сменяется с лёгким поворотом */
+.tm-kind__opt { min-width: 92px; gap: 6px; }
+.tm-kind__glyph { flex: none; animation: tm-kind-swap .22s ease-out; }
+@keyframes tm-kind-swap { from { opacity: 0; transform: rotateY(90deg); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-kind__glyph { animation: none; } }
 .tm-nav__item--tune { position: relative; }
 .tm-nav__tune { display: none; }
 :root[data-tune] .tm-nav__tune { display: block; position: absolute; top: 9px; left: calc(50% + 14px); width: 6px; height: 6px; border-top: 1.5px solid currentColor; border-left: 1.5px solid currentColor; transform: rotate(45deg); }
@@ -1163,6 +1277,9 @@ button.tm-banner { cursor: pointer; }
 .tm-wheel__row--on { color: var(--tm-color-ink); }
 .tm-wheel--set .tm-wheel__row--on, .tm-wheel__row--on.tm-wheel__row--good { color: var(--tm-color-accent); }
 .tm-wheel--off { opacity: 0.5; pointer-events: none; }
+/* «Оценить» в покое (17.10): строки под подписью не видны, касание раскрывает барабан на «Нормально» */
+.tm-wheel--rest .tm-wheel__row { color: transparent; }
+.tm-wheel__rest { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 var(--tm-space-2); color: var(--tm-color-ink-muted); font-family: var(--font-text); font-size: 14px; font-weight: 600; pointer-events: none; }
 /* в покое — намёк, что крутится: уголки сверху и снизу */
 .tm-wheel__hint { position: absolute; right: 8px; width: 5px; height: 5px; border-left: 1.5px solid var(--tm-color-ink-faint); border-top: 1.5px solid var(--tm-color-ink-faint); pointer-events: none; }
 .tm-wheel__hint--up { top: 8px; transform: rotate(45deg); }
@@ -1175,4 +1292,9 @@ button.tm-banner { cursor: pointer; }
 .tm-rate__item:has(.tm-rate__scale--wheel) > .tm-search__open { flex: 1; min-width: 0; }
 .tm-rate__scale--wheel { flex: none; flex-direction: column; align-items: flex-end; gap: var(--tm-space-1); }
 .tm-rate__scale--wheel .tm-rate__skip { padding: 0; }
+/* «Не смотрел» и «Оценить книги» (17.10): цель касания не меньше 40 px, а не строка текста в 16 px */
+.tm-rate__scale--wheel { gap: 0; }
+.tm-rate__scale--wheel .tm-rate__skip { display: flex; align-items: center; justify-content: flex-end; min-height: 40px; min-width: 88px; padding: 0 var(--tm-space-1); }
+.tm-rate__jump { padding: 0 var(--tm-space-5); }
+.tm-rate__jumpbtn { display: inline-flex; align-items: center; min-height: 40px; }
 .tm-start__ask .tm-rate__scale--wheel { align-items: center; }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getVoiceWorks, type VoiceWorks } from '@/api';
-import { EmptyState, ErrorState, Skeleton } from '@/components';
+import { BackLink, EmptyState, ErrorState, Skeleton } from '@/components';
 import { onExternalClick } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
 import { leadName } from '@/lib/credits';
@@ -37,7 +37,7 @@ export function VoiceScreen() {
   const voice = data?.voice;
   return (
     <main className="tm-shell__main tm-voicepage">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.voice.back}</button>
+      <BackLink label={ui.voice.back} />
 
       {failed ? <ErrorState title={ui.state.errorVoice} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {!data && !failed ? (

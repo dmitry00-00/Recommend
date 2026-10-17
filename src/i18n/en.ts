@@ -140,7 +140,7 @@ export const en: Strings = {
   "planned": "Planned",
   "in_progress": "In progress",
   "finished": "Finished",
-  "abandoned": "On hold"
+  "abandoned": "Dropped"
 },
   difficulty: {
   "too_easy": "Easy",
@@ -466,7 +466,7 @@ export const en: Strings = {
   "seasonDone": (s: number, next: number) => `Season ${s} saved. Next up is season ${next} — we'll ask after it.`
 },
   entry: {
-  "abandoned": "On hold: ",
+  "abandoned": "Dropped: ",
   "otherReason": "other"
 },
   reflection: {
@@ -517,7 +517,7 @@ export const en: Strings = {
   "hint": "We search our own list — by both the Russian and the original title.",
   "byMood": "By description",
   "watchedHint": "Here's what you've already marked as watched. It won't show up in your feed, and it's what we use to learn your taste.",
-  "watchedCount": (n: number) => `Marked: ${n}.`,
+  "watchedCount": (n: number) => `Marked: ${n}`,
   "mark": "Watched",
   "markRead": "Read",
   "unmark": "Remove",
@@ -527,6 +527,9 @@ export const en: Strings = {
   "emptyText": "Try a different spelling or the original title.",
   "filterAll": "All",
   "filterHint": "Filters count what you've marked, not the whole catalog.",
+  /* «Filter ▾» over the marked list (17.10): registers in a sheet, not a row of chips */
+  "filter": "Filter",
+  "filterTitle": "Show from marked",
   "importLink": "Import history",
   "watchedEmpty": "Nothing here yet",
   "watchedEmptyText": "Find a film and mark it — it'll stop showing up in your feed.",
@@ -625,6 +628,8 @@ export const en: Strings = {
   "worthQ": "Was it worth it?",
   "worthScale": ["No", "Not really", "So-so", "Yes", "Absolutely"],
   "worthWhyQ": "What was off?",
+  /* «Стоило ли?» барабаном (17.10): подпись в покое, пока не ответили */
+  "worthPick": "Answer",
   "worthWhy": { "not_mine": "Not for me", "boring": "Boring", "too_heavy": "Too heavy", "expected_other": "Expected something else" }
 },
   /* диагностика: задание и прогресс */
@@ -743,7 +748,7 @@ export const en: Strings = {
   /* first entry by swiping (ДФ-2, 16.10): /start */
   start: {
   "title": "Which of these have you seen?",
-  "lead": "Twelve well-known films, one at a time. Mark what you've seen, what you want to watch and what's not for you — your feed starts from this.",
+  "lead": "One at a time: seen, want, or not for you.",
   "progress": (n: number, total: number) => `${n} of ${total}`,
   "skip": "Skip",
   "seen": "Seen it",
@@ -772,6 +777,8 @@ export const en: Strings = {
   "progress": (rated: number, needed: number) => rated >= needed ? `Rated ${rated}` : `Rated ${rated} of ${needed}`,
   "scale": ["Miss", "Weak", "Fine", "Good", "Great"],
   "scaleLabel": (title: string) => `How was “${title}”`,
+  /* барабан неоценённой строки в покое (17.10) */
+  "cta": "Rate",
   "skip": "Haven't seen it",
   "unskip": "Undo",
   "gesture": "You can swipe: right for “Good”, further for “Great”; left for “Weak”, further for “Miss”.",
@@ -964,6 +971,8 @@ export const en: Strings = {
   /* трейлер смахиванием карточки ленты влево (15.10) */
   trailer: {
   "swipe": "▶ Trailer",
+  /* трейлера нет (17.10): кадр пружинит назад, тост — коротко */
+  "none": "No trailer",
   "title": (t: string) => `Trailer: ${t}`,
   "youtube": "Open on YouTube",
 },
@@ -1196,8 +1205,9 @@ export const en: Strings = {
   "readingNow": "Reading — mark how it went afterwards",
   "didYouWatch": "Watched it?",
   "didYouRead": "Finished it?",
-  "notYet": "Haven't watched yet",
-  "notYetRead": "Haven't read yet",
+  /* 17.10: «Ещё не смотрел(а)/читал(а)» → по делу: начатое уходит обратно в планы */
+  "notYet": "Back to plans",
+  "notYetRead": "Back to plans",
   /* сериал и книга в процессе: страница записи с «где вы сейчас» (сезон, часть, страница) */
   "whereNow": "Where I am now",
   "gaveUp": "Dropped",
@@ -1205,7 +1215,8 @@ export const en: Strings = {
   "watchingOn": "Watching ✓",
   "readingMark": "Reading",
   "readingOn": "Reading ✓",
-  "swipeHint": "Swipe left — trailer. Right — who broke this film down. “Not now” is in the film card; swipe an open card sideways to return to the feed.",
+  /* одна строка (17.10): стрелки — в сторону свайпа */
+  "swipeHint": "← trailer · breakdowns →",
   "noVoices": "No breakdowns yet",
   "voicesTitle": (title: string) => `“${title}”: who broke it down`,
   "voicesHint": "Tap to open the breakdown in the card",
@@ -1456,8 +1467,12 @@ export const en: Strings = {
   "wikipedia": "Wikipedia",
   "source": (name: string) => `Text: ${name}, CC BY-SA`,
   /* вход на полную страницу из шторки (ТВ-4, 06.10): там «Где об этом говорили», «Рядом называют», статистика */
-  "page": "More",
-  "pageLabel": "Open the full title page"
+  /* 17.10: «Вся страница», а не «Подробнее» — не путать с «Подробнее ▾» паспорта */
+  "page": "Full page",
+  "pageLabel": "Open the full title page",
+  /* ⚑ и «Поделиться» — одним меню «⋯» в шапке шторки (17.10) */
+  "menu": "More actions",
+  "menuIssue": "Report an error"
 },
   /* ДФ-7 (14.10): «Что может мешать» в шторке */
   hurdles: {
@@ -1517,8 +1532,18 @@ export const en: Strings = {
   "more": (left: number) => `${left} more ${left === 1 ? 'rating' : 'ratings'} and your feed appears`,
   "ready": "Enough ratings — your feed is ready",
   "abandonedMark": "Dropped",
+  /* 17.10: отмена «Бросил(а)» в тосте и «⋯» с остальными ответами у карточки «Сейчас» */
+  "undo": "Undo",
+  "moreActions": "More actions",
   "notCounted": (left: number) => `your first feed needs films we’ve already annotated — rate ${left} more`,
   "toDeck": "Back to ratings"
+},
+  /* послесловие к просмотренному (17.10): после оценки — «Стоило ли?» и иногда один вопрос о человеке; подходит и книгам */
+  afterword: {
+  "paceQ": "The pace?",
+  "pace": { "slow": "Dragged", "ok": "Just right", "fast": "Fast" },
+  "hookQ": "What hooked you?",
+  "hook": { "plot": "Plot", "characters": "Characters", "world": "World", "idea": "Idea" }
 },
   /* связь с автором и приглашение друга (02.10) */
   social: {
@@ -1600,6 +1625,32 @@ export const en: Strings = {
   "sourceTmdb": "TMDb — stills, descriptions, where to watch",
   "sourceKinopoisk": "Kinopoisk (unofficial API) — Russian descriptions, stills, streaming services",
   "sourceOpenLibrary": "Open Library — book covers",
+  // строки настроек (17.10, аудит удобства): значение справа, пояснение в одну строку, длинное — под «?» или в листе
+  "more": "Explanation",
+  "groupPicks": "Picks",
+  "groupApp": "App",
+  "historyShort": "Ratings and lists from other services",
+  "mediaValues": { "both": "Films and books", "film": "Films", "book": "Books" } as Record<'both' | 'film' | 'book', string>,
+  "spoilerShort": ["Hide everything", "No ending", "Show everything"],
+  "spoilerNotes": ["Until you finish — no plot, no structure", "How it works — yes, how it ends — no", "Full breakdowns, ending included"],
+  "langsEn": "English breakdowns",
+  "langsEnNote": "E.g. the big “Game of Thrones” breakdowns",
+  "langsOnlyEn": "Currently English only",
+  "subsShort": "Your services come first",
+  "subsNone": "none",
+  "subsOnlyShort": "Feed: subscriptions and free only",
+  "focusNone": "none",
+  "diaryShort": "“Watching now”, progress, a couple of questions",
+  "warningsNone": "none",
+  "warningsHint": "You can exclude a topic on a work's page — next to the warning.",
+  "followsShort": "A daily digest from the bot",
+  "socialShort": "Unclear or broken — write to us",
+  "contributorShort": "Help the catalog: tagging, pairs, barriers",
+  "exportShort": "Everything you've marked and rated, as a file",
+  "exportOther": "Or JSON with every field",
+  "sourcesShort": "Wikidata, TMDb, Kinopoisk, Open Library",
+  "owner": "For the owner",
+  "testersShort": "All shelves, no stats or mechanics",
   // формулировка из условий TMDb (редакция 20.10.2023); там же требование логотипа TMDb рядом — ЗП-24
   "tmdbNotice": "This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.",
 },
@@ -1607,7 +1658,7 @@ export const en: Strings = {
   /* шторка импорта истории (22.09) */
   importSheet: {
   "title": "Import history",
-  "lead": "An export from a service (Letterboxd, IMDb, Trakt, Kinopoisk, Goodreads, StoryGraph) or just a list of titles — either works, or both at once. No need to unzip the export.",
+  "lead": "An export from a service or just a list of titles — either works, or both at once. No need to unzip the export.",
   "privacy": "Files are processed right here in the app: a profile export may contain your session keys, so it never leaves your device.",
   "files": "Export files",
   "paste": "Or a list of titles",
@@ -1679,6 +1730,12 @@ export const en: Strings = {
   "rowDropped": "won't be added",
   "searchPlaceholder": "Title",
   "searchNothing": "Nothing found — you can keep it as is",
+  /* the "check" row (17.10): "ours: X" + "Change ▾" with a sheet instead of 5–7 buttons; file picking as a button */
+  "rowChange": "Change",
+  "rowProposed": "our suggestion",
+  "rowSearch": "Search the catalog",
+  "pickFiles": "Choose files",
+  "picked": (n: number, first: string) => (n === 1 ? first : `${first} and ${n - 1} more`),
   "more": (n: number) => `${n} more`,
   "add": (n: number) => `Add ${n}`,
   "nothingToAdd": "Nothing to add — it's all in your diary already",
@@ -1717,8 +1774,11 @@ export const en: Strings = {
   journal: {
   "filterStatus": "Show by status",
   "filterKind": "Show film or books",
-  "statusFilter": { "planned": "Planned", "in_progress": "Now", "finished": "Finished", "abandoned": "Put aside" },
+  "statusFilter": { "planned": "Planned", "in_progress": "Now", "finished": "Finished", "abandoned": "Dropped" },
   "filterEmpty": "Nothing matches this filter.",
+  /* «All ▾» and the kind toggle (17.10) instead of two chip rows */
+  "statusAll": "All",
+  "kindAll": "Films & books",
   "notFound": "No such entry",
   "notFoundText": "The link is out of date or the entry was deleted.",
   "errorList": "Couldn't load the archive",
@@ -1776,6 +1836,10 @@ export const en: Strings = {
   "errorUniverse": "Couldn't load the universe",
   "errorCharacter": "Couldn't load the character",
   "errorStats": "Couldn't load stats",
+  /* экран сбоя (17.10): ошибка рендера или чанк прошлой выкладки — меню живо, экран можно перезагрузить */
+  "crashTitle": "Couldn't open this screen",
+  "crashText": "Something broke while opening it. Your marks and ratings are safe — reload the app.",
+  "reload": "Reload",
   "offlineTitle": "Can't reach the server",
   "cachedSlate": (when: string) => `Showing the feed saved on ${when}. You can mark things once the connection is back.`,
   "offlineText": "Your marks and ratings are safe — we just can't get to them right now. Check your internet and try again.",

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPerson, getSettings, type PersonPage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
-import { EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
+import { BackLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
 import { registers } from '@/lib/registers';
 import { useMechanics, useRole } from '@/lib/settingsStore';
 import { WorkThumb } from '@/components/WorkThumb';
@@ -41,7 +41,7 @@ export function PersonScreen() {
 
   return (
     <main className="tm-shell__main tm-voicepage tm-person">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.person.back}</button>
+      <BackLink label={ui.person.back} />
 
       {failed ? <ErrorState title={ui.state.errorPerson} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
@@ -109,7 +109,8 @@ export function PersonScreen() {
           <section className="tm-person__section">
             <h2 className="tm-title-3">{ui.person.worksTitle}</h2>
             <ul className="tm-search__list">
-              {data.works.map(({ work, roles, analyses, seen }) => (
+              {/* «С чего начать» в списке работ не повторяем (17.10) */}
+              {data.works.filter(({ work }) => work.id !== data.startWith?.work.id).map(({ work, roles, analyses, seen }) => (
                 <li key={work.id} className="tm-search__item tm-voicepage__item">
                   <button type="button" className="tm-search__open" onClick={() => navigate(`/works/${work.id}`)}>
                     <Thumb work={work} />
@@ -145,9 +146,10 @@ export function PersonScreen() {
             <h2 className="tm-title-3">{ui.person.essaysTitle}</h2>
             {data.analyses.length ? (
               <ul className="tm-person__essays">
-                {data.analyses.map(({ work, analysis, seen }) => (
+                {/* по вещам (17.10): название — один раз над её разборами, а не над каждым («Солярис» ×5 вперемешку) */}
+                {byWorkFirst(data.analyses).map(({ work, analysis, seen }, i, list) => (
                   <li key={analysis.url}>
-                    <p className="tm-caption tm-person__about">{titleOf(work)}</p>
+                    {i && sameWork(list[i - 1].work, work) ? null : <p className="tm-caption tm-person__about">{titleOf(work)}</p>}
                     {/* как в карточке: видели — открыто всё, нет — по настройке спойлеров */}
                     <OpenContext.Provider value={{ place: 'person', workId: work.id }}>
                       <ExternalAnalysisLink analysis={analysis} spoilerLevel={seen ? 2 : spoilers} />
@@ -178,4 +180,16 @@ function Thumb({ work }: { work: PersonPage['works'][number]['work'] }) {
   return (
     <WorkThumb work={work} />
   );
+}
+
+type Essay = PersonPage['analyses'][number];
+const sameWork = (a: Essay['work'], b: Essay['work']) => a.id === b.id || (a.title === b.title && a.year === b.year && a.type === b.type);
+/** Разборы вместе по вещам, вещи — в порядке первого (самого свежего) разбора, внутри — как пришли (17.10). */
+function byWorkFirst(list: Essay[]): Essay[] {
+  const groups: Essay[][] = [];
+  for (const x of list) {
+    const g = groups.find((y) => sameWork(y[0].work, x.work));
+    if (g) g.push(x); else groups.push([x]);
+  }
+  return groups.flat();
 }

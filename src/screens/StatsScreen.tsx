@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getStats, type StatsKind, type StatsPage } from '@/api';
-import { EmptyState, ErrorState, Skeleton } from '@/components';
+import { BackLink, EmptyState, ErrorState, Skeleton } from '@/components';
 import ui, { locale } from '@/i18n';
 
 const KINDS: StatsKind[] = ['work', 'universe', 'person'];
@@ -12,7 +12,6 @@ const TOP = 12;
  *  называют вместе. Числа — из тех же материалов, что на карточке; подборки — из разметки модели. */
 export function StatsScreen() {
   const { kind = 'work', id = '' } = useParams();
-  const navigate = useNavigate();
   const [data, setData] = useState<StatsPage | null | undefined>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -29,7 +28,7 @@ export function StatsScreen() {
 
   return (
     <main className="tm-shell__main tm-voicepage tm-stats">
-      <button type="button" className="tm-voicepage__back" onClick={() => navigate(-1)}>{ui.person.back}</button>
+      <BackLink label={ui.person.back} />
       {failed ? <ErrorState title={ui.state.errorStats} onRetry={() => setAttempt((n) => n + 1)} /> : null}
       {data === null && !failed ? (
         <div aria-busy="true">

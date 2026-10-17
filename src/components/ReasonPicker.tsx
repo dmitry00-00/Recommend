@@ -3,7 +3,13 @@ import type { AbandonReason, DismissReason } from '@/types/tmdf';
 import { cx } from '@/lib/cx';
 import ui from '@/i18n';
 
-interface ReasonPickerBase { title?: string }
+interface ReasonPickerBase {
+  title?: string;
+  /** каких причин не показывать (17.10): в шторке «Уже знаю» дублирует «Видел», «Другое» — то же, что не выбирать */
+  omit?: string[];
+  /** под рядом кнопок шторки (17.10): без разделителя и отступа сверху — продолжение ряда, а не новый блок */
+  inline?: boolean;
+}
 
 export type ReasonPickerProps =
   | (ReasonPickerBase & { variant?: 'dismiss'; value?: DismissReason; onPick?: (id: DismissReason) => void })
@@ -14,14 +20,14 @@ export type ReasonPickerProps =
 export function ReasonPicker(props: ReasonPickerProps) {
   const [value, setValue] = useState<string | null>(props.value ?? null);
   const abandon = props.variant === 'abandon';
-  const list: [string, string][] = Object.entries(abandon ? ui.abandonReason : ui.dismissReason);
+  const list: [string, string][] = Object.entries(abandon ? ui.abandonReason : ui.dismissReason).filter(([id]) => !props.omit?.includes(id));
   const pick = (id: string) => {
     setValue(id);
     if (props.variant === 'abandon') props.onPick?.(id as AbandonReason);
     else props.onPick?.(id as DismissReason);
   };
   return (
-    <div className="tm-reasons">
+    <div className={cx('tm-reasons', props.inline && 'tm-reasons--inline')}>
       <p className="tm-reasons__title">
         {props.title ?? (abandon ? ui.reasons.abandonTitle : ui.reasons.dismissTitle)}
       </p>

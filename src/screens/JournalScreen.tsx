@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { FeedKind, JourneyEntryData, JourneyStatus } from '@/types/tmdf';
 import { getJourney, startWork, unplanWork } from '@/api';
-import { Button, EmptyState, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
+import { BackLink, Button, EmptyState, FilterMenu, KindFilter, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
 import { useDiary } from '@/lib/settingsStore';
-import { pick, tap } from '@/lib/telegram';
-import { cx } from '@/lib/cx';
+import { tap } from '@/lib/telegram';
 import { useFeature } from '@/lib/flags';
 import { formatDate, titleOf } from '@/lib/format';
 import { leadName } from '@/lib/credits';
@@ -48,21 +47,15 @@ export function JournalScreen() {
   const kindOf = (e: JourneyEntryData): FeedKind => (e.work.type === 'book' ? 'book' : 'screen');
   const count = <K extends string>(list: JourneyEntryData[], key: (e: JourneyEntryData) => K) =>
     list.reduce((m, e) => m.set(key(e), (m.get(key(e)) ?? 0) + 1), new Map<K, number>());
-  // счётчики статусов — внутри выбранного рода, и наоборот: число на кнопке — сколько она покажет
-  const byKind = count((entries ?? []).filter((e) => !status || e.status === status), kindOf);
-  const byStatus = count((entries ?? []).filter((e) => !kind || kindOf(e) === kind), (e) => e.status);
+  // счётчики статусов — внутри выбранного рода: число в листе — сколько строка покажет
+  const ofKind = (entries ?? []).filter((e) => !kind || kindOf(e) === kind);
+  const byStatus = count(ofKind, (e) => e.status);
   const STATUSES: JourneyStatus[] = ['planned', 'in_progress', 'finished', 'abandoned'];
-  // какие кнопки есть — по всему архиву, чтобы ряд не прыгал при выборе; числа — с учётом другого фильтра
+  // какие фильтры есть — по всему архиву, чтобы шапка не прыгала при выборе; числа — с учётом другого фильтра
   const all = entries ?? [];
   const statusChips = STATUSES.filter((s) => all.some((e) => e.status === s));
   const kindChips = booksOn ? (['screen', 'book'] as FeedKind[]).filter((k) => all.some((e) => kindOf(e) === k)) : [];
   const shown = (entries ?? []).filter((e) => (!status || e.status === status) && (!kind || kindOf(e) === kind));
-  const chip = (on: boolean, label: string, n: number | undefined, onClick: () => void, key: string) => (
-    <button key={key} type="button" aria-pressed={on ? 'true' : 'false'} className={cx('tm-voice__chip', on && 'tm-voice__chip--on')}
-            onClick={() => { pick(); onClick(); }}>
-      {label}{n != null ? <> <span className="tm-search__count">{n}</span></> : null}
-    </button>
-  );
   const openEntry = entries?.find((e) => e.id === open) ?? null;
   const places = usePlaces(openEntry?.work.id);
   // переход в кинотеатр из отложенного — «вероятно, смотрит», как в ленте; список перечитаем,
@@ -83,11 +76,19 @@ export function JournalScreen() {
   };
   return (
     <main className="tm-shell__main tm-archive">
+      {/* шапка (17.10): «‹ Лента» — только вне Telegram (там есть его «Назад»), вводный текст убран; фильтры — справа
+          от заголовка: «Всё ▾» со статусами листом и тоггл рода вместо двух рядов чипов по 24 px */}
       <div className="tm-archive__head">
-        <Link to="/today" className="tm-archive__back">{ui.feed.toFeed}</Link>
+        <BackLink to="/today" label={ui.feed.toFeed} className="tm-archive__back" />
         <h1 className="tm-title-3 tm-archive__title">{ui.feed.archiveTitle}</h1>
+        {statusChips.length > 1 ? (
+          <FilterMenu<JourneyStatus> label={status ? ui.journal.statusFilter[status] : ui.journal.statusAll} title={ui.journal.filterStatus}
+                      value={status} onChange={setStatus}
+                      options={[{ key: null, label: ui.journal.statusAll, count: ofKind.length },
+                                ...statusChips.map((s) => ({ key: s, label: ui.journal.statusFilter[s], count: byStatus.get(s) ?? 0 }))]} />
+        ) : null}
+        {kindChips.length > 1 ? <KindFilter value={kind} onChange={setKind} /> : null}
       </div>
-      <p className="tm-caption tm-archive__lead">{ui.feed.archiveLead}</p>
 
       {failed ? (
         <div className="tm-stream__pad">
@@ -109,18 +110,6 @@ export function JournalScreen() {
         </div>
       ) : null}
 
-      {statusChips.length > 1 ? (
-        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterStatus}>
-          {chip(!status, ui.search.filterAll, undefined, () => setStatus(null), 'all')}
-          {statusChips.map((s) => chip(status === s, ui.journal.statusFilter[s], byStatus.get(s) ?? 0, () => setStatus(status === s ? null : s), s))}
-        </div>
-      ) : null}
-      {kindChips.length > 1 ? (
-        <div className="tm-search__filters" role="group" aria-label={ui.journal.filterKind}>
-          {chip(!kind, ui.search.filterAll, undefined, () => setKind(null), 'all')}
-          {kindChips.map((k) => chip(kind === k, ui.feed.kind[k], byKind.get(k) ?? 0, () => setKind(kind === k ? null : k), k))}
-        </div>
-      ) : null}
       {entries?.length && !shown.length ? <p className="tm-caption tm-archive__lead">{ui.journal.filterEmpty}</p> : null}
 
       {shown.length ? <div className="tm-filmstrip">{shown.map((e, i) => (
