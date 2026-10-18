@@ -34,7 +34,11 @@ loadEnvFile();
 const dry = process.argv.includes('--dry');
 // стоп публикации (18.10): пока справочник пишется по частям, на боевой сервер уезжать нечему — `.cache/publish.hold`
 // (в файле — причина); снять — удалить файл. --dry работает и при стопе
-if (!dry && existsSync('.cache/publish.hold')) {
+// --only a,b (18.10) — только названные справочники, например трейлеры после выкладки, пока справочник фильмов
+// под стопом: явный выбор, стоп для них не действует
+const onlyArg = process.argv.find((a, i, all) => all[i - 1] === '--only');
+const only = onlyArg ? new Set(onlyArg.split(',').map((s) => s.trim()).filter(Boolean)) : undefined;
+if (!dry && !only && existsSync('.cache/publish.hold')) {
   console.error(`публикация остановлена: ${readFileSync('.cache/publish.hold', 'utf8').trim() || '.cache/publish.hold'}`);
   process.exit(0);
 }
@@ -105,6 +109,7 @@ const payloads: [string, unknown][] = [
 ];
 let failed = 0;
 for (const [name, data] of payloads) {
+  if (only && !only.has(name)) continue;
   const body = JSON.stringify(data);
   if (dry) { console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ`); continue; }
   const res = await fetch(`${server}/api/reference/${name}`, {
