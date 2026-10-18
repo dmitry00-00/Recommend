@@ -1,0 +1,1 @@
+import{a,j as e,c as i,b as t}from"./index-CtgFEaxQ.js";function c(){const s=a();return e.jsx("main",{className:"tm-shell__main",children:e.jsx(i,{title:t.mechanics.offTitle,text:t.mechanics.offText,action:t.mechanics.openSettings,onAction:()=>s("/settings")})})}export{c as M};
