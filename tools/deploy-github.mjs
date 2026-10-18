@@ -24,6 +24,7 @@
 // он и так открыт в браузере каждого, кто открыл приложение.
 import { execSync, spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { brotliCompressSync, constants as zlibConstants, gzipSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -179,7 +180,8 @@ try {
     const own = new Set(manifest.own);
     const need = [...theirs].filter((f) => !own.has(f)).sort();
     // перенесённое сборкой из локальной сборки, которой на сервере не было, — лишнее
-    for (const f of manifest.carried) if (!theirs.has(f)) rmSync(join(assets, f), { force: true });
+    // (18.10) вместе со сжатыми копиями .br/.gz рядом (tools/build-bothost.mjs, шаг 1в)
+    for (const f of manifest.carried) if (!theirs.has(f)) for (const x of ['', '.br', '.gz']) rmSync(join(assets, f + x), { force: true });
     const missing = need.filter((f) => !existsSync(join(assets, f)));
     if (missing.length) {
       const x = mkdtempSync(join(tmpdir(), 'tm-deploy-prev-'));
@@ -190,6 +192,15 @@ try {
     }
     manifest.carried = need;
     writeFileSync(manifestPath, JSON.stringify(manifest, null, 1) + '\n');
+    // докачанные из ветки — без сжатых копий: сжать здесь, чтобы сервер не сжимал их сам (18.10, аудит скорости, п. 31)
+    for (const f of need) {
+      const file = join(assets, f);
+      if (!/\.(?:js|mjs|css|json|svg|txt|html)$/i.test(f) || existsSync(`${file}.br`) || !existsSync(file)) continue;
+      const body = readFileSync(file);
+      if (body.length <= 1024) continue;
+      writeFileSync(`${file}.br`, brotliCompressSync(body, { params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 11 } }));
+      writeFileSync(`${file}.gz`, gzipSync(body, { level: 9 }));
+    }
     const mb = (list) => (list.reduce((n, f) => n + statSync(join(assets, f)).size, 0) / 1048576).toFixed(1);
     console.log(`\nассеты: своих ${manifest.own.length} (${mb(manifest.own)} МБ), от выкладки ${remoteSha.slice(0, 7)} — ${need.length} (${mb(need)} МБ; из ветки докачано ${missing.length})`);
   } else {

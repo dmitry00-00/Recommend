@@ -96,11 +96,17 @@ async function fetchMeta(ids: string[]): Promise<void> {
     const blind = ids.map((id) => items.get(id)!).filter((it) => it && !it.typed && it.how === 'none' && it.meta);
     // догадка со всеми сторожами (сборник, игра, серия, год), а не голое совпадение названия: до 01.10
     // «ПОЧЕМУ ЧУЖОЙ (1979) — …ХРЕБТОВ БЕЗУМИЯ» уходил к «Безумию» 2008-го
-    const guess = matchVideos(blind.map((it) => ({ id: it.id, title: it.meta!.title, ...(it.meta!.publishedAt ? { publishedAt: it.meta!.publishedAt } : {}) })), ours, ordinary);
-    for (const it of blind) {
-      const g = guess.get(it.id);
-      const f = g ? byKey.get(g.key) : undefined;
-      if (f) { it.key = f.key; it.film = f.label; it.how = 'title'; it.options = [{ key: f.key, label: f.label }]; }
+    // пачками по 10 с передышкой (18.10): догадка ~0,1 с на ролик, 700 роликов из формы одним куском
+    // держали весь пульт ~75 с — вкладки не получали данных
+    for (let i = 0; i < blind.length; i += 10) {
+      if (i) await new Promise((r) => setImmediate(r));
+      const part = blind.slice(i, i + 10);
+      const guess = matchVideos(part.map((it) => ({ id: it.id, title: it.meta!.title, ...(it.meta!.publishedAt ? { publishedAt: it.meta!.publishedAt } : {}) })), ours, ordinary);
+      for (const it of part) {
+        const g = guess.get(it.id);
+        const f = g ? byKey.get(g.key) : undefined;
+        if (f) { it.key = f.key; it.film = f.label; it.how = 'title'; it.options = [{ key: f.key, label: f.label }]; }
+      }
     }
   } finally { metaBusy -= ids.length; }
 }
@@ -127,9 +133,11 @@ async function describeChannel(c: Chan): Promise<void> {
   }
 }
 
-function addText(text: string): { videos: number; channels: number; other: string[]; known: number } {
+/** `batch` — входящие из формы (18.10): ролики копятся в один fetchMeta на всю пачку, решения читаются один раз;
+ *  по одному на строку 728 строк держали пульт минутами. */
+function addText(text: string, batch?: { ids: string[]; done: ReturnType<typeof readVerdicts>['videos'] }): { videos: number; channels: number; other: string[]; known: number } {
   const p = parsePaste(text);
-  const { videos: done } = readVerdicts();
+  const done = batch?.done ?? readVerdicts().videos;
   const fresh: string[] = [];
   let known = 0;
   for (const v of p.videos) {
@@ -141,7 +149,8 @@ function addText(text: string): { videos: number; channels: number; other: strin
     items.set(v.id, it);
     fresh.push(v.id);
   }
-  if (fresh.length) void fetchMeta(fresh);
+  if (batch) batch.ids.push(...fresh);
+  else if (fresh.length) void fetchMeta(fresh);
   for (const c of p.channels) {
     const id = (c.channelId ?? c.handle ?? '').toLowerCase();
     if (!id || chans.has(id)) continue;
@@ -176,6 +185,7 @@ async function refreshInbox(force = false): Promise<void> {
   try {
     const r = await registryApi<{ rows: { url: string; film: string | null; note: string | null }[] }>('GET', '/api/admin/inbox?status=new');
     inboxError = undefined;
+    const batch = { ids: [] as string[], done: readVerdicts().videos };
     for (const row of r.rows) {
       const form = { url: row.url, ...(row.note ? { note: row.note } : {}) };
       const p = parsePaste(row.url);
@@ -184,10 +194,11 @@ async function refreshInbox(force = false): Promise<void> {
       if (!v && !c) { formOther.set(row.url, { url: row.url, ...(row.film ? { film: row.film } : {}), ...(row.note ? { note: row.note } : {}) }); continue; }
       const id = v ? v.id : (c.channelId ?? c.handle ?? '').toLowerCase();
       if (v ? items.has(id) : chans.has(id)) continue;
-      addText(`${row.film ?? ''} ${row.url}`.trim());
+      addText(`${row.film ?? ''} ${row.url}`.trim(), batch);
       const it = v ? items.get(id) : chans.get(id);
       if (it) it.form = form;
     }
+    if (batch.ids.length) void fetchMeta(batch.ids);
   } catch (err) {
     inboxError = (err as Error).message;
   }

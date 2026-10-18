@@ -6,6 +6,7 @@ import { CuratorShell } from '@/components/CuratorShell';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ToastProvider, useToast } from '@/components/Toast';
 import { visitDays } from '@/api';
+import { SESSION_STALE_EVENT } from '@/api/store';
 import { loadSettings, useMechanics } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
 import { addToHomeScreen, homeScreenMissed, startParam } from '@/lib/telegram';
@@ -38,6 +39,18 @@ function useHomeScreenOffer() {
   }, []);
 }
 
+/** Вход протух (18.10, аудит, волна 2, п. 20): подпись Telegram старше часа, а своей сессии нет — сохранять нечем, и
+ *  без слова об этом человек видел только «не сохранилось» на каждом действии. Один раз — тостом. */
+function useStaleSession() {
+  const toast = useToast();
+  useEffect(() => {
+    let shown = false;
+    const on = () => { if (!shown) { shown = true; toast({ text: ui.shell.sessionStale, duration: 15_000 }); } };
+    window.addEventListener(SESSION_STALE_EVENT, on);
+    return () => window.removeEventListener(SESSION_STALE_EVENT, on);
+  }, []);
+}
+
 function Shell({ children }: { children: React.ReactNode }) {
   // Без механики в меню лента и поиск (архив — над лентой, профиль — справа); маршруты
   // и карта — только с включённой механикой: пока это наш внутренний инструмент (21.09).
@@ -46,6 +59,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const mechanics = useMechanics();
   const search = useFeature('search');
   useHomeScreenOffer();
+  useStaleSession();
   const nav = NAV.filter((item) => item.id === 'today' || (item.id === 'search' && search) || (mechanics && item.id !== 'journal' && item.id !== 'search'));
   return <AppShell nav={nav.map((item) => ({ ...item, label: ui.nav[item.id] }))}>{children}</AppShell>;
 }

@@ -41,6 +41,15 @@ export interface MetricRows {
   checkins: { user_id: string; work_id: string; status: string; level: number | null; worth: number | null; at: string }[];
   ratings: { user_id: string; work_id: string; rating: number; at: string }[];
   events: { user_id: string; kind: string; work_id: string | null; at: string }[];
+  /** 18.10 (аудит скорости, п. 24) — вместо всех показов, если заданы (worker/funnel.ts): первый показ пары «человек —
+   *  фильм» (уровень и признаки — того показа) только для пар с откликом или досмотром; показы за 28 дней; первая лента
+   *  человека. Не заданы — всё считается по `impressions`, как раньше (tools/metrics-test.mts). */
+  shownKeys?: { user_id: string; work_id: string; level: number | null; traits: string | null; at: string }[];
+  shown28?: { user_id: string; rec_id: string; work_id: string; at: string }[];
+  /** с shown28 — построчно только показы пар с откликом или досмотром; всего показов за 28 дней и разных фильмов — тут */
+  shown28Count?: number;
+  shown28Works?: string[];
+  activation?: { user_id: string; at: string }[];
 }
 
 /** Минимум / цель. Начальные — откалибровать через две недели беты, как THRESHOLDS воронки: по одной
@@ -135,7 +144,7 @@ export function computeMetrics(rows: MetricRows, now = Date.now()): Metrics {
   const shownDays = new Map<string, string>(); // user|work → самый ранний день показа
   const shownLevel = new Map<string, number>();
   const shownTraits = new Map<string, Traits>();
-  for (const i of rows.impressions) {
+  for (const i of rows.shownKeys ?? rows.impressions) {
     const key = `${i.user_id}|${i.work_id}`;
     const d = mskDay(i.at);
     if (!shownDays.has(key) || d < shownDays.get(key)!) shownDays.set(key, d);
@@ -230,12 +239,13 @@ export function computeMetrics(rows: MetricRows, now = Date.now()): Metrics {
     if (answer >= 4) valuedN += 1;
   }
   // take-rate
-  const recentShown = rows.impressions.filter((i) => mskDay(i.at) >= since28);
+  const recentShown = (rows.shown28 ?? rows.impressions).filter((i) => mskDay(i.at) >= since28);
   const shownRecs = new Map<string, { user: string; work: string; at: string }>();
   for (const i of recentShown) {
     const key = `${i.user_id}|${i.rec_id}`;
     if (!shownRecs.has(key)) shownRecs.set(key, { user: i.user_id, work: i.work_id, at: i.at });
   }
+  const shownN = rows.shown28Count ?? shownRecs.size;
   const accepts = rows.feedback.filter((f) => (f.action === 'save' || f.action === 'start') && f.rec_id && shownRecs.has(`${f.user_id}|${f.rec_id}`));
   const acceptedRecs = new Set(accepts.map((f) => `${f.user_id}|${f.rec_id}`));
   const lastWatch = new Map<string, string>(); // user|work → последнее «Смотреть»
@@ -258,11 +268,11 @@ export function computeMetrics(rows: MetricRows, now = Date.now()): Metrics {
     ...seenPrompted.filter((f) => mskDay(f.at) >= since28).map((f) => ({ user: f.user_id, work: f.work_id!, level: lv(f.level), traits: parseTraits(f.traits), at: f.at, via: 'seen' as const })),
   ].map((t) => ({ ...t, level: t.level ?? shownLevel.get(`${t.user}|${t.work}`) ?? null, traits: t.traits ?? shownTraits.get(`${t.user}|${t.work}`) ?? null }));
   const takenWorks = new Set(takes.map((t) => t.work));
-  const shownWorks = new Set(recentShown.map((i) => i.work_id));
+  const shownWorks = new Set(rows.shown28Works ?? recentShown.map((i) => i.work_id));
 
   // GS: неделя 1 после активации против недель 4–8 — по всем принятиям человека, не только за 28 дней
   const activation = new Map<string, string>();
-  for (const i of rows.impressions) if (!activation.has(i.user_id) || i.at < activation.get(i.user_id)!) activation.set(i.user_id, i.at);
+  for (const i of rows.activation ?? rows.impressions) if (!activation.has(i.user_id) || i.at < activation.get(i.user_id)!) activation.set(i.user_id, i.at);
   const allTakes: Take[] = [
     ...rows.feedback.filter((f) => (f.action === 'save' || f.action === 'start') && f.work_id)
       .map((f) => ({ user: f.user_id, work: f.work_id!, level: lv(f.level), traits: parseTraits(f.traits), at: f.at, via: 'accept' as const })),
@@ -329,7 +339,7 @@ export function computeMetrics(rows: MetricRows, now = Date.now()): Metrics {
       since: since28,
       proxyReward: { share: round(ratio(proxyN, proxyBase)), n: proxyN, base: proxyBase, finishes: recent.length },
       valued: { share: round(ratio(valuedN, answered)), n: valuedN, answered, finishes: recent.length, answerRate: round(ratio(answered, recent.length)) },
-      take: { shown: shownRecs.size, accepted: acceptedRecs.size, quality: qualityN, takeRate: round(ratio(acceptedRecs.size, shownRecs.size)), qualityTake: round(ratio(qualityN, shownRecs.size)) },
+      take: { shown: shownN, accepted: acceptedRecs.size, quality: qualityN, takeRate: round(ratio(acceptedRecs.size, shownN)), qualityTake: round(ratio(qualityN, shownN)) },
       ecs: { takes: takes.length, unique: takenWorks.size, ecs: round(ratio(takenWorks.size, takes.length)), shownWorks: shownWorks.size, coverage: round(ratio([...takenWorks].filter((w) => shownWorks.has(w)).length, shownWorks.size)) },
       gs: { users: gsUsers, week1: round(median(gsWeek1)), later: round(median(gsLater)), diversified: round(ratio(diversified, gsUsers)), spreadHeld: round(ratio(spreadHeld, spreadUsers)), spreadUsers },
       revisit: { cards: recentCards.length, revisits, share: round(ratio(revisits, recentCards.length)), users: cardUsers.size, usersWithRevisit: revisitUsers.size, userShare: round(ratio(revisitUsers.size, cardUsers.size)) },

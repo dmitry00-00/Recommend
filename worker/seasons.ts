@@ -4,6 +4,7 @@
 // нового) или следит за сериалом (кнопка «Следить»). Брошенное и отложенное — не новость. Одна весть
 // о сезоне — один раз (`season_notice`). Сообщение — в той же утренней сводке, что и разборы (worker/follow.ts).
 import type { Env } from './env';
+import { JOURNAL_IMDB } from './migrate';
 
 /** n — последний вышедший сезон, at — дата его выхода (YYYY-MM-DD), next — анонс, end — сериал закончен. */
 export interface SeasonInfo { n: number; at: string; total?: number; next?: { n: number; at: string }; end?: true }
@@ -48,8 +49,14 @@ export async function seasonNews(env: Env, seasons: Record<string, SeasonInfo>, 
   };
   const only = users ? ' AND user_id IN (SELECT value FROM json_each(?))' : '';
   const scope = users ? [JSON.stringify(users)] : [];
-  const journal = await env.DB.prepare(`SELECT user_id, work_id, work, status, series FROM journal WHERE status IN ('in_progress', 'finished') AND work IS NOT NULL${only}`)
-    .bind(...scope).all<{ user_id: string; work_id: string; work: string; status: string; series: string | null }>();
+  // 18.10 (аудит, п. 26): только записи вышедших сериалов — по id записи (`imdb:tt…`) или IMDb в карточке, оба по индексу
+  // (journal_work, journal_imdb в worker/migrate.ts). Раньше — весь дневник с разбором каждой карточки в JS: ~1 с стопа
+  const keys = [...fresh.keys()];
+  const journal = await env.DB.prepare(`SELECT user_id, work_id, work, status, series FROM journal
+      WHERE (work_id IN (SELECT value FROM json_each(?)) OR ${JOURNAL_IMDB} IN (SELECT value FROM json_each(?)))
+        AND status IN ('in_progress', 'finished') AND work IS NOT NULL${only}`)
+    .bind(JSON.stringify(keys), JSON.stringify(keys.map((k) => k.slice('imdb:'.length))), ...scope)
+    .all<{ user_id: string; work_id: string; work: string; status: string; series: string | null }>();
   for (const r of journal.results) {
     let work: { type?: string; title?: string; externalIds?: { imdb?: string } } | null = null;
     try { work = JSON.parse(r.work); } catch { continue; }

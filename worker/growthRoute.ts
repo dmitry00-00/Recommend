@@ -43,7 +43,9 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
   const [users, visits, firstFeed, ratingsDay1, onboard, shares, together, participants, polls, voters, seeding, internal] = await Promise.all([
     q<GrowthRows['users'][number]>(`SELECT id, created_at, source, invited_by FROM user ${userWhere}`),
     q<GrowthRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, from120),
-    q<GrowthRows['firstFeed'][number]>(`SELECT user_id, MIN(at) AS at FROM impression WHERE ${inUsers} GROUP BY user_id`),
+    // первая лента (18.10): по человеку — поиском по индексу impression_user, а не группировкой всей таблицы показов;
+    // свёрнутые показы старше 120 дней (worker/retention.ts, если включено) — тоже в счёт
+    firstFeedRows(db, userWhere, binds),
     q<GrowthRows['ratingsDay1'][number]>(`SELECT r.user_id, COUNT(*) AS n FROM rating r JOIN user u ON u.id = r.user_id
       WHERE r.${inUsers} AND u.created_at >= ? AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day') GROUP BY r.user_id`, since30),
     q<GrowthRows['onboard'][number]>(`SELECT user_id, place, detail, at FROM event WHERE kind = 'onboard' AND ${inUsers} AND at >= ?`, since30),
@@ -69,6 +71,15 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
   };
   // посевы — и списком для таблицы в пульте
   return json({ at: new Date().toISOString(), filters: { internal: withInternal, telegramOnly: url.searchParams.get('tg') === '1' }, seedingRows: seeding, ...computeGrowth(rows) });
+}
+
+async function firstFeedRows(db: D1Database, userWhere: string, binds: unknown[]): Promise<GrowthRows['firstFeed']> {
+  const rolled = Boolean(await db.prepare("SELECT 1 AS x FROM sqlite_master WHERE type = 'table' AND name = 'impression_rollup'").first());
+  const first = rolled
+    ? `MIN(coalesce((SELECT MIN(i.at) FROM impression i WHERE i.user_id = u.id), '9'), coalesce((SELECT MIN(r.first_at) FROM impression_rollup r WHERE r.user_id = u.id), '9'))`
+    : '(SELECT MIN(i.at) FROM impression i WHERE i.user_id = u.id)';
+  const rows = (await db.prepare(`SELECT u.id AS user_id, ${first} AS at FROM user u ${userWhere}`).bind(...binds).all<{ user_id: string; at: string | null }>()).results ?? [];
+  return rows.filter((r): r is GrowthRows['firstFeed'][number] => Boolean(r.at) && r.at !== '9');
 }
 
 const clip = (v: unknown, n: number): string | null => (typeof v === 'string' && v.trim() ? v.trim().slice(0, n) : null);

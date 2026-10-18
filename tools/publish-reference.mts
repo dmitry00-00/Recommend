@@ -2,9 +2,12 @@
 // сборки, — обновление данных больше не требует перезаливки архива.
 //   npx tsx tools/publish-reference.mts            — всё, что умеем публиковать
 //   npx tsx tools/publish-reference.mts --dry      — только посчитать, ничего не отправлять
+//   npx tsx tools/publish-reference.mts --out <папка> — записать файлами в папку (DATA_DIR/reference локального сервера),
+//     без сети и токена (18.10, аудит скорости, волна 3А: стенд замеров не должен знать адрес боевого)
 // Куда и чем: TM_SERVER (по умолчанию https://bot-1791394986-4062-dmitriy-00.bothost.tech) и TM_ADMIN_TOKEN — тот же
 // токен, что в переменной ADMIN_TOKEN у бота на bothost. Оба — в .env.local.
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import type { WatchProviders } from '../src/lib/cinemas.ts';
 import type { TrailersFile } from '../worker/trailers.ts';
 import { loadEnvFile } from './env-file.mts';
@@ -18,6 +21,9 @@ import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { isWithheld } from '../src/mocks/withheldWorks.ts';
+import { essays as curatedEssays } from '../src/mocks/essays.ts';
+import { externalAnalyses as detailAnalyses } from '../src/mocks/index.ts';
+import { analysisShardName, buildEssayIndex } from '../src/lib/essayIndex.ts';
 
 // вписанное людьми в таблицу разметки едет на сервер тем же справочником: клиенту всё равно,
 // откуда карточка — из каналов или из таблицы; и то, что люди ищут (топы Википедии, 05.10) —
@@ -32,13 +38,14 @@ import { buildPublicPages } from './public-pages.mts';
 
 loadEnvFile();
 const dry = process.argv.includes('--dry');
+const outArg = process.argv.find((a, i, all) => all[i - 1] === '--out');
 // стоп публикации (18.10): пока справочник пишется по частям, на боевой сервер уезжать нечему — `.cache/publish.hold`
 // (в файле — причина); снять — удалить файл. --dry работает и при стопе
 // --only a,b (18.10) — только названные справочники, например трейлеры после выкладки, пока справочник фильмов
 // под стопом: явный выбор, стоп для них не действует
 const onlyArg = process.argv.find((a, i, all) => all[i - 1] === '--only');
 const only = onlyArg ? new Set(onlyArg.split(',').map((s) => s.trim()).filter(Boolean)) : undefined;
-if (!dry && !only && existsSync('.cache/publish.hold')) {
+if (!dry && !only && !outArg && existsSync('.cache/publish.hold')) {
   console.error(`публикация остановлена: ${readFileSync('.cache/publish.hold', 'utf8').trim() || '.cache/publish.hold'}`);
   process.exit(0);
 }
@@ -49,7 +56,7 @@ const global = process.argv.includes('--global');
 const server = (global ? process.env.TM_GLOBAL_SERVER ?? '' : process.env.TM_SERVER ?? 'https://bot-1791394986-4062-dmitriy-00.bothost.tech').replace(/\/+$/, '');
 const token = global ? process.env.TM_GLOBAL_ADMIN_TOKEN : process.env.TM_ADMIN_TOKEN;
 if (global && !server) { console.error('нет TM_GLOBAL_SERVER в .env.local — куда публиковать Global'); process.exit(1); }
-if (!dry && !token) { console.error(`нет ${global ? 'TM_GLOBAL_ADMIN_TOKEN' : 'TM_ADMIN_TOKEN'} в .env.local — публиковать нечем`); process.exit(1); }
+if (!dry && !outArg && !token) { console.error(`нет ${global ? 'TM_GLOBAL_ADMIN_TOKEN' : 'TM_ADMIN_TOKEN'} в .env.local — публиковать нечем`); process.exit(1); }
 const globalRegions = (): string[] => (process.env.TM_GLOBAL_REGIONS ?? 'IN,US,GB').split(',').map((r) => r.trim().toUpperCase()).filter(Boolean);
 // общий сервер (11.10, bothost в Нидерландах, все языки) — все регионы справочника (TM_WATCH_REGIONS, по умолчанию RU, IN,
 // US, GB); Global — свои
@@ -83,10 +90,23 @@ const meta = {
   filmBaseWiki: filmBaseWiki.length,
   sources: sourceCandidates.length,
 };
+const essayParts = buildEssayIndex(essaysAuto, postsAuto, essayLenses, curatedEssays, detailAnalyses);
+/** Производные от индексов разборов: едут с ними и в `--only`, иначе индекс разойдётся с полными файлами. Старый сервер
+ *  (до 18.10) таких имён не знает и отвечает 404 unknown_reference — это не сбой: клиент тогда берёт полные файлы. */
+const derived = (name: string) => name === 'essayIndex' || name.startsWith('analyses-');
+if (only && ['essaysAuto', 'postsAuto', 'essayLenses'].some((n) => only.has(n))) {
+  only.add('essayIndex');
+  for (const s of Object.keys(essayParts.shards)) only.add(analysisShardName(s));
+}
 const payloads: [string, unknown][] = [
   // герои для подписок (06.10) и рубрики — раньше индексов разборов: сервер сверяет свежее с ними
   ['heroes', buildHeroesIndex()], ['essayLenses', essayLenses],
-  ['postsAuto', postsAuto], ['essaysAuto', essaysAuto], ['sourcesAuto', sourceCandidates],
+  ['postsAuto', postsAuto], ['essaysAuto', essaysAuto],
+  // индекс разборов первой ленты и доли по ключу (18.10, аудит скорости, волна 3А, src/lib/essayIndex.ts) — после полных
+  // файлов, индекс последним: клиент сверяет версию долей с индексом и при расхождении берёт полные файлы
+  ...Object.entries(essayParts.shards).map(([s, data]) => [analysisShardName(s), data] as [string, unknown]),
+  ['essayIndex', essayParts.index],
+  ['sourcesAuto', sourceCandidates],
   ['filmBaseWiki', filmBaseWiki], ['comentions', comentions], ['meta', meta],
   // инлайн-поиск бота (06.10): герои и произведения — сервер ищет по нему сам
   ['inlineIndex', buildInlineIndex()],
@@ -108,15 +128,33 @@ const payloads: [string, unknown][] = [
   ...(existsSync('.cache/trailers.json') ? [['trailers', global ? withoutRu(JSON.parse(readFileSync('.cache/trailers.json', 'utf8'))) : JSON.parse(readFileSync('.cache/trailers.json', 'utf8'))] as [string, unknown]] : []),
 ];
 let failed = 0;
+/** доли разборов — одной строкой в отчёте: их 64 */
+const shardLog = { n: 0, kb: 0, skipped: 0, failed: 0 };
 for (const [name, data] of payloads) {
   if (only && !only.has(name)) continue;
   const body = JSON.stringify(data);
-  if (dry) { console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ`); continue; }
+  const quiet = name.startsWith('analyses-');
+  if (quiet) { shardLog.n += 1; shardLog.kb += body.length / 1024; }
+  if (dry) { if (!quiet) console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ`); continue; }
+  if (outArg) {
+    mkdirSync(outArg, { recursive: true });
+    writeFileSync(join(outArg, `${name}.json.tmp`), body);
+    renameSync(join(outArg, `${name}.json.tmp`), join(outArg, `${name}.json`));
+    if (!quiet) console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ → ${outArg}`);
+    continue;
+  }
   const res = await fetch(`${server}/api/reference/${name}`, {
     method: 'PUT', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` }, body,
   }).catch((err: Error) => ({ ok: false, status: 0, statusText: err.message }) as Response);
-  console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ → ${res.ok ? 'ок' : `ошибка ${res.status} ${res.statusText}`}`);
-  if (!res.ok) failed += 1;
+  // старый сервер не знает производных имён — пропуск, не сбой
+  const older = !res.ok && res.status === 404 && derived(name) && (await res.text().catch(() => '')).includes('unknown_reference');
+  if (quiet) { if (older) shardLog.skipped += 1; else if (!res.ok) shardLog.failed += 1; }
+  else console.log(`${name}: ${(body.length / 1024).toFixed(0)} КБ → ${res.ok ? 'ок' : older ? 'сервер старее, пропуск' : `ошибка ${res.status} ${res.statusText}`}`);
+  if (!res.ok && !older) failed += 1;
+}
+if (shardLog.n) {
+  const how = dry ? '' : outArg ? ` → ${outArg}` : shardLog.skipped ? ' → сервер старее, пропуск' : shardLog.failed ? ` → ошибок ${shardLog.failed}` : ' → ок';
+  console.log(`доли разборов: ${shardLog.n} по ~${(shardLog.kb / shardLog.n).toFixed(0)} КБ${how}`);
 }
 console.log(`индекс: ${meta.works} фильмов, ${meta.materials} материалов, не подтверждено ${meta.unverified}`);
 process.exit(failed ? 1 : 0);

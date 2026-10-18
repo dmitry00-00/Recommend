@@ -41,12 +41,12 @@ async function openD1({ file, schema, wasmDir }) {
     if (!timer) timer = setTimeout(flush, SAVE_MS);
   };
 
-  const query = (sql, params) => {
+  const query = (sql, params, max = Infinity) => {
     const stmt = db.prepare(sql);
     try {
       stmt.bind(params.map(norm));
       const rows = [];
-      while (stmt.step()) rows.push(stmt.getAsObject());
+      while (rows.length < max && stmt.step()) rows.push(stmt.getAsObject());
       return rows;
     } finally {
       stmt.free();
@@ -58,7 +58,8 @@ async function openD1({ file, schema, wasmDir }) {
     return {
       bind: (...values) => statement(sql, values),
       async first(col) {
-        const row = query(sql, params)[0];
+        // одна строка (18.10): first() не выбирает весь ответ
+        const row = query(sql, params, isWrite(sql) ? Infinity : 1)[0];
         if (isWrite(sql)) touch();
         if (!row) return null;
         return col ? row[col] ?? null : row;

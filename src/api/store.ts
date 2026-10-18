@@ -55,32 +55,64 @@ const tokenKey = (): string => {
   const id = webApp()?.initDataUnsafe?.user?.id;
   return id != null ? `${TOKEN_KEY}.tg${id}` : `${TOKEN_KEY}.guest`;
 };
+/** Токен ещё и в памяти (18.10, аудит, волна 2, п. 20): без localStorage (закрытое хранилище WebView, приватное окно)
+ *  каждый запрос открывал новую сессию по initData — а через час Telegram считает её протухшей, и всё переставало
+ *  сохраняться. */
+let memToken: string | undefined;
 const readToken = (): string | undefined => {
+  if (memToken) return memToken;
   try {
     // прежний общий ключ больше не читаем: по нему нельзя понять, чей это вход
     localStorage.removeItem(TOKEN_KEY);
-    return localStorage.getItem(tokenKey()) ?? undefined;
+    return (memToken = localStorage.getItem(tokenKey()) ?? undefined);
   } catch { return undefined; }
 };
 const writeToken = (token: string | undefined) => {
+  memToken = token;
   try { if (token) localStorage.setItem(tokenKey(), token); else localStorage.removeItem(tokenKey()); } catch { /* приватное окно */ }
 };
+/** initData отвергнут (подпись протухла: сессия Telegram старше часа) — повторять вход с ним бессмысленно: экран узнаёт
+ *  об этом событием `tm:session-stale` и просит открыть приложение заново (18.10). */
+let staleInit: string | undefined;
+export const SESSION_STALE_EVENT = 'tm:session-stale';
 
+let opening: Promise<string | undefined> | undefined;
 /** Вход: подписью Telegram, если приложение открыто в мессенджере, иначе — демо-участником.
  *  Демо разрешает сервер, а не клиент: в боевом окружении `ALLOW_DEMO` пуст, и такой вход
- *  просто не работает. */
+ *  просто не работает. Один вход на всех (18.10, п. 20): запросы первого экрана без токена шли за сессией разом и
+ *  открывали по одной на каждый. Вход — со своим сроком; ждущий запрос бросает ожидание по своему сигналу. */
 async function openSession(signal?: AbortSignal): Promise<string | undefined> {
-  const initData = webApp()?.initData;
-  const res = await fetch(`${API}/api/session`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(initData ? { initData } : { demo: true }),
-    signal,
+  opening ??= startSession().finally(() => { opening = undefined; });
+  if (!signal) return opening;
+  return new Promise<string | undefined>((resolve, reject) => {
+    if (signal.aborted) { reject(signal.reason); return; }
+    const stop = () => reject(signal.reason);
+    signal.addEventListener('abort', stop, { once: true });
+    opening!.then(resolve, reject).finally(() => signal.removeEventListener('abort', stop));
   });
-  if (!res.ok) return undefined;
-  const body = await res.json() as { token?: string };
-  writeToken(body.token);
-  return body.token;
+}
+async function startSession(): Promise<string | undefined> {
+  const initData = webApp()?.initData;
+  if (initData && initData === staleInit) return undefined;
+  const limit = deadline(TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API}/api/session`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(initData ? { initData } : { demo: true }),
+      signal: limit.signal,
+    });
+    if (res.status === 401 && initData) {
+      staleInit = initData;
+      try { globalThis.dispatchEvent?.(new Event(SESSION_STALE_EVENT)); } catch { /* вне браузера */ }
+    }
+    if (!res.ok) return undefined;
+    const body = await res.json() as { token?: string };
+    writeToken(body.token);
+    return body.token;
+  } finally {
+    limit.done();
+  }
 }
 
 // Срок ответа и повтор (17.10, аудит отказоустойчивости, п. 6): без срока зависший сервер или оборванное мобильное
@@ -133,7 +165,10 @@ async function call(path: string, init: RequestInit = {}): Promise<Response | un
   if (API === undefined) return undefined;
   const limit = deadline(TIMEOUT_MS);
   try {
-    return await authed(path, init, limit.signal, true);
+    const res = await authed(path, init, limit.signal, true);
+    // сервер ответил — значит, связь есть: заодно досылаем неотправленные оценки (без ожидания)
+    if (res?.ok) flushSoon();
+    return res;
   } finally {
     // ответ пришёл (или не придёт) — тело читает вызывающий, уже без срока
     limit.done();
@@ -188,6 +223,9 @@ export async function postExport(name: string, text: string): Promise<string | u
  *  холодный старт вместо его истории нельзя (трек А, «честный экран сети»). */
 export async function loadState(): Promise<StoredState | 'unreachable' | undefined> {
   if (API === undefined) return undefined;
+  // неотправленные оценки прошлого раза — досылаем рядом с чтением состояния, не задерживая его: то, что состояние ещё не
+  // знает, api кладёт поверх (`pendingRatings`)
+  void flushPending().catch(() => undefined);
   try {
     const res = await call('/api/state');
     if (!res || !res.ok) return 'unreachable';
@@ -299,10 +337,132 @@ export const store = {
   /** решение владельца: привязка ролика (kind 'check') или рубрика (kind 'lens'); clear — снять */
   ownerDecision: (decision: { kind: 'check' | 'lens'; id: string } & Record<string, unknown>) =>
     send('/api/owner/decision', 'PUT', decision),
-  rating: (workId: ID, rating: number | null, work?: WorkCard) =>
-    send(`/api/rating/${encodeURIComponent(workId)}`, 'PUT', { rating, work }),
+  /** оценка — через очередь (18.10, волна 3А): не дошла по сети — 'queued', сохранена и уйдёт позже; сервер отказал —
+   *  исключение `RatingRejected` */
+  rating: (workId: ID, rating: number | null, work?: WorkCard): Promise<'sent' | 'queued' | undefined> => queueRating(workId, rating, work),
   /** послесловие (17.10): значение — записать, null — снять, нет поля — не трогать. Без сервера — ничего наружу,
    *  как у оценок: послесловие живёт в памяти вкладки */
   afterword: (workId: ID, patch: AfterwordPatch) =>
     send(`/api/afterword/${encodeURIComponent(workId)}`, 'PUT', patch),
 };
+
+// ---------- очередь неотправленных оценок (18.10, аудит отказоустойчивости, волна 3А, остаток п. 21) ----------
+// Оценка, не дошедшая до сервера (нет сети, сервер перезапускается, сессия Telegram протухла), не откатывается, а
+// ложится в очередь — в localStorage, своя у каждого аккаунта, — и досылается: при следующем удачном запросе, при
+// возврате сети (`online`), при возврате в приложение и при следующем запуске (до чтения состояния). По вещи в очереди —
+// одна, последняя оценка: PUT /api/rating идемпотентен (upsert), поэтому повтор после оборванного ответа не создаёт дубля,
+// а отправки одной вещи идут по очереди — старая не перезапишет новую. Отказ сервера по существу (400 и т. п.) — оценка из
+// очереди вон, вызывающий откатывает только эту карточку (`RatingRejected`); отказ при фоновой досылке — событием
+// `tm:rating-dropped` с id вещи.
+interface PendingRating { workId: ID; rating: number | null; work?: WorkCard; seq: number }
+/** отказ сервера по существу — досылать бессмысленно */
+export class RatingRejected extends Error {
+  constructor(readonly status: number) { super(`rating rejected: ${status}`); this.name = 'RatingRejected'; }
+}
+export const RATING_DROPPED_EVENT = 'tm:rating-dropped';
+/** больше — старые вон: очередь не должна съесть хранилище, где лежит и токен */
+const PENDING_MAX = 500;
+const pendingKey = (): string => `tm.pending.${tokenKey().slice(TOKEN_KEY.length + 1)}`;
+let pending: Map<ID, PendingRating> | undefined;
+let pendingFor: string | undefined;
+let pendingSeq = 0;
+function pendingMap(): Map<ID, PendingRating> {
+  const key = pendingKey();
+  if (pending && pendingFor === key) return pending;
+  pending = new Map();
+  pendingFor = key;
+  try {
+    const list = JSON.parse(localStorage.getItem(key) ?? '[]') as PendingRating[];
+    for (const p of Array.isArray(list) ? list : []) {
+      if (!p || typeof p.workId !== 'string' || !(p.rating === null || (typeof p.rating === 'number' && p.rating >= 1 && p.rating <= 5))) continue;
+      pending.set(p.workId, p);
+      pendingSeq = Math.max(pendingSeq, Number(p.seq) || 0);
+    }
+  } catch { /* битая запись или нет хранилища — очередь живёт в памяти вкладки */ }
+  return pending;
+}
+function savePending(): void {
+  try {
+    const list = [...pendingMap().values()].slice(-PENDING_MAX);
+    if (list.length) localStorage.setItem(pendingKey(), JSON.stringify(list)); else localStorage.removeItem(pendingKey());
+  } catch { /* переполнение или приватное окно — очередь остаётся в памяти */ }
+}
+/** Ещё не дошедшие оценки: api кладёт их поверх состояния с сервера. */
+export const pendingRatings = (): readonly PendingRating[] => (API === undefined ? [] : [...pendingMap().values()]);
+
+type Delivery = 'sent' | 'later' | 'rejected';
+async function deliver(p: PendingRating): Promise<{ how: Delivery; status?: number }> {
+  try {
+    const res = await call(`/api/rating/${encodeURIComponent(p.workId)}`, { method: 'PUT', body: JSON.stringify({ rating: p.rating, work: p.work }) });
+    // без ответа (нет входа: протухший initData) — тоже позже: со свежим запуском дойдёт
+    if (!res) return { how: 'later' };
+    if (res.ok) return { how: 'sent' };
+    const later = res.status >= 500 || res.status === 401 || res.status === 403 || res.status === 408 || res.status === 429;
+    return { how: later ? 'later' : 'rejected', status: res.status };
+  } catch {
+    return { how: 'later' };
+  }
+}
+/** отправки по вещи — цепочкой: следующая ждёт предыдущую и шлёт то, что в очереди на этот момент */
+const flights = new Map<ID, Promise<{ how: Delivery; status?: number }>>();
+function push(workId: ID): Promise<{ how: Delivery; status?: number }> {
+  const prev = flights.get(workId);
+  const next = (prev ?? Promise.resolve()).catch(() => undefined).then(async (): Promise<{ how: Delivery; status?: number }> => {
+    const p = pendingMap().get(workId);
+    if (!p) return { how: 'sent' };
+    const out = await deliver(p);
+    if (out.how !== 'later' && pendingMap().get(workId)?.seq === p.seq) { pendingMap().delete(workId); savePending(); }
+    return out;
+  });
+  flights.set(workId, next);
+  void next.finally(() => { if (flights.get(workId) === next) flights.delete(workId); });
+  return next;
+}
+async function queueRating(workId: ID, rating: number | null, work?: WorkCard): Promise<'sent' | 'queued' | undefined> {
+  if (API === undefined) return undefined;
+  const p: PendingRating = { workId, rating, ...(work ? { work } : {}), seq: ++pendingSeq };
+  const map = pendingMap();
+  map.delete(workId);
+  map.set(workId, p);
+  savePending();
+  const out = await push(workId);
+  if (out.how === 'rejected') throw new RatingRejected(out.status ?? 0);
+  if (out.how === 'later') { watchNetwork(); return 'queued'; }
+  return 'sent';
+}
+let flushing: Promise<void> | undefined;
+/** Дослать очередь: по четыре вещи разом. Отказанные — событием, недошедшие остаются. */
+function flushPending(): Promise<void> {
+  if (API === undefined || !pendingMap().size) return Promise.resolve();
+  flushing ??= (async () => {
+    const ids = [...pendingMap().keys()];
+    let stop = false;
+    const worker = async () => {
+      while (ids.length && !stop) {
+        const id = ids.shift()!;
+        const out = await push(id);
+        // сети нет — остальные ждут следующего раза
+        if (out.how === 'later') stop = true;
+        if (out.how === 'rejected') {
+          try { globalThis.dispatchEvent?.(new CustomEvent(RATING_DROPPED_EVENT, { detail: { workId: id } })); } catch { /* вне браузера */ }
+        }
+      }
+    };
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    if (pendingMap().size) watchNetwork();
+  })().finally(() => { flushing = undefined; });
+  return flushing;
+}
+let flushTimer: ReturnType<typeof setTimeout> | undefined;
+function flushSoon(): void {
+  if (flushing || flushTimer || API === undefined || !pendingMap().size) return;
+  flushTimer = setTimeout(() => { flushTimer = undefined; void flushPending(); }, 300);
+}
+let watching = false;
+/** Сеть вернулась или приложение снова на экране — досылаем. */
+function watchNetwork(): void {
+  if (watching || typeof addEventListener !== 'function') return;
+  watching = true;
+  addEventListener('online', flushSoon);
+  if (typeof document !== 'undefined') document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') flushSoon(); });
+}

@@ -20,6 +20,10 @@
 //   DB_ENGINE       — «sqljs» — база в памяти, как до 06.10 (по умолчанию node:sqlite, если он есть)
 //   BACKUP_KEEP     — сколько копий базы держать в DATA_DIR/backups (по умолчанию 14)
 //   IMG_CACHE_MB    — предел кеша картинок TMDb в DATA_DIR/img-cache, МБ (по умолчанию 512)
+//   DB_CACHE_MB, DB_MMAP_MB — кэш страниц SQLite и отображение файла в память, МБ (64 и 256; server/d1-sqlite.js)
+//   ANALYTICS_HEAP_MB — предел кучи потока аналитики владельца, МБ (по умолчанию 512; server/db-thread.js)
+//   IMPRESSION_ROLLUP — «1» включает ночную свёртку показов старше 120 дней (worker/retention.ts; по умолчанию выключено)
+//   SLIM_CARDS      — «1» включает урезанную карточку рядом с отметкой: новые записи и разовый перенос (то же; выключено)
 'use strict';
 const http = require('http');
 const fs = require('fs');
@@ -27,6 +31,7 @@ const path = require('path');
 const zlib = require('zlib');
 const crypto = require('crypto');
 const { createBackups } = require('./backup');
+const dbThread = require('./db-thread');
 
 // ХБ (17.10): один неперехваченный бросок где угодно — и процесс падал целиком, а с ним приложение у всех. Теперь такое
 // уходит в журнал, сервер живёт дальше; падать остаётся только при ошибках запуска (см. server.on('error'))
@@ -78,6 +83,19 @@ function openDb() {
 async function startApi() {
   const workerModule = require('./worker.cjs');
   const worker = workerModule.default;
+  // 18.10 (аудит скорости, волна 3): миграции — в отдельном потоке до открытия базы здесь. Новые индексы на таблицах в
+  // миллионы строк строятся секунды; раньше это шло на первом запросе после выкладки, и сервер стоял для всех. Пока
+  // поток работает, /api отвечает 503 «starting», статика и /healthz — как обычно. Не вышло — не беда: воркер прогонит
+  // миграции сам на первом запросе, как раньше
+  if (useThreads()) {
+    const t0 = Date.now();
+    try {
+      const r = await dbThread.runTask('migrate', { file: DB_FILE, schemaFile: path.join(__dirname, 'schema.sql'), workerFile: path.join(__dirname, 'worker.cjs') }, { heapMb: 512 });
+      console.log(`миграции в потоке: ${r.migrateMs} мс, optimize ${r.optimizeMs} мс (всего ${Date.now() - t0} мс)`);
+    } catch (err) {
+      console.error('миграции в потоке не прошли — воркер повторит на первом запросе:', err && (err.stack || err.message));
+    }
+  }
   // База за прослойкой: после восстановления из копии подменяется сама база, а env.DB у воркера
   // остаётся тем же объектом
   let current = await openDb();
@@ -90,6 +108,9 @@ async function startApi() {
   try { seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', 'owner.json'), 'utf8')); } catch { seed = undefined; }
   // справочники (индексы разборов и т. п.) — файлами в папке данных: тот же интерфейс, что у R2
   const refDir = path.join(DATA_DIR, 'reference');
+  REF_DIR = refDir;
+  // недописанное прошлым процессом
+  try { for (const n of fs.readdirSync(refDir)) if (/\.tmp(?:-|$)/.test(n)) fs.rmSync(path.join(refDir, n), { force: true }); } catch { /* папки ещё нет */ }
   const refFiles = new Map();
   const REFERENCE = {
     async get(key) {
@@ -112,8 +133,15 @@ async function startApi() {
     async put(key, value) {
       fs.mkdirSync(refDir, { recursive: true });
       const file = path.join(refDir, path.basename(key));
-      fs.writeFileSync(`${file}.tmp`, typeof value === 'string' ? value : Buffer.from(value));
-      fs.renameSync(`${file}.tmp`, file);
+      // 18.10: своё имя на запись и уборка при сбое — раньше `.tmp` от упавшей записи (диск полон) оставался навсегда
+      const tmp = `${file}.tmp-${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
+      try {
+        await fs.promises.writeFile(tmp, typeof value === 'string' ? value : Buffer.from(value));
+        await fs.promises.rename(tmp, file);
+      } catch (err) {
+        await fs.promises.rm(tmp, { force: true }).catch(() => {});
+        throw err;
+      }
     },
   };
   const env = {
@@ -130,14 +158,23 @@ async function startApi() {
     // номер аккаунта Telegram владельца: задан — админ только по нему (ник можно сменить и занять)
     OWNER_TG_ID: process.env.OWNER_TG_ID || '',
     OWNER_SEED: seed,
+    SLIM_CARDS: process.env.SLIM_CARDS === '1' ? '1' : '',
   };
   // сигналы остановки (17.10) вешаются при старте процесса, ниже по файлу (shutdown); отсюда — только закрытие базы
   closeDb = () => current.close();
+  const threads = useThreads() && current.engine === 'sqlite';
   backups = createBackups({
     getDb: () => current,
     dir: path.join(DATA_DIR, 'backups'),
     keep: Number(process.env.BACKUP_KEEP) || 14,
     inspect: require('./d1-sqlite').inspect,
+    dbFile: DB_FILE,
+    // 18.10 (п. 25): снятие и проверка копии — в потоке, цикл событий свободен
+    ...(threads ? {
+      snapshot: (dest) => dbThread.runTask('backup', { src: DB_FILE, dest }),
+      inspectAsync: async (file) => (await dbThread.runTask('inspect', { file })).check,
+    } : {}),
+    onNightly: () => maintenance('nightly').catch((err) => console.error('обслуживание базы:', err && (err.stack || err.message))),
   });
   backups.schedule();
   /** подмена базы при восстановлении: закрыть, заменить файл, открыть заново */
@@ -146,13 +183,194 @@ async function startApi() {
     try { swap(); } finally { current = await openDb(); }
     workerModule.forgetMigrations?.();
   };
-  api = { worker, env, reopen, engine: () => current.engine };
+  api = { worker, workerModule, env, reopen, engine: () => current.engine, threads, db: () => current };
+  // 18.10 (п. 29, «Прочее»): статистика планировщика — после миграций (поток уже сделал optimize при старте; здесь —
+  // раз в 6 часов, дёшево); quick_check живой базы — через 3 минуты после старта и раз в сутки; место на диске — раз
+  // в 10 минут
+  if (current.engine === 'sqlite') {
+    setInterval(() => { try { current.optimize?.(); } catch (err) { console.error('optimize:', err && err.message); } }, 6 * 3600e3).unref();
+    if (threads) {
+      setTimeout(() => quickCheck('старт'), 3 * 60e3).unref();
+      setInterval(() => quickCheck('сутки'), 24 * 3600e3).unref();
+    }
+  }
+  setTimeout(watchDisk, 30e3).unref();
+  setInterval(watchDisk, 10 * 60e3).unref();
   // сводка подписок (06.10): раз в день после 10:00 по Москве — воркер сам смотрит, кому сегодня уже слали
   const tick = () => Promise.resolve(worker.scheduled?.({}, env)).catch((err) => console.error('подписки:', err));
   setTimeout(tick, 60e3);
   setInterval(tick, 15 * 60e3).unref();
   console.log(`api: база ${DB_FILE} (${current.engine === 'sqlite' ? 'node:sqlite, файл' : 'sql.js, в памяти'}), бот ${env.BOT_TOKEN ? 'есть' : 'НЕТ — вход через Telegram не заработает'}, `
     + `владелец @${env.OWNER_USERNAME}${seed ? ` (история: ${seed.journal.length} в дневнике, ${seed.ratings.length} оценок, ${seed.watched.length} в списке)` : ''}`);
+}
+
+function useThreads() {
+  return sqliteBuiltin() && dbThread.available() && process.env.DB_THREADS !== '0';
+}
+
+// ---------- сообщение владельцу (18.10): битая база, кончается место. Не чаще раза в 6 часов на вид ----------
+const told = new Map();
+async function notifyOwner(kind, text) {
+  console.error(`владельцу [${kind}]: ${text}`);
+  const token = process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || '';
+  const chat = (process.env.OWNER_TG_ID || '').trim();
+  if (!token || !/^\d{1,20}$/.test(chat)) return;
+  if (Date.now() - (told.get(kind) ?? 0) < 6 * 3600e3) return;
+  told.set(kind, Date.now());
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: chat, text: `Сервер: ${text}` }), signal: AbortSignal.timeout(8e3),
+    });
+  } catch (err) { console.error('сообщение владельцу не ушло:', err && err.message); }
+}
+
+/** quick_check живой базы в потоке (18.10, «Прочее»): повреждение замечаем сами, а не по жалобам. */
+let lastCheck = null;
+async function quickCheck(why) {
+  try {
+    const r = await dbThread.runTask('inspect', { file: DB_FILE, quick: true });
+    lastCheck = { at: new Date().toISOString(), why, ok: r.check?.ok ?? false, integrity: r.check?.integrity, ms: r.ms };
+    console.log(`quick_check (${why}): ${r.check?.integrity} за ${r.ms} мс`);
+    if (!r.check?.ok) await notifyOwner('quick_check', `база не прошла quick_check: ${String(r.check?.integrity).slice(0, 300)}`);
+  } catch (err) {
+    lastCheck = { at: new Date().toISOString(), why, ok: false, error: String(err && err.message) };
+    console.error('quick_check не прошёл:', err && (err.stack || err.message));
+  }
+}
+
+/** Свободное место (18.10, «Прочее»): меньше 1 ГБ или меньше размера базы — сообщение владельцу. */
+let lastDisk = null;
+function watchDisk() {
+  if (typeof fs.statfsSync !== 'function') return;
+  try {
+    const st = fs.statfsSync(DATA_DIR);
+    const free = Number(st.bavail) * Number(st.bsize);
+    let db = 0;
+    try { db = fs.statSync(DB_FILE).size; } catch { /* базы ещё нет */ }
+    lastDisk = { at: new Date().toISOString(), freeMb: Math.round(free / 1048576), dbMb: Math.round(db / 1048576) };
+    if (free < Math.max(1 << 30, db)) {
+      notifyOwner('disk', `мало места в ${DATA_DIR}: свободно ${lastDisk.freeMb} МБ, база ${lastDisk.dbMb} МБ — копии базы не снимутся`);
+    }
+  } catch (err) { console.error('место на диске:', err && err.message); }
+}
+
+/**
+ * Обслуживание базы (18.10, п. 30): свёртка показов и урезание карточек — только если включены флагом и только после
+ * свежей проверенной копии (ночной или `before-migration`, снятой здесь же). В потоке, короткими транзакциями.
+ */
+let maintaining = null;
+function maintenance(why, { ops } = {}) {
+  maintaining ??= (async () => {
+    const want = ops ?? [
+      ...(process.env.IMPRESSION_ROLLUP === '1' ? ['rollup'] : []),
+      ...(process.env.SLIM_CARDS === '1' ? ['slim'] : []),
+    ];
+    const out = { why, ops: want, results: {} };
+    if (!want.length || !api?.threads) return out;
+    const fresh = backups.list().find((b) => Date.now() - Date.parse(b.at) < 3600e3);
+    out.backup = fresh ? fresh.name : (await backups.make('before-migration')).name;
+    for (const op of want) {
+      // короткие транзакции с паузой между ними: основной поток пишет в ту же базу (замер — reports/perf-resilience-1710.md)
+      out.results[op] = await dbThread.runTask('retention', { file: DB_FILE, workerFile: path.join(__dirname, 'worker.cjs'), op: op === 'rollup' ? 'rollup' : 'slim',
+        opts: { pauseMs: 20 } }, { heapMb: 256 });
+      console.log(`обслуживание базы (${why}): ${op} ${JSON.stringify(out.results[op])}`);
+    }
+    return out;
+  })().finally(() => { maintaining = null; });
+  return maintaining;
+}
+
+// ---------- аналитика владельца — в потоке (18.10, п. 24) ----------
+// Воронка, поведение, рост и отчёт петли читают всю базу. Раньше — в основном потоке: на синтетике «полгода» воронка
+// останавливала сервер на минуты, отчёт петли — на 50 с с 3 ГБ памяти. Теперь: поток с соединением только на чтение и
+// пределом кучи; по одному за раз (память), одинаковые запросы ждут один ответ, готовый ответ живёт минуту.
+const ANALYTICS = new Set(['/api/admin/funnel', '/api/admin/behavior', '/api/admin/growth']);
+const ANALYTICS_TTL = 60e3;
+const analyticsDone = new Map(); // ключ → { at, value }
+const analyticsJobs = new Map(); // ключ → Promise
+let analyticsQueue = Promise.resolve();
+function runAnalytics(key, url, headers, userId) {
+  const hit = analyticsDone.get(key);
+  if (hit && Date.now() - hit.at < ANALYTICS_TTL) return Promise.resolve(hit.value);
+  let job = analyticsJobs.get(key);
+  if (job) return job;
+  const env = {};
+  for (const k of ['ADMIN_TOKEN', 'OWNER_USERNAME', 'OWNER_TG_ID', 'ALLOWED_ORIGINS']) env[k] = api.env[k];
+  job = analyticsQueue.then(() => dbThread.runTask('analytics', {
+    file: DB_FILE, workerFile: path.join(__dirname, 'worker.cjs'), url, headers, env, userId,
+  }, { heapMb: Number(process.env.ANALYTICS_HEAP_MB) || 512 }));
+  analyticsQueue = job.catch(() => {});
+  job = job.then((value) => { analyticsDone.set(key, { at: Date.now(), value }); return value; })
+    .finally(() => analyticsJobs.delete(key));
+  analyticsJobs.set(key, job);
+  for (const [k, v] of analyticsDone) if (Date.now() - v.at > ANALYTICS_TTL) analyticsDone.delete(k);
+  return job;
+}
+
+async function handleAnalytics(req, res, p, userId) {
+  const headers = {};
+  for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers[k] = v;
+  const url = `http://${req.headers.host || 'localhost'}${req.url}`;
+  const key = `${p}?${(req.url || '').split('?')[1] ?? ''}|${userId ?? ''}`;
+  try {
+    const r = await runAnalytics(key, url, headers, userId);
+    let out = Buffer.from(r.body);
+    const head = { ...r.headers, 'cache-control': 'no-store', 'x-analytics-ms': String(r.ms) };
+    const enc = out.length > 1024 ? acceptEncoding(req) : null;
+    if (enc) { out = await compressAsync(out, enc, 6); head['content-encoding'] = enc; head.vary = 'Accept-Encoding'; }
+    head['content-length'] = out.length;
+    res.writeHead(r.status, head).end(out);
+  } catch (err) {
+    const oom = err && (err.code === 'ERR_WORKER_OUT_OF_MEMORY' || /out of memory/i.test(String(err.message)));
+    console.error('аналитика:', p, err && (err.stack || err.message));
+    if (!res.headersSent) sendJson(res, oom ? 507 : 500, { error: oom ? 'analytics_out_of_memory' : 'analytics_failed' });
+  }
+}
+
+const compressAsync = (buf, enc, level) => new Promise((resolve, reject) => {
+  const done = (err, z) => (err ? reject(err) : resolve(z));
+  if (enc === 'br') zlib.brotliCompress(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: level, [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buf.length } }, done);
+  else zlib.gzip(buf, { level: Math.min(9, level) }, done);
+});
+
+// ---------- справочники — до воркера (18.10, п. 27) ----------
+// Раньше 304 стоил как полная отдача: воркер строил ответ (копия буфера в Blob, ещё одна — arrayBuffer), и только
+// потом сервер сравнивал etag. Теперь etag — по stat файла (тот же, что у REFERENCE.get: телефоны с прежней копией
+// получают 304), сжатое — один раз на версию файла и вне цикла событий (zlib в пуле потоков libuv).
+let REF_DIR = path.join(DATA_DIR, 'reference');
+const refZip = new Map(); // файл → { etag, br?: Promise<Buffer>, gzip?: Promise<Buffer> }
+function corsHead(req) {
+  const origin = req.headers.origin;
+  const allowed = (process.env.ALLOWED_ORIGINS || '').split(',').map((x) => x.trim()).filter(Boolean);
+  if (!origin || !allowed.includes(origin)) return {};
+  return { 'access-control-allow-origin': origin, 'access-control-allow-headers': 'content-type, authorization',
+    'access-control-allow-methods': 'GET, PUT, POST, DELETE, OPTIONS', 'access-control-max-age': '86400', vary: 'Origin' };
+}
+async function serveReference(req, res, name) {
+  const file = path.join(REF_DIR, `${name}.json`);
+  let st;
+  try { st = await fs.promises.stat(file); } catch { return false; }
+  const etag = `"${st.size.toString(36)}-${st.mtimeMs.toString(36)}"`;
+  const head = { 'content-type': 'application/json; charset=utf-8', etag, 'cache-control': 'public, max-age=600', ...corsHead(req) };
+  if (req.headers['if-none-match'] === etag) { res.writeHead(304, head).end(); return true; }
+  const enc = acceptEncoding(req);
+  head.vary = head.vary ? `${head.vary}, Accept-Encoding` : 'Accept-Encoding';
+  if (!enc) {
+    head['content-length'] = st.size;
+    res.writeHead(200, head);
+    if (req.method === 'HEAD') res.end(); else fs.createReadStream(file).on('error', () => res.destroy()).pipe(res);
+    return true;
+  }
+  let z = refZip.get(file);
+  if (!z || z.etag !== etag) refZip.set(file, (z = { etag }));
+  z[enc] ??= fs.promises.readFile(file).then((buf) => compressAsync(buf, enc, 9));
+  let body;
+  try { body = await z[enc]; } catch (err) { delete z[enc]; throw err; }
+  head['content-encoding'] = enc;
+  head['content-length'] = body.length;
+  res.writeHead(200, head).end(req.method === 'HEAD' ? undefined : body);
+  return true;
 }
 
 // справочники приходят целиком: индекс постов — несколько мегабайт
@@ -194,7 +412,20 @@ const MAX_RESTORE = 512 << 20;
 async function handleBackups(req, res, p) {
   if (!adminOk(req)) return sendJson(res, 401, { error: 'unauthorized' });
   if (!backups) return sendJson(res, 503, { error: 'starting' });
-  if (p === '/api/admin/backups' && req.method === 'GET') return sendJson(res, 200, { engine: api.engine(), backups: backups.list() });
+  if (p === '/api/admin/backups' && req.method === 'GET') {
+    return sendJson(res, 200, { engine: api.engine(), backups: backups.list(), disk: lastDisk, quickCheck: lastCheck });
+  }
+  // 18.10: обслуживание руками — { op: 'quick_check' | 'optimize' | 'rollup' | 'slim' }; свёртка и урезание — только
+  // при включённом флаге (IMPRESSION_ROLLUP, SLIM_CARDS) и после свежей копии
+  if (p === '/api/admin/maintenance' && req.method === 'POST') {
+    const { op } = JSON.parse((await readBody(req, 1 << 16)).toString('utf8') || '{}');
+    if (op === 'quick_check') { await quickCheck('руками'); return sendJson(res, 200, lastCheck); }
+    if (op === 'optimize') { const t0 = Date.now(); api.db().optimize?.(true); return sendJson(res, 200, { ok: true, ms: Date.now() - t0 }); }
+    const flag = op === 'rollup' ? 'IMPRESSION_ROLLUP' : op === 'slim' ? 'SLIM_CARDS' : null;
+    if (!flag) return sendJson(res, 400, { error: 'bad_op' });
+    if (process.env[flag] !== '1') return sendJson(res, 409, { error: 'disabled', flag });
+    return sendJson(res, 200, await maintenance('руками', { ops: [op] }));
+  }
   if (p === '/api/admin/backups' && req.method === 'POST') return sendJson(res, 200, await backups.make('manual'));
   const one = /^\/api\/admin\/backups\/([^/]+)$/.exec(p);
   if (one && req.method === 'GET') {
@@ -249,7 +480,23 @@ async function handleApi(req, res) {
   if (!api) { res.writeHead(503, { 'content-type': 'application/json' }).end('{"error":"starting"}'); return; }
   try {
     const p = (req.url || '/').split('?')[0].replace(/\/+$/, '');
-    if (p.startsWith('/api/admin/backups') || p === '/api/admin/restore') {
+    // справочник — до воркера (п. 27); имя — из списка воркера, неизвестное и отсутствующий файл — путь воркера (404)
+    const ref = (req.method === 'GET' || req.method === 'HEAD') && /^\/api\/reference\/([A-Za-z0-9-]+)$/.exec(p);
+    if (ref && api.workerModule.REFERENCE_NAMES?.has(ref[1]) && await serveReference(req, res, ref[1])) return;
+    // аналитика владельца — в потоке (п. 24)
+    if (req.method === 'GET' && api.threads && ANALYTICS.has(p)) {
+      if (!adminOk(req)) { sendJson(res, 401, { error: 'unauthorized' }); return; }
+      await handleAnalytics(req, res, p);
+      return;
+    }
+    if (req.method === 'GET' && api.threads && p === '/api/report/loop' && api.worker.fetch && api.workerModule.ownerSession) {
+      const headers = new Headers();
+      for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
+      const owner = await api.workerModule.ownerSession(new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { headers }), api.env);
+      // не владелец — путь воркера: он и ответит 401/403
+      if (owner) { await handleAnalytics(req, res, p, owner); return; }
+    }
+    if (p.startsWith('/api/admin/backups') || p === '/api/admin/restore' || p === '/api/admin/maintenance') {
       await handleBackups(req, res, p).catch((err) => {
         console.error('копии базы:', err && (err.stack || err.message));
         if (!res.headersSent) sendJson(res, 500, { error: String(err && err.message || err) });
@@ -283,7 +530,9 @@ async function handleApi(req, res) {
     // уже сжатое воркером (замер /api/probe — gzip с балластом в заголовке) не трогаем
     const enc = response.status === 200 && out.length > 1024 && !head['content-encoding'] && /json|text/.test(head['content-type'] || '') ? acceptEncoding(req) : null;
     if (enc) {
-      out = compressApi(out, enc, etag && req.method === 'GET' ? `${p}|${etag}` : null);
+      // большое без версии (состояние тяжёлого участника — сотни КБ) — в пуле потоков zlib, не в цикле событий (18.10)
+      const key = etag && req.method === 'GET' ? `${p}|${etag}` : null;
+      out = !key && out.length > 64 << 10 ? await compressAsync(out, enc, 4) : compressApi(out, enc, key);
       head['content-encoding'] = enc;
       head.vary = 'Accept-Encoding';
     }
@@ -321,7 +570,17 @@ const COMPRESSIBLE = new Set(['.html', '.js', '.mjs', '.css', '.json', '.svg', '
 
 // Файлов немного и они неизменны до следующего деплоя — держим в памяти вместе со сжатыми
 // версиями: 2,5 МБ бандла уходят на телефон как ~0,5 МБ.
+// 18.10 (аудит скорости, п. 31): сжатые версии кладёт сборка (tools/build-bothost.mjs: рядом с файлом .br и .gz) —
+// сервер их только читает. Раньше сжимал сам, синхронно, на первом запросе каждого файла: 3,4 с стопов после каждой
+// выкладки. Нет готовых (сборка до 18.10, файл не из сборки) — отдаём как есть и сжимаем в пуле потоков zlib, следующий
+// запрос получит сжатое. ETag — хеш содержимого: index.html и telegram-web-app.js (no-cache) перепроверяются ответом 304.
 const cache = new Map();
+function readSibling(file, ext, mtimeMs) {
+  try {
+    const st = fs.statSync(`${file}.${ext}`);
+    return st.isFile() && st.mtimeMs >= mtimeMs - 60e3 ? fs.readFileSync(`${file}.${ext}`) : undefined;
+  } catch { return undefined; }
+}
 function load(file) {
   if (cache.has(file)) return cache.get(file);
   let entry = null;
@@ -330,10 +589,12 @@ function load(file) {
     if (stat.isFile()) {
       const ext = path.extname(file).toLowerCase();
       const body = fs.readFileSync(file);
-      entry = { body, ext, type: MIME[ext] || 'application/octet-stream' };
+      entry = { body, ext, type: MIME[ext] || 'application/octet-stream', etag: `"${crypto.createHash('sha1').update(body).digest('base64url').slice(0, 22)}"` };
       if (COMPRESSIBLE.has(ext) && body.length > 1024) {
-        entry.br = zlib.brotliCompressSync(body, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 } });
-        entry.gz = zlib.gzipSync(body, { level: 9 });
+        entry.br = readSibling(file, 'br', stat.mtimeMs);
+        entry.gz = readSibling(file, 'gz', stat.mtimeMs);
+        if (!entry.br) compressAsync(body, 'br', 9).then((z) => { entry.br = z; }).catch(() => {});
+        if (!entry.gz) compressAsync(body, 'gzip', 9).then((z) => { entry.gz = z; }).catch(() => {});
       }
     }
   } catch { /* нет файла */ }
@@ -344,7 +605,8 @@ function load(file) {
 
 function sendFile(req, res, entry, cacheControl) {
   const accept = String(req.headers['accept-encoding'] || '');
-  const headers = { 'content-type': entry.type, 'cache-control': cacheControl, vary: 'Accept-Encoding' };
+  const headers = { 'content-type': entry.type, 'cache-control': cacheControl, vary: 'Accept-Encoding', etag: entry.etag };
+  if (req.headers['if-none-match'] === entry.etag) { res.writeHead(304, headers).end(); return; }
   let body = entry.body;
   if (entry.br && /\bbr\b/.test(accept)) { body = entry.br; headers['content-encoding'] = 'br'; }
   else if (entry.gz && /\bgzip\b/.test(accept)) { body = entry.gz; headers['content-encoding'] = 'gzip'; }
@@ -353,25 +615,62 @@ function sendFile(req, res, entry, cacheControl) {
   res.end(req.method === 'HEAD' ? undefined : body);
 }
 
+// 18.10 («Прочее»): только то, что спрашивает клиент (src/lib/resolve/kinopoisk.ts) — карточка фильма, поиск по IMDb,
+// кадры и внешние источники. Раньше прокси пропускал любой путь с нашим ключом, и суточную квоту (500 запросов) мог
+// выбрать кто угодно. Ответы — в памяти на сутки (до KP_CACHE_MAX), одинаковые запросы на лету ждут один ответ.
+const KP_PATHS = /^\/v2\.2\/films(?:\/\d{1,10}(?:\/(?:images|external_sources))?)?$/;
+const KP_QUERY = new Set(['imdbId', 'page', 'type']);
+const KP_TTL = 24 * 3600e3;
+const KP_CACHE_MAX = 2000;
+const kpCache = new Map(); // ключ → { at, status, type, body }
+const kpInflight = new Map();
+function kpRequest(urlPath, search) {
+  const rest = urlPath.replace(/^\/kp-api/, '');
+  if (!KP_PATHS.test(rest)) return null;
+  const qs = new URLSearchParams(search);
+  for (const k of [...qs.keys()]) if (!KP_QUERY.has(k)) return null;
+  const imdb = qs.get('imdbId');
+  if (rest === '/v2.2/films' && !(imdb && /^tt\d{5,10}$/.test(imdb))) return null;
+  if (qs.has('page') && !/^\d{1,2}$/.test(qs.get('page'))) return null;
+  if (qs.has('type') && !/^[A-Z_]{2,20}$/.test(qs.get('type'))) return null;
+  qs.sort();
+  const q = qs.toString();
+  return `${rest}${q ? `?${q}` : ''}`;
+}
+
 async function proxyKinopoisk(req, res, urlPath, search) {
   if (req.method !== 'GET') { res.writeHead(405).end(); return; }
+  const key = kpRequest(urlPath, search);
+  if (!key) { res.writeHead(404, { 'content-type': 'application/json' }).end('{"error":"kp_path"}'); return; }
   if (!KP_KEY) {
     res.writeHead(503, { 'content-type': 'application/json' }).end('{"error":"kp_key_missing"}');
     return;
   }
+  const send = (r, hit) => res.writeHead(r.status, {
+    'content-type': r.type, 'cache-control': r.status < 400 ? 'public, max-age=86400' : 'no-store', 'content-length': r.body.length, 'x-kp-cache': hit ? 'hit' : 'miss',
+  }).end(r.body);
+  const cached = kpCache.get(key);
+  if (cached && Date.now() - cached.at < KP_TTL) { kpCache.delete(key); kpCache.set(key, cached); send(cached, true); return; }
   try {
-    const upstream = await fetch(KP_BASE + urlPath.replace(/^\/kp-api/, '') + search, {
-      headers: { 'X-API-KEY': KP_KEY, accept: 'application/json' },
-      // 17.10: без предела зависший Кинопоиск держал запрос до 300 с (сигнал обрывает и чтение тела)
-      signal: AbortSignal.timeout(PROXY_TIMEOUT),
-    });
-    const body = Buffer.from(await upstream.arrayBuffer());
-    res.writeHead(upstream.status, {
-      'content-type': upstream.headers.get('content-type') || 'application/json',
-      'cache-control': upstream.ok ? 'public, max-age=86400' : 'no-store',
-      'content-length': body.length,
-    });
-    res.end(body);
+    let job = kpInflight.get(key);
+    if (!job) {
+      job = (async () => {
+        const upstream = await fetch(KP_BASE + key, {
+          headers: { 'X-API-KEY': KP_KEY, accept: 'application/json' },
+          // 17.10: без предела зависший Кинопоиск держал запрос до 300 с (сигнал обрывает и чтение тела)
+          signal: AbortSignal.timeout(PROXY_TIMEOUT),
+        });
+        const r = { at: Date.now(), status: upstream.status, type: upstream.headers.get('content-type') || 'application/json', body: Buffer.from(await upstream.arrayBuffer()) };
+        // успех и «нет такого» (404) — на сутки; 429 и 5xx не запоминаем
+        if (upstream.ok || upstream.status === 404) {
+          kpCache.set(key, r);
+          while (kpCache.size > KP_CACHE_MAX) kpCache.delete(kpCache.keys().next().value);
+        }
+        return r;
+      })().finally(() => kpInflight.delete(key));
+      kpInflight.set(key, job);
+    }
+    send(await job, false);
   } catch (err) {
     console.error('kp-api:', err && err.message);
     if (res.headersSent) { res.destroy(); return; }
@@ -580,7 +879,12 @@ function shutdown(signal) {
   if (stopping) return;
   stopping = true;
   console.log(`${signal}: останавливаемся, ждём запросы на лету до ${STOP_WAIT / 1000} с`);
+  // 18.10: потоки базы — сразу (аналитика и копия только читают; свёртку оборванная транзакция откатит сама): их
+  // запросы закончатся ошибкой сейчас, а не обрывом через 8 с
+  dbThread.stopAll();
   const done = (code) => {
+    // потоки базы (копия, аналитика) — до закрытия: их соединения держат чтение, и контрольная точка ждала бы их
+    dbThread.stopAll();
     try { closeDb(); } catch (err) { console.error('база не закрылась:', err && err.message); }
     process.exit(code);
   };

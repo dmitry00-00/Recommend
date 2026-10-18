@@ -16,15 +16,35 @@ const zlib = require('zlib');
 const { pipeline } = require('stream/promises');
 
 const NIGHT_UTC = { h: 0, m: 30 };
-const NAME = /^tm-(\d{4}-\d{2}-\d{2})-(\d{6})-(nightly|manual|start|before-restore)\.sqlite\.gz$/;
+const NAME = /^tm-(\d{4}-\d{2}-\d{2})-(\d{6})-(nightly|manual|start|before-restore|before-migration)\.sqlite\.gz$/;
 
 const stamp = (d = new Date()) => {
   const iso = d.toISOString();
   return `${iso.slice(0, 10)}-${iso.slice(11, 13)}${iso.slice(14, 16)}${iso.slice(17, 19)}`;
 };
 
-function createBackups({ getDb, dir, keep = 14, inspect, log = console }) {
+/**
+ * 18.10 (аудит скорости, п. 25): `snapshot(dest)` → Promise<{ check }> — снять и проверить копию вне основного потока
+ * (server/db-thread.js: VACUUM INTO и integrity_check в своём потоке). Раньше и то и другое шло синхронно здесь же:
+ * 35 с, когда сервер не отвечал никому, на базе в 2,3 ГБ. Нет `snapshot` (база sql.js в памяти) — по-старому.
+ * `inspectAsync(file)` — то же для проверки распакованной копии при восстановлении. `dbFile` — для проверки места:
+ * копия — это ещё один файл размером с базу (плюс сжатая), и при нехватке места VACUUM INTO упал бы на полпути.
+ */
+function createBackups({ getDb, dir, keep = 14, inspect, snapshot, inspectAsync, dbFile, onNightly, log = console }) {
   fs.mkdirSync(dir, { recursive: true });
+  // недописанное прошлым процессом (упал посреди копии) — убрать
+  for (const name of fs.readdirSync(dir)) if (name.startsWith('.tmp-') || name.endsWith('.gz.tmp')) fs.rmSync(path.join(dir, name), { force: true });
+
+  /** Хватит ли места под копию: сырая копия ≈ размер базы, сжатая — ещё ~10 %, и запас 64 МБ. */
+  function roomFor() {
+    if (!dbFile || typeof fs.statfsSync !== 'function') return { ok: true };
+    let size = 0;
+    try { size = fs.statSync(dbFile).size + (fs.existsSync(`${dbFile}-wal`) ? fs.statSync(`${dbFile}-wal`).size : 0); } catch { return { ok: true }; }
+    const st = fs.statfsSync(dir);
+    const free = Number(st.bavail) * Number(st.bsize);
+    const need = Math.round(size * 1.15) + (64 << 20);
+    return { ok: free >= need, free, need };
+  }
 
   function list() {
     return fs.readdirSync(dir)
@@ -50,8 +70,16 @@ function createBackups({ getDb, dir, keep = 14, inspect, log = console }) {
       const name = `tm-${stamp()}-${kind}.sqlite.gz`;
       const out = path.join(dir, name);
       try {
-        getDb().backup(raw);
-        const check = inspect ? inspect(raw) : undefined;
+        const room = roomFor();
+        if (!room.ok) {
+          throw new Error(`нет места под копию: свободно ${(room.free / 1048576).toFixed(0)} МБ, нужно ${(room.need / 1048576).toFixed(0)} МБ`);
+        }
+        let check;
+        if (snapshot) ({ check } = await snapshot(raw));
+        else {
+          getDb().backup(raw);
+          check = inspect ? inspect(raw) : undefined;
+        }
         if (check && !check.ok) throw new Error(`копия не прошла проверку: ${check.integrity}`);
         await pipeline(fs.createReadStream(raw), zlib.createGzip({ level: 6 }), fs.createWriteStream(`${out}.tmp`));
         fs.renameSync(`${out}.tmp`, out);
@@ -82,7 +110,7 @@ function createBackups({ getDb, dir, keep = 14, inspect, log = console }) {
       const head = typeof source === 'string' ? fs.readFileSync(source).subarray(0, 2) : null;
       const gz = head ? head[0] === 0x1f && head[1] === 0x8b : true;
       await pipeline(input, ...(gz ? [zlib.createGunzip()] : []), fs.createWriteStream(tmp));
-      const check = (inspect && inspect(tmp)) || { ok: true };
+      const check = (inspectAsync ? await inspectAsync(tmp) : inspect && inspect(tmp)) || { ok: true };
       if (!check.ok) throw new Error(`копия не годится: ${check.integrity ?? 'нет таблиц user/session'}`);
       return { tmp, check };
     } catch (err) {
@@ -117,7 +145,12 @@ function createBackups({ getDb, dir, keep = 14, inspect, log = console }) {
       const today = now.toISOString().slice(0, 10);
       const due = now.getUTCHours() * 60 + now.getUTCMinutes() >= NIGHT_UTC.h * 60 + NIGHT_UTC.m;
       const have = list().some((b) => b.kind === 'nightly' && b.name.startsWith(`tm-${today}`));
-      if (due && !have) make('nightly').catch((err) => log.error('ночная копия базы:', err && (err.stack || err.message)));
+      // onNightly (18.10) — ночное обслуживание базы после свежей проверенной копии (server/index.js: свёртка показов и
+      // урезание карточек, если включены): резерв для них — эта копия
+      if (due && !have) {
+        make('nightly').then((info) => onNightly && onNightly(info))
+          .catch((err) => log.error('ночная копия базы:', err && (err.stack || err.message)));
+      }
     };
     setInterval(tick, 10 * 60e3).unref();
     setTimeout(() => {
@@ -129,7 +162,7 @@ function createBackups({ getDb, dir, keep = 14, inspect, log = console }) {
     }, 2 * 60e3).unref();
   }
 
-  return { list, make, pathOf, restore, schedule, dir };
+  return { list, make, pathOf, restore, schedule, dir, roomFor };
 }
 
 module.exports = { createBackups };

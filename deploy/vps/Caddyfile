@@ -1,0 +1,25 @@
+# Caddy перед recomend. setup.sh подставляет адрес (TM_DOMAIN или <ip-с-дефисами>.sslip.io) и почту
+# ACME и кладёт в /etc/caddy/Caddyfile. TLS (Let's Encrypt / ZeroSSL), редирект http → https, HTTP/1.1, 2 и 3 — сам Caddy.
+# Cloudflare-прокси перед ним не включать (reports/hosting-1810.md).
+{
+	__ACME_EMAIL__
+	servers {
+		protocols h1 h2 h3
+	}
+}
+
+__DOMAIN__ {
+	# Сжатие — только для того, что сервер не сжал сам. Статику сервер отдаёт готовыми .br/.gz из сборки, JSON API
+	# больше 1 КБ и справочники — сжимает сам (server/index.js: sendFile, handleApi, serveReference); у таких ответов уже
+	# есть Content-Encoding, и encode их не трогает — дважды не сжимается. Остаются мелкие и редкие ответы.
+	# Картинки (/img/*) и копии базы (application/gzip) encode не сжимает: их типов нет в его списке.
+	encode zstd gzip
+
+	reverse_proxy 127.0.0.1:3000 {
+		# перезапуск службы (выкладка) — пара секунд без порта: запрос ждёт до 15 с, а не получает 502.
+		# Повтор — только если соединиться не удалось, т. е. запрос до сервера не дошёл: записи не задвоятся
+		lb_try_duration 15s
+		lb_try_interval 250ms
+		# Host и X-Forwarded-Proto Caddy передаёт сам: worker/pages.ts строит адрес по ним, если не задан PUBLIC_ORIGIN
+	}
+}

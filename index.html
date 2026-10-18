@@ -14,17 +14,36 @@
   </head>
   <body>
     <div id="root">
-      <!-- Видно только если файл открыт напрямую: React затирает это при монтировании. -->
-      <div style="font-family: system-ui, sans-serif; max-width: 34em; margin: 12vh auto; padding: 0 1.5em; color: #f3f0e9; line-height: 1.55">
-        <h1 style="font-size: 1.4em">Это исходники, а не страница</h1>
-        <p>Файл — точка входа Vite: браузер не умеет исполнять TSX сам. Запустите:</p>
-        <pre style="background: #1e1f22; padding: 1em; overflow: auto">npm install
-npm run dev</pre>
-        <p>и откройте <code>http://localhost:5173</code>.</p>
-        <p>Если нужно просто посмотреть, без установки — откройте <code>dist/standalone.html</code>:
-        там всё внутри одного файла и работает двойным щелчком.</p>
+      <!-- Заставка до первого кадра (18.10, аудит скорости, волна 2, п. 22): React затирает её при монтировании. Раньше
+           здесь была подсказка разработчику «Это исходники… npm run dev» — на 3G её видели по 6–8 с, а при 404 бандла —
+           навсегда. Теперь — нейтральная; подсказка — только для файла, открытого напрямую (file://), а если приложение
+           не поднялось за 20 с — «Не загрузилось» и «Обновить». -->
+      <div id="tm-boot" style="font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; color: #9a978f; font-size: 15px">
+        <span id="tm-boot-text">…</span>
       </div>
     </div>
+    <script>
+      (function () {
+        var ru = /^(ru|uk|be|kk|ky|uz|tg|hy|az|ka)\b/i.test(navigator.language || 'ru');
+        var box = document.getElementById('tm-boot');
+        var text = document.getElementById('tm-boot-text');
+        if (!box || !text) return;
+        if (location.protocol === 'file:') {
+          box.style.color = '#f3f0e9';
+          box.innerHTML = '<div style="max-width: 34em; padding: 0 1.5em; line-height: 1.55">'
+            + '<h1 style="font-size: 1.4em">Это исходники, а не страница</h1>'
+            + '<p>Файл — точка входа Vite: браузер не умеет исполнять TSX сам. Запустите <code>npm install</code> и <code>npm run dev</code>.</p>'
+            + '<p>Посмотреть без установки — <code>dist/standalone.html</code>: там всё внутри одного файла.</p></div>';
+          return;
+        }
+        text.textContent = ru ? 'Загрузка…' : 'Loading…';
+        setTimeout(function () {
+          if (!document.getElementById('tm-boot')) return;
+          text.innerHTML = (ru ? 'Не загрузилось. ' : 'Failed to load. ')
+            + '<a href="" style="color: inherit" onclick="location.reload(); return false">' + (ru ? 'Обновить' : 'Reload') + '</a>';
+        }, 20000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

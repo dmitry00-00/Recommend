@@ -125,6 +125,9 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
         <RD.Overlay className="tm-overlay" />
         <RD.Content ref={card} className="tm-worksheet" aria-describedby={undefined}
                     onCloseAutoFocus={(e) => { e.preventDefault(); returnTo.current?.focus(); }}
+                    // фокус — в саму карточку и кадром позже (волна 3В): Radix ставил его на первую кнопку прямо в отрисовке
+                    // открытия, и браузер раскладывал всю карточку лишний раз (~110 мс на слабом телефоне). Ловушка фокуса та же
+                    onOpenAutoFocus={(e) => { e.preventDefault(); requestAnimationFrame(() => card.current?.focus({ preventScroll: true })); }}
                     onEscapeKeyDown={(e) => { if (menu) { e.preventDefault(); setMenu(false); } }} {...swipe}>
           {work ? (
             <>

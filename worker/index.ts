@@ -15,6 +15,7 @@ import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
 import { useBot } from './env';
 import { migrate } from './migrate';
 import { canonCard, canonWork } from './workAliases';
+import { setSlimCards, slimCardText } from './retention';
 import { getFunnel, noteVisit, postEvent } from './funnel';
 import { getGrowth, seedingRoute } from './growthRoute';
 import { deleteAccount } from './account';
@@ -24,6 +25,10 @@ import { probe } from './probe';
 import { forgetTrailers, getTrailers } from './trailers';
 // сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
 export { forgetMigrations } from './migrate';
+// 18.10 (аудит скорости, волна 3): сервер bothost прогоняет миграции и долгую работу с базой в отдельном потоке
+// (server/db-thread.js) — там нужны сами функции, а не fetch
+export { migrate, assumeMigrated, INDEXES } from './migrate';
+export { rollupImpressions, slimCards, ROLLUP_TABLE } from './retention';
 import { loopReport, loopRows } from './loop';
 
 const JSON_HEADERS = { 'content-type': 'application/json; charset=utf-8' };
@@ -168,14 +173,14 @@ async function seedOwner(db: D1Database, userId: string, seed: OwnerSeed): Promi
     // история собрана из карточек истории (u-kp…, l-tmdb…) — на главные копии (канон копий, 17.10)
     ...seed.journal.map((e) => db.prepare(
       'INSERT OR IGNORE INTO journal (user_id, entry_id, work_id, work, status, started_at, finished_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    ).bind(userId, e.entryId, canonWork(e.workId), JSON.stringify(canonCard(e.work, canonWork(e.workId))), e.status, e.startedAt ?? null, e.finishedAt ?? null)),
+    ).bind(userId, e.entryId, canonWork(e.workId), slimCardText(JSON.stringify(canonCard(e.work, canonWork(e.workId)))), e.status, e.startedAt ?? null, e.finishedAt ?? null)),
     ...seed.ratings.map((r) => db.prepare(
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, at) VALUES (?, ?, ?, ?, ?)',
     ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, at)),
     // порядок присланного списка сохраняем временем отметки: первое в списке — самое свежее
     ...seed.watched.map((w, i) => db.prepare(
       'INSERT OR IGNORE INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, \'watched\', ?, ?, ?, ?)',
-    ).bind(userId, canonWork(w.workId), JSON.stringify(canonCard(w.work, canonWork(w.workId))), w.tmdb ?? null, w.imdb ?? null, new Date(Date.parse(at) - i * 1000).toISOString())),
+    ).bind(userId, canonWork(w.workId), slimCardText(JSON.stringify(canonCard(w.work, canonWork(w.workId)))), w.tmdb ?? null, w.imdb ?? null, new Date(Date.parse(at) - i * 1000).toISOString())),
   ];
   if (statements.length) await db.batch(statements);
 }
@@ -210,10 +215,10 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
   await db.batch([
     ...seed.watched.map((w, i) => db.prepare(
       'INSERT OR IGNORE INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, \'watched\', ?, ?, ?, ?)',
-    ).bind(userId, canonWork(w.workId), JSON.stringify(canonCard(w.work, canonWork(w.workId))), w.tmdb ?? null, w.imdb ?? null, stamp(i))),
+    ).bind(userId, canonWork(w.workId), slimCardText(JSON.stringify(canonCard(w.work, canonWork(w.workId)))), w.tmdb ?? null, w.imdb ?? null, stamp(i))),
     ...(seed.ratings ?? []).map((r) => db.prepare(
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)',
-    ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, r.work ? JSON.stringify(canonCard(r.work, canonWork(r.workId))) : null, new Date(at).toISOString())),
+    ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, r.work ? slimCardText(JSON.stringify(canonCard(r.work, canonWork(r.workId)))) : null, new Date(at).toISOString())),
     db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, mark, now()),
   ]);
 }
@@ -249,7 +254,7 @@ async function putRating(req: Request, user: User, db: D1Database, rawId: string
   await db.prepare(
     `INSERT INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)
      ON CONFLICT (user_id, work_id) DO UPDATE SET rating = excluded.rating, raw = excluded.raw, work = COALESCE(excluded.work, rating.work), at = excluded.at`,
-  ).bind(user.id, workId, rating, body.raw ?? null, body.work ? JSON.stringify(canonCard(body.work, workId)) : null, now()).run();
+  ).bind(user.id, workId, rating, body.raw ?? null, body.work ? slimCardText(JSON.stringify(canonCard(body.work, workId))) : null, now()).run();
   return json({ ok: true });
 }
 
@@ -450,7 +455,7 @@ async function putWatched(req: Request, user: User, db: D1Database, rawId: strin
     `INSERT INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT (user_id, work_id) DO UPDATE SET state = excluded.state, work = COALESCE(excluded.work, watched.work), at = excluded.at`,
   ).bind(user.id, workId, body.watched === false ? 'removed' : 'watched',
-    body.work ? JSON.stringify(canonCard(body.work, workId)) : null, body.tmdb ?? null, body.imdb ?? null, now()).run();
+    body.work ? slimCardText(JSON.stringify(canonCard(body.work, workId))) : null, body.tmdb ?? null, body.imdb ?? null, now()).run();
   return json({ ok: true });
 }
 
@@ -467,7 +472,7 @@ async function postStart(req: Request, user: User, db: D1Database): Promise<Resp
   await db.prepare(
     `INSERT INTO journal (user_id, entry_id, work_id, work, status, started_at, inferred) VALUES (?, ?, ?, ?, 'in_progress', ?, ?)
      ON CONFLICT (user_id, entry_id) DO UPDATE SET status = 'in_progress', started_at = excluded.started_at, inferred = excluded.inferred`,
-  ).bind(user.id, entryId, body.workId, body.work ? JSON.stringify(body.work) : null, body.startedAt ?? now(), body.inferred ? 1 : null).run();
+  ).bind(user.id, entryId, body.workId, body.work ? slimCardText(JSON.stringify(body.work)) : null, body.startedAt ?? now(), body.inferred ? 1 : null).run();
   if (body.expected || body.model) {
     await db.prepare(
       `INSERT INTO prediction (user_id, entry_id, work_id, expected, model, model_p, at) VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -491,7 +496,7 @@ async function postPlan(req: Request, user: User, db: D1Database): Promise<Respo
   await db.prepare(
     `INSERT INTO journal (user_id, entry_id, work_id, work, status, started_at, eagerness) VALUES (?, ?, ?, ?, 'planned', ?, ?)
      ON CONFLICT (user_id, entry_id) DO NOTHING`,
-  ).bind(user.id, entryId, body.workId, body.work ? JSON.stringify(body.work) : null, now(), eager).run();
+  ).bind(user.id, entryId, body.workId, body.work ? slimCardText(JSON.stringify(body.work)) : null, now(), eager).run();
   return json({ entryId });
 }
 
@@ -637,7 +642,7 @@ async function postImport(req: Request, user: User, db: D1Database): Promise<Res
   const ratings = (body.ratings ?? []).filter((r) => r.workId && Number.isInteger(r.rating) && r.rating! >= 1 && r.rating! <= 5).slice(0, 10000);
   if (!entries.length && !ratings.length) return json({ error: 'nothing' }, 400);
   const at = now();
-  const work = (w: unknown) => (w && typeof w === 'object' ? JSON.stringify(w).slice(0, 20000) : null);
+  const work = (w: unknown) => (w && typeof w === 'object' ? slimCardText(JSON.stringify(w))!.slice(0, 20000) : null);
   const statements = [
     ...entries.map((e) => db.prepare(
       'INSERT OR IGNORE INTO journal (user_id, entry_id, work_id, work, status, started_at, finished_at, import_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -863,7 +868,9 @@ async function getBehavior(req: Request, env: Env): Promise<Response> {
  *  на Cloudflare или из папки данных на bothost. Пишет их сборщик (tools/collect.mts) по
  *  расписанию, приложение читает готовое (трек В1). Нет файла — честный 404, и фронт берёт
  *  запечённое в сборку. */
-export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch', 'voicePlaylists', 'freeRead', 'trailers']);
+export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch', 'voicePlaylists', 'freeRead', 'trailers',
+  // индекс разборов первой ленты и его доли analyses-00…63 (18.10, аудит скорости, волна 3А, src/lib/essayIndex.ts)
+  'essayIndex', ...Array.from({ length: 64 }, (_, i) => `analyses-${String(i).padStart(2, '0')}`)]);
 
 async function getReference(env: Env, name: string): Promise<Response> {
   if (!REFERENCE_NAMES.has(name)) return json({ error: 'unknown_reference', name }, 404);
@@ -927,6 +934,30 @@ const withHead = (res: Response, head: Record<string, string>): Response => {
   return new Response(res.body, { status: res.status, headers });
 };
 
+/** Аналитика владельца (18.10, аудит, п. 24): воронка, поведение, рост, отчёт петли — тяжёлые выборки по всей базе.
+ *  На bothost их зовёт поток аналитики сервера (server/db-thread.js) с базой только на чтение, чтобы цикл событий
+ *  основного потока не стоял, а нехватка памяти роняла поток, а не сервер. `userId` — для отчёта петли «только мой»
+ *  (владелец проверен основным потоком, ownerSession). Маршруты и проверки — те же, что в fetch. */
+export async function analytics(req: Request, env: Env, userId?: string): Promise<Response> {
+  const url = new URL(req.url);
+  const path = url.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/api/admin/funnel') return getFunnel(req, env, adminOk(req, env));
+  if (path === '/api/admin/growth') return getGrowth(req, env, adminOk(req, env));
+  if (path === '/api/admin/behavior') return getBehavior(req, env);
+  if (path === '/api/report/loop' && userId) {
+    const all = url.searchParams.get('scope') !== 'me';
+    return json({ scope: all ? 'all' : 'me', ...loopReport(await loopRows(env.DB, all ? undefined : userId)) });
+  }
+  return json({ error: 'not_found' }, 404);
+}
+
+/** Сессия владельца по запросу (Bearer) — id участника или undefined. Для отчёта петли в потоке аналитики. */
+export async function ownerSession(req: Request, env: Env): Promise<string | undefined> {
+  await migrate(env.DB);
+  const user = await whoIs(req, env.DB);
+  return user && (await ownerOnly(user, env)) ? user.id : undefined;
+}
+
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
@@ -937,6 +968,7 @@ export default {
     // замер доступности (ХЮ-1): без базы и сессии — до всего остального
     if (path === '/api/probe') return probe(url, head);
     useBot(env);
+    setSlimCards(env.SLIM_CARDS === '1');
     await migrate(env.DB);
     if (path === '/api/health') return json({ ok: true, at: now() }, 200, head);
     // события Telegram (инлайн-режим, 06.10): без сессии участника, проверка — секретом из токена бота

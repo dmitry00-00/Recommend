@@ -16,6 +16,7 @@
 import { execSync } from 'node:child_process';
 import { cpSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { brotliCompressSync, constants as zlibConstants, gzipSync } from 'node:zlib';
 
 const root = process.cwd();
 const out = join(root, 'deploy', 'bothost');
@@ -60,6 +61,28 @@ const mb = (files) => (files.reduce((n, f) => n + statSync(join(assets, f)).size
 writeFileSync(join(out, 'assets.json'), JSON.stringify({ own, carried }, null, 1) + '\n');
 console.log(`ассеты: своих ${own.length} (${mb(own)} МБ), от прошлой сборки ${carried.length} (${mb(carried)} МБ)`);
 
+// 1в. сжатое заранее (18.10, аудит скорости, п. 31): рядом с каждым текстовым файлом больше килобайта — .br (качество 11)
+// и .gz (9). Сервер отдаёт готовое (server/index.js load) и не сжимает сам на первом запросе — раньше это 3,4 с стопов
+// после каждой выкладки. Те же расширения и порог, что у сервера (COMPRESSIBLE). В assets.json (own) сжатые не входят:
+// следующая сборка переносит только исходные файлы и сжимает их заново
+{
+  const COMPRESSIBLE = new Set(['.html', '.js', '.mjs', '.css', '.json', '.svg', '.txt']);
+  const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? walk(join(dir, d.name)) : [join(dir, d.name)]));
+  let n = 0, raw = 0, br = 0;
+  const t0 = Date.now();
+  for (const file of walk(join(out, 'public'))) {
+    const ext = file.slice(file.lastIndexOf('.')).toLowerCase();
+    if (!COMPRESSIBLE.has(ext)) continue;
+    const body = readFileSync(file);
+    if (body.length <= 1024) continue;
+    const z = brotliCompressSync(body, { params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 11, [zlibConstants.BROTLI_PARAM_SIZE_HINT]: body.length } });
+    writeFileSync(`${file}.br`, z);
+    writeFileSync(`${file}.gz`, gzipSync(body, { level: 9 }));
+    n++; raw += body.length; br += z.length;
+  }
+  console.log(`сжато заранее: ${n} файлов, ${(raw / 1048576).toFixed(1)} → ${(br / 1048576).toFixed(1)} МБ (br), ${((Date.now() - t0) / 1000).toFixed(1)} с`);
+}
+
 // 2. воркер → CommonJS для Node
 run('npx esbuild worker/index.ts --bundle --platform=node --target=node20 --format=cjs --outfile=deploy/bothost/worker.cjs --log-level=warning');
 cpSync(join(root, 'worker', 'schema.sql'), join(out, 'schema.sql'));
@@ -71,7 +94,7 @@ writeFileSync(join(out, 'seed', 'owner.json'), execSync(`node ${tmp}`, { maxBuff
 
 // 4. сервер и SQLite: node:sqlite из Node 22 (файл, ЗП-4), запасной — sql.js (WebAssembly: на хостинге
 // нечего компилировать) на случай, если хостинг запустит без нашего Dockerfile на Node 20
-for (const f of ['index.js', 'd1-sqlite.js', 'd1-sqljs.js', 'backup.js']) cpSync(join(root, 'server', f), join(out, f));
+for (const f of ['index.js', 'd1-sqlite.js', 'd1-sqljs.js', 'backup.js', 'db-thread.js']) cpSync(join(root, 'server', f), join(out, f));
 for (const f of ['sql-wasm.js', 'sql-wasm.wasm']) cpSync(join(root, 'node_modules', 'sql.js', 'dist', f), join(out, 'vendor', f));
 writeFileSync(join(out, 'package.json'), JSON.stringify({
   name: 'transformative-media-miniapp', version: '0.2.0', private: true, main: 'index.js',

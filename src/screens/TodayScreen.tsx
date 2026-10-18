@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type {
   DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteNovelties, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, pictureSlate, recWhat, noteNovelties, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings, type Trailer } from '@/api';
 import { InlineTrailer, useTrailer } from '@/components/InlineTrailer';
 import { RatingWheel } from '@/components/RatingWheel';
 import {
@@ -188,14 +188,22 @@ const stale = (e: JourneyEntryData): boolean => {
   return last > 0 && Date.now() - last > LONG_STALE_MS;
 };
 
-function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
+/** ответа о трейлере нет столько после смахивания — тост «не загрузился», а не тишина (18.10, волна 3В: прокси TMDb без
+ *  ответа держал смахивание без отклика сколько угодно) */
+const TRAILER_WAIT = 4000;
+
+/** Кадр ленты — memo (волна 3В): лента перерисовывается на каждое открытие карточки, тост, досланные картинки — кадры,
+ *  которых это не касается, не трогаем. Обработчики — одни на весь экран, кадр передаёт в них свою рекомендацию. */
+const FeedCard = memo(function FeedCard({ r, no, meta, tag, onOpen: openRec, onVoice: voiceRec, onSwiped }: {
   /** номер кадра на плёнке — в надпечатке по кромке */
   no: number;
   r: Recommendation; meta?: string; tag?: string;
-  onOpen: () => void; onVoice: (voiceId: string) => void;
+  onOpen: (r: Recommendation) => void; onVoice: (r: Recommendation, voiceId: string) => void;
   /** человек свайпнул сам — подсказка про свайп больше не нужна */
   onSwiped: () => void;
 }) {
+  const onOpen = useCallback(() => openRec(r), [openRec, r]);
+  const onVoice = (voiceId: string) => voiceRec(r, voiceId);
   const toast = useToast();
   const [dx, setDx] = useState(0);
   const [side, setSide] = useState<'none' | 'voices'>('none');
@@ -238,7 +246,11 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
         if (trailer === null) { tap(); noTrailer(); return; }
         tap('medium');
         if (trailer) { setInline(true); return; }
-        getTrailer(r.work).then((t) => { if (t) setInline(true); else noTrailer(); }).catch(noTrailer);
+        // ещё не знаем: ждём ответа, но не дольше TRAILER_WAIT — потом тост; опоздавший ответ ролик уже не открывает
+        let settled = false;
+        const late = setTimeout(() => { if (!settled) { settled = true; toast({ text: ui.trailer.slow, duration: 2500 }); } }, TRAILER_WAIT);
+        const done = (t?: Trailer) => { if (settled) return; settled = true; clearTimeout(late); if (t) setInline(true); else noTrailer(); };
+        getTrailer(r.work).then(done, () => done());
       }
       // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
       else if (end >= SWIPE && voices.length) { onSwiped(); tap('medium'); setSide('voices'); }
@@ -247,6 +259,8 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
 
   const right = dx > 0;
   const fill = Math.min(1, Math.abs(dx) / SWIPE);
+  // баннер не зависит от пальца: пока кадр тянут, перерисовывается только сдвиг и подпись под ним
+  const banner = useMemo(() => <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />, [r.work, meta, tag, onOpen, no]);
   const rest = voices.length - PILE;
   return (
     <article ref={cardRef} className={cx('tm-stream__item', dx !== 0 && 'tm-stream__item--drag', voicesOpen && 'tm-stream__item--voices')}
@@ -275,12 +289,12 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
       <FilmEdge work={r.work} no={no} />
       <div className="tm-stream__drag" style={dx ? ({ '--swipe-x': `${Math.round(dx * DRAG)}px` } as CSSProperties) : undefined}>
         <InlineTrailer work={r.work} trailer={trailer} place="feed" open={inline} onOpenChange={setInline} button={FEED_PLAY_BUTTON}>
-          <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />
+          {banner}
         </InlineTrailer>
       </div>
     </article>
   );
-}
+});
 
 /** Лента (/today): фильмы баннерами во всю ширину; тап открывает карточку в модальном
  *  окне — баннер сверху, описание и ссылки ниже со своей прокруткой (21.09, по замечанию).
@@ -341,7 +355,18 @@ export function TodayScreen() {
   const [kind, setKind] = useState<FeedKind>('screen');
   const bookFeed = booksOn && kind === 'book';
   // «Почитать» в конце ленты кино — только пока лента кино; в ленте книг он не нужен
-  const slateOpts = (k: FeedKind) => ({ general: swipeOn, subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind });
+  // картинки и «где смотреть» с сети лента не ждёт (18.10, аудит, волна 2, п. 15): они досылаются (`withPictures`)
+  const slateOpts = (k: FeedKind) => ({ general: swipeOn, subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind, lazyPictures: true });
+  /** Досланные картинки — на место тех же рекомендаций: убранное за это время из ленты не возвращается. */
+  const withPictures = (items: Recommendation[], alive: () => boolean, done?: (items: Recommendation[]) => void) => {
+    if (!items.length) return;
+    pictureSlate(items).then((pictured) => {
+      if (!alive()) return;
+      const byId = new Map(pictured.map((r) => [r.id, r]));
+      setSlate((s) => (s ? { ...s, items: s.items.map((r) => byId.get(r.id) ?? r) } : s));
+      done?.(pictured);
+    }).catch(() => undefined);
+  };
   // список просмотренного прямо с пустой ленты (02.10): самый короткий путь к первым рекомендациям
   const [importing, setImporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -394,6 +419,12 @@ export function TodayScreen() {
   const [attempt, setAttempt] = useState(0);
   const [hint, setHint] = useState(hintWanted);
   const learned = () => { if (hint) { hintDone(); setHint(false); } };
+  // обработчики кадров ленты — одни на весь экран (memo кадра); свежий `learned` — из ссылки
+  const learnedNow = useRef(learned);
+  learnedNow.current = learned;
+  const openFeed = useCallback((r: Recommendation) => { setOpenVoice(undefined); setOpen(r.id); }, []);
+  const voiceFeed = useCallback((r: Recommendation, id: string) => { learnedNow.current(); setOpenVoice(id); setOpen(r.id); }, []);
+  const swipedFeed = useCallback(() => learnedNow.current(), []);
 
   // норма шкалы (OPS-6): один вопрос тем, чья история пришла без него
   const [scale, setScale] = useState<{ median: number; count: number; options: number[] } | undefined>(undefined);
@@ -428,12 +459,14 @@ export function TodayScreen() {
       }).catch(() => undefined)
       : Promise.resolve();
     head.then(() => getSettings())
-      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal', undefined, slateOpts(settings.feedKind ?? 'screen')), getJourney(), settings]))
+      .then((settings) => Promise.all([getSlate(settings.energy ?? 'normal', undefined, slateOpts(settings.feedKind ?? 'screen')), getJourney(undefined, { active: true }), settings]))
       .then(([nextSlate, journal, settings]) => {
         if (!alive) return;
         fresh = true;
         setSlate(nextSlate);
         saveSlate(settings.feedKind ?? 'screen', nextSlate);
+        // с картинками — и в сохранённую ленту следующего запуска
+        withPictures(nextSlate.items, () => alive, (items) => saveSlate(settings.feedKind ?? 'screen', { ...nextSlate, items }));
         setEnergy(settings.energy ?? 'normal');
         setKind(settings.feedKind ?? 'screen');
         setMoreDone(false);
@@ -494,6 +527,7 @@ export function TodayScreen() {
         if (!fresh.length && !novel) setMoreDone(true);
         setFreshLeft(next.fresh ?? 0);
         setSlate((s) => (s ? { ...s, items: [...s.items, ...fresh] } : s));
+        withPictures(fresh, () => true);
       })
       .catch(() => toast({ text: ui.feed.moreFailed }))
       .finally(() => setMoreBusy(false));
@@ -816,9 +850,7 @@ export function TodayScreen() {
         ))}
         {items.map((r, i) => (
           <FeedCard key={r.id} r={r} no={shownCurrent.length + i + 1} meta={recMeta(r)} tag={mechanics || r.slot === 'universe' || r.slot === 'free' || r.slot === 'book' ? ui.slot[r.slot].label : undefined}
-                    onOpen={() => { setOpenVoice(undefined); setOpen(r.id); }}
-                    onVoice={(id) => { learned(); setOpenVoice(id); setOpen(r.id); }}
-                    onSwiped={learned} />
+                    onOpen={openFeed} onVoice={voiceFeed} onSwiped={swipedFeed} />
         ))}
         {/* хвост под подборкой — «Ещё фильмы» и приглашения — на той же плёнке (17.10, владелец): дорожка не обрывается */}
         <div className="tm-filmstrip__tail">
@@ -885,7 +917,7 @@ export function TodayScreen() {
       {/* Карточка рекомендации */}
       <WorkSheet work={openRec?.work ?? null} open={openRec != null} onOpenChange={(o) => { if (!o) closeSheet(); }}
                  tag={openRec && (mechanics || openRec.slot === 'universe' || openRec.slot === 'free' || openRec.slot === 'book') ? ui.slot[openRec.slot].label : undefined} meta={openRec ? recMeta(openRec) : undefined}
-                 plot={openRec?.explanation?.what || undefined} context="лента: рекомендация" hurdles={!finishedIds.has(openRec?.work.id ?? '')}>
+                 plot={openRec ? recWhat(openRec) : undefined} context="лента: рекомендация" hurdles={!finishedIds.has(openRec?.work.id ?? '')}>
         {openRec ? (
           <Panel r={openRec} spoilerLevel={spoilerLevel} finished={finishedIds.has(openRec.work.id)} voiceId={openVoice}
                  onSave={() => save(openRec)} onSeen={() => seen(openRec)} onDismiss={(reason) => dismiss(openRec, reason)} onWatch={() => watchFrom(openRec)} />

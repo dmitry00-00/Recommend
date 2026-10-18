@@ -1,7 +1,7 @@
 // Данные о ролике YouTube для генераторов: название, канал, длительность, дата.
 // Два пути: YouTube Data API (`YT_API_KEY`, 50 роликов за запрос, 1 единица квоты) и
 // открытый oEmbed без ключа — там нет длительности. К самим каналам не обращаемся.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 
 export interface VideoMeta { title: string; author: string; durationMinutes?: number; publishedAt?: string }
 
@@ -59,15 +59,26 @@ function remember(found: Map<string, VideoMeta>): void {
 }
 
 /** Что знали про ролики раньше: кэш ответов API, потом дамп каналов. */
+/** Дамп каналов — один раз на версию файла (18.10: 525 МБ; пульт ссылок разбирал его на каждую ссылку
+ *  из формы и минутами не отвечал). В памяти — только поля для подписи ролика. */
+type DumpRow = { title: string; channel: string; minutes?: number; publishedAt?: string };
+let dumpMemo: { stamp: string; map: Map<string, DumpRow> } | undefined;
+function dumpIndex(): Map<string, DumpRow> {
+  let stamp = '';
+  try { const st = statSync(DUMP); stamp = `${st.mtimeMs}:${st.size}`; } catch { /* дампа нет */ }
+  if (dumpMemo?.stamp !== stamp) {
+    const rows = readJson<({ id: string } & DumpRow)[]>(DUMP, []);
+    dumpMemo = { stamp, map: new Map(rows.map((v) => [v.id, { title: v.title, channel: v.channel, minutes: v.minutes, publishedAt: v.publishedAt }])) };
+  }
+  return dumpMemo.map;
+}
+
 export function recalled(ids: string[]): Map<string, VideoMeta> {
   const out = new Map<string, VideoMeta>();
   const cache = readJson<Record<string, VideoMeta>>(CACHE, {});
-  let dump: Map<string, { title: string; channel: string; minutes?: number; publishedAt?: string }> | undefined;
   for (const id of ids) {
     if (cache[id]) { out.set(id, cache[id]); continue; }
-    dump ??= new Map(readJson<{ id: string; title: string; channel: string; minutes?: number; publishedAt?: string }[]>(DUMP, [])
-      .map((v) => [v.id, v]));
-    const v = dump.get(id);
+    const v = dumpIndex().get(id);
     if (v) out.set(id, { title: v.title, author: v.channel, durationMinutes: v.minutes, publishedAt: v.publishedAt });
   }
   return out;

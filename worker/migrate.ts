@@ -5,6 +5,10 @@ import type { D1Database } from './env';
 import { tokenHash } from './auth';
 import { migrateWorkAliases } from './workAliases';
 
+/** IMDb сериала в карточке записи дневника — то же выражение в индексе journal_imdb и в запросе worker/seasons.ts:
+ *  SQLite берёт индекс по выражению, только если текст совпадает. */
+export const JOURNAL_IMDB = "(CASE WHEN json_valid(work) THEN json_extract(work, '$.externalIds.imdb') END)";
+
 const COLUMNS: { table: string; column: string; ddl: string }[] = [
   // 24.09, трек Б: прогноз модели вероятностями — для Брайера
   { table: 'prediction', column: 'model_p', ddl: 'ALTER TABLE prediction ADD COLUMN model_p TEXT' },
@@ -130,6 +134,42 @@ const TABLES: string[] = [
   'CREATE TABLE IF NOT EXISTS migration_mark (name TEXT PRIMARY KEY, at TEXT NOT NULL)',
 ];
 
+/** Индексы (18.10, аудит скорости, волна 3, пп. 24, 26, 28). Отдельно от TABLES и не в schema.sql: строятся после
+ *  COLUMNS (user.invited_by — колонка миграции), а на сервере bothost — в отдельном потоке до открытия базы
+ *  (server/db-thread.js, задача `migrate`): индекс на таблице в миллионы строк строится секунды, и цикл событий в это
+ *  время не стоит. Все — IF NOT EXISTS: повторный запуск ничего не делает. Замер построения на синтетике «полгода»
+ *  (2,3 ГБ, 3,3 млн показов) — reports/perf-resilience-1710.md, волна 3Б. */
+export const INDEXES: string[] = [
+  // п. 24, аналитика владельца: отклик на показ (funnel engagedWith, loop), показ того же фильма раньше (prompted,
+  // метрики, rated), разбор того же фильма после показа (engagedWith, pairsWith)
+  'CREATE INDEX IF NOT EXISTS feedback_rec ON feedback(user_id, rec_id)',
+  'CREATE INDEX IF NOT EXISTS impression_work ON impression(user_id, work_id, at)',
+  'CREATE INDEX IF NOT EXISTS material_open_work ON material_open(user_id, work_id, at)',
+  // п. 26, сводка подписок: дневник по ключу сериала (worker/seasons.ts) — id записи или IMDb в карточке. json_valid:
+  // карточка импорта режется по длине (`.slice(0, 20000)`) и бывает не JSON — json_extract на ней бросил бы, и запись
+  // в дневник упала бы вместе с индексом
+  'CREATE INDEX IF NOT EXISTS journal_work ON journal(work_id)',
+  `CREATE INDEX IF NOT EXISTS journal_imdb ON journal(${JOURNAL_IMDB})`,
+  // п. 28, очистки по сроку и удаление аккаунта (worker/inlinePoll.ts, together.ts, account.ts, index.ts). Удаление
+  // строки user с foreign_keys = ON ищет ссылки в каждой дочерней таблице — без индекса по user_id это полный проход
+  'CREATE INDEX IF NOT EXISTS inline_vote_at ON inline_vote(at)',
+  'CREATE INDEX IF NOT EXISTS inline_vote_tg ON inline_vote(tg_id)',
+  'CREATE INDEX IF NOT EXISTS inline_vote_poll ON inline_vote(poll_id)',
+  'CREATE INDEX IF NOT EXISTS inline_poll_at ON inline_poll(created_at)',
+  'CREATE INDEX IF NOT EXISTS inline_poll_owner ON inline_poll(owner_tg)',
+  'CREATE INDEX IF NOT EXISTS together_user ON together(user_id, created_at)',
+  'CREATE INDEX IF NOT EXISTS together_vote_user ON together_vote(user_id)',
+  'CREATE INDEX IF NOT EXISTS together_chat_at ON together_chat(created_at)',
+  'CREATE INDEX IF NOT EXISTS together_chat_session ON together_chat(session_id)',
+  'CREATE INDEX IF NOT EXISTS export_file_at ON export_file(at)',
+  'CREATE INDEX IF NOT EXISTS export_file_user ON export_file(user_id)',
+  'CREATE INDEX IF NOT EXISTS work_issue_user ON work_issue(user_id)',
+  'CREATE INDEX IF NOT EXISTS seed_applied_seed ON seed_applied(seed)',
+  // поиск по нику: подбор в чате (inlineGroup.ts), участник по нику (memberInfo), без владельца (behavior)
+  'CREATE INDEX IF NOT EXISTS user_nick ON user(lower(username))',
+  'CREATE INDEX IF NOT EXISTS user_invited ON user(invited_by)',
+];
+
 /** Разовые переносы данных (17.10). Не по каждому запуску, как колонки: перенос, повторённый после рестарта, вернул бы
  *  то, что человек с тех пор снял сам. Сделанный отмечается в migration_mark тем же пакетом, что и перенос. */
 const ONCE: { name: string; sql: string }[] = [
@@ -146,6 +186,12 @@ let done: Promise<void> | undefined;
 /** База подменена (восстановление из копии, server/backup.js) — проверить колонки заново. */
 export function forgetMigrations(): void {
   done = undefined;
+}
+
+/** Миграции уже прогнал кто-то другой (18.10): поток аналитики сервера bothost открывает базу только на чтение и
+ *  вызывает обработчики воркера напрямую — миграция там не нужна и не прошла бы (запись). */
+export function assumeMigrated(): void {
+  done = Promise.resolve();
 }
 
 export function migrate(db: D1Database): Promise<void> {
@@ -165,6 +211,13 @@ export function migrate(db: D1Database): Promise<void> {
     for (const c of COLUMNS) {
       const info = await db.prepare(`PRAGMA table_info(${c.table})`).all<{ name: string }>();
       if (!info.results.some((r) => r.name === c.column)) await db.prepare(c.ddl).run();
+    }
+    // 18.10: индексы — после колонок; долгое построение видно в журнале (на bothost — в потоке, см. INDEXES)
+    for (const ddl of INDEXES) {
+      const t0 = Date.now();
+      await db.prepare(ddl).run();
+      const ms = Date.now() - t0;
+      if (ms > 200) console.log(`миграция: ${/INDEX IF NOT EXISTS (\w+)/.exec(ddl)?.[1] ?? ddl} — ${ms} мс`);
     }
     for (const o of ONCE) {
       if (await db.prepare('SELECT 1 AS x FROM migration_mark WHERE name = ?').bind(o.name).first()) continue;

@@ -10,20 +10,64 @@ const path = require('path');
 
 /** node:sqlite не принимает undefined и boolean — приводим к тому, что понимает SQLite. */
 const norm = (v) => (v === undefined ? null : typeof v === 'boolean' ? (v ? 1 : 0) : v);
-/** Строки node:sqlite — объекты без прототипа; воркер ждёт обычные, как у D1. */
-const plain = (row) => (row ? Object.assign({}, row) : row);
+/** Строки node:sqlite — объекты без прототипа; воркер ждёт обычные, как у D1. 18.10: прототип — на месте, без копии
+ *  строки: на выборке в сотни тысяч строк (аналитика) копия удваивала пик памяти и время. */
+const plain = (row) => (row ? Object.setPrototypeOf(row, Object.prototype) : row);
 
 /** Подготовленные выражения переиспользуем: воркер гоняет одни и те же два десятка запросов. */
 const CACHE_LIMIT = 300;
 
-async function openD1({ file, schema }) {
+/**
+ * Настройки соединения (18.10, аудит скорости, п. 29). По умолчанию SQLite держит 2 МБ кэша страниц на гигабайтную базу и
+ * читает каждую страницу системным вызовом. Машина bothost — 1–2 ГБ памяти, поэтому всё — с пределом и меняется
+ * окружением без правки кода:
+ *   DB_CACHE_MB (64)  — кэш страниц соединения: горячие индексы (сессии, показы человека) помещаются целиком;
+ *   DB_MMAP_MB (256)  — чтение через отображение файла в память: страницы — кэш файлов ОС, вытесняются ею же,
+ *                       своей кучей процесса не становятся; 0 — выключить;
+ *   temp_store=MEMORY — временные таблицы сортировок мелких запросов не пишутся на диск (аналитика, где сортировки
+ *                       большие, идёт в своём потоке с temp_store по умолчанию, см. server/db-thread.js);
+ *   journal_size_limit (64 МБ) — журнал WAL после контрольной точки урезается, а не остаётся размером с пик.
+ */
+const mb = (name, def) => {
+  const v = Number(process.env[name]);
+  return Number.isFinite(v) && v >= 0 ? v : def;
+};
+function tuning(db, { readOnly = false, memoryTemp = !readOnly } = {}) {
+  db.exec(`PRAGMA cache_size = -${Math.round(mb('DB_CACHE_MB', 64) * 1024)}`);
+  db.exec(`PRAGMA mmap_size = ${Math.round(mb('DB_MMAP_MB', 256) * 1048576)}`);
+  if (memoryTemp) db.exec('PRAGMA temp_store = MEMORY');
+  if (!readOnly) db.exec(`PRAGMA journal_size_limit = ${64 << 20}`);
+}
+
+/** Открыта ли транзакция. `isTransaction` есть с Node 22.16; раньше — пробой: BEGIN внутри транзакции бросает. */
+function inTransaction(db) {
+  if (typeof db.isTransaction === 'boolean') return db.isTransaction;
+  try { db.exec('BEGIN'); db.exec('COMMIT'); return false; } catch { return true; }
+}
+
+/**
+ * `readOnly` (18.10) — соединение только на чтение: для потока аналитики (server/db-thread.js). Схему не трогает,
+ * режим журнала не меняет (он у файла общий — WAL ставит основное соединение), запись запрещена ещё и query_only.
+ */
+async function openD1({ file, schema, readOnly = false, memoryTemp, shared = false }) {
   const { DatabaseSync } = require('node:sqlite');
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  const db = new DatabaseSync(file);
-  // WAL: читатели не ждут писателя, запись — дописывание в журнал. NORMAL в WAL не теряет
-  // целостность при падении процесса, при отключении питания можно потерять последние доли секунды.
-  db.exec('PRAGMA journal_mode = WAL; PRAGMA synchronous = NORMAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000');
-  if (schema) db.exec(schema);
+  let db;
+  if (readOnly) {
+    db = new DatabaseSync(file, { readOnly: true });
+    db.exec('PRAGMA busy_timeout = 5000; PRAGMA query_only = 1');
+    tuning(db, { readOnly: true, memoryTemp });
+  } else {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    db = new DatabaseSync(file);
+    // WAL: читатели не ждут писателя, запись — дописывание в журнал. NORMAL в WAL не теряет
+    // целостность при падении процесса, при отключении питания можно потерять последние доли секунды.
+    db.exec('PRAGMA journal_mode = WAL; PRAGMA synchronous = NORMAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000');
+    tuning(db, { memoryTemp });
+    // shared (18.10) — второе соединение потока к файлу, который держит основной поток: схему не прогоняем, при
+    // закрытии контрольную точку не делаем (её делает владелец файла)
+    if (schema && !shared) db.exec(schema);
+  }
+  const ownsFile = !readOnly && !shared;
 
   const cache = new Map();
   const stmt = (sql) => {
@@ -34,13 +78,18 @@ async function openD1({ file, schema }) {
     if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value);
     return s;
   };
-  const rows = (sql, params) => stmt(sql).all(...params.map(norm)).map(plain);
+  const rows = (sql, params) => {
+    const out = stmt(sql).all(...params.map(norm));
+    for (const r of out) plain(r);
+    return out;
+  };
 
   function statement(sql, params = []) {
     return {
       bind: (...values) => statement(sql, values),
+      // первая строка — get(), а не all()[0] (18.10): all() выбирал и копировал все строки ответа ради одной
       async first(col) {
-        const row = rows(sql, params)[0];
+        const row = plain(stmt(sql).get(...params.map(norm)));
         if (!row) return null;
         return col ? row[col] ?? null : row;
       },
@@ -72,7 +121,8 @@ async function openD1({ file, schema }) {
         // BEGIN («transaction within a transaction»), а чтения будут видеть недописанное. Чинить на ходу нечем: журнал и
         // выход с кодом 1, платформа поднимет процесс заново, SQLite откатит недописанное по журналу сам
         try { db.exec('ROLLBACK'); } catch (rb) { console.error('d1-sqlite: ROLLBACK не прошёл:', rb && rb.message); }
-        if (db.isTransaction === true) {
+        // 18.10: `db.isTransaction` — только с Node 22.16; на 22.13–22.15 он undefined, и застрявшая транзакция не ловилась
+        if (inTransaction(db)) {
           console.error('d1-sqlite: транзакция осталась открытой после ROLLBACK — выходим. Исходная ошибка:', err && (err.stack || err.message));
           process.exit(1);
         }
@@ -85,15 +135,26 @@ async function openD1({ file, schema }) {
     },
     /** перед остановкой: журнал — в основной файл, чтобы tm.sqlite был полным сам по себе */
     flush() {
-      if (!closed) db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+      if (!closed && ownsFile) db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
     },
-    /** согласованная копия на ходу; файла `dest` быть не должно */
+    /** согласованная копия на ходу; файла `dest` быть не должно. Синхронно, в этом потоке — сервер снимает копию в
+     *  отдельном потоке (server/db-thread.js); здесь — запасной путь и проверки */
     backup(dest) {
       stmt('VACUUM INTO ?').run(dest);
     },
+    /**
+     * PRAGMA optimize (18.10, п. 29): статистика планировщика (sqlite_stat1) для таблиц, где она устарела. analysis_limit
+     * — ANALYZE смотрит не больше 1000 строк индекса, а не всю таблицу: на гигабайтной базе — миллисекунды, а не секунды.
+     * `all` — при старте: и для таблиц, которых это соединение ещё не касалось (0x10002).
+     */
+    optimize(all = false) {
+      if (closed || readOnly) return;
+      db.exec('PRAGMA analysis_limit = 1000');
+      db.exec(all ? 'PRAGMA optimize = 0x10002' : 'PRAGMA optimize');
+    },
     close() {
       if (closed) return;
-      try { db.exec('PRAGMA wal_checkpoint(TRUNCATE)'); } catch { /* закрываем всё равно */ }
+      if (ownsFile) try { db.exec('PRAGMA wal_checkpoint(TRUNCATE)'); } catch { /* закрываем всё равно */ }
       cache.clear();
       db.close();
       closed = true;
@@ -101,13 +162,15 @@ async function openD1({ file, schema }) {
   };
 }
 
-/** Проверка файла копии: открывается, целостен, похож на нашу базу. Без node:sqlite — undefined. */
-function inspect(file) {
+/** Проверка файла копии: открывается, целостен, похож на нашу базу. Без node:sqlite — undefined.
+ *  `quick` (18.10) — PRAGMA quick_check: то же, без сверки индексов с таблицами — в разы быстрее; для живой базы при
+ *  старте и раз в сутки (server/db-thread.js). Копию после снятия проверяем полностью. */
+function inspect(file, { quick = false } = {}) {
   let DatabaseSync;
   try { ({ DatabaseSync } = require('node:sqlite')); } catch { return undefined; }
   const db = new DatabaseSync(file, { readOnly: true });
   try {
-    const check = db.prepare('PRAGMA integrity_check').all().map((r) => Object.values(r)[0]).join('; ');
+    const check = db.prepare(quick ? 'PRAGMA quick_check' : 'PRAGMA integrity_check').all().map((r) => Object.values(r)[0]).join('; ');
     const has = (t) => Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?").get(t));
     const count = (t) => (has(t) ? Number(db.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n) : null);
     return {

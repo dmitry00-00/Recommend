@@ -1,0 +1,82 @@
+# recomend (Transformative Media) — сервер мини-приложения: статика, /api, прокси TMDb/Кинопоиска, кеш картинок.
+# Ставит deploy/vps/setup.sh в /etc/systemd/system/; код — /opt/recomend/app (ссылка на выпуск, её ставит deploy.sh),
+# данные — /var/lib/recomend. Секреты — /etc/recomend.env (root:root 600; systemd читает его от root до смены пользователя).
+[Unit]
+Description=recomend: Telegram Mini App server (Node, node:sqlite)
+Documentation=file:///opt/recomend/app/index.js
+After=network-online.target
+Wants=network-online.target
+# без кода не стартуем (первая выкладка ещё не прошла) — без петли перезапусков
+ConditionPathExists=/opt/recomend/app/index.js
+# перезапуски без предела (см. Restart= ниже): «start limit hit» оставил бы сайт лежать до ручного вмешательства
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=tm
+Group=tm
+WorkingDirectory=/opt/recomend/app
+# умолчания; значения из EnvironmentFile их перекрывают (так устроен systemd), поэтому DATA_DIR и PORT в
+# /etc/recomend.env не пишут вовсе — или пишут непустыми
+Environment=NODE_ENV=production
+Environment=DATA_DIR=/var/lib/recomend
+Environment=PORT=3000
+EnvironmentFile=/etc/recomend.env
+# node:sqlite в Node 22 «экспериментальный» — то же, что CMD в Dockerfile bothost (tools/build-bothost.mjs)
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning index.js
+
+# Остановка: сервер ловит SIGTERM (server/index.js, shutdown) — новых соединений не берёт, запросы на лету ждёт до 8 с,
+# останавливает потоки базы, закрывает базу (контрольная точка WAL). 30 с — с запасом на контрольную точку большой базы;
+# только потом SIGKILL. mixed: SIGTERM — главному процессу, SIGKILL по сроку — всем.
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=30
+# Старт: миграции в потоке до открытия базы (на большой базе — секунды-минуты); слушать порт сервер начинает сразу
+TimeoutStartSec=120
+
+# Перезапуск всегда (сервер сам выходит с кодом 1, если API не поднялся или >20 необработанных бросков за минуту).
+# Не сдаёмся никогда: пауза растёт 2 с → 60 с, а не «start limit hit» и лежащий сайт до утра
+Restart=always
+RestartSec=2
+RestartSteps=6
+RestartMaxDelaySec=60
+
+# Память (машина 2 ГБ, swap 1–2 ГБ): главный поток + потоки базы (миграции до 512 МБ кучи, аналитика ANALYTICS_HEAP_MB
+# 512, копии) + кэш SQLite 64 МБ и mmap 256 МБ (страничный кэш, вытесняемый). Выше MemoryHigh — ядро ужимает
+# процесс и тормозит его, выше MemoryMax — OOM внутри службы (Caddy и sshd живут дальше), systemd перезапустит.
+MemoryHigh=1300M
+MemoryMax=1600M
+MemorySwapMax=768M
+TasksMax=256
+LimitNOFILE=65536
+# под нехваткой памяти ядро сначала убьёт нас, а не sshd/Caddy
+OOMScoreAdjust=200
+
+# Песочница: писать можно только в DATA_DIR; код, /etc, /home — только чтение
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/recomend
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+UMask=0027
+
+# журнал — в journald (предел — /etc/systemd/journald.conf.d/90-recomend.conf)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=recomend
+
+[Install]
+WantedBy=multi-user.target

@@ -145,7 +145,7 @@ export function WorkScreen() {
     setData(null);
     setMissing(false);
     setFailed(false);
-    Promise.all([getWork(id), getDiscussions(id), getJourney(), getSettings()])
+    Promise.all([getWork(id, { page: true }), getDiscussions(id), getJourney(), getSettings()])
       .then(([work, discussions, journal, settings]) => {
         if (!alive) return;
         if (!work) { setMissing(true); return; }

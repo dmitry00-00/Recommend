@@ -138,8 +138,10 @@ export function InlineTrailer({ work, trailer, place, open, onOpenChange, contro
       const textTop = text.getBoundingClientRect().top - el.getBoundingClientRect().top;
       btn.style.top = `${Math.round(Math.max(r + 6, Math.min(h * 0.42, textTop - 8 - r)))}px`;
     };
-    fit();
-    if (typeof ResizeObserver === 'undefined') return;
+    // без замера в самой отрисовке (волна 3В): синхронный getBoundingClientRect посреди открытия шторки заставлял браузер
+    // раскладывать её всю лишний раз — ~100 мс на слабом телефоне. Первый отклик ResizeObserver приходит в том же кадре
+    // до отрисовки, кнопка встаёт на место без скачка
+    if (typeof ResizeObserver === 'undefined') { fit(); return; }
     const ro = new ResizeObserver(fit);
     ro.observe(el);
     return () => ro.disconnect();

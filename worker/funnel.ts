@@ -29,6 +29,12 @@ export const mskDay = (t = Date.now()): string => new Date(t + MSK_MS).toISOStri
 const addDays = (day: string, n: number): string => new Date(Date.parse(`${day}T00:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
 /** То же в SQL: ISO-время UTC → день по Москве. */
 const SQL_DAY = (col: string) => `date(${col}, '+3 hours')`;
+/** 18.10 (аудит, п. 24): граница дня по Москве — временем UTC. Отбор `date(at, '+3 hours') >= ?` не берёт индекс по
+ *  `at` и считает выражение на каждой строке таблицы; `at >= <начало дня в UTC>` — диапазон по индексу. Время в базе —
+ *  ISO `toISOString()` (…T…Z), строки сравниваются как время. */
+export const mskDayStart = (day: string): string => new Date(Date.parse(`${day}T00:00:00Z`) - MSK_MS).toISOString();
+/** Начало дня по Москве для времени из колонки — в SQL, тем же форматом ISO. */
+const SQL_DAY_START = (col: string, shift = '-3 hours') => `strftime('%Y-%m-%dT%H:%M:%fZ', date(${col}, '+3 hours'), '${shift}')`;
 
 // ─── заходы ─────────────────────────────────────────────────────────────────
 
@@ -123,45 +129,46 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   const from14 = addDays(today, -14);
   const from30 = addDays(today, -30);
   const from60 = addDays(today, -60);
+  const start14 = mskDayStart(from14), start30 = mskDayStart(from30), start60 = mskDayStart(from60);
 
   // ── по дням: кто был, новые, карточки, «Смотреть», разборы, оценки, ленты, принятые ленты, чек-ины
   type DayN = { day: string; n: number; users?: number };
   const byDay = (sql: string, ...bind: unknown[]) => q<DayN>(sql, ...binds, ...bind);
   const [visits, joined, cards, watches, opens, ratings, feeds, accepted, engaged, seen, prompted, checkins] = await Promise.all([
     byDay(`SELECT day, COUNT(*) AS n FROM visit WHERE ${inUsers} AND day >= ? GROUP BY day`, from14),
-    q<DayN>(`SELECT ${SQL_DAY('created_at')} AS day, COUNT(*) AS n FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ? GROUP BY day`, ...binds, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM event WHERE kind = 'card' AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM event WHERE kind = 'watch' AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM material_open WHERE ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM rating WHERE ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT slate_id) AS n, COUNT(DISTINCT user_id) AS users FROM impression WHERE ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
+    q<DayN>(`SELECT ${SQL_DAY('created_at')} AS day, COUNT(*) AS n FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ? GROUP BY day`, ...binds, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM event WHERE kind = 'card' AND ${inUsers} AND at >= ? GROUP BY day`, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM event WHERE kind = 'watch' AND ${inUsers} AND at >= ? GROUP BY day`, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n, COUNT(DISTINCT user_id) AS users FROM material_open WHERE ${inUsers} AND at >= ? GROUP BY day`, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM rating WHERE ${inUsers} AND at >= ? GROUP BY day`, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(DISTINCT slate_id) AS n, COUNT(DISTINCT user_id) AS users FROM impression WHERE ${inUsers} AND at >= ? GROUP BY day`, start14),
     // лента принята, если хоть один её фильм отложен или начат
     byDay(`SELECT ${SQL_DAY('i.at')} AS day, COUNT(DISTINCT i.slate_id) AS n, COUNT(DISTINCT i.user_id) AS users FROM impression i
-             WHERE i.${inUsers} AND ${SQL_DAY('i.at')} >= ?
+             WHERE i.${inUsers} AND i.at >= ?
                AND EXISTS (SELECT 1 FROM feedback f WHERE f.user_id = i.user_id AND f.rec_id = i.rec_id AND f.action IN ${ACCEPT})
-             GROUP BY day`, from14),
+             GROUP BY day`, start14),
     // лента с откликом (минимальная редакция): хоть на один её фильм — «Видел», разбор или принятие
     byDay(`SELECT ${SQL_DAY('i.at')} AS day, COUNT(DISTINCT i.slate_id) AS n, COUNT(DISTINCT i.user_id) AS users FROM impression i
-             WHERE i.${inUsers} AND ${SQL_DAY('i.at')} >= ? AND ${engagedWith('i')}
-             GROUP BY day`, from14),
+             WHERE i.${inUsers} AND i.at >= ? AND ${engagedWith('i')}
+             GROUP BY day`, start14),
     // «Видел» на фильме из ленты: подбор попал в знакомое — сигнал вкуса, но не новое
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM feedback WHERE action = 'dismiss' AND reason = 'already_know' AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM feedback WHERE action = 'dismiss' AND reason = 'already_know' AND ${inUsers} AND at >= ? GROUP BY day`, start14),
     // посмотрел по подсказке (10.10): «Видел» на фильме, который лента показала ему в один из прошлых дней.
     // В минимуме нет «в планы» и «смотрю»: лента держит те же фильмы, пока нет новых оценок, — человек
     // возвращается после просмотра и отмечает. Это и есть «посмотрел то, что мы предложили»
     byDay(`SELECT ${SQL_DAY('f.at')} AS day, COUNT(*) AS n, COUNT(DISTINCT f.user_id) AS users FROM feedback f
-             WHERE f.action = 'dismiss' AND f.reason = 'already_know' AND f.${inUsers} AND ${SQL_DAY('f.at')} >= ?
-               AND EXISTS (SELECT 1 FROM impression i WHERE i.user_id = f.user_id AND i.work_id = f.work_id AND ${SQL_DAY('i.at')} < ${SQL_DAY('f.at')})
-             GROUP BY day`, from14),
-    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM checkin WHERE ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14),
+             WHERE f.action = 'dismiss' AND f.reason = 'already_know' AND f.${inUsers} AND f.at >= ?
+               AND EXISTS (SELECT 1 FROM impression i WHERE i.user_id = f.user_id AND i.work_id = f.work_id AND i.at < ${SQL_DAY_START('f.at')})
+             GROUP BY day`, start14),
+    byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM checkin WHERE ${inUsers} AND at >= ? GROUP BY day`, start14),
   ]);
-  const accepts = await byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM feedback WHERE action IN ${ACCEPT} AND ${inUsers} AND ${SQL_DAY('at')} >= ? GROUP BY day`, from14);
+  const accepts = await byDay(`SELECT ${SQL_DAY('at')} AS day, COUNT(*) AS n, COUNT(DISTINCT user_id) AS users FROM feedback WHERE action IN ${ACCEPT} AND ${inUsers} AND at >= ? GROUP BY day`, start14);
   // карточки, из которых открыли разбор или нажали «Смотреть»: пара «человек — фильм — день»
   const pairsWith = (table: string, extra = '') => byDay(
     `SELECT ${SQL_DAY('c.at')} AS day, COUNT(DISTINCT c.user_id || '|' || c.work_id) AS n FROM event c
-       WHERE c.kind = 'card' AND c.work_id IS NOT NULL AND c.${inUsers} AND ${SQL_DAY('c.at')} >= ?
-         AND EXISTS (SELECT 1 FROM ${table} x WHERE x.user_id = c.user_id AND x.work_id = c.work_id ${extra} AND ${SQL_DAY('x.at')} = ${SQL_DAY('c.at')})
-       GROUP BY day`, from14);
+       WHERE c.kind = 'card' AND c.work_id IS NOT NULL AND c.${inUsers} AND c.at >= ?
+         AND EXISTS (SELECT 1 FROM ${table} x WHERE x.user_id = c.user_id AND x.work_id = c.work_id ${extra} AND x.at >= ${SQL_DAY_START('c.at')} AND x.at < ${SQL_DAY_START('c.at', '+21 hours')})
+       GROUP BY day`, start14);
   const [cardsWithOpen, cardsWithWatch] = await Promise.all([pairsWith('material_open'), pairsWith('event', "AND x.kind = 'watch'")]);
 
   const days: string[] = [];
@@ -188,7 +195,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
 
   // ── воронка: новые за 30 дней
   const [funnelRow] = await q<{ joined: number; activated: number; engaged: number; opened: number; accepted: number; watched: number; returned: number }>(
-    `WITH u AS (SELECT id, created_at, ${SQL_DAY('created_at')} AS d FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?)
+    `WITH u AS (SELECT id, created_at, ${SQL_DAY('created_at')} AS d FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ?)
      SELECT COUNT(*) AS joined,
        SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated,
        SUM(CASE WHEN EXISTS (SELECT 1 FROM impression i WHERE i.user_id = u.id AND ${engagedWith('i')}) THEN 1 ELSE 0 END) AS engaged,
@@ -198,7 +205,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
        SUM(CASE WHEN EXISTS (SELECT 1 FROM journal j WHERE j.user_id = u.id AND j.status = 'finished')
                   OR EXISTS (SELECT 1 FROM checkin c WHERE c.user_id = u.id AND c.status = 'finished') THEN 1 ELSE 0 END) AS watched,
        SUM(CASE WHEN EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day > u.d) THEN 1 ELSE 0 END) AS returned
-     FROM u`, ...binds, from30);
+     FROM u`, ...binds, start30);
   const funnel = {
     since: from30,
     joined: funnelRow?.joined ?? 0, activated: funnelRow?.activated ?? 0, engaged: funnelRow?.engaged ?? 0, opened: funnelRow?.opened ?? 0,
@@ -208,7 +215,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
 
   // ── удержание: когорты по дню входа за 60 дней; учитываем только когорты, у которых нужный день уже прошёл
   const cohortRows = await q<{ d: string; joined: number; d1: number; d7: number; d30: number; d1p: number; d7p: number; d30p: number }>(
-    `WITH u AS (SELECT id, ${SQL_DAY('created_at')} AS d FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?)
+    `WITH u AS (SELECT id, ${SQL_DAY('created_at')} AS d FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ?)
      SELECT d, COUNT(*) AS joined,
        SUM(EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day = date(u.d, '+1 day'))) AS d1,
        SUM(EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day = date(u.d, '+7 day'))) AS d7,
@@ -216,7 +223,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
        SUM(EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day >= date(u.d, '+1 day'))) AS d1p,
        SUM(EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day >= date(u.d, '+7 day'))) AS d7p,
        SUM(EXISTS (SELECT 1 FROM visit v WHERE v.user_id = u.id AND v.day >= date(u.d, '+30 day'))) AS d30p
-     FROM u GROUP BY d ORDER BY d`, ...binds, from60);
+     FROM u GROUP BY d ORDER BY d`, ...binds, start60);
   const retention = ([1, 7, 30] as const).map((k) => {
     const done = cohortRows.filter((c) => addDays(c.d, k) <= yesterday);
     const base = done.reduce((a, c) => a + c.joined, 0);
@@ -242,8 +249,8 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   };
   const activationIn = async (from: string, to: string) => {
     const [r] = await q<{ joined: number; activated: number }>(
-      `WITH u AS (SELECT id, created_at FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} BETWEEN ? AND ?)
-       SELECT COUNT(*) AS joined, SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u`, ...binds, from, to);
+      `WITH u AS (SELECT id, created_at FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ? AND created_at < ?)
+       SELECT COUNT(*) AS joined, SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u`, ...binds, mskDayStart(from), mskDayStart(addDays(to, 1)));
     return { share: ratio(r?.activated ?? 0, r?.joined ?? 0), joined: r?.joined ?? 0 };
   };
   const weekAct = await activationIn(addDays(today, -7), yesterday);
@@ -254,25 +261,48 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
   // источники за 30 дней (посевы, 07.10): сколько пришло и сколько из них дошло до 10 оценок за сутки;
   // подробная воронка одного источника — тем же запросом с `?source=<метка>`
   const sources = await q<{ source: string | null; joined: number; activated: number; invited: number }>(
-    `WITH u AS (SELECT id, created_at, source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?)
+    `WITH u AS (SELECT id, created_at, source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ?)
      SELECT source, COUNT(*) AS joined, SUM(CASE WHEN invited_by IS NOT NULL THEN 1 ELSE 0 END) AS invited,
-       SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u GROUP BY source ORDER BY joined DESC`, ...binds, from30);
+       SUM(CASE WHEN ${activatedSql} THEN 1 ELSE 0 END) AS activated FROM u GROUP BY source ORDER BY joined DESC`, ...binds, start30);
 
   // ── МА-1, МА-2: строки за 120 дней (когорта 4–8 недель и её досмотры), снимки карты — все
   const from120 = addDays(today, -120);
   const since = `${from120}T00:00:00.000Z`;
-  const [mUsers, mVisits, mStates, mImpr, mFeedback, mCheckins, mRatings, mEvents] = await Promise.all([
+  // 18.10 (аудит, п. 24): показы — не все строки за 120 дней (2 млн строк с признаками на синтетике «полгода» → гигабайты
+  // памяти), а то, что метрикам нужно на самом деле: первый показ пары «человек — фильм» только для пар с откликом или
+  // досмотром (shownKeys, по индексу impression_work), показы за 28 дней без признаков (shown28) и первая лента
+  // человека (activation, по индексу impression_user). Отклики, чек-ины и события — только те виды, что метрики читают
+  const since28 = mskDayStart(addDays(today, -28));
+  const TAKE = `(action IN ${ACCEPT} OR (action = 'dismiss' AND reason = 'already_know'))`;
+  // пары «человек — фильм» с откликом или досмотром: только их показы метрикам и нужны построчно
+  const KEYS = `WITH k AS (
+        SELECT user_id, work_id FROM feedback WHERE ${inUsers} AND at >= ? AND work_id IS NOT NULL AND ${TAKE}
+        UNION SELECT user_id, work_id FROM checkin WHERE ${inUsers} AND at >= ? AND status = 'finished' AND work_id <> '')`;
+  const [mUsers, mVisits, mStates, mKeys, mShown28, mShownStats, mActivation, mFeedback, mCheckins, mRatings, mEvents] = await Promise.all([
     q<MetricRows['users'][number]>(`SELECT id, created_at FROM user ${userWhere}`, ...binds),
     q<MetricRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, ...binds, from120),
     q<MetricRows['states'][number]>(`SELECT user_id, at, center, lo, hi, median, n FROM level_state WHERE ${inUsers}`, ...binds),
-    q<MetricRows['impressions'][number]>(`SELECT user_id, rec_id, work_id, level, traits, at FROM impression WHERE ${inUsers} AND at >= ?`, ...binds, since),
-    q<MetricRows['feedback'][number]>(`SELECT user_id, rec_id, work_id, action, reason, level, traits, at FROM feedback WHERE ${inUsers} AND at >= ?`, ...binds, since),
-    q<MetricRows['checkins'][number]>(`SELECT user_id, work_id, status, level, worth, at FROM checkin WHERE ${inUsers} AND at >= ?`, ...binds, since),
+    q<NonNullable<MetricRows['shownKeys']>[number]>(`${KEYS}
+      SELECT i.user_id, i.work_id, MIN(i.at) AS at, i.level, i.traits FROM k JOIN impression i ON i.user_id = k.user_id AND i.work_id = k.work_id AND i.at >= ?
+      GROUP BY i.user_id, i.work_id`, ...binds, since, ...binds, since, since),
+    // показы за 28 дней построчно — только тех же пар (принятие и «по подсказке» бывают только у них); всего показов и
+    // разных фильмов — счётом
+    q<NonNullable<MetricRows['shown28']>[number]>(`${KEYS}
+      SELECT i.user_id, i.rec_id, i.work_id, i.at FROM k JOIN impression i ON i.user_id = k.user_id AND i.work_id = k.work_id AND i.at >= ?`,
+    ...binds, since, ...binds, since, since28),
+    q<{ shown: number; works: string }>(`SELECT (SELECT COUNT(*) FROM (SELECT DISTINCT user_id, rec_id FROM impression WHERE ${inUsers} AND at >= ?)) AS shown,
+      (SELECT json_group_array(work_id) FROM (SELECT DISTINCT work_id FROM impression WHERE ${inUsers} AND at >= ?)) AS works`, ...binds, since28, ...binds, since28),
+    q<NonNullable<MetricRows['activation']>[number]>(`SELECT u.id AS user_id, (SELECT MIN(i.at) FROM impression i WHERE i.user_id = u.id AND i.at >= ?) AS at
+      FROM user u ${userWhere}`, since, ...binds).then((r) => r.filter((x) => x.at)),
+    q<MetricRows['feedback'][number]>(`SELECT user_id, rec_id, work_id, action, reason, level, traits, at FROM feedback WHERE ${inUsers} AND at >= ? AND ${TAKE}`, ...binds, since),
+    q<MetricRows['checkins'][number]>(`SELECT user_id, work_id, status, level, worth, at FROM checkin WHERE ${inUsers} AND at >= ? AND status = 'finished'`, ...binds, since),
     q<MetricRows['ratings'][number]>(`SELECT user_id, work_id, rating, at FROM rating WHERE ${inUsers}`, ...binds),
-    q<MetricRows['events'][number]>(`SELECT user_id, kind, work_id, at FROM event WHERE kind IN ('card', 'watch') AND ${inUsers} AND at >= ?`, ...binds, since),
+    q<MetricRows['events'][number]>(`SELECT user_id, kind, work_id, at FROM event WHERE ${inUsers} AND at >= ?
+      AND (kind = 'watch' OR (kind = 'card' AND at >= ?))`, ...binds, since, since28),
   ]);
-  const metrics = computeMetrics({ users: mUsers, visits: mVisits, states: mStates, impressions: mImpr, feedback: mFeedback,
-    checkins: mCheckins, ratings: mRatings, events: mEvents });
+  const metrics = computeMetrics({ users: mUsers, visits: mVisits, states: mStates, impressions: [], shownKeys: mKeys, shown28: mShown28,
+    shown28Count: mShownStats[0]?.shown ?? 0, shown28Works: JSON.parse(mShownStats[0]?.works ?? '[]') as string[],
+    activation: mActivation, feedback: mFeedback, checkins: mCheckins, ratings: mRatings, events: mEvents });
 
   // ── МА-3: строки за 30 дней
   const since30 = `${from30}T00:00:00.000Z`;
@@ -281,7 +311,7 @@ export async function getFunnel(req: Request, env: Env, admin: boolean): Promise
     q<EngagementRows['events'][number]>(`SELECT user_id, kind, work_id, place, detail, at FROM event
       WHERE (kind IN ('share_sent', 'mood_query', 'survey_answered') OR (kind = 'card' AND place = 'mood')) AND ${inUsers} AND at >= ?`, ...binds, since30),
     q<EngagementRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, ...binds, from30),
-    q<EngagementRows['joined'][number]>(`SELECT source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} ${SQL_DAY('created_at')} >= ?`, ...binds, from30),
+    q<EngagementRows['joined'][number]>(`SELECT source, invited_by FROM user ${userWhere ? `${userWhere} AND` : 'WHERE'} created_at >= ?`, ...binds, start30),
     q<EngagementRows['rated'][number]>(`SELECT r.at AS rated, MIN(i.at) AS shown FROM rating r
       JOIN impression i ON i.user_id = r.user_id AND i.work_id = r.work_id AND i.at <= r.at
       WHERE r.${inUsers} AND r.at >= ? GROUP BY r.user_id, r.work_id`, ...binds, since30),

@@ -237,7 +237,8 @@ export const en: Strings = {
   "brand": "Transformative Media",
   "navLabel": "Main navigation",
   "homeScreen": "Add the app to your home screen — open it in one tap",
-  "homeScreenAdd": "Add"
+  "homeScreenAdd": "Add",
+  "sessionStale": "Your sign-in has expired — changes are not being saved. Close the app and open it again"
 },
   explanation: {
   "what": "What it is",
@@ -789,6 +790,7 @@ export const en: Strings = {
   "hint": "Five ratings are enough for your first feed, but the more you add, the more accurate it gets. You can find the rest in Search.",
   "error": "Couldn't load the list",
   "saveError": "Rating wasn't saved",
+  "saveLater": "Offline — your ratings are saved and will sync once you're back online",
   "seriesTitle": "Series",
   "seriesLead": "If you've watched them, rate the series as a whole. That's taste too: picks will start suggesting series as well.",
   "booksTitle": "Books",
@@ -974,6 +976,8 @@ export const en: Strings = {
   "swipe": "▶ Trailer",
   /* трейлера нет (17.10): кадр пружинит назад, тост — коротко */
   "none": "No trailer",
+  /* ответа о трейлере нет 4 с после смахивания (18.10, волна 3В): сеть или TMDb не ответили — не тишина, а тост */
+  "slow": "The trailer didn't load — try again",
   "title": (t: string) => `Trailer: ${t}`,
   "youtube": "Open on YouTube",
   /* трейлер прямо в ленте и в карточке (17.10, владелец): ▶ на кадре, плеер на его месте */

@@ -22,6 +22,9 @@ export interface LoopRows {
   journal: { user_id: string; entry_id: string; started_at: string | null; work_id?: string; status?: string; eagerness?: number | null }[];
   feedback: { user_id: string; rec_id: string | null; work_id: string | null; action: string; reason: string | null; at: string; eagerness?: number | null }[];
   impressions: { user_id: string; slate_id: string; rec_id: string; work_id: string; slot: string | null; rank: number | null; at: string }[];
+  /** 18.10 (аудит скорости, п. 24): показы, посчитанные в базе (loopRows) — вместо всех строк impression (3 млн строк →
+   *  3 ГБ памяти и 50 с стопа на синтетике «полгода»). Задано — `impressions` не читается. */
+  impressionStats?: { users: string[]; shown: number; slates: number; start: number; save: number; dismiss: number };
 }
 
 type Odds = Record<Difficulty, number>;
@@ -126,10 +129,12 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
 
   const dismiss: Record<string, number> = {};
   for (const f of rows.feedback.filter((f) => f.action === 'dismiss')) dismiss[f.reason ?? 'no_reason'] = (dismiss[f.reason ?? 'no_reason'] ?? 0) + 1;
-  const shownRecs = new Set(rows.impressions.map((i) => `${i.user_id}|${i.rec_id}`));
-  const actOnShown = (a: string) => new Set(rows.feedback.filter((f) => f.action === a && f.rec_id && shownRecs.has(`${f.user_id}|${f.rec_id}`)).map((f) => `${f.user_id}|${f.rec_id}`)).size;
+  const stats = rows.impressionStats;
+  const shownRecs = stats ? new Set<string>() : new Set(rows.impressions.map((i) => `${i.user_id}|${i.rec_id}`));
+  const actOnShown = (a: 'start' | 'save' | 'dismiss') => (stats ? stats[a]
+    : new Set(rows.feedback.filter((f) => f.action === a && f.rec_id && shownRecs.has(`${f.user_id}|${f.rec_id}`)).map((f) => `${f.user_id}|${f.rec_id}`)).size);
   const start = actOnShown('start');
-  const uniqueShown = shownRecs.size;
+  const uniqueShown = stats ? stats.shown : shownRecs.size;
 
   // планы: последнее «хочется» по фильму и что с ним стало дальше — по записям и чек-инам
   const plans: LoopReport['plans'] = {};
@@ -173,7 +178,7 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
   const honest = obs.length >= HONEST_THRESHOLD;
   return {
     generatedAt: now.toISOString(),
-    users: new Set([...rows.predictions, ...rows.checkins, ...rows.impressions].map((r) => r.user_id)).size,
+    users: new Set([...rows.predictions, ...rows.checkins, ...rows.impressions].map((r) => r.user_id).concat(stats?.users ?? [])).size,
     observations: obs.length,
     honest,
     note: honest
@@ -200,7 +205,7 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
     dismiss,
     slate: {
       impressions: uniqueShown,
-      slates: new Set(rows.impressions.map((i) => `${i.user_id}|${i.slate_id}`)).size,
+      slates: stats ? stats.slates : new Set(rows.impressions.map((i) => `${i.user_id}|${i.slate_id}`)).size,
       start,
       save: actOnShown('save'),
       dismiss: actOnShown('dismiss'),
@@ -211,16 +216,41 @@ export function loopReport(rows: LoopRows, now = new Date()): LoopReport {
   };
 }
 
-/** Строки для отчёта из базы — одинаково для D1 и SQLite. `userId` — только свои. */
+/** Строки для отчёта из базы — одинаково для D1 и SQLite. `userId` — только свои.
+ *  Показы (18.10) — не строками, а счётом в базе (impressionStats): один проход по таблице с сортировкой во временном
+ *  файле SQLite вместо трёх миллионов объектов в памяти. Отклик «на показанное» — по индексу feedback_rec. */
 export async function loopRows(db: import('./env').D1Database, userId?: string): Promise<LoopRows> {
   const where = userId ? ' WHERE user_id = ?' : '';
   const q = <T>(sql: string) => (userId ? db.prepare(sql + where).bind(userId) : db.prepare(sql + where)).all<T>().then((r) => r.results);
-  const [predictions, checkins, journal, feedback, impressions] = await Promise.all([
+  const iw = userId ? 'WHERE i.user_id = ?' : '';
+  const acted = (a: string) => `MAX(EXISTS (SELECT 1 FROM feedback f WHERE f.user_id = i.user_id AND f.rec_id = i.rec_id AND f.action = '${a}'))`;
+  const one = <T>(sql: string) => (userId ? db.prepare(sql).bind(userId) : db.prepare(sql)).first<T>();
+  const [predictions, checkins, journal, feedback, shown, slates, shownUsers] = await Promise.all([
     q<LoopRows['predictions'][number]>('SELECT user_id, entry_id, work_id, expected, model, model_p, at FROM prediction'),
     q<LoopRows['checkins'][number]>('SELECT user_id, entry_id, work_id, status, perceived, reason, at FROM checkin'),
     q<LoopRows['journal'][number]>('SELECT user_id, entry_id, started_at, work_id, status, eagerness FROM journal'),
-    q<LoopRows['feedback'][number]>('SELECT user_id, rec_id, work_id, action, reason, at, eagerness FROM feedback'),
-    q<LoopRows['impressions'][number]>('SELECT user_id, slate_id, rec_id, work_id, slot, rank, at FROM impression'),
+    // «начал» отчёт берёт из счёта показов (impressionStats); строки нужны только отказам и «в планы»
+    (userId ? db.prepare("SELECT user_id, rec_id, work_id, action, reason, at, eagerness FROM feedback WHERE user_id = ? AND action IN ('dismiss', 'save')").bind(userId)
+      : db.prepare("SELECT user_id, rec_id, work_id, action, reason, at, eagerness FROM feedback WHERE action IN ('dismiss', 'save')")).all<LoopRows['feedback'][number]>().then((r) => r.results),
+    one<{ shown: number; start: number | null; save: number | null; dismiss: number | null }>(`SELECT COUNT(*) AS shown, SUM(st) AS start, SUM(sv) AS save, SUM(ds) AS dismiss
+      FROM (SELECT ${acted('start')} AS st, ${acted('save')} AS sv, ${acted('dismiss')} AS ds FROM impression i ${iw} GROUP BY i.user_id, i.rec_id)`),
+    one<{ n: number }>(`SELECT COUNT(*) AS n FROM (SELECT DISTINCT user_id, slate_id FROM impression i ${iw})`),
+    userId
+      ? db.prepare('SELECT DISTINCT user_id FROM impression WHERE user_id = ? LIMIT 1').bind(userId).all<{ user_id: string }>().then((r) => r.results)
+      : db.prepare('SELECT u.id AS user_id FROM user u WHERE EXISTS (SELECT 1 FROM impression i WHERE i.user_id = u.id)').all<{ user_id: string }>().then((r) => r.results),
   ]);
-  return { predictions, checkins, journal, feedback, impressions };
+  // свёрнутые показы старше 120 дней (worker/retention.ts, если включено): счёт показов и лент — в общий; отклики на них
+  // уже не сопоставить с показом, принятие считается по несвёрнутым
+  const rolled = await db.prepare("SELECT 1 AS x FROM sqlite_master WHERE type = 'table' AND name = 'impression_rollup'").first()
+    ? await (userId ? db.prepare(`SELECT SUM(shown) AS shown, SUM(slates) AS slates, json_group_array(DISTINCT user_id) AS users FROM impression_rollup${where}`).bind(userId)
+      : db.prepare('SELECT SUM(shown) AS shown, SUM(slates) AS slates, json_group_array(DISTINCT user_id) AS users FROM impression_rollup')).first<{ shown: number | null; slates: number | null; users: string }>()
+    : null;
+  return {
+    predictions, checkins, journal, feedback, impressions: [],
+    impressionStats: {
+      users: [...shownUsers.map((r) => r.user_id), ...(rolled?.users ? JSON.parse(rolled.users) as string[] : [])],
+      shown: (shown?.shown ?? 0) + (rolled?.shown ?? 0), slates: (slates?.n ?? 0) + (rolled?.slates ?? 0),
+      start: shown?.start ?? 0, save: shown?.save ?? 0, dismiss: shown?.dismiss ?? 0,
+    },
+  };
 }

@@ -1,6 +1,26 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { draftTexts } from './tools/draft-texts-plugin.mjs';
+import { leanMocks } from './tools/lean-mocks-plugin.mjs';
+
+/** Кусок приложения (src/boot.tsx) — сразу в index.html (18.10, аудит скорости, волна 3А): вход (src/main.tsx) грузит его
+ *  динамически, после словаря языка, и без `modulepreload` браузер узнавал бы о нём только после входа — лишний круг по
+ *  сети (на 3G ~0,6 с). Так оба качаются параллельно, а исполняется приложение всё равно после словаря. */
+const bootPreload = (): Plugin => ({
+  name: 'boot-preload',
+  apply: 'build',
+  transformIndexHtml: {
+    order: 'post',
+    handler(html, ctx) {
+      // facadeModuleId у динамического куска бывает пуст — ищем по модулям внутри
+      const boot = Object.values(ctx.bundle ?? {}).find((c) => c.type === 'chunk' && c.moduleIds.some((id) => id.endsWith('/src/boot.tsx')));
+      if (!boot || boot.type !== 'chunk') return html;
+      const files = [...new Set([boot.fileName, ...boot.imports])].filter((f) => f !== ctx.chunk?.fileName);
+      return { html, tags: files.map((f) => ({ tag: 'link', attrs: { rel: 'modulepreload', crossorigin: true, href: `./${f}` }, injectTo: 'head' as const })) };
+    },
+  },
+});
 
 export default defineConfig(({ mode }) => {
   // Ключ неофициального API Кинопоиска живёт только здесь: браузеру тот API закрыт (CORS),
@@ -24,7 +44,10 @@ export default defineConfig(({ mode }) => {
   return {
     // './' — чтобы собранный dist открывался и двойным щелчком, без сервера
     base: './',
-    plugins: [react(), tailwindcss()],
+    // тексты «что делает» черновиков — отдельным ленивым куском (18.10, бюджет первой загрузки): tools/draft-texts-plugin.mjs
+    // имена людей в оригинале — ленивым куском, список запасных карточек справочника — для сверки с сервером (18.10, волна 3А):
+    // tools/lean-mocks-plugin.mjs
+    plugins: [draftTexts(), leanMocks(), react(), tailwindcss(), bootPreload()],
     // '@' указывает на /src от корня проекта: так не нужен @types/node в typecheck
     resolve: { alias: { '@': '/src' } },
     // 5173 часто занят другим dev-сервером. strictPort: false — если и 5180 занят,

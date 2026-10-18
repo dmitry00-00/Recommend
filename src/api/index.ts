@@ -25,6 +25,7 @@ import { COLLECTIONS, collectionById, inCollection, levelPath, type Collection, 
 import { moodFit, parseMood } from '@/lib/mood';
 import { shardOf } from '@/lib/shard';
 import { groupByVoice, knownVoice, voiceOf } from '@/lib/voices';
+import { analysisShard, analysisShardName, collectAnalyses, essayCount, visibleAuthorCount, type AnalysisShard, type EssayIndex } from '@/lib/essayIndex';
 import { webApp } from '@/lib/telegram';
 import { attachLenses } from '@/lib/lenses';
 import { attachSpoilers } from '@/lib/spoilers';
@@ -33,7 +34,7 @@ import { splitYear } from '@/lib/searchYear';
 import { weightOf } from '@/lib/weights';
 import { canon, isAlias } from '@/lib/canon';
 import { fixCreditRow, fixWork, fixWorkIn, type WorkFixes } from '@/lib/workFixes';
-import { apiBase, deleteImport, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, postExport, postImport, prepareShareMessage, store, workMeta, type FollowRow, type StoredState } from './store';
+import { apiBase, deleteImport, pendingRatings, RATING_DROPPED_EVENT, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, postExport, postImport, prepareShareMessage, store, workMeta, type FollowRow, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
 import type { LoopReport as LoopReportCore, WorkSignal } from '../../worker/loop';
 export type LoopReportData = LoopReportCore & { scope: 'all' | 'me' };
@@ -91,14 +92,20 @@ let essaysAuto!: EssaysAuto;
 let postsAuto!: PostsAuto;
 let essayLenses: Record<string, string> = {};
 /** Свежий справочник с сервера: его раз в сутки пишет сборщик (tools/collect.mts, трек В1).
- *  Нет сервера, нет файла или сервер думает дольше четырёх секунд — берём запечённое в сборку. */
+ *  Нет сервера, нет файла или сервер думает дольше четырёх секунд — берём запечённое в сборку. Четыре секунды — на ответ
+ *  сервера, а не на весь файл (18.10, аудит скорости, волна 3А): на 3G справочник фильмов (~750 КБ) идёт 5–8 с, и прежний
+ *  общий срок обрывал его на середине — приложение докачивало вдобавок запасную копию из сборки, а потраченное пропадало.
+ *  Тело ждём до минуты. */
 async function serverRef<T>(name: string): Promise<T | undefined> {
   if (!store.onServer) return undefined;
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 4000);
+  let timer = setTimeout(() => ctrl.abort(), 4000);
   try {
     const res = await fetch(`${apiBase}/api/reference/${name}`, { signal: ctrl.signal });
-    return res.ok ? await res.json() as T : undefined;
+    if (!res.ok) return undefined;
+    clearTimeout(timer);
+    timer = setTimeout(() => ctrl.abort(), 60000);
+    return await res.json() as T;
   } catch {
     return undefined;
   } finally {
@@ -254,21 +261,15 @@ async function serverSources(): Promise<Mod<typeof coreImports>[9]['sources'] | 
 /** Ядро — один раз: справочнику (catalog) нужны externalIds из ядра, и если ядро ждёт ответа
  *  сервера (serverRef), справочник успевал раньше и падал на пустых externalIds (найдено 01.10). */
 let coreLoading: Promise<void> | undefined;
-const core = (): Promise<void> => (coreLoading ??= loadCore());
+// упавшая загрузка забывается (18.10, аудит, волна 2, п. 19): «Повторить» грузит заново, а не получает тот же отказ
+const core = (): Promise<void> => (coreLoading ??= loadCore().catch((err) => { coreLoading = undefined; throw err; }));
 async function loadCore(): Promise<void> {
-  const [[m, wd, ei, ua, cs, wr, rb, cm, ctm, src, es], freshEssays, freshPosts, freshLenses, freshSources] = await Promise.all([
+  // индекс разборов первой ленты (18.10, волна 3А, src/lib/essayIndex.ts): с ним ядро не ждёт полных индексов (~1,35 МБ);
+  // сервер старее или индекса нет — как раньше, полные файлы в ядре
+  const [[m, wd, ei, ua, cs, wr, rb, cm, ctm, src, es], index, freshSources] = await Promise.all([
     coreImports(),
-    serverRef<EssaysAuto>('essaysAuto'),
-    serverRef<PostsAuto>('postsAuto'),
-    serverRef<Record<string, string>>('essayLenses'),
+    serverRef<EssayIndex>('essayIndex'),
     serverSources(),
-  ]);
-  // запечённые в сборку индексы (~1,3 МБ сжатыми) — только если сервер свежих не дал (07.10): раньше они
-  // качались всегда, и с сервером приложение тянуло их дважды
-  const [ea, pa, el] = await Promise.all([
-    freshEssays ? undefined : import('@/mocks/essaysAuto'),
-    freshPosts ? undefined : import('@/mocks/postsAuto'),
-    freshLenses ? undefined : import('@/mocks/essayLenses'),
   ]);
   if (freshSources) src.replaceSources(freshSources);
   mocks = m; bare = wd.bare; workDetail = wd.workDetail; externalIds = ei.externalIds; userAnnotations = ua.userAnnotations;
@@ -277,16 +278,93 @@ async function loadCore(): Promise<void> {
   for (const id of Object.keys(m.works)) if (isAlias(id)) delete (m.works as Record<string, WorkCard>)[id];
   workRegisters = wr.workRegisters; registerBase = rb.registerBase;
   candidateMedia = cm.candidateMedia; catalogMedia = ctm.catalogMedia; searchLinks = src.searchLinks;
-  essays = es.essays; essaysAuto = freshEssays ?? ea!.essaysAuto; postsAuto = freshPosts ?? pa!.postsAuto;
+  essays = es.essays;
+  if (index?.v && index.k && index.x) {
+    essayIndex = index;
+    essaysAuto = {}; postsAuto = {};
+    essayLenses = { ...index.l };
+    // «без спойлеров» по слову автора (ДФ-8) — открыто до «Видел»; рубрики ручных разборов придут с долями их ключей
+    for (const list of Object.values(essays)) attachSpoilers(list);
+  } else await loadFullAnalyses();
+  settings = { ...mocks.settings, ...settings };
+  contributor ??= mocks.contributors[0];
+}
+
+// ---------- индексы разборов по частям (18.10, аудит скорости, волна 3А) ----------
+// С индексом (`essayIndex`) ядро приходит без самих индексов разборов. Подбору хватает индекса: есть ли у кандидата
+// видимый автор (`essaysOf`) — тот же ответ, что у полного расчёта. Самих материалов ждут: карточки ленты и дневник —
+// доли своих ключей (`analysesOf`), остальное — полные файлы (`analysesAll`), они догружаются после первой ленты.
+/** индекс первой ленты; нет — разборы пришли целиком в ядре (старый сервер, разработка) */
+let essayIndex: EssayIndex | undefined;
+/** полные индексы разборов на месте */
+let analysesComplete = false;
+/** пришедшие доли (`analyses-NN`) */
+const loadedShards = new Set<string>();
+const shardLoads = new Map<string, Promise<void>>();
+/** меняется, когда разборы пришли целиком: пул кандидатов пересобирается с настоящим числом авторов */
+let analysesEpoch = 0;
+/** Полные индексы разборов: сервер, иначе копия из сборки (07.10: только если сервер свежих не дал — раньше качались обе). */
+async function loadFullAnalyses(): Promise<void> {
+  const [freshEssays, freshPosts, freshLenses] = await Promise.all([
+    serverRef<EssaysAuto>('essaysAuto'), serverRef<PostsAuto>('postsAuto'), serverRef<Record<string, string>>('essayLenses'),
+  ]);
+  const [ea, pa, el] = await Promise.all([
+    freshEssays ? undefined : import('@/mocks/essaysAuto'),
+    freshPosts ? undefined : import('@/mocks/postsAuto'),
+    freshLenses ? undefined : import('@/mocks/essayLenses'),
+  ]);
+  essaysAuto = freshEssays ?? ea!.essaysAuto; postsAuto = freshPosts ?? pa!.postsAuto;
   // рубрики роликов (ТВ-3г) — один раз при загрузке, на все источники: в карточке, у автора,
   // у человека и во вселенной материал один и тот же объект
   essayLenses = freshLenses ?? el!.essayLenses;
   for (const src of [essays, essaysAuto]) for (const list of Object.values(src)) attachLenses(list, essayLenses);
   // «без спойлеров» по слову автора (ДФ-8) — открыто до «Видел»; и у постов Telegram
   for (const src of [essays, essaysAuto, postsAuto]) for (const list of Object.values(src)) attachSpoilers(list);
-  settings = { ...mocks.settings, ...settings };
-  contributor ??= mocks.contributors[0];
+  analysesComplete = true;
+  analysesEpoch += 1;
+  warmLater();
 }
+let fullLoad: Promise<void> | undefined;
+/** Разборы целиком — экранам, которым нужны все (поиск, страницы автора и человека, подборки, колоды, «вместе»). */
+function analysesAll(): Promise<void> {
+  if (analysesComplete) return Promise.resolve();
+  fullLoad ??= core().then(() => (analysesComplete ? undefined : loadFullAnalyses()))
+    .catch((err) => { fullLoad = undefined; throw err; });
+  return fullLoad;
+}
+/** Ключ разбора уже на месте целиком: разборы пришли все или пришла его доля. */
+const keyLoaded = (key: string): boolean => analysesComplete || loadedShards.has(analysisShard(key));
+/** Разборы этих карточек — их доли (до 12; больше — дешевле полные файлы). Доля не пришла или другой версии, чем индекс, —
+ *  полные файлы: лучше дольше, чем без разборов. */
+async function analysesOf(works: readonly WorkCard[]): Promise<void> {
+  if (analysesComplete || !essayIndex) return;
+  const need = new Set<string>();
+  for (const w of works) for (const k of workKeys(w, w.externalIds ?? externalIds[w.id])) if (!keyLoaded(k)) need.add(analysisShard(k));
+  if (!need.size) return;
+  if (need.size > 12) return analysesAll();
+  await Promise.all([...need].map(loadShard));
+}
+function loadShard(shard: string): Promise<void> {
+  let load = shardLoads.get(shard);
+  if (!load) {
+    load = serverRef<AnalysisShard>(analysisShardName(shard)).then((sh) => {
+      if (analysesComplete) return;
+      if (!sh?.e || sh.v !== essayIndex?.v) throw new Error(`доля разборов ${shard}`);
+      essaysAuto = { ...essaysAuto, ...sh.e }; postsAuto = { ...postsAuto, ...sh.p };
+      essayLenses = { ...essayLenses, ...sh.l };
+      for (const src of [sh.e, essays]) for (const list of Object.values(src)) attachLenses(list, essayLenses);
+      for (const src of [sh.e, sh.p]) for (const list of Object.values(src)) attachSpoilers(list);
+      loadedShards.add(shard);
+    }).catch(() => { shardLoads.delete(shard); return analysesAll(); });
+    shardLoads.set(shard, load);
+  }
+  return load;
+}
+/** Сколько авторов человек увидит во вкладке «Обзоры» (ТВ-2). Пока разборы не пришли целиком, ответ подбору — «есть ли»
+ *  (ему другого не нужно, src/lib/model/recommend.ts) — по индексу первой ленты (src/lib/essayIndex.ts, `essayCount`). */
+const essaysOf = (work: WorkCard, detail?: ExternalAnalysis[]): number =>
+  essayCount(workKeys(work, work.externalIds ?? externalIds[work.id]), detail, essays, { e: essaysAuto, p: postsAuto },
+    analysesComplete ? undefined : essayIndex, keyLoaded, (url) => linkVerdicts.get(url), settings.materialLanguages ?? ['ru']);
 
 // до загрузки — пустые: синхронный код (knownWorks, history) не падает, а просто не видит их
 let userWorks: WorkCard[] = [];
@@ -298,6 +376,8 @@ let filmBaseWiki: WorkCard[] = [];
 /** авторы (Д2): справочник людей и «ключ произведения → кто и в какой роли» из
  *  tools/resolve-credits.mts; карточке их подкладывает `withCredits` */
 let people: Record<PersonId, Person> = {};
+/** сам модуль people.ts — в его записи `loadPeopleOriginal` кладёт имена в оригинале */
+let peopleModule: Record<PersonId, Person> = {};
 let workCredits: Record<string, string> = {};
 /** фильмы и сериалы с полок по просьбам людей (shelves.ts → filmBaseCurated.ts): ключ → карточка */
 let shelfWorks = new Map<string, WorkCard>();
@@ -307,6 +387,10 @@ let shelfKeys: Record<string, string[]> = {};
 let draftAnnotations: Record<string, FirstPassAnnotation> = {};
 /** черновая разметка сериалов (Е2): ключ `imdb:`, у антологии — по сезонам */
 let seriesAnnotations: Record<string, SeriesDraft> = {};
+/** сами модули разметки (без текстов, 18.10): в них тексты «что делает» кладёт `draftTexts()` — слитые копии выше
+ *  делят с ними объекты записей */
+let draftModule: Record<string, FirstPassAnnotation> = {};
+let seriesModule: Record<string, SeriesDraft> = {};
 /** мост «ISBN → произведение» (З1, tools/resolve-book-works.mts) */
 let bookBridge: BookWorks = {};
 /** метаданные книг (З3, tools/build-book-media.mts): ключ произведения → поля карточки */
@@ -322,6 +406,8 @@ let bookCycles: Record<string, string[]> = {};
 const cyclesOfBook = new Map<string, string[]>();
 let draftMeta: { model: string; createdAt: ISODate; tmdfVersion: string; provider: AnnotationProvider } | undefined;
 let catalogLoad: Promise<void> | undefined;
+/** весь справочник пришёл (`catalog()`) */
+let catalogReady = false;
 let filmsLoad: Promise<void> | undefined;
 let booksLoad: Promise<void> | undefined;
 /** книги уже в справочнике (РР-1): «Почитать» в общей ленте не ждёт их, а берёт, когда пришли */
@@ -340,7 +426,10 @@ const freshStart: boolean = !store.onServer && (() => {
 
 /** Весь справочник: фильмы, сериалы, книги и история владельца. Повторный вызов ждёт ту же загрузку. */
 function catalog(): Promise<void> {
-  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki(), loadFilmLinks(), loadFame(), loadFixes()])).then(() => undefined);
+  // и разборы целиком (18.10, волна 3А): экраны справочника (поиск, страницы, подборки, «вместе») считают авторов
+  catalogLoad ??= loadFilms().then(() => Promise.all([loadBooks(), loadSeriesWiki(), loadFilmLinks(), loadFame(), loadFixes(), draftTexts(), analysesAll(),
+    loadPeopleOriginal()]))
+    .then(() => { catalogReady = true; warmLater(); }, (err) => { catalogLoad = undefined; throw err; });
   return catalogLoad;
 }
 
@@ -369,8 +458,24 @@ function loadFixes(): Promise<void> {
       const f = fixWorkIn(workFixes, w, w.externalIds ?? catalogMedia[id]?.externalIds ?? externalIds[id]);
       if (f !== w) works[id] = f;
     }
+    warmLater();
   }).catch((err) => { fixesLoad = undefined; console.warn('правки справочника не загрузились', err); });
   return fixesLoad;
+}
+/** Тексты «что делает» черновиков (18.10, аудит скорости, волна 2: бюджет первой загрузки) — отдельным куском следом за
+ *  справочником фильмов: модули разметки приходят без них (tools/draft-texts-plugin.mjs), подбору они не нужны, и первая
+ *  лента их не ждёт. Ждут экраны, которые текст показывают или по нему ищут: «подобрать словами» (`getMoodSlate`),
+ *  подборки и «вместе» (через `catalog()`); шторка рекомендации в ленте берёт его через `recWhat`. */
+let textsLoad: Promise<void> | undefined;
+/** тексты легли — пул кандидатов с их строками пересобирается (`candidatePool`) */
+let textsRev = 0;
+function draftTexts(): Promise<void> {
+  textsLoad ??= Promise.all([loadFilms(), import('@/mocks/draftTexts')]).then(([, t]) => {
+    const movies = t.fillDrafts(draftModule, t.draftTexts);
+    const series = t.fillDrafts(seriesModule, t.seriesTexts);
+    if (movies || series) { textsRev += 1; warmLater(); }
+  }).catch((err) => { textsLoad = undefined; console.warn('тексты черновиков не загрузились', err); });
+  return textsLoad;
 }
 function loadFame(): Promise<void> {
   // уровень лишней копии (17.10) — главной: build-fame считает по модулям справочника, а главная бывает из пула
@@ -391,7 +496,41 @@ const fameOpts = (): Pick<RecommendOptions, 'fame'> => {
  *  модели вкуса нужна их разметка. */
 function films(): Promise<void> {
   // таблица известности — следом, не задерживая первую ленту
-  return loadFilms().then(() => { void loadFame(); void loadFixes(); return [...history().map((e) => e.work), ...watchedNow()].some((w) => w.type === 'book') ? loadBooks() : undefined; });
+  // и тексты черновиков (18.10) — чуть позже: на медленной сети их ~600 КБ иначе спорят с кадрами первой ленты
+  // 18.10, волна 3А: тексты и полные индексы разборов — фоном после первой ленты (`background`), не позже 6 с
+  return loadFilms().then(() => { void loadFame(); void loadFixes(); background(6000); return [...history().map((e) => e.work), ...watchedNow()].some((w) => w.type === 'book') ? loadBooks() : undefined; });
+}
+
+/** Прогрев кэшей в простое (18.10, аудит скорости, волна 3А): пул кандидатов и справочная часть `knownWorks` собираются
+ *  по версии данных, а версия меняется фоном — пришли тексты черновиков, правки справочника, разборы целиком, весь
+ *  справочник. Раньше пересборка доставалась первому действию после этого: «Ещё фильмы» — 0,4–0,6 с одной задачей на
+ *  телефоне, страница фильма и первый поиск — 0,7–1,7 с. Теперь — когда приложение ничего не делает (по задаче на кэш).
+ *  Результат тот же: кэши по той же версии данных. */
+let warmQueued = false;
+const whenIdle = (f: () => void): void => {
+  const ric = (globalThis as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+  if (ric) ric(f, { timeout: 4000 }); else setTimeout(f, 400);
+};
+function warmLater(): void {
+  if (warmQueued || typeof document === 'undefined') return;
+  warmQueued = true;
+  whenIdle(() => {
+    warmQueued = false;
+    if (!filmsReady || !readyDone) return;
+    try { candidatePool(); } catch { /* прогрев — не обязанность */ }
+    whenIdle(() => { try { knownCatalog(); } catch { /* так же */ } });
+  });
+}
+
+/** Фон после первой ленты (18.10, аудит скорости, волна 3А): тексты черновиков (~600 КБ) и полные индексы разборов
+ *  (~1,35 МБ) — когда лента посчитана (`finishSlate`), а не через 1,5 с после справочника: на 3G они отнимали сеть у её
+ *  последних кусков (связи, доли разборов). Ленты нет (открыт другой экран) — через 6 с после справочника. */
+let backgroundTimer: ReturnType<typeof setTimeout> | undefined;
+let backgroundStarted = false;
+function background(after: number): void {
+  if (backgroundStarted) return;
+  clearTimeout(backgroundTimer);
+  backgroundTimer = setTimeout(() => { backgroundStarted = true; void draftTexts(); analysesAll().catch(() => undefined); }, after);
 }
 
 /** Справочник под действие с произведением (РР-1): книге — с книгами, фильму и сериалу хватает `films()` — оценки в
@@ -469,24 +608,45 @@ function loadBooks(): Promise<void> {
         userWorks = credited(userWorks); watchedWorks = credited(watchedWorks); filmBaseWiki = credited(filmBaseWiki);
       }
       booksReady = true;
-    });
+    }).catch((err) => { booksLoad = undefined; throw err; });
   return booksLoad;
 }
+
+/** Без сервера (разработка, превью, файл) запасные копии справочника нужны всегда — их качаем сразу, вместе с остальным
+ *  справочником, а не следом за ним (18.10, волна 3А). */
+const spareFilms = store.onServer ? undefined : Promise.all([
+  import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'), import('@/mocks/filmBaseChannels'),
+  import('@/mocks/filmBasePopular'), import('@/mocks/filmBaseWorld'),
+]);
+// упавший кусок — не необработанный отказ: загрузка справочника возьмёт его заново
+spareFilms?.catch(() => undefined);
 
 /** Справочник без книг: фильмы, сериалы, история владельца, разметка. */
 function loadFilms(): Promise<void> {
   filmsLoad ??= Promise.all([
     import('@/mocks/userHistory'), import('@/mocks/userRatings'), import('@/mocks/userWatched'),
-    import('@/mocks/filmBase'), import('@/mocks/filmBaseWiki'), import('@/mocks/filmBaseMarkup'),
+    import('@/mocks/filmBase'), import('@/mocks/filmBaseLateIds'),
     serverRef<WorkCard[]>('filmBaseWiki'), import('@/mocks/draftAnnotations'), import('@/mocks/filmBaseCurated'),
     import('@/mocks/baseMedia'), import('@/mocks/people'), import('@/mocks/workCredits'), import('@/mocks/seriesAnnotations'), import('@/mocks/seriesBase'), import('@/mocks/bookWorks'), import('@/mocks/bookAnnotations'),
-    import('@/mocks/filmBasePopular'), import('@/mocks/filmBaseWorld'), import('@/mocks/seriesRegisters'), import('@/mocks/bookSeries'),
-  ]).then(async (mods) => {
+    import('@/mocks/seriesRegisters'), import('@/mocks/bookSeries'),
+  ]).then(async ([uh, ur, uw, fb, late, freshWiki, ...rest]) => {
     await core();
-    // фильмы из загрузок каналов (6 тыс. карточек, ~250 КБ сжатыми) сервер отдаёт в справочнике — копию
-    // из сборки грузим, только если сервер не ответил (и в разработке)
-    const fch = mods[6] ? { filmBaseChannels: [] as WorkCard[] } : await import('@/mocks/filmBaseChannels');
-    return [...mods, fch] as const;
+    // Запасные копии из сборки (18.10, аудит скорости, волна 3А) — только когда они что-то добавят: справочник сервера
+    // уже несёт и запечённое в сборку (filmBaseWiki, filmBaseMarkup), и фильмы из загрузок каналов (6 тыс. карточек,
+    // ~250 КБ сжатыми), и то, что люди ищут (filmBasePopular, filmBaseWorld; ~475 КБ). Первые три — копия на случай, если
+    // сервер не ответил (и в разработке); последние две сборка несёт на случай, если справочник сервера старее, — их
+    // берём, только если в нём нет хоть одной их карточки (`lateCovered`): тогда сведение ниже ничего бы из них не добавило
+    const covered = freshWiki ? lateCovered(freshWiki, late.lateFilmIds) : false;
+    const spare = spareFilms && await spareFilms.catch(() => undefined);
+    const [fw, fm, fch, fp, fwo] = spare ?? await (Promise.all([
+      freshWiki ? { filmBaseWiki: [] as WorkCard[] } : import('@/mocks/filmBaseWiki'),
+      freshWiki ? { filmBaseMarkup: [] as WorkCard[] } : import('@/mocks/filmBaseMarkup'),
+      freshWiki ? { filmBaseChannels: [] as WorkCard[] } : import('@/mocks/filmBaseChannels'),
+      covered ? { filmBasePopular: [] as WorkCard[] } : import('@/mocks/filmBasePopular'),
+      covered ? { filmBaseWorld: [] as WorkCard[] } : import('@/mocks/filmBaseWorld'),
+    ]));
+    const [da, fc, bm, pp, wc, sa, sb, bw, ba, sr, bs] = rest;
+    return [uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, ba, fp, fwo, sr, bs, fch] as const;
   }).then(([uh, ur, uw, fb, fw, fm, freshWiki, da, fc, bm, pp, wc, sa, sb, bw, ba, fp, fwo, sr, bs, fch]) => {
     bookAnnotations = ba.bookAnnotations;
     bookPoems = new Set(bs.bookPoems); bookCycles = bs.bookCycles;
@@ -494,9 +654,9 @@ function loadFilms(): Promise<void> {
     // книга — произведение (З1): карточкам с ISBN — работа Open Library и элемент Wikidata по мосту
     bookBridge = bw.bookWorks;
     for (const [id, ids] of Object.entries(externalIds)) { const enriched = withBookWork(ids, bookBridge); if (enriched !== ids) (externalIds as Record<string, ExternalIds>)[id] = enriched!; }
-    seriesAnnotations = sa.seriesAnnotations;
-    people = pp.people; workCredits = wc.workCredits;
-    draftAnnotations = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
+    seriesAnnotations = seriesModule = sa.seriesAnnotations;
+    people = peopleModule = pp.people; workCredits = wc.workCredits;
+    draftAnnotations = draftModule = da.draftAnnotations; draftMeta = da.draftAnnotationMeta;
     // сериал — свой вид (Е1): старые карточки с format:'series' (сервер, выгрузки) приводятся здесь
     const norm = (ws: readonly WorkCard[]) => ws.map((w) => {
       const n = normalizeWork(w);
@@ -586,8 +746,34 @@ function loadFilms(): Promise<void> {
     }
     shelfKeys = fc.shelfKeys;
     filmsReady = true;
-  });
+  }).catch((err) => { filmsLoad = undefined; throw err; });
   return filmsLoad;
+}
+
+/** Все ли карточки filmBasePopular и filmBaseWorld из сборки (кроме убранных владельцем) уже есть в справочнике сервера.
+ *  Список их id сжат плагином сборки (tools/lean-mocks-plugin.mjs): «f-wd» и номера Wikidata по возрастанию разностями в
+ *  base36 через запятую, после «|» — id другого вида. Пусто (инструменты в node, плагина нет) — «не знаем»: качаем копии. */
+function lateCovered(list: readonly WorkCard[], packed: string): boolean {
+  if (!packed) return false;
+  const have = new Set(list.map((w) => w.id));
+  const [nums, other = ''] = packed.split('|');
+  let q = 0;
+  for (const d of nums ? nums.split(',') : []) { q += parseInt(d, 36); if (!have.has(`f-wd${q}`)) return false; }
+  return other.split(',').every((id) => !id || have.has(id));
+}
+
+/** Имена людей в оригинале (18.10, аудит скорости, волна 3А): people.ts приходит без них (tools/lean-mocks-plugin.mjs),
+ *  а их ждут страница человека и сверка «тот ли это человек» (getPerson, getStats — через `catalog()`). Кладём на место в
+ *  те же записи: их делят `people` и слитые с peopleMore копии. Без плагина (инструменты в node) кусок пуст. */
+let peopleOriginalLoad: Promise<void> | undefined;
+function loadPeopleOriginal(): Promise<void> {
+  peopleOriginalLoad ??= Promise.all([loadFilms(), import('@/mocks/peopleOriginal')]).then(([, m]) => {
+    for (const [id, name] of Object.entries(m.peopleOriginal)) {
+      const p = peopleModule[id as PersonId];
+      if (p && p.originalName == null) (p as { originalName?: string }).originalName = name;
+    }
+  }).catch((err) => { peopleOriginalLoad = undefined; throw err; });
+  return peopleOriginalLoad;
 }
 
 /** Авторы карточки: свои `credits`, иначе запись резолва авторов по ключу произведения (Д2). */
@@ -729,7 +915,7 @@ let charactersByKey = new Map<string, string[]>();
 let characterImages: Mod<typeof characterImagesImport>['characterImages'] = {};
 const characterImagesImport = () => import('@/mocks/characterImages');
 let characterImagesLoad: Promise<void> | undefined;
-const loadCharacterImages = () => (characterImagesLoad ??= characterImagesImport().then((m) => { characterImages = m.characterImages; }).catch(() => undefined));
+const loadCharacterImages = () => (characterImagesLoad ??= characterImagesImport().then((m) => { characterImages = m.characterImages; }).catch(() => { characterImagesLoad = undefined; }));
 /** Своего исполнителя в этом произведении — первым: Джокер в «Джокере» — Феникс, а не Леджер. */
 function characterImage(id: string, keys: readonly string[] = []): CharacterImageView | undefined {
   const c = characterImages[id];
@@ -1022,7 +1208,7 @@ export async function getUniverse(id: string): Promise<UniversePage | undefined>
  *  Виденное — мимо: напоминать незачем. */
 export interface PrevPart { title: string; year?: number; /** наша карточка, если часть у нас есть: ссылка и название на языке интерфейса */ work?: WorkCard }
 export async function getPrerequisite(work: WorkCard): Promise<PrevPart | undefined> {
-  await Promise.all([ready, relationRefs(), work.type === 'book' ? catalog() : films()]);
+  await Promise.all([ready(), relationRefs(), work.type === 'book' ? catalog() : films()]);
   const key = workKey(work, work.externalIds ?? externalIds[work.id]);
   const q = (key && relationQid.get(key)) || work.externalIds?.wikidata;
   if (!q) return undefined;
@@ -1047,7 +1233,7 @@ export interface WorkLinks {
   universe?: { id: string; title: string; size: number };
 }
 export async function getWorkLinks(work: WorkCard): Promise<WorkLinks> {
-  await Promise.all([ready, relationRefs(), work.type === 'book' ? catalog() : films()]);
+  await Promise.all([ready(), relationRefs(), work.type === 'book' ? catalog() : films()]);
   const rel = relationsFor(work);
   const src = rel.find((r) => r.kind === 'adaptation_of' && r.direction === 'out');
   const remake = rel.find((r) => r.kind === 'remake_of' && r.direction === 'out');
@@ -1084,7 +1270,7 @@ function relationRefs(): Promise<void> {
     relationNodes = wr.relationNodes; relationEdges = wr.relationEdges;
     relationQid = new Map(Object.entries(relationNodes).flatMap(([q, n]) => (n.key ? [[n.key, q] as [string, string]] : [])));
     universes = undefined;
-  });
+  }).catch((err) => { relationsLoad = undefined; throw err; });
   return relationsLoad;
 }
 let workRefsLoad: Promise<void> | undefined;
@@ -1098,7 +1284,7 @@ function workRefs(): Promise<void> {
     characters = ch.characters;
     charactersByKey = new Map();
     for (const [q, c] of Object.entries(characters)) for (const k of c.works) (charactersByKey.get(k) ?? charactersByKey.set(k, []).get(k)!).push(q);
-  });
+  }).catch((err) => { workRefsLoad = undefined; throw err; });
   return workRefsLoad;
 }
 
@@ -1110,7 +1296,8 @@ let curatorLoad: Promise<void> | undefined;
 /** Кураторская и задания участника — свои экраны, свои данные. */
 function curatorRefs(): Promise<void> {
   curatorLoad ??= Promise.all([curatorImports(), serverRef<Mod<typeof curatorImports>[1]['sourceCandidates']>('sourcesAuto')])
-    .then(([[c, sa, lt], freshSources]) => { curator = c; sourceCandidates = freshSources ?? sa.sourceCandidates; linkCheckTasks = lt.linkCheckTasks; });
+    .then(([[c, sa, lt], freshSources]) => { curator = c; sourceCandidates = freshSources ?? sa.sourceCandidates; linkCheckTasks = lt.linkCheckTasks; })
+    .catch((err) => { curatorLoad = undefined; throw err; });
   return curatorLoad;
 }
 
@@ -1124,16 +1311,33 @@ let startupFailure: 'fresh' | number | undefined;
 const stateLoad = loadState();
 /** `ready` прошёл: ядро пришло, профиль разложен (`hydrate`) */
 let readyDone = false;
-const ready: Promise<void> = (async () => {
+/** Запуск: профиль и ядро. Упал (сеть, кусок ядра не пришёл) — забывается (18.10, аудит, волна 2, п. 19): раньше это
+ *  был один промис на сеанс, и после одного сбоя «Повторить» снова получал тот же отказ до переоткрытия приложения. */
+let readyLoad: Promise<void> | undefined;
+let warmTimer: ReturnType<typeof setTimeout> | undefined;
+/** профиль разложен — повтор запуска его не раскладывает второй раз */
+let hydrated = false;
+const ready = (): Promise<void> => (readyLoad ??= (async () => {
   const [state] = await Promise.all([stateLoad, core(), store.onServer ? undefined : films()]);
   // с сервером справочник фильмов догружается фоном — через 3 с (ДФ-21): на медленной сети его мегабайты иначе
   // отнимают сеть и главный поток у первой отрисовки; экран, которому он нужен раньше, позовёт его сам. Книги в прогрев
   // не входят (РР-1): их зовёт `catalog()` — поиск, страницы, книжные лента и колода
-  if (store.onServer) setTimeout(() => { films().catch(() => undefined); }, 3000);
+  if (store.onServer && !warmTimer) warmTimer = setTimeout(() => { films().catch(() => undefined); }, 3000);
   if (state === 'unreachable') { unreachable = true; startupFailure = 'fresh'; return; }
-  if (!state) return;
+  if (!state || hydrated) return;
+  hydrated = true;
   hydrate(state);
-})().finally(() => { readyDone = true; });
+})().then(() => { readyDone = true; }, (err) => { readyLoad = undefined; throw err; }));
+void ready().catch(() => undefined);
+// Не новичок (в профиле есть оценки, дневник или просмотренное) — справочник фильмов качаем сразу, рядом с ядром, а не
+// после него (18.10, аудит скорости, волна 3А): первой ленте он нужен всё равно, а на 3G ядро шло ~5 с, и всё это время
+// справочник стоял. Разбирается он, как и раньше, после ядра (`loadFilms` ждёт `core`) — данные те же. Новичку — нет:
+// его первые экраны справочника не ждут (РР-5), прогрев через 3 с остаётся
+if (store.onServer) {
+  void stateLoad.then((st) => {
+    if (st && st !== 'unreachable' && (st.ratings?.length || st.journal?.length || st.watched?.length)) loadFilms().catch(() => undefined);
+  }, () => undefined);
+}
 
 /** Новый человек (РР-5): профиль пуст — ни оценок, ни дневника, ни просмотренного, ни полок вкуса — и в этой вкладке он
  *  ещё ничего не отметил. Его первые экраны — холодный старт «Сегодня» и колода /rate — отвечают сразу, не дожидаясь
@@ -1165,7 +1369,9 @@ async function reconnect(): Promise<void> {
   if (state) hydrate(state);
 }
 
-const delay = (ms: number) => ready.then(() => new Promise<void>((r) => setTimeout(r, ms)));
+/** Пауза моков — только в разработке (18.10, аудит скорости, волна 2, п. 13): там она показывает состояния загрузки, а в
+ *  сборке прибавляла 60–260 мс к каждому вызову (лента +240, карточка +200). Ждать `ready` — всегда. */
+const delay = (ms: number): Promise<void> => (import.meta.env.DEV && ms > 0 ? ready().then(() => new Promise<void>((r) => setTimeout(r, ms))) : ready());
 
 // прокси есть только у страницы, которую отдал сервер; из файла (standalone) — нет
 const served = typeof location !== 'undefined' && location.protocol.startsWith('http');
@@ -1279,6 +1485,13 @@ const draftFor = (w: WorkCard): FirstPassAnnotation | undefined => {
   const draft = reviewMarks()[`draft:${key}`]?.status === 'rejected' || isHeldKey(key) ? undefined : draftAnnotations[key];
   return ownAnnotationByKey().get(key) ?? draft;
 };
+/** Текст «что делает» рекомендации для шторки ленты (18.10): первая лента собирается до текстов черновиков
+ *  (`draftTexts`) — у её карточек строка пуста, а к открытию шторки тексты обычно уже пришли. */
+export function recWhat(r: Pick<Recommendation, 'work' | 'explanation'>): string | undefined {
+  if (r.explanation?.what) return r.explanation.what;
+  void draftTexts();
+  return draftFor(r.work)?.what || undefined;
+}
 /** Черновик сериала (Е2): страница произведения, кураторская, а с Е4 — модель и подбор. */
 const seriesDraftFor = (w: WorkCard): SeriesDraft | undefined => {
   if (!isSeries(w)) return undefined;
@@ -1505,9 +1718,21 @@ const taste = () => ({ alsoSeen: declaredSeen(), base: registerBase, ratingNorm:
 /** Состояние и карта из истории — когда она размечена; иначе моки. */
 const ownState = () => deriveState(USER_ID, history(), today(), taste());
 
-/** Пул кандидатов: каталог моков (с объяснениями) + размеченный пул; всё, что уже видели, — вон. */
+/** Пул кандидатов: каталог моков (с объяснениями) + размеченный пул; всё, что уже видели, — вон. Сам пул — по версии
+ *  данных (18.10, аудит скорости, волна 2, п. 17: `candidatePool`), виденное — поверх, каждый раз. */
 function candidates(): Candidate[] {
   const keys = seenKeys();
+  return candidatePool().filter((c) => !seen(c.work, keys));
+}
+/** вердикты участника по найденным разборам меняют число авторов у кандидата — и версию пула */
+let verdictsRev = 0;
+let poolCache: { deps: unknown[]; list: Candidate[] } | undefined;
+// разборы — эпохой (18.10, волна 3А): доли, пришедшие по частям, ответ «есть ли разбор» не меняют, и пул из-за них не
+// пересобирается; пришли целиком — пересобирается один раз, уже с числом авторов
+const poolDeps = (): unknown[] => [...catalogDeps(), essays, analysesEpoch, verdictsRev, textsRev,
+  (settings.materialLanguages ?? []).join(',')];
+function candidatePool(): Candidate[] {
+  if (poolCache && sameDeps(poolCache.deps, poolDeps())) return poolCache.list;
   const catalog: Candidate[] = Object.values(mocks.works)
     .filter((w) => w.primaryOperations.length && w.complexityLevel)
     .map((w) => ({ work: withRegisters(withMedia(w)), what: mocks.explanations[w.id]?.what ?? workDetail(w.id)?.synopsis ?? '' }));
@@ -1525,11 +1750,13 @@ function candidates(): Candidate[] {
   // (`useVoices`): только авторы, без яруса review и без постов — посты во вкладке «Обсуждения»
   // книги — не в общем пуле: у них своя лента и «Почитать» (`bookPool`); старые книжные карточки каталога-сценария
   // («Мастер и Маргарита», w16) иначе вставали в ленту кино как фильмы (11.10, прогон профиля «Эпизодов»)
-  return [...catalog, ...pool, ...extra].filter((c) => c.work.type !== 'book' && !seen(c.work, keys))
-    .map((c) => ({ ...c, essays: visibleAuthors(analysesFor(c.work, workDetail(c.work.id)?.externalAnalyses)) }));
+  // число авторов — один раз на версию пула, а не на каждую ленту
+  const list = [...catalog, ...pool, ...extra].filter((c) => c.work.type !== 'book')
+    .map((c) => ({ ...c, essays: essaysOf(c.work, workDetail(c.work.id)?.externalAnalyses) }));
+  poolCache = { deps: poolDeps(), list };
+  return list;
 }
-const visibleAuthors = (list: ExternalAnalysis[]): number =>
-  groupByVoice(list).filter((g) => g.items.some((a) => a.platform !== 'telegram')).length;
+const visibleAuthors = visibleAuthorCount;
 /** Черновая разметка (Г1) — тоже в подбор (решение 30.09): ~400 размеченных фильмов списка
  *  первых оценок и истории владельца. Проверяем не вручную заранее, а по тому, как люди их
  *  принимают: петля прогноза считает промахи по фильму (worker/loop.ts, `byWork`), кураторская
@@ -1754,7 +1981,7 @@ const ratedCount = (): number =>
 /** Сколько оценок до первой ленты (10.10): страница фильма зовёт новичка собрать ленту. Без сервера на
  *  истории владельца — лента есть всегда (`needed: 0`). */
 export async function getTasteProgress(): Promise<{ rated: number; needed: number }> {
-  await ready;
+  await ready();
   if (!store.onServer && !freshStart) return { rated: ratedCount(), needed: 0 };
   await catalog();
   return { rated: ratedCount(), needed: MIN_RATED };
@@ -1767,7 +1994,9 @@ export async function getTasteProgress(): Promise<{ rated: number; needed: numbe
 export interface SlateOptions { subscriptions?: boolean; /** полка бесплатной классики (ЗП-43) */ freeClassics?: boolean; /** «Почитать» — книга в ленте (11.10) */ books?: boolean;
   /** что подбирать (11.10): 'book' — ленту из книг, по той же модели; нет — кино и сериалы */ kind?: FeedKind;
   /** первый вход свайпом (ДФ-2): при 0–4 оценках не холодный старт, а общая лента от среднего уровня */ general?: boolean;
-  /** «Новинки» (18.10, владелец): порция только из вышедшего за последний год — тем же подбором */ fresh?: boolean }
+  /** «Новинки» (18.10, владелец): порция только из вышедшего за последний год — тем же подбором */ fresh?: boolean;
+  /** не ждать картинок и «где смотреть» с сети (18.10, аудит, волна 2, п. 15): лента — с кадрами справочника, остальное
+   *  экран досылает `pictureSlate` */ lazyPictures?: boolean }
 
 /** Новинка (18.10, владелец): вышла за последние ~12 месяцев. Точной даты выхода у карточки нет — только год, поэтому
  *  «этот год или прошлый»; без года (0) и будущий год — не вышло, не новинка. Исключённые предупреждения настроек —
@@ -1810,7 +2039,19 @@ const newcomerState = (): CognitiveState => ({
 async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptions, rated: number, fallback?: () => CognitiveState): Promise<RecommendationSlate> {
   // справочник с полками и черновой разметкой: на сервере он грузится фоном, а пул без него беднее. Книги (РР-1) ждёт
   // только лента книг; «Почитать» в общей ленте их не ждёт — зовёт и берёт, когда пришли
+  // что ленте понадобится после справочника, качается, пока он считается (18.10, аудит скорости, волна 3А): связи — вставке
+  // «дальше во вселенной», жанры — якорю вкуса. С якорем вкуса лента и прежде ждала жанры после справочника, а за это
+  // время успевала прийти и известность (засветка топами, она грузится следом за справочником), — теперь жанры приходят
+  // раньше, и известность в этом случае ждём явно, чтобы состав ленты остался прежним. Без якоря (долгая история) первая
+  // порция по-прежнему считается до известности — см. отчёт волны 3А: это гонка, решение за владельцем
+  if (!more) relationRefs().catch(() => undefined);
+  const anchored = contentWeight(rated, MIN_RATED) > 0;
+  if (anchored) void loadGenres();
   await (opts.kind === 'book' ? catalog() : films());
+  if (anchored && (settings.dimFamous ?? DIM_DEFAULT) !== 'off') await loadFame();
+  // вердикт «про другое» снимает найденный разбор, а индекс первой ленты о вердиктах не знает (18.10, волна 3А) — тогда
+  // ответ «есть ли разбор» только по разборам целиком
+  if (!analysesComplete && [...linkVerdicts.values()].includes('other_work')) await analysesAll();
   if (opts.books && !booksReady) loadBooks().catch(() => undefined);
   const state = ownState() ?? fallback?.();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
@@ -1840,7 +2081,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
     const rest = novelBooks.filter((c) => !items.some((r) => r.work.id === c.work.id));
     // порог — на вход в раздел; внутри новинок (нажал «Новинки») — сколько есть
     const fresh = state && (opts.fresh || rest.length >= BOOK_NOVELTIES_MIN) ? recommend(state, rest, energy, 6, today(), pickOpts()).length : 0;
-    return finishSlate({ id: `s-book-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items, fresh }, items);
+    return finishSlate({ id: `s-book-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items, fresh }, items, opts.lazyPictures);
   }
   const all = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
   const pool = opts.fresh ? all.filter(novel) : all;
@@ -1882,13 +2123,18 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   // сколько новинок даст следующая порция — без всего, что встало в эту (и вставки)
   const restNovel = state ? all.filter((c) => novel(c) && !items.some((r) => r.work.id === c.work.id)) : [];
   const fresh = restNovel.length ? recommend(state!, restNovel, energy, 6, today(), { seriesNovice: seriesNovice(), ...(content ? { content } : {}), ...pickOpts() }).length : 0;
-  return finishSlate({ ...base, fresh }, items);
+  return finishSlate({ ...base, fresh }, items, opts.lazyPictures);
 }
 
-/** Картинки, разборы и обсуждения к подобранному; показы — на сервер. */
-async function finishSlate(base: RecommendationSlate, items: Recommendation[]): Promise<RecommendationSlate> {
+/** Картинки, разборы и обсуждения к подобранному; показы — на сервер. `lazy` — без сети (18.10): кадры справочника
+ *  (baseMedia, catalogMedia) уже на карточке, а картинки TMDb и Кинопоиска и «где смотреть» держали ленту до 6 с на
+ *  каждую карточку (холодный старт 2,5 с, на 3G — 9,5 с); их досылает `pictureSlate`. */
+async function finishSlate(base: RecommendationSlate, items: Recommendation[], lazy = false): Promise<RecommendationSlate> {
   const energy = base.energy;
-  const works = await pictured(items.map((r) => r.work));
+  const works = lazy ? items.map((r) => withMedia(r.work)) : await pictured(items.map((r) => r.work));
+  // разборы карточек — их доли (18.10, волна 3А); лента посчитана — фоном тексты и разборы целиком
+  await analysesOf(works);
+  background(1500);
   for (const r of items) { slateWorks.set(r.id, r.work.id); slateCards.set(r.id, r.work); }
   // показы — знаменатель «принятия слейта» (трек Б2); не ответил сервер — лента важнее. С ними — уровень и
   // признаки показанного и снимок карты: от первого снимка сервер считает «сдвиг» (МА-1)
@@ -1908,6 +2154,18 @@ async function finishSlate(base: RecommendationSlate, items: Recommendation[]): 
   };
 }
 
+/** Картинки и «где смотреть» с сети к уже показанной ленте (18.10, аудит, волна 2, п. 15): те же рекомендации с
+ *  обогащёнными карточками — экран подменяет их по id рекомендации. */
+export async function pictureSlate(items: readonly Recommendation[]): Promise<Recommendation[]> {
+  const works = await pictured(items.map((r) => r.work));
+  await analysesOf(works);
+  return items.map((r, i) => ({
+    ...r, work: works[i],
+    analyses: analysesFor(works[i], workDetail(r.work.id)?.externalAnalyses),
+    discussions: placesFor(works[i]),
+  }));
+}
+
 /** Подбор по настроению (ЗП-16): что понято из запроса и до шести фильмов под него. */
 export interface MoodSlate { query: string; understood: string[]; like?: WorkCard; items: { work: WorkCard; what: string; fit: number }[]; /** сколько кандидатов подошло под запрос */ matched?: number; pool?: number }
 
@@ -1924,7 +2182,8 @@ export async function getMoodSlate(text: string, energy: Energy = 'normal', opts
   // книги (11.10): из ленты книг — по книгам, если в запросе не назван фильм или сериал; из ленты кино — если назвали
   // книгу («что почитать», «роман про …»). Справочник книг — только им (РР-1): запрос из ленты кино его не ждёт
   const books = q.kind === 'book' || (opts.kind === 'book' && !q.kind);
-  await (books ? catalog() : films());
+  // тексты черновиков (18.10): запрос сверяется и с ними — ждём их и здесь
+  await (books ? catalog() : Promise.all([films().then(draftTexts), analysesAll()]));
   if (books && !q.kind) q.kind = 'book';
   const out: MoodSlate = { query: text, understood: q.understood, items: [] };
   if (!q.understood.length) return out;
@@ -2016,7 +2275,9 @@ async function findLike(text: string, books: boolean): Promise<WorkCard | undefi
   if (!words.length) return undefined;
   const stem = (w: string) => (w.length > 4 ? w.slice(0, Math.max(4, w.length - 2)) : w);
   const re = new RegExp(`(?:^|\\s)${words.map((w) => `${stem(w)}\\S*`).join('\\s+')}`);
-  const name = (t?: string) => (t ? searchKey(t).replace(/[^\p{L}\p{N}\s]+/gu, ' ').replace(/\s+/g, ' ') : '');
+  // ключ названия — тот же, что у поиска, и посчитанный один раз (18.10, аудит, волна 2, п. 18): `searchKey` уже оставляет
+  // только буквы, цифры и одиночные пробелы
+  const name = (t?: string) => (t ? titleKey(t) : '');
   // короче название — ближе к запросу: «Иллюзия обмана», а не «Иллюзия обмана 2»; при равных — с разметкой
   // (по ней образец и работает) и раньше вышедшее: «Твин Пикс» 1990, а не возвращение 2017-го
   const marked = (w: WorkCard) => (annotated(w).primaryOperations.length ? 0 : 1);
@@ -2093,7 +2354,7 @@ function bookPool(keys: Set<string>): Candidate[] {
     if (!a || a.confidence === 'low') continue;
     taken.add(w.id);
     const work = annotated(w);
-    pool.push({ work, what: a.what, essays: visibleAuthors(analysesFor(work, workDetail(w.id)?.externalAnalyses)) });
+    pool.push({ work, what: a.what, essays: essaysOf(work, workDetail(w.id)?.externalAnalyses) });
   }
   return pool;
 }
@@ -2174,8 +2435,8 @@ function deckCard(id: ID): WorkCard | undefined {
 
 export async function getRatingDeck(opts: { books?: boolean } = {}): Promise<RatingDeck> {
   await delay(160);
-  // ряд книг — только с книгами (РР-1); колода фильмов их не ждёт
-  await (opts.books ? catalog() : films());
+  // ряд книг — только с книгами (РР-1); колода фильмов их не ждёт. Ряды сериалов и книг идут по числу разборов — ждём их целиком
+  await (opts.books ? catalog() : Promise.all([films(), analysesAll()]));
   // Своё просмотренное — первым: если участник прислал список (или отметил виденное сам), ему
   // проще и честнее оценить это, чем угадывать по общей колоде. Общая колода — следом, без того,
   // что уже есть в своём списке. Сериалы — отдельным рядом (Е4): их оценки тоже идут в модель.
@@ -2230,13 +2491,20 @@ function seriesDeck(): WorkCard[] {
   return [...own, ...common].filter((w) => (seen.has(w.id) ? false : (seen.add(w.id), true))).slice(0, 24);
 }
 
+/** номер последней оценки вещи в этой вкладке: откат неудачной не трогает поставленную после неё */
+const rateTurn = new Map<ID, number>();
 /** Оценить виденное (1–5) или снять оценку. Оценка — вес для модели, наружу она не уходит. */
-export async function rateWork(workId: ID, rating: 1 | 2 | 3 | 4 | 5 | null): Promise<{ rated: number; needed: number }> {
+/** `queued` (18.10, волна 3А): оценка не дошла по сети — сохранена и уйдёт сама (src/api/store.ts, очередь); отказ сервера
+ *  по существу — исключение, и откатывается только эта вещь. */
+export async function rateWork(workId: ID, rating: 1 | 2 | 3 | 4 | 5 | null): Promise<{ rated: number; needed: number; queued?: boolean }> {
   // лишняя копия (ссылка, старая страница, колода) — на главную (17.10, src/lib/canon.ts)
   workId = canon(workId);
   await delay(60);
   await catalogFor(workId);
-  const work = deckCard(workId) ?? knownWorks().find((w) => w.id === workId);
+  const work = deckCard(workId) ?? knownWork(workId);
+  const before = { rating: ratings.get(workId), card: ratedCards.get(workId) };
+  const turn = (rateTurn.get(workId) ?? 0) + 1;
+  rateTurn.set(workId, turn);
   if (rating == null) {
     ratings.delete(workId);
     ratedCards.delete(workId);
@@ -2244,8 +2512,28 @@ export async function rateWork(workId: ID, rating: 1 | 2 | 3 | 4 | 5 | null): Pr
     ratings.set(workId, { rating });
     ratedCards.set(workId, work);
   }
-  await store.rating(workId, rating, work);
-  return { rated: ratedCount(), needed: MIN_RATED };
+  let how: 'sent' | 'queued' | undefined;
+  try {
+    how = await store.rating(workId, rating, work);
+  } catch (err) {
+    // не записалось — откат здесь же (18.10, аудит, волна 2, п. 21), и только этой вещи и только если поверх не поставили
+    // новую оценку: раньше откатывал экран целиком, и ошибка оценки A снимала с экрана успешную B, а модель её помнила
+    if (rateTurn.get(workId) === turn) {
+      if (before.rating) ratings.set(workId, before.rating); else ratings.delete(workId);
+      if (before.card) ratedCards.set(workId, before.card); else ratedCards.delete(workId);
+    }
+    throw err;
+  }
+  return { rated: ratedCount(), needed: MIN_RATED, ...(how === 'queued' ? { queued: true } : {}) };
+}
+// фоновая досылка получила отказ сервера (18.10, волна 3А) — модель забывает эту оценку, если поверх не поставили новую
+if (typeof addEventListener === 'function') {
+  addEventListener(RATING_DROPPED_EVENT, (e) => {
+    const id = (e as CustomEvent<{ workId?: ID }>).detail?.workId;
+    if (!id || rateTurn.has(id)) return;
+    ratings.delete(id);
+    ratedCards.delete(id);
+  });
 }
 
 /** Колода первого входа свайпом (ДФ-2): 12 узнаваемых фильмов с верха колоды первых оценок — снимок сразу, если человек
@@ -2622,6 +2910,12 @@ const loadTrailerFile = () => (trailerFile ??= fetch('/.cache/trailers.json')
   .then((b) => b?.works, () => undefined));
 /** Живой TMDb (как до 17.10): ролики YouTube «Trailer»/«Teaser», русские, а нет их — английские. Сеть упала — undefined:
  *  ответа не запоминаем, следующий подъезд карточки спросит снова. */
+/** fetch со сроком (без AbortSignal.timeout: его нет в старых WebView) */
+function fetchWithin(url: string, ms = 8000): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
 async function trailersFromTmdb(key: string): Promise<TrailerItem[] | undefined> {
   let [kind, id] = key.split(':');
   // фильм без TMDb (`wd:`, 18.10): спросить TMDb не о чем — роликов, кроме справочника сервера, нет
@@ -2630,7 +2924,8 @@ async function trailersFromTmdb(key: string): Promise<TrailerItem[] | undefined>
   // 404 — работы у TMDb нет: это ответ «роликов нет», а не сбой, иначе каждый подъезд карточки спрашивал бы снова
   const json = <T,>(r: Response) => (r.ok ? r.json() as Promise<T> : r.status === 404 ? Promise.resolve({} as T) : Promise.reject(new Error(String(r.status))));
   // как у сервера: официальный раньше, новее раньше
-  const ask = (lang: string) => fetch(`/tmdb-api/${kind === 'tmdb' ? 'movie' : 'tv'}/${id}/videos?language=${lang}`)
+  // срок ответа (18.10, волна 3А, находка 3В): зависший прокси держал карточку без ответа о трейлере минутами
+  const ask = (lang: string) => fetchWithin(`/tmdb-api/${kind === 'tmdb' ? 'movie' : 'tv'}/${id}/videos?language=${lang}`)
     .then((r) => json<{ results?: Video[] }>(r))
     .then((b) => (b.results ?? []).filter((v) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'))
       .sort((a, b) => Number(Boolean(b.official)) - Number(Boolean(a.official)) || (b.published_at ?? '').localeCompare(a.published_at ?? ''))
@@ -2639,7 +2934,7 @@ async function trailersFromTmdb(key: string): Promise<TrailerItem[] | undefined>
   try {
     // сериал по IMDb: номер /tv/ — через /find; не нашёлся — трейлера нет
     if (kind === 'imdb') {
-      const found = await fetch(`/tmdb-api/find/${id}?external_source=imdb_id`).then((r) => json<{ tv_results?: { id: number }[] }>(r));
+      const found = await fetchWithin(`/tmdb-api/find/${id}?external_source=imdb_id`).then((r) => json<{ tv_results?: { id: number }[] }>(r));
       const tv = found.tv_results?.[0]?.id;
       if (tv == null) return [];
       [kind, id] = ['tv', String(tv)];
@@ -2680,22 +2975,35 @@ export function noteWatch(workId: ID | undefined, platform: string): void {
   store.event({ kind: 'watch', ...(workId ? { workId } : {}), place: placeNow(), detail: platform }).catch(() => undefined);
 }
 
-/** Страница произведения. Неизвестный id — undefined, экран показывает «нет такого». */
-export async function getWork(id: ID): Promise<WorkDetail | undefined> {
+/** Карточка по id среди загруженного: дневник, пул, присланное просмотренное, справочник. Просмотренного тут раньше не
+ *  было, и ссылка на него (например из «рядом называют») упиралась в «такого произведения нет» (23.09). */
+const loadedWork = (id: ID): WorkCard | undefined => history().find((e) => e.work.id === id)?.work ?? candidateCard(id)
+  ?? watchedNow().find((w) => w.id === id) ?? filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id);
+/** Справочник под одну карточку (18.10, аудит скорости, волна 2, п. 14): сначала `catalogFor` — фильму и сериалу хватает
+ *  справочника фильмов, — и весь, только если карточки там нет (сериал из Википедии, хвост кино, пополнение). Раньше
+ *  первое открытие карточки тянуло весь справочник: +2,5 МБ сжатыми и +28 МБ памяти. */
+async function catalogWith(id: ID, found: () => unknown): Promise<void> {
+  await catalogFor(id);
+  if (!found() && !catalogReady) await catalog();
+}
+
+/** Страница произведения. Неизвестный id — undefined, экран показывает «нет такого». Без `page` — для шторки и «Сюжета» (18.10): карточка, разборы, описание — без связей, героев, приёмов
+ *  и соседей, а значит без всего справочника и замеров (`workRefs`); полной странице (`page`) — всё. */
+export async function getWork(id: ID, opts: { page?: boolean } = {}): Promise<WorkDetail | undefined> {
   // лишняя копия (ссылка, старая страница, колода) — на главную (17.10, src/lib/canon.ts)
   id = canon(id);
   await delay(200);
-  await Promise.all([catalog(), workRefs(), loadCharacterImages()]);
-  // карточка ищется везде, где мы знаем произведения: дневник, пул, присланное просмотренное,
-  // справочник. Просмотренного тут раньше не было, и ссылка на него (например из «рядом
-  // называют») упиралась в «такого произведения нет» (23.09)
-  const found = history().find((e) => e.work.id === id)?.work ?? candidateCard(id)
-    ?? watchedNow().find((w) => w.id === id) ?? filmBase.find((w) => w.id === id) ?? filmBaseWiki.find((w) => w.id === id);
+  if (opts.page) await Promise.all([catalog(), workRefs(), loadCharacterImages()]);
+  else await catalogWith(id, () => workDetail(id) ?? loadedWork(id));
+  const found = loadedWork(id);
   const own = found && withSeriesDraft(found);
   const detail = workDetail(id) ?? (own ? bare(own) : undefined);
   if (!detail) return undefined;
   const [pic] = await pictured([{ ...detail, externalIds: detail.externalIds ?? externalIds[id] }]);
   const card = withCredits(pic);
+  // разборы шторке и «Сюжету» — доля ключа фильма (18.10, волна 3А), полной странице их уже дал `catalog()`
+  await analysesOf([card]);
+  if (!opts.page) return { ...detail, ...card, externalAnalyses: analysesFor(card, detail.externalAnalyses) };
   const nearby = nearbyFor(card);
   const form = formFor(card);
   const similarByTags = tagsFor(card);
@@ -2819,6 +3127,24 @@ const solidKey = (k: string): string => {
   if (v === undefined) solidKeys.set(k, (v = k.replaceAll(' ', '')));
   return v;
 };
+/** Ключи названий карточки для поиска — один раз на карточку (18.10, аудит скорости, волна 2, п. 18): раньше на каждый
+ *  запрос по всему справочнику заново — ключ произведения, марка кириллицей, другие названия (118–146 мс на запрос,
+ *  на телефоне 1,2–1,8 с). Карточки справочника живут в кэше `knownCatalog`, так что и запись здесь живёт с ними. */
+interface SearchNames { key: string; names: string[]; alt: string[]; altRef: Record<string, string[]> }
+const searchNamesOf = new WeakMap<WorkCard, SearchNames>();
+function searchNames(work: WorkCard): SearchNames {
+  const hit = searchNamesOf.get(work);
+  if (hit && hit.altRef === altTitles) return hit;
+  const ids = work.externalIds ?? externalIds[work.id];
+  const key = primaryKey(work, ids) ?? work.id;
+  // и марка кириллицей: «дьявол носит прада» (src/lib/brands.ts)
+  const names = [work.title, work.originalTitle, cyrillicBrands(work.title)].filter(Boolean).map((t) => titleKey(t as string));
+  // другие названия (18.10) — на четверть ступени ниже своих: «Две крепости» книги выше, чем она же синонимом у фильма
+  const alt = (altTitles[key] ?? []).map(titleKey);
+  const out = { key, names, alt, altRef: altTitles };
+  searchNamesOf.set(work, out);
+  return out;
+}
 /** Выпуск цикла (18.10): «Ну, погоди! (выпуск 19)» — основа и номер; в поиске выпуски одного цикла идут по номеру. */
 const ISSUE = /^(.*) \((?:выпуск|серия|часть|эпизод) (\d+)\)$/u;
 
@@ -2862,14 +3188,10 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
   const level = (n: string, s: string) => (n === s ? 0 : n.startsWith(s) ? 1 : n.includes(s) ? 2 : 9);
   // слитно (18.10): «человекпаук», «spiderman» находят «Человек-паук» и «Spider-Man» — на полступени ниже
   for (const work of knownWorks()) {
-    const ids = work.externalIds ?? externalIds[work.id];
+    // ключ и ключи названий — заранее, на карточку (18.10, аудит, волна 2, п. 18: `searchNames`)
+    const { key, names, alt } = searchNames(work);
     // один и тот же фильм лежит и в каталоге, и в справочнике — показываем один раз
-    const key = primaryKey(work, ids) ?? work.id;
     if (seenKey.has(key)) continue;
-    // и марка кириллицей: «дьявол носит прада» (src/lib/brands.ts)
-    const names = [work.title, work.originalTitle, cyrillicBrands(work.title)].filter(Boolean).map((t) => titleKey(t as string));
-    // другие названия (18.10) — на четверть ступени ниже своих: «Две крепости» книги выше, чем она же синонимом у фильма
-    const alt = (altTitles[key] ?? []).map(titleKey);
     const best = (s: string) => {
       const r = Math.min(...names.map((n) => level(n, s)), ...alt.map((n) => level(n, s) + 0.25));
       const solid = s.replaceAll(' ', '');
@@ -2941,7 +3263,7 @@ function hydrate(state: StoredState | undefined): void {
   // запись, сделанная до переноса, приходят со старым id — сводим здесь, и карточку тоже
   const cardFor = (rawId: ID, raw?: WorkCard): WorkCard | undefined => {
     const id = canon(rawId);
-    return (raw ? asCard({ ...raw, id }) : undefined) ?? knownWorks().find((w) => w.id === id);
+    return (raw ? asCard({ ...raw, id }) : undefined) ?? knownWork(id);
   };
   for (const row of state.journal ?? []) {
     const work = cardFor(row.work_id, row.work);
@@ -2965,6 +3287,14 @@ function hydrate(state: StoredState | undefined): void {
     ratings.set(work.id, { rating: r.rating, ...(r.raw != null ? { raw: r.raw } : {}) });
     ratedCards.set(work.id, work);
   }
+  // и поверх — ещё не дошедшие до сервера (18.10, волна 3А, очередь оценок): они новее его состояния
+  for (const p of pendingRatings()) {
+    if (p.rating == null) { ratings.delete(p.workId); ratedCards.delete(p.workId); continue; }
+    const work = cardFor(p.workId, p.work);
+    if (!work) continue;
+    ratings.set(work.id, { rating: p.rating as 1 | 2 | 3 | 4 | 5 });
+    ratedCards.set(work.id, work);
+  }
   // послесловия (17.10): null с сервера — не ответил
   for (const a of state.afterwords ?? []) {
     const one: Afterword = {
@@ -2979,7 +3309,7 @@ function hydrate(state: StoredState | undefined): void {
     if (row.watched) {
       watchedRemoved.delete(row.workId);
       if (!declared) {
-        const work = knownWorks().find((w) => w.id === row.workId) ?? (row.work ? asCard({ ...row.work, id: row.workId }) : undefined);
+        const work = knownWork(row.workId) ?? (row.work ? asCard({ ...row.work, id: row.workId }) : undefined);
         if (work) watchedAdded.set(row.workId, normalizeWork(work));
       }
     } else {
@@ -2996,6 +3326,7 @@ function hydrate(state: StoredState | undefined): void {
     });
   }
   for (const v of state.verdicts) linkVerdicts.set(v.url, v.verdict);
+  verdictsRev += 1;
   for (const d of state.dismissals ?? []) dismissals.set(canon(d.workId), { reason: d.reason as DismissReason | undefined, at: d.at });
 }
 
@@ -3007,7 +3338,7 @@ export async function setWatched(workId: ID, watched: boolean): Promise<{ ok: tr
   if (watched) {
     watchedRemoved.delete(workId);
     if (!declared && !watchedAdded.has(workId)) {
-      const work = knownWorks().find((w) => w.id === workId);
+      const work = knownWork(workId);
       if (work) watchedAdded.set(workId, normalizeWork(work));
     }
   } else {
@@ -3015,7 +3346,7 @@ export async function setWatched(workId: ID, watched: boolean): Promise<{ ok: tr
     if (declared) watchedRemoved.add(workId);
     // «Убрать» (17.10): строка поиска — одна на вещь, а в списке она могла стоять другой копией (по ключам). Снимаем
     // все копии этой вещи из списка; журнал и оценки «Убрать» не трогает
-    const target = knownWorks().find((w) => w.id === workId);
+    const target = knownWork(workId);
     const keys = target ? keysOf([target]) : new Set<string>();
     const copies = watchedNow().filter((w) => w.id !== workId && seen(w, keys));
     for (const w of copies) {
@@ -3026,7 +3357,7 @@ export async function setWatched(workId: ID, watched: boolean): Promise<{ ok: tr
   }
   // сервер узнаёт о факте, а не о том, как мы его показали: карточку кладём рядом, чтобы
   // список открылся и там, где наших моков нет
-  await store.watched(workId, watched, watchedAdded.get(workId) ?? knownWorks().find((w) => w.id === workId));
+  await store.watched(workId, watched, watchedAdded.get(workId) ?? knownWork(workId));
   return { ok: true } as const;
 }
 
@@ -3051,10 +3382,16 @@ export async function createTrajectory(input: { operations?: CognitiveOperation[
 }
 
 /** Дневник: моки + история из собственного экспорта + импорт в этой сессии; свежее — выше. */
-export async function getJourney(status?: JourneyStatus): Promise<JourneyEntryData[]> {
+/** `active` (18.10, волна 3А) — экрану «Сегодня»: разборы ему нужны только у начатого (шторка над лентой), а у
+ *  долгой истории ждать разборы всех записей — значит ждать индексы разборов целиком, и лента, которая ждёт дневник,
+ *  ждала бы и их. У остальных записей тогда разборов нет вовсе (не частично). */
+export async function getJourney(status?: JourneyStatus, opts: { active?: boolean } = {}): Promise<JourneyEntryData[]> {
   // у нового человека дневник пуст — без ядра (РР-5)
   if (await newcomer()) return [];
   await delay(220);
+  const shown = (e: JourneyEntryData) => !opts.active || e.status === 'in_progress';
+  // разборы записей — доли их ключей (18.10, волна 3А): у нового участника их несколько, у долгой истории — разборы целиком
+  await analysesOf(history().filter((e) => (!status || e.status === status) && shown(e)).map((e) => withMedia(e.work)));
   // Дневник не обогащаем на лету: сотня записей — сотни запросов; картинки истории
   // приходят готовыми из генератора (userHistory.ts), каталожные — из catalogMedia.ts.
   return history()
@@ -3064,7 +3401,7 @@ export async function getJourney(status?: JourneyStatus): Promise<JourneyEntryDa
     // в архиве самое ценное: просмотр закончен, спойлеров бояться нечего
     .map(({ rating: _rating, raw: _raw, ...e }) => {
       const work = withMedia(e.work);
-      const analyses = analysesFor(work);
+      const analyses = shown(e) ? analysesFor(work) : [];
       return withPrediction({ ...e, work, ...(analyses.length ? { analyses } : {}) });
     });
 }
@@ -3096,7 +3433,7 @@ export async function startWork(workId: ID, expected?: PerceivedDifficulty, opts
       if (e) { e.status = 'in_progress'; e.startedAt = at; e.inferred = opts.inferred || undefined; }
     }
   }
-  const work = known?.work ?? candidateCard(workId) ?? knownWorks().find((w) => w.id === workId);
+  const work = known?.work ?? candidateCard(workId) ?? knownWork(workId);
   if (!work) return undefined;
   const state = ownState();
   const model = state ? expectedDifficulty(state, work) : undefined;
@@ -3177,7 +3514,7 @@ export async function planWork(workId: ID, eagerness?: Eagerness): Promise<ID | 
   await catalogFor(workId);
   const existing = history().find((e) => e.work.id === workId && e.status !== 'finished');
   if (existing) return existing.id;
-  const work = candidateCard(workId) ?? knownWorks().find((w) => w.id === workId);
+  const work = candidateCard(workId) ?? knownWork(workId);
   if (!work) return undefined;
   const entry: JourneyEntryData = {
     id: `j-${workId}-${Date.now().toString(36)}`, work, status: 'planned',
@@ -3602,7 +3939,7 @@ function todayBatch(items: AnnotationReviewItem[]): AnnotationReviewItem[] {
 
 export interface ReviewProgress { today: number; daily: number; left: number; approved: number; rejected: number }
 export async function getReviewProgress(): Promise<ReviewProgress> {
-  await ready;
+  await ready();
   await catalog();
   await curatorRefs();
   const marks = reviewMarks();
@@ -3807,6 +4144,7 @@ export async function submitContributorAnswer(taskId: ID, answer: ContributorAns
     // вердикт применяется сразу: в карточке разбор либо теряет пометку «не проверено», либо уходит
     if (p?.kind === 'link_check') {
       linkVerdicts.set(p.analysis.url, answer.verdict);
+      verdictsRev += 1;
       await store.verdict(p.analysis.url, p.work.id, answer.verdict);
     }
   }
@@ -3859,34 +4197,14 @@ function tropesFor(work: WorkCard): TropeMention[] {
 /** Разборы произведения: те, что в деталях мока, плюс присланные владельцем ролики. Ключ у
  *  роликов — TMDb ID фильма: одна и та же «Матрица» в истории, каталоге и пуле имеет разные
  *  ID карточки, а разбор у неё общий. */
-function analysesFor(work: WorkCard, detail?: ExternalAnalysis[]): ExternalAnalysis[] {
+function analysesFor(work: WorkCard, detail?: ExternalAnalysis[], from: { e: Record<string, ExternalAnalysis[]>; p: Record<string, ExternalAnalysis[]> } = { e: essaysAuto, p: postsAuto }): ExternalAnalysis[] {
   // ключи разбора: у фильма — TMDb, у книги — ISBN. ISBN у книги не один (издания разные,
   // а разбор один), поэтому ищем по всем, какие у карточки есть
   const keys = workKeys(work, work.externalIds ?? externalIds[work.id]);
-  const pick = (src: Record<string, ExternalAnalysis[]>) => keys.flatMap((k) => src[k] ?? []);
-  // сначала подтверждённое (прислано владельцем, размечено), потом найденное по названию;
-  // на найденное накладывается вердикт участника: «про другое» — вон, «про это» — снимаем
-  // пометку «не проверено» (в моке вердикт живёт до перезагрузки, в продукте — на сервере)
-  const auto = [...pick(essaysAuto), ...pick(postsAuto)]
-    .map((a) => ({ a, verdict: linkVerdicts.get(a.url) }))
-    .filter(({ verdict }) => verdict !== 'other_work')
-    .map(({ a, verdict }) => (verdict === 'about_this' ? { ...a, unverified: undefined } : a));
-  const extra = [...pick(essays), ...auto];
-  // канал анонсирует свой же ролик его заголовком — в карточке это один и тот же разбор
-  // на двух площадках; оставляем первый (подтверждённый ролик идёт раньше поста)
-  const norm = (t: string) => t.toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim();
-  const haveUrl = new Set((detail ?? []).map((a) => a.url));
-  const haveTitle = new Set((detail ?? []).map((a) => norm(a.title)));
-  const out: ExternalAnalysis[] = [...(detail ?? [])];
-  attachLenses(out, essayLenses);
-  attachSpoilers(out);
-  for (const a of extra) {
-    if (haveUrl.has(a.url) || haveTitle.has(norm(a.title))) continue;
-    haveUrl.add(a.url);
-    haveTitle.add(norm(a.title));
-    out.push(a);
-  }
-  return out.filter(shownLanguage);
+  if (detail?.length) { attachLenses(detail, essayLenses); attachSpoilers(detail); }
+  // склейка и порядок — src/lib/essayIndex.ts (18.10): по той же функции индекс первой ленты проверяется в
+  // tools/essay-index-test.mts
+  return collectAnalyses(keys, detail, essays, from.e, from.p, (url) => linkVerdicts.get(url), shownLanguage);
 }
 
 /** Все разборы одного автора по фильмам, которые мы знаем. Собирается из тех же трёх
@@ -4078,7 +4396,7 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
 
 /** Ролики о франшизе и о человеке (src/mocks/essaysAbout.ts, 02.10) — подгружаются со страницей. */
 let aboutLoad: Promise<{ universe: Record<string, ExternalAnalysis[]>; person: Record<string, ExternalAnalysis[]> }> | undefined;
-const aboutVideos = () => (aboutLoad ??= import('@/mocks/essaysAbout').then((m) => m.essaysAbout));
+const aboutVideos = () => (aboutLoad ??= import('@/mocks/essaysAbout').then((m) => m.essaysAbout).catch((err) => { aboutLoad = undefined; throw err; }));
 /** эссе первыми, обзоры за ними; внутри — свежие первыми */
 const aboutOrder = (list: ExternalAnalysis[]): ExternalAnalysis[] => list.filter(shownLanguage).sort((a, b) =>
   Number(a.tier === 'review') - Number(b.tier === 'review') || (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
@@ -4089,30 +4407,83 @@ const linkVerdicts = new Map<string, 'about_this' | 'other_work' | 'unsure'>();
 /** Всё, что мы вообще знаем о произведениях, одним списком: каталог, история, пул,
  *  просмотренное и справочник. Справочник — последним: если фильм уже есть в истории или
  *  каталоге, побеждает он (у него есть разметка, у справочника её нет). */
-function knownWorks(): WorkCard[] {
-  return [
-    ...Object.values(mocks.works).map(withMedia),
-    ...history().map((e) => e.work),
+// ---------- кэш справочных списков по версии данных (18.10, аудит скорости, волна 2, пп. 16–18) ----------
+// `knownWorks()` и пул кандидатов пересобирались на каждый вызов: десятки тысяч карточек через `annotated` и `withMedia` —
+// 81 мс на десктопе и 0,4–0,6 с на телефоне при каждом «Смотрел»; пул — 130 мс / 0,6–0,9 с на каждую ленту. Теперь
+// справочная часть собирается один раз на версию данных, а личное (дневник, просмотренное, виденное) — поверх, каждый раз.
+// Версия — ссылки на всё, от чего зависят карточки: списки и таблицы при каждой загрузке и правке переприсваиваются (а
+// правки на месте — `loadFixes`, `foldCopies` — идут вместе с переприсваиванием списков), так что новая ссылка = новая
+// версия, и счётчики расставлять по коду не нужно.
+const catalogDeps = (): unknown[] => [
+  mocks, candidateSeeds, candidateMedia, catalogMedia, workRegisters, userWorks, filmBase, filmBaseWiki, watchedWorks, shelfWorks,
+  draftAnnotations, seriesAnnotations, bookDrafts, bookAnnotations, bookMedia, seriesRegs, workCredits, people, workFixes,
+  watchRef, freeRef, WATCH_REGION, localMarks, ownByKey, foldedCopies.size,
+];
+const sameDeps = (a: readonly unknown[], b: readonly unknown[]): boolean => a.length === b.length && a.every((x, i) => x === b[i]);
+
+/** Справочная часть `knownWorks` — три отрезка в том же порядке, что раньше, с их картами по id и по ключу разбора. */
+interface KnownSegment { list: WorkCard[]; byId: Map<ID, WorkCard>; byKey: Map<string, WorkCard> }
+let knownCache: { deps: unknown[]; head: KnownSegment; mid: KnownSegment; tail: KnownSegment } | undefined;
+/** Ключи разбора карточки — те же, что у генераторов: фильм — TMDb, сериал — IMDb, книга — произведение, а ещё старые
+ *  `isbn:` — ими подписаны данные прежних прогонов (З1). */
+const analysisKeys = (w: WorkCard): string[] => workKeys(w, w.externalIds ?? externalIds[w.id]);
+function segment(list: WorkCard[]): KnownSegment {
+  const byId = new Map<ID, WorkCard>();
+  const byKey = new Map<string, WorkCard>();
+  for (const w of list) {
+    if (!byId.has(w.id)) byId.set(w.id, w);
+    for (const k of analysisKeys(w)) if (!byKey.has(k)) byKey.set(k, w);
+  }
+  return { list, byId, byKey };
+}
+function knownCatalog(): NonNullable<typeof knownCache> {
+  if (knownCache && sameDeps(knownCache.deps, catalogDeps())) return knownCache;
+  const head = segment(Object.values(mocks.works).map(withMedia));
+  const mid = segment([
     // фильмы из истории владельца — часть справочника, а не его личное: по ним ищут и оценивают все
     ...userWorks.map(annotated),
     ...candidateSeeds.map((s) => ({ ...seedToCard(s), ...candidateMedia[s.id] }) as WorkCard),
-    ...watchedNow().map(annotated),
+  ]);
+  const tail = segment([
     // справочник: у самых смотримых — черновая разметка (трек Г1), остальные без неё
     ...filmBase.map(annotated),
     // фильмы, о которых говорят каналы (Wikidata, 23.09): нужны, чтобы разборы было к чему
     // привязывать; разметки у них, как правило, нет
     ...filmBaseWiki.map(annotated),
-  ];
+  ]);
+  // версия — после сборки: `annotated` мог завести свою таблицу (`ownByKey`)
+  knownCache = { deps: catalogDeps(), head, mid, tail };
+  return knownCache;
 }
 
-/** Карточки по ключу разбора — чтобы задание «тот ли фильм» знало, о чём спрашивает. */
+/** Всё, что мы вообще знаем о произведениях, одним списком: каталог, история, пул,
+ *  просмотренное и справочник. Справочник — последним: если фильм уже есть в истории или
+ *  каталоге, побеждает он (у него есть разметка, у справочника её нет). */
+function knownWorks(): WorkCard[] {
+  const { head, mid, tail } = knownCatalog();
+  return [...head.list, ...history().map((e) => e.work), ...mid.list, ...watchedNow().map(annotated), ...tail.list];
+}
+/** `knownWork(id)` без сборки списка — в том же порядке. */
+function knownWork(id: ID): WorkCard | undefined {
+  const { head, mid, tail } = knownCatalog();
+  const watched = () => { const w = watchedNow().find((x) => x.id === id); return w && annotated(w); };
+  return head.byId.get(id) ?? history().find((e) => e.work.id === id)?.work ?? mid.byId.get(id) ?? watched() ?? tail.byId.get(id);
+}
+
+/** Карточки по ключу разбора — чтобы задание «тот ли фильм» знало, о чём спрашивает. По ключу — первая по порядку
+ *  `knownWorks`: отрезки накладываются от младшего к старшему. */
 function worksByAnalysisKey(): Map<string, WorkCard> {
-  const out = new Map<string, WorkCard>();
-  for (const w of knownWorks()) {
-    // ключи те же, что у генераторов: фильм — TMDb, сериал — IMDb, книга — произведение, а ещё
-    // старые `isbn:` — ими подписаны данные прежних прогонов (З1)
-    for (const key of workKeys(w, w.externalIds ?? externalIds[w.id])) if (!out.has(key)) out.set(key, w);
-  }
+  const { head, mid, tail } = knownCatalog();
+  const out = new Map(tail.byKey);
+  const put = (ws: readonly WorkCard[]) => {
+    const seg = new Map<string, WorkCard>();
+    for (const w of ws) for (const k of analysisKeys(w)) if (!seg.has(k)) seg.set(k, w);
+    for (const [k, w] of seg) out.set(k, w);
+  };
+  put(watchedNow().map(annotated));
+  for (const [k, w] of mid.byKey) out.set(k, w);
+  put(history().map((e) => e.work));
+  for (const [k, w] of head.byKey) out.set(k, w);
   return out;
 }
 
@@ -4125,11 +4496,11 @@ export async function getDiscussions(workId: ID): Promise<DiscussionPlace[]> {
   // лишняя копия (ссылка, старая страница, колода) — на главную (17.10, src/lib/canon.ts)
   workId = canon(workId);
   await delay(180);
-  await catalog();
   // карточка ищется там же, где у getWork: справочник и пул тоже (ТВ-5г) — раньше у них была
-  // только ручная подборка мест, без поиска по каналам и чатам
-  const work = mocks.works[workId] ?? history().find((e) => e.work.id === workId)?.work ?? candidateCard(workId)
-    ?? watchedNow().find((w) => w.id === workId) ?? filmBase.find((w) => w.id === workId) ?? filmBaseWiki.find((w) => w.id === workId);
+  // только ручная подборка мест, без поиска по каналам и чатам; справочник — под карточку (18.10, как у getWork)
+  const find = () => mocks.works[workId] ?? loadedWork(workId);
+  await catalogWith(workId, find);
+  const work = find();
   return work ? placesFor(work) : mocks.discussions.filter((d) => d.workId === workId);
 }
 
@@ -4387,7 +4758,7 @@ export async function reportWorkIssue(work: Pick<WorkCard, 'id' | 'title' | 'yea
 
 /** Сколько дней человек заходил (ДФ-3): с третьего предлагаем ярлык на экран телефона. Без сервера — 0. */
 export async function visitDays(): Promise<number> {
-  await ready;
+  await ready();
   return profile?.visitDays ?? 0;
 }
 
@@ -4533,7 +4904,7 @@ function memberKeys(q: string, byKey: Map<string, WorkCard>): string[] {
 
 const mentionsImport = () => import('@/mocks/mediaMentions');
 let mentionsLoad: ReturnType<typeof mentionsImport> | undefined;
-const mediaMentions = () => (mentionsLoad ??= mentionsImport());
+const mediaMentions = () => (mentionsLoad ??= mentionsImport().catch((err) => { mentionsLoad = undefined; throw err; }));
 
 export async function getStats(kind: StatsKind, id: string): Promise<StatsPage | undefined> {
   await delay(150);

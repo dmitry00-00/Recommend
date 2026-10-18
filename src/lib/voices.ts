@@ -47,6 +47,10 @@ export function voiceOf(a: ExternalAnalysis): Voice {
   return { id: key, title: a.author, short: a.author, role: 'author', outlets: [] };
 }
 
+/** Автор ли тот, чей это ключ материала (`voiceKeyOf`), — как `voiceOf(a).role === 'author'`, но без самого материала:
+ *  индексу разборов первой ленты (src/lib/essayIndex.ts, 18.10). */
+export const isAuthorKey = (key: string): boolean => (byId.get(voiceKeys[key] ?? '')?.role ?? 'author') === 'author';
+
 /** Автор, под чьим именем вышел материал, если это не сам канал: пересланный пост или
  *  выложенный в канале чужой ролик. Имя канала на другой площадке за чужое не считаем:
  *  «4то за Персонаж?» на YouTube — тот же автор, что «Что за персонаж?» в Telegram. */

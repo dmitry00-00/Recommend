@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { memo, useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ID, WorkCard } from '@/types/tmdf';
 import { getQuickDeck, getRatingDeck, rateWork, type RatingDeck } from '@/api';
@@ -13,6 +13,7 @@ import { titleOf } from '@/lib/format';
 import { useFeature } from '@/lib/flags';
 import { saveSettings, useSettings } from '@/lib/settingsStore';
 import { TASTE_SHELVES } from '@/lib/model/taste';
+import { usePortion } from '@/hooks/usePortion';
 
 type Score = 1 | 2 | 3 | 4 | 5;
 
@@ -76,27 +77,46 @@ export function RateScreen() {
     return () => { alive = false; };
   }, [attempt, booksOn]);
 
+  const toldQueued = useRef(false);
   const rate = (id: ID, value: Score | null) => {
     if (!deck) return;
     pick();
     if (value) setRatedHere(true);
-    const before = deck;
     const was = [...deck.items, ...deck.series, ...(deck.books ?? [])].find((i) => i.work.id === id)?.rating;
     // оценка применяется сразу; счётчик — по ответу api (он же считает и то, что оценено раньше)
+    // строки — memo (волна 3В): переставляется только оценённая, остальные объекты те же и не перерисовываются
     const set = (list: RatingDeck['items']) => list.map((i) => (i.work.id === id ? { ...i, rating: value ?? undefined } : i));
-    setDeck({ ...deck, items: set(deck.items), series: set(deck.series), ...(deck.books ? { books: set(deck.books) } : {}) });
+    setDeck((d) => (d ? { ...d, items: set(d.items), series: set(d.series), ...(d.books ? { books: set(d.books) } : {}) } : d));
     rateWork(id, value)
-      .then(({ rated, needed }) => {
+      .then(({ rated, needed, queued }) => {
         setDeck((d) => (d ? { ...d, rated, needed } : d));
+        // нет связи — оценка в очереди и уйдёт сама (18.10, волна 3А); говорим об этом один раз за экран
+        if (queued && !toldQueued.current) { toldQueued.current = true; toast({ text: ui.rate.saveLater }); }
         if (!was && value && rated === needed) outcome('success');
       })
-      .catch(() => { setDeck(before); toast({ text: ui.rate.saveError }); });
+      // не записалось — назад только эта карточка и только если её не переоценили (18.10, аудит, волна 2, п. 21): снимок
+      // колоды целиком откатывал и успешные оценки, поставленные за это время
+      .catch(() => {
+        const undo = (list: RatingDeck['items']) => list.map((i) => (i.work.id === id && (i.rating ?? null) === value ? { ...i, rating: was } : i));
+        setDeck((d) => (d ? { ...d, items: undo(d.items), series: undo(d.series), ...(d.books ? { books: undo(d.books) } : {}) } : d));
+        toast({ text: ui.rate.saveError });
+      });
   };
 
   const skip = (id: ID, on: boolean) => {
     tap();
     setSkipped((s) => { const n = new Set(s); if (on) n.add(id); else n.delete(id); return n; });
   };
+  // строкам — одни и те же обработчики на весь сеанс экрана (волна 3В, п. 33): иначе memo строки бесполезен, а у тяжёлого
+  // участника каждая оценка перерисовывала три тысячи строк с барабанами
+  const latest = useRef({ rate, skip });
+  latest.current = { rate, skip };
+  const onRate = useCallback((id: ID, v: Score | null) => latest.current.rate(id, v), []);
+  const onSkip = useCallback((id: ID, on: boolean) => latest.current.skip(id, on), []);
+  // фильмов в колоде у тяжёлого участника — тысячи (всё его «Отмеченное» первым): порциями, ряды сериалов и книг —
+  // целиком, они по 24
+  const films = deck ? settledLast(deck.items) : [];
+  const { limit, sentinel } = usePortion({ total: films.length, root: mainRef, memory: 'rate', ready: deck != null });
 
   // полки вкуса (ЗП-45, шаг 1): выбор сохраняется сразу, колода перестраивается — своё вперёд
   const picksOn = useFeature('tastePicks');
@@ -190,11 +210,11 @@ export function RateScreen() {
       <ul className="tm-search__list">
         {/* оценённое уходит вниз (ТВ-9): иначе следующее касание попадает в ту же строку; оценку
             можно поменять и там */}
-        {deck ? settledLast(deck.items).map(({ work, rating }) => (
+        {films.slice(0, limit).map(({ work, rating }) => (
           <RateRow key={work.id} work={work} rating={rating as Score | undefined}
-                   off={skipped.has(work.id) && !rating}
-                   onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
-        )) : null}
+                   off={skipped.has(work.id) && !rating} onRate={onRate} onSkip={onSkip} />
+        ))}
+        {limit < films.length ? <li ref={sentinel} className="tm-portion" aria-hidden="true" /> : null}
       </ul>
       {/* сериалы — отдельным рядом (Е4): оценка сериала — про весь сериал, и путать его с фильмом незачем */}
       {deck?.series.length ? (
@@ -204,8 +224,7 @@ export function RateScreen() {
           <ul className="tm-search__list">
             {settledLast(deck.series).map(({ work, rating }) => (
               <RateRow key={work.id} work={work} rating={rating as Score | undefined}
-                       off={skipped.has(work.id) && !rating}
-                       onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
+                       off={skipped.has(work.id) && !rating} onRate={onRate} onSkip={onSkip} />
             ))}
           </ul>
         </section>
@@ -218,8 +237,7 @@ export function RateScreen() {
           <ul className="tm-search__list">
             {settledLast(deck.books).map(({ work, rating }) => (
               <RateRow key={work.id} work={work} rating={rating as Score | undefined}
-                       off={skipped.has(work.id) && !rating}
-                       onRate={(v) => rate(work.id, v)} onSkip={(on) => skip(work.id, on)} />
+                       off={skipped.has(work.id) && !rating} onRate={onRate} onSkip={onSkip} />
             ))}
           </ul>
         </section>
@@ -234,10 +252,12 @@ const meta = (year?: number, creator?: string) => [year, creator].filter(Boolean
 
 /** Строка списка: кнопки шкалы и свайп. Пока палец тянет строку, из-под неё видно, какая
  *  оценка встанет; на пороге — лёгкий отклик вибрацией. */
-function RateRow({ work, rating, off, onRate, onSkip }: {
+const RateRow = memo(function RateRow({ work, rating, off, onRate: rateId, onSkip: skipId }: {
   work: WorkCard; rating?: Score; off: boolean;
-  onRate: (value: Score | null) => void; onSkip: (on: boolean) => void;
+  onRate: (id: ID, value: Score | null) => void; onSkip: (id: ID, on: boolean) => void;
 }) {
+  const onRate = (value: Score | null) => rateId(work.id, value);
+  const onSkip = (on: boolean) => skipId(work.id, on);
   const [dx, setDx] = useState(0);
   const target = scoreAt(dx);
   const swipe = useSwipe({
@@ -288,4 +308,4 @@ function RateRow({ work, rating, off, onRate, onSkip }: {
       )}
     </li>
   );
-}
+});

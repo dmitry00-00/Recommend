@@ -60,6 +60,8 @@ export interface Env {
   OWNER_TG_ID?: string;
   /** история владельца, которую до сервера знал только фронтенд: дневник, оценки, просмотренное */
   OWNER_SEED?: OwnerSeed;
+  /** `1` — карточка рядом с отметкой пишется без `watch` (18.10, worker/retention.ts); по умолчанию — целиком */
+  SLIM_CARDS?: string;
 }
 
 export interface OwnerSeed {

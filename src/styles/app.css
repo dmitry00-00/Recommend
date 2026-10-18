@@ -423,7 +423,7 @@ button.tm-banner { cursor: pointer; }
    статичный: у строки постоянная высота, кадр живёт в боксе 16:9, название занимает ровно две
    строки, мета и выходы — по одной. Переключение автора меняет пиксели внутри коробок, но
    ничего не двигает. Компонент в дизайн-системе отсутствует — завести (PORTING.md). */
-.tm-voice__strip { display: flex; gap: var(--tm-space-3); overflow-x: auto; scroll-snap-type: x proximity; height: 86px; margin: 0 calc(-1 * var(--tm-space-4)) var(--tm-space-3); padding: 0 var(--tm-space-4); scrollbar-width: none; }
+.tm-voice__strip { display: flex; gap: var(--tm-space-3); overflow-x: auto; scroll-snap-type: x proximity; height: 82px; margin: 0 calc(-1 * var(--tm-space-4)) var(--tm-space-3); padding: 4px var(--tm-space-4) 0; scrollbar-width: none; }
 .tm-voice__strip::-webkit-scrollbar { display: none; }
 .tm-voice__tab { flex: 0 0 auto; width: 68px; height: 78px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--tm-color-ink-muted); font: inherit; cursor: pointer; scroll-snap-align: start; }
 .tm-voice__tab--on { color: var(--tm-color-ink); }
@@ -639,7 +639,9 @@ button.tm-banner { cursor: pointer; }
 /* свайп оценки: строка едет за пальцем, из-под неё — оценка, которая встанет, если отпустить */
 .tm-rate__item { position: relative; overflow: hidden; touch-action: pan-y; }
 .tm-rate__item > .tm-search__open, .tm-rate__item > .tm-rate__scale { transform: translateX(var(--swipe-x, 0px)); transition: transform 0.18s ease-out; }
-.tm-rate__item--drag > .tm-search__open, .tm-rate__item--drag > .tm-rate__scale { transition: none; }
+.tm-rate__item--drag > .tm-search__open, .tm-rate__item--drag > .tm-rate__scale { transition: none; will-change: transform; }
+/* метка конца порции длинного списка (волна 3В, п. 33): невидимая, по ней дорисовывается следующая порция */
+.tm-portion { list-style: none; height: 1px; margin: 0; padding: 0; }
 .tm-rate__swipe { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; padding: 0 var(--tm-space-5); color: var(--tm-color-ink-faint); font-family: var(--font-text); font-size: 13px; font-weight: 600; pointer-events: none; }
 .tm-rate__swipe--left { left: 0; }
 .tm-rate__swipe--right { right: 0; }
@@ -678,7 +680,8 @@ button.tm-banner { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .tm-film__pane { transition: none; } }
 .tm-film__pane > .tm-stream__group:first-child { margin-top: 0; }
 .tm-film__dock { position: sticky; bottom: 0; z-index: 2; margin: 0 calc(-1 * var(--tm-space-5)); padding: 0 var(--tm-space-5) calc(var(--tm-space-3) + var(--tm-safe-bottom, 0px)); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
-.tm-film__dock .tm-voice__strip { height: 82px; margin: var(--tm-space-3) calc(-1 * var(--tm-space-5)) 0; padding: 0 var(--tm-space-5); }
+/* 18.10: 4px сверху — обводка выбранного канала не срезается краем прокрутки; высота та же (78 + 4) */
+.tm-film__dock .tm-voice__strip { height: 78px; margin: var(--tm-space-3) calc(-1 * var(--tm-space-5)) 0; padding: 4px var(--tm-space-5) 0; }
 /* 28.09: вкладки тише — подчёркивание вместо заливки охрой, как у нижнего меню; иначе переключатель
    был самым ярким пятном карточки, ярче фильма */
 .tm-film__toggle { display: flex; margin: var(--tm-space-2) calc(-1 * var(--tm-space-5)) 0; padding: 0 var(--tm-space-2); }
@@ -765,7 +768,8 @@ button.tm-banner { cursor: pointer; }
    жест не трогает — ось выбирает `useSwipe`, а `touch-action: pan-y` оставляет её браузеру. */
 .tm-stream__item { position: relative; touch-action: pan-y; }
 .tm-stream__drag { transform: translateX(var(--swipe-x, 0)); transition: transform 180ms ease; }
-.tm-stream__item--drag .tm-stream__drag { transition: none; }
+/* слой — только пока кадр тянут (волна 3В): сдвиг идёт на композиторе, без перерисовки баннера на каждый кадр */
+.tm-stream__item--drag .tm-stream__drag { transition: none; will-change: transform; }
 /* кадр уехал — на его месте спрашивают причину; высоту держит сам кадр, поэтому лента не прыгает.
    visibility в конце уезда убирает его и с клавиатуры: невидимое, но достижимое табом — ловушка */
 .tm-stream__item--asking .tm-stream__drag, .tm-stream__item--voices .tm-stream__drag { opacity: 0; pointer-events: none;

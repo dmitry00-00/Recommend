@@ -146,17 +146,52 @@ const enrichCache = new Map<string, Partial<WorkCard>>();
 const STORE_KEY = 'tm.media.v1';
 const STORE_TTL = 7 * 24 * 3600 * 1000;
 type Stored = Record<string, { at: number; v: Partial<WorkCard> }>;
+/** Кэш картинок между запусками (18.10, аудит скорости, волна 2, п. 23): раньше localStorage читался и разбирался целиком
+ *  на каждую карточку и переписывался на каждую новую — на длинных списках квадратично, а рос он без предела, и
+ *  переполненная квота роняла запись соседей (токена сессии). Теперь: читается один раз в память, пишется пачкой через
+ *  секунду после последней новой записи, без просроченного и не больше STORE_MAX свежих. */
+const STORE_MAX = 300;
+const STORE_WRITE_MS = 1000;
+let stored: Stored | undefined;
+let storeTimer: ReturnType<typeof setTimeout> | undefined;
+let flushHooked = false;
 function readStore(): Stored {
-  try { return JSON.parse(globalThis.localStorage?.getItem(STORE_KEY) ?? '{}') as Stored; } catch { return {}; }
+  if (stored) return stored;
+  try { stored = JSON.parse(globalThis.localStorage?.getItem(STORE_KEY) ?? '{}') as Stored; } catch { stored = {}; }
+  if (!stored || typeof stored !== 'object') stored = {};
+  return stored;
+}
+/** Свежие записи, не больше `max`, новые первыми. */
+function trimmed(all: Stored, max: number): Stored {
+  const now = Date.now();
+  return Object.fromEntries(Object.entries(all).filter(([, x]) => x && now - x.at < STORE_TTL).sort((a, b) => b[1].at - a[1].at).slice(0, max));
+}
+function writeStore(): void {
+  storeTimer = undefined;
+  if (!stored) return;
+  stored = trimmed(stored, STORE_MAX);
+  // нет места — пробуем вдвое меньше, потом сдаёмся: кэш сеанса остаётся, чужие записи хранилища не страдают
+  for (const max of [STORE_MAX, STORE_MAX / 2, 0]) {
+    try {
+      if (max) globalThis.localStorage?.setItem(STORE_KEY, JSON.stringify(trimmed(stored, max)));
+      else globalThis.localStorage?.removeItem(STORE_KEY);
+      return;
+    } catch { /* приватный режим или нет места */ }
+  }
 }
 function remember(key: string, v: Partial<WorkCard>) {
   enrichCache.set(key, v);
   if (!Object.keys(v).length) return; // пустой результат не запоминаем: лимит сегодня — не навсегда
-  try {
-    const store = readStore();
-    store[key] = { at: Date.now(), v };
-    globalThis.localStorage?.setItem(STORE_KEY, JSON.stringify(store));
-  } catch { /* приватный режим или нет места — живём с кэшем сессии */ }
+  readStore()[key] = { at: Date.now(), v };
+  // без хранилища (node, закрытый доступ) — только кэш сеанса, и таймер не держит процесс инструмента
+  try { if (!globalThis.localStorage) return; } catch { return; }
+  if (storeTimer) clearTimeout(storeTimer);
+  else if (!flushHooked) {
+    // приложение закрыли раньше, чем истекла секунда, — дописываем при уходе со страницы
+    flushHooked = true;
+    globalThis.addEventListener?.('pagehide', () => { if (storeTimer) { clearTimeout(storeTimer); writeStore(); } });
+  }
+  storeTimer = setTimeout(writeStore, STORE_WRITE_MS);
 }
 function recall(key: string): Partial<WorkCard> | undefined {
   if (enrichCache.has(key)) return enrichCache.get(key);

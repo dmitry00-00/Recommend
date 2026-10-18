@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, startTransition, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { FeedKind, ID, Register } from '@/types/tmdf';
 import { coldStartLeft, getMoodSlate, noteTrailer, notWatched, searchCharacters, searchWorks, setWatched, startWork, type MoodSlate, type SearchHit, type Trailer } from '@/api';
@@ -16,6 +16,7 @@ import { useFeature } from '@/lib/flags';
 import { WorkCardSheet } from './WorkCardSheet';
 import { TrailerChip } from '@/components/InlineTrailer';
 import { TrailerSheet } from '@/components/TrailerSheet';
+import { usePortion } from '@/hooks/usePortion';
 
 const DEBOUNCE = 250;
 /** поиск по описанию — реже: каждый запрос словами пишется в замер (mood_query), набор по букве — не запрос */
@@ -37,6 +38,10 @@ export function SearchScreen() {
   // автофокус (17.10) — только когда пришли ввести (?focus=1): клавиатура Telegram закрывала «Отмеченное» и результаты
   const focusOnOpen = params.get('focus') === '1';
   const [hits, setHits] = useState<SearchHit[] | null>(null);
+  // запрос, по которому найдены `hits` (волна 3В): строки, счёт и фильтры «Отмеченного» — по нему, а не по полю ввода. Иначе
+  // первая же буква перерисовывала всё «Отмеченное» (у тяжёлого участника — три тысячи строк) уже с ▶ и кнопками
+  // найденного, ещё до ответа поиска: 0,3–1,4 с на букву на слабом телефоне
+  const [listQ, setListQ] = useState(query);
   const [failed, setFailed] = useState(false);
   // «Повторить» (ТВ-9): тот же запрос строкой не перезапускал поиск — React не видит перемены
   const [attempt, setAttempt] = useState(0);
@@ -57,6 +62,7 @@ export function SearchScreen() {
   const [trailer, setTrailer] = useState<{ trailer: Trailer; title: string; work: SearchHit['work'] }>();
   const playTrailer = (work: SearchHit['work'], t: Trailer) => { noteTrailer(work.id, 'search'); setTrailer({ trailer: t, title: titleOf(work), work }); };
   const input = useRef<HTMLInputElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
   // герои по запросу (И2): «джокер» — это и фильм, и герой десятка произведений
   const [heroes, setHeroes] = useState<{ id: string; name: string; works: number }[]>([]);
   useEffect(() => {
@@ -90,7 +96,8 @@ export function SearchScreen() {
     setFailed(false);
     const timer = setTimeout(() => {
       searchWorks(query)
-        .then((found) => alive && setHits(found))
+        // список — переходом: набор в поле не ждёт, пока перерисуются строки
+        .then((found) => alive && startTransition(() => { setHits(found); setListQ(query); }))
         .catch(() => alive && setFailed(true));
     }, query ? DEBOUNCE : 0);
     return () => { alive = false; clearTimeout(timer); };
@@ -130,7 +137,7 @@ export function SearchScreen() {
     setBusy((b) => [...b, id]);
     const back = undo ? undefined : gone.current.get(id);
     if (undo) {
-      const at = !query && !watched ? (hits ?? []).findIndex((h) => h.work.id === id) : -1;
+      const at = !listQ && !watched ? (hits ?? []).findIndex((h) => h.work.id === id) : -1;
       const mat = watched ? mood?.items.findIndex((x) => x.work.id === id) ?? -1 : -1;
       gone.current.set(id, {
         ...(at >= 0 ? { hit: { item: hits![at], at } } : {}),
@@ -141,7 +148,7 @@ export function SearchScreen() {
     setHits((prev) => {
       const list = [...(prev ?? [])];
       if (back?.hit && watched && !list.some((h) => h.work.id === id)) list.splice(back.hit.at, 0, back.hit.item);
-      return list.map((h) => (h.work.id === id ? { ...h, watched } : h)).filter((h) => query || h.watched);
+      return list.map((h) => (h.work.id === id ? { ...h, watched } : h)).filter((h) => listQ || h.watched);
     });
     // отмеченное из найденного по описанию уходит из него — как кадр из ленты; отменили — возвращается
     if (watched) setMood((m) => (m ? { ...m, items: m.items.filter((x) => x.work.id !== id) } : m));
@@ -168,14 +175,23 @@ export function SearchScreen() {
   const all = hits ?? [];
   const kindOf = (h: SearchHit): FeedKind => (h.work.type === 'book' ? 'book' : 'screen');
   const kindCounts = new Map<FeedKind, number>();
-  if (!query) for (const h of all) kindCounts.set(kindOf(h), (kindCounts.get(kindOf(h)) ?? 0) + 1);
-  const kindOn = booksOn && !query && kindCounts.size > 1;
+  if (!listQ) for (const h of all) kindCounts.set(kindOf(h), (kindCounts.get(kindOf(h)) ?? 0) + 1);
+  const kindOn = booksOn && !listQ && kindCounts.size > 1;
   // регистры — внутри выбранного рода: число на кнопке — сколько она покажет
-  const list = !query && kind ? all.filter((h) => kindOf(h) === kind) : all;
+  const list = !listQ && kind ? all.filter((h) => kindOf(h) === kind) : all;
   const counts = new Map<Register, number>();
-  if (!query) for (const h of list) for (const r of h.work.registers ?? []) counts.set(r, (counts.get(r) ?? 0) + 1);
+  if (!listQ) for (const h of list) for (const r of h.work.registers ?? []) counts.set(r, (counts.get(r) ?? 0) + 1);
   const chips = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-  const shown = !query && reg ? list.filter((h) => h.work.registers?.includes(reg)) : list;
+  const shown = !listQ && reg ? list.filter((h) => h.work.registers?.includes(reg)) : list;
+  // «Отмеченное» у тяжёлого участника — тысячи строк: порциями (п. 33); новый запрос или фильтр — с начала
+  const { limit, sentinel } = usePortion({ total: shown.length, root: mainRef, memory: 'search', reset: `${listQ}\u0000${reg ?? ''}\u0000${kind ?? ''}`, ready: hits != null });
+  // строкам — одни и те же обработчики (memo строки): свежие функции берутся из ссылки в момент нажатия
+  const latest = useRef({ apply, watchingNow, playTrailer });
+  latest.current = { apply, watchingNow, playTrailer };
+  const onOpenRow = useCallback((id: ID) => { tap(); setOpenId(id); }, []);
+  const onApplyRow = useCallback((id: ID, watched: boolean) => latest.current.apply(id, watched), []);
+  const onWatchingRow = useCallback((id: ID) => latest.current.watchingNow(id), []);
+  const onPlayRow = useCallback((work: SearchHit['work'], t: Trailer) => latest.current.playTrailer(work, t), []);
 
   const moodSection = (
     <>
@@ -209,11 +225,8 @@ export function SearchScreen() {
     </>
   );
 
-  const meta = (hit: SearchHit) =>
-    [hit.work.year, leadName(hit.work), formatDuration(hit.work.durationMinutes)].filter(Boolean).join(' · ');
-
   return (
-    <main className="tm-shell__main tm-search">
+    <main className="tm-shell__main tm-search" ref={mainRef}>
       <h1 className="tm-sr">{ui.search.title}</h1>
       <div className="tm-search__bar">
         <input ref={input} className="tm-search__input" type="search" value={query} inputMode="search"
@@ -228,7 +241,7 @@ export function SearchScreen() {
 
       {/* подсказки в 3 строки нет (17.10): плейсхолдер уже говорит «название или чего хочется». У отмеченного — счёт слева,
           фильтры справа: род тогглом, регистр — «Фильтр ▾» с листом вместо двух рядов чипов */}
-      {!query && hits?.length ? (
+      {!listQ && hits?.length ? (
         <div className="tm-fbar">
           <p className="tm-caption tm-fbar__what">{ui.search.watchedCount(hits.length)}</p>
           {kindOn ? <KindFilter value={kind} onChange={(k) => { setKind(k); setReg(null); }} /> : null}
@@ -259,8 +272,8 @@ export function SearchScreen() {
         </div>
       ) : null}
       {hits && !hits.length && !(query && mood) ? (
-        <EmptyState title={query ? ui.search.empty : ui.search.watchedEmpty}
-                    text={query ? ui.search.emptyText : ui.search.watchedEmptyText} />
+        <EmptyState title={listQ ? ui.search.empty : ui.search.watchedEmpty}
+                    text={listQ ? ui.search.emptyText : ui.search.watchedEmptyText} />
       ) : null}
       {/* список растёт не только по одному фильму: отсюда же виден вход в импорт */}
       {!query ? (
@@ -273,48 +286,11 @@ export function SearchScreen() {
 
       {hits && !shown.length ? moodSection : null}
       <ul className="tm-search__list">
-        {shown.map((hit) => (
-          <li key={hit.work.id} className="tm-search__item">
-            <button type="button" className="tm-search__open" onClick={() => { tap(); setOpenId(hit.work.id); }}>
-              {/* кадр в строке — только картинка: название рядом, и повторять его внутри рамки
-                  (как делает WorkCover) значит написать его дважды */}
-              <WorkThumb work={hit.work} />
-              <span className="tm-search__text">
-                <span className="tm-search__name">{titleOf(hit.work)}</span>
-                <span className="tm-search__meta">{meta(hit)}</span>
-                {hit.work.originalTitle && hit.work.originalTitle !== titleOf(hit.work)
-                  ? <span className="tm-search__orig">{hit.work.originalTitle}</span> : null}
-              </span>
-            </button>
-            {/* ▶ на миниатюре (17.10) — у найденного, когда трейлер точно есть; в «Отмеченном» — нет: его уже видели */}
-            {query ? <TrailerChip work={hit.work} onPlay={(t) => playTrailer(hit.work, t)} /> : null}
-            {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного. «Убрать» у
-                просмотренного — тихая (28.09): белая рамка в каждой строке спорила с названиями */}
-            {/* в «Отмеченном» (пустой запрос) кнопок в строке нет (17.10): «Убрать» в каждой строке — лишнее, оно в карточке,
-                с «Отменить» в тосте */}
-            {/* видел по дневнику или оценке (17.10): «Убрать» сняло бы только отметку списка, а строка осталась бы
-                просмотренной — вместо него «В дневнике», открывает карточку */}
-            {query ? <span className="tm-search__acts">
-              {hit.logged ? (
-                <Button size="sm" variant="quiet" onClick={() => { tap(); setOpenId(hit.work.id); }}>{ui.search.logged}</Button>
-              ) : (
-                <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
-                        onClick={() => apply(hit.work.id, !hit.watched)}>
-                  {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
-                </Button>
-              )}
-              {/* «Смотрю» — часть подробного дневника (02.10): в облегчённом учёте хватает «Смотрел» */}
-              {diary && !hit.watched && !isSeries(hit.work) ? (
-                <Button size="sm" variant="quiet" pressed={hit.watching} disabled={hit.watching || busy.includes(hit.work.id)}
-                        onClick={() => watchingNow(hit.work.id)}>
-                  {hit.work.type === 'book'
-                    ? (hit.watching ? ui.feed.readingOn : ui.feed.readingMark)
-                    : (hit.watching ? ui.feed.watchingOn : ui.feed.watchingMark)}
-                </Button>
-              ) : null}
-            </span> : null}
-          </li>
+        {shown.slice(0, limit).map((hit) => (
+          <SearchRow key={hit.work.id} hit={hit} found={Boolean(listQ)} diary={diary} busy={busy.includes(hit.work.id)}
+                     onOpen={onOpenRow} onApply={onApplyRow} onWatching={onWatchingRow} onPlay={onPlayRow} />
         ))}
+        {limit < shown.length ? <li ref={sentinel} className="tm-portion" aria-hidden="true" /> : null}
       </ul>
 
       {shown.length ? moodSection : null}
@@ -367,3 +343,57 @@ export function SearchScreen() {
     </main>
   );
 }
+
+const rowMeta = (hit: SearchHit) =>
+  [hit.work.year, leadName(hit.work), formatDuration(hit.work.durationMinutes)].filter(Boolean).join(' · ');
+
+/** Строка найденного или «Отмеченного» (memo, волна 3В): перерисовывается, только когда меняется сама — отметка, «Смотрю»,
+ *  занятость своей кнопки. `found` — строка из результатов поиска (▶ и кнопки), а не из «Отмеченного». */
+const SearchRow = memo(function SearchRow({ hit, found, diary, busy, onOpen, onApply, onWatching, onPlay }: {
+  hit: SearchHit; found: boolean; diary: boolean; busy: boolean;
+  onOpen: (id: ID) => void; onApply: (id: ID, watched: boolean) => void; onWatching: (id: ID) => void;
+  onPlay: (work: SearchHit['work'], t: Trailer) => void;
+}) {
+  return (
+    <li className="tm-search__item">
+      <button type="button" className="tm-search__open" onClick={() => onOpen(hit.work.id)}>
+        {/* кадр в строке — только картинка: название рядом, и повторять его внутри рамки
+            (как делает WorkCover) значит написать его дважды */}
+        <WorkThumb work={hit.work} />
+        <span className="tm-search__text">
+          <span className="tm-search__name">{titleOf(hit.work)}</span>
+          <span className="tm-search__meta">{rowMeta(hit)}</span>
+          {hit.work.originalTitle && hit.work.originalTitle !== titleOf(hit.work)
+            ? <span className="tm-search__orig">{hit.work.originalTitle}</span> : null}
+        </span>
+      </button>
+      {/* ▶ на миниатюре (17.10) — у найденного, когда трейлер точно есть; в «Отмеченном» — нет: его уже видели */}
+      {found ? <TrailerChip work={hit.work} onPlay={(t) => onPlay(hit.work, t)} /> : null}
+      {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного. «Убрать» у
+          просмотренного — тихая (28.09): белая рамка в каждой строке спорила с названиями */}
+      {/* в «Отмеченном» (пустой запрос) кнопок в строке нет (17.10): «Убрать» в каждой строке — лишнее, оно в карточке,
+          с «Отменить» в тосте */}
+      {/* видел по дневнику или оценке (17.10): «Убрать» сняло бы только отметку списка, а строка осталась бы
+          просмотренной — вместо него «В дневнике», открывает карточку */}
+      {found ? <span className="tm-search__acts">
+        {hit.logged ? (
+          <Button size="sm" variant="quiet" onClick={() => onOpen(hit.work.id)}>{ui.search.logged}</Button>
+        ) : (
+          <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy}
+                  onClick={() => onApply(hit.work.id, !hit.watched)}>
+            {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
+          </Button>
+        )}
+        {/* «Смотрю» — часть подробного дневника (02.10): в облегчённом учёте хватает «Смотрел» */}
+        {diary && !hit.watched && !isSeries(hit.work) ? (
+          <Button size="sm" variant="quiet" pressed={hit.watching} disabled={hit.watching || busy}
+                  onClick={() => onWatching(hit.work.id)}>
+            {hit.work.type === 'book'
+              ? (hit.watching ? ui.feed.readingOn : ui.feed.readingMark)
+              : (hit.watching ? ui.feed.watchingOn : ui.feed.watchingMark)}
+          </Button>
+        ) : null}
+      </span> : null}
+    </li>
+  );
+});
