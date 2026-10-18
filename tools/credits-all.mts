@@ -6,6 +6,9 @@ import { peopleMore } from '../src/mocks/peopleMore.ts';
 import { workCredits as baseCredits } from '../src/mocks/workCredits.ts';
 import { workCreditsMore } from '../src/mocks/workCreditsMore.ts';
 import type { Person, PersonId } from '../src/types/tmdf.ts';
+import { fixCreditRows } from '../src/lib/workFixesTable.ts';
 
 export const people: Record<PersonId, Person> = { ...peopleMore, ...base };
-export const workCredits: Record<string, string> = { ...baseCredits, ...workCreditsMore };
+// без людей, снятых правками справочника (волна Б, 17.10, src/mocks/workFixes.ts): почерк и справки о людях не должны
+// опираться на ошибочно приписанного режиссёра или автора. Только чтение — сюда не пишут (resolve-credits пишет свои)
+export const workCredits: Record<string, string> = fixCreditRows({ ...baseCredits, ...workCreditsMore });

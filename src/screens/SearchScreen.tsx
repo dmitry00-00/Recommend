@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { FeedKind, ID, Register } from '@/types/tmdf';
-import { coldStartLeft, getMoodSlate, notWatched, searchCharacters, searchWorks, setWatched, startWork, type MoodSlate, type SearchHit } from '@/api';
+import { coldStartLeft, getMoodSlate, noteTrailer, notWatched, searchCharacters, searchWorks, setWatched, startWork, type MoodSlate, type SearchHit, type Trailer } from '@/api';
 import { loadSettings } from '@/lib/settingsStore';
 import { Button, EmptyState, ErrorState, FilterMenu, KindFilter, Skeleton, SuggestSheet, useToast } from '@/components';
 import { formatDuration, titleOf } from '@/lib/format';
@@ -14,6 +14,8 @@ import { isSeries } from '@/lib/media';
 import { useDiary } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
 import { WorkCardSheet } from './WorkCardSheet';
+import { TrailerChip } from '@/components/InlineTrailer';
+import { TrailerSheet } from '@/components/TrailerSheet';
 
 const DEBOUNCE = 250;
 /** поиск по описанию — реже: каждый запрос словами пишется в замер (mood_query), набор по букве — не запрос */
@@ -44,10 +46,16 @@ export function SearchScreen() {
   const [reg, setReg] = useState<Register | null>(null);
   // кино или книги в своём списке (11.10) — как в архиве, за флагом книг
   const booksOn = useFeature('readShelf');
+  // страница записи дневника (/journal/:id) — за своим флагом
+  const diaryPages = useFeature('diary');
   const [kind, setKind] = useState<FeedKind | null>(null);
   const [asking, setAsking] = useState(false);
   // карточка найденного — та же, что у рекомендации (02.10): тап по строке открывает её, а не страницу
   const [openId, setOpenId] = useState<ID | null>(null);
+  // трейлер из строки поиска (17.10) — шторкой поверх списка, как было в ленте до 17.10; работа — для замера
+  // «заиграл / не заиграл» в шторке (18.10)
+  const [trailer, setTrailer] = useState<{ trailer: Trailer; title: string; work: SearchHit['work'] }>();
+  const playTrailer = (work: SearchHit['work'], t: Trailer) => { noteTrailer(work.id, 'search'); setTrailer({ trailer: t, title: titleOf(work), work }); };
   const input = useRef<HTMLInputElement>(null);
   // герои по запросу (И2): «джокер» — это и фильм, и герой десятка произведений
   const [heroes, setHeroes] = useState<{ id: string; name: string; works: number }[]>([]);
@@ -186,6 +194,7 @@ export function SearchScreen() {
                     <span className="tm-search__meta">{[x.work.year, leadName(x.work), formatDuration(x.work.durationMinutes)].filter(Boolean).join(' · ')}</span>
                   </span>
                 </button>
+                <TrailerChip work={x.work} onPlay={(t) => playTrailer(x.work, t)} />
                 {/* «Смотрел» справа (17.10) — как у найденного по названию */}
                 <span className="tm-search__acts">
                   <Button size="sm" variant="primary" disabled={busy.includes(x.work.id)} onClick={() => apply(x.work.id, true)}>
@@ -277,15 +286,23 @@ export function SearchScreen() {
                   ? <span className="tm-search__orig">{hit.work.originalTitle}</span> : null}
               </span>
             </button>
+            {/* ▶ на миниатюре (17.10) — у найденного, когда трейлер точно есть; в «Отмеченном» — нет: его уже видели */}
+            {query ? <TrailerChip work={hit.work} onPlay={(t) => playTrailer(hit.work, t)} /> : null}
             {/* «Смотрел» и «Смотрю» — одна над другой; «Смотрю» не для уже просмотренного. «Убрать» у
                 просмотренного — тихая (28.09): белая рамка в каждой строке спорила с названиями */}
             {/* в «Отмеченном» (пустой запрос) кнопок в строке нет (17.10): «Убрать» в каждой строке — лишнее, оно в карточке,
                 с «Отменить» в тосте */}
+            {/* видел по дневнику или оценке (17.10): «Убрать» сняло бы только отметку списка, а строка осталась бы
+                просмотренной — вместо него «В дневнике», открывает карточку */}
             {query ? <span className="tm-search__acts">
-              <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
-                      onClick={() => apply(hit.work.id, !hit.watched)}>
-                {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
-              </Button>
+              {hit.logged ? (
+                <Button size="sm" variant="quiet" onClick={() => { tap(); setOpenId(hit.work.id); }}>{ui.search.logged}</Button>
+              ) : (
+                <Button size="sm" variant={hit.watched ? 'quiet' : 'primary'} disabled={busy.includes(hit.work.id)}
+                        onClick={() => apply(hit.work.id, !hit.watched)}>
+                  {hit.watched ? ui.search.unmark : hit.work.type === 'book' ? ui.search.markRead : ui.search.mark}
+                </Button>
+              )}
               {/* «Смотрю» — часть подробного дневника (02.10): в облегчённом учёте хватает «Смотрел» */}
               {diary && !hit.watched && !isSeries(hit.work) ? (
                 <Button size="sm" variant="quiet" pressed={hit.watching} disabled={hit.watching || busy.includes(hit.work.id)}
@@ -322,10 +339,15 @@ export function SearchScreen() {
                          context={query ? `поиск: ${query}` : 'просмотренное'}
                          corner={open ? (
                            <>
-                             <Button size="sm" variant={open.watched ? 'quiet' : 'primary'} disabled={busy.includes(open.work.id)}
-                                     onClick={() => apply(open.work.id, !open.watched)}>
-                               {open.watched ? ui.search.unmark : open.work.type === 'book' ? ui.search.markRead : ui.search.mark}
-                             </Button>
+                             {/* из дневника (17.10): снять здесь нечего — запись дневника, если она есть, открывается целиком */}
+                             {open.logged ? (open.entryId && diaryPages ? (
+                               <Button size="sm" variant="quiet" onClick={() => { tap(); navigate(`/journal/${open.entryId}`); }}>{ui.search.logged}</Button>
+                             ) : null) : (
+                               <Button size="sm" variant={open.watched ? 'quiet' : 'primary'} disabled={busy.includes(open.work.id)}
+                                       onClick={() => apply(open.work.id, !open.watched)}>
+                                 {open.watched ? ui.search.unmark : open.work.type === 'book' ? ui.search.markRead : ui.search.mark}
+                               </Button>
+                             )}
                              {diary && !open.watched && !isSeries(open.work) ? (
                                <Button size="sm" variant="quiet" pressed={open.watching} disabled={open.watching || busy.includes(open.work.id)}
                                        onClick={() => watchingNow(open.work.id)}>
@@ -341,6 +363,7 @@ export function SearchScreen() {
 
       <SuggestSheet open={asking} onOpenChange={setAsking} kind="work" initial={query}
                     context={`поиск: ${query}`} />
+      <TrailerSheet trailer={trailer?.trailer} title={trailer?.title ?? ''} work={trailer?.work} place="search" onClose={() => setTrailer(undefined)} />
     </main>
   );
 }

@@ -18,6 +18,7 @@ import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
 import { filmBaseLinks } from '../src/mocks/filmBaseLinks.ts';
 import { filmBaseTail } from '../src/mocks/filmBaseTail.ts';
+import { filmBaseMore } from '../src/mocks/filmBaseMore.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { tvPrograms } from '../src/mocks/tvPrograms.ts';
@@ -29,6 +30,8 @@ import { primaryKey, withBookWork, workKeys } from '../src/lib/keys.ts';
 import { bookWorks } from '../src/mocks/bookWorks.ts';
 import { withheldWorks } from '../src/mocks/withheldWorks.ts';
 import { cyrillicBrands } from '../src/lib/brands.ts';
+import { isAlias } from '../src/lib/canon.ts';
+import { applyWorkFixes } from '../src/lib/workFixesTable.ts';
 
 export interface IndexedWork {
   key: string;
@@ -126,6 +129,9 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
     ...filmBaseLinks,
     // остальное кино со статьёй в русской Википедии (до 10 разделов, РР-5): для поиска и страниц, заранее не размечаем
     ...filmBaseTail,
+    // пополнение волны В (18.10): советская и российская анимация и короткий метр, история и импорт Кинопоиска, свежее,
+    // мировой канон — ленивый модуль (tools/grow-film-base.mts --out filmBaseMore)
+    ...filmBaseMore,
     // популярное в Индии и англоязычных странах: суточные топы Википедии по странам и классика (ЗП-22, 07.10)
     ...filmBaseWorld,
     // фильмы из загрузок каналов студий и агрегаторов, опознаны в Wikidata по режиссёру или году (10.10)
@@ -139,7 +145,8 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   // чаще значат другое: такие карточки ищутся в тексте только по названию из двух значимых слов и длиннее
   // так же — фильмы из загрузок каналов: «Опекун», «Приезжая», «Небо» в чужом тексте чаще обычные слова
   // и фильмы из роста справочника (РР-5): малоизвестные «Небо», «Игра», «Мать» — тёзки обычных слов и известных вещей
-  const worldOnly = new Set([...filmBaseWorld, ...filmBaseChannels, ...filmBaseLinks, ...filmBaseTail].map((w) => w.id));
+  // и пополнение волны В (18.10): «Варежка», «Снегурочка», «Мама» из короткого метра — тоже тёзки обычных слов
+  const worldOnly = new Set([...filmBaseWorld, ...filmBaseChannels, ...filmBaseLinks, ...filmBaseTail, ...filmBaseMore].map((w) => w.id));
   // хвост справочника (РР-5) — тоже «малое»: в очередь разметки не идёт (решение владельца 15.10 — заранее не размечать)
   const minorIds = new Set([...filmBaseChannels, ...filmBaseTail].map((w) => w.id));
   const showIds = new Set(tvPrograms);
@@ -153,10 +160,18 @@ export function worksIndex({ all: unnamed = false, isbnKeys = false }: {
   // 06.10: «гарри поттер» — сериал HBO 2026 из топов Википедии собирал ролики обо всей саге
   const ALSO_ELSEWHERE = new Set(['король и шут', 'преступление и наказание', 'граф монте-кристо', 'гарри поттер']);
   const out = new Map<string, IndexedWork>();
-  for (const work of all) {
+  // лишние копии (канон копий, src/mocks/workAliases.ts, 17.10) — после всех: ключ достаётся главной копии, а лишняя
+  // лишь добирает ключ, которого у главной нет (их сводит загрузка справочника, src/lib/canon.ts aliasesOf). Прежде
+  // ключ брала та, что раньше в списке, — карточка истории владельца, а не общая
+  // правки справочника (волна Б, 17.10, src/mocks/workFixes.ts): название, год, авторы — до `variants`, чтобы в чужом тексте
+  // искалось исправленное название
+  const fixed = all.map((w) => applyWorkFixes(w, idsOf(w)));
+  const ordered = [...fixed.filter((w) => !isAlias(w.id)), ...fixed.filter((w) => isAlias(w.id))];
+  for (const work of ordered) {
     const key = isbnKeys ? primaryKey(work, work.externalIds ?? catalogMedia[work.id]?.externalIds ?? externalIds[work.id]) : analysisKey(work);
-    // убранное владельцем (withheldWorks) — ни карточки, ни привязок
-    if (!key || out.has(key) || withheldWorks[key]) continue;
+    // убранное владельцем (withheldWorks) — ни карточки, ни привязок; запись «… не книга» снимает только книжную карточку —
+    // фильм без TMDb с тем же элементом (`wd:`, 18.10) остаётся (src/mocks/withheldWorks.ts isWithheld)
+    if (!key || out.has(key) || (withheldWorks[key] && (work.type === 'book' || !/не книга/.test(withheldWorks[key])))) continue;
     const searchable = [...new Set([work.title, work.originalTitle].filter((t): t is string => Boolean(t)).flatMap(variants))]
       .filter((t) => t.split(/\s+/).length > 1 || t.length >= 6);
     const names = bookOnly.has(work.id) ? [] : worldOnly.has(work.id) ? searchable.filter(worldNameOk) : searchable;

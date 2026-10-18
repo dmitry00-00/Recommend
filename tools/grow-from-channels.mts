@@ -17,7 +17,7 @@
 import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
-import { worksIndex, analysisKeys, idsOf } from './works-index.mts';
+import { baseHave } from './base-have.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 
 loadEnvFile();
@@ -230,17 +230,9 @@ writeFileSync(WD, JSON.stringify(cache));
 const OUT_NAME = 'filmBaseChannels';
 const OUT = new URL(`src/mocks/${OUT_NAME}.ts`, root);
 const prev: WorkCard[] = existsSync(OUT) ? (await import(OUT.href))[OUT_NAME] as WorkCard[] : [];
-const ownIds = new Set(prev.map((w) => w.id));
-const have = new Set<string>();
-for (const { work } of worksIndex({ all: true })) {
-  if (ownIds.has(work.id)) continue;
-  for (const k of analysisKeys(work)) have.add(k);
-  const ids = idsOf(work);
-  if (ids?.tmdb != null) have.add(`tmdb:${ids.tmdb}`);
-  if (ids?.imdb) have.add(`imdb:${ids.imdb}`);
-  const q = /^f-wd(\d+)$/.exec(work.id);
-  if (q) have.add(`Q${q[1]}`);
-}
+// «есть» — справочник без своего модуля, истории владельца и демо-каталога (17.10, tools/base-have.mts): фильм, что был
+// только карточкой истории, у сервера и новичка не виден, а сборщик его не заводил. Ключи те же: TMDb, IMDb, `Q…`
+const have = baseHave({ except: [OUT_NAME] });
 const had = (w: W) => have.has(w.qid) || Boolean(w.tmdb && have.has(`tmdb:${w.tmdb}`)) || Boolean(w.imdb && have.has(`imdb:${w.imdb}`));
 const keyed = (w: W) => Boolean(w.series ? w.imdb : w.tmdb);
 const fold = (s: string) => s.toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();

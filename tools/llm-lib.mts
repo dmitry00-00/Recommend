@@ -9,7 +9,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '
 import { dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import type { IndexedWork } from './works-index.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { isSeries } from '../src/lib/media.ts';
 
 // franchise / person — ролик о франшизе (цикле) и о человеке (режиссёре, писателе): категории
@@ -159,7 +159,7 @@ export function resolver(works: IndexedWork[]): (w: LlmWork) => Resolved {
   for (const { key, work } of works) {
     if (seen.has(key)) continue;
     seen.add(key);
-    const kind: Ref['kind'] = isBookKey(key) ? 'book' : isSeries(work) ? 'series' : 'film';
+    const kind: Ref['kind'] = isBookEntry({ key, work }) ? 'book' : isSeries(work) ? 'series' : 'film';
     const ref: Ref = { key, label: labelOf(work, kind), ...(work.year ? { year: work.year } : {}), kind };
     for (const name of new Set([work.title, work.originalTitle].filter(Boolean).map((s) => norm(s!)))) {
       if (!name) continue;

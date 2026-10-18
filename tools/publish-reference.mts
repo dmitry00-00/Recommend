@@ -6,6 +6,7 @@
 // токен, что в переменной ADMIN_TOKEN у бота на bothost. Оба — в .env.local.
 import { existsSync, readFileSync } from 'node:fs';
 import type { WatchProviders } from '../src/lib/cinemas.ts';
+import type { TrailersFile } from '../worker/trailers.ts';
 import { loadEnvFile } from './env-file.mts';
 import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
@@ -31,6 +32,12 @@ import { buildPublicPages } from './public-pages.mts';
 
 loadEnvFile();
 const dry = process.argv.includes('--dry');
+// стоп публикации (18.10): пока справочник пишется по частям, на боевой сервер уезжать нечему — `.cache/publish.hold`
+// (в файле — причина); снять — удалить файл. --dry работает и при стопе
+if (!dry && existsSync('.cache/publish.hold')) {
+  console.error(`публикация остановлена: ${readFileSync('.cache/publish.hold', 'utf8').trim() || '.cache/publish.hold'}`);
+  process.exit(0);
+}
 // контур Global (ЗП-26): `--global` — тот же набор на Cloudflare (TM_GLOBAL_SERVER, TM_GLOBAL_ADMIN_TOKEN); «где
 // смотреть» — регионы TM_GLOBAL_REGIONS (по умолчанию IN, US, GB), бесплатная классика не едет: её ролики проверены
 // на доступность из России
@@ -57,6 +64,11 @@ const ownRegions = (w: WatchProviders): WatchProviders => {
   }
   return { ...w, regions, works };
 };
+
+/** Трейлеры для Global: пометка ru:0 (закрыт в России) там лишняя */
+const withoutRu = (t: TrailersFile): TrailersFile => ({
+  ...t, works: Object.fromEntries(Object.entries(t.works).map(([k, list]) => [k, list.map(({ ru: _ru, ...x }) => x)])),
+});
 
 const materials = [...Object.values(postsAuto), ...Object.values(essaysAuto)].flat();
 const meta = {
@@ -87,6 +99,9 @@ const payloads: [string, unknown][] = [
   // читать бесплатно и легально (книги, 11.10): Викитека, Gutenberg, Internet Archive — tools/free-read.mts
   ...(existsSync('.cache/free-read.json') ? [['freeRead', JSON.parse(readFileSync('.cache/free-read.json', 'utf8'))] as [string, unknown]] : []),
   ...(!global && existsSync('.cache/free-watch.json') ? [['freeWatch', JSON.parse(readFileSync('.cache/free-watch.json', 'utf8'))] as [string, unknown]] : []),
+  // трейлеры заранее (17.10): TMDb, Wikidata, каналы прокатчиков, проверка YouTube — tools/trailers.mts; сервер отдаёт их
+  // по ключам (GET /api/trailers). В Global — без пометки «закрыт в России»: там она ничего не значит
+  ...(existsSync('.cache/trailers.json') ? [['trailers', global ? withoutRu(JSON.parse(readFileSync('.cache/trailers.json', 'utf8'))) : JSON.parse(readFileSync('.cache/trailers.json', 'utf8'))] as [string, unknown]] : []),
 ];
 let failed = 0;
 for (const [name, data] of payloads) {

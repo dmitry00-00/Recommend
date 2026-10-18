@@ -11,7 +11,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { TRUST_PRIOR, weightOf, recordWeight, type TrustKind } from '../src/lib/weights.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 
@@ -30,7 +30,7 @@ const set = truth.map(([id]) => {
   const v = byId.get(id)!;
   return { ...v, channel: channels[v.channelId ?? '']?.title, book: channels[v.channelId ?? '']?.medium === 'book' };
 });
-const got = matchVideos(set, worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
+const got = matchVideos(set, worksIndex().filter((w) => !isBookEntry(w)), ordinary);
 const tally = new Map<string, { ok: number; n: number }>();
 for (const [id, v] of truth) {
   const g = got.get(id);

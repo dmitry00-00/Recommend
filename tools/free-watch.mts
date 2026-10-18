@@ -1,5 +1,6 @@
 // Бесплатная легальная классика (ЗП-43, 10.10): где фильм выложен целиком и законно — ссылкой на источник, мы
-// ничего не храним. Источники — свойства Wikidata у фильмов с ключом TMDb:
+// ничего не храним. Источники — свойства Wikidata у фильмов с ключом TMDb, а у фильмов без него (ключ `wd:Q…`, решение
+// владельца 17.10; 18.10) — те же свойства прямо по элементу:
 //   • YouTube (P1651) — только каналы правообладателей (OFFICIAL ниже): студии, Госфильмофонд, лицензиат RVISION,
 //     архивы и студии других стран; плюс ролики этих каналов, опознанные tools/grow-from-channels.mts.
 //     Ролик проверяется YouTube API: жив, публичный, длиннее 40 минут (не трейлер и не отрывок), не закрыт в России.
@@ -67,19 +68,53 @@ async function sparql(name: keyof typeof QUERIES): Promise<Row[]> {
   return rows;
 }
 
-const ours = new Set(worksIndex({ all: true }).filter((w) => w.work.type === 'film' && w.key.startsWith('tmdb:')).map((w) => w.key.slice(5)));
-const [yt, commons, archive] = await Promise.all([sparql('youtube'), sparql('commons'), sparql('archive')]);
+// фильм — ключом справочника: `tmdb:<n>`, без TMDb — `wd:Q…` (18.10)
+const filmKey = (k: string) => /^(?:tmdb:\d+|wd:Q\d+)$/.test(k);
+const ours = new Set(worksIndex({ all: true }).filter((w) => w.work.type === 'film' && filmKey(w.key)).map((w) => w.key));
+type KeyRow = { key: string; x: string; role?: string };
+const keyed = (rows: Row[]): KeyRow[] => rows.map((r) => ({ key: `tmdb:${r.tmdb}`, x: r.x, ...(r.role ? { role: r.role } : {}) }));
+
+// фильмы без TMDb (18.10): общие запросы идут через P4947 и их не видят — те же свойства по элементам, пачками по 300;
+// ответ по элементу живёт 7 дней (.cache/free-watch/wd-qid-<вид>.json)
+const QID_QUERIES = {
+  youtube: (v: string) => `SELECT ?f ?x ?role WHERE { VALUES ?f { ${v} } ?f p:P1651 ?st . ?st ps:P1651 ?x . OPTIONAL { ?st pq:P3831 ?role } }`,
+  commons: (v: string) => `SELECT ?f ?x ?role WHERE { VALUES ?f { ${v} } ?f p:P10 ?st . ?st ps:P10 ?x . OPTIONAL { ?st pq:P3831 ?role } }`,
+  archive: (v: string) => `SELECT ?f ?x ?role WHERE { VALUES ?f { ${v} } ?f wdt:P724 ?x . OPTIONAL { ?f wdt:P6216 ?role } }`,
+};
+async function sparqlQids(name: keyof typeof QID_QUERIES, qids: string[]): Promise<KeyRow[]> {
+  const file = `${DIR}/wd-qid-${name}.json`;
+  const cache: Record<string, { at: string; rows: { x: string; role?: string }[] }> = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
+  const ask = qids.filter((q) => !cache[q] || Date.now() - Date.parse(cache[q].at) > 7 * day);
+  for (let i = 0; i < ask.length; i += 300) {
+    const part = ask.slice(i, i + 300);
+    const url = `https://query.wikidata.org/sparql?${new URLSearchParams({ query: QID_QUERIES[name](part.map((q) => `wd:${q}`).join(' ')) })}`;
+    const r = await fetch(url, { headers: { accept: 'application/sparql-results+json', 'user-agent': 'recomend/1.0 (free-watch)' } }).catch(() => undefined);
+    if (!r?.ok) { console.error(`  wikidata ${name} (без TMDb): ${r?.status ?? 'нет ответа'}`); continue; }
+    const j = await r.json() as { results: { bindings: Record<string, { value: string }>[] } };
+    const at = new Date().toISOString();
+    for (const q of part) cache[q] = { at, rows: [] };
+    for (const b of j.results.bindings) {
+      const q = b.f.value.replace(/^.*\//, '');
+      cache[q]?.rows.push({ x: b.x.value, ...(b.role ? { role: b.role.value.replace(/^.*\//, '') } : {}) });
+    }
+  }
+  if (!DRY) writeFileSync(file, JSON.stringify(cache));
+  return qids.flatMap((q) => (cache[q]?.rows ?? []).map((r) => ({ key: `wd:${q}`, ...r })));
+}
+const wdQids = [...ours].filter((k) => k.startsWith('wd:')).map((k) => k.slice(3));
+const [yt, commons, archive] = await Promise.all((['youtube', 'commons', 'archive'] as const)
+  .map(async (n) => [...keyed(await sparql(n)), ...(wdQids.length ? await sparqlQids(n, wdQids) : [])]));
 
 /** Источник у фильма: n — кто выложил, u — ссылка, v — вид источника. */
 type Free = { n: string; u: string; v: 'studio' | 'commons' | 'archive'; part?: number };
 const works: Record<string, Free[]> = {};
-const add = (tmdb: string, f: Free) => { const list = (works[`tmdb:${tmdb}`] ??= []); if (!list.some((x) => x.u === f.u)) list.push(f); };
+const add = (key: string, f: Free) => { const list = (works[key] ??= []); if (!list.some((x) => x.u === f.u)) list.push(f); };
 
 // ─── YouTube: правообладатели, целый фильм, открыт в России ──────────────────
 type Meta = { at: string; d?: number; ch?: string; st?: string; ru?: boolean; t?: string } | { at: string; gone: true };
 const META = `${DIR}/youtube.json`;
 const meta: Record<string, Meta> = existsSync(META) ? JSON.parse(readFileSync(META, 'utf8')) : {};
-const ytRows = yt.filter((r) => ours.has(r.tmdb) && r.role !== 'Q622550');   // Q622550 — трейлер
+const ytRows = yt.filter((r) => ours.has(r.key) && r.role !== 'Q622550');   // Q622550 — трейлер
 const ids = [...new Set(ytRows.map((r) => r.x))];
 const stale = ids.filter((id) => !meta[id] || Date.now() - Date.parse(meta[id].at) > metaAge(meta[id]));
 const seconds = (d?: string) => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(d ?? ''); return m ? Number(m[1] ?? 0) * 3600 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0) : 0; };
@@ -103,7 +138,7 @@ for (const r of ytRows) {
   if (!m || 'gone' in m || m.st !== 'public' || !m.ru || (m.d ?? 0) < MIN_SECONDS || !m.ch || !OFFICIAL[m.ch]) continue;
   // двухсерийный фильм — ролик на серию: первая серия вперёд («Жестокий романс. Серия 2» не должен открываться первым)
   const part = Number(/(?:серия|часть|series|part)\s*(\d)|(\d)\s*(?:-?я\s*)?(?:серия|часть)/iu.exec(m.t ?? '')?.slice(1).find(Boolean) ?? 0);
-  add(r.tmdb, { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${r.x}`, v: 'studio', ...(part ? { part } : {}) });
+  add(r.key, { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${r.x}`, v: 'studio', ...(part ? { part } : {}) });
   ytOk += 1;
 }
 
@@ -134,7 +169,7 @@ if (!DRY) writeFileSync(UPLOADS, JSON.stringify(uploads));
 // там названия на корейском, японском, хинди, и разбор «название до скобки» здесь их не узнаёт (11.10)
 const matched: Record<string, { tmdb: number; ch: string }> = existsSync('.cache/channel-films.videos.json')
   ? (JSON.parse(readFileSync('.cache/channel-films.videos.json', 'utf8')) as { videos: Record<string, { tmdb: number; ch: string }> }).videos : {};
-const matchedIds = Object.keys(matched).filter((id) => OFFICIAL[matched[id].ch] && ours.has(String(matched[id].tmdb)));
+const matchedIds = Object.keys(matched).filter((id) => OFFICIAL[matched[id].ch] && ours.has(`tmdb:${matched[id].tmdb}`));
 const scanIds = [...new Set([...Object.values(uploads).flatMap((u) => u.ids), ...matchedIds])];
 const scanStale = scanIds.filter((id) => !meta[id] || Date.now() - Date.parse(meta[id].at) > metaAge(meta[id]));
 for (let i = 0; ytKey && i < scanStale.length; i += 50) {
@@ -151,13 +186,13 @@ for (let i = 0; ytKey && i < scanStale.length; i += 50) {
 }
 if (!DRY) writeFileSync(META, JSON.stringify(meta));
 const fold = (x: string) => x.toLowerCase().replace(/ё/g, 'е').replace(/[«»"“”„'’.,:;!?…—–-]+/g, ' ').replace(/\s+/g, ' ').trim();
-const byName = new Map<string, { tmdb: string; year: number }[]>();
+const byName = new Map<string, { key: string; year: number }[]>();
 for (const w of worksIndex({ all: true })) {
-  if (w.work.type !== 'film' || !w.key.startsWith('tmdb:') || !w.work.year) continue;
+  if (w.work.type !== 'film' || !filmKey(w.key) || !w.work.year) continue;
   for (const n of new Set([w.work.title, ...w.names])) {
     const k = fold(n);
     const list = byName.get(k) ?? byName.set(k, []).get(k)!;
-    if (!list.some((x) => x.tmdb === w.key.slice(5))) list.push({ tmdb: w.key.slice(5), year: w.work.year });
+    if (!list.some((x) => x.key === w.key)) list.push({ key: w.key, year: w.work.year });
   }
 }
 let scanOk = 0;
@@ -166,7 +201,7 @@ for (const id of scanIds) {
   if (!m || 'gone' in m || m.st !== 'public' || !m.ru || (m.d ?? 0) < MIN_SECONDS || !m.ch || !OFFICIAL[m.ch] || !m.t) continue;
   if (matched[id]) {
     const part = Number(/(?:серия|часть|part)\s*(\d)|(\d)\s*(?:-?я\s*)?(?:серия|часть)/iu.exec(m.t)?.slice(1).find(Boolean) ?? 0);
-    add(String(matched[id].tmdb), { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${id}`, v: 'studio', ...(part ? { part } : {}) });
+    add(`tmdb:${matched[id].tmdb}`, { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${id}`, v: 'studio', ...(part ? { part } : {}) });
     scanOk += 1;
     continue;
   }
@@ -176,7 +211,7 @@ for (const id of scanIds) {
   const hits = (byName.get(fold(name)) ?? []).filter((x) => Math.abs(x.year - year) <= 1);
   if (hits.length !== 1) continue;   // тёзки одного года — не гадаем
   const part = Number(/(?:серия|часть)\s*(\d)|(\d)\s*(?:-?я\s*)?(?:серия|часть)/iu.exec(m.t)?.slice(1).find(Boolean) ?? 0);
-  add(hits[0].tmdb, { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${id}`, v: 'studio', ...(part ? { part } : {}) });
+  add(hits[0].key, { n: OFFICIAL[m.ch], u: `https://www.youtube.com/watch?v=${id}`, v: 'studio', ...(part ? { part } : {}) });
   scanOk += 1;
 }
 console.error(`загрузки правообладателей: роликов ${scanIds.length}, сопоставлено ${scanOk}`);
@@ -184,14 +219,14 @@ console.error(`загрузки правообладателей: роликов
 // ─── Commons: полное видео; Internet Archive: общественное достояние ─────────
 let cmOk = 0, iaOk = 0;
 for (const r of commons) {
-  if (!ours.has(r.tmdb) || r.role !== 'Q89347362') continue;   // «полное видео на Викискладе»
+  if (!ours.has(r.key) || r.role !== 'Q89347362') continue;   // «полное видео на Викискладе»
   const file = decodeURIComponent(r.x.replace(/^.*Special:FilePath\//, ''));
-  add(r.tmdb, { n: 'Викисклад', u: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, '_'))}`, v: 'commons' });
+  add(r.key, { n: 'Викисклад', u: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, '_'))}`, v: 'commons' });
   cmOk += 1;
 }
 for (const r of archive) {
-  if (!ours.has(r.tmdb) || r.role !== 'Q19652') continue;   // общественное достояние
-  add(r.tmdb, { n: 'Internet Archive', u: `https://archive.org/details/${encodeURIComponent(r.x)}`, v: 'archive' });
+  if (!ours.has(r.key) || r.role !== 'Q19652') continue;   // общественное достояние
+  add(r.key, { n: 'Internet Archive', u: `https://archive.org/details/${encodeURIComponent(r.x)}`, v: 'archive' });
   iaOk += 1;
 }
 

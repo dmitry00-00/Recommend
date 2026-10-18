@@ -35,7 +35,7 @@ interface Wd { links: number; ru?: string }
 
 // 1. все карточки справочника — теми же модулями, что грузит приложение
 const vite = await createServer({ root: ROOT, server: { middlewareMode: true, hmr: false }, appType: 'custom', logLevel: 'error' });
-const FILES = ['filmBase', 'filmBaseWiki', 'filmBasePopular', 'filmBaseWorld', 'filmBaseLinks', 'filmBaseTail', 'filmBaseCurated', 'filmBaseChannels', 'seriesBase', 'seriesBaseWiki', 'bookBase'];
+const FILES = ['filmBase', 'filmBaseWiki', 'filmBasePopular', 'filmBaseWorld', 'filmBaseLinks', 'filmBaseTail', 'filmBaseMore', 'filmBaseCurated', 'filmBaseChannels', 'seriesBase', 'seriesBaseWiki', 'bookBase'];
 const cards: Card[] = [];
 for (const f of FILES) {
   const m = await vite.ssrLoadModule(`/src/mocks/${f}.ts`);

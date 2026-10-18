@@ -24,7 +24,9 @@ export function matchWork(record: ImportedRecord, works: WorkCard[]): WorkCard |
     (ids.imdb && w.externalIds?.imdb === ids.imdb) ||
     (ids.tmdb != null && w.externalIds?.tmdb === ids.tmdb && kindOf(w) === record.type) ||
     (ids.kinopoisk != null && w.externalIds?.kinopoisk === ids.kinopoisk) ||
-    (ids.isbn?.some((i) => w.externalIds?.isbn?.includes(i))));
+    (ids.isbn?.some((i) => w.externalIds?.isbn?.includes(i))) ||
+    // фильм без TMDb заведён по элементу Wikidata (`wd:`, 18.10) — его узнаём по нему же
+    (ids.wikidata && w.externalIds?.wikidata === ids.wikidata && kindOf(w) === record.type));
   if (byId) return byId;
   if (!record.title) return undefined;
   const wanted = normalizeTitle(record.title);

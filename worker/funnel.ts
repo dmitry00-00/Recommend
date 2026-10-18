@@ -20,6 +20,7 @@
 import type { D1Database, Env } from './env';
 import { computeMetrics, type MetricRows } from './metrics';
 import { computeEngagement, type EngagementRows } from './engagement';
+import { canonWork } from './workAliases';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const MSK_MS = 3 * 3600e3;
@@ -46,7 +47,9 @@ export async function noteVisit(db: D1Database, userId: string): Promise<void> {
 
 // `card`, `watch` — с 07.10 (ЗП-3); `trailer` — с 15.10 (трейлер смахиванием в ленте); `share_sent`, `mood_query`, `survey_answered` — с 14.10 (МА-3, worker/engagement.ts);
 // `onboard` — с 16.10 (ДФ-2): шаги первого входа свайпом, place — шаг, detail — счёт («seen:4,want:2,no:3,rated:3»)
-const KINDS = new Set(['card', 'watch', 'trailer', 'share_sent', 'mood_query', 'survey_answered', 'onboard']);
+// `trailer_play` — плеер трейлера реально начал играть, `trailer_stall` — не начал за 8 с (17.10: трейлеры с сервера,
+// tools/trailers.mts; доля зависших — проверка, что ролики справочника живые и открываются)
+const KINDS = new Set(['card', 'watch', 'trailer', 'share_sent', 'mood_query', 'survey_answered', 'onboard', 'trailer_play', 'trailer_stall']);
 let eventSeq = 0;
 
 export async function postEvent(req: Request, userId: string, db: D1Database): Promise<Response> {
@@ -55,8 +58,10 @@ export async function postEvent(req: Request, userId: string, db: D1Database): P
   const kind = str(b.kind);
   if (!kind || !KINDS.has(kind)) return json({ error: 'bad_kind' }, 400);
   const id = `e-${Date.now().toString(36)}-${(eventSeq++ % 1e6).toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  // id лишней копии от старого клиента — на главную (канон копий, 17.10, worker/workAliases.ts)
+  const workId = str(b.workId, 120);
   await db.prepare('INSERT INTO event (id, user_id, kind, work_id, place, detail, at) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .bind(id, userId, kind, str(b.workId, 120), str(b.place), str(b.detail, 120), new Date().toISOString()).run();
+    .bind(id, userId, kind, workId ? canonWork(workId) : null, str(b.place), str(b.detail, 120), new Date().toISOString()).run();
   return json({ ok: true });
 }
 

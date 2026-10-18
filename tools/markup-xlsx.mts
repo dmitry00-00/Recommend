@@ -22,7 +22,7 @@ import { postsAuto } from '../src/mocks/postsAuto.ts';
 import { voices, voiceKeys } from '../src/mocks/voices.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 
 const arg = (name: string, def: string): string => {
   const i = process.argv.indexOf(`--${name}`);
@@ -48,7 +48,8 @@ const channels = JSON.parse(readFileSync(new URL('.cache/youtube/channels.json',
 // по нему разметку читают обратно, а «Солярис» без года — это два разных фильма.
 const seen = new Map<string, number>();
 const films = worksIndex({ all: true })
-  .filter((w) => w.key.startsWith('tmdb:') || w.key.startsWith('imdb:'))
+  // и фильм без TMDb — `wd:` (18.10; у книги тот же префикс — по виду карточки)
+  .filter((w) => w.key.startsWith('tmdb:') || w.key.startsWith('imdb:') || (w.key.startsWith('wd:') && w.work.type === 'film'))
   .map((w) => ({ key: w.key, title: w.work.title, year: w.work.year, series: isSeries(w.work) }))
   .sort((a, b) => a.title.localeCompare(b.title, 'ru') || (a.year ?? 0) - (b.year ?? 0))
   .map((f) => {
@@ -86,7 +87,7 @@ if (FULL) {
   const todo = videos.filter((v) => fromLinks(v) && (v.minutes ?? 0) >= MIN_MINUTES && !guess.has(v.id));
   const t = Date.now();
   // книги (isbn:) не предлагаем — таблица про киноролики, и ярлыка у них в списке нет
-  const found = matchVideos(todo.map((v) => (channels[v.channelId ?? '']?.language === 'en' ? { ...v, en: true } : v)), worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
+  const found = matchVideos(todo.map((v) => (channels[v.channelId ?? '']?.language === 'en' ? { ...v, en: true } : v)), worksIndex().filter((w) => !isBookEntry(w)), ordinary);
   for (const [id, g] of found) { guess.set(id, g.key); if (g.also?.length) guessAlso.set(id, g.also); }
   console.log(`каналы из ссылок: роликов ${todo.length}, угадан фильм у ${found.size} (${Math.round((Date.now() - t) / 1000)} с)`);
 }

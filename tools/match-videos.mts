@@ -60,7 +60,7 @@ export function focusFromProfiles(): (channel?: string) => ChannelFocus | undefi
   return (ch) => (ch ? m.get(ch) : undefined);
 }
 import type { IndexedWork } from './works-index.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { isSeries } from '../src/lib/media.ts';
 import { bookChannelList, judgeInBookChannel, namesFor, preferBooks, sourceIndex } from './book-channels.mts';
 
@@ -340,7 +340,7 @@ export function matchVideos(videos: VideoLike[], ours: IndexedWork[], ordinary?:
       const j = judgeInBookChannel(found, v.title, v.title, bookCtx, v.publishedAt);
       if (j.action === 'drop') return undefined;
       if (j.action === 'move') pick = { key: j.to!.key, work: j.to!.work, names: j.to!.bookNames ?? j.to!.names };
-    } else if (isBookKey(pick.key)) {
+    } else if (isBookEntry(pick)) {
       // разбор экранизации — к фильму по связям Ж1 (Ж4), без связей — прочь от книги
       const j = judgeBookMatch(adIndex, pick.key, v.title, v.publishedAt);
       if (j.action === 'drop') return undefined;

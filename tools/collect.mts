@@ -41,7 +41,8 @@ function step(name: string, cmd: string, args: string[], { optional = false, mar
   // вывод шага пишется в лог сразу, а не по окончании: долгий шаг (Wikidata — полчаса) видно
   // по `tail -f .cache/collect/<время>.log`, и понятно, что он жив
   const fd = openSync(log, 'a');
-  const r = spawnSync(cmd, args, { env: process.env, stdio: ['ignore', fd, fd], ...(minutes ? { timeout: minutes * 60e3, killSignal: 'SIGKILL' as const } : {}) });
+  // куча 4 ГБ (18.10): справочник вырос, expand-film-base падал по памяти на 2 ГБ по умолчанию (код 134) и не ставил отметку
+  const r = spawnSync(cmd, args, { env: { ...process.env, NODE_OPTIONS: process.env.NODE_OPTIONS ?? '--max-old-space-size=4096' }, stdio: ['ignore', fd, fd], ...(minutes ? { timeout: minutes * 60e3, killSignal: 'SIGKILL' as const } : {}) });
   closeSync(fd);
   const ok = r.status === 0;
   const late = minutes && r.signal === 'SIGKILL' && Date.now() - t >= minutes * 60e3 - 1000;
@@ -78,11 +79,28 @@ const expandMark = join(DIR, 'expand.last');
 const weekOld = !existsSync(expandMark) || Date.now() - statSync(expandMark).mtimeMs > 7 * 86400e3;
 if (process.argv.includes('--expand') || weekOld) {
   if (step('справочник фильмов (Wikidata)', ...tsx('tools/expand-film-base.mts', '--min', '2'), { optional: true })) writeFileSync(expandMark, new Date().toISOString());
+  // вышедшее за 90 дней (волна В, 18.10): премьеры, которых нет в топах Википедии, — по дате выхода в Wikidata; фильм без
+  // TMDb — с ключом `wd:`, игры и трейлеры — мимо (правило по P31 в сборщике). Модуль — ленивый filmBaseMore: в первой
+  // загрузке места нет (tools/load-budget.mjs)
+  step('вышедшее за 90 дней', ...tsx('tools/grow-film-base.mts', '--from', 'fresh:90', '--wd-keys', '--out', 'filmBaseMore', '--write'), { optional: true, minutes: 20 });
   // фильмы из загрузок каналов студий и агрегаторов (10.10): загрузки — раз в 14 дней, в Wikidata — только новые названия
   if (process.env.YT_API_KEY) step('фильмы из каналов', ...tsx('tools/grow-from-channels.mts', '--write'), { optional: true, minutes: 40 });
   // телепередачи (реалити, ток-шоу, конкурсы) — сопоставление их не ищет (OPS-9, 11.10)
   step('телепередачи', ...tsx('tools/tv-programs.mts'), { optional: true });
 }
+// месячные топы русской Википедии (волна В, 18.10) — раз в 30 дней своей отметкой, как справочник выше: за месяц выходит
+// новый топ, а чаще в нём нечего брать. Три последних месяца — с запасом на пропущенный прогон. Новое — в ленивый
+// filmBaseMore, фильм без TMDb — с ключом `wd:`
+const topsMark = join(DIR, 'tops.last');
+const monthOld = !existsSync(topsMark) || Date.now() - statSync(topsMark).mtimeMs > 30 * 86400e3;
+if (process.argv.includes('--expand') || monthOld) {
+  if (step('месячные топы Википедии', ...tsx('tools/grow-film-base.mts', '--months', '3', '--wd-keys', '--out', 'filmBaseMore', '--write'), { optional: true, minutes: 30 })) writeFileSync(topsMark, new Date().toISOString());
+}
+// канон копий (17.10, владелец: главная — общая копия, личная никогда): каждую ночь, после роста справочника и до
+// индексов; таблица едет со сборкой клиента и worker.cjs — в силу вступает с выкладкой
+step('канон копий', ...tsx('tools/work-aliases.mts'), { optional: true });
+// слой правок справочника (17.10) — после канона: правки ложатся на главные копии
+step('правки справочника', ...tsx('tools/work-fixes.mts'), { optional: true });
 
 // 3. Индексы. Сначала — названия-ловушки по свежему корпусу: с новыми постами и каналами меняется,
 // что здесь повседневная фраза (01.10: «Главный герой»); без них индексы работают как раньше
@@ -107,6 +125,9 @@ step('разметка моделью', ...tsx('tools/llm-label.mts', '--limit',
 // рубрики новых роликов (ЗП-2, 07.10): без этого шага ролики свежих каналов приходят в карточку без полки.
 // Только неразмеченные, полчаса; модель — LENS_MODEL (по умолчанию qwen: LM Studio бывает выключен)
 step('рубрики роликов', ...tsx('tools/llm-lens.mts', '--new', '--minutes', '30', '--model', process.env.LENS_MODEL ?? 'qwen'), { optional: true, minutes: 40 });
+// просьбы «посоветуйте» (ТВ-12а/б, 17.10): шлюз ищет их ночью, а разметка и очередь веток для шлюза жили только в пульте —
+// с 15.10 находки копились неразобранными. Модель та же, что у разметки, предел — 15 мин внутри и 20 снаружи
+step('просьбы из Telegram', ...tsx('tools/tg-asks.mts', '--minutes', '15', '--model', process.env.LLM_LABEL_MODEL ?? 'qwen'), { optional: true, minutes: 20 });
 step('рубрики каналов', ...tsx('tools/rubrics.mts'), { optional: true });
 step('кандидаты в стоп-слова', ...tsx('tools/stopwords.mts'), { optional: true });
 step('замер на ручной разметке', ...tsx('tools/markup-eval.mts'), { optional: true, mark: 'eval' });
@@ -146,6 +167,12 @@ step('наличие в кинотеатрах', ...tsx('tools/watch-providers.m
 step('подборки голосов', ...tsx('tools/voice-playlists.mts'), { optional: true });
 // бесплатная легальная классика (ЗП-43, 10.10): Wikidata раз в неделю, ролики правообладателей — раз в 14 дней
 step('бесплатная классика', ...tsx('tools/free-watch.mts'), { optional: true, minutes: 10 });
+// трейлеры заранее (17.10, владелец): раньше клиент искал трейлер при смахивании карточки — у 43 % не находилось ничего.
+// Сначала ролики каналов прокатчиков (tools/trailers-channels.mts; нет скрипта — пропускаем), потом сборщик: TMDb по
+// новым работам и давно проверенным, Wikidata, проверка YouTube седьмой части роликов за ночь. Первый полный прогон
+// (~46 тыс. работ) идёт частями — по 15 минут за ночь; предел снаружи — с запасом на проверку YouTube и запись
+if (existsSync('tools/trailers-channels.mts')) step('трейлеры каналов прокатчиков', ...tsx('tools/trailers-channels.mts'), { optional: true, minutes: 20 });
+step('трейлеры', ...tsx('tools/trailers.mts', '--minutes', '15'), { optional: true, minutes: 20 });
 // читать бесплатно (книги, 11.10): Викитека и Gutenberg из Wikidata, ответы — раз в неделю
 step('читать бесплатно', ...tsx('tools/free-read.mts'), { optional: true, minutes: 5 });
 // английские названия новых карточек (ЗП-20, 08.10): из кэша, в TMDb — только новые; в сборку попадут при следующем деплое

@@ -13,7 +13,7 @@ import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
 import { readStop, stopMatcher, tokens } from './stopwords-lib.mts';
 import { readRubrics, segments } from './rubrics.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 
 const root = new URL('../', import.meta.url);
 const read = <T,>(p: string, d: T): T => existsSync(new URL(p, root)) ? JSON.parse(readFileSync(new URL(p, root), 'utf8')) as T : d;
@@ -24,7 +24,7 @@ const channels = read<Record<string, { medium?: string }>>('.cache/youtube/chann
 const ordinary = new Set<string>(read<{ names?: string[] }>('.cache/ordinary.json', {}).names ?? []);
 const byId = new Map(videos.map((v) => [v.id, v]));
 const all = worksIndex();
-const ours = all.filter((w) => !isBookKey(w.key));
+const ours = all.filter((w) => !isBookEntry(w));
 const namesOf = new Map(all.map((w) => [w.key, new Set(w.names.flatMap(tokens))]));
 
 const truth = Object.entries(human).filter(([id, v]) => !v.guess && v.from !== 'desk' && byId.has(id) && (v.key || v.why));

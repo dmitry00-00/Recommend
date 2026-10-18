@@ -25,7 +25,7 @@ import { pairKey, readPrecision } from './link-precision.mts';
 import { channelMeta, excludedChannels, fetchChannelVideos, isExcluded } from './youtube-channels.mts';
 import { resolveAbout, type AboutKind } from './about-lib.mts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { bookChannelList, judgeInBookChannel, namesFor, sourceIndex, talksBook } from './book-channels.mts';
 
 const key = process.env.YT_API_KEY;
@@ -225,7 +225,7 @@ for (const [videoId, found] of pairs) {
     const j = judgeInBookChannel(byKey.get(key) ?? { key, work, names: [] }, v.title, v.title, bookCtx, v.publishedAt);
     if (j.action === 'drop') { if (j.why === 'outside') outsideCatalog += 1; else adaptations += 1; continue; }
     if (j.action === 'move') { key = j.to!.key; work = j.to!.work; if (j.why === 'to_book') toBook += 1; else moved += 1; }
-  } else if (!said && isBookKey(key)) {
+  } else if (!said && isBookEntry({ key, work })) {
     // к книге не привязываем разбор экранизации: это про фильм (Ж4 — по связям, без них — по словам)
     const j = judgeBookMatch(adIndex, key, v.title, v.publishedAt);
     if (j.action === 'drop') { adaptations += 1; continue; }

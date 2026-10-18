@@ -3,6 +3,7 @@
 // добавляются здесь, по проверке `PRAGMA table_info`, один раз на процесс воркера.
 import type { D1Database } from './env';
 import { tokenHash } from './auth';
+import { migrateWorkAliases } from './workAliases';
 
 const COLUMNS: { table: string; column: string; ddl: string }[] = [
   // 24.09, трек Б: прогноз модели вероятностями — для Брайера
@@ -172,6 +173,11 @@ export function migrate(db: D1Database): Promise<void> {
         db.prepare('INSERT OR IGNORE INTO migration_mark (name, at) VALUES (?, ?)').bind(o.name, new Date().toISOString()),
       ]);
     }
+    // 17.10, канон копий (worker/workAliases.ts): записи людей с лишних копий одной вещи — на главную; раз на версию
+    // таблицы псевдонимов (src/mocks/workAliases.ts), со старыми строками в work_alias_backup. 18.10, проверка перед
+    // выкладкой: сбой переноса не кладёт API — иначе каждый запрос повторял бы миграцию и падал; новые записи и так
+    // ложатся на главную (canonWork), перенос атомарный и повторится при следующем старте
+    try { await migrateWorkAliases(db); } catch (e) { console.error('канон копий: перенос не удался —', e); }
     // 16.10, ХБ: сессии до хеширования лежали токеном как есть. 17.10: не переводим в хеш, а снимаем — сырые токены уже
     // уехали в снятые копии базы, и хеш на месте оставил бы их действующими ключами на 90 дней. Telegram-клиент войдёт
     // заново по initData сам.

@@ -14,12 +14,14 @@ import { newId, newToken, tokenHash, verifyInitData } from './auth';
 import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
 import { useBot } from './env';
 import { migrate } from './migrate';
+import { canonCard, canonWork } from './workAliases';
 import { getFunnel, noteVisit, postEvent } from './funnel';
 import { getGrowth, seedingRoute } from './growthRoute';
 import { deleteAccount } from './account';
 import { noteInvite } from './invite';
 import { togetherRoute } from './together';
 import { probe } from './probe';
+import { forgetTrailers, getTrailers } from './trailers';
 // сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
 export { forgetMigrations } from './migrate';
 import { loopReport, loopRows } from './loop';
@@ -163,16 +165,17 @@ async function seedOwner(db: D1Database, userId: string, seed: OwnerSeed): Promi
   if (has && has.n > 0) return;
   const at = now();
   const statements = [
+    // история собрана из карточек истории (u-kp…, l-tmdb…) — на главные копии (канон копий, 17.10)
     ...seed.journal.map((e) => db.prepare(
       'INSERT OR IGNORE INTO journal (user_id, entry_id, work_id, work, status, started_at, finished_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    ).bind(userId, e.entryId, e.workId, JSON.stringify(e.work), e.status, e.startedAt ?? null, e.finishedAt ?? null)),
+    ).bind(userId, e.entryId, canonWork(e.workId), JSON.stringify(canonCard(e.work, canonWork(e.workId))), e.status, e.startedAt ?? null, e.finishedAt ?? null)),
     ...seed.ratings.map((r) => db.prepare(
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, at) VALUES (?, ?, ?, ?, ?)',
-    ).bind(userId, r.workId, r.rating, r.raw ?? null, at)),
+    ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, at)),
     // порядок присланного списка сохраняем временем отметки: первое в списке — самое свежее
     ...seed.watched.map((w, i) => db.prepare(
       'INSERT OR IGNORE INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, \'watched\', ?, ?, ?, ?)',
-    ).bind(userId, w.workId, JSON.stringify(w.work), w.tmdb ?? null, w.imdb ?? null, new Date(Date.parse(at) - i * 1000).toISOString())),
+    ).bind(userId, canonWork(w.workId), JSON.stringify(canonCard(w.work, canonWork(w.workId))), w.tmdb ?? null, w.imdb ?? null, new Date(Date.parse(at) - i * 1000).toISOString())),
   ];
   if (statements.length) await db.batch(statements);
 }
@@ -207,10 +210,10 @@ async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<
   await db.batch([
     ...seed.watched.map((w, i) => db.prepare(
       'INSERT OR IGNORE INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, \'watched\', ?, ?, ?, ?)',
-    ).bind(userId, w.workId, JSON.stringify(w.work), w.tmdb ?? null, w.imdb ?? null, stamp(i))),
+    ).bind(userId, canonWork(w.workId), JSON.stringify(canonCard(w.work, canonWork(w.workId))), w.tmdb ?? null, w.imdb ?? null, stamp(i))),
     ...(seed.ratings ?? []).map((r) => db.prepare(
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)',
-    ).bind(userId, r.workId, r.rating, r.raw ?? null, r.work ? JSON.stringify(r.work) : null, new Date(at).toISOString())),
+    ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, r.work ? JSON.stringify(canonCard(r.work, canonWork(r.workId))) : null, new Date(at).toISOString())),
     db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, mark, now()),
   ]);
 }
@@ -233,7 +236,9 @@ async function putUserSeed(req: Request, env: Env, username: string): Promise<Re
 }
 
 /** Оценка уже виденного: 1–5 или null — снять. Карточку кладём рядом, как у отметки. */
-async function putRating(req: Request, user: User, db: D1Database, workId: string): Promise<Response> {
+async function putRating(req: Request, user: User, db: D1Database, rawId: string): Promise<Response> {
+  // старый клиент шлёт id лишней копии (канон копий, 17.10) — запись ложится на главную
+  const workId = canonWork(rawId);
   const body = (await req.json().catch(() => ({}))) as { rating?: number | null; raw?: number; work?: unknown };
   if (body.rating == null) {
     await db.prepare('DELETE FROM rating WHERE user_id = ? AND work_id = ?').bind(user.id, workId).run();
@@ -244,7 +249,7 @@ async function putRating(req: Request, user: User, db: D1Database, workId: strin
   await db.prepare(
     `INSERT INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)
      ON CONFLICT (user_id, work_id) DO UPDATE SET rating = excluded.rating, raw = excluded.raw, work = COALESCE(excluded.work, rating.work), at = excluded.at`,
-  ).bind(user.id, workId, rating, body.raw ?? null, body.work ? JSON.stringify(body.work) : null, now()).run();
+  ).bind(user.id, workId, rating, body.raw ?? null, body.work ? JSON.stringify(canonCard(body.work, workId)) : null, now()).run();
   return json({ ok: true });
 }
 
@@ -264,6 +269,7 @@ async function putAfterword(req: Request, user: User, db: D1Database, rawId: str
   let workId: string;
   try { workId = decodeURIComponent(rawId); } catch { return json({ error: 'bad_work' }, 400); }
   if (!AFTER_WORK.test(workId)) return json({ error: 'bad_work' }, 400);
+  workId = canonWork(workId);
   const raw = await req.json().catch(() => undefined);
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return json({ error: 'bad_afterword' }, 400);
   const b = raw as Record<string, unknown>;
@@ -295,6 +301,8 @@ async function putAfterword(req: Request, user: User, db: D1Database, rawId: str
 /** Показы слейта: что человек увидел и на каком месте. Пишем пачкой — один запрос на ленту. */
 /** Уровень сложности произведения (1–10) и его признаки — операции с интенсивностью и регистры (МА-1/МА-2,
  *  worker/metrics.ts). Приходят от клиента: только обрезаем до разумного, чужое — null. */
+/** id произведения из тела запроса — на главную копию (канон копий, 17.10); нет — null. */
+const canonOrNull = (v: unknown): string | null => (typeof v === 'string' && v ? canonWork(v) : null);
 const levelOf = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) && v > 0 && v <= 10 ? Math.round(v * 10) / 10 : null);
 function traitsOf(v: unknown): string | null {
   if (!v || typeof v !== 'object') return null;
@@ -339,7 +347,7 @@ async function postImpressions(req: Request, user: User, db: D1Database): Promis
   const at = now();
   await db.batch(items.map((i) => db.prepare(
     'INSERT INTO impression (id, user_id, slate_id, rec_id, work_id, slot, rank, energy, at, level, traits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  ).bind(newId('i'), user.id, slateId, i.recId, i.workId, short(i.slot, 64) ?? null, typeof i.rank === 'number' && Number.isFinite(i.rank) ? i.rank : null, energy, at, levelOf(i.level), traitsOf(i.traits))));
+  ).bind(newId('i'), user.id, slateId, i.recId, canonWork(i.workId!), short(i.slot, 64) ?? null, typeof i.rank === 'number' && Number.isFinite(i.rank) ? i.rank : null, energy, at, levelOf(i.level), traitsOf(i.traits))));
   await noteLevelState(db, user.id, body.state, at);
   return json({ ok: true, n: items.length });
 }
@@ -355,7 +363,7 @@ async function postOpen(req: Request, user: User, db: D1Database): Promise<Respo
   const id = newId('o');
   await db.prepare(
     'INSERT INTO material_open (id, user_id, url, work_id, platform, lens, lens_also, tier, place, shelf, shelves, at, voice_id, minutes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  ).bind(id, user.id, url, str(b.workId, 120), str(b.platform), str(b.lens), str(b.lensAlso), str(b.tier), str(b.place), str(b.shelf),
+  ).bind(id, user.id, url, canonOrNull(str(b.workId, 120)), str(b.platform), str(b.lens), str(b.lensAlso), str(b.tier), str(b.place), str(b.shelf),
     b.shelves ? 1 : 0, now(), str(b.voiceId, 120), minutes).run();
   // id — чтобы клиент дописал, сколько человек был снаружи (МА-3, `POST /api/open/<id>/dwell`)
   return json({ ok: true, id });
@@ -435,13 +443,14 @@ async function putSettings(req: Request, user: User, db: D1Database): Promise<Re
   return json(merged);
 }
 
-async function putWatched(req: Request, user: User, db: D1Database, workId: string): Promise<Response> {
+async function putWatched(req: Request, user: User, db: D1Database, rawId: string): Promise<Response> {
+  const workId = canonWork(rawId);
   const body = (await req.json().catch(() => ({}))) as { watched?: boolean; work?: unknown; tmdb?: number; imdb?: string };
   await db.prepare(
     `INSERT INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT (user_id, work_id) DO UPDATE SET state = excluded.state, work = COALESCE(excluded.work, watched.work), at = excluded.at`,
   ).bind(user.id, workId, body.watched === false ? 'removed' : 'watched',
-    body.work ? JSON.stringify(body.work) : null, body.tmdb ?? null, body.imdb ?? null, now()).run();
+    body.work ? JSON.stringify(canonCard(body.work, workId)) : null, body.tmdb ?? null, body.imdb ?? null, now()).run();
   return json({ ok: true });
 }
 
@@ -452,6 +461,8 @@ async function postStart(req: Request, user: User, db: D1Database): Promise<Resp
     inferred?: boolean;
   };
   if (!body.workId) return json({ error: 'no_work' }, 400);
+  body.workId = canonWork(body.workId);
+  if (body.work) body.work = canonCard(body.work, body.workId);
   const entryId = body.entryId ?? newId('j');
   await db.prepare(
     `INSERT INTO journal (user_id, entry_id, work_id, work, status, started_at, inferred) VALUES (?, ?, ?, ?, 'in_progress', ?, ?)
@@ -473,6 +484,8 @@ async function postStart(req: Request, user: User, db: D1Database): Promise<Resp
 async function postPlan(req: Request, user: User, db: D1Database): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as { entryId?: string; workId?: string; work?: unknown; eagerness?: number };
   if (!body.workId) return json({ error: 'no_work' }, 400);
+  body.workId = canonWork(body.workId);
+  if (body.work) body.work = canonCard(body.work, body.workId);
   const entryId = body.entryId ?? newId('j');
   const eager = Number.isInteger(body.eagerness) && body.eagerness! >= 1 && body.eagerness! <= 5 ? body.eagerness! : null;
   await db.prepare(
@@ -531,7 +544,7 @@ async function postCheckIn(req: Request, user: User, db: D1Database, entryId: st
   const journalStatus = status === 'season_finished' || status === 'part_finished' ? 'in_progress' : status;
   const series = body.book ? bookJson(body.book) : seriesJson(body.series);
   const str = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : null);
-  const workId = str(body.workId, 120) ?? '';
+  const workId = canonWork(str(body.workId, 120) ?? '');
   const at = now();
   // чек-ин и запись дневника — одним пакетом: либо оба, либо ничего
   await db.batch([
@@ -601,7 +614,7 @@ async function postFeedback(req: Request, user: User, db: D1Database): Promise<R
   // «хочется» приходит только со свайпа по ленте и только 1–5; чужое значение отбрасываем молча
   const eager = Number.isInteger(body.eagerness) && body.eagerness! >= 1 && body.eagerness! <= 5 ? body.eagerness! : null;
   await db.prepare('INSERT INTO feedback (id, user_id, rec_id, work_id, action, reason, eagerness, at, level, traits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-    .bind(newId('f'), user.id, body.recId ?? null, body.workId ?? null, body.action, body.reason ?? null, eager, now(), levelOf(body.level), traitsOf(body.traits)).run();
+    .bind(newId('f'), user.id, body.recId ?? null, canonOrNull(body.workId), body.action, body.reason ?? null, eager, now(), levelOf(body.level), traitsOf(body.traits)).run();
   return json({ ok: true });
 }
 
@@ -628,10 +641,10 @@ async function postImport(req: Request, user: User, db: D1Database): Promise<Res
   const statements = [
     ...entries.map((e) => db.prepare(
       'INSERT OR IGNORE INTO journal (user_id, entry_id, work_id, work, status, started_at, finished_at, import_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    ).bind(user.id, e.entryId!.slice(0, 120), e.workId!.slice(0, 120), work(e.work), e.status!, isoOrNull(e.startedAt), isoOrNull(e.finishedAt), importId)),
+    ).bind(user.id, e.entryId!.slice(0, 120), canonWork(e.workId!.slice(0, 120)), work(canonCard(e.work, canonWork(e.workId!.slice(0, 120)))), e.status!, isoOrNull(e.startedAt), isoOrNull(e.finishedAt), importId)),
     ...ratings.map((r) => db.prepare(
       'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at, import_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    ).bind(user.id, r.workId!.slice(0, 120), r.rating!, typeof r.raw === 'number' && r.raw >= 0 && r.raw <= 10 ? r.raw : null, work(r.work), at, importId)),
+    ).bind(user.id, canonWork(r.workId!.slice(0, 120)), r.rating!, typeof r.raw === 'number' && r.raw >= 0 && r.raw <= 10 ? r.raw : null, work(canonCard(r.work, canonWork(r.workId!.slice(0, 120)))), at, importId)),
   ];
   // пачками: у D1 предел на размер одного batch
   for (let i = 0; i < statements.length; i += 500) await db.batch(statements.slice(i, i + 500));
@@ -705,7 +718,7 @@ const ISSUE_FIELDS = new Set(['title', 'year', 'people', 'synopsis', 'image', 'd
 /** Неточность в карточке произведения (02.10): что не так и, по желанию, как должно быть. */
 async function postWorkIssue(req: Request, user: User, db: D1Database): Promise<Response> {
   const body = (await req.json().catch(() => ({}))) as { workId?: string; title?: string; fields?: unknown; note?: string; context?: string };
-  const workId = (body.workId ?? '').trim().slice(0, 100);
+  const workId = canonWork((body.workId ?? '').trim().slice(0, 100));
   const title = (body.title ?? '').trim().slice(0, 200);
   const fields = Array.isArray(body.fields) ? [...new Set(body.fields.filter((f): f is string => typeof f === 'string' && ISSUE_FIELDS.has(f)))] : [];
   const note = (body.note ?? '').trim().slice(0, 500);
@@ -746,7 +759,7 @@ async function putVerdict(req: Request, user: User, db: D1Database): Promise<Res
   await db.prepare(
     `INSERT INTO link_verdict (user_id, url, work_id, verdict, at) VALUES (?, ?, ?, ?, ?)
      ON CONFLICT (user_id, url) DO UPDATE SET verdict = excluded.verdict, at = excluded.at`,
-  ).bind(user.id, body.url, body.workId ?? null, body.verdict, now()).run();
+  ).bind(user.id, body.url, canonOrNull(body.workId), body.verdict, now()).run();
   return json({ ok: true });
 }
 
@@ -850,7 +863,7 @@ async function getBehavior(req: Request, env: Env): Promise<Response> {
  *  на Cloudflare или из папки данных на bothost. Пишет их сборщик (tools/collect.mts) по
  *  расписанию, приложение читает готовое (трек В1). Нет файла — честный 404, и фронт берёт
  *  запечённое в сборку. */
-export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch', 'voicePlaylists', 'freeRead']);
+export const REFERENCE_NAMES = new Set(['postsAuto', 'essaysAuto', 'essayLenses', 'sourcesAuto', 'filmBaseWiki', 'comentions', 'meta', 'inlineIndex', 'heroes', 'seriesSeasons', 'publicPages', 'watchProviders', 'freeWatch', 'voicePlaylists', 'freeRead', 'trailers']);
 
 async function getReference(env: Env, name: string): Promise<Response> {
   if (!REFERENCE_NAMES.has(name)) return json({ error: 'unknown_reference', name }, 404);
@@ -873,6 +886,7 @@ async function putReference(req: Request, env: Env, name: string): Promise<Respo
   const before = watched ? await env.REFERENCE.get(`${name}.json`).then((o) => (o ? new Response(o.body).text() : undefined)).catch(() => undefined) : undefined;
   await env.REFERENCE.put(`${name}.json`, text);
   forgetReference(name);
+  if (name === 'trailers') forgetTrailers();
   const fresh = watched ? await noteFresh(env, before, text).catch((err) => { console.error('noteFresh', err); return -1; }) : undefined;
   return json({ ok: true, name, bytes: text.length, ...(fresh !== undefined ? { fresh } : {}) });
 }
@@ -943,6 +957,8 @@ export default {
     // обложки книг Open Library — через свой сервер (11.10): общие данные, без сессии
     const coverPath = /^\/api\/cover\/(\d{1,10})$/.exec(path);
     if (coverPath && req.method === 'GET') return withHead(await getCover(env, coverPath[1]), head);
+    // трейлеры, собранные ночью (17.10, worker/trailers.ts): общие данные, без сессии; ключи — `tmdb:<n>`, `tv:<n>`, до 40
+    if (path === '/api/trailers' && req.method === 'GET') return withHead(await getTrailers(env, url), head);
     // каналы реестра для строки поиска в карточке — общие данные, как справочники
     if (path === '/api/sources' && req.method === 'GET') return withHead(await getSources(env), head);
     // выгрузка дневника по ссылке (ДФ-14): метка в адресе и есть доступ, срок — час

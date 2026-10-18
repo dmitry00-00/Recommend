@@ -19,6 +19,7 @@ import { worksIndex } from './works-index.mts';
 import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
 import { filmBaseLinks } from '../src/mocks/filmBaseLinks.ts';
 import { filmBaseTail } from '../src/mocks/filmBaseTail.ts';
+import { filmBaseMore } from '../src/mocks/filmBaseMore.ts';
 import { isSeries } from '../src/lib/media.ts';
 import type { Person, PersonId, WorkCard } from '../src/types/tmdf.ts';
 import { cacheUrl, readCache, resolveWorkQids, search, sleep, sparql, wd } from './wikidata-lib.mts';
@@ -156,7 +157,8 @@ console.error(`людей в справочнике: ${Object.keys(people).lengt
 if (DRY) process.exit(0);
 // произведения из роста справочника (РР-4, РР-5: сериалы seriesBaseWiki, фильмы filmBaseLinks и filmBaseTail) грузятся
 // лениво — их авторы тоже: в people.ts / workCredits.ts (первая загрузка) они ломают бюджет сборки (15.10)
-const lazyIds = new Set([...seriesBaseWiki, ...filmBaseLinks, ...filmBaseTail].map((w) => w.id));
+// и пополнение волны В (filmBaseMore, 18.10)
+const lazyIds = new Set([...seriesBaseWiki, ...filmBaseLinks, ...filmBaseTail, ...filmBaseMore].map((w) => w.id));
 const lazyKeys = new Set(works.filter((w) => lazyIds.has(w.work.id)).map((w) => w.key));
 const usedMain = Object.fromEntries(Object.entries(used).filter(([k]) => !lazyKeys.has(k)));
 const usedMore = Object.fromEntries(Object.entries(used).filter(([k]) => lazyKeys.has(k)));

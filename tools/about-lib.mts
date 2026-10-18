@@ -5,6 +5,7 @@
 // справочник авторов Д2 (src/mocks/people.ts). Ключ у обоих — элемент Wikidata.
 import { relationEdges, relationNodes } from '../src/mocks/workRelations.ts';
 import { workCredits } from '../src/mocks/workCredits.ts';
+import { applyCreditFixes } from '../src/lib/workFixesTable.ts';
 import { hubWeight, listLike } from '../src/lib/relations.ts';
 import { people } from '../src/mocks/people.ts';
 import { universeSeeds } from './universe-seeds.mts';
@@ -137,14 +138,15 @@ export const universeOfKey = (key: string): string | undefined => universes().hu
 /** Люди произведения: режиссёр, создатель сериала, автор книги (сценаристов не берём — их много и
  *  о них не снимают ролики). */
 export function peopleOfKey(key: string): string[] {
-  const raw = workCredits[key];
+  // снятые правкой справочника люди (волна Б, 18.10: режиссёр серии — не автор сериала) — мимо
+  const raw = applyCreditFixes(key, workCredits[key] ?? '');
   if (!raw) return [];
   return [...new Set(raw.split(',').filter((x) => /:(d|c|a)$/.test(x)).map((x) => x.split(':')[0]))];
 }
 export const universeTitle = (q: string): string | undefined => relationNodes[q]?.t;
 
 /** Все люди произведения, со сценаристами — для «ядра» вселенной. */
-const allPeopleOfKey = (key: string): string[] => [...new Set((workCredits[key] ?? '').split(',').filter(Boolean).map((x) => x.split(':')[0]))];
+const allPeopleOfKey = (key: string): string[] => [...new Set(applyCreditFixes(key, workCredits[key] ?? '').split(',').filter(Boolean).map((x) => x.split(':')[0]))];
 /** Ядро вселенной — люди, которые есть хотя бы в двух её произведениях: у «Песни льда и огня» это
  *  Джордж Мартин (сценарист «Игры престолов», создатель «Дома дракона»). По ядру к вселенной
  *  причисляется и то, чего граф связей не знает: «Рыцарь Семи Королевств» — тоже Мартин. */

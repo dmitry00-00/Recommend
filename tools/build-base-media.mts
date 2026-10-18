@@ -13,9 +13,15 @@
 // Выход — src/mocks/baseMedia.ts: id карточки → обложка, кадр, описание, страны, длительность,
 // регистр (tools/register-tags.mts, теми же жанрами и ключевыми словами TMDb, что у всех).
 // Дополняется, не затирается. Приложение накладывает его на справочник при загрузке.
-import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+// Фильм без TMDb (ключ `wd:Q…`, 18.10) — постер из Wikimedia Commons (P18 элемента), прямым адресом upload.wikimedia.org.
+// Ленивые модули справочника (filmBaseLinks, filmBaseTail, filmBaseMore — не в первой загрузке): их фильмам без TMDb постер
+// Commons ищется всегда (другого источника картинки у них нет: TMDb о них не знает), а пишется в src/mocks/baseMediaLate.ts —
+// тоже ленивый, иначе первая загрузка выросла бы на их постеры (18.10). Фильмам с TMDb из ленивых модулей картинку, как и
+// прежде, приносит приложение при показе (src/lib/resolve withImages).
+import { mkdirSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { analysisKey } from './works-index.mts';
+import { commonsImage, FREE_IMAGE, wd } from './wikidata-lib.mts';
 import { pick, tagSource } from './register-tags.mts';
 import { tmdbFromEnv } from '../src/lib/resolve/index.ts';
 import { filmBaseWiki } from '../src/mocks/filmBaseWiki.ts';
@@ -23,6 +29,10 @@ import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
+import { filmBaseLinks } from '../src/mocks/filmBaseLinks.ts';
+import { filmBaseTail } from '../src/mocks/filmBaseTail.ts';
+import { filmBaseMore } from '../src/mocks/filmBaseMore.ts';
+import { baseMediaLate } from '../src/mocks/baseMediaLate.ts';
 import { draftAnnotations } from './draft-annotations.mts';
 import type { WorkCard } from '../src/types/tmdf.ts';
 import { isSeries } from '../src/lib/media.ts';
@@ -88,6 +98,67 @@ for (const w of targets) {
   n += 1;
   if (n % 50 === 0) console.error(`  ${n}/${targets.length}`);
 }
+// фильм без TMDb (ключ `wd:Q…`, решение владельца 17.10; 18.10): постер — изображение элемента (P18) из Wikimedia Commons,
+// прямым адресом upload.wikimedia.org и только свободное (общественное достояние, CC0); описания, стран и регистра у него
+// отсюда нет — TMDb о нём не знает. Кэш ответов — .cache/commons-posters.json (пустая запись — файла нет или лицензия не та)
+const wdTargets = [...filmBaseWiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels, ...filmBase].filter((w) => {
+  const k = analysisKey(w);
+  if (!k?.startsWith('wd:') || isSeries(w) || w.type !== 'film' || w.coverUrl || before[w.id]?.coverUrl) return false;
+  return DECK ? inDeck.has(w.id) : ALL || Boolean(draftAnnotations[k]);
+});
+const lateBefore: Record<string, Partial<WorkCard>> = { ...baseMediaLate };
+const firstIds = new Set(wdTargets.map((w) => w.id));
+const lateTargets = DECK ? [] : [...filmBaseLinks, ...filmBaseTail, ...filmBaseMore].filter((w) => {
+  const k = analysisKey(w);
+  return k?.startsWith('wd:') && !isSeries(w) && w.type === 'film' && !w.coverUrl && !before[w.id]?.coverUrl && !firstIds.has(w.id);
+});
+const late: Record<string, Partial<WorkCard>> = { ...lateBefore };
+if (wdTargets.length || lateTargets.length) {
+  const POSTERS = '.cache/commons-posters.json';
+  const cache: Record<string, { file?: string; url?: string; license?: string }> = existsSync(POSTERS) ? JSON.parse(readFileSync(POSTERS, 'utf8')) : {};
+  let wdCovers = 0;
+  const asked = [...wdTargets, ...lateTargets];
+  for (let i = 0; i < asked.length; i += 50) {
+    const part = asked.slice(i, i + 50).filter((w) => !cache[analysisKey(w)!]);
+    const qids = part.map((w) => analysisKey(w)!.slice(3));
+    const ents = qids.length ? (await wd<{ entities?: Record<string, { claims?: { P18?: { mainsnak?: { datavalue?: { value?: string } } }[] } }> }>(
+      { action: 'wbgetentities', ids: qids.join('|'), props: 'claims' }).catch(() => ({ entities: undefined }))).entities : undefined;
+    for (const w of part) {
+      const k = analysisKey(w)!;
+      const f = ents?.[k.slice(3)]?.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+      if (!ents) continue;
+      if (!f) { cache[k] = {}; continue; }
+      try { cache[k] = { file: f, ...await commonsImage(f, 500) }; } catch (e) { console.error(`  commons ${f}: ${(e as Error).message}`); }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+    // ответы не теряются, если прогон снимут: кэш — каждые 500 элементов
+    if (!DRY && i % 500 === 450) writeFileSync(POSTERS, JSON.stringify(cache));
+    if (i % 500 === 450) console.error(`  commons: ${i + 50}/${asked.length}`);
+  }
+  let lateCovers = 0;
+  for (const w of lateTargets) {
+    const c = cache[analysisKey(w)!];
+    if (!c?.url || !FREE_IMAGE.test(c.license ?? '')) continue;
+    late[w.id] = { coverUrl: c.url, imageSource: 'wikimedia_commons' };
+    lateCovers += 1;
+  }
+  if (lateTargets.length) console.error(`ленивые модули, фильмы без TMDb: ${lateTargets.length}, постер из Commons у ${lateCovers} → baseMediaLate.ts`);
+  for (const w of wdTargets) {
+    const c = cache[analysisKey(w)!];
+    if (!c?.url || !FREE_IMAGE.test(c.license ?? '')) continue;
+    out[w.id] = { ...out[w.id], coverUrl: c.url, imageSource: 'wikimedia_commons' };
+    wdCovers += 1;
+  }
+  if (!DRY) writeFileSync(POSTERS, JSON.stringify(cache));
+  console.error(`фильмы без TMDb: ${wdTargets.length}, постер из Commons у ${wdCovers}`);
+}
+if (!DRY) writeFileSync(new URL('../src/mocks/baseMediaLate.ts', import.meta.url), `// Сгенерировано tools/build-base-media.mts (${new Date().toISOString().slice(0, 10)}): постеры ленивых карточек справочника (filmBaseLinks, filmBaseTail,
+// filmBaseMore) без TMDb — изображение элемента Wikidata (P18) из Wikimedia Commons, только свободное. Не в первой загрузке:
+// грузится со справочником этих карточек (src/api/index.ts, loadFilmLinks). Не править руками — перегенерировать.
+import type { WorkCard } from '@/types/tmdf';
+
+export const baseMediaLate: Record<string, Partial<WorkCard>> = ${JSON.stringify(late, null, 1)};
+`);
 save();
 console.error(`обложек ${covers}, с регистром ${targets.filter((w) => out[w.id]?.registers?.length).length} из ${targets.length}`);
 if (DRY) process.exit(0);

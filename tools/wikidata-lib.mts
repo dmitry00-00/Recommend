@@ -48,6 +48,22 @@ export const sparql = <T,>(query: string) => retry<T>('sparql', () => fetch('htt
   headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded', accept: 'application/sparql-results+json' },
   body: new URLSearchParams({ query }),
 }));
+/** Картинка Wikimedia Commons по имени файла (P18) — прямым адресом upload.wikimedia.org (18.10): Special:FilePath
+ *  отвечает редиректом, а публичным страницам (worker/pages.ts PIC_HOSTS) и og:image нужен сам файл. imageinfo с шириной
+ *  отдаёт уменьшенную копию (`thumburl`) и лицензию — в справочник берём только общественное достояние и CC0, как у
+ *  обложек книг (tools/build-book-media.mts): остальные лицензии требуют подписи автора у картинки. */
+export const FREE_IMAGE = /^(public domain|cc0)/i;
+export async function commonsImage(file: string, width = 500): Promise<{ url?: string; license?: string }> {
+  const r = await retry<{ query?: { pages?: Record<string, { imageinfo?: { thumburl?: string; url?: string; extmetadata?: Record<string, { value: string }> }[] }> } }>('imageinfo',
+    () => fetch(`https://commons.wikimedia.org/w/api.php?${new URLSearchParams({ action: 'query', titles: `File:${file}`, prop: 'imageinfo', iiprop: 'url|extmetadata', iiurlwidth: String(width), format: 'json', maxlag: '5' })}`,
+      { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(20000) }));
+  const ii = Object.values(r.query?.pages ?? {})[0]?.imageinfo?.[0];
+  // уменьшенные копии Commons с осени 2026 отдаёт с thumb.wikimedia.org — тот же путь лежит и на upload.wikimedia.org
+  // (проверено 18.10): берём его, хост один для всех белых списков (worker/hosts.ts, worker/pages.ts)
+  const url = (ii?.thumburl ?? ii?.url)?.replace(/\?.*$/, '').replace(/^https:\/\/thumb\.wikimedia\.org\//, 'https://upload.wikimedia.org/');
+  return { ...(url && /^https:\/\/upload\.wikimedia\.org\//.test(url) ? { url } : {}), ...(ii?.extmetadata?.LicenseShortName ? { license: ii.extmetadata.LicenseShortName.value } : {}) };
+}
+
 export async function search(statement: string): Promise<string | null> {
   const r = await wd<{ query?: { search?: { title: string }[] } }>({ action: 'query', list: 'search', srsearch: `haswbstatement:${statement}`, srlimit: '1' });
   return r.query?.search?.[0]?.title ?? null;

@@ -387,6 +387,8 @@ function dedupKeys(r: ImportedRecord): string[] {
   if (ids.imdb) keys.push(`imdb:${ids.imdb}`);
   if (ids.tmdb != null) keys.push(`tmdb:${ids.tmdb}`);
   ids.isbn?.forEach((i) => keys.push(`isbn:${i}`));
+  // элемент Wikidata (18.10: им подписан фильм без TMDb) — вместе с видом: у книги и фильма элементы разные, но не смешиваем
+  if (ids.wikidata) keys.push(`wd:${r.type}:${ids.wikidata}`);
   for (const t of [r.title, r.originalTitle]) {
     if (t) keys.push(`t:${r.type}:${t.toLowerCase().replace(/\s+/g, ' ').trim()}:${r.year ?? ''}`);
   }

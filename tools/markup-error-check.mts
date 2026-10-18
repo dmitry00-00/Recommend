@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { cachedVideos } from './youtube-channels.mts';
 
 type V = { key: string | null; err?: string; film?: string; also?: string[] };
@@ -15,7 +15,7 @@ const videos = new Map((cachedVideos() ?? []).map((v) => [v.id, v]));
 const ordFile = new URL('../.cache/ordinary.json', import.meta.url);
 let ordinary: Set<string> | undefined;
 try { ordinary = new Set(JSON.parse(readFileSync(ordFile, 'utf8')).names ?? []); } catch { /* без ловушек */ }
-const ours = worksIndex().filter((w) => !isBookKey(w.key));
+const ours = worksIndex().filter((w) => !isBookEntry(w));
 const label = new Map(ours.map((w) => [w.key, `${w.work.title} (${w.work.year ?? '—'})`]));
 const set = marked.map(([id]) => videos.get(id)).filter((v): v is NonNullable<typeof v> => Boolean(v));
 const got = matchVideos(set, ours, ordinary);

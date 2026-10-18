@@ -1,6 +1,6 @@
 // Произведения, которых в приложении нет совсем (решение владельца 11.10): ни в подборе, ни в поиске, ни на страницах;
 // ролики и посты к ним не привязываются (tools/works-index.mts), генераторы справочника их не заводят
-// (tools/grow-film-base.mts). Ключ — как у разметки: фильм `tmdb:`, сериал `imdb:`. Правится руками.
+// (tools/grow-film-base.mts). Ключ — как у разметки: фильм `tmdb:` (без TMDb — `wd:`, 18.10), сериал `imdb:`. Правится руками.
 export const withheldWorks: Record<string, string> = {
   'tmdb:5853': 'Глубокая глотка (1972) — порнография',
   'tmdb:39266': 'Триумф воли (1935) — нацистская пропаганда',
@@ -629,6 +629,7 @@ export const heldWorks: Record<string, string> = {
   'wd:Q3011799': 'Демонология (Яков VI) — эзотерика: трактат о колдовстве',
   'wd:Q436094': 'Конституции Андерсона — эзотерика: масонский устав',
   'wd:Q25302864': 'Астрономика — эзотерика: античная поэма об астрологии',
+  'wd:Q179021': 'Алхимик — Коэльо, «духовная» проза — как эзотерика (17.10, владелец: отложить; выпадал из bookBase при пересборке и не попадал сюда)',
   'wd:Q1102212': 'Дневник мага — Коэльо, «духовная» проза — как эзотерика',
   'wd:Q622099': 'Апрельские тезисы — Ленин — лениниана',
   'wd:Q247379': 'Одиннадцать минут — Коэльо, «духовная» проза — как эзотерика',
@@ -658,8 +659,15 @@ export const heldWorks: Record<string, string> = {
 export const isHeldKey = (key: string | undefined): boolean => Boolean(key && key in heldWorks);
 
 /** Карточка из убранных — по её ключам TMDb и IMDb, у книги — по элементу Wikidata (у фильма тот же элемент бывает у
- *  его карточки, поэтому `wd:` сверяем только у книг). TMDb у сериала — номер в другом ряду (tv), с фильмом не сверяем. */
-export const isWithheld = (w: { type?: string; format?: string; externalIds?: { tmdb?: number; imdb?: string; wikidata?: string } }): boolean =>
-  [w.type !== 'series' && w.format !== 'series' && w.externalIds?.tmdb != null && `tmdb:${w.externalIds.tmdb}`, w.externalIds?.imdb && `imdb:${w.externalIds.imdb}`,
-    w.type === 'book' && w.externalIds?.wikidata && `wd:${w.externalIds.wikidata}`]
-    .some((k) => k && k in withheldWorks);
+ *  его карточки, поэтому `wd:` у фильма с TMDb не сверяем). TMDb у сериала — номер в другом ряду (tv), с фильмом не сверяем.
+ *  Фильм без TMDb (сериал без IMDb) подписан самим элементом (`wd:Q…`, решение владельца 17.10) — 18.10 сверяем и его, но
+ *  запись «… не книга» убирает только книжную карточку: «Европейцы» (1979) сняты с книг, а фильмом остаются. */
+export const isWithheld = (w: { type?: string; format?: string; externalIds?: { tmdb?: number; imdb?: string; wikidata?: string } }): boolean => {
+  const ids = w.externalIds;
+  const series = w.type === 'series' || w.format === 'series';
+  const wd = ids?.wikidata ? `wd:${ids.wikidata}` : undefined;
+  if ([!series && ids?.tmdb != null && `tmdb:${ids.tmdb}`, ids?.imdb && `imdb:${ids.imdb}`, w.type === 'book' && wd]
+    .some((k) => k && k in withheldWorks)) return true;
+  const ownWd = wd && w.type !== 'book' && (series ? !ids?.imdb : ids?.tmdb == null);
+  return Boolean(ownWd && wd in withheldWorks && !/не книга/.test(withheldWorks[wd]));
+};

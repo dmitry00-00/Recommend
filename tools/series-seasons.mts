@@ -11,6 +11,7 @@ import { loadEnvFile } from './env-file.mts';
 import { filmBasePopular } from '../src/mocks/filmBasePopular.ts';
 import { seriesBaseWiki } from '../src/mocks/seriesBaseWiki.ts';
 import { filmBaseWorld } from '../src/mocks/filmBaseWorld.ts';
+import { filmBaseMore } from '../src/mocks/filmBaseMore.ts';
 import { filmBaseChannels } from '../src/mocks/filmBaseChannels.ts';
 import { filmBaseMarkup } from '../src/mocks/filmBaseMarkup.ts';
 import { seriesBase } from '../src/mocks/seriesBase.ts';
@@ -51,7 +52,8 @@ const get = async <T,>(path: string, extra: Record<string, string> = {}): Promis
 
 // ─── какие сериалы ────────────────────────────────────────────────────────────
 const imdbs = new Set<string>();
-for (const w of [...filmBasePopular, ...seriesBaseWiki, ...filmBaseWorld, ...filmBaseChannels, ...filmBaseMarkup, ...seriesBase, ...userWorks]) {
+// и сериалы пополнения волны В (filmBaseMore, 18.10): из истории, импорта Кинопоиска и свежего
+for (const w of [...filmBasePopular, ...seriesBaseWiki, ...filmBaseWorld, ...filmBaseMore, ...filmBaseChannels, ...filmBaseMarkup, ...seriesBase, ...userWorks]) {
   if (w.type !== 'series') continue;
   const imdb = (w.externalIds ?? externalIds[w.id])?.imdb;
   if (imdb && /^tt\d+$/.test(imdb)) imdbs.add(imdb);

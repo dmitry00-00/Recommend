@@ -18,7 +18,7 @@ import { seriesPart } from './series-part.mts';
 import { isSeries } from '../src/lib/media.ts';
 import { essaysAuto } from '../src/mocks/essaysAuto.ts';
 import type { ExternalAnalysis } from '../src/types/tmdf.ts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { bookChannelList, isBookHandle, judgeInBookChannel, namesFor, preferBooks, sourceIndex } from './book-channels.mts';
 
 const args = parseArgs(process.argv.slice(2));
@@ -216,7 +216,7 @@ for (const { username, path, role } of args) {
       const j = judgeInBookChannel(oursByKey.get(best.key)!, head, p.text.slice(0, 400), bookCtx, p.date);
       if (j.action === 'drop') { if (j.why === 'outside') bookStats.outside += 1; else bookStats.adaptation += 1; continue; }
       if (j.action === 'move') { best = { key: j.to!.key, work: j.to!.work, len: best.len }; if (j.why === 'to_book') bookStats.toBook += 1; }
-    } else if (isBookKey(best.key)) {
+    } else if (isBookEntry(best)) {
       // к книге не привязываем разговор об экранизации (Ж4): по связям — к фильму, если он у нас есть
       const j = judgeBookMatch(adIndex, best.key, head, p.date);
       if (j.action === 'drop') continue;

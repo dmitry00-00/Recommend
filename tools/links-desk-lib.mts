@@ -136,7 +136,8 @@ export function matchFilm(name: string, year: number | undefined, films: FilmOpt
  *  что у таблицы разметки (tools/markup-xlsx.mts) и опознавателя (resolve-markup-films.mts). */
 export function filmOptions(works: { key: string; work: { title: string; year?: number; type: string } }[]): FilmOption[] {
   const seen = new Map<string, number>();
-  return works.filter((w) => w.key.startsWith('tmdb:') || w.key.startsWith('imdb:'))
+  // и фильм без TMDb — `wd:` (18.10; у книги тот же префикс — по виду карточки)
+  return works.filter((w) => w.key.startsWith('tmdb:') || w.key.startsWith('imdb:') || (w.key.startsWith('wd:') && w.work.type === 'film'))
     .map((w) => ({ key: w.key, title: w.work.title, year: w.work.year || undefined, series: w.work.type === 'series' }))
     .sort((a, b) => a.title.localeCompare(b.title, 'ru') || (a.year ?? 0) - (b.year ?? 0))
     .map((f) => {

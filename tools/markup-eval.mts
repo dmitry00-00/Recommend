@@ -21,7 +21,7 @@ import { matchVideos } from './match-videos.mts';
 import { parsePaste } from './links-desk-lib.mts';
 import { readLabels, resolver, suggest, type MarkupError } from './llm-lib.mts';
 import { resolveAbout } from './about-lib.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 
 const root = new URL('../', import.meta.url);
 const read = <T,>(p: string, d: T): T => existsSync(new URL(p, root)) ? JSON.parse(readFileSync(new URL(p, root), 'utf8')) as T : d;
@@ -34,7 +34,7 @@ const channels = read<Record<string, { medium?: string; language?: string }>>('.
 const ordinary = new Set<string>(read<{ names?: string[] }>('.cache/ordinary.json', {}).names ?? []);
 const ordinaryEn = new Set<string>(read<{ namesEn?: string[] }>('.cache/ordinary.json', {}).namesEn ?? []);
 const byId = new Map(videos.map((v) => [v.id, v]));
-const ours = worksIndex().filter((w) => !isBookKey(w.key));
+const ours = worksIndex().filter((w) => !isBookEntry(w));
 const label = new Map(worksIndex({ all: true }).map((w) => [w.key, `${w.work.title}${w.work.year ? ` (${w.work.year})` : ''}`]));
 
 const truth = Object.entries(human).filter(([id, v]) => !v.guess && v.from !== 'desk' && byId.has(id) && (v.key || v.why === 'не про фильм'));

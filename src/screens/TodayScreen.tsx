@@ -4,8 +4,8 @@ import type {
   DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, noteTrailer, notWatched, planWork, sendRecommendationFeedback, startWork, trailerSource, unplanWork, updateSettings, type Trailer } from '@/api';
-import { TrailerSheet } from '@/components/TrailerSheet';
+import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { InlineTrailer, useTrailer } from '@/components/InlineTrailer';
 import { RatingWheel } from '@/components/RatingWheel';
 import {
   Button, DiscussionLink, EmptyState, EnergySwitch, ErrorState, FeedKindSwitch, FilmTabs, ImportHistorySheet, QuickMark, ReasonPicker, Skeleton,
@@ -138,6 +138,9 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
  *  Пороги намеренно большие: лента прокручивается вертикально, случайный сдвиг вбок ничего
  *  делать не должен. */
 const SWIPE = 96;
+/** ▶ на кадре ленты (17.10, владелец): выключен — «без показа трейлера по свайпу лента станет лентой трейлеров»; «может,
+ *  потом вернём» — тогда true, остальное (InlineTrailer, вид кнопки) на месте */
+const FEED_PLAY_BUTTON = false;
 // кадр уходит на DRAG от длины свайпа: в освободившуюся полосу должны влезать логотипы внахлёст
 const DRAG = 0.8;
 /** сколько логотипов показывать под пальцем; остальные — числом «+N» */
@@ -196,23 +199,14 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
   const toast = useToast();
   const [dx, setDx] = useState(0);
   const [side, setSide] = useState<'none' | 'voices'>('none');
-  // влево — трейлер (15.10, владелец): «Не сейчас» переехало в карточку фильма. Трейлер спрашиваем, как только карточку
-  // повели влево, — к отпусканию он обычно уже есть; не нашёлся — кадр пружинит назад и тост «трейлера нет» (17.10)
-  const canTrailer = trailerSource(r.work);
-  const [trailer, setTrailer] = useState<Trailer | null | undefined>(canTrailer ? undefined : null);
-  const [playing, setPlaying] = useState<Trailer>();
-  const asked = useRef<Promise<Trailer | undefined> | undefined>(undefined);
-  const askTrailer = () => (asked.current ??= getTrailer(r.work).then((t) => { setTrailer(t ?? null); return t ?? undefined; }, () => { asked.current = undefined; return undefined; }));
-  // трейлер — заранее (16.10, владелец: «сразу при свайпе»): спрашиваем, как только карточка подъезжает к экрану, —
-  // к свайпу он уже есть и открывается без ожидания, а подсказка под кадром сразу честная (трейлер или «трейлера нет»)
+  // влево — трейлер (15.10, владелец): «Не сейчас» переехало в карточку фильма. Не нашёлся — кадр пружинит назад и тост
+  // «трейлера нет» (17.10). Трейлер — заранее (16.10, владелец: «сразу при свайпе»): спрашиваем, как только карточка
+  // подъезжает к экрану, — к свайпу он уже есть, а подсказка под кадром сразу честная (трейлер или «трейлера нет»)
   const cardRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el || trailer !== undefined || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver((seen) => { if (seen.some((x) => x.isIntersecting)) { io.disconnect(); askTrailer().catch(() => undefined); } }, { rootMargin: '300px 0px' });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [trailer]);
+  const trailer = useTrailer(r.work, cardRef);
+  // ролик играет прямо в ленте (17.10, владелец) — только смахиванием влево, ▶ на кадре ленты нет («без показа трейлера
+  // по свайпу лента станет лентой трейлеров»); пока играет, свайпы карточки выключены — жесты не дерутся с плеером
+  const [inline, setInline] = useState(false);
   // панель авторов (17.10): кадр ушёл с экрана — закрываем сама, чтобы, вернувшись, человек видел ленту, а не панель
   const voicesOpen = side === 'voices';
   useEffect(() => {
@@ -225,15 +219,15 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
   // те же авторы и в том же порядке, что в карточке: сначала подтверждённые, потом у кого больше
   const voices = useMemo(() => groupByVoice(r.analyses ?? []), [r.analyses]);
   const noTrailer = () => toast({ text: ui.trailer.none, duration: 2000 });
-  const play = (t: Trailer) => { noteTrailer(r.work.id, 'feed'); setPlaying(t); };
   const dropping = dx <= -SWIPE;
   const showing = dx >= SWIPE && voices.length > 0;
   const swipe = useSwipe({
+    enabled: !inline,
     onMove(next) {
       // открыта панель авторов — кадр не тянем: свайп в любую сторону её закрывает
       if (voicesOpen) return;
       if ((next <= -SWIPE) !== dropping || (next >= SWIPE && voices.length > 0) !== showing) tap();
-      if (next < 0 && trailer === undefined) askTrailer().catch(() => undefined);
+      if (next < 0 && trailer === undefined) getTrailer(r.work).catch(() => undefined);
       setDx(next);
     },
     onEnd(end) {
@@ -243,8 +237,8 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
         onSwiped();
         if (trailer === null) { tap(); noTrailer(); return; }
         tap('medium');
-        if (trailer) { play(trailer); return; }
-        askTrailer().then((t) => { if (t) play(t); else noTrailer(); }).catch(noTrailer);
+        if (trailer) { setInline(true); return; }
+        getTrailer(r.work).then((t) => { if (t) setInline(true); else noTrailer(); }).catch(noTrailer);
       }
       // без авторов открывать нечего: заливка сказала «разборов пока нет», кадр вернулся
       else if (end >= SWIPE && voices.length) { onSwiped(); tap('medium'); setSide('voices'); }
@@ -280,9 +274,10 @@ function FeedCard({ r, no, meta, tag, onOpen, onVoice, onSwiped }: {
       )}
       <FilmEdge work={r.work} no={no} />
       <div className="tm-stream__drag" style={dx ? ({ '--swipe-x': `${Math.round(dx * DRAG)}px` } as CSSProperties) : undefined}>
-        <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />
+        <InlineTrailer work={r.work} trailer={trailer} place="feed" open={inline} onOpenChange={setInline} button={FEED_PLAY_BUTTON}>
+          <WorkBanner work={r.work} meta={meta} tag={tag} onClick={onOpen} priority={no === 1} />
+        </InlineTrailer>
       </div>
-      <TrailerSheet trailer={playing} title={titleOf(r.work)} onClose={() => setPlaying(undefined)} />
     </article>
   );
 }

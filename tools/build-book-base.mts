@@ -24,8 +24,17 @@
 // Карточка: Wikidata (метки, год P577, автор P50, Open Library ID P648) и Open Library (обложка, автор,
 // год первой публикации). Ключ — произведение (`wd:`/`olw:`, З1). Кэш — .cache/book-base.json.
 // Итог — src/mocks/bookBase.ts; всё найденное, включая отсеянное, — .cache/book-candidates.tsv.
+// 17.10 (волна В): книги «что ищут» больше не отбрасываются по `had` из book-popular — `had` считался по справочнику
+// вместе с самим bookBase, и пересборка РР-2 выкинула 62 книги, что были в нём только через источник 6 («had» = «уже
+// есть» = «у себя же»). Повторы и так снимает `have` в конце. Сведения, что не пришли (сбой сети, 429 подряд — так не
+// заведены «Хаджи-Мурат», «Бегущий в лабиринте», «Тень над Иннсмутом»), спрашиваются ещё двумя кругами с паузой; у
+// книги, что уже есть в прежнем bookBase, сведения берутся из её карточки — без сети. «Уже есть» — по справочнику без
+// истории владельца и демо-каталога (tools/base-have.mts): «Мастер и Маргарита» и «Солярис» были только в моках.
+//   --popular FILE — свой список «что ищут» (замер grow-book-base --out); --dry — без записи bookBase.ts, новые
+//   карточки — в .cache/book-base.dry.json
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
+import { baseHave } from './base-have.mts';
 import { bookMentions, sameSurname, titleKey } from './book-bridge.mts';
 import { isBookHandle } from './book-channels.mts';
 import { readCache, search, sleep, wd, writeCache } from './wikidata-lib.mts';
@@ -41,6 +50,7 @@ const FRESH = args.includes('--fresh'), DRY = args.includes('--dry');
 // него, ждали бы до конца. Полный прогон без ключа — потом
 const CACHED_SAID = args.includes('--cached-said');
 const TOP = Number(args[args.indexOf('--top') + 1]) || 300;
+const POPULAR = args.includes('--popular') ? args[args.indexOf('--popular') + 1] : undefined;
 const UA = 'transformative-media/0.1 (book index; contact via repository README)';
 
 // ---------- 1. экранизации ----------
@@ -140,11 +150,14 @@ async function wdFind(title: string, authors: string[]): Promise<Info | undefine
 }
 
 let asked = 0;
+/** не пришедшие сведения — ещё два круга в конце (17.10): прежде сбой оставлял книгу без карточки до следующей пересборки */
+const failed: { key: string; what: string; run: () => Promise<Info> }[] = [];
+const fail = (key: string, what: string, run: () => Promise<Info>, e: unknown) => { console.error(`  ${what}: ${(e as Error).message}`); failed.push({ key, what, run }); };
 for (const g of graph.slice(0, TOP)) {
   if (cache[`wd:${g.q}`]) continue;
   try {
     cache[`wd:${g.q}`] = await wdInfo(g.q, relationNodes[g.q].t);
-  } catch (e) { console.error(`  ${relationNodes[g.q].t}: ${(e as Error).message}`); continue; }
+  } catch (e) { fail(`wd:${g.q}`, relationNodes[g.q].t, () => wdInfo(g.q, relationNodes[g.q].t), e); continue; }
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
@@ -152,7 +165,7 @@ for (const g of graph.slice(0, TOP)) {
 const seeded = readCache<{ q: string; why: string }[]>('seed-books.json', []);
 for (const { q } of seeded) {
   if (cache[`wd:${q}`]) continue;
-  try { cache[`wd:${q}`] = await wdInfo(q, q); } catch (e) { console.error(`  ${q}: ${(e as Error).message}`); continue; }
+  try { cache[`wd:${q}`] = await wdInfo(q, q); } catch (e) { fail(`wd:${q}`, q, () => wdInfo(q, q), e); continue; }
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
@@ -266,16 +279,38 @@ for (const b of listed) {
 }
 // что ищут: элемент Wikidata известен — сразу сведения
 type Popular = { qid: string; title: string; views: number; links: number; had: boolean };
-const popularFile = new URL('../.cache/book-popular.json', import.meta.url);
+const popularFile = POPULAR ? new URL(POPULAR, `file://${process.cwd()}/`) : new URL('../.cache/book-popular.json', import.meta.url);
+// без отсева по `had` (17.10): повторы снимает `have` ниже
 const popular: Popular[] = existsSync(popularFile)
-  ? (JSON.parse(readFileSync(popularFile, 'utf8')) as { books: Popular[] }).books.filter((b) => !b.had && !withheldWorks[`wd:${b.qid}`]) : [];
-console.error(`книг, которые ищут в Википедии, и канона без карточки: ${popular.length}`);
+  ? (JSON.parse(readFileSync(popularFile, 'utf8')) as { books: Popular[] }).books.filter((b) => !withheldWorks[`wd:${b.qid}`]) : [];
+console.error(`книг, которые ищут в Википедии, и канона: ${popular.length} (прежде отсеивались ${popular.filter((b) => b.had).length} с had)`);
+// уже есть в прежнем bookBase — сведения из карточки, без сети: иначе снятие отсева по had стоило бы ~570 запросов
+const prevByQ = new Map(prevBookBase.filter((w) => w.externalIds?.wikidata).map((w) => [w.externalIds!.wikidata!, w]));
+const fromCard = (w: WorkCard): Info => ({ wd: w.externalIds?.wikidata, title: w.title, ...(w.originalTitle ? { en: w.originalTitle } : {}),
+  ...(w.year ? { year: w.year } : {}), authors: w.creators, ...(w.externalIds?.openLibrary ? { olw: w.externalIds.openLibrary } : {}),
+  ...(/\/b\/id\/(\d+)-/.exec(w.coverUrl ?? '')?.[1] ? { cover: Number(/\/b\/id\/(\d+)-/.exec(w.coverUrl!)![1]) } : {}) });
+let fromPrev = 0;
 for (const b of popular) {
   if (cache[`wd:${b.qid}`]) continue;
-  try { cache[`wd:${b.qid}`] = await wdInfo(b.qid, b.title); } catch (e) { console.error(`  ${b.title}: ${(e as Error).message}`); continue; }
+  const prev = prevByQ.get(b.qid);
+  if (prev) { cache[`wd:${b.qid}`] = fromCard(prev); fromPrev++; continue; }
+  try { cache[`wd:${b.qid}`] = await wdInfo(b.qid, b.title); } catch (e) { fail(`wd:${b.qid}`, b.title, () => wdInfo(b.qid, b.title), e); continue; }
   if (++asked % 20 === 0) writeCache('book-base.json', cache);
   await sleep(300);
 }
+if (fromPrev) console.error(`сведения из прежнего bookBase: ${fromPrev}`);
+// повтор не пришедшего: два круга, пауза перед кругом — 30 и 90 с (429 у Wikidata — минута-другая)
+for (let round = 1; round <= 2 && failed.length; round++) {
+  const todo = failed.splice(0);
+  console.error(`повтор ${round}: ${todo.length} — пауза ${round === 1 ? 30 : 90} с`);
+  await sleep(round === 1 ? 30000 : 90000);
+  for (const f of todo) {
+    if (cache[f.key]) continue;
+    try { cache[f.key] = await f.run(); } catch (e) { if (round === 2) console.error(`  не пришло и со второго повтора: ${f.what}`); failed.push(f); }
+    await sleep(1000);
+  }
+}
+if (failed.length) console.error(`без сведений: ${failed.length} (${failed.slice(0, 10).map((f) => f.what).join(', ')}) — спросятся при следующем прогоне`);
 writeCache('book-base.json', cache);
 
 // ---------- 4. карточки ----------
@@ -339,13 +374,21 @@ writeFileSync(new URL('../.cache/book-candidates.tsv', import.meta.url), rows.jo
 // уже есть в справочнике под тем же ключом — не дублируем
 // сам bookBase тоже в индексе: «уже есть» — без него, иначе перезапись оставляла только новые книги и выкидывала
 // все прежние (11.10: 421 книга ушла бы с первым же повторным прогоном)
-const own = new Set(prevBookBase.map((w) => w.id));
-const have = new Set([...ours].filter(([, w]) => !own.has(w.work.id)).map(([k]) => k));
+// 17.10: по справочнику без истории владельца и демо-каталога (tools/base-have.mts) — карточка «Мастера и Маргариты»
+// в моках не повод не заводить книгу для всех
+const have = baseHave({ except: ['bookBase'] });
 const fresh = [...cards.values()].filter((c) => !have.has(c.externalIds?.wikidata ? `wd:${c.externalIds.wikidata}` : `olw:${c.externalIds?.openLibrary}`));
 const bySource = new Map<string, number>();
 for (const c of fresh) bySource.set(sourceOf.get(c.id) ?? '?', (bySource.get(sourceOf.get(c.id) ?? '?') ?? 0) + 1);
 console.error(`\nкарточек книг: ${fresh.length} (${[...bySource].map(([k, n]) => `${k} ${n}`).join(', ')}); все кандидаты — .cache/book-candidates.tsv`);
-if (DRY) process.exit(0);
+if (DRY) {
+  const before = new Set(prevBookBase.map((w) => w.id));
+  writeFileSync(new URL('../.cache/book-base.dry.json', import.meta.url), JSON.stringify({ at: new Date().toISOString(),
+    added: fresh.filter((c) => !before.has(c.id)).map((c) => ({ ...c, source: sourceOf.get(c.id) })),
+    dropped: prevBookBase.filter((w) => !fresh.some((c) => c.id === w.id)).map((w) => ({ id: w.id, title: w.title, year: w.year })) }));
+  console.error(`замер: новых ${fresh.filter((c) => !before.has(c.id)).length}, ушло бы ${prevBookBase.filter((w) => !fresh.some((c) => c.id === w.id)).length} → .cache/book-base.dry.json`);
+  process.exit(0);
+}
 writeFileSync(new URL('../src/mocks/bookBase.ts', import.meta.url), `// Сгенерировано tools/build-book-base.mts (З2) — руками не править.
 // Стартовый каталог книг через мост с кино: книги по фильмам и сериалам справочника и книги,
 // которые называют кино-эссеисты и книжные каналы (З6), книги из списков читателей и те, что ищут в Википедии. Разметки нет — в подбор не идут до З4.

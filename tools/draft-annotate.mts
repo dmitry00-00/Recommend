@@ -32,7 +32,8 @@ const BATCH = 20;
 
 const WEIGHTED = argv.includes('--weighted');
 const MIN_WEIGHT = argv.includes('--min-weight') ? Number(argv[argv.indexOf('--min-weight') + 1]) : 1;
-const index = worksIndex({ all: true }).filter((w) => w.key.startsWith('tmdb:'));
+// фильм — `tmdb:`, без TMDb — `wd:` (решение владельца 17.10; 18.10): у книги тот же префикс, поэтому по виду карточки
+const index = worksIndex({ all: true }).filter((w) => w.key.startsWith('tmdb:') || (w.key.startsWith('wd:') && w.work.type === 'film'));
 const waiting = (w: (typeof index)[number]) => !draftAnnotations[w.key] || draftReview[`draft:${w.key}`]?.status === 'rejected';
 let todo: typeof index;
 if (WEIGHTED) {

@@ -7,6 +7,7 @@ import { WorkIssueSheet } from './WorkIssueSheet';
 import { useShare } from './ShareButton';
 import { Hurdles } from './Hurdles';
 import { Passport } from './Passport';
+import { InlineTrailer, stopInlineTrailer, useTrailer } from './InlineTrailer';
 import { getPlot } from '@/api';
 import { useSwipe } from '@/lib/swipe';
 import { isTelegram, onExternalClick, showBackButton, tap } from '@/lib/telegram';
@@ -68,6 +69,11 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   // источник описания под текстом — когда лицензия требует (Википедия у книг, CC BY-SA)
   const [source, setSource] = useState<{ name: string; url: string }>();
   useEffect(() => { setPlotOpen(false); setText(plot); setSource(undefined); setAsked(false); setLoading(false); }, [work?.id, plot]);
+  // трейлер на кадре карточки (17.10, владелец): ▶ — только когда ролик точно есть; играет на месте баннера, как в ленте.
+  // Карточка открылась — ролик ленты под ней замолкает; пока играет свой — смахивание карточки выключено
+  const trailer = useTrailer(shown ? work : null);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => { setPlaying(false); if (shown) stopInlineTrailer(); }, [work?.id, shown]);
   const togglePlot = () => {
     if (!work) return;
     if (!plotOpen && !asked) {
@@ -85,7 +91,7 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
   const settle = (el: HTMLElement | null) => { if (el) { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; } };
   useEffect(() => { if (shown) settle(card.current); }, [shown]);
   const swipe = useSwipe({
-    enabled: shown,
+    enabled: shown && !playing,
     onMove(dx) {
       const el = card.current;
       if (!el) return;
@@ -122,13 +128,16 @@ export function WorkSheet({ work, open, onOpenChange, meta, tag, plot, context, 
                     onEscapeKeyDown={(e) => { if (menu) { e.preventDefault(); setMenu(false); } }} {...swipe}>
           {work ? (
             <>
-              <div className={`tm-worksheet__top${plotOpen ? ' tm-worksheet__top--plot' : ''}`}>
-                <WorkBanner work={work} meta={meta} tag={plotOpen ? undefined : tag} tagAbove expanded={plotOpen} onClick={togglePlot} />
-                {plotOpen ? null : <span className="tm-worksheet__plothint" aria-hidden="true">{ui.plot.hint}</span>}
+              <div className={`tm-worksheet__top${plotOpen ? ' tm-worksheet__top--plot' : ''}${playing ? ' tm-worksheet__top--trailer' : ''}`}>
+                {/* с открытым сюжетом кадр низкий — ▶ на нём нет; «YouTube» и «×» ролика — слева: справа «⋯» и «×» карточки */}
+                <InlineTrailer work={work} trailer={plotOpen ? null : trailer} place="card" open={playing} onOpenChange={setPlaying} controls="start">
+                  <WorkBanner work={work} meta={meta} tag={plotOpen ? undefined : tag} tagAbove expanded={plotOpen} onClick={togglePlot} />
+                </InlineTrailer>
+                {plotOpen || playing ? null : <span className="tm-worksheet__plothint" aria-hidden="true">{ui.plot.hint}</span>}
                 <RD.Title className="tm-sr">{titleOf(work)}</RD.Title>
                 {/* полная страница (ТВ-4, 06.10): жест вбок занят возвратом в ленту, поэтому — кнопка в углу кадра;
                     шторка закрывается, «Назад» со страницы ведёт в ленту. 17.10: «Вся страница» — слева, где был ⚑ */}
-                {pages ? (
+                {pages && !playing ? (
                   <button type="button" className="tm-worksheet__page" aria-label={ui.plot.pageLabel}
                           onClick={() => { const id = work.id; onOpenChange(false); navigate(`/works/${id}`); }}>
                     {ui.plot.page}

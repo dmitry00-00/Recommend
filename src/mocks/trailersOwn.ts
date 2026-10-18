@@ -4,7 +4,8 @@ export const trailersOwn: Record<string, { key: string; name: string; lang: stri
   'tmdb:27205': { key: '85Zz1CCXyDI', name: 'Начало — русский трейлер (WBRussia)', lang: 'ru' },
   'tmdb:414906': { key: 'g8Y_GL5h7Fs', name: 'Бэтмен — третий трейлер (WBRussia)', lang: 'ru' },
   'tmdb:338953': { key: 'GlNCkqdeZnk', name: 'Фантастические твари: Тайны Дамблдора — трейлер (WBRussia)', lang: 'ru' },
-  'tmdb:438631': { key: 'sh3B9UVwb6o', name: 'Дюна — трейлер (WBRussia)', lang: 'ru' },
+  // 17.10: прежний sh3B9UVwb6o — рекламный ролик на 17 с («смотрите в онлайн-кинотеатрах»), не трейлер
+  'tmdb:438631': { key: 'Q6nepw3fskg', name: 'Дюна — трейлер 2 (WBRussia)', lang: 'ru' },
   'tmdb:614917': { key: 'NlDK-zTC7SI', name: 'Король Ричард — официальный трейлер (WBRussia)', lang: 'ru' },
   'tmdb:436969': { key: 'o2-DdTP2pzs', name: 'Отряд самоубийц: Миссия навылет — трейлер (WBRussia)', lang: 'ru' },
   'tmdb:460465': { key: 'N9412Dy2e9A', name: 'Мортал Комбат — официальный полный трейлер (WBRussia)', lang: 'ru' },

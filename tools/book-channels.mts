@@ -16,7 +16,7 @@ import { sources } from '../src/mocks/sources.ts';
 import { ADAPTATION } from './title-match.mts';
 import { BOOK_TALK, judgeBookMatch, type adaptationIndex } from './adaptation-guard.mts';
 import type { IndexedWork } from './works-index.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { sound } from './evidence.mts';
 
 /** Книжные каналы по имени (@handle YouTube, username Telegram) — src/mocks/sources.ts. */
@@ -91,7 +91,7 @@ export interface ChannelVerdict {
  *  фильму «Хэллоуин» из-за описания), у поста — начало поста. */
 export function judgeInBookChannel(pick: IndexedWork, head: string, text: string,
   ctx: { ad: ReturnType<typeof adaptationIndex>; sources: Map<string, IndexedWork> }, publishedAt?: string): ChannelVerdict {
-  if (isBookKey(pick.key)) {
+  if (isBookEntry(pick)) {
     const j = judgeBookMatch(ctx.ad, pick.key, head, publishedAt);
     return j.action === 'keep' ? { action: 'keep' } : { action: j.action, ...(j.to ? { to: j.to } : {}), why: 'adaptation' };
   }

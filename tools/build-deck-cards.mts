@@ -26,6 +26,7 @@ import { watchedWorks } from '../src/mocks/userWatched.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';
 import { draftAnnotations } from '../src/mocks/draftAnnotations.ts';
 import { workCredits } from '../src/mocks/workCredits.ts';
+import { applyCreditFixes } from '../src/lib/workFixesTable.ts';
 import { people } from '../src/mocks/people.ts';
 import { decodeCredits, workKey } from '../src/lib/credits.ts';
 import { partsInOrder } from '../src/lib/deckOrder.ts';
@@ -50,7 +51,8 @@ function slim(w: WorkCard): WorkCard {
   const tmdb = w.externalIds?.tmdb;
   const a = userAnnotations[w.id] ?? (tmdb != null ? ownByTmdb.get(tmdb) ?? draftAnnotations[`tmdb:${tmdb}`] : undefined);
   const ops = w.primaryOperations.length ? w.primaryOperations : (a?.ops ?? []).map(([op, intensity]) => ({ op, intensity }));
-  const credits = w.credits?.length ? w.credits : decodeCredits(workCredits[workKey(w) ?? ''], people);
+  // без снятых правкой справочника (волна Б, 18.10)
+  const credits = w.credits?.length ? w.credits : decodeCredits(applyCreditFixes(workKey(w) ?? '', workCredits[workKey(w) ?? ''] ?? ''), people);
   return {
     id: w.id, type: w.type, title: w.title,
     ...(w.originalTitle ? { originalTitle: w.originalTitle } : {}),

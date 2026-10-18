@@ -10,8 +10,10 @@ import { reference } from './follow';
 
 const SITE = 'Transformative Media';
 const PER_PAGE = 40;
-// постеры и обложки на публичных страницах — только отсюда (ХБ, 17.10)
-const PIC_HOSTS = /^https:\/\/(?:image\.tmdb\.org|covers\.openlibrary\.org)\//;
+// постеры и обложки на публичных страницах — только отсюда (ХБ, 17.10); Wikimedia Commons (18.10) — постер фильма без
+// TMDb (P18) и обложка книги: прямой адрес файла upload.wikimedia.org, не Special:FilePath (тот отвечает редиректом)
+// 18.10: и thumb.wikimedia.org — уменьшенные копии Commons (обложки части книг, tools/build-book-media.mts)
+const PIC_HOSTS = /^https:\/\/(?:image\.tmdb\.org|covers\.openlibrary\.org|upload\.wikimedia\.org|thumb\.wikimedia\.org)\//;
 
 interface PageWork { t: string; o?: string; y?: number; c?: string[]; w?: string; p?: string; s?: 1 }
 interface PageAuthor { n: string; u: string; e?: 1; b?: 1 }

@@ -11,7 +11,7 @@ import { calibrationBooks } from './book-calibration.mts';
 import { blindDrafts } from './book-drafts-blind.mts';
 import { worksIndex } from './works-index.mts';
 import { titleKey } from './book-bridge.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import { operations, operationKeys } from '../src/lib/operations.ts';
 import { works as catalog } from '../src/mocks/index.ts';
 import type { CognitiveOperation, Confidence } from '../src/types/tmdf.ts';
@@ -73,7 +73,7 @@ for (const r of body) {
 console.error(`размечено владельцем: ${human.size} из ${calibrationBooks.length}${problems.length ? `; замечания: ${problems.join('; ')}` : ''}`);
 
 // ---------- ключи книг ----------
-const books = worksIndex({ all: true }).filter((w) => isBookKey(w.key) || w.work.type === 'book');
+const books = worksIndex({ all: true }).filter((w) => isBookEntry(w));
 const surname = (a: string) => a.split(/\s+/).pop()?.toLowerCase().replace(/ё/g, 'е').slice(0, 5) ?? '';
 const keyFor = (h: { title: string; author: string }): string => {
   const t = titleKey(h.title);

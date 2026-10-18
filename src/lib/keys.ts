@@ -6,7 +6,10 @@ import { isSeries } from '@/lib/media';
  *  а не издание: `wd:<Q>` (элемент Wikidata произведения), иначе `olw:<OL…W>` (работа Open Library),
  *  иначе, как раньше, `isbn:<isbn>`. ISBN — это издание: «Солярис» в двух переводах — два ISBN и
  *  одна книга, и разбор у неё один. Главный ключ — первый; остальные — запасные: ими подписаны
- *  данные прежних прогонов, и поиск по ним ведётся, пока прогон не перепишет всё новым ключом. */
+ *  данные прежних прогонов, и поиск по ним ведётся, пока прогон не перепишет всё новым ключом.
+ *  Фильм без номера TMDb (и сериал без IMDb) — `wd:<Q>`, элемент Wikidata (решение владельца 17.10, 18.10 — в коде):
+ *  советская анимация и короткий метр («Ну, погоди!», «Ёжик в тумане») у TMDb есть не всегда. Префикс `wd:` поэтому
+ *  бывает и у фильма — книга ли это, решает вид карточки (`isBookEntry`), а не ключ. */
 
 type Keyed = Pick<WorkCard, 'type'> & { format?: 'series' };
 
@@ -23,7 +26,7 @@ export function withBookWork(ids: ExternalIds | undefined, bridge: BookWorks = {
 }
 
 export function workKeys(w: Keyed, ids: ExternalIds | undefined): string[] {
-  if (isSeries(w)) return ids?.imdb ? [`imdb:${ids.imdb}`] : [];
+  if (isSeries(w)) return ids?.imdb ? [`imdb:${ids.imdb}`] : ids?.wikidata ? [`wd:${ids.wikidata}`] : [];
   if (w.type === 'book') {
     return [
       ...(ids?.wikidata ? [`wd:${ids.wikidata}`] : []),
@@ -32,11 +35,19 @@ export function workKeys(w: Keyed, ids: ExternalIds | undefined): string[] {
     ];
   }
   if (ids?.tmdb != null) return [`tmdb:${ids.tmdb}`];
+  // фильм без TMDb — по элементу Wikidata (18.10)
+  if (ids?.wikidata && w.type === 'film') return [`wd:${ids.wikidata}`];
   // карточка без вида «книга», но с ISBN (старые моки) — как книга
   return (ids?.isbn ?? []).map((i) => `isbn:${i}`);
 }
 
 export const primaryKey = (w: Keyed, ids: ExternalIds | undefined): string | undefined => workKeys(w, ids)[0];
 
-/** Ключ книги — любого из трёх видов. */
+/** Ключ книги — любого из трёх видов. Только когда карточки нет: `wd:` с 18.10 бывает и у фильма без TMDb — с карточкой
+ *  проверять `isBookEntry`. */
 export const isBookKey = (key: string): boolean => /^(?:wd|olw|isbn):/.test(key);
+
+/** Книга ли запись «ключ + карточка» (18.10): по виду карточки — `wd:` бывает и у фильма; `olw:` и `isbn:` — книга всегда
+ *  (старые моки с ISBN без вида «книга» — как книга, см. `workKeys`). Карточки нет — по ключу. */
+export const isBookEntry = ({ key, work }: { key: string; work?: Pick<WorkCard, 'type'> }): boolean =>
+  work ? work.type === 'book' || /^(?:olw|isbn):/.test(key) : isBookKey(key);

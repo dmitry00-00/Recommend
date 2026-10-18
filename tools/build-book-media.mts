@@ -18,7 +18,7 @@ import { writeFileSync } from 'node:fs';
 import { worksIndex, idsOf } from './works-index.mts';
 import { pickBook } from './register-tags.mts';
 import { readCache, sleep, wd, writeCache } from './wikidata-lib.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 import type { Register, WorkCard } from '../src/types/tmdf.ts';
 import { relationEdges, relationNodes } from '../src/mocks/workRelations.ts';
 import { baseMedia } from '../src/mocks/baseMedia.ts';
@@ -45,7 +45,7 @@ type Raw = {
 };
 const cache: Record<string, Raw> = FRESH ? {} : readCache('book-media.json', {});
 
-const books = worksIndex({ all: true }).filter((w) => w.work.type === 'book' || isBookKey(w.key));
+const books = worksIndex({ all: true }).filter((w) => isBookEntry(w));
 console.error(`книг: ${books.length}`);
 
 type Claim = { mainsnak: { datavalue?: { value: unknown } } };

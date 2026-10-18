@@ -63,8 +63,13 @@ export function leadName(w: Authored): string | undefined {
  *  сериала, автор книги. Сценаристы — в `creditsOf`, но не здесь. */
 export function leadCredits(w: Authored, people?: Readonly<Record<PersonId, Person>>): CreditView[] {
   const all = creditsOf(w, people);
-  const lead = all.filter((c) => c.role === defaultRole(w));
-  return lead.length ? lead : all;
+  const role = defaultRole(w);
+  const lead = all.filter((c) => c.role === role);
+  if (lead.length) return lead;
+  // главной роли среди элементов нет, а строки есть — строки (17.10): это и есть главная роль; так правка справочника,
+  // снявшая ложного создателя сериала и давшая верных строкой (src/lib/workFixes.ts), видна под названием, а не режиссёры серий
+  const named = w.credits?.length ? w.creators.filter(Boolean) : [];
+  return named.length ? named.map((name) => ({ role, name })) : all;
 }
 
 /** Строки `creators` из `credits` — чтобы старые экраны и поиск видели то же, что новые. */

@@ -12,7 +12,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { worksIndex } from './works-index.mts';
 import { matchVideos } from './match-videos.mts';
-import { isBookKey } from '../src/lib/keys.ts';
+import { isBookEntry } from '../src/lib/keys.ts';
 
 export const PRECISION = new URL('../.cache/link-precision.json', import.meta.url);
 export const TRUST_N = 20, TRUST_LB = 0.9, WEAK_N = 10, WEAK_P = 0.85;
@@ -41,7 +41,7 @@ if (import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   const byId = new Map(videos.map((v) => [v.id, v]));
   const truth = Object.entries(human).filter(([id, v]) => !v.guess && v.from !== 'desk' && byId.has(id) && (v.key || v.why));
   const set = truth.map(([id]) => ({ ...byId.get(id)!, book: channels[byId.get(id)!.channelId ?? '']?.medium === 'book' }));
-  const got = matchVideos(set, worksIndex().filter((w) => !isBookKey(w.key)), ordinary);
+  const got = matchVideos(set, worksIndex().filter((w) => !isBookEntry(w)), ordinary);
 
   const acc = { method: new Map<string, [number, number]>(), pair: new Map<string, [number, number]>() };
   const bump = (m: Map<string, [number, number]>, k: string, ok: boolean) => { const c = m.get(k) ?? [0, 0]; c[ok ? 0 : 1]++; m.set(k, c); };

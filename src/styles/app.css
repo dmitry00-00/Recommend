@@ -401,7 +401,8 @@ button.tm-banner { cursor: pointer; }
 .tm-search__list { list-style: none; margin: 0; padding: 0; }
 .tm-search__item { display: flex; align-items: center; gap: var(--tm-space-3); padding: var(--tm-space-3) var(--tm-space-5); border-top: 1px solid var(--tm-color-line); }
 .tm-search__acts { flex: none; display: flex; flex-direction: column; align-items: stretch; gap: var(--tm-space-1); }
-.tm-search__acts .tm-btn { justify-content: center; white-space: nowrap; }
+/* «Читал» и «Смотрел» одной ширины (17.10, владелец: разная ширина в столбце режет глаз) — по длинному из слов */
+.tm-search__acts .tm-btn { justify-content: center; white-space: nowrap; min-width: 5.25rem; }
 .tm-search__open { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--tm-space-3); padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .tm-search__thumb { position: relative; flex: none; width: 56px; height: 74px; overflow: hidden; background: var(--tm-color-surface-200); border-left: 3px solid var(--thumb-line, var(--tm-color-line-strong)); }
 .tm-search__thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -1167,6 +1168,66 @@ button.tm-banner { cursor: pointer; }
 .tm-trailer__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .tm-trailer__bar { display: flex; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-3); }
 .tm-trailer__name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--tm-color-ink-muted); }
+
+/* Трейлер прямо на кадре (17.10, владелец; src/components/InlineTrailer.tsx): в ленте — смахиванием влево (▶ там нет, иначе
+   лента стала бы лентой трейлеров), в карточке — ▶ по центру баннера; баннер становится плеером 16:9. Высота доезжает из JS (от баннера к 16:9 и обратно), здесь — вид. Плеер всегда на
+   чёрном: это кадр ролика, а не поверхность приложения, в обеих темах одинаково. `isolation` — чтобы слой плеера не
+   перекрывал «⋯» и «×» карточки, лежащие над кадром. ▶ стоит чуть выше середины: внизу название и строка под ним */
+.tm-itrailer { position: relative; isolation: isolate; overflow: hidden; background: #000; }
+.tm-itrailer--open { aspect-ratio: 16 / 9; }
+.tm-worksheet__top .tm-itrailer--open { max-height: 56vh; }
+.tm-itrailer__poster { position: relative; }
+.tm-itrailer__play { position: absolute; z-index: 3; left: 50%; top: 42%; width: 56px; height: 56px; margin: -28px 0 0 -28px; display: grid; place-items: center;
+  padding: 0 0 0 3px; border: 1.5px solid rgb(255 255 255 / 0.6); border-radius: 50%; background: rgb(10 10 12 / 0.42); color: #fff; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease; animation: tm-itrailer-in 240ms ease; }
+.tm-itrailer__play:hover { background: rgb(10 10 12 / 0.62); border-color: #fff; transform: scale(1.06); }
+.tm-itrailer__play:active { transform: scale(0.94); }
+.tm-itrailer__play:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 3px; }
+.tm-itrailer__layer { position: absolute; inset: 0; z-index: 4; background: #000; animation: tm-itrailer-fade 200ms ease; }
+.tm-itrailer__layer--gone { opacity: 0; transition: opacity 180ms ease; }
+.tm-itrailer__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.62); transition: opacity 420ms ease; }
+.tm-itrailer__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 420ms ease; }
+.tm-itrailer__layer--ready .tm-itrailer__frame { opacity: 1; }
+.tm-itrailer__layer--ready .tm-itrailer__still { opacity: 0; }
+.tm-itrailer__spin { position: absolute; left: 50%; top: 42%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%;
+  border: 2.5px solid rgb(255 255 255 / 0.22); border-top-color: #fff; animation: tm-itrailer-spin 900ms linear infinite; }
+.tm-itrailer__caption { position: absolute; left: var(--tm-space-4); right: var(--tm-space-4); bottom: var(--tm-space-3); display: flex; align-items: center; gap: var(--tm-space-2);
+  pointer-events: none; color: #fff; font-family: var(--font-text); font-size: 12px; line-height: 16px; text-shadow: 0 1px 2px rgb(0 0 0 / 0.7); transition: opacity 300ms ease; }
+.tm-itrailer__layer--ready .tm-itrailer__caption { opacity: 0; }
+.tm-itrailer__name { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tm-itrailer__tags { flex: none; padding: 1px 6px; border-radius: var(--tm-radius-full); background: rgb(255 255 255 / 0.18); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; text-shadow: none; }
+.tm-itrailer__bar { position: absolute; z-index: 2; top: var(--tm-space-2); right: var(--tm-space-2); display: flex; gap: var(--tm-space-2); }
+.tm-itrailer__bar--start { right: auto; left: var(--tm-space-2); flex-direction: row-reverse; }
+/* кнопки 32 px на вид, касание — 44 px (::after) */
+.tm-itrailer__btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 32px; min-width: 32px; padding: 0 10px;
+  border: 0; border-radius: var(--tm-radius-full); background: rgb(10 10 12 / 0.62); color: #fff; font-family: var(--font-text); font-size: 12px; font-weight: 600; cursor: pointer;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.tm-itrailer__btn::after { content: ""; position: absolute; inset: -6px -4px; }
+.tm-itrailer__btn--x { width: 32px; padding: 0; font-size: 22px; line-height: 1; }
+.tm-itrailer__btn:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+.tm-itrailer__stall { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: calc(100% - 2 * var(--tm-space-4)); min-height: 40px;
+  padding: 0 var(--tm-space-4); border: 0; border-radius: var(--tm-radius-full); background: rgb(255 255 255 / 0.92); color: #111; font-family: var(--font-text); font-size: 13px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; animation: tm-itrailer-fade 300ms ease; }
+@keyframes tm-itrailer-in { from { opacity: 0; transform: scale(0.85); } }
+@keyframes tm-itrailer-fade { from { opacity: 0; } }
+@keyframes tm-itrailer-spin { to { transform: rotate(360deg); } }
+/* ▶ у строки поиска — значком в правом нижнем углу миниатюры, а не по центру: по центру каждая строка выглядела роликом,
+   и список фильмов становился списком видео. Касание — 44 px вокруг значка. Слот над миниатюрой есть всегда (по нему
+   видно подъезд строки к экрану) */
+.tm-search__item { position: relative; }
+.tm-search__trailerslot { position: absolute; left: var(--tm-space-5); top: 50%; width: 56px; height: 74px; margin-top: -37px; pointer-events: none; }
+.tm-search__trailer { position: absolute; right: -14px; bottom: -14px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; animation: tm-itrailer-in 200ms ease; }
+.tm-search__trailerdot { width: 22px; height: 22px; display: grid; place-items: center; padding-left: 1px; border-radius: 50%;
+  background: rgb(10 10 12 / 0.72); color: #fff; box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.55); }
+.tm-search__trailerdot svg { width: 10px; height: 10px; }
+.tm-search__trailer:focus-visible { outline: none; }
+.tm-search__trailer:focus-visible .tm-search__trailerdot { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .tm-itrailer__play, .tm-itrailer__layer, .tm-itrailer__stall, .tm-search__trailer { animation: none; }
+  .tm-itrailer__play, .tm-itrailer__still, .tm-itrailer__frame, .tm-itrailer__caption, .tm-itrailer__layer--gone { transition: none; }
+  .tm-itrailer__spin { animation-duration: 2400ms; }
+}
 
 /* Какая подписка подходит (15.10): по очереди — месяцами, ниже пара и каждая площадка */
 .tm-subsplan { display: flex; flex-direction: column; gap: var(--tm-space-4); }
