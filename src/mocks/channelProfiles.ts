@@ -1,4 +1,4 @@
-// Сгенерировано tools/channel-profile.mts (2026-10-17): о каких вселенных и людях говорит канал.
+// Сгенерировано tools/channel-profile.mts (2026-10-18): о каких вселенных и людях говорит канал.
 // Ключ — название канала, как у разбора (author). Доля — от всего, что о канале известно; непроверенные
 // привязки идут с весом 0,25. Не править руками — перегенерировать.
 export const channelProfiles: Record<string, { n: number; top: { id: string; kind: 'universe' | 'person'; title: string; share: number }[]; focus: string[] }> = {
@@ -209,7 +209,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Jeremy Jahns": {
-  "n": 617.5,
+  "n": 618.5,
   "top": [
    {
     "id": "Q642878",
@@ -226,38 +226,26 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q323076",
     "kind": "person",
-    "share": 0.12,
+    "share": 0.2,
     "title": "Шон Леви"
-   },
-   {
-    "id": "Q328723",
-    "kind": "person",
-    "share": 0.12,
-    "title": "Эндрю Стэнтон"
    },
    {
     "id": "Q28830394",
     "kind": "person",
-    "share": 0.11,
+    "share": 0.19,
     "title": "Мэтт Даффер"
    },
    {
     "id": "Q28830397",
     "kind": "person",
-    "share": 0.11,
+    "share": 0.19,
     "title": "Росс Даффер"
-   },
-   {
-    "id": "Q22917876",
-    "kind": "person",
-    "share": 0.11,
-    "title": "Ричард Гринберг"
    }
   ],
   "focus": []
  },
  "Dan Murrell": {
-  "n": 276.3,
+  "n": 276.8,
   "top": [
    {
     "id": "Q642878",
@@ -419,7 +407,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "The Back Focus": {
-  "n": 22.5,
+  "n": 22.8,
   "top": [
    {
     "id": "Q2001",
@@ -703,7 +691,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Cut The Crap": {
-  "n": 144.8,
+  "n": 141.8,
   "top": [
    {
     "id": "Q642878",
@@ -811,7 +799,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Канал Кшиштовского": {
-  "n": 25.3,
+  "n": 25.5,
   "top": [
    {
     "id": "Q642878",
@@ -1083,7 +1071,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "OneTake": {
-  "n": 125.3,
+  "n": 125,
   "top": [
    {
     "id": "Q113461786",
@@ -1329,7 +1317,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Lucas Blue": {
-  "n": 74.8,
+  "n": 75.8,
   "top": [
    {
     "id": "Q25191",
@@ -2149,7 +2137,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Канал Ламполоджи": {
-  "n": 47.8,
+  "n": 48.8,
   "top": [
    {
     "id": "Q428755",
@@ -2188,10 +2176,16 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "title": "Джон Фавро"
    },
    {
-    "id": "Q21078321",
+    "id": "Q336075",
     "kind": "person",
     "share": 0.1,
-    "title": "Хлоя Чжао"
+    "title": "Эрик Крипке"
+   },
+   {
+    "id": "Q3061320",
+    "kind": "person",
+    "share": 0.1,
+    "title": "Эван Голдберг"
    }
   ],
   "focus": []
@@ -2649,36 +2643,36 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "morgana": {
-  "n": 8,
+  "n": 9,
   "top": [
    {
     "id": "Q25191",
     "kind": "person",
-    "share": 0.28,
+    "share": 0.25,
     "title": "Кристофер Нолан"
    },
    {
     "id": "Q131288940",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.14,
     "title": "Christian Linke"
    },
    {
     "id": "Q131289091",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.14,
     "title": "Alex Yee"
    },
    {
     "id": "Q109855014",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.14,
     "title": "Паскаль Чаррю"
    },
    {
     "id": "Q109855261",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.14,
     "title": "Арно Делор"
    }
   ],
@@ -2892,6 +2886,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "kind": "person",
     "share": 0.08,
     "title": "Лев Николаевич Толстой"
+   },
+   {
+    "id": "Q458696",
+    "kind": "person",
+    "share": 0.08,
+    "title": "Вальтер Саллес"
    }
   ],
   "focus": []
@@ -3112,22 +3112,22 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "title": "Фрэнк Дарабонт"
    },
    {
+    "id": "Q336075",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Эрик Крипке"
+   },
+   {
+    "id": "Q3061320",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Эван Голдберг"
+   },
+   {
     "id": "Q45875",
     "kind": "universe",
     "share": 0.11,
     "title": "Песнь льда и огня"
-   },
-   {
-    "id": "Q16199525",
-    "kind": "person",
-    "share": 0.1,
-    "title": "Рафаэль Боб-Уоксберг"
-   },
-   {
-    "id": "Q220308",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Сет Роген"
    }
   ],
   "focus": []
@@ -3307,12 +3307,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Rae Cinema": {
-  "n": 55.3,
+  "n": 56.3,
   "top": [
    {
     "id": "Q7836302",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.12,
     "title": "Трэвис Найт"
    },
    {
@@ -3330,13 +3330,13 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q60784779",
     "kind": "person",
-    "share": 0.08,
+    "share": 0.09,
     "title": "Боб Персичетти"
    },
    {
     "id": "Q119243833",
     "kind": "person",
-    "share": 0.08,
+    "share": 0.09,
     "title": "Джастин Томпсон"
    }
   ],
@@ -4108,7 +4108,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Constantine_ James ": {
-  "n": 140.3,
+  "n": 140,
   "top": [
    {
     "id": "Q45875",
@@ -4584,7 +4584,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Michael Talks About Stuff": {
-  "n": 54.3,
+  "n": 54.5,
   "top": [
    {
     "id": "Q45875",
@@ -4613,13 +4613,13 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q106720695",
     "kind": "person",
-    "share": 0.14,
+    "share": 0.13,
     "title": "Райан Кондал"
    },
    {
     "id": "Q6844804",
     "kind": "person",
-    "share": 0.14,
+    "share": 0.13,
     "title": "Мигель Сапочник"
    }
   ],
@@ -4637,6 +4637,18 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "title": "Одни из нас"
    },
    {
+    "id": "Q1138605",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Крэйг Мэйзин"
+   },
+   {
+    "id": "Q13655731",
+    "kind": "person",
+    "share": 0.12,
+    "title": "Нил Дракманн"
+   },
+   {
     "id": "Q6666366",
     "kind": "person",
     "share": 0.1,
@@ -4647,24 +4659,6 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "kind": "person",
     "share": 0.1,
     "title": "Ута Бризвитц"
-   },
-   {
-    "id": "Q1138605",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Крэйг Мэйзин"
-   },
-   {
-    "id": "Q13655731",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Нил Дракманн"
-   },
-   {
-    "id": "Q30346628",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Кантемир Балагов"
    }
   ],
   "focus": []
@@ -4899,6 +4893,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "kind": "person",
     "share": 0.13,
     "title": "Джордж Миллер"
+   },
+   {
+    "id": "Q3696452",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Крэйг Гиллеспи"
    },
    {
     "id": "Q51559",
@@ -5239,6 +5239,30 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "Катя Белокрылова": {
+  "n": 5.5,
+  "top": [
+   {
+    "id": "Q130526845",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Юрий Хмельницкий"
+   },
+   {
+    "id": "Q4295612",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Владимир Владимирович Мирзоев"
+   },
+   {
+    "id": "Q55400",
+    "kind": "person",
+    "share": 0.18,
+    "title": "Хаяо Миядзаки"
+   }
+  ],
+  "focus": []
+ },
  "letsgetducks": {
   "n": 5.3,
   "top": [
@@ -5318,7 +5342,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Литература Просто": {
-  "n": 17.5,
+  "n": 17.3,
   "top": [
    {
     "id": "Q34660",
@@ -5802,7 +5826,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Sergey ProjektPo": {
-  "n": 50.8,
+  "n": 50.5,
   "top": [
    {
     "id": "Q515421",
@@ -5936,12 +5960,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Рас-сказки": {
-  "n": 11.3,
+  "n": 11,
   "top": [
    {
     "id": "Q166351",
     "kind": "person",
-    "share": 0.39,
+    "share": 0.4,
     "title": "Роберт Джордан"
    },
    {
