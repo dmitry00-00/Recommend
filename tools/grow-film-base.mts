@@ -45,6 +45,9 @@
 //   • «уже есть» — по справочнику без истории владельца и демо-каталога (tools/base-have.mts): прежде 134 фильма
 //     числились «есть», потому что были карточками истории, а у сервера и нового человека их нет;
 //   • --report ПУТЬ — замер не в .cache/grow-film-base.json; в замере — откуда кандидат (`src`).
+// Доводка 18.10: невышедшее не заводится и уходит из своего модуля (раздел 3в), выпуск цикла с названием цикла получает
+// номер (3г); --recheck — прогнать по этим правилам уже записанный модуль без кандидатов:
+//   npx tsx tools/grow-film-base.mts --out filmBaseTail --recheck --write
 import { plainTitle } from './wikidata-lib.mts';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
@@ -70,6 +73,10 @@ const WD_KEYS = argv.includes('--wd-keys');
 const RU_SHORTS = argv.includes('--ru-shorts');
 /** 17.10: кандидаты по ключам — history, kinopoisk, fresh[:дней], file:путь */
 const FROM = (opt('--from') ?? '').split(',').map((x) => x.trim()).filter(Boolean);
+/** 18.10: --recheck — без кандидатов: только прежние карточки модуля --out через правила «не вышло» и «выпуск цикла» (разделы
+ *  3в, 3г) и убранное владельцем. Так чистится уже записанное, не пересобирая его: `--out filmBaseTail --recheck --write`.
+ *  Порно (adult-lib) здесь не трогаем — его отсев идёт обычным прогоном модуля. Заголовок модуля — как был */
+const RECHECK = argv.includes('--recheck');
 const COUNTRIES = (opt('--countries') ?? 'IN,US,GB,CA,AU').split(',').map((c) => c.trim().toUpperCase()).filter(Boolean);
 const EVERY = Math.max(1, Number(opt('--every') ?? 3));
 // суточный топ шумный: статья, мелькнувшая один раз, — чаще новость дня, чем то, что смотрят
@@ -126,7 +133,7 @@ const now = new Date();
 const views = new Map<string, { views: number; months: number; links?: number; by?: Record<string, number>; src?: string[] }>();
 /** откуда кандидат (17.10): «топы», имя запроса классики, источник --from — для замера по пунктам */
 const tag = (k: string, src: string) => { const v = views.get(k); if (v && !v.src?.includes(src)) v.src = [...(v.src ?? []), src]; };
-if (WORLD) {
+if (WORLD && !RECHECK) {
   const DIR = new URL('country/', TOP_DIR);
   mkdirSync(DIR, { recursive: true });
   // свежие сутки выкладываются с задержкой — начинаем с позавчера
@@ -172,7 +179,7 @@ if (WORLD) {
   for (const [k, v] of views) if (v.months < MIN_DAYS) views.delete(k);
   console.error(`суток ${days.length} × стран ${COUNTRIES.length}: новых ${fetched}, не получено ${failed}; статей в топах (от ${MIN_DAYS} раз): ${views.size}`);
 }
-for (let m = 1; m <= (WORLD || FROM.length ? 0 : MONTHS); m++) {
+for (let m = 1; m <= (WORLD || FROM.length || RECHECK ? 0 : MONTHS); m++) {
   const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - m, 1));
   const ym = `${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
   const file = new URL(`${ym.replace('/', '-')}.json`, TOP_DIR);
@@ -258,7 +265,7 @@ const SPARQL_WORLD: Record<string, string> = {
   'en-series': `${SERIES_Q} ${ANGLO} ?f wdt:P31 ?c; wdt:P495 ?k; wikibase:sitelinks ?n. FILTER(?n >= 15)`,
 };
 const WIKI = WORLD ? 'en' : 'ru';
-if (!argv.includes('--no-classics') && !FROM.length) {
+if (!argv.includes('--no-classics') && !FROM.length && !RECHECK) {
   const originQ = Object.fromEntries(ORIGINS.map((c) => [`origin-${c}-${ORIGIN_LINKS}${K}`, `${FILM_VALUES} ?f wdt:P31 ?c; wdt:P495 wd:${ORIGIN_Q[c]}; wikibase:sitelinks ?n. FILTER(?n >= ${ORIGIN_LINKS})`]));
   for (const [name, where] of Object.entries(WORLD ? { ...SPARQL_WORLD, ...originQ, ...SPARQL_CANON } : SPARQL)) {
     const file = new URL(`sparql-${name}.json`, TOP_DIR);
@@ -479,7 +486,8 @@ for (let i = 0; i < batches.length; i++) {
   if (i % 5 === 4) { writeFileSync(CACHE, JSON.stringify(cache)); console.error(`  ${(i + 1) * 200} из ${todo.length}`); }
   await sleep(1000);
 }
-writeFileSync(CACHE, JSON.stringify(cache));
+// 18.10: без новых ответов кэш не переписываем — `--recheck --fresh` затёр бы его пустым
+if (todo.length) writeFileSync(CACHE, JSON.stringify(cache));
 
 // ── 3. замер покрытия ─────────────────────────────────────────────────────────
 // свои прежние карточки не в счёт: их перегенерируем заново, чтобы поправки (подпись, год) доходили и до них.
@@ -641,7 +649,7 @@ const notFilm = new Set<string>();
     for (const b of rows) known.q[b.f!.value.split('/').pop()!] = 1;
     await sleep(1000);
   }
-  writeFileSync(FILE, JSON.stringify(known));
+  if (ask.length) writeFileSync(FILE, JSON.stringify(known));
   for (const r of uniq) if (known.q[r.qid] === 1) notFilm.add(r.qid);
   const shown = uniq.filter((r) => notFilm.has(r.qid) && !r.had);
   if (shown.length) console.error(`не фильмы (игры, трейлеры, реклама по P31) — не берём: ${shown.length} (${shown.slice(0, 5).map((r) => r.title).join(', ')})`);
@@ -658,10 +666,208 @@ const porn = new Set([...adult].filter(([, k]) => k === 'porn').map(([q]) => q))
   const ero = uniq.filter((r) => adult.get(r.qid) === 'erotic' && !r.had).length;
   if (ero) console.error(`эротика по P31/P136 — заводится, в подбор не пойдёт (heldWorks, tools/adult-sweep.mts): ${ero}`);
 }
+// ── 3в. не вышедшее (18.10) ───────────────────────────────────────────────────
+// Фильм, который не вышел, не заводим и не держим: отменённый («Бэтгёрл»), в производстве («Винни-Пух» Ровенского,
+// «Шрек 5»), анонсированный без даты. Вышедший позже вернётся сам: правило — здесь, а не в withheldWorks. Спрашиваем
+// только тех, у кого нет года или год — нынешний и позже (у вышедшего год есть почти всегда: P577/P580). Признаки:
+//   вышел — дата выхода, начала показа или первого показа (P577/P580/P1191, лучший ранг) не позже сегодня; TMDb
+//     «Released» с датой не позже сегодня (у сериала — первый показ); год в категориях статьи русской или английской
+//     Википедии («Фильмы 1936 года», «2025 films») — так остаётся старое кино без P577;
+//   не вышел — все даты в будущем; категории «Фильмы в производстве», «Отменённые фильмы», «Upcoming films»; TMDb
+//     «Planned», «In Production», «Post Production», «Rumored», «Canceled» (у фильма); класс «будущий фильм» (Q18011172)
+//     или «незаконченный фильм» (Q18011171) и «Незаконченные фильмы» в категориях — если года в категориях нет
+//     («Вор и сапожник» незакончен, но вышел в версиях 1993–1995 — остаётся);
+//   признаков нет ни тех, ни других — оставляем (старое кино, у которого в Wikidata пусто).
+// Год вышедшему без года — из тех же признаков: даты Wikidata и категории, затем P1191, затем TMDb. Ответы — в кэше
+// .cache/grow-film-base.release.json: «вышел» — насовсем, остальное спрашиваем снова через RELEASE_TTL дней.
+const TODAY = now.toISOString().slice(0, 10);
+const THIS_YEAR = now.getUTCFullYear();
+const RELEASE_TTL = Number(opt('--release-ttl') ?? 3);
+type Release = { v: 'in' | 'out' | '?'; year?: number; why: string; at: string };
+const release = new Map<string, Release>();
+const yearless = (y?: number) => !y || y >= THIS_YEAR;
+async function wikiCats(lang: 'ru' | 'en', titles: string[]): Promise<Map<string, string[]>> {
+  const out = new Map<string, string[]>();
+  for (let i = 0; i < titles.length; i += 50) {
+    const part = titles.slice(i, i + 50);
+    let cont: Record<string, string> = {};
+    for (let page = 0; page < 20; page++) {
+      const j = await get<{ continue?: Record<string, string>; query?: { normalized?: { from: string; to: string }[]; redirects?: { from: string; to: string }[];
+        pages?: Record<string, { title: string; categories?: { title: string }[] }> } }>(`https://${lang}.wikipedia.org/w/api.php?${new URLSearchParams({
+        action: 'query', format: 'json', prop: 'categories', cllimit: 'max', clshow: '!hidden', redirects: '1', titles: part.join('|'), ...cont })}`);
+      if (!j) break;
+      const back = new Map<string, string>();
+      for (const n of [...(j.query?.normalized ?? []), ...(j.query?.redirects ?? [])]) back.set(n.to, back.get(n.from) ?? n.from);
+      for (const pg of Object.values(j.query?.pages ?? {})) {
+        const t = back.get(pg.title) ?? pg.title;
+        out.set(t, [...(out.get(t) ?? []), ...(pg.categories ?? []).map((c) => c.title.replace(/^[^:]+:/, ''))]);
+      }
+      if (!j.continue) break;
+      cont = j.continue;
+    }
+    await sleep(500);
+  }
+  return out;
+}
+/** год из категории: «Фильмы СССР 1936 года», «Телесериалы России, запущенные в 2024 году», «2025 films» — не «Фильмы о войне 1812 года» */
+const catYear = (c: string): number | undefined => {
+  const m = /^(?!.* об? ).*(?:фильм|мультфильм|кинокомеди|аниме|телефильм|сериал)\S*(?: \S+){0,4}? (\d{4}) года$/iu.exec(c)
+    ?? /^Телесериалы .*, запущенные в (\d{4}) году$/u.exec(c)
+    ?? /^(\d{4}) (?:[\w-]+ ){0,3}(?:films|television series debuts|anime films|direct-to-video films)$/u.exec(c);
+  const y = Number(m?.[1]);
+  return y >= 1880 ? y : undefined;
+};
+const CAT_OUT = /в производстве$|^Отменённые|^Upcoming|^Unreleased|^Cancell?ed (?:films|television)|^Shelved|in production$|^Films in development/iu;
+const CAT_UNFINISHED = /^Незаконченные|^Unfinished/iu;
+async function checkRelease(items: { qid: string; type: 'film' | 'series' }[]): Promise<void> {
+  const FILE = new URL('.cache/grow-film-base.release.json', root);
+  const known: Record<string, Release> = existsSync(FILE) && !FRESH ? JSON.parse(readFileSync(FILE, 'utf8')) : {};
+  const stale = (r?: Release) => !r || (r.v !== 'in' && Date.parse(TODAY) - Date.parse(r.at) > RELEASE_TTL * 864e5);
+  const ask = [...new Map(items.filter((x) => stale(known[x.qid])).map((x) => [x.qid, x])).values()];
+  type Facts = { proj?: boolean; dates: { d: string; pr: number; perf?: boolean }[]; ru?: string; en?: string; tm?: number; tv?: number };
+  const facts = new Map<string, Facts>(ask.map((x) => [x.qid, { dates: [] }]));
+  for (let i = 0; i < ask.length; i += 150) {
+    const part = ask.slice(i, i + 150);
+    const rows = await sparqlRows(`SELECT ?f ?p ?pp ?d ?pr ?art ?enart ?tm ?tv WHERE { VALUES ?f { ${part.map((x) => `wd:${x.qid}`).join(' ')} }
+      { ?f wdt:P31 ?p FILTER(?p IN (wd:Q18011172, wd:Q18011171)) } UNION
+      { VALUES (?pp ?pv) { (p:P577 psv:P577) (p:P580 psv:P580) (p:P1191 psv:P1191) } ?f ?pp ?st. ?st a wikibase:BestRank; ?pv ?tv0. ?tv0 wikibase:timeValue ?d; wikibase:timePrecision ?pr } UNION
+      { ?a schema:about ?f; schema:isPartOf <https://ru.wikipedia.org/>; schema:name ?art } UNION
+      { ?b schema:about ?f; schema:isPartOf <https://en.wikipedia.org/>; schema:name ?enart } UNION
+      { ?f wdt:P4947 ?tm } UNION { ?f wdt:P4983 ?tv } }`);
+    if (!rows) { console.error(`  не вышедшее: пачка ${i / 150} не получена — спросим в следующий раз`); for (const x of part) facts.delete(x.qid); await sleep(5000); continue; }
+    for (const b of rows) {
+      const f = facts.get(b.f!.value.split('/').pop()!);
+      if (!f) continue;
+      if (b.p) f.proj = true;
+      // первый показ (P1191) — признак выхода, но год по нему — последним: у «Сказки о попе и о работнике его Балде» (1936)
+      // это показ уцелевших кадров в 2006-м
+      if (b.d && /^\d{4}-/.test(b.d.value)) f.dates.push({ d: b.d.value.slice(0, 10), pr: Number(b.pr?.value ?? 11), perf: b.pp?.value.endsWith('P1191') });
+      if (b.art) f.ru = b.art.value;
+      if (b.enart) f.en = b.enart.value;
+      if (b.tm && Number(b.tm.value)) f.tm = Number(b.tm.value);
+      if (b.tv && Number(b.tv.value)) f.tv = Number(b.tv.value);
+    }
+    await sleep(1000);
+  }
+  // самая поздняя возможная дата: у даты с точностью до года — 31 декабря, до месяца — конец месяца
+  const latest = ({ d, pr }: { d: string; pr: number }) => (pr <= 9 ? `${d.slice(0, 4)}-12-31` : pr === 10 ? `${d.slice(0, 7)}-31` : d);
+  const undecided = (f: Facts) => !f.dates.some((x) => latest(x) <= TODAY);
+  // категории нужны и для года: вышедшее только по первому показу (P1191) года выхода не знает
+  const noYear = (f: Facts) => !f.dates.some((x) => latest(x) <= TODAY && !x.perf);
+  const ruCats = await wikiCats('ru', [...new Set([...facts.values()].filter(noYear).flatMap((f) => (f.ru ? [f.ru] : [])))]);
+  const enCats = await wikiCats('en', [...new Set([...facts.values()].filter((f) => noYear(f) && !ruCats.get(f.ru ?? '')?.length).flatMap((f) => (f.en ? [f.en] : [])))]);
+  const tmdbKey = process.env.TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY;
+  const tmdb = new Map<string, { status?: string; date?: string }>();
+  const askTmdb = [...facts].filter(([, f]) => undecided(f) && (f.tm || f.tv));
+  if (askTmdb.length && !tmdbKey) console.error(`  не вышедшее: TMDb не спрошен (нет TMDB_API_KEY) — ${askTmdb.length}`);
+  for (let i = 0; tmdbKey && i < askTmdb.length; i += 8) await Promise.all(askTmdb.slice(i, i + 8).map(async ([q, f]) => {
+    const kind = items.find((x) => x.qid === q)?.type === 'series' && f.tv ? 'tv' : f.tm ? 'movie' : 'tv';
+    const j = await get<{ status?: string; release_date?: string; first_air_date?: string }>(`https://api.themoviedb.org/3/${kind}/${kind === 'tv' ? f.tv : f.tm}?api_key=${tmdbKey}`);
+    // у сериала «Canceled» — закрыт после показа, это вышедшее
+    if (j) tmdb.set(q, { status: kind === 'tv' && j.status === 'Canceled' ? 'Released' : j.status, date: kind === 'tv' ? j.first_air_date : j.release_date });
+  }));
+  for (const [q, f] of facts) {
+    const cats = [...(ruCats.get(f.ru ?? '') ?? []), ...(enCats.get(f.en ?? '') ?? [])];
+    const past = f.dates.filter((x) => latest(x) <= TODAY), future = f.dates.filter((x) => x.d > TODAY);
+    const cy = cats.map(catYear).filter((y): y is number => Boolean(y));
+    const catOut = cats.filter((c) => CAT_OUT.test(c)), unfinished = cats.some((c) => CAT_UNFINISHED.test(c));
+    const t = tmdb.get(q);
+    const tmdbIn = t?.status === 'Released' && Boolean(t.date) && t.date! <= TODAY;
+    const tmdbOut = Boolean(t?.status && ['Planned', 'In Production', 'Post Production', 'Rumored', 'Canceled', 'Pilot'].includes(t.status));
+    const minY = (ys: number[]) => (ys.length ? Math.min(...ys) : undefined);
+    const dateYear = minY(past.filter((x) => !x.perf).map((x) => Number(x.d.slice(0, 4))));
+    const year = minY([...(dateYear ? [dateYear] : []), ...cy.filter((y) => y <= THIS_YEAR)])
+      ?? minY(past.map((x) => Number(x.d.slice(0, 4)))) ?? (tmdbIn ? Number(t!.date!.slice(0, 4)) : undefined);
+    let r: Omit<Release, 'at'>;
+    // даты Wikidata — первыми: у «Человека с мешком» (P577 — декабрь 2026, «будущий фильм») номер TMDb ведёт на фильм 2004 года.
+    // TMDb «вышел» сильнее категорий: «Фильмы в производстве» в Википедии снимают не сразу после выхода
+    if (past.length) r = { v: 'in', year, why: `дата ${past[0].d}` };
+    else if (future.length) r = { v: 'out', why: `дата ${future[0].d}` };
+    else if (tmdbIn) r = { v: 'in', year, why: `TMDb ${t!.date}` };
+    else if (catOut.length || tmdbOut || cy.some((y) => y > THIS_YEAR))
+      r = { v: 'out', why: catOut[0] ?? (tmdbOut ? `TMDb ${t!.status}` : `категория ${Math.max(...cy)} года`) };
+    else if (cy.length) r = { v: 'in', year, why: `категория ${Math.min(...cy)} года` };
+    else if (f.proj || unfinished) r = { v: 'out', why: f.proj ? 'класс «будущий/незаконченный фильм»' : 'Незаконченные фильмы' };
+    else r = { v: '?', why: 'признаков нет' };
+    known[q] = { ...r, at: TODAY };
+  }
+  writeFileSync(FILE, JSON.stringify(known));
+  for (const x of items) if (known[x.qid]) release.set(x.qid, known[x.qid]);
+}
+const qidOf = (c: WorkCard) => `Q${c.id.replace(/^f-wd/, '')}`;
+await checkRelease([...uniq.filter((r) => !r.had && yearless(r.year)), ...prev.filter((c) => yearless(c.year)).map((c) => ({ qid: qidOf(c), type: c.type as 'film' | 'series' }))]);
+const unreleased = new Set([...release].filter(([, r]) => r.v === 'out').map(([q]) => q));
+{
+  const shown = uniq.filter((r) => unreleased.has(r.qid) && !r.had), prevOut = prev.filter((c) => unreleased.has(qidOf(c)));
+  const yearFill = [...uniq.filter((r) => !r.had && !r.year).map((r) => r.qid), ...prev.filter((c) => !c.year).map(qidOf)].filter((q) => release.get(q)?.year).length;
+  if (shown.length || prevOut.length) console.error(`не вышло — не берём: ${shown.length} кандидатов, из прежних карточек модуля уходит ${prevOut.length} (${[...new Set([...shown.map((r) => r.title), ...prevOut.map((c) => c.title)])].slice(0, 12).join(', ')})`);
+  console.error(`без года или с годом от ${THIS_YEAR}: спрошено ${release.size}; вышло ${[...release.values()].filter((r) => r.v === 'in').length} (год найден у ${yearFill} без года), не вышло ${unreleased.size}, признаков нет ${[...release.values()].filter((r) => r.v === '?').length}`);
+}
+
+// ── 3г. выпуски циклов (18.10) ────────────────────────────────────────────────
+// Выпуск цикла с названием цикла: «Ну, погоди!» 2005 — это 19-й выпуск (Q4327875, P179 → Q333637), а «Ну, погоди!» 1969 —
+// пилот из «Весёлой карусели». В поиске они вставали вровень с самим циклом и между собой не различались. Выпуск — часть
+// серии (P179), чья русская метка совпадает с названием карточки, и при этом серия — цикл короткометражных мультфильмов
+// (Q113791292) или сам элемент — серия телесериала (Q21191270, Q1983062). Франшизы с одноимённым первым фильмом
+// («Мумия», «Кикбоксер», «Трое из Простоквашино») и фильм по сериалу («Мистер Бин» 1997) — не выпуски, их не трогаем.
+// Название — с номером: из статьи русской Википедии («Ну, погоди! (выпуск 19)»), иначе из порядкового номера (P1545 при
+// P179), иначе с годом («Ну, погоди! (1969)»). Только если цикл сам есть в справочнике. Кэш — .cache/grow-film-base.cycles.json.
+const titleKey = (s: string) => s.normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/ё/g, 'е').replace(/['’ʼ`]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+const episodeTitle = new Map<string, string>();
+async function nameEpisodes(items: { qid: string; title: string; year: number }[], inBase: (q: string) => boolean): Promise<void> {
+  const FILE = new URL('.cache/grow-film-base.cycles.json', root);
+  type Part = { s: string; n?: string; sl?: string; ep?: boolean; cyc?: boolean };
+  const known: Record<string, { parts: Part[]; art?: string }> = existsSync(FILE) && !FRESH ? JSON.parse(readFileSync(FILE, 'utf8')) : {};
+  const ask = [...new Set(items.map((x) => x.qid))].filter((q) => !known[q]);
+  for (let i = 0; i < ask.length; i += 300) {
+    const part = ask.slice(i, i + 300);
+    const rows = await sparqlRows(`SELECT ?f ?s ?n ?sl ?ep ?cyc WHERE { VALUES ?f { ${part.map((q) => `wd:${q}`).join(' ')} } ?f p:P179 ?st. ?st ps:P179 ?s.
+      OPTIONAL { ?st pq:P1545 ?n } OPTIONAL { ?s rdfs:label ?sl FILTER(lang(?sl) = 'ru') }
+      OPTIONAL { ?f wdt:P31 ?ep FILTER(?ep IN (wd:Q21191270, wd:Q1983062)) } OPTIONAL { ?s wdt:P31 ?cyc FILTER(?cyc = wd:Q113791292) } }`);
+    if (!rows) { console.error(`  выпуски циклов: пачка ${i / 300} не получена — спросим в следующий раз`); await sleep(5000); continue; }
+    for (const q of part) known[q] = { parts: [] };
+    for (const b of rows) {
+      const k = known[b.f!.value.split('/').pop()!], s = b.s!.value.split('/').pop()!;
+      const p = k.parts.find((x) => x.s === s) ?? (k.parts.push({ s }), k.parts.at(-1)!);
+      if (b.n && !p.n) p.n = b.n.value;
+      if (b.sl) p.sl = b.sl.value;
+      if (b.ep) p.ep = true;
+      if (b.cyc) p.cyc = true;
+    }
+    if (i % 3000 === 0) writeFileSync(FILE, JSON.stringify(known));
+    await sleep(1000);
+  }
+  // и только когда сам цикл — карточка справочника: иначе спорить в поиске не с кем, а название может быть своим
+  // («Трое из Простоквашино» 1978 — первый фильм цикла «Трое из Простоквашино», которого у нас нет)
+  const hits = items.map((x) => ({ ...x, part: known[x.qid]?.parts.find((p) => p.sl && (p.ep || p.cyc) && inBase(p.s) && titleKey(p.sl) === titleKey(x.title)) }))
+    .filter((x) => x.part);
+  // статья русской Википедии — только у выпусков: в ней номер («Ну, погоди! (выпуск 19)»)
+  const noArt = [...new Set(hits.map((x) => x.qid))].filter((q) => !('art' in known[q]));
+  for (let i = 0; i < noArt.length; i += 200) {
+    const rows = await sparqlRows(`SELECT ?f ?art WHERE { VALUES ?f { ${noArt.slice(i, i + 200).map((q) => `wd:${q}`).join(' ')} }
+      ?a schema:about ?f; schema:isPartOf <https://ru.wikipedia.org/>; schema:name ?art }`);
+    if (!rows) continue;
+    for (const q of noArt.slice(i, i + 200)) known[q].art = '';
+    for (const b of rows) known[b.f!.value.split('/').pop()!].art = b.art!.value;
+    await sleep(1000);
+  }
+  writeFileSync(FILE, JSON.stringify(known));
+  for (const x of hits) {
+    const num = /\((?:[^()]*\s)?(выпуск|серия|эпизод|часть|фильм)\s+(\d{1,3})\)$/iu.exec(known[x.qid].art ?? '') ?? /\((\d{1,3})-?(?:й|ый|ий)\s+(выпуск)\)$/iu.exec(known[x.qid].art ?? '');
+    const name = num ? `${x.title} (${/^\d/.test(num[1]) ? `${num[2]} ${num[1]}` : `${num[1]} ${num[2]}`})`
+      : x.part!.n && /^\d+$/.test(x.part!.n) ? `${x.title} (${x.part!.cyc ? 'выпуск' : 'серия'} ${x.part!.n})`
+      : x.year ? `${x.title} (${x.year})` : undefined;
+    if (name) episodeTitle.set(x.qid, name);
+  }
+}
+await nameEpisodes([...uniq.filter((r) => !r.had).map((r) => ({ qid: r.qid, title: r.title, year: r.year || release.get(r.qid)?.year || 0 })),
+  ...prev.map((c) => ({ qid: qidOf(c), title: c.title, year: c.year || release.get(qidOf(c))?.year || 0 }))],
+  (q) => have.has(q) || prev.some((c) => qidOf(c) === q) || uniq.some((r) => r.qid === q && !unreleased.has(q)));
+if (episodeTitle.size) console.error(`выпуски циклов с названием цикла — с номером: ${episodeTitle.size} (${[...episodeTitle.values()].slice(0, 8).join(', ')})`);
 const noKey = uniq.filter((r) => !r.had && !r.key);
 console.log(`без ключа (нет TMDb у фильма / IMDb у сериала) — завести нельзя: ${noKey.length}`);
 const seenKey = new Set<string>();
-const missing = uniq.filter((r) => !r.had && r.key && !anime.has(r.qid) && !notFilm.has(r.qid) && !porn.has(r.qid) && !isWithheld({ type: r.type, externalIds: { ...(r.tmdb ? { tmdb: r.tmdb } : {}), ...(r.imdb ? { imdb: r.imdb } : {}), wikidata: r.qid } }) && (!WORLD || chosen.has(r.qid) || r.article.startsWith('wd:')) && (!SERIES_ONLY || r.type === 'series') && (!FILMS_ONLY || r.type === 'film') && !seenKey.has(r.key) && seenKey.add(r.key));
+const missing = uniq.filter((r) => !r.had && r.key && !anime.has(r.qid) && !notFilm.has(r.qid) && !porn.has(r.qid) && !unreleased.has(r.qid) && !isWithheld({ type: r.type, externalIds: { ...(r.tmdb ? { tmdb: r.tmdb } : {}), ...(r.imdb ? { imdb: r.imdb } : {}), wikidata: r.qid } }) && (!WORLD || chosen.has(r.qid) || r.article.startsWith('wd:')) && (!SERIES_ONLY || r.type === 'series') && (!FILMS_ONLY || r.type === 'film') && !seenKey.has(r.key) && seenKey.add(r.key));
 const line = (r: (typeof uniq)[number]) => `  ${`${r.title}${r.year ? ` (${r.year})` : ''}`.padEnd(48)} ${r.type === 'series' ? 'сериал' : 'фильм '} ${r.months ? `${String(r.views).padStart(9)} · ${r.months} ${WORLD ? 'сут.' : 'мес.'}` : `разделов ${r.links}`}`;
 console.log(`\nнет у нас (${missing.length}), первые 30 из топов:`);
 for (const r of missing.filter((r) => r.months).slice(0, 30)) console.log(line(r));
@@ -682,7 +888,7 @@ for (const r of uniq.filter((r) => !r.had && isNew(r))) for (const src of r.src 
 console.log(`\nновых карточек (нет и в прежнем ${OUT_NAME}): ${added.length}`);
 console.log(`\nпо источникам — добавится (из них с ключом wd:) / без ключа: ${[...bySrc].map(([k, e]) => `${k} +${e.add}${e.wd ? ` (wd: ${e.wd})` : ''}${e.noKey ? ` / ${e.noKey}` : ''}`).join('; ')}`);
 const REPORT = new URL(opt('--report') ?? (WORLD ? '.cache/grow-film-base-world.json' : '.cache/grow-film-base.json'), `file://${process.cwd()}/`);
-writeFileSync(REPORT, JSON.stringify({ at: now.toISOString(), months: MONTHS, from: FROM, bySrc: Object.fromEntries(bySrc), added: added.map((r) => r.qid), missing, noKey }, null, 1));
+if (!RECHECK) writeFileSync(REPORT, JSON.stringify({ at: now.toISOString(), months: MONTHS, from: FROM, bySrc: Object.fromEntries(bySrc), added: added.map((r) => r.qid), missing, noKey }, null, 1));
 
 // ── 4. запись карточек ────────────────────────────────────────────────────────
 const who = (r: Found) => (r.type === 'series' ? r.creator : r.director);
@@ -712,23 +918,33 @@ if (WRITE) {
   await nameCreators(missing);
   // убранное владельцем (src/mocks/withheldWorks.ts) не заводим и не держим
   const cards: WorkCard[] = missing.map((r) => ({
-    id: `f-wd${r.qid.slice(1)}`, type: r.type, title: plainTitle(r.title),
+    // выпуск цикла — с номером, год вышедшему без года — из признаков выхода (18.10, разделы 3в и 3г)
+    id: `f-wd${r.qid.slice(1)}`, type: r.type, title: episodeTitle.get(r.qid) ?? plainTitle(r.title),
     ...(r.originalTitle ? { originalTitle: r.originalTitle } : {}),
-    year: r.year, creators: creatorsOf(r),
+    year: r.year || release.get(r.qid)?.year || 0, creators: creatorsOf(r),
     primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [], isNicheMasterpiece: false,
     // элемент Wikidata — у фильма с ключом `wd:` (без TMDb: иначе у карточки нет ключа); номер Кинопоиска — у кандидатов --from
     externalIds: { ...(r.type === 'film' && r.tmdb ? { tmdb: r.tmdb } : {}), ...(r.imdb ? { imdb: r.imdb } : {}),
       ...(r.key?.startsWith('wd:') ? { wikidata: r.qid } : {}), ...(r.kp ? { kinopoisk: r.kp } : {}) },
   }) as WorkCard).filter((c) => !isWithheld(c));
   const ids = new Set(cards.map((c) => c.id));
-  // прежняя карточка своего модуля, оказавшаяся не фильмом по P31 или порнографией (18.10), уходит
-  const all = [...prev.filter((c) => !ids.has(c.id) && !isWithheld(c) && !notFilm.has(`Q${c.id.replace(/^f-wd/, '')}`) && !porn.has(`Q${c.id.replace(/^f-wd/, '')}`)), ...cards];
+  // прежняя карточка своего модуля, оказавшаяся не фильмом по P31, порнографией или невышедшим (18.10), уходит; выпуск
+  // цикла получает номер, вышедшая без года — год
+  const fresh = (c: WorkCard): WorkCard => {
+    const q = qidOf(c), title = episodeTitle.get(q) ?? c.title, year = c.year || release.get(q)?.year || 0;
+    return title === c.title && year === c.year ? c : { ...c, title, year };
+  };
+  const all = [...prev.filter((c) => !ids.has(c.id) && !isWithheld(c) && !notFilm.has(qidOf(c)) && !(porn.has(qidOf(c)) && !RECHECK) && !unreleased.has(qidOf(c))).map(fresh), ...cards];
   // строка на карточку через c(): пустые поля разметки у всех одинаковы, и в полном виде
   // они были третью файла (1,4 МБ на 4450 карточек)
   const row = (w: WorkCard) => `  c(${[w.id.replace(/^f-wd/, ''), w.type, w.title, w.originalTitle ?? '', w.year, w.creators, w.externalIds ?? {}].map((v) => JSON.stringify(v)).join(', ')}),`;
   // свой модуль (--out, кроме filmBasePopular/filmBaseWorld) — общий заголовок: в него пишут и --world, и --from (18.10)
   const own = !['filmBasePopular', 'filmBaseWorld'].includes(OUT_NAME);
-  writeFileSync(OUT, `// Сгенерировано tools/grow-film-base.mts${WORLD ? ' --world' : ''} (${now.toISOString().slice(0, 10)}): ${own
+  // --recheck: заголовок модуля прежний (его писал прогон с другими флагами), меняется только список
+  const text = existsSync(OUT) ? readFileSync(OUT, 'utf8') : '';
+  const head = text.indexOf(`export const ${OUT_NAME}: WorkCard[] = [`);
+  if (RECHECK && head >= 0) writeFileSync(OUT, `${text.slice(0, head)}export const ${OUT_NAME}: WorkCard[] = [\n${all.map(row).join('\n')}\n];\n`);
+  else writeFileSync(OUT, `// Сгенерировано tools/grow-film-base.mts${WORLD ? ' --world' : ''} (${now.toISOString().slice(0, 10)}): ${own
     ? `пополнение справочника
 // (--out ${OUT_NAME}): фильмы и сериалы из топов и классики Википедии, по ключам (--from) и из запросов классики, которых не было
 // в справочнике. Модуль ленивый — не в первой загрузке (src/api/index.ts, loadFilmLinks).`

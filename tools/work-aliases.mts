@@ -169,6 +169,10 @@ export const MANUAL_SAME: readonly (readonly [string, string, string])[] = [
   ['f-tmdb817962', 'f-wd89186326', '«Коллектив» Нанау (2019): TMDb 817962 — лыжная документалка The Collective (tt11338786), у фильма — 618363 (tt10706602)'],
   ['b-wd70469944', 'b-wd28306', '«Танец с драконами»: Q70469944 — издание (P31 Q3331189, P629 = Q28306)'],
   ['b-wd673156', 'b-wd15555061', '«Лейли и Меджнун» Низами: Q673156 — легенда вообще (Низами ей не автор), поэма — Q15555061; Open Library общий'],
+  // 18.10 (волна В): спорные группы после роста справочника
+  ['f-wd97314140', 'f-wd30887826', '«Дело Сухово-Кобылина» Пчёлкина (1991): два элемента Wikidata на один фильм (общий IMDb tt0101079); главная — с TMDb 727720'],
+  ['u-kp910353', 'f-wd20716882', '«Выстрел в пустоту» (Shot Caller, 2017): в истории владельца год 2015 — ошибка импорта; ключи TMDb 339692, IMDb, Кинопоиск 910353 общие'],
+  ['b-wd188538', 'w16', '«Мастер и Маргарита»: в демо-каталоге год 1967 (первая публикация), в справочнике книг 1928 (начало работы) — одна книга; главная — с разметкой (own)'],
 ];
 
 function groupsOf(works: Map<string, Work>, manual: readonly (readonly [string, string, string])[] = MANUAL_SAME): AliasGroup[] {
@@ -261,7 +265,8 @@ function groupsOf(works: Map<string, Work>, manual: readonly (readonly [string, 
     if (t.size > 1 && !byHand) issues.push('tmdb≠');
     if (i.size > 1 && !byHand) issues.push('imdb≠');
     if (q.size > 1 && !byHand) issues.push('qid≠');
-    if (years.length && Math.max(...years) - Math.min(...years) > 1) issues.push(`годы ${Math.min(...years)}–${Math.max(...years)}`);
+    // 18.10: и годы — ручная пара проверена человеком («Мастер и Маргарита»: 1928 — начало работы, 1967 — публикация)
+    if (!byHand && years.length && Math.max(...years) - Math.min(...years) > 1) issues.push(`годы ${Math.min(...years)}–${Math.max(...years)}`);
     if (new Set(g.map((x) => works.get(x)!.kind)).size > 1) issues.push('вид≠');
     const hows = new Set<string>();
     for (const a of g) for (const b of g) if (a < b) for (const h of how.get(`${a}\t${b}`) ?? []) hows.add(h);

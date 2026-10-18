@@ -1182,6 +1182,8 @@ export const en: Strings = {
   "tuneHint": "Tap “Today” again — films or books and difficulty",
   "moreFilms": "More films",
   "moreBooks": "More books",
+  /* «Новинки» рядом с «Ещё фильмы» (18.10, владелец): вышедшее за последний год, тем же подбором */
+  "novelties": { "screen": "New releases", "book": "New books" },
   "moreLoading": "Picking…",
   "moreNone": "That's everything that fits for today. Rate more films and your picks will widen.",
   "moreFailed": "Couldn't pick more — try again later",

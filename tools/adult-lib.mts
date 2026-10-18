@@ -5,7 +5,8 @@
 //     в порно попадали «Эммануэль», «Шоугёлз», «Супер Майк», «Глен или Гленда»). В справочник не идёт вовсе: сборщики не
 //     заводят, уже заведённое — в withheldWorks;
 //   • эротика — эротический фильм (Q599558), мягкая порнография (Q2000136), сексплотейшн (Q2292320), эротический триллер
-//     (Q2439025), пинку эйга (Q1194365), «секс-фильм» (Q2275499) и подклассы, кроме секс-комедии (Q2991560: «Американский
+//     (Q2439025), пинку эйга (Q1194365), «секс-фильм» (Q2275499), эротический сериал (Q21233490), эротические ужасы
+//     (Q92162007) и подклассы, «эротика» (Q181001) — без подклассов (18.10), кроме секс-комедии (Q2991560: «Американский
 //     пирог», итальянские commedia sexy — комедии, не эротика). Карточка остаётся (поиск, страница), но в подбор не идёт —
 //     heldWorks, как эзотерика и агитки (решение владельца 13.10);
 //   • `OVERRIDE` — известные фильмы, у которых жанр «порнофильм» в Wikidata спорен: им — эротика (карточка остаётся,
@@ -21,15 +22,21 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const HARD_ROOTS = ['Q185529', 'Q172067'];
 /** порно, кроме веток эротики */
 const PORN_ROOTS = ['Q291'];
-const EROTIC_ROOTS = ['Q599558', 'Q2000136', 'Q2292320', 'Q2439025', 'Q1194365', 'Q2275499'];
-/** 18.10: «Калигула» (1979) и «Сербский фильм» (2010) — жанр «порнофильм» в Wikidata; не убираем совсем, а откладываем */
-const OVERRIDE: Record<string, AdultKind> = { Q217685: 'erotic', Q300552: 'erotic' };
+/** 18.10 (проверка названий): эротический сериал (Q21233490) и эротические ужасы (Q92162007) — не подклассы эротического
+ *  фильма, а «эротика» (Q181001) — их общий корень; без них правило не видело «Тайный дневник девушки по вызову» и «Ледяной цветок» */
+const EROTIC_ROOTS = ['Q599558', 'Q2000136', 'Q2292320', 'Q2439025', 'Q1194365', 'Q2275499', 'Q21233490', 'Q92162007'];
+/** 18.10: «эротика» (Q181001) — только сам класс, без подклассов: в них эротическая литература, омегаверс, «гуманистическая
+ *  комедия» и прочее, к кино не относящееся */
+const EROTIC_EXACT = ['Q181001'];
+/** 18.10: «Калигула» (1979) и «Сербский фильм» (2010) — жанр «порнофильм» в Wikidata; не убираем совсем, а откладываем.
+ *  «Marjaavaan» (2019, болливудский боевик) — «порнофильм» в Wikidata ошибкой: не взрослое вовсе (''). */
+const OVERRIDE: Record<string, AdultKind | ''> = { Q217685: 'erotic', Q300552: 'erotic', Q58411779: '' };
 /** не эротика: секс-комедия и её подклассы */
 const NOT_EROTIC_ROOTS = ['Q2991560'];
-const SIG = JSON.stringify([HARD_ROOTS, PORN_ROOTS, EROTIC_ROOTS, NOT_EROTIC_ROOTS]);
+const SIG = JSON.stringify([HARD_ROOTS, PORN_ROOTS, EROTIC_ROOTS, NOT_EROTIC_ROOTS, EROTIC_EXACT]);
 /** ответы по элементам хранят сами классы из всех веток — перестановка правил (что порно, что эротика) не требует спрашивать
  *  заново; заново — только если сменился набор корней */
-const ITEM_SIG = JSON.stringify([...HARD_ROOTS, ...PORN_ROOTS, ...EROTIC_ROOTS, ...NOT_EROTIC_ROOTS].sort());
+const ITEM_SIG = JSON.stringify([...HARD_ROOTS, ...PORN_ROOTS, ...EROTIC_ROOTS, ...NOT_EROTIC_ROOTS, ...EROTIC_EXACT].sort());
 const root = new URL('../', import.meta.url);
 const CLASSES = new URL('.cache/adult-classes.json', root);
 const CACHE = new URL('.cache/adult-wd.json', root);
@@ -64,7 +71,7 @@ async function classSets() {
   await sleep(1000);
   const notErotic = await closure(NOT_EROTIC_ROOTS);
   await sleep(1000);
-  const eroticTree = await closure(EROTIC_ROOTS);
+  const eroticTree = new Set([...await closure(EROTIC_ROOTS), ...EROTIC_EXACT]);
   await sleep(1000);
   const pornTree = await closure(PORN_ROOTS);
   const porn = new Set([...hard, ...[...pornTree].filter((c) => !eroticTree.has(c))]);
@@ -106,7 +113,8 @@ export async function adultOf(qids: Iterable<string>, { fresh = false }: { fresh
     const cs = cache[q];
     if (!Array.isArray(cs)) continue;
     const k: AdultKind | undefined = cs.some((c) => porn.has(c)) ? 'porn' : cs.some((c) => erotic.has(c)) ? 'erotic' : undefined;
-    if (k) out.set(q, OVERRIDE[q] ?? k);
+    const o = q in OVERRIDE ? OVERRIDE[q] : k;
+    if (o) out.set(q, o);
   }
   return out;
 }

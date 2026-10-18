@@ -1766,7 +1766,21 @@ export async function getTasteProgress(): Promise<{ rated: number; needed: numbe
 /** Лента с учётом подписок (ЗП-42): экран передаёт, только если функция включена. */
 export interface SlateOptions { subscriptions?: boolean; /** полка бесплатной классики (ЗП-43) */ freeClassics?: boolean; /** «Почитать» — книга в ленте (11.10) */ books?: boolean;
   /** что подбирать (11.10): 'book' — ленту из книг, по той же модели; нет — кино и сериалы */ kind?: FeedKind;
-  /** первый вход свайпом (ДФ-2): при 0–4 оценках не холодный старт, а общая лента от среднего уровня */ general?: boolean }
+  /** первый вход свайпом (ДФ-2): при 0–4 оценках не холодный старт, а общая лента от среднего уровня */ general?: boolean;
+  /** «Новинки» (18.10, владелец): порция только из вышедшего за последний год — тем же подбором */ fresh?: boolean }
+
+/** Новинка (18.10, владелец): вышла за последние ~12 месяцев. Точной даты выхода у карточки нет — только год, поэтому
+ *  «этот год или прошлый»; без года (0) и будущий год — не вышло, не новинка. Исключённые предупреждения настроек —
+ *  мимо. */
+const isNovelty = (w: WorkCard, year: number, blocked: ReadonlySet<string>): boolean =>
+  w.year > 0 && w.year <= year && w.year >= year - 1 && !w.warnings.some((x) => blocked.has(x));
+const noveltyOf = () => {
+  const year = Number(today().slice(0, 4));
+  const blocked = new Set(settings.excludedWarnings ?? []);
+  return (c: Candidate) => isNovelty(c.work, year, blocked);
+};
+/** Книжных новинок в пуле меньше — кнопку не показываем (18.10, владелец): две-три книги — не раздел */
+const BOOK_NOVELTIES_MIN = 10;
 
 export async function getSlate(energy: Energy = 'normal', more?: ID[], opts: SlateOptions = {}): Promise<RecommendationSlate> {
   // новому человеку подбирать не от чего — холодный старт сразу, без ядра (РР-5); при входе свайпом (ДФ-2) — общая лента
@@ -1816,11 +1830,20 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   // отказанное — и для вставок («фокус», «дальше во вселенной»)
   for (const id of shown) keys.add(id);
   // лента книг (11.10): шесть книг по той же модели — без вставок кино (вселенная, классика, фокус на полке)
+  // «Новинки» (18.10): порция из новинок — тот же подбор по суженному пулу; и для любой порции — сколько новинок даст
+  // следующая (`fresh`), чтобы кнопка не появлялась впустую
+  const novel = noveltyOf();
   if (books) {
-    const items = state ? recommend(state, bookPool(keys), energy, 6, today(), pickOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
-    return finishSlate({ id: `s-book-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items }, items);
+    const all = bookPool(keys);
+    const novelBooks = all.filter(novel);
+    const items = state ? recommend(state, opts.fresh ? novelBooks : all, energy, 6, today(), pickOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
+    const rest = novelBooks.filter((c) => !items.some((r) => r.work.id === c.work.id));
+    // порог — на вход в раздел; внутри новинок (нажал «Новинки») — сколько есть
+    const fresh = state && (opts.fresh || rest.length >= BOOK_NOVELTIES_MIN) ? recommend(state, rest, energy, 6, today(), pickOpts()).length : 0;
+    return finishSlate({ id: `s-book-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items, fresh }, items);
   }
-  const pool = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
+  const all = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
+  const pool = opts.fresh ? all.filter(novel) : all;
   // якорь вкуса (09.10): пока оценок мало, первая лента держится ближе к оценённому — по жанру,
   // стране и авторам; с ростом истории вес гаснет, и подбор идёт по уровню и операциям
   const anchorWeight = contentWeight(rated, MIN_RATED);
@@ -1829,7 +1852,7 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   const anchor = anchorWeight ? deriveContentTaste(history().filter((e) => e.status === 'finished'), genresOf, settings.ratingNorm, settings.tasteShelves) : undefined;
   const content = anchor ? { weight: anchorWeight, fit: (w: WorkCard) => contentFit(anchor, w, genresOf) } : undefined;
   const base = state
-    ? { id: `s-${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...pickOpts() }) }
+    ? { id: `s-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...pickOpts() }) }
     : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
   // доступное без доплаты — вперёд, порядок внутри групп прежний (ЗП-42); новичку первые три с разбором
@@ -1856,7 +1879,10 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   if (book) inserts.push({ rec: book, at: items.length });
   const insert = inserts.length ? inserts[Math.floor(Date.parse(today()) / 864e5) % inserts.length] : undefined;
   if (insert) items.splice(Math.min(items.length, insert.at), 0, insert.rec);
-  return finishSlate(base, items);
+  // сколько новинок даст следующая порция — без всего, что встало в эту (и вставки)
+  const restNovel = state ? all.filter((c) => novel(c) && !items.some((r) => r.work.id === c.work.id)) : [];
+  const fresh = restNovel.length ? recommend(state!, restNovel, energy, 6, today(), { seriesNovice: seriesNovice(), ...(content ? { content } : {}), ...pickOpts() }).length : 0;
+  return finishSlate({ ...base, fresh }, items);
 }
 
 /** Картинки, разборы и обсуждения к подобранному; показы — на сервер. */
@@ -2348,6 +2374,11 @@ export function noteShare(what: ShareWhat, how: ShareHow, workId?: ID): void {
   store.event({ kind: 'share_sent', ...(workId ? { workId } : {}), place: placeNow(), detail: `${what}:${how}` }).catch(() => undefined);
 }
 
+/** «Новинки» в конце ленты (18.10, владелец): нажал — какая лента и сколько новинок ждало в порции. */
+export function noteNovelties(kind: FeedKind, offered: number): void {
+  store.event({ kind: 'novelties', place: placeNow(), detail: `${kind}:${offered}` }).catch(() => undefined);
+}
+
 /** Ответ на вопрос приложения (МА-3): `scale` — какая оценка у человека обычная. */
 export function noteSurvey(survey: 'scale', answer: string | number): void {
   store.event({ kind: 'survey_answered', place: placeNow(), detail: `${survey}:${answer}` }).catch(() => undefined);
@@ -2723,6 +2754,13 @@ export async function getPlot(id: ID): Promise<Plot | undefined> {
     const b = key ? (await import('@/mocks/bookBlurbs')).bookBlurbs[key]?.[language === 'ru' ? 'ru' : 'en'] : undefined;
     if (b) return { text: b.t, source: { name: ui.plot.wikipedia, url: b.u } };
   }
+  // фильм без TMDb (ключ `wd:`, 18.10): вступление или «Сюжет» статьи русской Википедии (tools/film-blurbs.mts), CC BY-SA;
+  // у фильма с TMDb описание своё (TMDb) — сюда не доходит
+  if (d && d.type !== 'book' && language === 'ru') {
+    const key = primaryKey(d, d.externalIds ?? externalIds[d.id]);
+    const b = key?.startsWith('wd:') ? (await import('@/mocks/filmBlurbs')).filmBlurbs[key]?.ru : undefined;
+    if (b) return { text: b.t, source: { name: ui.plot.wikipedia, url: b.u } };
+  }
   const base = d ? await baseBlurb(d.id) : undefined;
   return base ? { text: base } : undefined;
 }
@@ -2763,8 +2801,26 @@ export async function openShared(param: string): Promise<ID | undefined> {
 
 /** Поиск по всему, что мы знаем: каталог, история, пул, просмотренное и справочник фильмов.
  *  Ищем по названию и по оригинальному названию — «Rashomon» и «Расёмон» должны находиться
- *  одинаково. Диакритика и «ё» складываются: иначе «Расемон» не найдёт «Расёмон». */
-const searchKey = (s: string) => s.normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/ё/g, 'е').trim();
+ *  одинаково. Диакритика и «ё» складываются: иначе «Расемон» не найдёт «Расёмон».
+ *  18.10: и пунктуация — запятые, «!», «?», точки, кавычки, тире и дефисы становятся пробелом, апостроф пропадает: «ну погоди»
+ *  находит «Ну, погоди!», «винни пух» — «Винни-Пух», «кин дза дза» — «Кин-дза-дза!», «oceans eleven» — «Ocean's Eleven». */
+const searchKey = (s: string) => s.normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/ё/g, 'е')
+  .replace(/['’ʼ`]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+/** Ключи названий справочника считаются один раз (18.10): с пунктуацией ключ дороже, а названий — десятки тысяч на запрос. */
+const titleKeys = new Map<string, string>();
+const titleKey = (t: string): string => {
+  let k = titleKeys.get(t);
+  if (k === undefined) titleKeys.set(t, (k = searchKey(t)));
+  return k;
+};
+const solidKeys = new Map<string, string>();
+const solidKey = (k: string): string => {
+  let v = solidKeys.get(k);
+  if (v === undefined) solidKeys.set(k, (v = k.replaceAll(' ', '')));
+  return v;
+};
+/** Выпуск цикла (18.10): «Ну, погоди! (выпуск 19)» — основа и номер; в поиске выпуски одного цикла идут по номеру. */
+const ISSUE = /^(.*) \((?:выпуск|серия|часть|эпизод) (\d+)\)$/u;
 
 /** `watched` — видел: в списке просмотренного или в дневнике досмотренным / с оценкой (17.10: раньше — только по списку,
  *  и 111 вещей из журнала владельца стояли непросмотренными). `logged` — видел по дневнику или оценке: «Убрать» снимает
@@ -2797,22 +2853,28 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
     ?? (seen(w, loggedKeys) ? done.find((e) => seen(e.work, keysOf([w])))?.id : undefined);
   // регистры нужны экрану «мой список» для фильтров — без них фильтровать нечем
   // свой список отдаём целиком: обрезанный на сороковом, он выглядит как потерянные отметки
-  if (!q) return watchedNow().map((work) => ({ work: withRegisters(work), watched: true }));
+  // запрос из одной пунктуации («!!!») — не пустой: свой список на него не показываем
+  if (!q) return query.trim() ? [] : watchedNow().map((work) => ({ work: withRegisters(work), watched: true }));
   const seenKey = new Set<string>();
   const hits: { work: WorkCard; rank: number }[] = [];
   // «дюна 2021»: название без года и сам год (17.10). Запрос целиком всё равно сравниваем — «бегущий по лезвию 2049»
   const withYear = splitYear(q);
   const level = (n: string, s: string) => (n === s ? 0 : n.startsWith(s) ? 1 : n.includes(s) ? 2 : 9);
+  // слитно (18.10): «человекпаук», «spiderman» находят «Человек-паук» и «Spider-Man» — на полступени ниже
   for (const work of knownWorks()) {
     const ids = work.externalIds ?? externalIds[work.id];
     // один и тот же фильм лежит и в каталоге, и в справочнике — показываем один раз
     const key = primaryKey(work, ids) ?? work.id;
     if (seenKey.has(key)) continue;
     // и марка кириллицей: «дьявол носит прада» (src/lib/brands.ts)
-    const names = [work.title, work.originalTitle, cyrillicBrands(work.title)].filter(Boolean).map((t) => searchKey(t as string));
+    const names = [work.title, work.originalTitle, cyrillicBrands(work.title)].filter(Boolean).map((t) => titleKey(t as string));
     // другие названия (18.10) — на четверть ступени ниже своих: «Две крепости» книги выше, чем она же синонимом у фильма
-    const alt = (altTitles[key] ?? []).map(searchKey);
-    const best = (s: string) => Math.min(...names.map((n) => level(n, s)), ...alt.map((n) => level(n, s) + 0.25));
+    const alt = (altTitles[key] ?? []).map(titleKey);
+    const best = (s: string) => {
+      const r = Math.min(...names.map((n) => level(n, s)), ...alt.map((n) => level(n, s) + 0.25));
+      const solid = s.replaceAll(' ', '');
+      return r < 9 || solid.length < 4 ? r : Math.min(...names.map((n) => level(solidKey(n), solid) + 0.5));
+    };
     // точное совпадение выше начала строки, начало — выше вхождения в середину
     let rank = best(q);
     if (withYear && work.year) {
@@ -2825,7 +2887,17 @@ export async function searchWorks(query: string, limit = 40): Promise<SearchHit[
     seenKey.add(key);
     hits.push({ work, rank });
   }
-  hits.sort((a, b) => a.rank - b.rank || (b.work.year ?? 0) - (a.work.year ?? 0));
+  // при равном совпадении — известное выше (18.10, src/mocks/fame.ts): сам цикл «Ну, погоди!» выше выпусков, «Мумия» 1999 выше
+  // тёзок; дальше — новое выше старого
+  hits.sort((a, b) => a.rank - b.rank || (fameLevels[b.work.id] ?? 0) - (fameLevels[a.work.id] ?? 0) || (b.work.year ?? 0) - (a.work.year ?? 0));
+  // выпуски одного цикла на одной ступени — по номеру, на своих местах в выдаче: «(выпуск 1)», «(выпуск 2)»…, а не по году
+  const issues = new Map<string, number[]>();
+  hits.forEach((h, i) => {
+    const m = ISSUE.exec(h.work.title);
+    if (m) issues.set(`${h.rank}|${titleKey(m[1])}`, [...(issues.get(`${h.rank}|${titleKey(m[1])}`) ?? []), i]);
+  });
+  const num = (h: (typeof hits)[number]) => Number(ISSUE.exec(h.work.title)?.[2]);
+  for (const at of issues.values()) if (at.length > 1) at.map((i) => hits[i]).sort((a, b) => num(a) - num(b)).forEach((h, j) => { hits[at[j]] = h; });
   return hits.slice(0, limit).map(({ work }) => {
     const entry = entryOf(work);
     const logged = entry != null;

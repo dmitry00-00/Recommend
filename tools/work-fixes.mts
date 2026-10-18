@@ -52,6 +52,8 @@ export const MANUAL_FIXES: readonly RawFix[] = [
   { key: 'wd:Q132152', field: 'title', value: 'Бабар', evidence: 'Wikidata Q132152 — смешанный элемент (персонаж и серия детских книг, P1476 «Babar»); «(персонаж)» в названии книги лишнее', confidence: 'high' },
   { key: 'wd:Q132152', field: 'creators', value: ['Жан де Брюнофф'], evidence: 'Wikidata Q132152 P170: Жан де Брюнофф (автор и художник книг) и Сесиль де Брюнофф (сказка-основа); в карточке авторов нет', confidence: 'high' },
   { key: 'wd:Q15555061', field: 'year', value: 0, evidence: 'Wikidata Q15555061: поэма Низами (1188), 1979 — год издания Open Library; по правилу для вещей до 1500 года year = 0', confidence: 'high' },
+  // доводка справочника (18.10): вышел, а года нет — у Wikidata нет P577 (filmBaseWiki, не сборщик grow-film-base)
+  { key: 'tmdb:1416281', field: 'year', value: 2026, evidence: 'Wikidata Q136399995 «Простоквашино» (Андреасян): P577 нет; TMDb movie/1416281 — Released, release_date 2026-01-01 (RU 2026-01-01)', confidence: 'high' },
 ];
 
 // ─── справочник ────────────────────────────────────────────────────────────────────────────────────────────────

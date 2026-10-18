@@ -7,6 +7,16 @@
 //                                                — разметить через Anthropic API: ключ ANTHROPIC_API_KEY
 //                                                  в .env.local, модель — ANTHROPIC_MODEL (по умолчанию
 //                                                  та же, что у черновиков, draftAnnotationMeta.model)
+//   npx tsx tools/draft-annotate.mts --emit DIR [--limit 82] [--weighted]
+//                                                — без API (18.10): записать пачки по 20 в DIR — batch-N.txt
+//                                                  (ровно то, что ушло бы модели: подсказка + «Разметь:» + JSON
+//                                                  карточек) и batch-N.json (карточки отдельно); размечает агент
+//                                                  или человек, ответ — тот же JSON-массив, что ждёт --run
+//   npx tsx tools/draft-annotate.mts --apply FILE… [--weighted] [--model claude-code-agent] [--dry]
+//                                                — без API (18.10): прочитать ответы, проверить теми же проверками,
+//                                                  что ответ модели в --run, и дописать прошедшие тем же разделом;
+//                                                  объект {key, skip: "почему"} — честный пропуск (фильм не знаю),
+//                                                  он не пишется и считается отдельно от отброшенных
 // Кто ждёт: фильмы из .cache/profile-deck.tsv (tools/profile-deck.mts — топ-300 и канон), у которых
 // нет ни разметки, ни черновика, — новые профили и сборщик поднимают в топ новые фильмы. Отклонённые
 // куратором (draftReview) тоже ждут: их черновик не используется.
@@ -15,10 +25,12 @@
 // операция, интенсивность вне 0–1, уровень вне 1–10 — черновик отбрасывается. Прошедшие дописываются в
 // src/mocks/draftAnnotations.ts отдельным разделом с датой; статус у всех — needs_review, дальше —
 // подбор и петля (сигналы в кураторской).
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { loadEnvFile } from './env-file.mts';
 import { worksIndex } from './works-index.mts';
-import { draftAnnotations, draftAnnotationMeta } from '../src/mocks/draftAnnotations.ts';
+// 18.10: вместе с draftAnnotationsLinks.ts — иначе очередь видит размеченное в росте справочника как неразмеченное
+import { draftAnnotations, draftAnnotationMeta } from './draft-annotations.mts';
 import { draftReview } from '../src/mocks/draftReview.ts';
 import type { FirstPassAnnotation } from '../src/mocks/userAnnotations.ts';
 import type { CognitiveOperation, Confidence } from '../src/types/tmdf.ts';
@@ -29,6 +41,12 @@ const RUN = argv.includes('--run');
 const DRY = argv.includes('--dry');
 const LIMIT = Number(argv[argv.indexOf('--limit') + 1]) || 40;
 const BATCH = 20;
+// без API (18.10): --emit DIR и --apply FILE… (файлы — подряд до следующего флага)
+const EMIT = argv.includes('--emit') ? argv[argv.indexOf('--emit') + 1] : undefined;
+const APPLY: string[] = [];
+if (argv.includes('--apply')) for (const x of argv.slice(argv.indexOf('--apply') + 1)) { if (x.startsWith('--')) break; APPLY.push(x); }
+if (argv.includes('--emit') && (!EMIT || EMIT.startsWith('--'))) { console.error('--emit DIR: куда писать пачки'); process.exit(1); }
+if (argv.includes('--apply') && !APPLY.length) { console.error('--apply FILE…: файлы ответов'); process.exit(1); }
 
 const WEIGHTED = argv.includes('--weighted');
 const MIN_WEIGHT = argv.includes('--min-weight') ? Number(argv[argv.indexOf('--min-weight') + 1]) : 1;
@@ -55,11 +73,7 @@ if (WEIGHTED) {
 }
 console.error(`ждут черновой разметки: ${todo.length}`);
 for (const w of todo.slice(0, 60)) console.error(`  ${w.key}  ${w.work.title} (${w.work.year})${w.work.originalTitle ? ` / ${w.work.originalTitle}` : ''}`);
-if (!RUN || !todo.length) process.exit(0);
-
-const key = process.env.ANTHROPIC_API_KEY;
-if (!key) { console.error('для --run нужен ANTHROPIC_API_KEY в .env.local'); process.exit(1); }
-const model = process.env.ANTHROPIC_MODEL ?? draftAnnotationMeta.model;
+if (!(RUN || EMIT || APPLY.length) || !todo.length) process.exit(0);
 
 const OPS: Record<CognitiveOperation, string> = {
   pattern_recognition: 'замечать повторы, рифмы и скрытую структуру',
@@ -101,34 +115,73 @@ function valid(o: Record<string, unknown>): FirstPassAnnotation | undefined {
   return { ops: ops.map((p) => [p[0], Math.round(p[1] * 10) / 10]) as [CognitiveOperation, number][], level: Math.round(o.level), barriers, warnings, niche: o.niche, confidence: o.confidence, what: o.what.trim() };
 }
 
+const filmsOf = (chunk: typeof todo) => chunk.map((w) => ({ key: w.key, title: w.work.title, original: w.work.originalTitle, year: w.work.year, creators: w.work.creators }));
+const userPrompt = (chunk: typeof todo) => `Разметь:\n${JSON.stringify(filmsOf(chunk))}`;
+const parseAnswer = (text: string): Record<string, unknown>[] | undefined => {
+  try { const x = JSON.parse(text.slice(text.indexOf('['), text.lastIndexOf(']') + 1)); return Array.isArray(x) ? x : undefined; } catch { return undefined; }
+};
+
 const done: [string, FirstPassAnnotation, string][] = [];
-const queue = todo.slice(0, LIMIT);
-for (let i = 0; i < queue.length; i += BATCH) {
-  const chunk = queue.slice(i, i + BATCH);
-  const films = chunk.map((w) => ({ key: w.key, title: w.work.title, original: w.work.originalTitle, year: w.work.year, creators: w.work.creators }));
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-    body: JSON.stringify({ model, max_tokens: 8000, system, messages: [{ role: 'user', content: `Разметь:\n${JSON.stringify(films)}` }] }),
-  });
-  if (!r.ok) { console.error(`  API ${r.status}: ${(await r.text()).slice(0, 300)}`); break; }
-  const j = await r.json() as { content?: { type: string; text?: string }[] };
-  const text = (j.content ?? []).filter((c) => c.type === 'text').map((c) => c.text).join('');
-  let parsed: Record<string, unknown>[] = [];
-  try { parsed = JSON.parse(text.slice(text.indexOf('['), text.lastIndexOf(']') + 1)); } catch { console.error('  ответ не JSON — пачка пропущена'); continue; }
+const skipped: [string, string][] = [];
+const dropped: string[] = [];
+// общий приём ответа (18.10): и для --run, и для --apply — одни проверки; ключ должен ждать разметки (из `pool`),
+// повтор ключа не принимается
+function accept(parsed: Record<string, unknown>[], pool: typeof todo) {
   for (const o of parsed) {
-    const w = chunk.find((x) => x.key === o.key);
-    const a = w && valid(o);
-    if (!w || !a) { console.error(`  отброшено: ${String(o.key)}`); continue; }
+    const w = pool.find((x) => x.key === o.key);
+    if (w && typeof o.skip === 'string' && !('ops' in o)) { skipped.push([`${w.key}  ${w.work.title} (${w.work.year})`, o.skip]); continue; }
+    const a = w && !done.some(([k]) => k === w.key) && valid(o);
+    if (!w || !a) { dropped.push(String(o.key)); console.error(`  отброшено: ${String(o.key)}`); continue; }
     done.push([w.key, a, `${w.work.title} (${w.work.year})`]);
   }
-  console.error(`  ${Math.min(i + BATCH, queue.length)}/${queue.length}, принято ${done.length}`);
+}
+
+const queue = todo.slice(0, LIMIT);
+let model = process.env.ANTHROPIC_MODEL ?? draftAnnotationMeta.model;
+if (EMIT) {
+  mkdirSync(EMIT, { recursive: true });
+  for (let i = 0; i < queue.length; i += BATCH) {
+    const chunk = queue.slice(i, i + BATCH); const n = i / BATCH + 1;
+    writeFileSync(join(EMIT, `batch-${n}.txt`), `${system}\n\n${userPrompt(chunk)}\n`);
+    writeFileSync(join(EMIT, `batch-${n}.json`), `${JSON.stringify(filmsOf(chunk), null, 1)}\n`);
+  }
+  console.error(`→ ${EMIT}: ${Math.ceil(queue.length / BATCH)} пачек, ${queue.length} фильмов. Ответы — JSON-массив, затем --apply`);
+  process.exit(0);
+} else if (APPLY.length) {
+  model = argv.includes('--model') ? argv[argv.indexOf('--model') + 1] : 'claude-code-agent';
+  for (const f of APPLY) {
+    const parsed = parseAnswer(readFileSync(f, 'utf8'));
+    if (!parsed) { console.error(`  ${f}: не JSON-массив — файл пропущен`); continue; }
+    accept(parsed, todo);
+    console.error(`  ${f}: принято всего ${done.length}`);
+  }
+} else {
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key) { console.error('для --run нужен ANTHROPIC_API_KEY в .env.local'); process.exit(1); }
+  for (let i = 0; i < queue.length; i += BATCH) {
+    const chunk = queue.slice(i, i + BATCH);
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model, max_tokens: 8000, system, messages: [{ role: 'user', content: userPrompt(chunk) }] }),
+    });
+    if (!r.ok) { console.error(`  API ${r.status}: ${(await r.text()).slice(0, 300)}`); break; }
+    const j = await r.json() as { content?: { type: string; text?: string }[] };
+    const parsed = parseAnswer((j.content ?? []).filter((c) => c.type === 'text').map((c) => c.text).join(''));
+    if (!parsed) { console.error('  ответ не JSON — пачка пропущена'); continue; }
+    accept(parsed, chunk);
+    console.error(`  ${Math.min(i + BATCH, queue.length)}/${queue.length}, принято ${done.length}`);
+  }
 }
 for (const [k, a, t] of done) console.error(`+ ${t}: уровень ${a.level}, ${a.ops.map(([op, x]) => `${op} ${x}`).join(', ')} [${a.confidence}] — ${a.what}`);
+for (const [t, why] of skipped) console.error(`- пропущено: ${t} — ${why}`);
+console.error(`принято ${done.length}, пропущено ${skipped.length}, отброшено проверкой ${dropped.length}`);
 if (DRY || !done.length) process.exit(0);
 
 const q = (s: string) => `'${s.replace(/\\/g, '\\\\').replace(/'/g, '’')}'`;
-const section = `\n  // ── ${WEIGHTED ? 'по весу записей' : 'Г4'}: автоматическая черновая разметка (${new Date().toISOString().slice(0, 10)}, tools/draft-annotate.mts, ${model}) ──\n`
+const how = APPLY.length ? `tools/draft-annotate.mts --apply, ${model}, без API — по знанию фильма` : `tools/draft-annotate.mts, ${model}`;
+const section = `\n  // ── ${WEIGHTED ? 'по весу записей' : 'Г4'}: ${APPLY.length ? '' : 'автоматическая '}черновая разметка (${new Date().toISOString().slice(0, 10)}, ${how}) ──\n`
+  + (skipped.length ? `  // пропущены (не знаю фильм — не выдумываю): ${skipped.map(([t]) => t.replace(/^\S+\s+/, '')).join('; ')}\n` : '')
   + done.map(([k, a, t]) => `  // ${t}\n  ${q(k)}: a([${a.ops.map(([op, x]) => `[${q(op)}, ${x}]`).join(', ')}], ${a.level}, [${a.barriers.map(q).join(', ')}], [${a.warnings.map(q).join(', ')}], ${a.niche}, ${q(a.confidence)},\n    ${q(a.what)}),`).join('\n');
 const file = new URL('../src/mocks/draftAnnotations.ts', import.meta.url);
 const src = readFileSync(file, 'utf8');

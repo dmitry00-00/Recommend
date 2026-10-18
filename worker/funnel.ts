@@ -49,7 +49,8 @@ export async function noteVisit(db: D1Database, userId: string): Promise<void> {
 // `onboard` — с 16.10 (ДФ-2): шаги первого входа свайпом, place — шаг, detail — счёт («seen:4,want:2,no:3,rated:3»)
 // `trailer_play` — плеер трейлера реально начал играть, `trailer_stall` — не начал за 8 с (17.10: трейлеры с сервера,
 // tools/trailers.mts; доля зависших — проверка, что ролики справочника живые и открываются)
-const KINDS = new Set(['card', 'watch', 'trailer', 'share_sent', 'mood_query', 'survey_answered', 'onboard', 'trailer_play', 'trailer_stall']);
+// `novelties` — с 18.10 (владелец): нажал «Новинки» в конце ленты; detail — лента и сколько новинок ждало («screen:6»)
+const KINDS = new Set(['card', 'watch', 'trailer', 'share_sent', 'mood_query', 'survey_answered', 'onboard', 'trailer_play', 'trailer_stall', 'novelties']);
 let eventSeq = 0;
 
 export async function postEvent(req: Request, userId: string, db: D1Database): Promise<Response> {

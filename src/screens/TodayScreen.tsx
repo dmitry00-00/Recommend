@@ -4,7 +4,7 @@ import type {
   DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
+import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, noteNovelties, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings } from '@/api';
 import { InlineTrailer, useTrailer } from '@/components/InlineTrailer';
 import { RatingWheel } from '@/components/RatingWheel';
 import {
@@ -299,6 +299,13 @@ const firstImage = () => new Promise<void>((done) => {
 /** «14 октября, 09:12» — когда сохранили ленту с устройства (ДФ-3) */
 const reelGoneIdle = Promise.resolve();
 
+/** щелчок кадра (18.10, владелец): палец отпущен — прокрутка (прилипание, инерция) ещё FILM_HAND мс считается его; щелчки
+ *  не чаще FILM_GAP; кадры сменяются чаще FILM_FAST — это быстрое листание, щёлкаем раз в FILM_EVERY кадров */
+const FILM_HAND = 1200;
+const FILM_GAP = 120;
+const FILM_FAST = 300;
+const FILM_EVERY = 4;
+
 const cachedWhen = (at: string) =>
   new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(at));
 
@@ -369,8 +376,12 @@ export function TodayScreen() {
   }, []);
   // настраиваемая лента (ТВ-11): сила — переключателем над лентой, «Ещё фильмы» — в конце
   const [energy, setEnergy] = useState<Energy>('normal');
-  const [moreBusy, setMoreBusy] = useState(false);
+  // какая кнопка хвоста подбирает: «Ещё фильмы» или «Новинки» — «Подбираем…» на нажатой
+  const [moreBusy, setMoreBusy] = useState<false | 'more' | 'fresh'>(false);
   const [moreDone, setMoreDone] = useState(false);
+  // «Новинки» (18.10, владелец): сколько новинок под вкус даст следующая порция — приходит с лентой и с каждой порцией,
+  // так что кнопка не мигает: нет новинок — её нет сразу. Лента с устройства не в счёт — число могло устареть
+  const [freshLeft, setFreshLeft] = useState(0);
   // всё, что уже было в ленте (в том числе убранное и отложенное), — добор их не повторяет
   const shownIds = useRef(new Set<string>());
   const [current, setCurrent] = useState<JourneyEntryData[]>([]);
@@ -402,6 +413,7 @@ export function TodayScreen() {
     setSlate(null);
     setFailed(false);
     setCachedAt(null);
+    setFreshLeft(0);
     const first = !booted.current;
     booted.current = true;
     // сохранённая лента показана — свежую начинаем считать, когда нарисовался кадр первого баннера (не позже 2,5 с):
@@ -425,6 +437,7 @@ export function TodayScreen() {
         setEnergy(settings.energy ?? 'normal');
         setKind(settings.feedKind ?? 'screen');
         setMoreDone(false);
+        setFreshLeft(nextSlate.fresh ?? 0);
         shownIds.current = new Set(nextSlate.items.map((r) => r.work.id));
         setSpoilerLevel(settings.spoilerLevel);
         setFinishedIds(new Set(journal.filter((e) => e.status === 'finished').map((e) => e.work.id)));
@@ -467,15 +480,19 @@ export function TodayScreen() {
     setKind(k);
     saveSettings({ feedKind: k }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
   };
-  const loadMore = () => {
+  // «Новинки» (18.10, владелец) — та же порция, что «Ещё фильмы», только из вышедшего за последний год: тот же подбор,
+  // те же выбор ленты и засветка топами; новинки кончились — кнопка уходит, «Ещё фильмы» остаётся
+  const loadMore = (novel = false) => {
     if (!slate || moreBusy) return;
     tap();
-    setMoreBusy(true);
-    getSlate(energy, [...shownIds.current], slateOpts(kind))
+    if (novel) noteNovelties(kind, freshLeft);
+    setMoreBusy(novel ? 'fresh' : 'more');
+    getSlate(energy, [...shownIds.current], { ...slateOpts(kind), fresh: novel })
       .then((next) => {
         const fresh = next.items.filter((r) => !shownIds.current.has(r.work.id));
         fresh.forEach((r) => shownIds.current.add(r.work.id));
-        if (!fresh.length) setMoreDone(true);
+        if (!fresh.length && !novel) setMoreDone(true);
+        setFreshLeft(next.fresh ?? 0);
         setSlate((s) => (s ? { ...s, items: [...s.items, ...fresh] } : s));
       })
       .catch(() => toast({ text: ui.feed.moreFailed }))
@@ -588,6 +605,63 @@ export function TodayScreen() {
   // над лентой книг — только начатые книги; над лентой кино — всё начатое, как до переключателя: книга, начатая из
   // «Почитать» в ленте кино, иначе пропала бы с глаз
   const shownCurrent = bookFeed ? current.filter((e) => e.work.type === 'book') : current;
+  // Щелчок кадра (18.10, владелец): лента — плёнка; следующий кадр встаёт в окно — телефон чуть щёлкает (selection, без
+  // звука). Линия кадрового окна — полоска на 15% высоты ленты сверху: кадр прилипает верхом к верху ленты, и щелчок
+  // приходит чуть раньше, чем он встал, — как перескок плёнки в фильмовом канале. Только от пальца или колеса: прокрутка
+  // к архиву и первый показ молчат. Не чаще FILM_GAP; кадры сменяются чаще FILM_FAST (быстрое листание) — щелчок раз
+  // в FILM_EVERY кадров, а не на каждый. Пока кадр тянут вбок или в ленте играет трейлер — молчим: там свои отклики.
+  // Конец плёнки — хвост с «Ещё фильмы» — один толчок заметнее (impact medium), следующий — после новой порции.
+  // Вне Telegram pick/tap ничего не делают
+  const film = useRef({ touch: false, input: 0, last: 0, cross: 0, run: 0, tail: null as Set<string> | null, tailN: 0 });
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!main || !slate?.items.length || typeof IntersectionObserver === 'undefined') return;
+    const f = film.current;
+    const now = () => performance.now();
+    const quiet = () => !(f.touch || now() - f.input < FILM_HAND) || main.querySelector('.tm-stream__item--drag, .tm-itrailer--open') != null;
+    // первую запись наблюдателя о каждом кадре (как он лежит при показе) пропускаем
+    const known = new WeakSet<Element>();
+    const again = (e: IntersectionObserverEntry) => known.has(e.target) || !known.add(e.target);
+    const frames = new IntersectionObserver((list) => {
+      for (const e of list) {
+        if (!again(e) || !e.isIntersecting || quiet()) continue;
+        const t = now();
+        f.run = t - f.cross < FILM_FAST ? f.run + 1 : 0;
+        f.cross = t;
+        if (t - f.last < FILM_GAP || f.run % FILM_EVERY) continue;
+        f.last = t;
+        pick();
+      }
+    }, { root: main, rootMargin: '-15% 0px -84% 0px' });
+    const end = new IntersectionObserver((list) => {
+      const portion = shownIds.current;
+      if (!list.some((e) => again(e) && e.isIntersecting) || quiet() || (f.tail === portion && f.tailN === portion.size)) return;
+      f.tail = portion;
+      f.tailN = portion.size;
+      f.last = now();
+      tap('medium');
+    }, { root: main, threshold: 0.5 });
+    main.querySelectorAll('.tm-filmstrip > .tm-stream__item').forEach((el) => frames.observe(el));
+    const tail = main.querySelector('.tm-filmstrip__tail');
+    if (tail) end.observe(tail);
+    // палец на ленте или только что был (колесо — то же)
+    const down = () => { f.touch = true; f.input = now(); };
+    const up = () => { f.touch = false; f.input = now(); };
+    const wheel = () => { f.input = now(); };
+    const opts = { passive: true };
+    main.addEventListener('touchstart', down, opts);
+    main.addEventListener('touchend', up, opts);
+    main.addEventListener('touchcancel', up, opts);
+    main.addEventListener('wheel', wheel, opts);
+    return () => {
+      frames.disconnect();
+      end.disconnect();
+      main.removeEventListener('touchstart', down);
+      main.removeEventListener('touchend', up);
+      main.removeEventListener('touchcancel', up);
+      main.removeEventListener('wheel', wheel);
+    };
+  }, [slate, shownCurrent.length]);
   const openEntry = current.find((e) => e.id === open) ?? null;
   const entryPlaces = usePlaces(openEntry?.work.id);
   const openRec = items.find((r) => r.id === open) ?? null;
@@ -752,7 +826,12 @@ export function TodayScreen() {
           <div className="tm-stream__pad tm-stream__more">
             {moreDone
               ? <p className="tm-caption">{bookFeed ? ui.feed.moreNoneBooks : ui.feed.moreNone}</p>
-              : <Button variant="secondary" onClick={loadMore} disabled={moreBusy}>{moreBusy ? ui.feed.moreLoading : bookFeed ? ui.feed.moreBooks : ui.feed.moreFilms}</Button>}
+              : <Button variant="secondary" onClick={() => loadMore()} disabled={Boolean(moreBusy)}>{moreBusy === 'more' ? ui.feed.moreLoading : bookFeed ? ui.feed.moreBooks : ui.feed.moreFilms}</Button>}
+            {/* «Новинки» рядом (18.10, владелец): одной строкой с «Ещё фильмы»; пометки «новинка» на карточках нет — год и так
+                первым в мете, а порция идёт сразу за нажатием */}
+            {freshLeft > 0 ? (
+              <Button variant="secondary" onClick={() => loadMore(true)} disabled={Boolean(moreBusy)}>{moreBusy === 'fresh' ? ui.feed.moreLoading : ui.feed.novelties[bookFeed ? 'book' : 'screen']}</Button>
+            ) : null}
           </div>
         ) : null}
         {/* приглашения под лентой (17.10): одно за раз, по очереди между запусками — три подряд загромождали хвост.

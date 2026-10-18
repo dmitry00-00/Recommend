@@ -96,6 +96,10 @@ const monthOld = !existsSync(topsMark) || Date.now() - statSync(topsMark).mtimeM
 if (process.argv.includes('--expand') || monthOld) {
   if (step('месячные топы Википедии', ...tsx('tools/grow-film-base.mts', '--months', '3', '--wd-keys', '--out', 'filmBaseMore', '--write'), { optional: true, minutes: 30 })) writeFileSync(topsMark, new Date().toISOString());
 }
+// порнография и эротика (18.10, волна В): после всего роста справочника — по P31/P136 Wikidata (tools/adult-lib.mts) порно
+// в withheldWorks, эротика вне канона — в heldWorks; сборщик кино порно и так не заводит, а expand-film-base и
+// grow-from-channels — заводят. Ответы по элементам кэшируются: ночью спрашиваются только новые
+step('порно и эротика', ...tsx('tools/adult-sweep.mts', '--write'), { optional: true, minutes: 15 });
 // канон копий (17.10, владелец: главная — общая копия, личная никогда): каждую ночь, после роста справочника и до
 // индексов; таблица едет со сборкой клиента и worker.cjs — в силу вступает с выкладкой
 step('канон копий', ...tsx('tools/work-aliases.mts'), { optional: true });

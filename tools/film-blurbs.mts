@@ -194,6 +194,10 @@ for (const t of all) {
   out[base.key] = { ru: { t: r.text, u } };
   report.push({ ...base, from: r.from, text: r.text });
 }
+// убранное и отложенное (withheldWorks.ts: порно, эротика вне канона, эзотерика, 18.10) — без описаний: карточек нет,
+// а справочник лежит в публичном репозитории
+const { withheldWorks, heldWorks } = await import('../src/mocks/withheldWorks.ts');
+for (const k of Object.keys(out)) if (k in withheldWorks || k in heldWorks) delete out[k];
 const got = Object.keys(out).length;
 console.log(`целей ${all.length}: описание — ${got} (из вступления ${report.filter((r) => r.from === 'intro').length}, из «Сюжета» ${report.filter((r) => r.from === 'plot').length}); `
   + `не взято — ${Object.entries(skipped).map(([k, v]) => `${k} ${v}`).join(', ') || '0'}${pending ? `; не успели — ${pending}` : ''}`);

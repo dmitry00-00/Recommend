@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Наблюдение за боевым сервером (аудит 17.10, п. 12): раз в 5 мин GET /api/health, после двух неудач подряд —
+     сообщение владельцу ботом, при восстановлении — «снова работает»; раз в сутки — свежесть копии базы на Mac.
+     Подробности — шапка tools/health-watch.mts. -->
+<plist version="1.0"><dict>
+  <key>Label</key><string>tm.recomend.probe</string>
+  <key>WorkingDirectory</key><string>/Users/dmitrij/recomend</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/bash</string><string>-lc</string><string>mkdir -p .cache/host-probe; npx --yes tsx tools/host-probe.mts</string>
+  </array>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>/Users/dmitrij/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>KeepAlive</key><true/>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/dmitrij/recomend/.cache/host-probe/launchd.log</string>
+  <key>StandardErrorPath</key><string>/Users/dmitrij/recomend/.cache/host-probe/launchd.log</string>
+</dict></plist>

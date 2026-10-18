@@ -48,6 +48,9 @@ if (!key) { console.error('нужен TMDB_API_KEY (или VITE_TMDB_API_KEY) в
 const ALL = process.argv.includes('--all');
 const DRY = process.argv.includes('--dry');
 const DECK = process.argv.includes('--deck');
+// --commons-only (18.10): только постеры Commons фильмам без TMDb, без TMDb-части. Прогон по умолчанию берёт все карточки с
+// черновиком без кадра (18.10 — 8,5 тыс.), а их место — в первой загрузке: baseMedia.ts вырос бы за бюджет
+const COMMONS_ONLY = process.argv.includes('--commons-only');
 const inDeck = new Set([...ratingDeck, ...ratingDeckEn]);
 
 const file = new URL('../src/mocks/baseMedia.ts', import.meta.url);
@@ -68,7 +71,7 @@ const { tags, save } = tagSource(key, '.cache/tmdb-tags.json');
 // справочник самых смотримых (`filmBase`, ТВ-10) — последним: его карточки приложение тоже накладывает на baseMedia
 const targets = [...filmBaseWiki, ...filmBaseMarkup, ...filmBasePopular, ...filmBaseWorld, ...filmBaseChannels, ...filmBase].filter((w) => {
   const k = analysisKey(w);
-  if (!k?.startsWith('tmdb:') || isSeries(w)) return false;
+  if (!k?.startsWith('tmdb:') || isSeries(w) || COMMONS_ONLY) return false;
   if (DECK) return inDeck.has(w.id) && !w.coverUrl && !before[w.id]?.coverUrl;
   if (before[w.id]?.coverUrl && before[w.id]?.registers) return false;
   if (w.coverUrl && w.registers?.length) return false;
