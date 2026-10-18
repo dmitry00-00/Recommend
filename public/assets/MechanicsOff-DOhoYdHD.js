@@ -1,0 +1,1 @@
+import{i,j as e,d as a,c as t}from"./index-BaXIPM8m.js";function c(){const s=i();return e.jsx("main",{className:"tm-shell__main",children:e.jsx(a,{title:t.mechanics.offTitle,text:t.mechanics.offText,action:t.mechanics.openSettings,onAction:()=>s("/settings")})})}export{c as M};

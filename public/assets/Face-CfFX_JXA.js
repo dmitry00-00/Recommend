@@ -1,0 +1,1 @@
+import{$ as n,a0 as c,j as e}from"./index-BaXIPM8m.js";function t({src:a,name:s,alt:o=""}){const r=n(c(a,"w185"));return r.src?e.jsx("img",{ref:r.ref,src:r.src,alt:o,loading:"lazy",decoding:"async",referrerPolicy:"no-referrer",onError:r.onError}):e.jsx("span",{className:"tm-hero__noface","aria-hidden":"true",children:s.trim().charAt(0).toUpperCase()})}export{t as F};
