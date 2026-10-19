@@ -83,6 +83,7 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
         workId={r.work.id}
         analyses={r.analyses ?? []}
         book={r.work.type === 'book' ? r.work : undefined}
+        kind={r.work.type === 'book' ? 'book' : r.work.type === 'series' ? 'series' : 'film'}
         workTitle={titleOf(r.work)}
         spoilerLevel={allowed}
         seen={finished}
@@ -107,11 +108,11 @@ function Panel({ r, spoilerLevel, finished, voiceId, onSave, onSeen, onDismiss, 
         // не выбрал причину — ничего не уходит, как и раньше
         corner={finished ? undefined : (
           <div className="tm-mark">
-            <QuickMark work={r.work} abandon={false} label={r.work.type === 'book' ? ui.quick.read : ui.quick.seen} onDone={onSeen}
+            <QuickMark work={r.work} abandon={false} label={r.work.type === 'book' ? ui.quick.readBook : r.work.type === 'series' ? ui.quick.seenSeries : ui.quick.seenFilm} onDone={onSeen}
                        extra={(
                          <>
                            {plans ? <Button size="sm" onClick={onSave}>{ui.actions.save}</Button> : null}
-                           <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dismiss}</Button>
+                           <Button variant="quiet" size="sm" pressed={reasons} onClick={() => setReasons(!reasons)}>{ui.actions.dontSuggest}</Button>
                          </>
                        )} />
             {reasons ? <ReasonPicker variant="dismiss" inline omit={SHEET_OMIT} onPick={onDismiss} /> : null}

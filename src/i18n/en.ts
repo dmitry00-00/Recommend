@@ -213,6 +213,7 @@ export const en: Strings = {
   "startBook": "Start reading",
   "save": "Add to plans",
   "dismiss": "Not now",
+  "dontSuggest": "Don't suggest",
   "finishFilm": "Finished",
   "finishBook": "Finished reading",
   "abandon": "Drop it",
@@ -286,9 +287,11 @@ export const en: Strings = {
   "title": "Unlocks in the breakdown after you watch",
   "note": "This is how the plot works: how it's made and why.",
   "open": "Unlocked",
-  "lockedAnalysis": "Unlocks once you've finished",
-  "lockedPost": "This post may reveal the plot — it unlocks once you've finished",
-  "lockedDiscussion": "Unlocks once you've finished: they talk about the ending there.",
+  "lockedAnalysis": "Spoilers — unlocks after you watch",
+  locked: { film: "Spoilers — unlocks once you've seen the film", series: "Spoilers — unlocks once you've seen the series", book: "Spoilers — unlocks once you've read the book" },
+  "readAnyway": "Read with spoilers",
+  "lockedPost": "This post may reveal the plot — it unlocks after you watch",
+  "lockedDiscussion": "Unlocks after you watch: they talk about the ending there.",
   "externalLink": "external link, opens in a new tab"
 },
   readiness: {
@@ -1540,6 +1543,9 @@ export const en: Strings = {
   quick: {
   "watched": "Watched",
   "seen": "Seen it",
+  "seenFilm": "Seen the film",
+  "seenSeries": "Seen the series",
+  "readBook": "Read the book",
   "read": "Read",
   "how": "How was it?",
   "noRating": "No rating",

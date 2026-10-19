@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { WorkCard, ExternalAnalysis, ID, SpoilerLevel, WatchOption } from '@/types/tmdf';
 import { LensShelf, Material, OpinionRow, Post, SinTiles, VoiceStrip, useLensShelf, useVoices } from './WorkVoices';
 import { OpenContext } from '@/lib/openContext';
+import { SpoilerUnlockContext, allowSpoilers, useSpoilersOk } from '@/lib/spoilerOk';
 import { groupByVoice, monogram } from '@/lib/voices';
 import { onExternalClick, openExternal, pick, showMainButton } from '@/lib/telegram';
 import { cx } from '@/lib/cx';
@@ -19,6 +20,8 @@ import { cinemaSlug } from '@/lib/cinemas';
 
 export interface FilmTabsProps {
   analyses: ExternalAnalysis[];
+  /** вид произведения — подпись замка «откроется, когда посмотрите фильм / сериал» (19.10) */
+  kind?: 'film' | 'series' | 'book';
   /** название фильма: значки площадок у автора ведут на поиск фильма у него, если разбора нет */
   workTitle?: string;
   /** допустимый уровень спойлеров: материал выше него закрыт штриховкой */
@@ -75,7 +78,11 @@ function CinemaLogo({ option, size }: { option: WatchOption; size: 'lg' | 'xl' }
  *  переключатель страниц. Над панелью — то, что выбрано: материал автора или площадка с
  *  кнопкой перехода. Решение владельца 23.09: преамбула из карточки убрана, авторы — вниз,
  *  «где посмотреть» — отдельной страницей. */
-export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [], book, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId, seen }: FilmTabsProps) {
+export function FilmTabs({ analyses, workTitle, spoilerLevel: spoilerIn, watch: watchIn = [], book, kind, discussions, discussionsCount = 0, actions, corner, onWatch, voiceId, loading, workId, seen }: FilmTabsProps) {
+  // «Читать со спойлерами» (19.10): открыто для этого произведения — замков нет, отметки «смотрел» не нужно
+  const spoilersOk = useSpoilersOk(workId);
+  const spoilerLevel: SpoilerLevel | undefined = spoilersOk ? 2 : spoilerIn;
+  const unlock = useMemo(() => (workId ? { unlock: () => allowSpoilers(workId), kind: book ? 'book' as const : kind ?? 'film' } : null), [workId, book, kind]);
   // полки рубрик (ТВ-3г) — за флагом; выключен — `shown` это те же `analyses`, обзоров нет
   const shelf = useLensShelf(analyses);
   const voices = useVoices(shelf.shown, voiceId, { reviews: shelf.on });
@@ -149,7 +156,14 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
   // Страницы переключаются только касанием (06.10, решение владельца): свайп вбок по открытой
   // карточке целиком возвращает в ленту (WorkSheet), и двух жестов на одной оси быть не должно.
 
+  // списки мнений и «грехов» — ссылки, кнопку в строку не вложить: одна на список, над ним (19.10)
+  const lockedIn = (gs: { items: ExternalAnalysis[] }[]) => spoilerLevel != null && gs.some((g) => g.items.some((a) => a.spoilerLevel > spoilerLevel));
+  const unlockButton = unlock ? (
+    <button type="button" className="tm-btn tm-btn--secondary tm-btn--sm tm-voicefeed__unlock" onClick={() => { pick(); unlock.unlock(); }}>{ui.spoiler.readAnyway}</button>
+  ) : null;
+
   return (
+    <SpoilerUnlockContext.Provider value={unlock}>
     <OpenContext.Provider value={{ place: 'sheet', workId, shelf: shelf.lens ?? undefined, shelves: shelf.on }}>
     <div className="tm-film">
       <div className={cx('tm-film__pane', `tm-film__pane--${mode}`, mode === 'deep' && 'tm-film__pane--reviews')} role="tabpanel"
@@ -159,6 +173,7 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
             {vOp.watch.length ? (
               <section className="tm-stream__group tm-depth__list">
                 {corner ? <div className="tm-depth__corner">{corner}</div> : null}
+                {lockedIn([...vOp.watch, ...vOp.talk]) ? unlockButton : null}
                 {vOp.watch.map((g) => <OpinionRow key={g.voice.id} group={g} spoilerLevel={spoilerLevel} />)}
               </section>
             ) : null}
@@ -181,6 +196,7 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
         ) : mode === 'sins' ? (
           <section className="tm-stream__group">
             {seen ? null : <p className="tm-caption tm-depth__hint">{ui.depth.sinsHint}</p>}
+            {lockedIn(vSins.watch) ? unlockButton : null}
             <SinTiles groups={vSins.watch} spoilerLevel={spoilerLevel} />
           </section>
         ) : mode === 'deep' ? (
@@ -314,5 +330,6 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel, watch: watchIn = [
       </div>
     </div>
     </OpenContext.Provider>
+    </SpoilerUnlockContext.Provider>
   );
 }

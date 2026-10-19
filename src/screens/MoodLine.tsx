@@ -148,7 +148,7 @@ export function MoodLine({ kind, energy }: { kind: FeedKind; energy: Energy }) {
       <WorkCardSheet work={openItem?.work ?? null} context={`лента, запрос: ${query}`} hurdles={seenNow !== openId} seen={seenNow === openId}
                      onClose={() => { if (seenNow) setGone((g) => new Set(g).add(seenNow)); setSeenNow(null); setOpenId(null); }}
                      corner={openItem && seenNow !== openId ? (
-                       <QuickMark work={openItem.work} abandon={false} label={openItem.work.type === 'book' ? ui.quick.read : ui.quick.seen}
+                       <QuickMark work={openItem.work} abandon={false} label={openItem.work.type === 'book' ? ui.quick.readBook : openItem.work.type === 'series' ? ui.quick.seenSeries : ui.quick.seenFilm}
                                   onDone={() => setSeenNow(openItem.work.id)} />
                      ) : undefined} />
     </>

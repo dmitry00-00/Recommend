@@ -5,6 +5,7 @@ import { creditOf, groupByVoice, knownVoice, monogram, outletUrl } from '@/lib/v
 import { LENSES, inLens, youtubeId } from '@/lib/lenses';
 import { useLensShelves, useFeature } from '@/lib/flags';
 import { OpenContext, useNoteOpen } from '@/lib/openContext';
+import { SpoilerUnlockContext, allowSpoilers, useSpoilerUnlock, useSpoilersOk } from '@/lib/spoilerOk';
 import { onExternalClick, pick } from '@/lib/telegram';
 import { formatDuration } from '@/lib/format';
 import { cx } from '@/lib/cx';
@@ -99,6 +100,7 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
   const blocked = spoilerLevel != null && a.spoilerLevel > spoilerLevel;
   const credit = creditOf(a, group.voice);
   const noteOpen = useNoteOpen();
+  const spoilers = useSpoilerUnlock();
   return (
     <div className="tm-voice__material">
       <a className={cx('tm-voice__frame', blocked && 'tm-voice__frame--blocked')}
@@ -108,7 +110,7 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
         <SafeImage className="tm-voice__shot" src={a.previewUrl} alt="" loading="lazy" />
         {blocked ? <span className="tm-voice__hatch" aria-hidden="true" /> : <span className="tm-voice__play" aria-hidden="true" />}
         {/* замок — на самом кадре (28.09): в заголовке он читался как главное сообщение карточки */}
-        {blocked ? <span className="tm-voice__lock">{ui.spoiler.lockedAnalysis}</span> : null}
+        {blocked ? <span className="tm-voice__lock">{spoilers ? ui.spoiler.locked[spoilers.kind] : ui.spoiler.lockedAnalysis}</span> : null}
         {a.durationMinutes ? <span className="tm-voice__time">{formatDuration(a.durationMinutes)}</span> : null}
       </a>
       {/* текст под кадром; справа в углу — действия с фильмом (24.09, по замечанию владельца) */}
@@ -127,6 +129,10 @@ export function Material({ group, spoilerLevel, corner, workTitle }: { group: Wo
         ].filter(Boolean).join(' · ')}
       </p>
       <Outlets voice={group.voice} items={group.items} workTitle={workTitle} />
+      {/* 19.10: открыть разборы, не отмечая произведение, — оно остаётся в подборе (кадр — ссылка, кнопка в неё не вкладывается) */}
+      {blocked && spoilers ? (
+        <button type="button" className="tm-btn tm-btn--secondary tm-btn--sm tm-voice__unlock" onClick={() => { pick(); spoilers.unlock(); }}>{ui.spoiler.readAnyway}</button>
+      ) : null}
       </div>
       {corner ? <div className="tm-voice__corner">{corner}</div> : null}
       </div>
@@ -502,7 +508,10 @@ function FeedTabs({ counts, value, onPick }: { counts: Record<Feed, number>; val
  *  до него, с его выходами (решение 06.10). Единица по-прежнему автор (23.09): лента собирается
  *  по кругу авторов, а не по свежести. Площадки (Кинопоиск, Okko, Wink, KION, viju) сюда не
  *  попадают: их посты — анонсы своих премьер. */
-export function WorkVoices({ analyses, spoilerLevel, workTitle, kind = 'film', workId }: WorkVoicesProps) {
+export function WorkVoices({ analyses, spoilerLevel: spoilerIn, workTitle, kind = 'film', workId }: WorkVoicesProps) {
+  const spoilersOk = useSpoilersOk(workId);
+  const spoilerLevel: SpoilerLevel | undefined = spoilersOk ? 2 : spoilerIn;
+  const unlock = useMemo(() => (workId ? { unlock: () => allowSpoilers(workId), kind } : null), [workId, kind]);
   const shelf = useLensShelf(analyses);
   const groups = useMemo(() => groupByVoice(analyses, { reviews: shelf.on }), [analyses, shelf.on]);
   // группы по площадкам: у автора с роликами и постами — две группы, по одной в каждой ленте
@@ -561,9 +570,15 @@ export function WorkVoices({ analyses, spoilerLevel, workTitle, kind = 'film', w
   // панель — если в ней есть что-то: выходы автора, полки, авторы или площадки
   const bar = both || Boolean(sole) || inFeed.length > 1 || (feed === 'youtube' && shelf.lenses.length > 0);
   const rest = items.length - limit;
+  const anyBlocked = spoilerLevel != null && items.some((it) => it.a.spoilerLevel > spoilerLevel);
   return (
+    <SpoilerUnlockContext.Provider value={unlock}>
     <OpenContext.Provider value={{ place: 'work', workId, shelf: lensOn ?? undefined, shelves: shelf.on }}>
       <section className="tm-stream__group tm-voicefeed">
+        {/* 19.10: карточки ленты — ссылки, кнопку в них не вложить; одна на всю ленту, над ней */}
+        {anyBlocked && unlock ? (
+          <button type="button" className="tm-btn tm-btn--secondary tm-btn--sm tm-voicefeed__unlock" onClick={() => { pick(); unlock.unlock(); }}>{ui.spoiler.readAnyway}</button>
+        ) : null}
         <div className={cx('tm-voicefeed__list', `tm-voicefeed__list--${feed}`)} role="tabpanel"
              aria-label={feed === 'youtube' ? ui.voices.outletYoutube : ui.voices.outletTelegram}>
           {items.slice(0, limit).map((it) => <Card key={it.a.id} item={it} spoilerLevel={spoilerLevel} shelves={shelf.on} />)}
@@ -600,5 +615,6 @@ export function WorkVoices({ analyses, spoilerLevel, workTitle, kind = 'film', w
       </section>
       <section className="tm-stream__group tm-voice__none">{ask}</section>
     </OpenContext.Provider>
+    </SpoilerUnlockContext.Provider>
   );
 }
