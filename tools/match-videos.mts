@@ -10,7 +10,7 @@
 // Ролик книжного канала (`book`, З6) — свои правила: tools/book-channels.mts.
 // Быстро за счёт отбора кандидатов по началу слова: 90 тысяч роликов × 2,6 тысячи фильмов
 // напрямую — это минуты, а так — секунды.
-import { isDigest, listItems, nameMatchAt } from './title-match.mts';
+import { isDigest, listItems, nameIndex, nameMatchAt } from './title-match.mts';
 import { byTags, tagIndex } from './tag-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { evidenceFor, pickNamesake, talksSeries, tooEarly } from './evidence.mts';
@@ -116,6 +116,46 @@ function sequelOf(pick: IndexedWork, cands: Iterable<IndexedWork>, title: string
 
 const COMPARED_GAP = /\(|\s\+\s|(?<![\p{L}])(?:или|вместо|в\s+духе|против|похож\p{L}*|как|vs\.?|versus|feat\.?|instead\s+of)(?![\p{L}])/iu;
 
+/** Что bestByTitle строит по справочнику (19.10): начала названий, теги, ключи, порядок — один раз на массив `ours`,
+ *  а не на каждый вызов (пульт ссылок зовёт matchVideos пачками по 10 роликов). Массивы справочника никто не меняет. */
+interface Prepared {
+  ours: IndexedWork[]; minorNames: string[]; byHead: Map<string, IndexedWork[]>; tags: ReturnType<typeof tagIndex>; byKeyOurs: Map<string, IndexedWork>;
+  /** место в `ours`; нет — в `ours` есть повторы, и перебор идёт по нему целиком, как раньше */
+  order?: Map<IndexedWork, number>;
+  lore?: ReturnType<typeof loreNames>;
+  /** отбор nameIndex по названиям для обычных роликов и роликов книжных каналов */
+  named?: Map<boolean, (text: string) => IndexedWork[]>;
+}
+function namedIn(p: Prepared, book: boolean): (text: string) => IndexedWork[] {
+  const m = p.named ??= new Map();
+  let f = m.get(book);
+  if (!f) { f = nameIndex(p.ours, (w) => namesFor(w, book)); m.set(book, f); }
+  return f;
+}
+const preparedFor = new WeakMap<IndexedWork[], Prepared>();
+function prepared(ours: IndexedWork[]): Prepared {
+  let p = preparedFor.get(ours);
+  if (p) return p;
+  const minorNames = ours.filter((w) => w.minor).flatMap((w) => w.names);
+  // начало первого слова названия → произведения
+  const byHead = new Map<string, IndexedWork[]>();
+  const inHead = new Map<string, Set<IndexedWork>>();
+  for (const w of ours) {
+    for (const n of [...w.names, ...(w.bookNames ?? [])]) {
+      const first = words(n)[0];
+      if (!first) continue;
+      const k = head(first);
+      const list = byHead.get(k) ?? byHead.set(k, []).get(k)!;
+      const has = inHead.get(k) ?? inHead.set(k, new Set()).get(k)!;
+      if (!has.has(w)) { has.add(w); list.push(w); }
+    }
+  }
+  const order = new Map(ours.map((w, i) => [w, i]));
+  p = { ours, minorNames, byHead, tags: tagIndex(ours), byKeyOurs: new Map(ours.map((w) => [w.key, w])), ...(order.size === ours.length ? { order } : {}) };
+  preparedFor.set(ours, p);
+  return p;
+}
+
 export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: { ordinary?: ReadonlySet<string>; ordinaryEn?: ReadonlySet<string>; loose?: boolean; stats?: { lists: number; pairs: number; focusPicked?: number; offFocus?: number };
   /** фокус канала — элементы Wikidata вселенных и людей (профиль канала, 02.10) */
   focusOf?: (channel?: string) => ChannelFocus | undefined;
@@ -126,27 +166,15 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
   const ordinaryWithEn = options.ordinaryEn?.size ? new Set([...(options.ordinary ?? []), ...options.ordinaryEn]) : undefined;
   // малоизвестные карточки из каналов (`minor`) — как обычные слова: в заголовке только с меткой
   // («Правдивая история реальной Лиги справедливости» — не фильм 2014-го)
-  const minorNames = ours.filter((w) => w.minor).flatMap((w) => w.names);
+  const prep = prepared(ours);
+  const { minorNames, byHead, tags, byKeyOurs } = prep;
   const withMinor = (s?: ReadonlySet<string>) => (minorNames.length ? new Set([...(s ?? []), ...minorNames]) : s);
   const ordinaryMinor = withMinor(options.ordinary), ordinaryWithEnMinor = ordinaryWithEn && withMinor(ordinaryWithEn);
-  // начало первого слова названия → произведения
-  const byHead = new Map<string, IndexedWork[]>();
-  for (const w of ours) {
-    for (const n of [...w.names, ...(w.bookNames ?? [])]) {
-      const first = words(n)[0];
-      if (!first) continue;
-      const k = head(first);
-      const list = byHead.get(k) ?? byHead.set(k, []).get(k)!;
-      if (!list.includes(w)) list.push(w);
-    }
-  }
   const out = new Map<string, { key: string; work: IndexedWork['work']; len: number; others?: OtherHit[]; via?: 'hashtag' | 'tags' | 'lore' | 'playlist'; offFocus?: boolean }>();
   const inFocus = (w: IndexedWork, focus: ReadonlySet<string>) => inFocusKey(w.key, focus);
-  const tags = tagIndex(ours);
   // заголовок не назвал ни одного нашего фильма — хэштеги и теги ролика (02.10, tools/tag-match.mts).
   // Книжные каналы — мимо: там свои правила; ролик о серии — не к фильму
-  const byKeyOurs = new Map(ours.map((w) => [w.key, w]));
-  const lore = process.env.NO_LORE ? [] : loreNames(new Set(byKeyOurs.keys())).filter((n) => !n.one);
+  const lore = process.env.NO_LORE ? [] : (prep.lore ??= loreNames(new Set(byKeyOurs.keys())).filter((n) => !n.one));
   const fallback = (v: VideoLike) => {
     if (v.book) return;
     const f = byTags(v, tags);
@@ -170,6 +198,7 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     const cands = new Set<IndexedWork>();
     for (const t of words(v.title)) for (const w of byHead.get(head(t)) ?? []) cands.add(w);
     if (!cands.size) { fallback(v); continue; }
+    const named = new Set(namedIn(prep, Boolean(v.book))(v.title));
     let max = 0;
     let tied: IndexedWork[] = [];
     // все совпадения с местом: из них — второе название ролика (OPS-8, 02.10)
@@ -180,10 +209,14 @@ export function bestByTitle(videos: VideoLike[], ours: IndexedWork[], options: {
     // ОБЗОР приквела БУМАЖНОГО ДОМА» (январь 2024) — сериал 2023-го, а не фильм 1945-го (OPS-9, 11.10)
     const pub = v.publishedAt ? Number(v.publishedAt.slice(0, 4)) : NaN;
     const freshReview = (w: IndexedWork) => REVIEW.test(v.title) && Boolean(w.work.year) && pub - w.work.year >= 0 && pub - w.work.year <= 1;
-    for (const w of ours) {   // порядок справочников — как у индекса: pickNamesake опирается на него
+    // порядок справочников — как у индекса: pickNamesake опирается на него. Кандидаты — в порядке `ours` (19.10: раньше
+    // ради этого порядка на каждый ролик перебирались все ~47 тыс. произведений)
+    for (const w of prep.order ? [...cands].sort((a, b) => prep.order!.get(a)! - prep.order!.get(b)!) : ours) {
       if (!cands.has(w) || (w.needsSeriesTalk && !series && !freshReview(w))) continue;
       // «Адмирал Кузнецов 6 серия обзор», «Больница Питт 2 сезон 7 серия» — разбор серии, а не фильма (01.10)
       if (episode && !isSeries(w.work)) continue;
+      // ни одного названия в заголовке быть не может (19.10, nameIndex): nameMatchAt всем ответил бы «нет»
+      if (!named.has(w)) continue;
       let hit: { len: number; at: number; exact?: boolean; tail?: number; andNext?: boolean } | undefined;
       // длина — по слову целиком, с окончанием: у «Хищников» основа «Хищник», у «Хищника» — «Хищни», и
       // по основе «Хищник.» доставался «Хищникам»

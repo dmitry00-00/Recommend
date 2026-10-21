@@ -8,7 +8,7 @@
 // (tools/title-match.mts), и с тем же результатом: помечено `unverified`, подтверждает человек
 // заданием «тот ли это фильм».
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { nameHits, nameMatch } from './title-match.mts';
+import { nameHits, nameIndex, nameMatch } from './title-match.mts';
 import { adaptationIndex, judgeBookMatch } from './adaptation-guard.mts';
 import { parseArgs, readExport, type Post } from './telegram-export.mts';
 import { oembed, videoId, videosApi, type VideoMeta } from './youtube.mts';
@@ -100,6 +100,14 @@ const adIndex = adaptationIndex(worksIndex({ all: true }));
 // книжные каналы (З6): книги ищем и по мосту с кино, фильм без разговора о кино — к книге
 const bookCtx = { ad: adIndex, sources: sourceIndex(adIndex, worksIndex({ all: true })) };
 const oursByKey = new Map(ours.map((w) => [w.key, w]));
+// отбор по началу названий (19.10, tools/title-match.mts nameIndex): перебор всех ~47 тыс. произведений на каждый пост
+// шёл больше 40 минут; отобранные идут в порядке справочника, а у прочих nameMatch и так дал бы 0 — итог тот же
+const pickers = new Map<boolean, (text: string) => typeof ours>();
+const candidates = (book: boolean, text: string) => {
+  let f = pickers.get(book);
+  if (!f) { f = nameIndex(ours, (w) => namesFor(w, book)); pickers.set(book, f); }
+  return f(text);
+};
 // Ручные вердикты по постам (ТВ-7, 06.10) — раздел `posts` в tools/markup-verdicts.json, ключ —
 // адрес материала (пост, статья или ролик по ссылке из поста), как его видит карточка. `key: null`
 // — пост мимо, другой ключ — пост к этому произведению. Правда сильнее догадки, как у роликов.
@@ -155,7 +163,7 @@ for (const { username, path, role } of args) {
     if (saidWork) best = { key: saidWork.key, work: saidWork.work, len: 0 };
     let heads: { work: typeof ours[number]['work']; key: string }[] = [];
     const series = talksSeries(p.text);
-    for (const w of ours) {
+    for (const w of candidates(book, head)) {
       const { key, work, needsSeriesTalk } = w;
       const names = namesFor(w, book);
       if (needsSeriesTalk && !series) continue;
@@ -182,7 +190,7 @@ for (const { username, path, role } of args) {
       // даёт ровно то, от чего уходили 22.09. У автора — наоборот, название часто во втором
       // абзаце. Поэтому по телу ищем только у авторов.
       const hits = new Map<string, { work: typeof ours[number]['work']; key: string; len: number; name: string }>();
-      for (const w of ours) {
+      for (const w of candidates(book, p.text)) {
         const { key, work, needsSeriesTalk } = w;
         const names = namesFor(w, book);
         if (needsSeriesTalk && !series) continue;

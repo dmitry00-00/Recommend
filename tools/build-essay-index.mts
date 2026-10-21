@@ -124,7 +124,8 @@ for (let i = 0; i < askOutside.length; i += 50) {
   for (const id of askOutside.slice(i, i + 50)) if (!got.has(id)) outsideCache[id] = null;
 }
 if (askOutside.length) writeFileSync(OUTSIDE, JSON.stringify(outsideCache));
-if (outside.length) console.error(`ролики с других каналов из ручной разметки: ${outside.length}, нашлось в YouTube ${videos.filter((v) => outside.includes(v.id)).length}`);
+const outsideSet = new Set(outside);
+if (outside.length) console.error(`ролики с других каналов из ручной разметки: ${outside.length}, нашлось в YouTube ${videos.filter((v) => outsideSet.has(v.id)).length}`);
 // ручная привязка может указать и на фильм с коротким названием, которого в `ours` нет
 const byKey = new Map(worksIndex({ all: true }).map((w) => [w.key, w]));
 const heads = franchiseHeads(worksIndex({ all: true }));
@@ -151,8 +152,12 @@ let early = 0;
 let confirmed = 0;
 let dropped = 0;
 let added = 0;
+// ролик по id — первый с таким id, как у прежнего videos.find (19.10: поиск перебором на каждую привязку — минуты)
+const firstById = new Map<string, Video>();
+for (const x of videos) if (!firstById.has(x.id)) firstById.set(x.id, x);
+const knownUrls = new Set(known.map((a) => a.url));
 for (const [videoId, v] of Object.entries(human)) {
-  if (!videos.some((x) => x.id === videoId)) continue;   // ролик из другого дампа или канал сняли
+  if (!firstById.has(videoId)) continue;   // ролик из другого дампа или канал сняли
   if (v.key == null) { if (best.delete(videoId)) dropped += 1; continue; }
   const w = byKey.get(v.key);
   if (!w) { console.error(`  ручная привязка на неизвестный ключ ${v.key} (ролик ${videoId})`); continue; }
@@ -207,9 +212,9 @@ for (const [videoId, found] of best) {
 }
 for (const [videoId, found] of pairs) {
   let { key, work } = found;
-  const v = videos.find((x) => x.id === videoId)!;
+  const v = firstById.get(videoId)!;
   const url = `https://www.youtube.com/watch?v=${videoId}`;
-  if (known.some((a) => a.url === url)) continue;
+  if (knownUrls.has(url)) continue;
   const minutes = durations.get(videoId);
   // выбор опознавателя из тёзок (guess) — не слово человека: сторожа его проверяют, в карточке «не проверено»
   const said = !found.other && Boolean(human[videoId]?.key) && !human[videoId]?.guess;

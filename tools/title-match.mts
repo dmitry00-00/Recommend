@@ -340,14 +340,133 @@ let foldedFor = '';
 let folded = '';
 const foldedText = (t: string) => { if (t !== foldedFor) { foldedFor = t; folded = fold(t); } return folded; };
 
+// Скорость (19.10): справочник вырос до ~47 тыс. произведений, и «три буквы где-то в тексте» пропускали к построению
+// выражения почти каждое название (профиль 19.10: ~90 % времени обоих индексов — в nameMatchAt, сами выражения
+// исполнялись за доли секунды). Обязательное начало выражения — основа названия до первой необязательной части
+// («,?», «[\s.…]*», окончания) — совпадение обязано содержать буквально, с точностью до регистра. Нет его в тексте —
+// выражение не совпадёт, и строить его незачем. Ответ nameMatchAt от этого не меняется: отсев только того, что
+// выражение и так не пропустило бы.
+// «С точностью до регистра» — как у флага `iu`: свёртка CANON склеивает всё, что склеивает он (в том числе «K» знака
+// Кельвина с «k», «ſ» с «s», старые начертания кириллицы с «в», «д», «о»…), а «ё» — с «е», как `[её]` в основе.
+// Что она склеивает не меньше флага, для каждого символа основы проверяет tools/title-match-test.mts.
+const CANON = (() => {
+  const t = new Uint16Array(65536);
+  for (let c = 0; c < 65536; c++) {
+    const s = String.fromCharCode(c);
+    let x = s.toUpperCase().toLowerCase();
+    if (x.length !== 1) x = s.toLowerCase();
+    if (x.length !== 1) x = s;
+    t[c] = x.charCodeAt(0) === 0x451 ? 0x435 : x.charCodeAt(0);
+  }
+  return t;
+})();
+export function canonText(s: string): string {
+  const buf = new Uint16Array(s.length);
+  for (let i = 0; i < s.length; i++) buf[i] = CANON[s.charCodeAt(i)];
+  let out = '';
+  for (let i = 0; i < buf.length; i += 8192) out += String.fromCharCode(...buf.subarray(i, i + 8192));
+  return out;
+}
+/** Символы, которые основа берёт в обязательное начало: латиница, кириллица, цифры, пробел и знаки ASCII —
+ *  для них свёртка проверена (tools/title-match-test.mts). Прочее (греческий, «…», кавычки-ёлочки) — конец начала. */
+export const literalChar = (ch: string): boolean => {
+  const c = ch.charCodeAt(0);
+  return ch.length === 1 && ((c >= 0x20 && c <= 0x7e) || (c >= 0xc0 && c <= 0x24f && c !== 0xd7 && c !== 0xf7) || (c >= 0x400 && c <= 0x4ff));
+};
+const META = '.*+?^${}()|[]\\';
+/** Обязательное начало выражения-основы (stemOf): буквальные символы до первой необязательной или особой части. */
+export function mandatoryPrefix(src: string): string {
+  let out = '';
+  for (let i = 0; i < src.length;) {
+    let ch: string;
+    let j: number;
+    if (src.startsWith('[её]', i)) { ch = 'е'; j = i + 4; }
+    else if (src[i] === '\\') { if (!src[i + 1] || !META.includes(src[i + 1])) break; ch = src[i + 1]; j = i + 2; }
+    else if (META.includes(src[i])) break;
+    else { ch = src[i]; j = i + 1; }
+    if (j < src.length && '?*+{'.includes(src[j])) break;
+    if (!literalChar(ch)) break;
+    out += ch;
+    i = j;
+  }
+  return out;
+}
+const matchSource = (name: string) => `(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})(${tailOf(name)})(?![A-Za-z0-9_${CYR}])(?!-\\p{L})()`;
+const literals = new Map<string, string>();
+const sources = new Map<string, string>();
+/** Обязательное начало названия в свёртке CANON ('' — отсева нет). Выражение, которое не строится, отсевом не
+ *  прикрываем: пусть падает там же, где падало. */
+export function literalOf(name: string): string {
+  let c = literals.get(name);
+  if (c === undefined) {
+    try { new RegExp(matchSource(name), 'giu'); c = canonText(mandatoryPrefix(stemOf(name))); } catch { c = ''; }
+    literals.set(name, c);
+  }
+  return c;
+}
+let canonFor = '';
+let canon = '';
+const canonOf = (t: string) => { if (t !== canonFor) { canonFor = t; canon = canonText(t); } return canon; };
+
+/** Отбор произведений перед nameMatchAt по тексту (19.10): те, у кого обязательное начало хотя бы одного названия
+ *  может стоять в тексте — все его тройки символов свёртки (до четырёх самых редких по справочнику) в тексте есть, —
+ *  плюс те, у кого начало короче трёх; в порядке `items`. Остальным nameMatchAt ответил бы «нет» (см. literalOf):
+ *  начало не содержится в тексте, раз в нём нет какой-то его тройки, — так что перебор по отобранным даёт то же,
+ *  что по всем. */
+export function nameIndex<T>(items: readonly T[], namesOf: (x: T) => readonly string[]): (text: string) => T[] {
+  return literalIndex(items, (x) => namesOf(x).map(literalOf));
+}
+
+/** То же по готовым обязательным началам в свёртке CANON (несколько на элемент — достаточно любого; '' или короче
+ *  трёх — элемент берётся всегда). Им же отбирает имена героев tools/lore.mts. */
+export function literalIndex<T>(items: readonly T[], literalsOf: (x: T) => string | readonly string[]): (text: string) => T[] {
+  const gramsOf = (lit: string) => { const g = new Set<string>(); for (let k = 0; k + 3 <= lit.length; k++) g.add(lit.slice(k, k + 3)); return [...g]; };
+  const freq = new Map<string, number>();
+  const named: { i: number; grams: string[] }[] = [];
+  const always: number[] = [];
+  items.forEach((x, i) => {
+    const own: { i: number; grams: string[] }[] = [];
+    const lits = literalsOf(x);
+    for (const lit of typeof lits === 'string' ? [lits] : lits) {
+      if (lit.length < 3) { always.push(i); return; }
+      own.push({ i, grams: gramsOf(lit) });
+    }
+    for (const e of own) { named.push(e); for (const g of e.grams) freq.set(g, (freq.get(g) ?? 0) + 1); }
+  });
+  // ключ — самая редкая тройка названия, ещё до трёх редких — проверка при отборе
+  const byGram = new Map<string, { i: number; rest: string[] }[]>();
+  for (const e of named) {
+    const g = [...e.grams].sort((a, b) => freq.get(a)! - freq.get(b)! || (a < b ? -1 : a > b ? 1 : 0)).slice(0, 4);
+    (byGram.get(g[0]) ?? byGram.set(g[0], []).get(g[0])!).push({ i: e.i, rest: g.slice(1) });
+  }
+  return (text) => {
+    const t = canonOf(text);
+    const have = new Set<string>();
+    for (let k = 0; k + 3 <= t.length; k++) have.add(t.slice(k, k + 3));
+    const mark = new Uint8Array(items.length);
+    const picked: number[] = [];
+    for (const i of always) if (!mark[i]) { mark[i] = 1; picked.push(i); }
+    for (const g of have) {
+      for (const e of byGram.get(g) ?? []) if (!mark[e.i] && e.rest.every((r) => have.has(r))) { mark[e.i] = 1; picked.push(e.i); }
+    }
+    return picked.sort((a, b) => a - b).map((i) => items[i]);
+  };
+}
+
 export function nameMatchAt(videoTitle: string, name: string, options: MatchOptions = {}): { len: number; at: number; exact?: boolean; tail?: number; andNext?: boolean } | undefined {
   const { prefix, rival } = prefixOf(name);
   if (prefix && !foldedText(videoTitle).includes(prefix)) return undefined;
   if (rival && rival.test(videoTitle)) return undefined;
+  // обязательного начала основы в тексте нет — выражение не совпадёт (19.10, см. literalOf)
+  const lit = literalOf(name);
+  if (lit && !canonOf(videoTitle).includes(lit)) return undefined;
   // флаг `i` обязателен: у этих каналов название пишут капсом («смысл ПРИБЫТИЯ»), а отбор
   // по заглавной букве делается ниже, на самом совпадении
   // дефис с буквой после — продолжение слова: «Мастер-класс» не «Мастер» (06.10, OPS-9)
-  const re = new RegExp(`(^|[\\s|:.,"«»(\\-—/])(${stemOf(name)})(${tailOf(name)})(?![A-Za-z0-9_${CYR}])(?!-\\p{L})()`, 'giu');
+  // текст выражения — тот же, что раньше строился здесь (matchSource), только один раз на название
+  let src = sources.get(name);
+  if (src === undefined) { src = matchSource(name); sources.set(name, src); }
+  const re = new RegExp(src, 'giu');
   for (const m of videoTitle.matchAll(re)) {
     const hit = m[2];
     const first = hit[0];

@@ -16,6 +16,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { characters } from '../src/mocks/characters.ts';
 import { relationNodes } from '../src/mocks/workRelations.ts';
 import { seededHeroes, type WesterosSeed } from './westeros-lib.mts';
+import { canonText, literalIndex, mandatoryPrefix } from './title-match.mts';
 
 export interface LoreName { name: string; re: RegExp; one: boolean; works: string[]; who: string }
 
@@ -62,9 +63,20 @@ export function loreNames(ourKeys?: ReadonlySet<string>): LoreName[] {
   return built;
 }
 
+/** Отбор имён перед выражениями (19.10, скорость индекса разборов): у каждого выражения есть обязательное начало —
+ *  первое слово имени до окончания; нет его в тексте (с точностью до регистра, свёртка tools/title-match.mts) —
+ *  выражение не совпадёт. Отбор — по тройкам символов (nameIndex), порядок имён прежний. Один на массив имён. */
+const pickers = new WeakMap<LoreName[], (text: string) => LoreName[]>();
+const loreLiteral = (n: LoreName) => (n.re.source.startsWith(B) ? canonText(mandatoryPrefix(n.re.source.slice(B.length))) : '');
+function picker(names: LoreName[]): (text: string) => LoreName[] {
+  let f = pickers.get(names);
+  if (!f) { f = literalIndex(names, loreLiteral); pickers.set(names, f); }
+  return f;
+}
+
 /** Герои, названные в тексте: имя и наши произведения, где он есть. */
 export function loreHits(text: string, names = loreNames()): LoreName[] {
   const t = text.replace(/ё/g, 'е').replace(/Ё/g, 'Е');
   const seen = new Set<string>();
-  return names.filter((n) => n.re.test(t) && !seen.has(n.who) && (seen.add(n.who), true));
+  return picker(names)(t).filter((n) => n.re.test(t) && !seen.has(n.who) && (seen.add(n.who), true));
 }
