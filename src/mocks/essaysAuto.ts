@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-essay-index.mts (2026-10-18): разборы, найденные
+// Сгенерировано tools/build-essay-index.mts (2026-10-21): разборы, найденные
 // перебором загрузок тех же каналов, с привязкой по названию. Это догадка, а не разметка:
 // в карточке они идут после присланных вручную, подтверждать их должна кураторская.
 // Не править руками — перегенерировать.
@@ -9202,6 +9202,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/7P702rz9LWw/hqdefault.jpg",
       "durationMinutes": 6,
       "publishedAt": "2026-08-21"
+    },
+    {
+      "id": "yta-PBXUE-09cTs",
+      "title": "Мы неправильно поняли «Таксиста»",
+      "author": "C A L Y P S O",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PBXUE-09cTs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PBXUE-09cTs/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-08-17"
     }
   ],
   "tmdb:97039": [
@@ -21697,6 +21711,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/zFTLY5FRdLs/hqdefault.jpg",
       "durationMinutes": 23,
       "publishedAt": "2020-09-30"
+    },
+    {
+      "id": "yta-70kM6jNHFaE",
+      "title": "Аниме 90-х, которые ОПЕРЕДИЛИ время — шедевры, актуальные до сих пор",
+      "author": "KALI FRAME | JP",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=70kM6jNHFaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/70kM6jNHFaE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-20"
     }
   ],
   "imdb:tt0147746": [
@@ -49142,6 +49170,33 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-12-02"
     },
     {
+      "id": "yta-aA5YlPBUXyA",
+      "title": "«Старикам тут не место»: почему сцена с монеткой так пугает  | Разбор сцены",
+      "author": "Скандально Неизвестная Сценаристка",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=aA5YlPBUXyA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/aA5YlPBUXyA/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-18"
+    },
+    {
+      "id": "yta-yuHbv2zcS0o",
+      "title": "ЗЛО БЫЛО ВСЕГДА, НО ЭТО НЕ ЧИГУР | Смысл фильма «Старикам тут не место»",
+      "author": "Burbon Survey",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=yuHbv2zcS0o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/yuHbv2zcS0o/hqdefault.jpg",
+      "durationMinutes": 26,
+      "publishedAt": "2026-10-20"
+    },
+    {
       "id": "yta-IKOjecnB_U8",
       "title": "Почему шериф не поймал Антона Чигура?",
       "author": "4то за Персонаж?",
@@ -66281,7 +66336,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=ZFCzbsbIZKo",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "previewUrl": "https://i.ytimg.com/vi/ZFCzbsbIZKo/hqdefault.jpg",
       "durationMinutes": 24,
       "publishedAt": "2024-03-26"
@@ -66335,7 +66390,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=VhaF1-iXy9s",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/VhaF1-iXy9s/hqdefault.jpg",
       "durationMinutes": 12,
@@ -66349,7 +66404,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=YY3Kb-2NTwI",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/YY3Kb-2NTwI/hqdefault.jpg",
       "durationMinutes": 10,
@@ -79225,20 +79280,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-01-20"
     },
     {
-      "id": "yta-76z04gKlwc0",
-      "title": "НОВОЕ \"ПРОСТОКВАШИНО\" ПРОТИВ СТАРЫХ ВЕРСИЙ!!! | КАК менялся мультфильм?",
-      "author": "Уголок Акра",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=76z04gKlwc0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/76z04gKlwc0/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2018-04-10"
-    },
-    {
       "id": "yta-OnOO7opJD04",
       "title": "Простоквашино (ТНТ, Сарик Андреасян, Кот Матроскин, Дядя Фёдор, Шарик и др.) | Обзор",
       "author": "Woodmark",
@@ -79246,25 +79287,11 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=OnOO7opJD04",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/OnOO7opJD04/hqdefault.jpg",
       "durationMinutes": 12,
       "publishedAt": "2026-02-23"
-    },
-    {
-      "id": "yta-ya85fYLnmx0",
-      "title": "Обзор на плохое - Простоквашино",
-      "author": "Woodmark",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ya85fYLnmx0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ya85fYLnmx0/hqdefault.jpg",
-      "durationMinutes": 30,
-      "publishedAt": "2018-06-26"
     },
     {
       "id": "yta-2dYFxWJABoE",
@@ -79288,7 +79315,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=Epcq-awKnQ8",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/Epcq-awKnQ8/hqdefault.jpg",
       "durationMinutes": 25,
@@ -79302,7 +79329,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=MrvmbWQNT84",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/MrvmbWQNT84/hqdefault.jpg",
       "durationMinutes": 12,
@@ -79316,7 +79343,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=Y2-bGe8V3Uk",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/Y2-bGe8V3Uk/hqdefault.jpg",
       "durationMinutes": 32,
@@ -87354,6 +87381,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/PndAzs_H8d4/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2016-10-11"
+    },
+    {
+      "id": "yta-47_bqk545K0",
+      "title": "Доктор Стрэндж предупреждал нас о Докторе Думе… а никто не послушал",
+      "author": "Kaskar",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=47_bqk545K0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/47_bqk545K0/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2026-10-19"
     }
   ],
   "tmdb:297761": [
@@ -93435,7 +93476,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=LbwMmMLhUqw",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/LbwMmMLhUqw/hqdefault.jpg",
       "durationMinutes": 12,
@@ -93449,7 +93490,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=D23ubulfLN4",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/D23ubulfLN4/hqdefault.jpg",
       "durationMinutes": 40,
@@ -93773,7 +93814,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=bRznVN6PH-Q",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/bRznVN6PH-Q/hqdefault.jpg",
       "durationMinutes": 12,
@@ -93787,7 +93828,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=947nNb24Nfs",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/947nNb24Nfs/hqdefault.jpg",
       "durationMinutes": 22,
@@ -95308,6 +95349,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/O-G1JoiO3Vs/hqdefault.jpg",
       "durationMinutes": 26,
       "publishedAt": "2018-05-16"
+    },
+    {
+      "id": "yta-05EtCsbsYPs",
+      "title": "КАК ФИЛ ЗАМЕНИЛ ЛЕВИНА",
+      "author": "Златовласка",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=05EtCsbsYPs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/05EtCsbsYPs/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2025-09-09"
     }
   ],
   "tmdb:1406000": [
@@ -95335,7 +95390,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=D_BAxErGDPE",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/D_BAxErGDPE/hqdefault.jpg",
       "durationMinutes": 19,
@@ -95872,7 +95927,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=QLFyGaJVQ7I",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/QLFyGaJVQ7I/hqdefault.jpg",
       "durationMinutes": 21,
@@ -95933,34 +95988,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/6o0jtA9DoNA/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2024-12-23"
-    },
-    {
-      "id": "yta-dJBr1RAIWmo",
-      "title": "Психологический разбор ОНЕГИН, 1999, смысл фильма",
-      "author": "Психология кино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=dJBr1RAIWmo",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/dJBr1RAIWmo/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2026-09-28"
-    },
-    {
-      "id": "yta-kCOofIaJfIM",
-      "title": "Кинотерапия и разбор фильма// ФИЛЬМ ОНЕГИН, 1999//демонстрационная сессия",
-      "author": "Психология кино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=kCOofIaJfIM",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/kCOofIaJfIM/hqdefault.jpg",
-      "durationMinutes": 43,
-      "publishedAt": "2026-07-12"
     },
     {
       "id": "yta-JotWNuzRQII",
@@ -96026,7 +96053,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=nHJDHLpJWVA",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/nHJDHLpJWVA/hqdefault.jpg",
       "durationMinutes": 11,
@@ -96040,7 +96067,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=z9oWeRyYkWg",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/z9oWeRyYkWg/hqdefault.jpg",
       "durationMinutes": 17,
@@ -96295,7 +96322,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=UFojQcwbpvU",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/UFojQcwbpvU/hqdefault.jpg",
       "durationMinutes": 12,
@@ -97104,7 +97131,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=SpwDm0Gq0iI",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/SpwDm0Gq0iI/hqdefault.jpg",
       "durationMinutes": 16,
@@ -102465,6 +102492,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/svJH3B3eqoU/hqdefault.jpg",
       "durationMinutes": 11,
       "publishedAt": "2025-10-31"
+    },
+    {
+      "id": "yta-1bKv3_N4QNw",
+      "title": "«Бугония»: Сатира на корпоративную этику, которую Голливуд боится снимать",
+      "author": "Katya Golvin Archives",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=1bKv3_N4QNw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/1bKv3_N4QNw/hqdefault.jpg",
+      "durationMinutes": 50,
+      "publishedAt": "2025-12-08"
     }
   ],
   "tmdb:1151272": [
@@ -105733,7 +105774,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=NP7tVwc9hjA",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/NP7tVwc9hjA/hqdefault.jpg",
       "durationMinutes": 21,
@@ -108309,6 +108350,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-02-10"
     },
     {
+      "id": "yta-pADT33OEmEE",
+      "title": "Почему 4 сезон Ведьмака невозможно смотреть",
+      "author": "XAVELAR",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=pADT33OEmEE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/pADT33OEmEE/hqdefault.jpg",
+      "durationMinutes": 36,
+      "publishedAt": "2026-10-03",
+      "season": 4
+    },
+    {
       "id": "yta-u65qEKrQhmQ",
       "title": "«Ведьмак NETFLIX». Второй сезон. Обзор «Красного Циника»",
       "author": "Red Cynic",
@@ -109354,6 +109410,717 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-22"
     }
   ],
+  "wd:Q8337": [
+    {
+      "id": "yta-068lhUfVeuo",
+      "title": "КАЙФУЮ С ПРЫГУНОВ, НОВОГО ГАРРИ ПОТТЕРА и ДР.",
+      "author": "Chuck Review",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=068lhUfVeuo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/068lhUfVeuo/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-03-28"
+    },
+    {
+      "id": "yta-mgvTYEHFiko",
+      "title": "Все игры о \"Гарри Поттере\" [Игро-Мыло #6]",
+      "author": "Chuck Review",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=mgvTYEHFiko",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/mgvTYEHFiko/hqdefault.jpg",
+      "durationMinutes": 34,
+      "publishedAt": "2016-11-25"
+    },
+    {
+      "id": "yta-7u5OXLabhI8",
+      "title": "ЧЕРНЫЙ СНЕЙП - ПРОКЛЯТИЕ НОВОГО ГАРРИ ПОТТЕРА | Что пошло не так?",
+      "author": "ЧЕРНЫЙ КАБИНЕТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7u5OXLabhI8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7u5OXLabhI8/hqdefault.jpg",
+      "durationMinutes": 27,
+      "publishedAt": "2025-06-04"
+    },
+    {
+      "id": "yta-2a8RRKFn76M",
+      "title": "СЛИВ ГАРРИ ПОТТЕРА - ОТ ШЕДЕВРА ДО ПРОВАЛА",
+      "author": "ЧЕРНЫЙ КАБИНЕТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=2a8RRKFn76M",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/2a8RRKFn76M/hqdefault.jpg",
+      "durationMinutes": 27,
+      "publishedAt": "2023-04-25"
+    },
+    {
+      "id": "yta-y8vQbV3ya5c",
+      "title": "ЗЛОДЕИ ГАРРИ ПОТТЕРА - От Волан-де-Морта до Северуса Снейпа | Обзор и анализ культовой саги",
+      "author": "ЧЕРНЫЙ КАБИНЕТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=y8vQbV3ya5c",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/y8vQbV3ya5c/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2023-01-20"
+    },
+    {
+      "id": "yta-wONy-RWGLgU",
+      "title": "Лит. подкаст. Гарри Поттер - феномен популярности и общественная значимость",
+      "author": "Канал Ламполоджи",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=wONy-RWGLgU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/wONy-RWGLgU/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2022-08-01"
+    },
+    {
+      "id": "yta-9J7M49xGyJc",
+      "title": "Почему «Гарри Поттер» ужасная литература? Джоан Роулинг — слабый писатель | Николай Жаринов",
+      "author": "Николай Жаринов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=9J7M49xGyJc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/9J7M49xGyJc/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2025-03-20"
+    },
+    {
+      "id": "yta-VPHlvhTKDYQ",
+      "title": "Зумеры убьют Гарри Поттера",
+      "author": "Филолог всея Руси",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=VPHlvhTKDYQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/VPHlvhTKDYQ/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2024-12-25"
+    },
+    {
+      "id": "yta-GwWjz5RPVl4",
+      "title": "Почему Гарри Поттер такой тупой?",
+      "author": "Филолог всея Руси",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=GwWjz5RPVl4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/GwWjz5RPVl4/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2023-05-14"
+    },
+    {
+      "id": "yta-sbnVYpbhiq0",
+      "title": "7 магических плюшек #2 | мир Гарри Поттера ϟ",
+      "author": "bookspace",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sbnVYpbhiq0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sbnVYpbhiq0/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2016-10-21"
+    },
+    {
+      "id": "yta-CVNxiBZpa0E",
+      "title": "ЛЮБОВНЫЕ ФАНФИКИ по Гарри Поттеру ⚡️🤓 СТЫДНО, но СМЕШНО",
+      "author": "Катя Белокрылова",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=CVNxiBZpa0E",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/CVNxiBZpa0E/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2024-07-05"
+    },
+    {
+      "id": "yta-dRx8Wv52yPQ",
+      "title": "Гарри Поттер архетип Избранного РАЗБОР",
+      "author": "Что Посмотреть",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dRx8Wv52yPQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "channel",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dRx8Wv52yPQ/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2023-02-05"
+    },
+    {
+      "id": "yta-44bFSkbNTxs",
+      "title": "ДМИТРИЙ БЫКОВ - ГАРРИ ПОТТЕР",
+      "author": "Demetrio Albertini",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=44bFSkbNTxs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/44bFSkbNTxs/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2026-03-28"
+    },
+    {
+      "id": "yta-OEobeiEMbOE",
+      "title": "Неужели Рон Уизли зачаровал Гермиону? (теория Гарри Поттера)",
+      "author": "Cut The Crap",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=OEobeiEMbOE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/OEobeiEMbOE/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2023-04-08"
+    },
+    {
+      "id": "yta-l3JeWqrG5Fw",
+      "title": "Хагрид не тот, за кого себя выдает! Вот почему… (Теория Гарри Поттера)",
+      "author": "Cut The Crap",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=l3JeWqrG5Fw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/l3JeWqrG5Fw/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2023-03-03"
+    },
+    {
+      "id": "yta-OXgBWcY6Stc",
+      "title": "География кино: Гарри Поттер",
+      "author": "Телеканал КИНОТВ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=OXgBWcY6Stc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/OXgBWcY6Stc/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2017-02-21"
+    },
+    {
+      "id": "yta-huSCDYe04Fk",
+      "title": "Николас  Фламель. Алхимик из «Гарри Поттера»/Ксения Чепикова и Егор Яковлев",
+      "author": "Цифровая история",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=huSCDYe04Fk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/huSCDYe04Fk/hqdefault.jpg",
+      "durationMinutes": 60,
+      "publishedAt": "2022-02-17"
+    },
+    {
+      "id": "yta-aNiMbCRXhrw",
+      "title": "Грин-де-Вальд: Путь к власти — полный разбор | Гарри Поттер",
+      "author": "Кот в Кадре",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=aNiMbCRXhrw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/aNiMbCRXhrw/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-06-28"
+    },
+    {
+      "id": "yta-UCPivAowNqQ",
+      "title": "Первая магическая война — полный разбор | Гарри Поттер",
+      "author": "Кот в Кадре",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=UCPivAowNqQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/UCPivAowNqQ/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2026-05-16"
+    },
+    {
+      "id": "yta-bOejyWD-IBo",
+      "title": "Как сценаристы создают шедевры? Простая формула на примере ГАРРИ ПОТТЕРА",
+      "author": "FRAME",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=bOejyWD-IBo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/bOejyWD-IBo/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2025-01-24"
+    },
+    {
+      "id": "yta-LHFIo-S3PMU",
+      "title": "ВАРИМ СЛИВОЧНОЕ ПИВО ИЗ \"ГАРРИ ПОТТЕРА\" (18+) / ХАРДКОРНЫЙ РЕЦЕПТ С ТЕМНЫМ ЭЛЕМ!",
+      "author": "Nikonorov",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=LHFIo-S3PMU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/LHFIo-S3PMU/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2021-03-14"
+    },
+    {
+      "id": "yta-g-E-NusRaW4",
+      "title": "Я В ШОКЕ! Гарри Поттер в переводе Спивак 😱 + рецепт сливочного пива 🍺",
+      "author": "Alua reads",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=g-E-NusRaW4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/g-E-NusRaW4/hqdefault.jpg",
+      "durationMinutes": 26,
+      "publishedAt": "2020-12-12"
+    },
+    {
+      "id": "yta-QuJVMmZ6Msc",
+      "title": "ИКАБОГ. Отличная сказка от ДЖОАН Роулинг, автора Гарри Поттера",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=QuJVMmZ6Msc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/QuJVMmZ6Msc/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2021-01-26"
+    },
+    {
+      "id": "yta-c6L16cY0i8I",
+      "title": "Гарри Поттер и разные переводы | Какое издание лучше выбрать?",
+      "author": "Главы Герои",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=c6L16cY0i8I",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/c6L16cY0i8I/hqdefault.jpg",
+      "durationMinutes": 43,
+      "publishedAt": "2025-02-01"
+    },
+    {
+      "id": "yta-82jl2IdGw_U",
+      "title": "Что стало с Лавандой Браун после Гарри Поттера?",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=82jl2IdGw_U",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/82jl2IdGw_U/hqdefault.jpg",
+      "durationMinutes": 33,
+      "publishedAt": "2026-07-06"
+    },
+    {
+      "id": "yta-i3yrhUEG0SY",
+      "title": "Кем были Пожиратели Смерти на самом деле? Гарри Поттер Большой Разбор",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=i3yrhUEG0SY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/i3yrhUEG0SY/hqdefault.jpg",
+      "durationMinutes": 34,
+      "publishedAt": "2024-11-11"
+    },
+    {
+      "id": "yta-T12qiq32R2c",
+      "title": "Худшие Агенты Дамблдора в Гарри Поттере",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=T12qiq32R2c",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/T12qiq32R2c/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2022-06-27"
+    },
+    {
+      "id": "yta--rFXa3UxDLs",
+      "title": "Как уничтожить Дементоров из Гарри Поттера?",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-rFXa3UxDLs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-rFXa3UxDLs/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2021-11-08"
+    },
+    {
+      "id": "yta-UYnMGnXAxTU",
+      "title": "5 событий Гарри Поттера, которые мог изменить Маховик Времени",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=UYnMGnXAxTU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/UYnMGnXAxTU/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-09-06"
+    },
+    {
+      "id": "yta-pco9gfgKxjg",
+      "title": "Самые слабые школы из Гарри Поттера",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=pco9gfgKxjg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/pco9gfgKxjg/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2021-02-26"
+    },
+    {
+      "id": "yta-h1uDVHF0qvk",
+      "title": "Что Скрывает Рита Скитер? Тайны Гарри Поттера",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=h1uDVHF0qvk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/h1uDVHF0qvk/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-10-05"
+    },
+    {
+      "id": "yta-vySjF04hSSU",
+      "title": "Почему Драко Малфой Не Выдал Гарри Поттера?",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vySjF04hSSU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vySjF04hSSU/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2019-12-27"
+    },
+    {
+      "id": "yta-_n5OVh0MMRc",
+      "title": "Драко Малфой о Гермионе и Гарри Поттере",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_n5OVh0MMRc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_n5OVh0MMRc/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2019-06-14"
+    },
+    {
+      "id": "yta-1dEeP2ZDH9c",
+      "title": "Как на Гарри Поттера Повлияла Смерть Седрика?",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=1dEeP2ZDH9c",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/1dEeP2ZDH9c/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-01-07"
+    },
+    {
+      "id": "yta-xaYNkKQyyDE",
+      "title": "Магия Гарри Поттера: Трансфигурация",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xaYNkKQyyDE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xaYNkKQyyDE/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-11-09"
+    },
+    {
+      "id": "yta-LDOd6pwBROI",
+      "title": "Что Если Бы Гарри Поттер Не Попал в Гриффиндор?",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=LDOd6pwBROI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/LDOd6pwBROI/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-09-14"
+    },
+    {
+      "id": "yta-k2-ERYslrzI",
+      "title": "Самые Опасные Зелья из Гарри Поттера",
+      "author": "Борода Дамблдора",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=k2-ERYslrzI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/k2-ERYslrzI/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-08-03"
+    },
+    {
+      "id": "yta-L4PWFHx_oE8",
+      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА - Дары смерти",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=L4PWFHx_oE8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/L4PWFHx_oE8/hqdefault.jpg",
+      "durationMinutes": 43,
+      "publishedAt": "2024-08-03"
+    },
+    {
+      "id": "yta-kzscUjaBXpc",
+      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Принц-полукровка",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=kzscUjaBXpc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/kzscUjaBXpc/hqdefault.jpg",
+      "durationMinutes": 36,
+      "publishedAt": "2024-07-19"
+    },
+    {
+      "id": "yta-AVKjINoHkwQ",
+      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Орден Феникса",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=AVKjINoHkwQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/AVKjINoHkwQ/hqdefault.jpg",
+      "durationMinutes": 33,
+      "publishedAt": "2024-05-26"
+    },
+    {
+      "id": "yta-tfukB0qsgPQ",
+      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Кубок огня 🤔все очень странно",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tfukB0qsgPQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/tfukB0qsgPQ/hqdefault.jpg",
+      "durationMinutes": 48,
+      "publishedAt": "2024-05-03"
+    },
+    {
+      "id": "yta-LvBFnQFjsh8",
+      "title": "ГАРРИ ПОТТЕР Тайная комната и узник Азкабана",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=LvBFnQFjsh8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/LvBFnQFjsh8/hqdefault.jpg",
+      "durationMinutes": 40,
+      "publishedAt": "2024-04-26"
+    },
+    {
+      "id": "yta-lgcrHCrMy_E",
+      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Гарри Поттер и философский камень",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=lgcrHCrMy_E",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/lgcrHCrMy_E/hqdefault.jpg",
+      "durationMinutes": 59,
+      "publishedAt": "2024-04-13"
+    },
+    {
+      "id": "yta-d4XdEq8QhCQ",
+      "title": "Что не так с Гарри Поттером?",
+      "author": "Книжный клуб Екатерины Чижовой",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=d4XdEq8QhCQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/d4XdEq8QhCQ/hqdefault.jpg",
+      "durationMinutes": 60,
+      "publishedAt": "2026-04-20"
+    },
+    {
+      "id": "yta-QdWML-4dhd0",
+      "title": "ГАРРИ ПОТТЕР, РОСМЭН И МАРИЯ СПИВАК: ЧТО БУДЕТ ДАЛЬШЕ?",
+      "author": "ЧИТАЙ КНИГИ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=QdWML-4dhd0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/QdWML-4dhd0/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2021-12-23"
+    },
+    {
+      "id": "yta-xTjBJNlvWnk",
+      "title": "⚡ВСЕ О ГАРРИ ПОТТЕРЕ",
+      "author": "АННУШКА",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xTjBJNlvWnk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xTjBJNlvWnk/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2022-02-16"
+    },
+    {
+      "id": "yta-77Y6q1nNDU0",
+      "title": "СПЛИН Передайте это Гарри Поттеру. О чём песня? [Между Строф #4]",
+      "author": "Книжный Underground",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=77Y6q1nNDU0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/77Y6q1nNDU0/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2020-04-23"
+    },
+    {
+      "id": "yta-5zJ1UMYreeI",
+      "title": "Гарри Поттер и Young Adult",
+      "author": "Книжный Underground",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=5zJ1UMYreeI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/5zJ1UMYreeI/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2018-02-22"
+    },
+    {
+      "id": "yta-BihxZ3BavUc",
+      "title": "Гарри Поттер - Страх смерти",
+      "author": "Midnight Dew",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=BihxZ3BavUc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/BihxZ3BavUc/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2024-12-12"
+    },
+    {
+      "id": "yta-b0STPQLnBA8",
+      "title": "Разбор всех 11 школ волшебников в Гарри Поттере",
+      "author": "Axis Comics",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=b0STPQLnBA8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/b0STPQLnBA8/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2026-01-17"
+    },
+    {
+      "id": "yta-cDY4E701BEA",
+      "title": "7 уровней ЗАКЛИНАНИЙ в Гарри Поттере",
+      "author": "Axis Comics",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cDY4E701BEA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cDY4E701BEA/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2026-01-16"
+    }
+  ],
   "tmdb:755898": [
     {
       "id": "yta-NKPo_JFmuK4",
@@ -110271,6 +111038,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/TFzzMKLyEdY/hqdefault.jpg",
       "durationMinutes": 21,
       "publishedAt": "2020-07-20"
+    },
+    {
+      "id": "yta-U4NKbo7qMGU",
+      "title": "НАЗАД В БУДУЩЕЕ - ЛУЧШАЯ ТРИЛОГИЯ В ИСТОРИИ КИНО",
+      "author": "ПУСТИТЕ В КИНО",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=U4NKbo7qMGU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/U4NKbo7qMGU/hqdefault.jpg",
+      "durationMinutes": 50,
+      "publishedAt": "2026-09-26"
     }
   ],
   "tmdb:459151": [
@@ -130934,6 +131715,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-13"
     },
     {
+      "id": "yta-3odOYA_JfIw",
+      "title": "«Фонари» и проблемы большой DCU | 1 сезон",
+      "author": "Александр Аммосов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3odOYA_JfIw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3odOYA_JfIw/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2026-10-18",
+      "season": 1
+    },
+    {
       "id": "yta-8JklygAw0IQ",
       "title": "Lanterns Gets WORSE in Most EVIL Finale EVER",
       "author": "Disparu",
@@ -146177,6 +146973,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/A6_56lcVvOo/hqdefault.jpg",
       "durationMinutes": 23,
       "publishedAt": "2021-07-31"
+    },
+    {
+      "id": "yta-70kM6jNHFaE",
+      "title": "Аниме 90-х, которые ОПЕРЕДИЛИ время — шедевры, актуальные до сих пор",
+      "author": "KALI FRAME | JP",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=70kM6jNHFaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/70kM6jNHFaE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-20"
     }
   ],
   "imdb:tt0460681": [
@@ -152393,7 +153203,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=_VREYCOpo7U",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "human",
       "previewUrl": "https://i.ytimg.com/vi/_VREYCOpo7U/hqdefault.jpg",
       "durationMinutes": 21,
       "publishedAt": "2026-09-27"
@@ -156957,312 +157767,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Y3d9C6xdj0M/hqdefault.jpg",
       "durationMinutes": 31,
       "publishedAt": "2024-08-09"
-    }
-  ],
-  "wd:Q8337": [
-    {
-      "id": "yta-wONy-RWGLgU",
-      "title": "Лит. подкаст. Гарри Поттер - феномен популярности и общественная значимость",
-      "author": "Канал Ламполоджи",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=wONy-RWGLgU",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/wONy-RWGLgU/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2022-08-01"
-    },
-    {
-      "id": "yta-9J7M49xGyJc",
-      "title": "Почему «Гарри Поттер» ужасная литература? Джоан Роулинг — слабый писатель | Николай Жаринов",
-      "author": "Николай Жаринов",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=9J7M49xGyJc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/9J7M49xGyJc/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2025-03-20"
-    },
-    {
-      "id": "yta-VPHlvhTKDYQ",
-      "title": "Зумеры убьют Гарри Поттера",
-      "author": "Филолог всея Руси",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=VPHlvhTKDYQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/VPHlvhTKDYQ/hqdefault.jpg",
-      "durationMinutes": 24,
-      "publishedAt": "2024-12-25"
-    },
-    {
-      "id": "yta-GwWjz5RPVl4",
-      "title": "Почему Гарри Поттер такой тупой?",
-      "author": "Филолог всея Руси",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=GwWjz5RPVl4",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/GwWjz5RPVl4/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2023-05-14"
-    },
-    {
-      "id": "yta-sbnVYpbhiq0",
-      "title": "7 магических плюшек #2 | мир Гарри Поттера ϟ",
-      "author": "bookspace",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=sbnVYpbhiq0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/sbnVYpbhiq0/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2016-10-21"
-    },
-    {
-      "id": "yta-CVNxiBZpa0E",
-      "title": "ЛЮБОВНЫЕ ФАНФИКИ по Гарри Поттеру ⚡️🤓 СТЫДНО, но СМЕШНО",
-      "author": "Катя Белокрылова",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=CVNxiBZpa0E",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/CVNxiBZpa0E/hqdefault.jpg",
-      "durationMinutes": 24,
-      "publishedAt": "2024-07-05"
-    },
-    {
-      "id": "yta-LHFIo-S3PMU",
-      "title": "ВАРИМ СЛИВОЧНОЕ ПИВО ИЗ \"ГАРРИ ПОТТЕРА\" (18+) / ХАРДКОРНЫЙ РЕЦЕПТ С ТЕМНЫМ ЭЛЕМ!",
-      "author": "Nikonorov",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=LHFIo-S3PMU",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/LHFIo-S3PMU/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2021-03-14"
-    },
-    {
-      "id": "yta-OMiRdhN8PNs",
-      "title": "Я перечитала Гарри Поттера спустя 20 лет | Вот, что меня удивило",
-      "author": "Alua reads",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=OMiRdhN8PNs",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/OMiRdhN8PNs/hqdefault.jpg",
-      "durationMinutes": 29,
-      "publishedAt": "2026-09-21"
-    },
-    {
-      "id": "yta-g-E-NusRaW4",
-      "title": "Я В ШОКЕ! Гарри Поттер в переводе Спивак 😱 + рецепт сливочного пива 🍺",
-      "author": "Alua reads",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=g-E-NusRaW4",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/g-E-NusRaW4/hqdefault.jpg",
-      "durationMinutes": 26,
-      "publishedAt": "2020-12-12"
-    },
-    {
-      "id": "yta-QuJVMmZ6Msc",
-      "title": "ИКАБОГ. Отличная сказка от ДЖОАН Роулинг, автора Гарри Поттера",
-      "author": "Sergey ProjektPo",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=QuJVMmZ6Msc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/QuJVMmZ6Msc/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2021-01-26"
-    },
-    {
-      "id": "yta-c6L16cY0i8I",
-      "title": "Гарри Поттер и разные переводы | Какое издание лучше выбрать?",
-      "author": "Главы Герои",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=c6L16cY0i8I",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/c6L16cY0i8I/hqdefault.jpg",
-      "durationMinutes": 43,
-      "publishedAt": "2025-02-01"
-    },
-    {
-      "id": "yta-L4PWFHx_oE8",
-      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА - Дары смерти",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=L4PWFHx_oE8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/L4PWFHx_oE8/hqdefault.jpg",
-      "durationMinutes": 43,
-      "publishedAt": "2024-08-03"
-    },
-    {
-      "id": "yta-kzscUjaBXpc",
-      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Принц-полукровка",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=kzscUjaBXpc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/kzscUjaBXpc/hqdefault.jpg",
-      "durationMinutes": 36,
-      "publishedAt": "2024-07-19"
-    },
-    {
-      "id": "yta-AVKjINoHkwQ",
-      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Орден Феникса",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=AVKjINoHkwQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/AVKjINoHkwQ/hqdefault.jpg",
-      "durationMinutes": 33,
-      "publishedAt": "2024-05-26"
-    },
-    {
-      "id": "yta-tfukB0qsgPQ",
-      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Кубок огня 🤔все очень странно",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=tfukB0qsgPQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/tfukB0qsgPQ/hqdefault.jpg",
-      "durationMinutes": 48,
-      "publishedAt": "2024-05-03"
-    },
-    {
-      "id": "yta-LvBFnQFjsh8",
-      "title": "ГАРРИ ПОТТЕР Тайная комната и узник Азкабана",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=LvBFnQFjsh8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/LvBFnQFjsh8/hqdefault.jpg",
-      "durationMinutes": 40,
-      "publishedAt": "2024-04-26"
-    },
-    {
-      "id": "yta-lgcrHCrMy_E",
-      "title": "ПЕРЕЧИТЫВАЮ ГАРРИ ПОТТЕРА// Гарри Поттер и философский камень",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=lgcrHCrMy_E",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/lgcrHCrMy_E/hqdefault.jpg",
-      "durationMinutes": 59,
-      "publishedAt": "2024-04-13"
-    },
-    {
-      "id": "yta-d4XdEq8QhCQ",
-      "title": "Что не так с Гарри Поттером?",
-      "author": "Книжный клуб Екатерины Чижовой",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=d4XdEq8QhCQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/d4XdEq8QhCQ/hqdefault.jpg",
-      "durationMinutes": 60,
-      "publishedAt": "2026-04-20"
-    },
-    {
-      "id": "yta-QdWML-4dhd0",
-      "title": "ГАРРИ ПОТТЕР, РОСМЭН И МАРИЯ СПИВАК: ЧТО БУДЕТ ДАЛЬШЕ?",
-      "author": "ЧИТАЙ КНИГИ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=QdWML-4dhd0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/QdWML-4dhd0/hqdefault.jpg",
-      "durationMinutes": 22,
-      "publishedAt": "2021-12-23"
-    },
-    {
-      "id": "yta-xTjBJNlvWnk",
-      "title": "⚡ВСЕ О ГАРРИ ПОТТЕРЕ",
-      "author": "АННУШКА",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xTjBJNlvWnk",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xTjBJNlvWnk/hqdefault.jpg",
-      "durationMinutes": 29,
-      "publishedAt": "2022-02-16"
-    },
-    {
-      "id": "yta-77Y6q1nNDU0",
-      "title": "СПЛИН Передайте это Гарри Поттеру. О чём песня? [Между Строф #4]",
-      "author": "Книжный Underground",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=77Y6q1nNDU0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/77Y6q1nNDU0/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2020-04-23"
-    },
-    {
-      "id": "yta-5zJ1UMYreeI",
-      "title": "Гарри Поттер и Young Adult",
-      "author": "Книжный Underground",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=5zJ1UMYreeI",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/5zJ1UMYreeI/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2018-02-22"
     }
   ],
   "wd:Q7718420": [
@@ -167217,20 +167721,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/85rMldIa8ys/hqdefault.jpg",
       "durationMinutes": 74,
       "publishedAt": "2025-07-16"
-    },
-    {
-      "id": "yta-opG3pst0Ofs",
-      "title": "2020 Catch-Up: 5 Reviews in 5 Minutes (Bloodshot, Emma, The Hunt, The Gentlemen, Trolls World Tour)",
-      "author": "Dan Murrell",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=opG3pst0Ofs",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/opG3pst0Ofs/hqdefault.jpg",
-      "durationMinutes": 7,
-      "publishedAt": "2020-05-27"
     },
     {
       "id": "yta-Cu4lSdN3osY",
@@ -192033,6 +192523,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-06-26"
     }
   ],
+  "tmdb:587617": [
+    {
+      "id": "yta-0B6bAT7E6OM",
+      "title": "ТРЕШ ОБЗОР фильма Межсезонье | Каникулы в раю™ | Курортный роман с дьяволом™ | Рандеву с Сатаной™",
+      "author": "nevrotik.",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0B6bAT7E6OM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0B6bAT7E6OM/hqdefault.jpg",
+      "durationMinutes": 23,
+      "publishedAt": "2022-04-21"
+    }
+  ],
   "tmdb:787752": [
     {
       "id": "yta-zBW8wtdjzc8",
@@ -208857,20 +209363,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 7,
       "publishedAt": "2024-09-09",
       "season": 3
-    },
-    {
-      "id": "yta-LCWyiVGUbwo",
-      "title": "Главные ПРЕМЬЕРЫ СЕНТЯБРЯ 2024! Что СМОТРЕТЬ? Костя-Вера, Жизнь ПО ВЫЗОВУ, Комбинация",
-      "author": "Философия Кино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=LCWyiVGUbwo",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/LCWyiVGUbwo/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2024-09-02"
     }
   ],
   "wd:Q134029632": [
@@ -214805,6 +215297,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Y4fAO80_Rq0/hqdefault.jpg",
       "durationMinutes": 41,
       "publishedAt": "2021-09-10"
+    },
+    {
+      "id": "yta-wIZgspRyJeQ",
+      "title": "Уникальный документ! Блокадный дневник Мэри Рид / Баир Иринчеев и Егор Яковлев",
+      "author": "Цифровая история",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=wIZgspRyJeQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/wIZgspRyJeQ/hqdefault.jpg",
+      "durationMinutes": 76,
+      "publishedAt": "2026-10-18"
     }
   ],
   "tmdb:65614": [
@@ -236610,37 +237116,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-01-17"
     }
   ],
-  "imdb:tt33041431": [
-    {
-      "id": "yta-kErht-onAZg",
-      "title": "THE BOYS Season 5 | Predictions, Gen-V Season 3, Comic-Con Teaser, Vought Rising & More",
-      "author": "Heavy Spoilers",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=kErht-onAZg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/kErht-onAZg/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2025-10-23",
-      "season": 5
-    },
-    {
-      "id": "yta-9rg3zUkfym4",
-      "title": "The Boys VOUGHT RISING Trailer Breakdown! Details You Missed!",
-      "author": "New Rockstars",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=9rg3zUkfym4",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/9rg3zUkfym4/hqdefault.jpg",
-      "durationMinutes": 17,
-      "publishedAt": "2026-05-28"
-    }
-  ],
   "imdb:tt16027014": [
     {
       "id": "yta-YFIGjA_yWVs",
@@ -240277,7 +240752,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=wKZGBcEHIpQ",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/wKZGBcEHIpQ/hqdefault.jpg",
       "durationMinutes": 11,
@@ -240377,6 +240852,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-14"
     },
     {
+      "id": "yta-xgjiJOxpAyc",
+      "title": "Doctor Who Spinoff HATES Humanity - The War Between The Land & The Sea Review Season 1 Episode 1",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xgjiJOxpAyc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xgjiJOxpAyc/hqdefault.jpg",
+      "durationMinutes": 42,
+      "publishedAt": "2025-12-09"
+    },
+    {
       "id": "yta-fS5I-XWh7W4",
       "title": "Disney Doctor Who LEAKS Reason For Ruin",
       "author": "Disparu",
@@ -240417,6 +240906,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/bmWKV1GAlcM/hqdefault.jpg",
       "durationMinutes": 27,
       "publishedAt": "2025-08-19"
+    },
+    {
+      "id": "yta-ZLV6WRhEMbM",
+      "title": "Doctor Who Finale Review - The FINAL Trash Fire",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZLV6WRhEMbM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZLV6WRhEMbM/hqdefault.jpg",
+      "durationMinutes": 81,
+      "publishedAt": "2025-06-04"
     },
     {
       "id": "yta-rx8ppz3RJ2I",
@@ -240468,7 +240971,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=pDLagrERBII",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/pDLagrERBII/hqdefault.jpg",
       "durationMinutes": 72,
@@ -240482,7 +240985,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=JyVHKCNFfyo",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/JyVHKCNFfyo/hqdefault.jpg",
       "durationMinutes": 74,
@@ -240496,7 +240999,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=DfBhmj5_hUs",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/DfBhmj5_hUs/hqdefault.jpg",
       "durationMinutes": 64,
@@ -240510,7 +241013,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=_xKiIrAvveA",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/_xKiIrAvveA/hqdefault.jpg",
       "durationMinutes": 48,
@@ -240524,7 +241027,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=JwoJp1q8qKQ",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/JwoJp1q8qKQ/hqdefault.jpg",
       "durationMinutes": 45,
@@ -240594,7 +241097,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=tn9vv-X1Aj8",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/tn9vv-X1Aj8/hqdefault.jpg",
       "durationMinutes": 58,
@@ -240608,11 +241111,81 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=ONXN0WkdcPA",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/ONXN0WkdcPA/hqdefault.jpg",
       "durationMinutes": 58,
       "publishedAt": "2024-06-10"
+    },
+    {
+      "id": "yta-vWZeL6YkV6M",
+      "title": "Doctor Who Review Goes FULL Mask Off HATES the Fans - Season 1 Episode 5 Dot And Bubble",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vWZeL6YkV6M",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vWZeL6YkV6M/hqdefault.jpg",
+      "durationMinutes": 46,
+      "publishedAt": "2024-06-03"
+    },
+    {
+      "id": "yta-SnANwpTY60E",
+      "title": "Doctor Who Review Ncuti Gatwa LEAVES & Show IMPROVES - Season 1 Episode 4",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SnANwpTY60E",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SnANwpTY60E/hqdefault.jpg",
+      "durationMinutes": 45,
+      "publishedAt": "2024-05-27"
+    },
+    {
+      "id": "yta-dF2VgPUN_MU",
+      "title": "Doctor Who Review Moffat DESTROYS Ncuti Gatwa Season 1 Episode 3",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dF2VgPUN_MU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dF2VgPUN_MU/hqdefault.jpg",
+      "durationMinutes": 45,
+      "publishedAt": "2024-05-19"
+    },
+    {
+      "id": "yta-UaScUarBaRY",
+      "title": "Doctor Who Review Gets WORSE Nukes Ncuti Gatwa's Integrity Season 1 Episode 2",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=UaScUarBaRY",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/UaScUarBaRY/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2024-05-13"
+    },
+    {
+      "id": "yta-Sp8cw-LaAWs",
+      "title": "Doctor Who Review BURNS Legacy Ncuti Gatwa BOMBS Season 1",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Sp8cw-LaAWs",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Sp8cw-LaAWs/hqdefault.jpg",
+      "durationMinutes": 37,
+      "publishedAt": "2024-05-12"
     },
     {
       "id": "yta-Pj04e8SH4AA",
@@ -240622,11 +241195,53 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=Pj04e8SH4AA",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/Pj04e8SH4AA/hqdefault.jpg",
       "durationMinutes": 44,
       "publishedAt": "2023-12-29"
+    },
+    {
+      "id": "yta-gEoguy3qPKw",
+      "title": "Doctor Who Legacy DEVASTED By Russel T Davies",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=gEoguy3qPKw",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/gEoguy3qPKw/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2023-12-15"
+    },
+    {
+      "id": "yta-sEItEQN-3uk",
+      "title": "Doctor Who The ASHES of Civilisation Review Star Beast 60th Anniversary",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sEItEQN-3uk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "playlist",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sEItEQN-3uk/hqdefault.jpg",
+      "durationMinutes": 59,
+      "publishedAt": "2023-11-28"
+    },
+    {
+      "id": "yta-4qSE2HP8tq4",
+      "title": "Doctor Who BURNS It's Legacy The Star Beast Review 60th Anniversary special",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4qSE2HP8tq4",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4qSE2HP8tq4/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2023-11-27"
     }
   ],
   "imdb:tt2930604": [
@@ -260161,6 +260776,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/BDxC1j8Gcn8/hqdefault.jpg",
       "durationMinutes": 28,
       "publishedAt": "2020-06-24"
+    },
+    {
+      "id": "yta-nDbmpJlG03Y",
+      "title": "У Америки был свой национальный...МОНСТР",
+      "author": "Nuke",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=nDbmpJlG03Y",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/nDbmpJlG03Y/hqdefault.jpg",
+      "durationMinutes": 23,
+      "publishedAt": "2026-10-19"
     }
   ],
   "imdb:tt1720619": [
@@ -264330,7 +264958,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-09-29"
     }
   ],
-  "tmdb:10331": [
+  "tmdb:19185": [
     {
       "id": "yta-t2ZuaRv53mk",
       "title": "ТРЕШ ОБЗОР фильма НОЧЬ ЖИВЫХ МЕРТВЕЦОВ ремейк (памяти Тони Тодда)",
@@ -264339,25 +264967,25 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=t2ZuaRv53mk",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "human",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/t2ZuaRv53mk/hqdefault.jpg",
       "durationMinutes": 25,
       "publishedAt": "2024-11-29"
     },
     {
-      "id": "yta-DTjFNkmVB5k",
-      "title": "Night of the Living Dead (1968) - Movie Review",
-      "author": "Cody Leach",
+      "id": "yta-5ploajArWtA",
+      "title": "ВСЕ НОЧИ ЖИВЫХ МЕРТВЕЦОВ",
+      "author": "ASHY SLASHY",
       "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=DTjFNkmVB5k",
-      "language": "en",
+      "url": "https://www.youtube.com/watch?v=5ploajArWtA",
+      "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
+      "evidence": "human",
       "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/DTjFNkmVB5k/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2019-10-21"
+      "previewUrl": "https://i.ytimg.com/vi/5ploajArWtA/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2020-06-04"
     }
   ],
   "tmdb:763": [
@@ -265415,7 +266043,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=qww6N55BVIs",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/qww6N55BVIs/hqdefault.jpg",
       "durationMinutes": 27,
@@ -269120,6 +269748,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Uljake4-bYw/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2021-06-16"
+    },
+    {
+      "id": "yta-70kM6jNHFaE",
+      "title": "Аниме 90-х, которые ОПЕРЕДИЛИ время — шедевры, актуальные до сих пор",
+      "author": "KALI FRAME | JP",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=70kM6jNHFaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/70kM6jNHFaE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:2666": [
@@ -269761,7 +270403,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=_R6UmgFOrHI",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "human",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/_R6UmgFOrHI/hqdefault.jpg",
       "durationMinutes": 38,
@@ -274090,6 +274732,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/LiTEaN8mpl8/hqdefault.jpg",
       "durationMinutes": 91,
       "publishedAt": "2019-12-14"
+    },
+    {
+      "id": "yta-o7eDyJZNzoQ",
+      "title": "Джейсон X - ТРЕШ ОБЗОР на фильм",
+      "author": "KORVEN",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=o7eDyJZNzoQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/o7eDyJZNzoQ/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:610150": [
@@ -279923,6 +280579,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-10-09"
     },
     {
+      "id": "yta-70kM6jNHFaE",
+      "title": "Аниме 90-х, которые ОПЕРЕДИЛИ время — шедевры, актуальные до сих пор",
+      "author": "KALI FRAME | JP",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=70kM6jNHFaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/70kM6jNHFaE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-20"
+    },
+    {
       "id": "yta-UfMy9mc7j4A",
       "title": "Философия «Призрака в доспехах» (1995). [Перевод]",
       "author": "Скрытый смысл",
@@ -279994,6 +280664,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/uINHVuDNGjs/hqdefault.jpg",
       "durationMinutes": 6,
       "publishedAt": "2017-04-11"
+    },
+    {
+      "id": "yta-gqcnDH_O7pI",
+      "title": "Треш обзор фильма ЛЕКАРСТВО ОТ ЗДОРОВЬЯ | Санаторий, в котором калечат",
+      "author": "DORIAN GRAY",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=gqcnDH_O7pI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/gqcnDH_O7pI/hqdefault.jpg",
+      "durationMinutes": 26,
+      "publishedAt": "2026-10-18"
     }
   ],
   "tmdb:10320": [
@@ -285409,147 +286093,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-28"
     }
   ],
-  "imdb:tt13918446": [
-    {
-      "id": "yta-gsEJhNV-nfo",
-      "title": "Новый сериал Гарри Поттер от HBO: первый трейлер, новый каст и почему я разочарован",
-      "author": "Films House — Backyard",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=gsEJhNV-nfo",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/gsEJhNV-nfo/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2026-03-26"
-    },
-    {
-      "id": "yta-gZfAyXszu8A",
-      "title": "ГАРРИ ПОТТЕР - 1000 Лет Тайн И Магии! Полная Хронология Вселенной",
-      "author": "Movie Facts RU",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=gZfAyXszu8A",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/gZfAyXszu8A/hqdefault.jpg",
-      "durationMinutes": 30,
-      "publishedAt": "2025-07-06"
-    },
-    {
-      "id": "yta-defpMFshmfU",
-      "title": "I BINGED Every HARRY POTTER Movie For The FIRST TIME - Full Series Retrospective & Critique",
-      "author": "Movie Overload",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=defpMFshmfU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "previewUrl": "https://i.ytimg.com/vi/defpMFshmfU/hqdefault.jpg",
-      "durationMinutes": 43,
-      "publishedAt": "2025-12-29"
-    },
-    {
-      "id": "yta-aNiMbCRXhrw",
-      "title": "Грин-де-Вальд: Путь к власти — полный разбор | Гарри Поттер",
-      "author": "Кот в Кадре",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=aNiMbCRXhrw",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/aNiMbCRXhrw/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2026-06-28"
-    },
-    {
-      "id": "yta-UCPivAowNqQ",
-      "title": "Первая магическая война — полный разбор | Гарри Поттер",
-      "author": "Кот в Кадре",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=UCPivAowNqQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/UCPivAowNqQ/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2026-05-16"
-    },
-    {
-      "id": "yta-CeuAlifCfEI",
-      "title": "HARRY POTTER Reboot (2027) Official Update",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=CeuAlifCfEI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/CeuAlifCfEI/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2026-02-01"
-    },
-    {
-      "id": "yta--WvnUVSETv0",
-      "title": "Harry Potter Unleashes CIVIL WAR Over Snape Casting",
-      "author": "Disparu",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-WvnUVSETv0",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-WvnUVSETv0/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2025-03-12"
-    },
-    {
-      "id": "yta-1u1Od8tEydQ",
-      "title": "There Was A Snake in My Studio + Harry Potter Trailer - Dan's World #23",
-      "author": "Dan Murrell",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=1u1Od8tEydQ",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/1u1Od8tEydQ/hqdefault.jpg",
-      "durationMinutes": 119,
-      "publishedAt": "2026-03-25"
-    },
-    {
-      "id": "yta-Eh9-mLber70",
-      "title": "Адский эпизод Неуязвимого | Тёмный трейлер Гарри Поттера | Сорвиголова Провалившийся Заново",
-      "author": "Gigatun",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Eh9-mLber70",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Eh9-mLber70/hqdefault.jpg",
-      "durationMinutes": 200,
-      "publishedAt": "2026-03-29"
-    },
-    {
-      "id": "yta-b0STPQLnBA8",
-      "title": "Разбор всех 11 школ волшебников в Гарри Поттере",
-      "author": "Axis Comics",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=b0STPQLnBA8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/b0STPQLnBA8/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2026-01-17"
-    }
-  ],
   "imdb:tt0979432": [
     {
       "id": "yta-fKh1wZZSf5o",
@@ -287387,22 +287930,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-03-12"
     }
   ],
-  "imdb:tt11018040": [
-    {
-      "id": "yta-zKSBmZGbMl8",
-      "title": "[Игра VS Фильм] Resident Evil 4 | Обитель Зла: Вымирание",
-      "author": "RubiRey",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=zKSBmZGbMl8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/zKSBmZGbMl8/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2019-02-22"
-    }
-  ],
   "imdb:tt36517689": [
     {
       "id": "yta-m4ro3yTky6A",
@@ -288173,49 +288700,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 6,
       "publishedAt": "2018-07-27",
       "season": 3
-    },
-    {
-      "id": "yta-eRUkC9yeSrE",
-      "title": "Nemesis Games: The Expanse Season 5 vs the Books",
-      "author": "Alt Shift X",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=eRUkC9yeSrE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/eRUkC9yeSrE/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2021-02-03",
-      "season": 5
-    },
-    {
-      "id": "yta-Uri90JeBYso",
-      "title": "Leviathan Wakes: The Expanse Book 1 Explained",
-      "author": "Alt Shift X",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Uri90JeBYso",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Uri90JeBYso/hqdefault.jpg",
-      "durationMinutes": 16,
-      "publishedAt": "2018-10-29"
-    },
-    {
-      "id": "yta-VNjrI0YvZYA",
-      "title": "The Worlds of The Expanse (no spoilers)",
-      "author": "Alt Shift X",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=VNjrI0YvZYA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "playlist",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/VNjrI0YvZYA/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2018-09-29"
     }
   ],
   "tmdb:567714": [
@@ -291061,6 +291545,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Mo_79tWZkFQ/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2026-10-15"
+    },
+    {
+      "id": "yta-gNgx0yvg0YI",
+      "title": "Диггер - лучший фильм Тома Круза за 10 лет! (обзор новинки и скрытого смысла)",
+      "author": "КИНОКРИТИКА",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=gNgx0yvg0YI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "channel",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/gNgx0yvg0YI/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2026-10-18"
     }
   ],
   "tmdb:44040": [
@@ -291999,7 +292497,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=nhbsvgTCZ-M",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/nhbsvgTCZ-M/hqdefault.jpg",
       "durationMinutes": 5,
@@ -297779,6 +298277,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/07Gd_Sr4H5Y/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2022-06-14"
+    },
+    {
+      "id": "yta-WhP-XCDN4R4",
+      "title": "Этот МУЛЬТФИЛЬМ делали 30 ЛЕТ, а его автор ПОПАЛ В ПСИХУШКУ (Безумный бог)",
+      "author": "Многоглазый",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WhP-XCDN4R4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WhP-XCDN4R4/hqdefault.jpg",
+      "durationMinutes": 42,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:533484": [
@@ -298986,7 +299498,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=7MGlOFTM_Hk",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/7MGlOFTM_Hk/hqdefault.jpg",
       "durationMinutes": 28,
@@ -299749,22 +300261,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-12-11"
     }
   ],
-  "tmdb:584006": [
-    {
-      "id": "yta-IxUWqV7bz_A",
-      "title": "#НаСъёмкахФильма: «Марафон желаний» Даши Чаруши",
-      "author": "Телеканал КИНОТВ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=IxUWqV7bz_A",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/IxUWqV7bz_A/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2018-11-23"
-    }
-  ],
   "tmdb:579881": [
     {
       "id": "yta-xeEi0m2JZTA",
@@ -300334,7 +300830,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=8II-UzpAuVI",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/8II-UzpAuVI/hqdefault.jpg",
       "durationMinutes": 5,
@@ -300914,7 +301410,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=TMCThWlFsLU",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
       "previewUrl": "https://i.ytimg.com/vi/TMCThWlFsLU/hqdefault.jpg",
       "durationMinutes": 5,
@@ -303398,6 +303894,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/NvyoPDjyA1s/hqdefault.jpg",
       "durationMinutes": 11,
       "publishedAt": "2019-08-11"
+    },
+    {
+      "id": "yta-rSk2spyMKxI",
+      "title": "How Hollywood Keeps Ruining Fast & Furious",
+      "author": "Movie Overload",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=rSk2spyMKxI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/rSk2spyMKxI/hqdefault.jpg",
+      "durationMinutes": 40,
+      "publishedAt": "2026-10-20"
     }
   ],
   "imdb:tt20723374": [
@@ -317525,6 +318034,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/W8sHa_TdyxI/hqdefault.jpg",
       "durationMinutes": 8,
       "publishedAt": "2013-08-22"
+    },
+    {
+      "id": "yta-sx-WH7oKyxk",
+      "title": "A Tale of Two Sisters - Movie Review",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sx-WH7oKyxk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sx-WH7oKyxk/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2026-10-18"
     }
   ],
   "tmdb:34647": [
@@ -326117,148 +326640,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/UPmE2yEaNmk/hqdefault.jpg",
       "durationMinutes": 69,
       "publishedAt": "2020-06-05"
-    }
-  ],
-  "tmdb:911916": [
-    {
-      "id": "yta-kD2U5KMHgo8",
-      "title": "SPIDER-MAN: BEYOND THE SPIDER-VERSE (2027) Official Breakdown",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=kD2U5KMHgo8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/kD2U5KMHgo8/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2026-09-22"
-    },
-    {
-      "id": "yta-CtmyEFeoNkI",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse (2027) Latest Details",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=CtmyEFeoNkI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/CtmyEFeoNkI/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2026-08-08"
-    },
-    {
-      "id": "yta-UKiXw_dXqDI",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse (2027) Shameik Moore, Oscar Isaac",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=UKiXw_dXqDI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/UKiXw_dXqDI/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2026-07-03"
-    },
-    {
-      "id": "yta-oZS5r_ds7o4",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse (2027) Full Movie Preview",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=oZS5r_ds7o4",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/oZS5r_ds7o4/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2026-06-17"
-    },
-    {
-      "id": "yta-Ff4eFJGx06c",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse (2027) First Look Reveal",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Ff4eFJGx06c",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Ff4eFJGx06c/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2026-06-08"
-    },
-    {
-      "id": "yta-7HcVxqvJgiQ",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse – Official First Look (2027)",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=7HcVxqvJgiQ",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/7HcVxqvJgiQ/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2026-04-17"
-    },
-    {
-      "id": "yta-fl9ShXgh-TE",
-      "title": "SPIDER-MAN: BEYOND THE SPIDER-VERSE – Official Update from Producers (2027)",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=fl9ShXgh-TE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/fl9ShXgh-TE/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2026-03-20"
-    },
-    {
-      "id": "yta-t5F3RkDRzqA",
-      "title": "SPIDER-MAN: Beyond the Spider-Verse (2027) Official Update",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=t5F3RkDRzqA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/t5F3RkDRzqA/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2026-01-31"
-    },
-    {
-      "id": "yta-RNKdG8mPxXo",
-      "title": "SPIDER-MAN: BEYOND THE SPIDER-VERSE (2027) Plot Details",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=RNKdG8mPxXo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/RNKdG8mPxXo/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2026-01-03"
-    },
-    {
-      "id": "yta-d5vp72YJ5Tw",
-      "title": "SPIDER-MAN: BEYOND THE SPIDER-VERSE Could Be the Darkest in the Trilogy",
-      "author": "Rae Cinema",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=d5vp72YJ5Tw",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/d5vp72YJ5Tw/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2026-10-16"
     }
   ],
   "imdb:tt0165019": [
@@ -335317,6 +335698,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Et6b6oxNf4U/hqdefault.jpg",
       "durationMinutes": 34,
       "publishedAt": "2025-11-03"
+    },
+    {
+      "id": "yta-wCKG6INBVjo",
+      "title": "Лови волну – недооцененный шедевр Sony",
+      "author": "DOGMA 96",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=wCKG6INBVjo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/wCKG6INBVjo/hqdefault.jpg",
+      "durationMinutes": 34,
+      "publishedAt": "2026-10-15"
     }
   ],
   "tmdb:294293": [
@@ -339388,7 +339783,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=S3a9RgeaU7A",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "previewUrl": "https://i.ytimg.com/vi/S3a9RgeaU7A/hqdefault.jpg",
       "durationMinutes": 58,
       "publishedAt": "2026-10-08"
@@ -341794,6 +342189,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-10-26"
     }
   ],
+  "tmdb:10331": [
+    {
+      "id": "yta-DTjFNkmVB5k",
+      "title": "Night of the Living Dead (1968) - Movie Review",
+      "author": "Cody Leach",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=DTjFNkmVB5k",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/DTjFNkmVB5k/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2019-10-21"
+    }
+  ],
   "tmdb:40377": [
     {
       "id": "yta-lZpyjam-6xI",
@@ -343294,22 +343705,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-06-26"
     }
   ],
-  "tmdb:446893": [
-    {
-      "id": "yta-opG3pst0Ofs",
-      "title": "2020 Catch-Up: 5 Reviews in 5 Minutes (Bloodshot, Emma, The Hunt, The Gentlemen, Trolls World Tour)",
-      "author": "Dan Murrell",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=opG3pst0Ofs",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/opG3pst0Ofs/hqdefault.jpg",
-      "durationMinutes": 7,
-      "publishedAt": "2020-05-27"
-    }
-  ],
   "tmdb:448119": [
     {
       "id": "yta-rpfj-aLx9TQ",
@@ -343568,36 +343963,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/1wLZdiFySw0/hqdefault.jpg",
       "durationMinutes": 69,
       "publishedAt": "2017-02-01"
-    }
-  ],
-  "wd:Q141746632": [
-    {
-      "id": "yta-_lSRuV5xZhk",
-      "title": "Resident Evil 7: Biohazard - Sleepy Time With Meghan",
-      "author": "The Cosmonaut Variety Hour",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_lSRuV5xZhk",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_lSRuV5xZhk/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2017-01-24"
-    },
-    {
-      "id": "yta-qN1c0ygx9JM",
-      "title": "Biohazard vs Resident Evil: Fans Are Missing the Point!",
-      "author": "Cody Leach",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=qN1c0ygx9JM",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/qN1c0ygx9JM/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2026-10-15"
     }
   ],
   "imdb:tt0041162": [
@@ -344184,6 +344549,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/AzLEqQXH5Q0/hqdefault.jpg",
       "durationMinutes": 13,
       "publishedAt": "2026-10-13"
+    },
+    {
+      "id": "yta-BbM5OQc8kiA",
+      "title": "CRYSTAL LAKE Spoiler Review!",
+      "author": "WeWatchedAMovie",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=BbM5OQc8kiA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/BbM5OQc8kiA/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:12237": [
@@ -347154,6 +347533,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-14"
     }
   ],
+  "wd:Q141746632": [
+    {
+      "id": "yta-qN1c0ygx9JM",
+      "title": "Biohazard vs Resident Evil: Fans Are Missing the Point!",
+      "author": "Cody Leach",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=qN1c0ygx9JM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/qN1c0ygx9JM/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2026-10-15"
+    }
+  ],
   "tmdb:1153576": [
     {
       "id": "yta-H7B51-z3qHM",
@@ -347196,6 +347591,34 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/XTxkrz-Ksjw/hqdefault.jpg",
       "durationMinutes": 11,
       "publishedAt": "2026-10-16"
+    },
+    {
+      "id": "yta-V5GbRdWHRJs",
+      "title": "STREET FIGHTER BREAKDOWN! Easter Eggs & Details You Missed!",
+      "author": "New Rockstars",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=V5GbRdWHRJs",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/V5GbRdWHRJs/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2026-10-19"
+    },
+    {
+      "id": "yta-_Klov644Ywo",
+      "title": "STREET FIGHTER 2026! (is not good)",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_Klov644Ywo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_Klov644Ywo/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:46738": [
@@ -347289,6 +347712,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/R5PpVF7htHg/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2026-08-27"
+    }
+  ],
+  "wd:Q120790558": [
+    {
+      "id": "yta-tpYn5ZRCPjI",
+      "title": "Тайный дневник Верити: кому верить, рукописи или письму? Разбор финала",
+      "author": "Анжела Books_Sold",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tpYn5ZRCPjI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/tpYn5ZRCPjI/hqdefault.jpg",
+      "durationMinutes": 25,
+      "publishedAt": "2026-10-18"
+    }
+  ],
+  "tmdb:1195803": [
+    {
+      "id": "yta-ikQaMtRSjAY",
+      "title": "Wicker - The Funniest Movie For All The WRONG Reasons",
+      "author": "Disparu",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ikQaMtRSjAY",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ikQaMtRSjAY/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2026-10-19"
     }
   ],
   "tmdb:11104": [
@@ -347902,6 +348357,573 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-01-18"
     }
   ],
+  "tmdb:4836": [
+    {
+      "id": "yta--Dd42c0-E-4",
+      "title": "Как снимали Слоёный торт",
+      "author": "AntiCapTV - Как снимали кино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-Dd42c0-E-4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-Dd42c0-E-4/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2021-03-29"
+    }
+  ],
+  "tmdb:311": [
+    {
+      "id": "yta-1K1h1sYqaDU",
+      "title": "КАК СНИМАЛИ ФИЛьМ \"ОДНАЖДЫ В АМЕРИКЕ\"",
+      "author": "МИРАБУ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=1K1h1sYqaDU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/1K1h1sYqaDU/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2025-11-29"
+    },
+    {
+      "id": "yta-2yPTV0h-34Y",
+      "title": "ОБЪЯСНЕНИЕ КОНЦОВКИ \"ОДНАЖДЫ В АМЕРИКЕ\" (ЭТО ВСЕГО ЛИШЬ СОН?)",
+      "author": "ПОСЛЕДНИЙ КИНОГЕРОЙ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=2yPTV0h-34Y",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/2yPTV0h-34Y/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2021-10-22"
+    },
+    {
+      "id": "yta-3gxGN8zIzTc",
+      "title": "Однажды в Америке. Литературный разбор киноленты",
+      "author": "Лохпожизни",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3gxGN8zIzTc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3gxGN8zIzTc/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2024-03-10"
+    },
+    {
+      "id": "yta-3qz80tjDQ30",
+      "title": "Однажды в Америке - развенчание эстетики гангстерского фильма С. Леоне (ч. 4)",
+      "author": "Кино 12",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3qz80tjDQ30",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3qz80tjDQ30/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2018-06-05"
+    },
+    {
+      "id": "yta-T4oed4nhyms",
+      "title": "ЧЕМ РЕАЛЬНО ЗАКОНЧИЛСЯ ОДНАЖДЫ В АМЕРИКЕ? (ОБЪЯСНЕНИЕ КОНЦОВКИ)",
+      "author": "ПОСЛЕДНИЙ КИНОГЕРОЙ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=T4oed4nhyms",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/T4oed4nhyms/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2023-02-11"
+    },
+    {
+      "id": "yta-vEPGN0Js9bY",
+      "title": "Однажды в америке фильм СКРЫТЫЙ СМЫСЛ обзор анализ",
+      "author": "Скрытый смысл песен и фильмов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vEPGN0Js9bY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vEPGN0Js9bY/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2019-09-29"
+    },
+    {
+      "id": "yta-zGP3nzgByfQ",
+      "title": "Обзор фильма \"Однажды в Америке\"",
+      "author": "7Дней",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zGP3nzgByfQ",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zGP3nzgByfQ/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2021-07-30"
+    }
+  ],
+  "tmdb:7446": [
+    {
+      "id": "yta-3Cd0jdAk0uU",
+      "title": "«Солдаты Неудачи» — фильм, который больше не снимут",
+      "author": "interfilms",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3Cd0jdAk0uU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3Cd0jdAk0uU/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2025-09-05"
+    },
+    {
+      "id": "yta-62r1FnXLS4w",
+      "title": "«СОЛДАТЫ НЕУДАЧИ» Как Создавали Знаменитую Комедию😃🔫[Съемки Факты Пасхалки Пародии]",
+      "author": "DenFilmTV",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=62r1FnXLS4w",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/62r1FnXLS4w/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2025-07-08"
+    },
+    {
+      "id": "yta-bLEIr5vgJE0",
+      "title": "Все грехи фильма \"Солдаты неудачи\"",
+      "author": "kinomiraru",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=bLEIr5vgJE0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/bLEIr5vgJE0/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2025-02-22"
+    },
+    {
+      "id": "yta-DwZe3GEoSZ8",
+      "title": "СОЛДАТЫ НЕУДАЧИ интересные факты о фильме",
+      "author": "Серж Лебовски",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=DwZe3GEoSZ8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/DwZe3GEoSZ8/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2024-07-07"
+    },
+    {
+      "id": "yta-HhIVS7e0AtU",
+      "title": "Солдаты неудачи | Разбор",
+      "author": "Таймнд",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=HhIVS7e0AtU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/HhIVS7e0AtU/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2022-01-25"
+    }
+  ],
+  "tmdb:35": [
+    {
+      "id": "yta-CUEMQBW2qlE",
+      "title": "Ностальгирующий Критик - Симпсоны в кино",
+      "author": "Джо Шизо",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=CUEMQBW2qlE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/CUEMQBW2qlE/hqdefault.jpg",
+      "durationMinutes": 26,
+      "publishedAt": "2023-05-05"
+    },
+    {
+      "id": "yta-d5a3FuEbF9w",
+      "title": "Все грехи фильма \"Симпсоны в кино\"",
+      "author": "kinomiraru",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=d5a3FuEbF9w",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/d5a3FuEbF9w/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2021-12-14"
+    }
+  ],
+  "tmdb:208134": [
+    {
+      "id": "yta-fi04SOno1gI",
+      "title": "ВКИНО - Несносный дед",
+      "author": "giky[qglhc",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=fi04SOno1gI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/fi04SOno1gI/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2014-01-27"
+    },
+    {
+      "id": "yta-Iyq9DLRz6sw",
+      "title": "Как снимали фильм НЕСНОСНЫЙ ДЕД (2013). Русская озвучка",
+      "author": "КАК СНИМАЛИ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Iyq9DLRz6sw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Iyq9DLRz6sw/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2021-05-26"
+    },
+    {
+      "id": "yta-oBqV8Do9zq4",
+      "title": "Кинофреш #193 (Несносный дед, Спасти мистера Бэнкса)",
+      "author": "Кинофреш",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=oBqV8Do9zq4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/oBqV8Do9zq4/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2014-01-28"
+    }
+  ],
+  "tmdb:100": [
+    {
+      "id": "yta-IYIdsXamf3o",
+      "title": "Карты деньги два ствола СМЫСЛ фильма трешобзор разбор",
+      "author": "Скрытый смысл песен и фильмов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=IYIdsXamf3o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/IYIdsXamf3o/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2020-07-07"
+    },
+    {
+      "id": "yta-p_vlUcW18pw",
+      "title": "Все грехи фильма \"Карты, деньги, два ствола\"",
+      "author": "kinomiraru",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=p_vlUcW18pw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/p_vlUcW18pw/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2023-04-03"
+    },
+    {
+      "id": "yta-ut8cUkWJui8",
+      "title": "Как Гоблин Перевел Карты, Деньги, Два Ствола и другие",
+      "author": "Quentin Translatin",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ut8cUkWJui8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ut8cUkWJui8/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2021-11-26"
+    },
+    {
+      "id": "yta-zFtDZjq7PUs",
+      "title": "Карты, деньги, два ствола | Разбор на детали",
+      "author": "Таймнд",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zFtDZjq7PUs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zFtDZjq7PUs/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2020-03-05"
+    },
+    {
+      "id": "yta-Qq4rMi8J7Ro",
+      "title": "13 фактов о фильме Карты, деньги, 2 ствола, которые вы не знали",
+      "author": "Ай люблю людей LIVE",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Qq4rMi8J7Ro",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Qq4rMi8J7Ro/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2017-03-15"
+    },
+    {
+      "id": "yta-tLbxG1tmcEk",
+      "title": "Карты, деньги, два ствола. Обзор фильма Гая Ричи (Здорово, бандиты №1) [RocketMan]",
+      "author": "RocketMan",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tLbxG1tmcEk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/tLbxG1tmcEk/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2018-12-02"
+    }
+  ],
+  "tmdb:635302": [
+    {
+      "id": "yta-myynk57UqqU",
+      "title": "нд4: Истребитель демонов: Поезд «Бесконечный» - Обсуждение (неугомонные детки, kirkiimad & nowkie)",
+      "author": "неугомонные детки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=myynk57UqqU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/myynk57UqqU/hqdefault.jpg",
+      "durationMinutes": 83,
+      "publishedAt": "2021-05-24"
+    },
+    {
+      "id": "yta-Ms76_bGFijI",
+      "title": "Клинок, рассекающий демонов: Поезд «Бесконечный» [ОБЗОР аниме]",
+      "author": "LanceR Hard",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Ms76_bGFijI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Ms76_bGFijI/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2021-06-20"
+    },
+    {
+      "id": "yta-ncBmeumCVhg",
+      "title": "Поясняю за Бесконечный поезд и Квартал красных фонарей(Клинок рассекающий демонов)",
+      "author": "KLOWN9",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ncBmeumCVhg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ncBmeumCVhg/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2023-07-23"
+    },
+    {
+      "id": "yta-tAqDkeIIx_g",
+      "title": "Фильм, который заставил меня плакать / Клинок, рассекающий демонов: бесконечный поезд",
+      "author": "Шарон",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tAqDkeIIx_g",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/tAqDkeIIx_g/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2021-05-26"
+    },
+    {
+      "id": "yta-W9caWI3IDj8",
+      "title": "ПОЕЗД \"БЕСКОНЕЧНЫЙ\" - ПОЧЕМУ ЕГО СТОИТ ПОСМОТРЕТЬ",
+      "author": "Bishop_Nether",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=W9caWI3IDj8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/W9caWI3IDj8/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2021-06-05"
+    }
+  ],
+  "tmdb:10779": [
+    {
+      "id": "yta-ox0dqsm5dAw",
+      "title": "Два брата, один фильм: Страшилы (1996). Подкаст.",
+      "author": "Два брата, один режиссер",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ox0dqsm5dAw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ox0dqsm5dAw/hqdefault.jpg",
+      "durationMinutes": 71,
+      "publishedAt": "2025-10-30"
+    },
+    {
+      "id": "yta-18dkLwa6MKk",
+      "title": "«Страшилы» (1996) Питера Джексона | «КИНО в 21:00»",
+      "author": "Александр Аммосов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=18dkLwa6MKk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/18dkLwa6MKk/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2022-04-30"
+    },
+    {
+      "id": "yta-kvfC4ii9b0M",
+      "title": "ТРЕШ ОБЗОР фильма “СТРАШИЛЫ”: Who you gonna call? Майклу Дж. Фоксу!",
+      "author": "Plastic_RAVEn",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=kvfC4ii9b0M",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/kvfC4ii9b0M/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2020-10-12"
+    },
+    {
+      "id": "yta-oeQpeS0Cr7M",
+      "title": "Страшилы - ТРЕШ ОБЗОР на фильм",
+      "author": "Krip",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=oeQpeS0Cr7M",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/oeQpeS0Cr7M/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2021-01-09"
+    },
+    {
+      "id": "yta-PI2WdGZ2HZA",
+      "title": "Страшилы Факты о фильме",
+      "author": "Теневой Округ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PI2WdGZ2HZA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PI2WdGZ2HZA/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2022-05-24"
+    }
+  ],
+  "tmdb:319": [
+    {
+      "id": "yta-q0RsR-rKuH4",
+      "title": "Настоящая Любовь | Разбор на детали",
+      "author": "Таймнд",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=q0RsR-rKuH4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/q0RsR-rKuH4/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2021-06-04"
+    },
+    {
+      "id": "yta-RKB4kKZDG70",
+      "title": "Первый сценарий Тарантино \"Настоящая любовь\" | Обзор фильма",
+      "author": "ИДИ И СМОТРИ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=RKB4kKZDG70",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/RKB4kKZDG70/hqdefault.jpg",
+      "durationMinutes": 27,
+      "publishedAt": "2024-04-19"
+    },
+    {
+      "id": "yta-sEb6wYUCPeA",
+      "title": "Настоящая Любовь/True Romance. PopcornPodcast. Эпизод 25",
+      "author": "ART OF NONE",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sEb6wYUCPeA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sEb6wYUCPeA/hqdefault.jpg",
+      "durationMinutes": 44,
+      "publishedAt": "2019-05-22"
+    }
+  ],
+  "tmdb:801803": [
+    {
+      "id": "yta-yYoEPGzaI3k",
+      "title": "ТРЭШ ОБЗОР фильма ЛУННЫЙ ЧЕЛОВЕК 2022 ( ЛЮБОВЬ И КЕНГУРУ )",
+      "author": "JustKinoDeer",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=yYoEPGzaI3k",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/yYoEPGzaI3k/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2022-12-02"
+    }
+  ],
+  "tmdb:11814": [
+    {
+      "id": "yta-zvw4L3ofk78",
+      "title": "Назад в кино: «Ох уж эта наука!» (Weird Science, 1985)",
+      "author": "Стечение мыслей",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zvw4L3ofk78",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zvw4L3ofk78/hqdefault.jpg",
+      "durationMinutes": 94,
+      "publishedAt": "2022-04-18"
+    }
+  ],
   "tmdb:150088": [
     {
       "id": "yta-_IumfOmq8_U",
@@ -347916,6 +348938,106 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/_IumfOmq8_U/hqdefault.jpg",
       "durationMinutes": 21,
       "publishedAt": "2013-02-09"
+    }
+  ],
+  "tmdb:393": [
+    {
+      "id": "yta-_pInM758kXs",
+      "title": "Убить Билла | Разбор на детали | Часть 2",
+      "author": "Таймнд",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_pInM758kXs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_pInM758kXs/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2020-05-07"
+    },
+    {
+      "id": "yta-2p9yDMl996I",
+      "title": "Все грехи фильма \"Убить Билла 2\"",
+      "author": "kinomiraru",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=2p9yDMl996I",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/2p9yDMl996I/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2021-08-02"
+    },
+    {
+      "id": "yta-x0pPWagPkww",
+      "title": "УБИТЬ БИЛЛА интересные факты о фильме Тарантино (2 части)",
+      "author": "Серж Лебовски",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=x0pPWagPkww",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/x0pPWagPkww/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-01-23"
+    },
+    {
+      "id": "yta-eQcyzFxxHSY",
+      "title": "Убить Билла - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильмах Тарантино // ДКино",
+      "author": "ДКино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eQcyzFxxHSY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/eQcyzFxxHSY/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2025-10-31"
+    },
+    {
+      "id": "yta-fPxQwutOpAw",
+      "title": "О ЧЁМ НА САМОМ ДЕЛЕ УБИТЬ БИЛЛА",
+      "author": "Мериам Блиновских",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=fPxQwutOpAw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/fPxQwutOpAw/hqdefault.jpg",
+      "durationMinutes": 48,
+      "publishedAt": "2024-03-05"
+    },
+    {
+      "id": "yta-iXP-TPqomHo",
+      "title": "Жестокий урок Билла (Убить Билла)",
+      "author": "сигаретный ожог",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=iXP-TPqomHo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/iXP-TPqomHo/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2025-02-28"
+    },
+    {
+      "id": "yta-ZGYzq30eGXA",
+      "title": "Что не так перевели в фильме  Убить Билла",
+      "author": "Quentin Translatin",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZGYzq30eGXA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZGYzq30eGXA/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2022-08-22"
     }
   ],
   "tmdb:10304": [
@@ -348174,6 +349296,239 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-07-16"
     }
   ],
+  "tmdb:24": [
+    {
+      "id": "yta-3NbgNS4fUJw",
+      "title": "Убить Билла | Разбор на детали | Часть 1",
+      "author": "Таймнд",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3NbgNS4fUJw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3NbgNS4fUJw/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2020-04-30"
+    },
+    {
+      "id": "yta-eQcyzFxxHSY",
+      "title": "Убить Билла - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильмах Тарантино // ДКино",
+      "author": "ДКино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eQcyzFxxHSY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/eQcyzFxxHSY/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2025-10-31"
+    },
+    {
+      "id": "yta-fPxQwutOpAw",
+      "title": "О ЧЁМ НА САМОМ ДЕЛЕ УБИТЬ БИЛЛА",
+      "author": "Мериам Блиновских",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=fPxQwutOpAw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/fPxQwutOpAw/hqdefault.jpg",
+      "durationMinutes": 48,
+      "publishedAt": "2024-03-05"
+    },
+    {
+      "id": "yta-iXP-TPqomHo",
+      "title": "Жестокий урок Билла (Убить Билла)",
+      "author": "сигаретный ожог",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=iXP-TPqomHo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/iXP-TPqomHo/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2025-02-28"
+    },
+    {
+      "id": "yta-ZGYzq30eGXA",
+      "title": "Что не так перевели в фильме  Убить Билла",
+      "author": "Quentin Translatin",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZGYzq30eGXA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZGYzq30eGXA/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2022-08-22"
+    },
+    {
+      "id": "yta-x0pPWagPkww",
+      "title": "УБИТЬ БИЛЛА интересные факты о фильме Тарантино (2 части)",
+      "author": "Серж Лебовски",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=x0pPWagPkww",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/x0pPWagPkww/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-01-23"
+    }
+  ],
+  "imdb:tt0264263": [
+    {
+      "id": "yta-3X-tijirkeA",
+      "title": "Еще один Айсберг по Чудакам (теории, факты и мифы) / Jackass Iceberg Explained",
+      "author": "Что Было Интересно",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3X-tijirkeA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3X-tijirkeA/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2022-03-17"
+    },
+    {
+      "id": "yta-AaCRfgBuYCo",
+      "title": "JACKASS / ЧУДАКИ (Придурки покорившее мир) | ОБЗОР",
+      "author": "Woodmark",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=AaCRfgBuYCo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/AaCRfgBuYCo/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2025-04-24"
+    },
+    {
+      "id": "yta-crVBRJ1ohOU",
+      "title": "Чудаки: темная сторона славы",
+      "author": "Береги Глаза",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=crVBRJ1ohOU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/crVBRJ1ohOU/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2021-04-09"
+    },
+    {
+      "id": "yta-f2Bq_H7GEBg",
+      "title": "История Чудаков / Jackass",
+      "author": "Sokelnik",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=f2Bq_H7GEBg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/f2Bq_H7GEBg/hqdefault.jpg",
+      "durationMinutes": 41,
+      "publishedAt": "2021-09-18"
+    },
+    {
+      "id": "yta-z2gsyXYNg14",
+      "title": "Как Чудаки разрушили свои жизни",
+      "author": "Looper Россия",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=z2gsyXYNg14",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/z2gsyXYNg14/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2018-04-29"
+    }
+  ],
+  "imdb:tt4426042": [
+    {
+      "id": "yta-4TXOuH_Xaao",
+      "title": "МАЖОР 3: ДЕТАЛЬНЫЙ ОБЗОР",
+      "author": "GAMENETICA",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4TXOuH_Xaao",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4TXOuH_Xaao/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-11-16"
+    },
+    {
+      "id": "yta-gnXOg24BjUA",
+      "title": "МАЖОР 3 СЕЗОН: ИТОГИ СЕРИАЛА / ФИНАЛ ПРОВАЛИЛСЯ?",
+      "author": "NETGEORGE",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=gnXOg24BjUA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/gnXOg24BjUA/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-11-20",
+      "season": 3
+    },
+    {
+      "id": "yta-iRJiCMYDoJ8",
+      "title": "Мажор 4 Сезон 8 серия-Объяснение Концовки",
+      "author": "KARPOV pro",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=iRJiCMYDoJ8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/iRJiCMYDoJ8/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2022-08-20",
+      "season": 4,
+      "episode": 8
+    },
+    {
+      "id": "yta-nu8Sfj5xeHw",
+      "title": "Мажор - удивительные факты, о которых мало кто знает",
+      "author": "Джерси в кино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=nu8Sfj5xeHw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/nu8Sfj5xeHw/hqdefault.jpg",
+      "durationMinutes": 30,
+      "publishedAt": "2025-11-10"
+    },
+    {
+      "id": "yta-tIL8TQGFBWU",
+      "title": "МАЖОР - ЧТО СТАЛО С АКТЕРАМИ? Кома, Голливуд и конфликты с Прилучным",
+      "author": "Hypeology / Хайполоджи",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tIL8TQGFBWU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/tIL8TQGFBWU/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2025-11-01"
+    }
+  ],
   "tmdb:427342": [
     {
       "id": "yta-5-u3vBLWGFw",
@@ -348217,6 +349572,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/6f1zvhJxfrQ/hqdefault.jpg",
       "durationMinutes": 15,
       "publishedAt": "2023-10-13"
+    }
+  ],
+  "imdb:tt4047038": [
+    {
+      "id": "yta-7HplfPgbMdM",
+      "title": "Дирк Джентли [Читали|Смотрели] №2",
+      "author": "Вообще-то, Денис!",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7HplfPgbMdM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7HplfPgbMdM/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2016-12-11"
+    },
+    {
+      "id": "yta-JYo4v7rAMi8",
+      "title": "Обзор на \"Детективное агентство Дирка Джентли\"",
+      "author": "Skylark Max",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=JYo4v7rAMi8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/JYo4v7rAMi8/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2017-02-02"
     }
   ],
   "tmdb:431": [
@@ -348447,6 +349832,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2017-12-10"
     }
   ],
+  "tmdb:9035": [
+    {
+      "id": "yta-aWBHTZRAsBM",
+      "title": "Треш Обзор Фильма Слизняк",
+      "author": "Фальшивый Критик",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=aWBHTZRAsBM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/aWBHTZRAsBM/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2017-10-17"
+    }
+  ],
   "tmdb:9797": [
     {
       "id": "yta-aznXJUdgsgU",
@@ -348668,6 +350069,50 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/FZv5UqcVkN4/hqdefault.jpg",
       "durationMinutes": 27,
       "publishedAt": "2020-05-16"
+    }
+  ],
+  "tmdb:22520": [
+    {
+      "id": "yta-GD2whvzPEHY",
+      "title": "Ачи и Сипак и грани безумия",
+      "author": "FStrider",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=GD2whvzPEHY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/GD2whvzPEHY/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2023-06-24"
+    },
+    {
+      "id": "yta-mf3FrmhUjM8",
+      "title": "Aachi and Ssipak (2006) - Korean Movie Review",
+      "author": "Asian Movie Enthusiast",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=mf3FrmhUjM8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/mf3FrmhUjM8/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2021-11-03"
+    },
+    {
+      "id": "yta-VDrRtX0purs",
+      "title": "Aachi & Ssipak (2006) Movie Review || It's Full of Poop and I Like it",
+      "author": "Jim Gisriel",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=VDrRtX0purs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/VDrRtX0purs/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-11-29"
     }
   ],
   "tmdb:920": [
@@ -349059,6 +350504,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/LB9j8XWxMOU/hqdefault.jpg",
       "durationMinutes": 8,
       "publishedAt": "2019-03-30"
+    }
+  ],
+  "tmdb:14275": [
+    {
+      "id": "yta-LNDvmrA9veg",
+      "title": "The Documentary That Followed 2 Kids \"Destined\" For The NBA",
+      "author": "Projectionist",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=LNDvmrA9veg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/LNDvmrA9veg/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2026-04-22"
     }
   ],
   "tmdb:14457": [
@@ -349545,6 +351005,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2013-01-21"
     }
   ],
+  "tmdb:496": [
+    {
+      "id": "yta-yzytLBon-HY",
+      "title": "There Will Never Be Another Movie Like Borat",
+      "author": "Du Cinema",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=yzytLBon-HY",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/yzytLBon-HY/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2023-11-19"
+    }
+  ],
   "tmdb:460885": [
     {
       "id": "yta-ZCwcso0yGH4",
@@ -349559,6 +351034,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/ZCwcso0yGH4/hqdefault.jpg",
       "durationMinutes": 9,
       "publishedAt": "2018-10-16"
+    }
+  ],
+  "imdb:tt0500092": [
+    {
+      "id": "yta-70kM6jNHFaE",
+      "title": "Аниме 90-х, которые ОПЕРЕДИЛИ время — шедевры, актуальные до сих пор",
+      "author": "KALI FRAME | JP",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=70kM6jNHFaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/70kM6jNHFaE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2026-10-20"
     }
   ]
 };

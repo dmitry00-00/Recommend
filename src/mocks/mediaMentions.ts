@@ -1,10 +1,10 @@
-// Сгенерировано tools/build-media-mentions.mts (2026-10-11) из разметки модели
+// Сгенерировано tools/build-media-mentions.mts (2026-10-19) из разметки модели
 // (.cache/llm/labels.json): в скольких подборках, роликах о нескольких и новостях названо произведение;
 // темы роликов без произведения. Это догадка модели, а не решение человека. Не править руками.
 export interface MediaMentions { list?: number; several?: number; news?: number }
 
 export const mediaMentions: { labels: number; works: Record<string, MediaMentions>; topics: { name: string; type?: string; n: number }[] } = {
- "labels": 2423,
+ "labels": 2543,
  "works": {
   "imdb:tt9660182": {
    "news": 1
@@ -20,6 +20,15 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:269149": {
    "several": 2,
    "list": 1
+  },
+  "wd:Q844": {
+   "news": 1
+  },
+  "wd:Q79762": {
+   "news": 1
+  },
+  "wd:Q107524169": {
+   "news": 1
   },
   "tmdb:466272": {
    "news": 1,
@@ -62,14 +71,15 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1
   },
   "imdb:tt5180504": {
-   "several": 6,
-   "news": 4,
-   "list": 2
+   "several": 1
   },
   "tmdb:639933": {
    "list": 1
   },
   "imdb:tt2861424": {
+   "list": 1
+  },
+  "imdb:tt0184761": {
    "list": 1
   },
   "wd:Q15228": {
@@ -103,11 +113,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:166428": {
    "several": 2
   },
-  "tmdb:24428": {
-   "news": 1,
-   "list": 1,
-   "several": 3
-  },
   "tmdb:68726": {
    "news": 1
   },
@@ -140,6 +145,12 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:529106": {
    "news": 1
   },
+  "tmdb:984317": {
+   "news": 1
+  },
+  "tmdb:567973": {
+   "news": 1
+  },
   "tmdb:475557": {
    "list": 1,
    "news": 1,
@@ -163,6 +174,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:252": {
+   "several": 1
+  },
+  "tmdb:298813": {
    "several": 1
   },
   "tmdb:522627": {
@@ -219,6 +233,14 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:1949": {
    "several": 1
   },
+  "wd:Q11835640": {
+   "news": 1,
+   "several": 2
+  },
+  "wd:Q211927": {
+   "news": 1,
+   "several": 2
+  },
   "tmdb:424783": {
    "list": 1
   },
@@ -229,6 +251,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 2,
    "news": 1
   },
+  "tmdb:124459": {
+   "several": 1
+  },
   "tmdb:75656": {
    "several": 1
   },
@@ -238,14 +263,16 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:15512": {
    "list": 1
   },
-  "tmdb:284052": {
-   "list": 1
-  },
   "imdb:tt0412142": {
    "list": 1
   },
   "tmdb:785084": {
    "several": 1
+  },
+  "wd:Q45875": {
+   "several": 17,
+   "news": 8,
+   "list": 5
   },
   "tmdb:315162": {
    "several": 1
@@ -257,8 +284,7 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:19995": {
    "several": 3,
-   "list": 2,
-   "news": 1
+   "list": 1
   },
   "tmdb:280": {
    "several": 1
@@ -276,6 +302,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:436270": {
    "several": 1,
    "news": 3
+  },
+  "tmdb:24428": {
+   "several": 2
   },
   "tmdb:1771": {
    "several": 1,
@@ -305,6 +334,12 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:762": {
    "several": 1
   },
+  "tmdb:11780": {
+   "several": 1
+  },
+  "tmdb:6520": {
+   "several": 1
+  },
   "tmdb:10235": {
    "several": 1,
    "list": 1
@@ -313,9 +348,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 2
   },
   "imdb:tt8466564": {
-   "news": 1
-  },
-  "tmdb:123678": {
    "news": 1
   },
   "imdb:tt10234724": {
@@ -335,6 +367,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1,
    "several": 1
   },
+  "tmdb:9619": {
+   "list": 1
+  },
   "tmdb:39538": {
    "list": 1
   },
@@ -343,7 +378,8 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:634649": {
    "several": 1,
-   "list": 1
+   "list": 1,
+   "news": 1
   },
   "tmdb:624860": {
    "several": 1,
@@ -375,7 +411,7 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:588182": {
    "news": 1
   },
-  "tmdb:264685": {
+  "wd:Q110419312": {
    "list": 1
   },
   "tmdb:68722": {
@@ -383,6 +419,12 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:238": {
    "several": 1,
+   "list": 1
+  },
+  "imdb:tt2980696": {
+   "list": 1
+  },
+  "imdb:tt2049116": {
    "list": 1
   },
   "tmdb:36557": {
@@ -398,6 +440,10 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 4,
    "news": 1
   },
+  "tmdb:451048": {
+   "several": 1,
+   "list": 1
+  },
   "tmdb:72559": {
    "several": 1
   },
@@ -406,6 +452,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:550988": {
+   "list": 1
+  },
+  "tmdb:482373": {
    "list": 1
   },
   "tmdb:459151": {
@@ -435,6 +484,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "news": 1
   },
   "tmdb:602734": {
+   "several": 1
+  },
+  "tmdb:522478": {
    "several": 1
   },
   "imdb:tt7366338": {
@@ -510,6 +562,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:501170": {
    "several": 1
   },
+  "tmdb:558244": {
+   "news": 1
+  },
   "tmdb:474350": {
    "news": 1
   },
@@ -521,9 +576,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "imdb:tt0411008": {
    "list": 1
-  },
-  "tmdb:812": {
-   "several": 1
   },
   "tmdb:420817": {
    "several": 1
@@ -559,6 +611,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:375262": {
    "several": 1
   },
+  "tmdb:475215": {
+   "several": 1
+  },
   "tmdb:321612": {
    "list": 1
   },
@@ -568,18 +623,13 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:102651": {
    "list": 1
   },
-  "tmdb:557": {
-   "list": 3,
-   "news": 1
-  },
   "tmdb:338952": {
    "news": 1
   },
-  "wd:Q1751870": {
-   "several": 10,
-   "list": 1
-  },
   "tmdb:446021": {
+   "several": 1
+  },
+  "tmdb:450533": {
    "several": 1
   },
   "imdb:tt2758770": {
@@ -592,6 +642,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "news": 1
   },
   "tmdb:458423": {
+   "news": 1
+  },
+  "tmdb:454992": {
    "news": 1
   },
   "tmdb:284054": {
@@ -633,6 +686,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:301337": {
    "several": 1
   },
+  "tmdb:457851": {
+   "several": 1
+  },
   "tmdb:406997": {
    "several": 1
   },
@@ -669,25 +725,22 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:339846": {
    "several": 1
   },
-  "tmdb:9799": {
+  "tmdb:24740": {
+   "list": 1
+  },
+  "tmdb:2153": {
    "several": 1
   },
   "tmdb:384682": {
    "news": 1
   },
-  "tmdb:131242": {
-   "news": 1
+  "imdb:tt2768802": {
+   "list": 1
   },
   "imdb:tt0852863": {
    "list": 1
   },
-  "imdb:tt0784896": {
-   "list": 1
-  },
-  "tmdb:376565": {
-   "several": 1
-  },
-  "tmdb:1059064": {
+  "tmdb:308266": {
    "several": 1
   },
   "tmdb:297761": {
@@ -713,15 +766,21 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:278927": {
    "several": 1
   },
+  "tmdb:319888": {
+   "several": 1
+  },
   "tmdb:205584": {
+   "several": 1
+  },
+  "tmdb:272548": {
+   "several": 1
+  },
+  "tmdb:280996": {
    "several": 1
   },
   "tmdb:293660": {
    "list": 1,
    "news": 1,
-   "several": 1
-  },
-  "tmdb:21135": {
    "several": 1
   },
   "tmdb:216015": {
@@ -743,10 +802,10 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:306819": {
    "several": 1
   },
-  "tmdb:27883": {
+  "tmdb:300671": {
    "several": 1
   },
-  "tmdb:298312": {
+  "tmdb:228066": {
    "several": 1
   },
   "tmdb:105864": {
@@ -756,6 +815,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1
   },
   "tmdb:1366": {
+   "list": 1
+  },
+  "tmdb:483980": {
    "list": 1
   },
   "tmdb:150088": {
@@ -805,11 +867,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:98": {
    "several": 1
   },
-  "tmdb:348": {
-   "several": 4,
-   "list": 2,
-   "news": 1
-  },
   "imdb:tt7631058": {
    "several": 2
   },
@@ -831,6 +888,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:273248": {
    "several": 4
+  },
+  "tmdb:333484": {
+   "several": 1
   },
   "imdb:tt0141842": {
    "several": 1
@@ -908,21 +968,14 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1,
    "news": 1
   },
-  "wd:Q70469944": {
-   "list": 1,
-   "several": 2
-  },
-  "tmdb:297762": {
-   "news": 1
+  "imdb:tt6903284": {
+   "several": 1
   },
   "tmdb:558": {
    "list": 1
   },
   "tmdb:559": {
    "list": 1
-  },
-  "tmdb:1930": {
-   "list": 2
   },
   "tmdb:33065": {
    "several": 1
@@ -951,10 +1004,15 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:5548": {
    "list": 1
   },
-  "imdb:tt13918446": {
+  "wd:Q8337": {
    "list": 2
   },
   "tmdb:11": {
+   "news": 1
+  },
+  "tmdb:348": {
+   "list": 2,
+   "several": 1,
    "news": 1
   },
   "tmdb:120467": {
@@ -974,9 +1032,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:589761": {
    "several": 1
-  },
-  "tmdb:431": {
-   "news": 1
   },
   "tmdb:4248": {
    "list": 1
@@ -1002,26 +1057,29 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:539": {
    "several": 2
   },
+  "wd:Q3260367": {
+   "list": 1
+  },
   "tmdb:361743": {
    "news": 1
   },
   "imdb:tt2085059": {
    "several": 1
   },
-  "tmdb:839": {
+  "wd:Q3222476": {
    "several": 1
   },
   "tmdb:19067": {
    "several": 1
+  },
+  "tmdb:39222": {
+   "list": 1
   },
   "tmdb:598014": {
    "list": 1
   },
   "tmdb:1081003": {
    "news": 1
-  },
-  "tmdb:109445": {
-   "list": 1
   },
   "imdb:tt4574334": {
    "news": 1
@@ -1038,6 +1096,12 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:49026": {
    "list": 1
+  },
+  "tmdb:1930": {
+   "list": 1
+  },
+  "tmdb:10166": {
+   "several": 1
   },
   "tmdb:587": {
    "list": 1
@@ -1059,6 +1123,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   },
   "tmdb:38356": {
    "list": 1
+  },
+  "wd:Q2712708": {
+   "news": 2
   },
   "tmdb:13183": {
    "news": 1
@@ -1101,9 +1168,6 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:23823": {
    "several": 1
   },
-  "tmdb:9902": {
-   "several": 1
-  },
   "tmdb:62177": {
    "list": 1
   },
@@ -1119,7 +1183,13 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:603692": {
    "several": 1
   },
+  "tmdb:638974": {
+   "several": 1
+  },
   "tmdb:726759": {
+   "several": 1
+  },
+  "tmdb:493529": {
    "several": 1
   },
   "tmdb:9495": {
@@ -1153,6 +1223,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "several": 1
   },
   "tmdb:644495": {
+   "several": 1
+  },
+  "tmdb:912908": {
    "several": 1
   },
   "imdb:tt14269590": {
@@ -1203,6 +1276,12 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:42726": {
    "several": 1
   },
+  "tmdb:76350": {
+   "several": 1
+  },
+  "tmdb:582887": {
+   "several": 1
+  },
   "tmdb:52939": {
    "list": 1
   },
@@ -1231,6 +1310,9 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1
   },
   "imdb:tt8111088": {
+   "news": 1
+  },
+  "tmdb:1174246": {
    "news": 1
   },
   "imdb:tt1409069": {
@@ -1269,8 +1351,14 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:1250": {
    "list": 1
   },
+  "imdb:tt8388390": {
+   "list": 1
+  },
   "tmdb:8922": {
    "list": 1
+  },
+  "wd:Q1116908": {
+   "several": 1
   },
   "tmdb:860508": {
    "several": 1
@@ -1292,8 +1380,8 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   "tmdb:562": {
    "several": 1
   },
-  "tmdb:1368337": {
-   "news": 1
+  "imdb:tt37185587": {
+   "several": 1
   },
   "tmdb:863": {
    "list": 1
@@ -1311,6 +1399,54 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
    "list": 1
   },
   "tmdb:1275779": {
+   "news": 1
+  },
+  "wd:Q1052459": {
+   "several": 1
+  },
+  "tmdb:50797": {
+   "several": 1
+  },
+  "tmdb:65060": {
+   "several": 1
+  },
+  "wd:Q1214091": {
+   "several": 1
+  },
+  "wd:Q264519": {
+   "list": 1
+  },
+  "tmdb:1400837": {
+   "news": 1
+  },
+  "tmdb:1281331": {
+   "news": 1
+  },
+  "wd:Q596874": {
+   "several": 1
+  },
+  "tmdb:1700": {
+   "several": 1
+  },
+  "wd:Q178869": {
+   "several": 1
+  },
+  "tmdb:1259": {
+   "several": 1
+  },
+  "tmdb:31357": {
+   "several": 1
+  },
+  "tmdb:687163": {
+   "several": 1
+  },
+  "tmdb:335983": {
+   "news": 1
+  },
+  "wd:Q17111624": {
+   "several": 1
+  },
+  "imdb:tt23148340": {
    "news": 1
   }
  },
@@ -1418,6 +1554,11 @@ export const mediaMentions: { labels: number; works: Record<string, MediaMention
   {
    "name": "психологический портрет",
    "type": "genre",
+   "n": 2
+  },
+  {
+   "name": "древний рим",
+   "type": "era",
    "n": 2
   }
  ]

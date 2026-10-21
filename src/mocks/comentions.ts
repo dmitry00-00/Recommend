@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-comention-index.mts (2026-10-18): что называют
+// Сгенерировано tools/build-comention-index.mts (2026-10-21): что называют
 // вместе в одном посте. Это не рекомендация и не похожесть по смыслу — это то, как о кино
 // говорят. Вес — косинус: сырой счёт тянут на себя те, о ком пишут каждый день.
 // Не править руками — перегенерировать.
@@ -1004,6 +1004,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 13,
       "weight": 0.657
     },
@@ -1093,6 +1094,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 14,
       "weight": 0.642
     },
@@ -1398,6 +1400,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt32777999",
       "workId": "f-wd131358971",
       "title": "Дети перемен",
+      "year": 2024,
       "n": 5,
       "weight": 0.598
     },
@@ -1629,6 +1632,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 13,
       "weight": 0.549
     },
@@ -1920,6 +1924,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 11,
       "weight": 0.526
     },
@@ -1969,6 +1974,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 11,
       "weight": 0.573
     },
@@ -2026,6 +2032,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 16,
       "weight": 0.561
     },
@@ -2267,6 +2274,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 13,
       "weight": 0.512
     },
@@ -2398,6 +2406,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 13,
       "weight": 0.501
     },
@@ -2599,6 +2608,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 10,
       "weight": 0.491
     }
@@ -2628,6 +2638,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 18,
       "weight": 0.643
     },
@@ -2991,6 +3002,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 13,
       "weight": 0.473
     },
@@ -3236,6 +3248,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 11,
       "weight": 0.459
     },
@@ -3333,6 +3346,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 12,
       "weight": 0.421
     }
@@ -4010,6 +4024,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1492201",
       "workId": "f-wd136674052",
       "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
       "n": 3,
       "weight": 0.567
     },
@@ -4103,6 +4118,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:772760",
       "workId": "f-wd110687009",
       "title": "Страна Саша",
+      "year": 2022,
       "n": 5,
       "weight": 0.373
     },
@@ -4160,6 +4176,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:772760",
       "workId": "f-wd110687009",
       "title": "Страна Саша",
+      "year": 2022,
       "n": 5,
       "weight": 0.348
     },
@@ -4343,6 +4360,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 11,
       "weight": 0.412
     },
@@ -4538,6 +4556,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1492201",
       "workId": "f-wd136674052",
       "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
       "n": 3,
       "weight": 0.401
     },
@@ -4727,6 +4746,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 8,
       "weight": 0.372
     },
@@ -4734,6 +4754,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 9,
       "weight": 0.371
     },
@@ -5011,6 +5032,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 10,
       "weight": 0.364
     }
@@ -5138,6 +5160,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 8,
       "weight": 0.402
     },
@@ -5367,6 +5390,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 17,
       "weight": 0.469
     },
@@ -7062,6 +7086,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 7,
       "weight": 0.352
     },
@@ -7255,6 +7280,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1492201",
       "workId": "f-wd136674052",
       "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
       "n": 3,
       "weight": 0.327
     }
@@ -7958,6 +7984,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 18,
       "weight": 0.413
     },
@@ -8433,6 +8460,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt32777999",
       "workId": "f-wd131358971",
       "title": "Дети перемен",
+      "year": 2024,
       "n": 8,
       "weight": 0.372
     },
@@ -8556,6 +8584,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:743203",
       "workId": "f-wd116834076",
       "title": "Летучий корабль",
+      "year": 2024,
       "n": 15,
       "weight": 0.339
     },
@@ -9183,6 +9212,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1112403",
       "workId": "f-wd132816181",
       "title": "Чувства Анны",
+      "year": 2023,
       "n": 3,
       "weight": 0.387
     }
@@ -9234,6 +9264,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:772760",
       "workId": "f-wd110687009",
       "title": "Страна Саша",
+      "year": 2022,
       "n": 4,
       "weight": 0.385
     },
@@ -9789,6 +9820,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1112403",
       "workId": "f-wd132816181",
       "title": "Чувства Анны",
+      "year": 2023,
       "n": 3,
       "weight": 0.289
     }
@@ -9824,6 +9856,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 11,
       "weight": 0.372
     },
@@ -10639,6 +10672,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt32777999",
       "workId": "f-wd131358971",
       "title": "Дети перемен",
+      "year": 2024,
       "n": 6,
       "weight": 0.25
     },
@@ -11436,6 +11470,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
+      "year": 2024,
       "n": 9,
       "weight": 0.271
     },
@@ -11443,6 +11478,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt32777999",
       "workId": "f-wd131358971",
       "title": "Дети перемен",
+      "year": 2024,
       "n": 7,
       "weight": 0.27
     },
@@ -12874,6 +12910,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1492201",
       "workId": "f-wd136674052",
       "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
       "n": 3,
       "weight": 0.211
     },
@@ -14787,6 +14824,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 5,
       "weight": 0.205
     }
@@ -14828,6 +14866,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1492201",
       "workId": "f-wd136674052",
       "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
       "n": 3,
       "weight": 0.192
     },
@@ -16954,6 +16993,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1416281",
       "workId": "f-wd136399995",
       "title": "Простоквашино",
+      "year": 2026,
       "n": 3,
       "weight": 0.21
     }
@@ -19262,6 +19302,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 4,
       "weight": 0.132
     }
@@ -20571,6 +20612,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:1416281",
       "workId": "f-wd136399995",
       "title": "Простоквашино",
+      "year": 2026,
       "n": 3,
       "weight": 0.146
     }
@@ -21564,6 +21606,7 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "imdb:tt28143089",
       "workId": "f-wd120279756",
       "title": "Последний богатырь. Наследие",
+      "year": 2024,
       "n": 3,
       "weight": 0.095
     }
@@ -23088,14 +23131,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2022,
       "n": 3,
       "weight": 0.063
-    },
-    {
-      "key": "imdb:tt13918446",
-      "workId": "f-wd117662601",
-      "title": "Гарри Поттер",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.053
     }
   ],
   "imdb:tt7658402": [
@@ -23126,24 +23161,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2016,
       "n": 3,
       "weight": 0.056
-    }
-  ],
-  "imdb:tt13918446": [
-    {
-      "key": "tmdb:123",
-      "workId": "f-wd378913",
-      "title": "Властелин колец",
-      "year": 1978,
-      "n": 3,
-      "weight": 0.053
-    },
-    {
-      "key": "imdb:tt0944947",
-      "workId": "f-wd23572",
-      "title": "Игра престолов",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.036
     }
   ],
   "imdb:tt5290382": [

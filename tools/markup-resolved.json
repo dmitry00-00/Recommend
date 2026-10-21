@@ -1,6 +1,6 @@
 {
  "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
- "updated": "2026-10-15",
+ "updated": "2026-10-21",
  "videos": {
   "_3gNe43hFA0": {
    "typed": "mr. robot",
@@ -6690,6 +6690,12 @@
    "typed": "лучше звоните солу",
    "key": "imdb:tt3032476",
    "label": "Лучше звоните Солу (сериал, 2015)",
+   "sure": true
+  },
+  "yzytLBon-HY": {
+   "typed": "Борат (2006)",
+   "key": "tmdb:496",
+   "label": "Борат (2006)",
    "sure": true
   },
   "Z_a1-_JJ-PU": {

@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-essay-index.mts (2026-10-18): ролики о франшизе (вселенной) и о
+// Сгенерировано tools/build-essay-index.mts (2026-10-21): ролики о франшизе (вселенной) и о
 // человеке — по решениям людей во вкладке «Проверка» пульта. Ключ — элемент Wikidata вселенной или человека.
 // Не править руками — перегенерировать.
 import type { ExternalAnalysis } from '@/types/tmdf';
@@ -97,6 +97,50 @@ export const essaysAbout: { universe: Record<string, ExternalAnalysis[]>; person
         "previewUrl": "https://i.ytimg.com/vi/KQD2xZmaFS0/hqdefault.jpg",
         "durationMinutes": 47,
         "publishedAt": "2025-12-27"
+      }
+    ],
+    "Q5410773": [
+      {
+        "id": "yta-MmHsuMnUE1w",
+        "title": "Главные Ляпы и Нестыковки Гарри Поттера от Роулинг",
+        "author": "Thrones & Dragons",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=MmHsuMnUE1w",
+        "language": "ru",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "tier": "review",
+        "previewUrl": "https://i.ytimg.com/vi/MmHsuMnUE1w/hqdefault.jpg",
+        "durationMinutes": 34,
+        "publishedAt": "2026-10-17"
+      },
+      {
+        "id": "yta-OMiRdhN8PNs",
+        "title": "Я перечитала Гарри Поттера спустя 20 лет | Вот, что меня удивило",
+        "author": "Alua reads",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=OMiRdhN8PNs",
+        "language": "ru",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "tier": "review",
+        "previewUrl": "https://i.ytimg.com/vi/OMiRdhN8PNs/hqdefault.jpg",
+        "durationMinutes": 29,
+        "publishedAt": "2026-09-21"
+      },
+      {
+        "id": "yta-Ytctc6gNx_Y",
+        "title": "Почему Уизли такие бедные? Гарри Поттер Разбор",
+        "author": "HPTV Live",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=Ytctc6gNx_Y",
+        "language": "ru",
+        "spoilerLevel": 2,
+        "evidence": "human",
+        "tier": "review",
+        "previewUrl": "https://i.ytimg.com/vi/Ytctc6gNx_Y/hqdefault.jpg",
+        "durationMinutes": 31,
+        "publishedAt": "2023-06-13"
       }
     ],
     "Q135818756": [
