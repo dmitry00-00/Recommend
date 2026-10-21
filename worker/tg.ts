@@ -38,3 +38,10 @@ export async function tg<T = unknown>(env: Pick<Env, 'BOT_TOKEN'>, method: strin
   console.error(`tg ${method}: ответ не JSON (${status}): ${text.slice(0, 120)}`);
   return { ok: false, error_code: status, description: 'not_json' };
 }
+
+/** Подпись данных кнопки (19.10): callback_data клиент может прислать любую («the message originated the query can contain no
+ *  callback buttons with this data», Bot API), поэтому то, что бот положил в кнопку сам, сверяем по подписи от токена бота. */
+export async function tgSign(token: string, data: string, hex = 12): Promise<string> {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`tm-cb:${token}:${data}`));
+  return [...new Uint8Array(d)].slice(0, Math.ceil(hex / 2)).map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, hex);
+}

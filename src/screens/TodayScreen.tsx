@@ -1,10 +1,10 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { Suspense, lazy, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type {
-  DiscussionPlace, DismissReason, Energy, FeedKind, JourneyEntryData, Recommendation, RecommendationSlate,
+  DiscussionPlace, DismissReason, Energy, FeedKind, FeedPreset, JourneyEntryData, Recommendation, RecommendationSlate,
   SpoilerLevel, WatchOption,
 } from '@/types/tmdf';
-import { OfflineError, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, pictureSlate, recWhat, noteNovelties, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings, type Trailer } from '@/api';
+import { OfflineError, sessionRole, coldStartLeft, startPassed, getJourney, getScaleQuestion, getSettings, getSlate, getTrailer, pictureSlate, recWhat, noteNovelties, noteShare, noteSurvey, notWatched, planWork, sendRecommendationFeedback, startWork, unplanWork, updateSettings, type Trailer } from '@/api';
 import { InlineTrailer, useTrailer } from '@/components/InlineTrailer';
 import { RatingWheel } from '@/components/RatingWheel';
 import {
@@ -14,7 +14,8 @@ import {
 import { Avatar, VoiceStrip } from '@/components/WorkVoices';
 import { groupByVoice } from '@/lib/voices';
 import { useSwipe } from '@/lib/swipe';
-import { saveSettings, useDiary, useMechanics, useSettings } from '@/lib/settingsStore';
+import { saveSettings, useDiary, useMechanics, useRole, useSettings } from '@/lib/settingsStore';
+import { tiltActive, tiltClean, tiltKey, type Tilt } from '@/lib/tilt';
 import { cinemaSlug } from '@/lib/cinemas';
 import { useFeature } from '@/lib/flags';
 import { onExternalClick, openExternal, pick, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
@@ -321,6 +322,19 @@ const FILM_GAP = 120;
 const FILM_FAST = 300;
 const FILM_EVERY = 4;
 
+/** Панель ленты v2 (19.10) — ленивым куском, только админу и тестерам: участникам она не грузится */
+const tiltModule = () => import('./FeedTilt');
+const TiltPanel = lazy(() => tiltModule().then((m) => ({ default: m.TiltPanel })));
+const TiltBar = lazy(() => tiltModule().then((m) => ({ default: m.TiltBar })));
+/** Наклон помнит устройство (как сила и вид ленты — настройки): свой у кино и у книг. Хранилища нет — живёт до перезапуска. */
+const TILT_KEY = 'tm.feed.tilt';
+type Tilts = Partial<Record<FeedKind, Tilt>>;
+const loadTilts = (): Tilts => {
+  try { const v = JSON.parse(localStorage.getItem(TILT_KEY) ?? '{}') as Tilts; return v && typeof v === 'object' ? v : {}; } catch { return {}; }
+};
+const saveTilts = (t: Tilts) => { try { localStorage.setItem(TILT_KEY, JSON.stringify(t)); } catch { /* не сохранилось — до перезапуска */ } };
+const tiltRole = (): boolean => { const r = sessionRole(); return r === 'admin' || r === 'tester'; };
+
 const cachedWhen = (at: string) =>
   new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(at));
 
@@ -357,7 +371,14 @@ export function TodayScreen() {
   const bookFeed = booksOn && kind === 'book';
   // «Почитать» в конце ленты кино — только пока лента кино; в ленте книг он не нужен
   // картинки и «где смотреть» с сети лента не ждёт (18.10, аудит, волна 2, п. 15): они досылаются (`withPictures`)
-  const slateOpts = (k: FeedKind) => ({ general: swipeOn, subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind, lazyPictures: true });
+  // наклон (19.10, панель v2): только админу и тестерам; роль — на момент запроса (настройки к нему уже пришли)
+  const role = useRole();
+  const tiltOn = role === 'admin' || role === 'tester';
+  const [tilts, setTilts] = useState<Tilts>(loadTilts);
+  const tiltsRef = useRef(tilts);
+  tiltsRef.current = tilts;
+  const tiltFor = (k: FeedKind): Tilt | undefined => { const t = tiltsRef.current[booksOn ? k : 'screen']; return tiltRole() && tiltActive(t) ? t : undefined; };
+  const slateOpts = (k: FeedKind) => ({ general: swipeOn, subscriptions: subsOn, freeClassics: freeOn, books: booksOn && k === 'screen', kind: booksOn ? k : 'screen' as FeedKind, lazyPictures: true, ...(tiltFor(k) ? { tilt: tiltFor(k) } : {}) });
   /** Досланные картинки — на место тех же рекомендаций: убранное за это время из ленты не возвращается. */
   const withPictures = (items: Recommendation[], alive: () => boolean, done?: (items: Recommendation[]) => void) => {
     if (!items.length) return;
@@ -726,9 +747,11 @@ export function TodayScreen() {
   };
   // пока лента пересчитывается после выбора, панель не прячем (17.10): выбор применён, а она открыта до касания вне её
   const choiceWas = useRef(false);
+  const tilt = tiltOn ? tilts[booksOn ? kind : 'screen'] ?? {} : {};
   const showChoice = slate
-    // пустая лента после выбора сложности не прячет панель (17.10): иначе вернуть сложность негде
-    ? Boolean(!slate.coldStart && (items.length || current.length || subsOnly || bookFeed || energy !== 'normal' || choiceWas.current) && (energyOn || subs.length || booksOn))
+    // пустая лента после выбора сложности не прячет панель (17.10): иначе вернуть сложность негде; у админа и тестеров панель
+    // наклона (19.10) — всегда, пока лента не холодный старт
+    ? Boolean(!slate.coldStart && (tiltOn || ((items.length || current.length || subsOnly || bookFeed || energy !== 'normal' || choiceWas.current) && (energyOn || subs.length || booksOn))))
     : choiceWas.current && !failed;
   choiceWas.current = showChoice;
   // панель встаёт ровно над нижним меню, какой бы высоты оно ни было (безопасная зона Telegram, крупный шрифт)
@@ -746,11 +769,28 @@ export function TodayScreen() {
     { id: 'share', lead: ui.today.shareLead, action: ui.social.share, go: () => { noteShare('friend', 'telegram'); openExternal(shareUrl(ui.social.shareText)); } },
   ].filter((x) => x != null);
   const invite = invites[tailTurnNow() % invites.length];
+  // наклон и сочетания (19.10): новый наклон — и усилие, если меняется вместе с ним, — и лента пересчитывается один раз
+  const presets = (userSettings?.feedPresets ?? []) as FeedPreset[];
+  const tiltKind: FeedKind = booksOn ? kind : 'screen';
+  const applyTilt = (t: Tilt, e?: Energy) => {
+    const next = { ...tiltsRef.current, [tiltKind]: tiltClean(t) };
+    const changed = tiltKey(t) !== tiltKey(tiltsRef.current[tiltKind]);
+    tiltsRef.current = next;
+    setTilts(next);
+    saveTilts(next);
+    if (e && e !== energy) {
+      setEnergy(e);
+      saveSettings({ energy: e }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
+    } else if (changed) setAttempt((a) => a + 1);
+  };
+  const savePresets = (list: FeedPreset[]) => { saveSettings({ feedPresets: list }).catch(() => toast({ text: ui.settings.errorSave })); };
+  const activePreset = presets.find((p) => p.kind === tiltKind && tiltKey(p.tilt as Tilt) === tiltKey(tilt) && (p.energy ?? 'normal') === energy)?.name;
+  const tiltBarOn = tiltOn && showChoice;
   // вопрос «посмотрели?» стоит под баннером — в мете его не повторяем
   const entryMeta = (e: JourneyEntryData) =>
     [e.work.year, leadName(e.work), e.progress != null ? `${Math.round(e.progress * 100)}%` : null].filter(Boolean).join(' · ');
   return (
-    <main className="tm-shell__main tm-stream" ref={mainRef}>
+    <main className={cx('tm-shell__main', 'tm-stream', tiltBarOn && 'tm-stream--tilt')} ref={mainRef}>
       {reel ? <FilmReel works={reelWorks} ready={Boolean(slate) || Boolean(failed)} cancel={reelCancel} column={mainRef} onDone={reelFinished} /> : null}
       <h1 className="tm-sr">{ui.nav.today}</h1>
       {plans ? <button type="button" className="tm-stream__archive" onClick={() => navigate('/journal')}>
@@ -764,6 +804,12 @@ export function TodayScreen() {
         <span className="tm-stream__archivechevron" aria-hidden="true">›</span>
       </button> : null}
 
+      {/* шапка ленты у админа и тестеров (19.10): значок фильтров, при наклоне — ярлык «Наклон · …» с × */}
+      {tiltBarOn ? (
+        <Suspense fallback={null}>
+          <TiltBar tilt={tilt} energy={energy} preset={activePreset} onOpen={() => setTuning(true)} onClear={() => applyTilt({}, 'normal')} />
+        </Suspense>
+      ) : null}
       <div className="tm-stream__body">
         {scale ? (
           <section className="tm-stream__pad tm-import__norm">
@@ -887,6 +933,15 @@ export function TodayScreen() {
           <button type="button" className="tm-tune__scrim" aria-label={ui.actions.close} onClick={() => setTuning(false)} />
           {/* не закрывается после выбора (17.10): выбор применяется сразу, лента пересчитывается под панелью — полоска
               сверху панели идёт, пока новой ленты нет; закрыть — касанием вне её или ещё раз «Сегодня» */}
+          {tiltOn ? (
+            // панель v2 (19.10): оси наклона, сочетания, «Словами» — админу и тестерам, ленивым куском
+            <Suspense fallback={<div className="tm-tune" aria-busy="true" style={{ bottom: navTop() }} />}>
+              <TiltPanel kind={tiltKind} booksOn={booksOn} onKind={changeKind} energy={energy} energyOn={energyOn}
+                         tilt={tilt} onApply={applyTilt} presets={presets} onPresets={savePresets}
+                         extra={subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : undefined}
+                         busy={!slate} bottom={navTop()} />
+            </Suspense>
+          ) : (
           <div className="tm-tune" role="dialog" aria-label={ui.feed.tune} aria-busy={slate ? undefined : 'true'} style={{ bottom: navTop() }}>
             <div className="tm-stream__energy">
               {booksOn ? <FeedKindSwitch value={kind} onChange={changeKind} /> : null}
@@ -894,6 +949,7 @@ export function TodayScreen() {
             </div>
             {subs.length && !bookFeed ? <Button variant="quiet" size="sm" pressed={subsOnly} onClick={toggleSubsOnly}>{ui.feed.subsOnly}</Button> : null}
           </div>
+          )}
         </>
       ) : null}
 

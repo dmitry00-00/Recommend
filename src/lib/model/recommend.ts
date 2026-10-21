@@ -40,6 +40,11 @@ export interface RecommendOptions {
   /** послесловия (17.10, worth.ts): «стоило» — отдельная ось от «понравилось», плюс темп и что держало.
    *  Без явных ответов профиля нет, и подбор ровно прежний */
   afterwords?: AfterwordInput;
+  /** наклон ленты «больше такого» (19.10, src/lib/tilt.ts): совпадение с выбранным 0…1 и его вес в счёте */
+  boost?: { fit: (work: WorkCard) => number; weight: number };
+  /** наклон «только это» (19.10): пул уже отобран — если ограничения разнообразия (не больше двух на ведущую операцию и
+   *  регистр) оставили ленту короче `limit`, добрать лучшими из отобранного */
+  fill?: boolean;
 }
 /** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
  *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
@@ -231,7 +236,8 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
     .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0)
       + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0)
       - (options.fame ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0)
-      + (worth ? afterwordBonus(worth, c.work) : 0) }))
+      + (worth ? afterwordBonus(worth, c.work) : 0)
+      + (options.boost ? options.boost.weight * options.boost.fit(c.work) : 0) }))
     .filter((x) => x.score > 0.3)
     .sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];
@@ -249,6 +255,14 @@ export function recommend(state: CognitiveState, candidates: Candidate[], energy
     if (lead) seenLead.set(lead, (seenLead.get(lead) ?? 0) + 1);
     regs.forEach((r) => seenRegister.set(r, (seenRegister.get(r) ?? 0) + 1));
     if (picked.length >= limit) break;
+  }
+  if (options.fill && picked.length < limit) {
+    for (const x of scored) {
+      if (picked.length >= limit) break;
+      if (picked.includes(x) || (isSeries(x.c.work) && series >= maxSeries)) continue;
+      picked.push(x);
+      if (isSeries(x.c.work)) series += 1;
+    }
   }
   // один кадр на непривычном языке: если вкус известен и весь слейт в любимых регистрах
   if (state.registerTaste?.length && picked.length >= 4 && picked.every((x) => likesRegister(state, x.c.work))) {

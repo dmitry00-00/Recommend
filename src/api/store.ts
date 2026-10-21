@@ -274,6 +274,17 @@ export async function prepareShareMessage(card: Record<string, unknown>): Promis
   return ((await res.json()) as { id?: string }).id;
 }
 
+/** Своя верхушка вкуса для подбора «вместе» в боте (19.10): тихо — true, если сервер принял; сеть и ошибки — false. */
+export async function putTasteTop(items: unknown[]): Promise<boolean> {
+  if (API === undefined) return false;
+  try {
+    const res = await call('/api/taste-top', { method: 'PUT', body: JSON.stringify({ items }) });
+    return Boolean(res?.ok);
+  } catch {
+    return false;
+  }
+}
+
 /** выбор компанией (ЗП-11): запрос к /api/together* — статус и тело; без сервера — undefined */
 export async function togetherCall<T>(path: string, init: RequestInit = {}): Promise<{ status: number; body?: T } | undefined> {
   if (API === undefined) return undefined;

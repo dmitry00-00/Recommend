@@ -1,0 +1,79 @@
+/* Панель ленты v2 (19.10, src/screens/FeedTilt.tsx) — ленивый кусок только админу и тестерам. Токены приложения
+   (tokens.css), обе темы — через них же; ни одного цвета мимо токенов. */
+
+/* шапка ленты: значок фильтров, а при наклоне — ярлык «Наклон · …» с × (липкий, над кадрами) */
+.tm-tiltbar { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; gap: var(--tm-space-2); min-height: 44px; padding: 0 var(--tm-space-2) 0 var(--tm-space-5); background: var(--tm-color-surface-100); border-bottom: 1px solid var(--tm-color-line); }
+.tm-tiltbar__l { flex: none; font-family: var(--font-display); font-size: 11px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tm-color-ink-faint); }
+.tm-tiltbar__v { flex: 1; min-width: 0; min-height: 44px; padding: 0; border: 0; background: none; color: var(--tm-color-ink-faint); font: 400 14px/20px var(--font-text); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.tm-tiltbar__x, .tm-tiltbar__open { flex: none; width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 0; background: none; color: var(--tm-color-ink-faint); font-size: 22px; line-height: 1; cursor: pointer; }
+.tm-tiltbar--on .tm-tiltbar__v { color: var(--tm-color-ink); font-weight: 500; }
+.tm-tiltbar__open { color: var(--tm-color-ink-muted); }
+.tm-tiltbar--on .tm-tiltbar__open { color: var(--tm-color-accent-ink); }
+.tm-tiltbar__x:hover, .tm-tiltbar__open:hover { color: var(--tm-color-ink); }
+/* с ярлыком кадр прилипает под ним, а не под ним прячется */
+.tm-shell--app .tm-stream.tm-stream--tilt { scroll-padding-top: 44px; }
+
+/* панель над нижним меню — по колонке приложения, как прежняя .tm-tune */
+.tm-tiltp { position: fixed; left: 0; right: 0; max-width: 420px; margin: 0 auto; box-sizing: border-box; z-index: 31; display: flex; flex-direction: column; max-height: calc(100% - var(--tm-safe-top) - var(--tm-space-8)); overflow-y: auto; overscroll-behavior: contain; padding: var(--tm-space-3) 0 var(--tm-space-2); background: var(--tm-color-surface-100); border-top: 1px solid var(--tm-color-line); }
+.tm-tiltp[aria-busy="true"]::before { content: ""; position: absolute; top: -1px; left: 0; height: 2px; width: 30%; background: var(--tm-color-accent); animation: tm-tune-busy 0.9s ease-in-out infinite alternate; }
+.tm-tiltp__head { display: flex; align-items: center; gap: var(--tm-space-3); padding: 0 var(--tm-space-5) var(--tm-space-2); min-height: 40px; }
+.tm-tiltp__head .tm-energy { flex: none; }
+.tm-tiltp__head .tm-energy__opt { min-height: 40px; }
+.tm-tiltp__narrow { margin: 0 0 0 auto; font-size: 12px; line-height: 16px; text-align: right; color: var(--tm-color-signal-stop); }
+.tm-tiltp__note { margin: 0 var(--tm-space-5) var(--tm-space-2); color: var(--tm-color-ink-muted); }
+.tm-tiltp__chips { display: flex; gap: var(--tm-space-2); overflow-x: auto; padding: 0 var(--tm-space-5) var(--tm-space-3); scrollbar-width: none; }
+.tm-tiltp__chips::-webkit-scrollbar { display: none; }
+.tm-tiltp__chip { flex: none; min-height: 36px; padding: 0 var(--tm-space-3); display: inline-flex; align-items: center; background: var(--tm-color-surface-card); color: var(--tm-color-ink-muted); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-control); font: 500 13px/18px var(--font-text); white-space: nowrap; cursor: pointer; }
+.tm-tiltp__chip:disabled { opacity: 0.5; cursor: default; }
+.tm-tiltp__chip--act { color: var(--tm-color-accent-ink); border-style: dashed; }
+.tm-tiltp__preset { flex: none; display: inline-flex; }
+/* длинное название сочетания — в одну строку с многоточием, чтобы × рядом не уезжал за край */
+.tm-tiltp__preset .tm-tiltp__chip { display: block; max-width: 220px; line-height: 34px; overflow: hidden; text-overflow: ellipsis; }
+.tm-tiltp__preset--on .tm-tiltp__chip { color: var(--tm-color-ink); border-color: var(--tm-color-accent); background: var(--tm-color-accent-wash); }
+.tm-tiltp__preset--on .tm-tiltp__chip:first-child { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+.tm-tiltp__chipx { flex: none; width: 36px; min-height: 36px; padding: 0; border: 1px solid var(--tm-color-accent); border-left: 0; border-radius: 0 var(--tm-radius-control) var(--tm-radius-control) 0; background: var(--tm-color-accent-wash); color: var(--tm-color-ink-muted); font-size: 18px; line-height: 1; cursor: pointer; }
+.tm-tiltp__rows { display: grid; border-top: 1px solid var(--tm-color-line); }
+.tm-tiltp__loading { margin: var(--tm-space-2) var(--tm-space-5); }
+.tm-tiltp__row { display: grid; grid-template-columns: minmax(84px, auto) minmax(0, 1fr) auto; align-items: center; gap: var(--tm-space-3); min-height: 48px; padding: var(--tm-space-1) var(--tm-space-3) var(--tm-space-1) var(--tm-space-5); border: 0; border-bottom: 1px solid var(--tm-color-line); background: none; color: var(--tm-color-ink); font: inherit; text-align: left; cursor: pointer; }
+.tm-tiltp__row:hover { background: var(--tm-color-surface-card); }
+.tm-tiltp__row:disabled { cursor: default; opacity: 0.6; }
+.tm-tiltp__k { font-size: 13px; line-height: 18px; color: var(--tm-color-ink-faint); }
+.tm-tiltp__v { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 20px; font-weight: 500; text-align: right; color: var(--tm-color-ink-muted); }
+.tm-tiltp__row--set .tm-tiltp__v { color: var(--tm-color-ink); }
+.tm-tiltp__row--more .tm-tiltp__v { color: var(--tm-color-ink-faint); font-weight: 400; }
+.tm-tiltp__s { display: inline-flex; align-items: center; gap: var(--tm-space-2); color: var(--tm-color-ink-faint); font-size: 18px; line-height: 1; }
+.tm-tiltp__lock { font-family: var(--font-display); font-size: 10px; line-height: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tm-color-accent-ink); border: 1px solid var(--tm-color-accent); border-radius: 2px; padding: 1px 4px; }
+.tm-tiltp__foot { display: flex; justify-content: space-between; align-items: center; gap: var(--tm-space-2); padding: var(--tm-space-2) var(--tm-space-5) 0; min-height: 40px; }
+
+/* листы выбора — внутри общей шторки (Sheet) */
+.tm-tiltp__hint { margin: 0 0 var(--tm-space-3); color: var(--tm-color-ink-faint); }
+.tm-tiltp__opts { display: grid; border-top: 1px solid var(--tm-color-line); margin-bottom: var(--tm-space-4); }
+.tm-tiltp__opt { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--tm-space-3); min-height: 48px; padding: var(--tm-space-2) var(--tm-space-1); border: 0; border-bottom: 1px solid var(--tm-color-line); background: none; color: var(--tm-color-ink); font: 500 15px/20px var(--font-text); text-align: left; cursor: pointer; }
+.tm-tiltp__optt small { display: block; font-weight: 400; font-size: 12px; line-height: 16px; color: var(--tm-color-ink-faint); }
+.tm-tiltp__mark { width: 18px; height: 18px; border: 1px solid var(--tm-color-line-strong); border-radius: 2px; display: grid; place-items: center; }
+.tm-tiltp__opt--on .tm-tiltp__mark { background: var(--tm-color-accent); border-color: var(--tm-color-accent); }
+.tm-tiltp__opt--on .tm-tiltp__mark::after { content: ""; width: 8px; height: 4px; border-left: 2px solid var(--tm-color-on-accent); border-bottom: 2px solid var(--tm-color-on-accent); transform: translateY(-1px) rotate(-45deg); }
+.tm-tiltp__sfoot { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--tm-space-3); }
+.tm-tiltp__powerl { margin-bottom: var(--tm-space-1); }
+.tm-tiltp__power--only { border-color: var(--tm-color-accent); color: var(--tm-color-accent-ink); }
+
+.tm-tiltp__eras { display: grid; grid-template-columns: 1fr 1fr; gap: var(--tm-space-3); margin-bottom: var(--tm-space-3); }
+.tm-tiltp__era { display: grid; gap: var(--tm-space-1); }
+.tm-tiltp__wheel { position: relative; height: 132px; overflow-y: auto; scroll-snap-type: y mandatory; background: var(--tm-color-surface-200); border: 1px solid var(--tm-color-line); border-radius: var(--tm-radius-control); scrollbar-width: none; }
+.tm-tiltp__wheel::-webkit-scrollbar { display: none; }
+.tm-tiltp__wheel::before { content: ""; position: sticky; display: block; top: 44px; height: 44px; margin-bottom: -44px; border-block: 1px solid var(--tm-color-line-strong); pointer-events: none; }
+.tm-tiltp__wheel--on::before { border-color: var(--tm-color-accent); }
+.tm-tiltp__wheel ol { list-style: none; margin: 0; padding: 44px 0; }
+.tm-tiltp__wheel li { height: 44px; display: grid; place-items: center; scroll-snap-align: center; font-family: var(--font-display); font-weight: 500; font-size: 20px; color: var(--tm-color-ink-faint); font-variant-numeric: tabular-nums; cursor: pointer; }
+.tm-tiltp__wheel--on li.tm-tiltp__wheelon { color: var(--tm-color-ink); }
+
+.tm-tiltp__field { display: grid; gap: var(--tm-space-1); margin-bottom: var(--tm-space-3); }
+.tm-tiltp__field .tm-input { width: 100%; box-sizing: border-box; min-height: 44px; font-size: 16px; }
+.tm-tiltp__examples { display: flex; flex-wrap: wrap; gap: var(--tm-space-2); margin-bottom: var(--tm-space-3); }
+.tm-tiltp__examples .tm-tiltp__chip { white-space: normal; text-align: left; }
+.tm-tiltp__parsed { display: grid; gap: var(--tm-space-1); min-height: 22px; margin-bottom: var(--tm-space-4); font-size: 13px; line-height: 18px; color: var(--tm-color-ink-muted); }
+.tm-tiltp__parsed b { color: var(--tm-color-ink); font-weight: 600; }
+.tm-tiltp__none { color: var(--tm-color-ink-faint); }
+
+.tm-tiltp button:focus-visible, .tm-tiltbar button:focus-visible, .tm-tiltp__wheel:focus-visible { outline: 2px solid var(--tm-color-focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .tm-tiltp[aria-busy="true"]::before { animation: none; width: 100%; opacity: 0.5; } .tm-tiltp__wheel { scroll-behavior: auto; } }

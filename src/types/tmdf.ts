@@ -688,6 +688,16 @@ export interface UserSettings {
   tasteShelves?: string[];
   /** первый вход свайпом пройден или пропущен (ДФ-2): «Сегодня» больше не уводит на /start */
   swipeStartDone?: boolean;
+  /** сочетания наклона ленты (19.10, панель ленты v2, админ и тестеры): плитки наверху панели — название, что подбирать,
+   *  оси (src/lib/tilt.ts, `Tilt`) и усилие, если оно было не обычным */
+  feedPresets?: FeedPreset[];
+}
+
+export interface FeedPreset {
+  name: string;
+  kind: FeedKind;
+  tilt: Partial<Record<'want' | 'trad' | 'op' | 'era' | 'form' | 'len', { v: string[]; only?: boolean }>>;
+  energy?: Energy;
 }
 
 // ---------- вход ----------

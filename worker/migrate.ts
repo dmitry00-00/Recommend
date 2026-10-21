@@ -132,6 +132,10 @@ const TABLES: string[] = [
     worth INTEGER CHECK (worth BETWEEN 1 AND 5), pace TEXT, hook TEXT, at TEXT NOT NULL, PRIMARY KEY (user_id, work_id))`,
   // 17.10: разовые переносы данных (ONCE ниже) — сделанный не повторяется
   'CREATE TABLE IF NOT EXISTS migration_mark (name TEXT PRIMARY KEY, at TEXT NOT NULL)',
+  // 19.10: верхушка вкуса участника для подбора «вместе» в боте (worker/togetherPick.ts) — по участнику одна запись,
+  // клиент перезаписывает её после расчёта ленты (PUT /api/taste-top). user_id — удаление аккаунта уносит и её
+  `CREATE TABLE IF NOT EXISTS taste_top (user_id TEXT PRIMARY KEY REFERENCES user(id), items TEXT NOT NULL, n INTEGER NOT NULL,
+    at TEXT NOT NULL)`,
 ];
 
 /** Индексы (18.10, аудит скорости, волна 3, пп. 24, 26, 28). Отдельно от TABLES и не в schema.sql: строятся после

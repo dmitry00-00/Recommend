@@ -16,7 +16,7 @@ import { SearchLine } from './WorkPlaces';
 import { WorkCardSheet } from './WorkCardSheet';
 import { WorkThumb } from '@/components/WorkThumb';
 import { useRole } from '@/lib/settingsStore';
-import { useFeature } from '@/lib/flags';
+import { useEdition, useFeature } from '@/lib/flags';
 import { imageSrc, useImageRetry } from '@/lib/images';
 import ui from '@/i18n';
 
@@ -117,6 +117,8 @@ export function WorkScreen() {
   // обсуждения; связи, герои, приёмы, авторы ссылками, подписка, «в планы» — функции эталона
   const pages = useFeature('pages');
   const plansOn = useFeature('plans');
+  // «Бросил» — по-прежнему эталон: 20.10 всем открыли только «В планы»
+  const fullEdition = useEdition() === 'full';
   const diaryOn = useFeature('diary');
   const follows = useFeature('follows');
   const { id = '' } = useParams();
@@ -282,7 +284,7 @@ export function WorkScreen() {
           <div className="tm-work__actions">
             <QuickMark work={work} primary onDone={(st) => { setMarked(st); refreshProgress(); }} rowClassName="tm-quick tm-work__bar"
                        // в минимальной редакции — как в карточке ленты: «Видел» с оценкой, без «Бросил»
-                       {...(plansOn ? {} : { abandon: false, label: ui.quick.seen })}
+                       {...(fullEdition ? {} : { abandon: false, label: ui.quick.seen })}
                        extra={<>
                          {plansOn ? <Button pressed={saved} disabled={saved} onClick={plan}>{ui.actions.save}</Button> : null}
                          <ShareButton work={work} />

@@ -10,12 +10,15 @@ import type { Env } from './env';
 import { bot } from './env';
 import { withRef } from './invite';
 import { togetherCommand, type ChatMessage } from './together';
-import { lastDeck, pollQuery, pollResult, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
-import { GROUP_T, groupPick, groupQuery, type Known } from './inlineGroup';
+import { lastDeck, pollQuery, pollResult, pollStart, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
+import { GROUP_T, groupPick, groupQuery } from './inlineGroup';
+import { inlineIndex, lookupIn, norm, type Entry, type InlineIdx } from './inlineIndex';
+import { groupHintArticle, pairArticle, pairPress, pairReady } from './togetherChat';
 import { tg } from './tg';
 
-interface Entry { p: string; k: 'film' | 'series' | 'book' | 'character'; t: string; o?: string; y?: number; s?: string; a?: string[]; i?: string; r?: number }
-interface InlineQuery { id: string; query: string; from?: { id: number; language_code?: string } }
+/** chat_type (Bot API): 'sender' — личка с самим ботом, 'private' — переписка с другим человеком, 'group', 'supergroup',
+ *  'channel'; из секретного чата — нет */
+interface InlineQuery { id: string; query: string; chat_type?: string; from?: { id: number; language_code?: string } }
 
 const LIMIT = 20;
 // язык ответа (11.10, один бот для всех языков): инлайн — по языку Telegram спросившего, карточка — по языку приложения
@@ -36,21 +39,13 @@ export async function webhookSecret(token: string): Promise<string> {
   return [...new Uint8Array(digest)].slice(0, 24).map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-let cache: { at: number; list: Entry[]; keys: string[][]; byId?: Map<string, Entry> } | undefined;
-const norm = (s: string) => s.normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/ё/g, 'е').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-
-async function index(env: Env): Promise<typeof cache> {
-  if (cache && Date.now() - cache.at < 10 * 60e3) return cache;
-  const object = await env.REFERENCE?.get('inlineIndex.json');
-  if (!object) return cache;
-  const list = JSON.parse(await new Response(object.body).text()) as Entry[];
-  cache = { at: Date.now(), list, keys: list.map((e) => [e.t, e.o, ...(e.a ?? [])].filter((x): x is string => Boolean(x)).map(norm)) };
-  return cache;
-}
+// справочник — worker/inlineIndex.ts (19.10: им же пользуется подбор «вместе»)
+const index = inlineIndex;
+type Idx = InlineIdx | undefined;
 
 /** Поиск: точный параметр (кнопка «В чат» в приложении шлёт его как запрос), затем совпадение
  *  названия целиком, с начала, с начала слова. Герои и то, о чём больше говорят, — выше. */
-export function search(idx: NonNullable<typeof cache>, raw: string): Entry[] {
+export function search(idx: InlineIdx, raw: string): Entry[] {
   const q = norm(raw);
   if (!q) return [];
   const exact = idx.list.find((e) => e.p === raw.trim());
@@ -92,7 +87,7 @@ const POLL_HINT: Record<Lang, string> = { ru: 'Собрать подборку �
 
 /** «вместе …» — голосование в чате (worker/inlinePoll.ts): названные фильмы или последняя своя подборка. Меньше двух —
  *  результатов нет, вместо них кнопка в личку с ботом: там та же команда, что /together. */
-async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: typeof cache, lang: Lang): Promise<void> {
+async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: Idx, lang: Lang, first: unknown[] = []): Promise<void> {
   let films: PollFilm[] = [];
   let session: string | undefined;
   const titles = pollTitles(rest);
@@ -106,31 +101,35 @@ async function answerPoll(env: Env, q: InlineQuery, rest: string, idx: typeof ca
     const deck = await lastDeck(env, q.from.id);
     if (deck) ({ films, session } = deck);
   }
-  const results = films.length >= 2 && q.from ? [await pollResult(env, films, q.from.id, lang, session)] : [];
+  const results = [...first, ...(films.length >= 2 && q.from ? [await pollResult(env, films, q.from.id, lang, session)] : [])];
   await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results, cache_time: 0, is_personal: true,
     ...(results.length ? {} : { button: { text: POLL_HINT[lang], start_parameter: 'together' } }) });
 }
 
 /** «для @anya @lyosha» — подбор компании (worker/inlineGroup.ts) тем же голосованием. Не вышло — без результатов, с
  *  подсказкой на кнопке (она ведёт в личку с ботом). */
-async function answerGroup(env: Env, q: InlineQuery, nicks: string[], idx: typeof cache, lang: Lang): Promise<void> {
+async function answerGroup(env: Env, q: InlineQuery, nicks: string[], idx: Idx, lang: Lang): Promise<void> {
   const T = GROUP_T[lang];
   let results: unknown[] = [];
   let hint: string = T.nobody([]);
   if (q.from) {
-    if (idx && !idx.byId) idx.byId = new Map(idx.list.map((e) => [e.p, e]));
-    const lookup = (workId: string): Known | undefined => {
-      const e = idx?.byId?.get(`w-${workId.replace(':', '_')}`);
-      return e && { t: e.t, k: e.k, ...(e.y ? { y: e.y } : {}), ...(e.i ? { i: e.i } : {}) };
-    };
-    const r = await groupPick(env, q.from.id, nicks, lookup);
+    // 19.10: подбор по верхушкам вкуса (worker/togetherPick.ts), у кого их нет — по планам и любимому
+    const r = await groupPick(env, q.from.id, nicks, lookupIn(idx));
     if ('films' in r) {
-      results = [await pollResult(env, r.films, q.from.id, lang, undefined,
-        { title: T.title(r.names), ...(r.missing.length ? { note: T.missing(r.missing) } : {}) })];
+      const note = [r.missing.length ? T.missing(r.missing) : '', r.old.length ? T.old(r.old) : ''].filter(Boolean).join('; ');
+      results = [await pollResult(env, r.films, q.from.id, lang, undefined, { title: T.title(r.names), ...(note ? { note } : {}) })];
     } else hint = r.error === 'nobody' ? T.nobody(r.missing) : T[r.error];
   }
   await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results, cache_time: 0, is_personal: true,
     ...(results.length ? {} : { button: { text: hint, start_parameter: 'together' } }) });
+}
+
+/** Личный чат с другим человеком (19.10): пустой запрос или «вместе» — первым «Что посмотреть вдвоём» (worker/togetherChat.ts).
+ *  Спросивший не в боте или с короткой историей — вместо результата подсказка на кнопке (как у подбора по никам). */
+async function answerPair(env: Env, q: InlineQuery, lang: Lang): Promise<{ results: unknown[]; hint?: string }> {
+  if (!q.from) return { results: [] };
+  const ready = await pairReady(env, q.from.id);
+  return ready === 'ok' ? { results: [await pairArticle(env, q.from.id, lang)] } : { results: [], hint: GROUP_T[lang][ready] };
 }
 
 async function answer(env: Env, q: InlineQuery): Promise<void> {
@@ -139,7 +138,19 @@ async function answer(env: Env, q: InlineQuery): Promise<void> {
   const nicks = groupQuery(q.query);
   if (nicks) return answerGroup(env, q, nicks, idx, lang);
   const rest = pollQuery(q.query);
+  const empty = !q.query.trim();
+  if (q.chat_type === 'private' && (empty || rest === '')) {
+    const pair = await answerPair(env, q, lang);
+    // «вместе» — за «вдвоём» ещё и голосование последней своей подборкой, как раньше
+    if (rest === '') return answerPoll(env, q, rest, idx, lang, pair.results);
+    return void await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results: pair.results, cache_time: 0, is_personal: true,
+      ...(pair.hint ? { button: { text: pair.hint, start_parameter: 'together' } } : {}) });
+  }
   if (rest !== undefined) return answerPoll(env, q, rest, idx, lang);
+  // группа, пустой запрос (19.10): подсказка про /together с отметками через @ — в инлайне список участников по «@» не появляется
+  if (empty && (q.chat_type === 'group' || q.chat_type === 'supergroup')) {
+    return void await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results: [groupHintArticle(lang)], cache_time: 300, is_personal: true });
+  }
   const found = idx ? search(idx, q.query) : [];
   // is_personal (ХБ, 17.10): подписи — на языке спрашивающего, общий кеш Telegram отдавал бы их другим
   await tg(env, 'answerInlineQuery', { inline_query_id: q.id, results: found.map((e) => result(e, lang)), cache_time: 300, is_personal: true });
@@ -160,8 +171,12 @@ export async function telegramUpdate(req: Request, env: Env): Promise<Response> 
       if (seen.meta?.changes === 0) return new Response('ok');
     }
     if (update.inline_query) await answer(env, update.inline_query);
-    // тап по номеру в голосовании в чате (15.10)
-    if (update.callback_query) await pollVote(env, update.callback_query).catch((err) => console.error('poll vote', err));
+    // «Показать» под «Что посмотреть вдвоём», «Голосовать» под списком подбора (19.10), тап по номеру в голосовании (15.10)
+    if (update.callback_query) {
+      const cb = update.callback_query;
+      await (async () => (await pairPress(env, cb)) || (await pollStart(env, cb)) || (await pollVote(env, cb)))()
+        .catch((err) => console.error('callback', err));
+    }
     // «/together» в чате — выбор компанией (ЗП-11, 11.10)
     if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
   } catch (err) {

@@ -34,7 +34,7 @@ import { splitYear } from '@/lib/searchYear';
 import { weightOf } from '@/lib/weights';
 import { canon, isAlias } from '@/lib/canon';
 import { fixCreditRow, fixWork, fixWorkIn, type WorkFixes } from '@/lib/workFixes';
-import { apiBase, deleteImport, pendingRatings, RATING_DROPPED_EVENT, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, postExport, postImport, prepareShareMessage, store, workMeta, type FollowRow, type StoredState } from './store';
+import { apiBase, deleteImport, pendingRatings, putTasteTop, RATING_DROPPED_EVENT, togetherCall, fetchFollows, fetchLoopReport, fetchOwnerDesk, fetchTesters, loadState, postExport, postImport, prepareShareMessage, store, workMeta, type FollowRow, type StoredState } from './store';
 import { displayName, parseInitData } from '@/lib/telegramAuth';
 import type { LoopReport as LoopReportCore, WorkSignal } from '../../worker/loop';
 export type LoopReportData = LoopReportCore & { scope: 'all' | 'me' };
@@ -51,10 +51,12 @@ import type {
 import { isFilm, isScreen, isSeries, normalizeWork, seriesHours } from '@/lib/media';
 import { creditsOf, decodeCredits, leadCredits, isPersonId, sameCredit, workKey } from '@/lib/credits';
 import { primaryKey, withBookWork, workKeys, type BookWorks } from '@/lib/keys';
+import { markOf, pickTop, shortLine, TOP_MIN_MINUTES, topDue, type TopEntry, type TopMark } from '@/lib/tasteTop';
 import { desireShard, desiresOf, type DesireRecord } from '@/lib/desires';
 import { cinemaSlug, freeFor, regionOptions, RU_CINEMAS, type WatchProviders } from '@/lib/cinemas';
 import { planSubscriptions, type SubscriptionPlan } from '@/lib/subscriptionPlan';
 import { CINEMA_PRICES, CURRENCY, type CinemaPrice } from '@/lib/cinemaPrices';
+import { DESIRE_KINDS, FORM_GROUPS, TRADITIONS, applyTilt, factsOf, passesOnly, tiltActive, tiltHasOnly, type Tilt, type TiltAxis, type TiltFacts, eraBucket } from '@/lib/tilt';
 
 
 // ---------- справочники вне бандла (трек А, шаг А5) ----------
@@ -1996,7 +1998,9 @@ export interface SlateOptions { subscriptions?: boolean; /** полка бесп
   /** первый вход свайпом (ДФ-2): при 0–4 оценках не холодный старт, а общая лента от среднего уровня */ general?: boolean;
   /** «Новинки» (18.10, владелец): порция только из вышедшего за последний год — тем же подбором */ fresh?: boolean;
   /** не ждать картинок и «где смотреть» с сети (18.10, аудит, волна 2, п. 15): лента — с кадрами справочника, остальное
-   *  экран досылает `pictureSlate` */ lazyPictures?: boolean }
+   *  экран досылает `pictureSlate` */ lazyPictures?: boolean;
+  /** наклон ленты (19.10, панель v2, админ и тестеры): «больше такого» и «только это» по осям, src/lib/tilt.ts */
+  tilt?: Tilt }
 
 /** Новинка (18.10, владелец): вышла за последние ~12 месяцев. Точной даты выхода у карточки нет — только год, поэтому
  *  «этот год или прошлый»; без года (0) и будущий год — не вышло, не новинка. Исключённые предупреждения настроек —
@@ -2048,12 +2052,14 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   const anchored = contentWeight(rated, MIN_RATED) > 0;
   if (anchored) void loadGenres();
   await (opts.kind === 'book' ? catalog() : films());
+  await tiltReady(opts.tilt);
   if (anchored && (settings.dimFamous ?? DIM_DEFAULT) !== 'off') await loadFame();
   // вердикт «про другое» снимает найденный разбор, а индекс первой ленты о вердиктах не знает (18.10, волна 3А) — тогда
   // ответ «есть ли разбор» только по разборам целиком
   if (!analysesComplete && [...linkVerdicts.values()].includes('other_work')) await analysesAll();
   if (opts.books && !booksReady) loadBooks().catch(() => undefined);
-  const state = ownState() ?? fallback?.();
+  const own = ownState();
+  const state = own ?? fallback?.();
   // Есть размеченная история — подбор по ней из пула; нет — слейт из моков (сценарий системы).
   // уже показанное в этой ленте («Ещё фильмы») и отказанное на срок — до подбора, чтобы шестёрка была полной
   const shown = new Set([...(more ?? []), ...hiddenFromFeed()]);
@@ -2075,15 +2081,17 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   // следующая (`fresh`), чтобы кнопка не появлялась впустую
   const novel = noveltyOf();
   if (books) {
-    const all = bookPool(keys);
+    const tilted = applyTilt(bookPool(keys), opts.tilt, tiltFactsOf);
+    const all = tilted.pool;
     const novelBooks = all.filter(novel);
-    const items = state ? recommend(state, opts.fresh ? novelBooks : all, energy, 6, today(), pickOpts()).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
+    const items = state ? recommend(state, opts.fresh ? novelBooks : all, energy, 6, today(), { ...pickOpts(), ...tilted.options }).map((r) => ({ ...r, id: `rec-book-${r.work.id}` })) : [];
     const rest = novelBooks.filter((c) => !items.some((r) => r.work.id === c.work.id));
     // порог — на вход в раздел; внутри новинок (нажал «Новинки») — сколько есть
-    const fresh = state && (opts.fresh || rest.length >= BOOK_NOVELTIES_MIN) ? recommend(state, rest, energy, 6, today(), pickOpts()).length : 0;
+    const fresh = state && (opts.fresh || rest.length >= BOOK_NOVELTIES_MIN) ? recommend(state, rest, energy, 6, today(), { ...pickOpts(), ...tilted.options }).length : 0;
     return finishSlate({ id: `s-book-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items, fresh }, items, opts.lazyPictures);
   }
-  const all = candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs)));
+  const tilted = applyTilt(candidates().filter((c) => !shown.has(c.work.id) && (!subsOnly || noExtra(c.work, subs))), opts.tilt, tiltFactsOf);
+  const all = tilted.pool;
   const pool = opts.fresh ? all.filter(novel) : all;
   // якорь вкуса (09.10): пока оценок мало, первая лента держится ближе к оценённому — по жанру,
   // стране и авторам; с ростом истории вес гаснет, и подбор идёт по уровню и операциям
@@ -2092,8 +2100,10 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   // и полки вкуса, выбранные на экране первых оценок (ЗП-45)
   const anchor = anchorWeight ? deriveContentTaste(history().filter((e) => e.status === 'finished'), genresOf, settings.ratingNorm, settings.tasteShelves) : undefined;
   const content = anchor ? { weight: anchorWeight, fit: (w: WorkCard) => contentFit(anchor, w, genresOf) } : undefined;
+  // своя верхушка — на сервер для подбора «вместе» в боте (19.10): фоном, после ленты, на неё не влияет
+  if (own && !more) scheduleTasteTop(own, content);
   const base = state
-    ? { id: `s-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...pickOpts() }) }
+    ? { id: `s-${opts.fresh ? 'new-' : ''}${energy}-${Date.now().toString(36)}`, generatedAt: new Date().toISOString(), energy, items: recommend(state, pool, energy, 6, today(), { seriesNovice: seriesNovice(), ...(!more && rated < NOVICE_RATED ? { essayFirst: 3 } : {}), ...(content ? { content } : {}), ...pickOpts(), ...tilted.options }) }
     : more ? { ...mocks.slates[energy], items: [] } : mocks.slates[energy];
   const items = base.items.filter((r) => !seen(r.work, keys) && !keys.has(r.work.id));
   // доступное без доплаты — вперёд, порядок внутри групп прежний (ЗП-42); новичку первые три с разбором
@@ -2120,10 +2130,81 @@ async function slateFor(energy: Energy, more: ID[] | undefined, opts: SlateOptio
   if (book) inserts.push({ rec: book, at: items.length });
   const insert = inserts.length ? inserts[Math.floor(Date.parse(today()) / 864e5) % inserts.length] : undefined;
   if (insert) items.splice(Math.min(items.length, insert.at), 0, insert.rec);
+  tiltTrim(items, opts.tilt);
   // сколько новинок даст следующая порция — без всего, что встало в эту (и вставки)
   const restNovel = state ? all.filter((c) => novel(c) && !items.some((r) => r.work.id === c.work.id)) : [];
-  const fresh = restNovel.length ? recommend(state!, restNovel, energy, 6, today(), { seriesNovice: seriesNovice(), ...(content ? { content } : {}), ...pickOpts() }).length : 0;
+  const fresh = restNovel.length ? recommend(state!, restNovel, energy, 6, today(), { seriesNovice: seriesNovice(), ...(content ? { content } : {}), ...pickOpts(), ...tilted.options }).length : 0;
   return finishSlate({ ...base, fresh }, items, opts.lazyPictures);
+}
+
+// ---------- верхушка вкуса для подбора «вместе» в боте (19.10) ----------
+// Модели вкуса на сервере нет — клиент присылает ~150 лучших для себя фильмов и сериалов (ключ, подходящесть 0..1, вид,
+// название, строка о фильме), сервер пересекает верхушки компании (worker/togetherPick.ts). Не чаще раза в TOP_HOURS или
+// при заметном изменении оценок (src/lib/tasteTop.ts); только для вошедших через Telegram; тихо: ни на ленту, ни на
+// экран не влияет, ошибки сети — молча. Отложенное в планы — тоже в верхушке, не ниже 0,75: это как раз то, что хотелось.
+const TOP_MARK = 'tm.tasteTop';
+const TOP_DELAY_MS = 4000;
+const PLANNED_FIT = 0.75;
+let topTimer: ReturnType<typeof setTimeout> | undefined;
+let topBusy = false;
+type ContentFit = { weight: number; fit: (w: WorkCard) => number };
+
+function scheduleTasteTop(state: CognitiveState, content?: ContentFit): void {
+  if (!store.onServer || !profile?.telegram || topTimer || topBusy) return;
+  topTimer = setTimeout(() => {
+    topTimer = undefined;
+    topBusy = true;
+    sendTasteTop(state, content).catch(() => undefined).finally(() => { topBusy = false; });
+  }, TOP_DELAY_MS);
+}
+
+/** Верхушка из пула кандидатов (без виденного, начатого и брошенного) и своих планов. */
+function tasteTop(state: CognitiveState, content?: ContentFit): TopEntry[] {
+  const keys = seenKeys();
+  for (const e of history()) if (e.status !== 'finished' && e.status !== 'planned') [e.work.id, ...keyList(e.work)].forEach((k) => keys.add(k));
+  const fitOf = (w: WorkCard) => {
+    const f = scoreCandidate(state, w, 'normal') + (content?.weight ? content.weight * content.fit(w) : 0);
+    return Number.isFinite(f) ? Math.max(0, Math.min(1, f)) : 0;
+  };
+  const entry = (w: WorkCard, f: number, what?: string): TopEntry | undefined => {
+    const ids = w.externalIds ?? externalIds[w.id];
+    const kp = ids?.kinopoisk != null ? `kp:${ids.kinopoisk}` : undefined;
+    const k = primaryKey(w, ids) ?? kp;
+    if (!k) return undefined;
+    const x = [...new Set([...keyList(w), ...(kp ? [kp] : [])])].filter((v) => v !== k).slice(0, 4);
+    const a = shortLine(draftFor(w)?.what ?? what);
+    return { k, f, ...(isSeries(w) ? { s: 1 as const } : {}), n: w.title.slice(0, 120), ...(w.year > 0 ? { y: w.year } : {}), ...(a ? { a } : {}), ...(x.length ? { x } : {}) };
+  };
+  const out: TopEntry[] = [];
+  for (const c of candidates()) {
+    if (!isScreen(c.work) || keys.has(c.work.id) || keyList(c.work).some((k) => keys.has(k))) continue;
+    const f = fitOf(c.work);
+    if (f <= 0) continue;
+    const e = entry(c.work, f, c.what);
+    if (e) out.push(e);
+  }
+  for (const h of history()) {
+    if (h.status !== 'planned' || !isScreen(h.work)) continue;
+    const e = entry(h.work, Math.max(PLANNED_FIT, h.work.complexityLevel ? fitOf(h.work) : 0));
+    if (e) out.push(e);
+  }
+  return pickTop(out);
+}
+
+async function sendTasteTop(state: CognitiveState, content?: ContentFit): Promise<void> {
+  const who = profile?.username ?? profile?.firstName ?? '';
+  const rated = ratedCount();
+  let prev: TopMark | undefined;
+  try { prev = JSON.parse(localStorage.getItem(TOP_MARK) ?? 'null') ?? undefined; } catch { prev = undefined; }
+  const now = Date.now();
+  // только что отправляли — пул и не считаем
+  if (prev && prev.who === who && now - prev.at < TOP_MIN_MINUTES * 60e3) return;
+  // строка о фильме — из текстов черновиков: они и так грузятся фоном после первой ленты, здесь только ждём их
+  await draftTexts();
+  const top = tasteTop(state, content);
+  if (!topDue(prev, now, rated, top, who)) return;
+  if (!(await putTasteTop(top))) return;
+  try { localStorage.setItem(TOP_MARK, JSON.stringify(markOf(now, rated, top, who))); } catch { /* хранилище недоступно — отправим в следующий раз */ }
 }
 
 /** Картинки, разборы и обсуждения к подобранному; показы — на сервер. `lazy` — без сети (18.10): кадры справочника
@@ -5068,5 +5149,87 @@ export async function getStats(kind: StatsKind, id: string): Promise<StatsPage |
     evidence,
     nearby,
     ...(mentions ? { mentions } : {}),
+  };
+}
+
+// ─── наклон ленты (19.10, панель ленты v2: только админу и тестерам) ─────────────────────────────────────────────────
+// Правила осей — src/lib/tilt.ts; здесь — справочники к ним (желания героев, жанры TMDb) и сводка осей для панели.
+// Пустой наклон подбор не трогает: `applyTilt` возвращает тот же пул и пустые настройки.
+let desireKindsByKey: Map<string, string[]> | undefined;
+let desireAxisLoad: Promise<void> | undefined;
+const loadDesireAxis = (): Promise<void> => (desireAxisLoad ??= import('@/mocks/desireAxis').then((m) => {
+  const map = new Map<string, string[]>();
+  for (const [kind, keys] of Object.entries(m.desireAxis)) for (const k of keys.split(' ')) (map.get(k) ?? map.set(k, []).get(k)!).push(kind);
+  desireKindsByKey = map;
+}).catch(() => { desireAxisLoad = undefined; }));
+/** справочники наклона: желания — оси «О чём», жанры — полкам «Откуда» с правилом по жанрам. Признаки карточки
+ *  считаются один раз, поэтому ждём оба, какая бы ось ни была выбрана */
+async function tiltReady(t?: Tilt): Promise<void> {
+  if (!tiltActive(t)) return;
+  await Promise.all([loadDesireAxis(), loadGenres()]);
+}
+const tiltFacts = new WeakMap<WorkCard, TiltFacts>();
+const tiltSources = {
+  desires: (w: WorkCard): readonly string[] => {
+    const key = primaryKey(w, w.externalIds ?? externalIds[w.id]);
+    return (key && desireKindsByKey?.get(key)) || [];
+  },
+  genres: genresOf,
+};
+function tiltFactsOf(w: WorkCard): TiltFacts {
+  let f = tiltFacts.get(w);
+  if (!f) { f = factsOf(w, tiltSources); tiltFacts.set(w, f); }
+  return f;
+}
+/** вставки (фокус, вселенная, классика, «Почитать») наклону «только» тоже подчиняются */
+function tiltTrim(items: Recommendation[], t?: Tilt): void {
+  if (!tiltHasOnly(t)) return;
+  const kept = items.filter((r) => passesOnly(t!, tiltFactsOf(r.work)));
+  items.splice(0, items.length, ...kept);
+}
+
+/** Вариант оси в справочнике — не меньше стольких произведений, иначе его в панели нет */
+export const TILT_MIN = 12;
+export interface TiltAxisData { axis: TiltAxis; options: string[] }
+export interface TiltData {
+  /** сколько произведений в пуле ленты (без виденного) */
+  pool: number;
+  /** оси с вариантами, у которых хватает произведений; ось без вариантов не приходит. У «Когда» — десятилетия */
+  axes: TiltAxisData[];
+  /** сколько произведений проходят оси «только это» */
+  count: (t: Tilt) => number;
+}
+const LENGTHS: Record<FeedKind, string[]> = { screen: ['short', 'evening', 'long', 'mini', 'series'], book: ['b-short', 'b-mid', 'b-long'] };
+const OPS: CognitiveOperation[] = ['perspective_taking', 'pattern_recognition', 'causal_reasoning', 'synthesis', 'analogical_thinking',
+  'abstraction', 'critical_analysis', 'metacognition'];
+
+/** Оси панели на настоящем пуле ленты: варианты — только те, у которых хватает произведений (TILT_MIN). */
+export async function getTiltData(kind: FeedKind): Promise<TiltData> {
+  await ready();
+  await (kind === 'book' ? catalog() : films());
+  await Promise.all([loadDesireAxis(), loadGenres()]);
+  const pool = kind === 'book' ? bookPool(new Set([...seenKeys(), ...hiddenFromFeed()])) : candidates();
+  const counts = new Map<string, number>();
+  const bump = (k: string) => counts.set(k, (counts.get(k) ?? 0) + 1);
+  for (const c of pool) {
+    const f = tiltFactsOf(c.work);
+    for (const a of ['want', 'trad', 'op', 'form', 'len'] as const) for (const v of f[a]) bump(`${a}:${v}`);
+    if (f.year > 0) bump(`era:${eraBucket(f.year)}`);
+  }
+  const enough = (a: TiltAxis, ids: readonly string[]) => ids.filter((v) => (counts.get(`${a}:${v}`) ?? 0) >= TILT_MIN);
+  const decades = [...counts.keys()].filter((k) => k.startsWith('era:')).map((k) => Number(k.slice(4))).sort((x, y) => x - y);
+  const axes: TiltAxisData[] = [
+    { axis: 'want', options: enough('want', DESIRE_KINDS) },
+    { axis: 'trad', options: enough('trad', TRADITIONS.map((c) => c.id)) },
+    { axis: 'op', options: enough('op', OPS) },
+    // «Когда»: барабаны от первого до последнего десятилетия, где хватает произведений
+    { axis: 'era', options: enough('era', decades.map(String)) },
+    { axis: 'form', options: enough('form', Object.keys(FORM_GROUPS)) },
+    { axis: 'len', options: enough('len', LENGTHS[kind]) },
+  ];
+  return {
+    pool: pool.length,
+    axes: axes.filter((x) => x.options.length >= (x.axis === 'era' ? 2 : 1)),
+    count: (t: Tilt) => (tiltHasOnly(t) ? pool.filter((c) => passesOnly(t, tiltFactsOf(c.work))).length : pool.length),
   };
 }

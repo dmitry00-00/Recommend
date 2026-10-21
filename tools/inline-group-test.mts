@@ -6,7 +6,7 @@
 // Я (tg 100): видел «Матрицу», любимое — «Пленницы» (оценка без карточки — название из справочника), в планах
 // «Интерстеллар» и «Дюна». Аня: в планах «Интерстеллар», «Аритмия» и книга, видела «Дюну». Лёша: видел «Пленницы»,
 // любимое — «1+1». «для @anya @lyosha» → «Интерстеллар» (в планах у двоих), «Аритмия» (планы одной), «1+1» (любимое
-// одного); «Дюны» нет — Аня видела, «Пленниц» нет — Лёша видел, книги нет. «для @anya» → и «Пленницы»: Аня их не видела.
+// одного) — верхушек вкуса (19.10, worker/togetherPick.ts) ни у кого нет, подбор по старой истории; «Дюны» нет — Аня видела, «Пленниц» нет — Лёша видел, книги нет. «для @anya» → и «Пленницы»: Аня их не видела.
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
@@ -90,7 +90,10 @@ let a = await ask('для @anya @lyosha');
 let r = (a.results as Article[])[0];
 assert.equal(r.title, 'Для вас и @anya, @lyosha');
 assert.deepEqual(lines(r), ['1. Интерстеллар (2014)', '2. Аритмия (2017)', '3. 1+1 (2011)']);
-assert.doesNotMatch(r.input_message_content.message_text + r.description, /Дюна|Пленницы|Матрица|Книга|anya|lyosha/i);
+assert.doesNotMatch(r.input_message_content.message_text + r.description, /Дюна|Пленницы|Матрица|Книга/i);
+// 19.10: верхушек вкуса ни у кого нет — подбор по старой истории, и это видно в подписи; в само сообщение ники не идут
+assert.doesNotMatch(r.input_message_content.message_text, /anya|lyosha/i);
+assert.match(r.description, /^@anya, @lyosha — по старой истории/);
 
 // 2. одна Аня: моё любимое она не видела — оно в списке
 a = await ask('вместе @Anya');
@@ -103,7 +106,7 @@ assert.match(String([...calls].reverse().find((c) => c.method === 'editMessageTe
 
 // 4. кого нет в боте — в подписи; никого нет — подсказка вместо результатов
 r = ((await ask('для @anya @ghost_user')).results as Article[])[0];
-assert.match(r.description, /^@ghost_user не открывали приложение — /);
+assert.match(r.description, /^@ghost_user не открывали приложение; @anya — по старой истории — /);
 a = await ask('для @ghost_user');
 assert.deepEqual(a.results, []);
 assert.match((a.button as { text: string }).text, /@ghost_user не открывали приложение/);

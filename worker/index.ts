@@ -21,6 +21,7 @@ import { getGrowth, seedingRoute } from './growthRoute';
 import { deleteAccount } from './account';
 import { noteInvite } from './invite';
 import { togetherRoute } from './together';
+import { putTasteTop } from './togetherPick';
 import { probe } from './probe';
 import { forgetTrailers, getTrailers } from './trailers';
 // сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
@@ -1083,6 +1084,8 @@ export default {
         if (path === '/api/owner/testers' && req.method === 'PUT') return putTester(req, env.DB);
       }
 
+      // верхушка вкуса для подбора «вместе» в боте (19.10, worker/togetherPick.ts)
+      if (path === '/api/taste-top' && req.method === 'PUT') return putTasteTop(req, user.id, env);
       // выбор компанией (ЗП-11, 07.10)
       if (path.startsWith('/api/together')) {
         const r = await togetherRoute(req, path, user.id, env);

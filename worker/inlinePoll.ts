@@ -8,7 +8,7 @@
 // голосовавших видны только в этом чате — их там и так видно; живут голоса 30 дней.
 import type { Env } from './env';
 import { bot } from './env';
-import { tg } from './tg';
+import { tg, tgSign } from './tg';
 
 export interface PollFilm { t: string; y?: number; i?: string }
 type Lang = 'ru' | 'en';
@@ -71,9 +71,9 @@ export function pollKeyboard(id: string, n: number, lang: Lang, session?: string
 
 /** Результат инлайна: одна статья-голосование. Подборка пишется сразу (ключ — от состава и автора: повторный запрос
  *  тем же составом даёт тот же ключ); голосов у неё нет, пока сообщение не отправлено. */
-export async function pollResult(env: Env, films: PollFilm[], owner: number, lang: Lang, session?: string,
-  label?: { title?: string; note?: string }) {
-  const list = films.slice(0, MAX);
+/** Подборку — в базу (ключ от состава и автора); старше KEEP_DAYS — чистим. */
+export async function savePoll(env: Env, films: PollFilm[], owner: number, lang: Lang, session?: string): Promise<string> {
+  const list = films.slice(0, MAX).map((f) => ({ t: f.t, ...(f.y ? { y: f.y } : {}), ...(f.i ? { i: f.i } : {}) }));
   const id = await pollId(list, owner);
   const old = new Date(Date.now() - KEEP_DAYS * 864e5).toISOString();
   await env.DB.batch([
@@ -82,6 +82,13 @@ export async function pollResult(env: Env, films: PollFilm[], owner: number, lan
     env.DB.prepare('INSERT OR IGNORE INTO inline_poll (id, owner_tg, films, lang, session_id, created_at) VALUES (?, ?, ?, ?, ?, ?)')
       .bind(id, owner, JSON.stringify(list), lang, session ?? null, new Date().toISOString()),
   ]);
+  return id;
+}
+
+export async function pollResult(env: Env, films: PollFilm[], owner: number, lang: Lang, session?: string,
+  label?: { title?: string; note?: string }) {
+  const list = films.slice(0, MAX);
+  const id = await savePoll(env, list, owner, lang, session);
   const thumb = list.find((f) => f.i)?.i;
   return {
     type: 'article', id: `poll-${id}`, title: label?.title ?? T[lang].title(list.length),
@@ -110,6 +117,28 @@ export interface CallbackQuery {
 
 // 17.10: через общий tg() — 8 с на вызов, ошибки не бросает
 const api = (env: Env, method: string, body: unknown) => tg(env, method, body);
+
+/** «Голосовать» под списком подбора (19.10, worker/togetherChat.ts): то же сообщение становится голосованием в чате.
+ *  Данные кнопки — `tv:<подборка>:<подпись>`. true — нажатие наше. */
+export async function pollStart(env: Env, cb: CallbackQuery): Promise<boolean> {
+  const m = /^tv:([0-9a-f]{12}):([0-9a-f]{12})$/.exec(cb.data ?? '');
+  if (!m) return false;
+  const poll = env.BOT_TOKEN && m[2] === await tgSign(env.BOT_TOKEN, `tv:${m[1]}`)
+    ? await env.DB.prepare('SELECT films, lang, session_id FROM inline_poll WHERE id = ?').bind(m[1]).first<{ films: string; lang: string | null; session_id: string | null }>()
+    : null;
+  const lang: Lang = poll?.lang === 'en' ? 'en' : 'ru';
+  const where = cb.inline_message_id ? { inline_message_id: cb.inline_message_id } : cb.message ? { chat_id: cb.message.chat.id, message_id: cb.message.message_id } : undefined;
+  if (!poll || !where) { await api(env, 'answerCallbackQuery', { callback_query_id: cb.id, text: T[lang].stale }); return true; }
+  const films = JSON.parse(poll.films) as PollFilm[];
+  const msg = cb.inline_message_id ?? `${cb.message!.chat.id}:${cb.message!.message_id}`;
+  const votes = (await env.DB.prepare('SELECT idx, name FROM inline_vote WHERE msg = ? ORDER BY at').bind(msg).all<{ idx: number; name: string }>()).results ?? [];
+  await Promise.all([
+    api(env, 'answerCallbackQuery', { callback_query_id: cb.id }),
+    api(env, 'editMessageText', { ...where, text: pollText(films, votes, lang), parse_mode: 'HTML', link_preview_options: { is_disabled: true },
+      reply_markup: pollKeyboard(m[1], films.length, lang, poll.session_id ?? undefined) }),
+  ]);
+  return true;
+}
 
 /** Тап по номеру: «хочу» или снять, перерисовать сообщение. true — нажатие наше. */
 export async function pollVote(env: Env, cb: CallbackQuery): Promise<boolean> {

@@ -17,6 +17,7 @@
 import type { D1Database, Env } from './env';
 import { bot } from './env';
 import { tg } from './tg';
+import { commandMentions, togetherMentions, type Entity } from './togetherChat';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const DECK_MIN = 4;
@@ -82,7 +83,7 @@ const command = (): RegExp => new RegExp(`^\\/(?:(?:together|vmeste)(?:@${bot.na
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const TEXT = {
   ru: {
-    ask: 'Что смотрим? Один собирает подборку под свой вкус — я пришлю её сюда, остальные голосуют: «хочу», «не хочу», «видел».',
+    ask: 'Что смотрим? Один собирает подборку под свой вкус — я пришлю её сюда, остальные голосуют: «хочу», «не хочу», «видел».\nИли сразу: /together и отметьте друзей через @ — подберу по вкусу всех.',
     pick: 'Собрать подборку',
     inChat: 'Голосовать прямо в чате',
     result: (t: string, match: boolean) => `<b>${match ? 'Совпадение' : 'Итог'}: ${esc(t)}</b>\nГолоса открыты — подробности в приложении.`,
@@ -91,7 +92,7 @@ const TEXT = {
     go: 'Голосовать',
   },
   en: {
-    ask: "What are we watching? One of you picks a set to match their taste — I'll post it here, and everyone votes: want, don't, seen.",
+    ask: "What are we watching? One of you picks a set to match their taste — I'll post it here, and everyone votes: want, don't, seen.\nOr right away: /together and tag your friends with @ — I'll pick for everyone's taste.",
     pick: 'Pick films',
     inChat: 'Vote right in the chat',
     result: (t: string, match: boolean) => `<b>${match ? 'Match' : 'Result'}: ${esc(t)}</b>\nVotes are open — details in the app.`,
@@ -108,11 +109,20 @@ async function send(env: Env, body: Record<string, unknown>): Promise<boolean> {
   return (await tg(env, 'sendMessage', body)).ok;
 }
 
-export interface ChatMessage { message_id: number; text?: string; chat: { id: number; type: string; title?: string }; from?: { language_code?: string } }
+export interface ChatMessage {
+  message_id: number; text?: string; entities?: Entity[]; chat: { id: number; type: string; title?: string };
+  from?: { id?: number; language_code?: string; is_bot?: boolean };
+}
 
-/** Сообщение боту (вебхук, worker/inline.ts). true — команда наша и ответ отправлен. */
+/** Сообщение боту (вебхук, worker/inline.ts). true — команда наша и ответ отправлен.
+ *  19.10: «/together @anya @lyosha» (ники из штатного списка участников Telegram, люди без ника — text_mention) — сразу
+ *  подбор по вкусу всех названных списком (worker/togetherChat.ts); без упоминаний — как раньше, сбор подборки. */
 export async function togetherCommand(env: Env, m: ChatMessage): Promise<boolean> {
   if (!m.text || !command().test(m.text.trim())) return false;
+  const who = commandMentions(m.text, m.entities);
+  if ((who.nicks.length || who.ids.length) && typeof m.from?.id === 'number' && !m.from.is_bot) {
+    return togetherMentions(env, { message_id: m.message_id, chat: m.chat, from: { id: m.from.id, language_code: m.from.language_code } }, who);
+  }
   const token = newSessionId();
   const l = lang(m.from?.language_code);
   // ключи старше недели не нужны никому: и не годны, и не нужны для истории
