@@ -5,7 +5,7 @@
   const GROUPS = [
     { tabs: [['dash', 'Сводка']] },
     { label: 'Работа', tabs: [['check', 'Проверка'], ['lens', 'Рубрики']] },
-    { label: 'Данные', tabs: [['channels', 'Каналы'], ['behavior', 'Поведение'], ['growth', 'Рост']] },
+    { label: 'Данные', tabs: [['channels', 'Каналы'], ['behavior', 'Поведение'], ['growth', 'Рост'], ['asks', 'Запросы']] },
     { label: 'Импорт', tabs: [['links', 'Ссылки'], ['kinopoisk', 'Кинопоиск']] },
   ];
   const here = location.pathname.split('/')[1];

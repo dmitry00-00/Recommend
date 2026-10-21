@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Запросы</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8; --soft: #eef2fc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926; --soft: #232a3d; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  a { color: var(--accent); }
+  .sub { color: var(--muted); margin: 4px 0 16px; max-width: 860px; }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .err { color: var(--bad); }
+  button, input, select { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; }
+  button { cursor: pointer; } button:disabled { opacity: .5; cursor: default; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  input[type=search] { min-width: 220px; }
+  label { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 14px; }
+  .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .spacer { flex: 1; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 0 0 18px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin: 0 0 14px; }
+  .seg button { border: 0; border-radius: 0; padding: 6px 14px; background: var(--panel); color: var(--muted); }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on { background: var(--soft); color: var(--ink); font-weight: 600; }
+  .seg .n { margin-left: 6px; color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  .ask { min-width: 340px; max-width: 560px; }
+  td.refs { width: 22%; }
+  .ask .t { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .ask .t.cut { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .want { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { display: inline-block; padding: 1px 8px; border-radius: 10px; background: var(--chip); font-size: 13px; white-space: nowrap; }
+  .chip.in { background: var(--soft); }
+  .chip.out { border: 1px dashed var(--line); background: none; color: var(--muted); }
+  .chip i { font-style: normal; color: var(--muted); margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .src { font-size: 12px; color: var(--muted); }
+  .run { padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 10px 10px 0; margin: 0 0 16px; font-size: 14px; }
+  .run pre { margin: 6px 0 0; font: 12px/1.4 ui-monospace, Menlo, monospace; color: var(--muted); white-space: pre-wrap; }
+  .more { margin: 12px 0 0; }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div class="head"><h1>Запросы на рекомендации</h1><span class="muted" id="when"></span><span class="spacer"></span>
+    <button id="match" title="Пересчитать свод по готовой разметке — без модели и без Telegram">Пересчитать свод</button>
+    <button id="full" class="primary" title="Забрать находки шлюза, разметить новое локальной моделью (до 30 минут) и собрать свод">Забрать новое и разметить</button></div>
+  <p class="sub">Просьбы «посоветуйте, что посмотреть» из публичных каналов и чатов Telegram: что просят, что уже понравилось, что советуют в ответах.
+    Находки собирает шлюз каждую ночь, разметку делает локальная модель. Профили зрителей — адресаты для личных подборок. Отправитель сообщения шлюзом не сохраняется.</p>
+  <div id="run"></div>
+  <div id="view"><p class="muted">Читаю свод…</p></div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (n) => (n == null ? '—' : Number(n).toLocaleString('ru-RU'));
+const dt = (s) => (s ? new Date(s).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—');
+const dd = (s) => (s ? new Date(s).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) : '—');
+const DAY = 86400e3;
+const store = { get(k, d) { try { return localStorage.getItem(`asks.${k}`) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(`asks.${k}`, v); } catch { /* только на сеанс */ } } };
+
+let D = null;
+const st = { ruOnly: store.get('ruOnly', '1') === '1', tab: new URLSearchParams(location.search).get('tab') || store.get('tab', 'asks'), q: '', liked: false, answered: false, period: store.get('period', '30'), sort: store.get('sort', 'date'), limit: 150 };
+
+const chip = (r, n) => `<span class="chip ${r.key ? 'in' : 'out'}" title="${r.key ? esc(r.key) : 'нет в справочнике'}">${esc(r.title)}${n ? `<i>×${n}</i>` : ''}</span>`;
+
+function asksView() {
+  const now = Date.now();
+  const q = st.q.trim().toLowerCase();
+  let A = D.asks.filter((a) => (st.period === 'all' || (a.date && now - Date.parse(a.date) <= Number(st.period) * DAY))
+    && (!st.liked || a.liked.length) && (!st.answered || a.advice.length)
+    && (!q || `${a.text} ${a.want ?? ''} ${a.channel} ${a.liked.map((r) => r.title).join(' ')} ${a.advice.map((r) => r.title).join(' ')}`.toLowerCase().includes(q)));
+  A = A.sort(st.sort === 'replies' ? (a, b) => (b.replies ?? 0) - (a.replies ?? 0) : (a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+  const shown = A.slice(0, st.limit);
+  return `<div class="bar">
+      <input type="search" id="q" placeholder="поиск: текст, фильм, канал" value="${esc(st.q)}">
+      <select id="period"><option value="7">за 7 дней</option><option value="30">за 30 дней</option><option value="90">за 90 дней</option><option value="all">за всё время</option></select>
+      <label><input type="checkbox" id="liked" ${st.liked ? 'checked' : ''}> назвали, что понравилось</label>
+      <label><input type="checkbox" id="answered" ${st.answered ? 'checked' : ''}> есть советы в ответах</label>
+      <select id="sort"><option value="date">сначала свежие</option><option value="replies">сначала обсуждаемые</option></select>
+      <span class="muted">${fmt(A.length)} из ${fmt(D.asks.length)}</span></div>
+    ${shown.length ? `<div class="card"><table><thead><tr><th>Когда</th><th>Просьба</th><th>Понравилось</th><th>Советуют</th><th class="n">Ответов</th></tr></thead><tbody>
+      ${shown.map((a) => `<tr><td class="n">${esc(dd(a.date))}<div class="src"><a href="${esc(a.link)}" target="_blank" rel="noopener">@${esc(a.channel)}</a></div></td>
+        <td class="ask"><div class="t cut">${esc(a.text)}</div>${a.want ? `<div class="want">хочется: ${esc(a.want)}</div>` : ''}
+          ${a.notWanted?.length ? `<div class="want">не надо: ${a.notWanted.map((r) => esc(r.title)).join(', ')}</div>` : ''}</td>
+        <td class="refs"><div class="chips">${a.liked.map((r) => chip(r)).join('') || '<span class="muted">·</span>'}</div></td>
+        <td class="refs"><div class="chips">${a.advice.slice(0, 8).map((r) => chip(r, r.n > 1 ? r.n : 0)).join('') || '<span class="muted">·</span>'}${a.advice.length > 8 ? `<span class="muted">+${a.advice.length - 8}</span>` : ''}</div></td>
+        <td class="n">${fmt(a.replies ?? 0)}${a.answers ? `<div class="src">разобрано ${fmt(a.answers)}</div>` : ''}</td></tr>`).join('')}
+      </tbody></table></div>
+      ${A.length > shown.length ? `<p class="more"><button id="more">Показать ещё ${fmt(Math.min(150, A.length - shown.length))}</button></p>` : ''}`
+    : '<p class="muted">ничего не нашлось — ослабьте фильтры</p>'}
+    <p class="muted" style="font-size:13px;margin:10px 0 0">Голубая метка — фильм есть в справочнике, пунктир — нет. «Разобрано» — сколько ответов под постом шлюз забрал и модель разметила:
+      ветки забираются по ночам, просьбы с «понравилось» — первыми.</p>`;
+}
+
+function pairsView() {
+  return `<div class="cards">
+    <div class="card"><h2>Понравилось → посоветовали</h2>${D.pairs.length ? `<table><thead><tr><th>Понравилось</th><th>Посоветовали</th><th class="n">Раз</th></tr></thead><tbody>
+      ${[...D.pairs].sort((a, b) => b.n - a.n).slice(0, 150).map((p) => `<tr><td>${esc(p.likedTitle)}</td><td>${esc(p.advisedTitle)}</td><td class="n">${fmt(p.n)}</td></tr>`).join('')}
+      </tbody></table>` : '<p class="muted">пар пока нет</p>'}</div>
+    <div class="card"><h2>Чаще всего советуют</h2><table><thead><tr><th>Фильм</th><th class="n">Советов</th></tr></thead><tbody>
+      ${D.advised.map((x) => `<tr><td>${esc(x.title)}<span class="src"> · ${esc(x.key)}</span></td><td class="n">${fmt(x.n)}</td></tr>`).join('')}</tbody></table></div>
+  </div>`;
+}
+
+function unknownView() {
+  return `<div class="card"><h2>Названия из просьб и советов, которых нет в справочнике</h2>
+    <p class="muted" style="font-size:13px;margin:0 0 10px">Кандидаты на пополнение: чем чаще называют, тем выше. Среди них бывает шум разметки — имена, жанры, обрывки фраз.</p>
+    <div class="chips">${D.unknown.map((x) => `<span class="chip out">${esc(x.title)}<i>×${fmt(x.n)}</i></span>`).join('')}</div></div>`;
+}
+
+function profilesView() {
+  const P = D.profiles.filter((p) => !st.ruOnly || p.ru);
+  const by = {};
+  for (const p of P) by[p.site] = (by[p.site] ?? 0) + 1;
+  return `<div class="bar"><label><input type="checkbox" id="ruOnly" ${st.ruOnly ? 'checked' : ''}> только русскоязычные</label>
+      <span class="muted">${Object.entries(by).map(([s, n]) => `${esc(s)} — ${fmt(n)}`).join(' · ') || 'профилей нет'}</span></div>
+    ${P.length ? `<div class="card"><table><thead><tr><th>Когда</th><th>Профиль</th><th>Канал</th><th>Сообщение</th></tr></thead><tbody>
+      ${P.map((p) => `<tr><td class="n">${esc(dd(p.date))}</td><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.site)}</a><div class="src">${esc(p.url.replace(/^https?:\/\/(www\.)?/, ''))}</div></td>
+        <td><a href="${esc(p.link)}" target="_blank" rel="noopener">@${esc(p.channel)}</a>${p.channelTitle ? `<div class="src">${esc(p.channelTitle)}</div>` : ''}</td>
+        <td class="ask"><div class="t cut">${esc(p.text)}</div></td></tr>`).join('')}</tbody></table></div>` : ''}`;
+}
+
+function render() {
+  if (!D) return;
+  if (D.error) { $('#view').innerHTML = `<p class="err">${esc(D.error)}</p>`; return; }
+  const k = D.kinds ?? {};
+  const fresh = D.asks.filter((a) => a.date && Date.now() - Date.parse(a.date) <= 7 * DAY).length;
+  $('#when').textContent = `свод ${dt(D.built)} · находки ${dt(D.foundAt)}`;
+  const tabs = [['asks', 'Просьбы', D.asks.length], ['pairs', 'Пары и советы', D.pairs.length], ['unknown', 'Нет в справочнике', D.unknown.length], ['profiles', 'Профили зрителей', D.profiles.filter((p) => !st.ruOnly || p.ru).length]];
+  $('#view').innerHTML = `<div class="tiles">
+      <div class="tile"><b>${fmt(D.asks.length)}</b><span>просьб · за неделю ${fmt(fresh)}</span></div>
+      <div class="tile"><b>${fmt(D.asks.filter((a) => a.liked.length).length)}</b><span>с «понравилось» — из них пары</span></div>
+      <div class="tile"><b>${fmt(D.asks.filter((a) => a.advice.length).length)}</b><span>с советами в ответах</span></div>
+      <div class="tile"><b>${fmt(D.pairs.length)}</b><span>пар «понравилось → посоветовали»</span></div>
+      <div class="tile"><b>${fmt(D.profiles.filter((p) => p.ru).length)}</b><span>русскоязычных профилей зрителей · всего ${fmt(D.profiles.length)}</span></div>
+      <div class="tile"><b>${fmt(D.counts.labelled)}</b><span>размечено из ${fmt(D.counts.found)} находок</span></div>
+    </div>
+    <div class="seg" role="tablist">${tabs.map(([id, name, n]) => `<button data-tab="${id}" class="${st.tab === id ? 'on' : ''}" role="tab" aria-selected="${st.tab === id}">${name}<span class="n">${fmt(n)}</span></button>`).join('')}</div>
+    <div id="pane">${st.tab === 'pairs' ? pairsView() : st.tab === 'unknown' ? unknownView() : st.tab === 'profiles' ? profilesView() : asksView()}</div>
+    <p class="muted" style="font-size:13px;margin:14px 0 0">Находки по запросам: ${Object.entries(D.queries).sort((a, b) => b[1] - a[1]).map(([q, n]) => `«${esc(q)}» ${fmt(n)}`).join(' · ')}.
+      Разметка: ${Object.entries(k).map(([x, n]) => `${esc(x)} ${fmt(n)}`).join(' · ')}.</p>`;
+  if ($('#period')) { $('#period').value = st.period; $('#sort').value = st.sort; }
+  desk.badge('asks', fresh);
+}
+
+function runView(r) {
+  if (!r || (!r.running && !r.startedAt)) { $('#run').innerHTML = ''; return; }
+  const what = r.mode === 'full' ? 'забор и разметка' : 'пересчёт свода';
+  $('#run').innerHTML = `<div class="run">${r.running ? `Идёт ${what} — начат ${dt(r.startedAt)}` : `${what[0].toUpperCase()}${what.slice(1)}: ${r.code === 0 ? '<span class="ok">готово</span>' : `<span class="err">ошибка (код ${esc(r.code)})</span>`} ${dt(r.finishedAt)}`}
+    ${r.tail?.length ? `<pre>${esc(r.tail.join('\n'))}</pre>` : ''}</div>`;
+  $('#match').disabled = $('#full').disabled = Boolean(r.running);
+}
+
+let poll;
+async function load() {
+  try { D = await (await fetch('api/data')).json(); } catch (e) { D = { error: `пульт не ответил: ${e.message}` }; }
+  render();
+  runView(D?.run);
+  clearTimeout(poll);
+  if (D?.run?.running) poll = setTimeout(watch, 4000);
+}
+async function watch() {
+  const r = await (await fetch('api/run')).json().catch(() => null);
+  runView(r);
+  if (r?.running) poll = setTimeout(watch, 4000); else load();
+}
+async function start(mode) {
+  const r = await (await fetch(`api/run?mode=${mode}`, { method: 'POST', headers: { 'x-desk': '1' } })).json().catch((e) => ({ error: e.message }));
+  if (r.error) alert(r.error);
+  runView(r.run);
+  poll = setTimeout(watch, 2000);
+}
+
+$('#match').onclick = () => start('match');
+$('#full').onclick = () => start('full');
+$('#view').addEventListener('click', (e) => {
+  const t = e.target.closest('[data-tab]');
+  if (t) { st.tab = t.dataset.tab; store.set('tab', st.tab); st.limit = 150; render(); return; }
+  if (e.target.id === 'more') { st.limit += 150; render(); return; }
+  const cut = e.target.closest('.t');
+  if (cut) cut.classList.toggle('cut');
+});
+$('#view').addEventListener('input', (e) => {
+  if (e.target.id === 'q') { st.q = e.target.value; st.limit = 150; const pos = e.target.selectionStart; render(); const q = $('#q'); q.focus(); q.setSelectionRange(pos, pos); }
+});
+$('#view').addEventListener('change', (e) => {
+  const id = e.target.id;
+  if (id === 'liked' || id === 'answered') st[id] = e.target.checked;
+  else if (id === 'ruOnly') { st.ruOnly = e.target.checked; store.set('ruOnly', st.ruOnly ? '1' : '0'); }
+  else if (id === 'period' || id === 'sort') { st[id] = e.target.value; store.set(id, e.target.value); }
+  else return;
+  st.limit = 150; render();
+});
+load();
+</script>
+</body>
+</html>
