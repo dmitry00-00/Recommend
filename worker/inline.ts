@@ -13,6 +13,7 @@ import { togetherCommand, type ChatMessage } from './together';
 import { lastDeck, pollQuery, pollResult, pollStart, pollTitles, pollVote, type CallbackQuery, type PollFilm } from './inlinePoll';
 import { GROUP_T, groupPick, groupQuery } from './inlineGroup';
 import { inlineIndex, lookupIn, norm, type Entry, type InlineIdx } from './inlineIndex';
+import { startCommand } from './startPicks';
 import { groupHintArticle, pairArticle, pairPress, pairReady } from './togetherChat';
 import { tg } from './tg';
 
@@ -29,9 +30,10 @@ const KINDS: Record<Lang, Record<Entry['k'], string>> = {
   ru: { film: 'Фильм', series: 'Сериал', book: 'Книга', character: 'Герой' },
   en: { film: 'Film', series: 'Series', book: 'Book', character: 'Character' },
 };
-const BUTTON: Record<Lang, { work: string; character: string; together: string }> = {
-  ru: { work: 'Открыть карточку', character: 'Открыть героя', together: 'Голосовать' },
-  en: { work: 'Open card', character: 'Open character', together: 'Vote' },
+// voice (23.10): страница автора — кнопка как чип «Все разборы» в карточке
+const BUTTON: Record<Lang, { work: string; character: string; together: string; voice: string }> = {
+  ru: { work: 'Открыть карточку', character: 'Открыть героя', together: 'Голосовать', voice: 'Все разборы' },
+  en: { work: 'Open card', character: 'Open character', together: 'Vote', voice: 'All breakdowns' },
 };
 
 export async function webhookSecret(token: string): Promise<string> {
@@ -177,8 +179,11 @@ export async function telegramUpdate(req: Request, env: Env): Promise<Response> 
       await (async () => (await pairPress(env, cb)) || (await pollStart(env, cb)) || (await pollVote(env, cb)))()
         .catch((err) => console.error('callback', err));
     }
-    // «/together» в чате — выбор компанией (ЗП-11, 11.10)
-    if (update.message) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
+    // «/start» в личке — три фильма дня (22.10); «/together» в чате — выбор компанией (ЗП-11, 11.10)
+    if (update.message) {
+      const started = await startCommand(env, update.message).catch((err) => { console.error('start command', err); return false; });
+      if (!started) await togetherCommand(env, update.message).catch((err) => console.error('together command', err));
+    }
   } catch (err) {
     console.error('telegram update:', (err as Error)?.stack ?? err);
   }
@@ -200,7 +205,10 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
     if (!origin) return Response.json({ error: 'no_public_origin', hint: 'задайте PUBLIC_ORIGIN=https://<адрес сервера> в панели bothost' }, { status: 503 });
     let ownHost = '';
     try { ownHost = new URL(origin).host; } catch { return Response.json({ error: 'bad_public_origin' }, { status: 503 }); }
-    if (!ownHost || new URL(b.url).host !== ownHost) return Response.json({ error: 'url_host' }, { status: 400 });
+    // 24.10: адрес из тела, регэксп «^https://[^/]+/api/telegram$» пропускает и неразбираемое («https://[/api/telegram») — 400, а не 500
+    let hookHost = '';
+    try { hookHost = new URL(b.url).host; } catch { return Response.json({ error: 'url' }, { status: 400 }); }
+    if (!ownHost || hookHost !== ownHost) return Response.json({ error: 'url_host' }, { status: 400 });
     const hook = await api('setWebhook', { url: b.url, secret_token: await webhookSecret(env.BOT_TOKEN), allowed_updates: ['inline_query', 'message', 'callback_query'], drop_pending_updates: true });
     // команда /together — в подсказках Telegram, в группах и в личке (ЗП-11, 11.10)
     const commands = [{ command: 'together', description: 'Выбрать фильм вместе' }];
@@ -225,15 +233,16 @@ export async function adminWebhook(req: Request, env: Env): Promise<Response> {
 import { IMAGE_HOSTS } from './hosts';
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
 
-export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together'; by?: string; about?: string; image?: string; lang?: Lang }
+// 'voice' (23.10, партнёрство с каналами): страница автора `v-<id>`; строки вида у неё нет, кнопка — «Все разборы»
+export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together' | 'voice'; by?: string; about?: string; image?: string; lang?: Lang }
 
 export function shareResult(c: ShareCard) {
   const head = `${c.title}${c.year ? ` (${c.year})` : ''}`;
-  const line = [c.kind && c.kind !== 'together' ? KINDS[c.lang ?? 'ru'][c.kind] : undefined, c.by].filter(Boolean).join(' · ');
+  const line = [c.kind && c.kind !== 'together' && c.kind !== 'voice' ? KINDS[c.lang ?? 'ru'][c.kind] : undefined, c.by].filter(Boolean).join(' · ');
   const text = [`<b>${esc(head)}</b>`, line ? esc(line) : '', c.about ? `\n${esc(c.about)}` : ''].filter(Boolean).join('\n');
   // выбор компанией (ЗП-11): приглашение голосовать, а не карточка
   const B = BUTTON[c.lang ?? 'ru'];
-  const button = c.kind === 'together' ? B.together : c.kind === 'character' ? B.character : B.work;
+  const button = c.kind === 'together' ? B.together : c.kind === 'voice' ? B.voice : c.kind === 'character' ? B.character : B.work;
   const reply_markup = { inline_keyboard: [[{ text: button, url: `https://t.me/${bot.name}?startapp=${c.param}` }]] };
   const id = `s-${c.param}`.slice(0, 64);
   return c.image
@@ -249,7 +258,7 @@ export async function prepareShare(req: Request, tgId: number | null | undefined
   const param = clip(b.param, 64);
   const title = clip(b.title, 120);
   if (!/^[A-Za-z0-9_-]{1,64}$/.test(param) || !title) return Response.json({ error: 'bad_card' }, { status: 400 });
-  const kind = (['film', 'series', 'book', 'character', 'together'] as const).find((k) => k === b.kind);
+  const kind = (['film', 'series', 'book', 'character', 'together', 'voice'] as const).find((k) => k === b.kind);
   const image = clip(b.image, 500);
   // в кнопку — код поделившегося (ЗП-37): новый участник по этой ссылке запомнит, кто его привёл
   const card: ShareCard = { param: userId ? withRef(param, userId) : param, title, ...(typeof b.year === 'number' && b.year > 1800 && b.year < 2100 ? { year: b.year } : {}),

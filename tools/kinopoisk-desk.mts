@@ -5,15 +5,18 @@
 // deploy/desk.command (или deploy/kinopoisk-desk.command — сразу на эту вкладку).
 // Слушает только 127.0.0.1; меняющие запросы — только со своей страницы (заголовок x-desk и
 // Host) — это проверяет общий пульт: чужой сайт в браузере не отправит сид от имени владельца.
+// Профили списком (23.10): поле «Добавить профили» — ссылки на профили (по строке, канал @ник — на той же строке) встают в
+// очередь помощника; ниже — очередь: что собрано и какие контакты помощник нашёл на странице профиля.
 // Сырые страницы в память не кладутся: из запроса сразу разбор, дальше — только записи.
 // Ник для профиля Кинопоиска запоминается (.cache/kinopoisk-profiles.json, вне git): кто
 // прислал страницы второй раз, узнаётся сам.
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import {
-  buildSeed, mergeRecords, pagesReport, publishSeed, readPage, SEEDS, seedSummary, validNick,
+  buildSeed, mergeRecords, pagesReport, publishSeed, readPage, SEEDS, seedSummary, splitBundle, validNick,
   type Page, type Progress, type Published, type SeedResult,
 } from './kinopoisk-seed.mts';
+import { addProfiles, profilesState } from './kp-profiles.mts';
 
 const PROFILES = '.cache/kinopoisk-profiles.json';
 const remembered: Record<string, string> = existsSync(PROFILES) ? JSON.parse(readFileSync(PROFILES, 'utf8')) : {};
@@ -47,7 +50,8 @@ function addFiles(files: { name: string; text: string }[]): { added: number; unr
   const unrecognized: string[] = [];
   let loose: Group | undefined; // файлы без профиля (старая страница, CSV) — одной кучкой на загрузку
   let added = 0;
-  for (const f of files) {
+  // файл помощника-закладки — сразу все страницы человека
+  for (const f of files.flatMap((x) => splitBundle(x.name, x.text))) {
     const page = readPage(f.name, f.text);
     if (!page) { unrecognized.push(f.name); continue; }
     added++;
@@ -154,10 +158,18 @@ export async function kinopoiskRoute(req: IncomingMessage, res: ServerResponse, 
   const url = { pathname: path };
   if (req.method === 'GET' && url.pathname === '/') return send(res, 200, readFileSync(PAGE, 'utf8'), 'text/html; charset=utf-8');
   if (req.method === 'GET' && url.pathname === '/api/state') return send(res, 200, state());
+  // профили списком (23.10, tools/kp-profiles.mts): очередь помощника, что с каждым и какие контакты нашлись
+  if (req.method === 'GET' && url.pathname === '/api/profiles') return send(res, 200, profilesState());
+  // помощник-закладка: страница вкладки собирает из него ссылку `javascript:` (22.10)
+  if (req.method === 'GET' && url.pathname === '/helper.js') return send(res, 200, readFileSync(new URL('./kinopoisk-helper.js', import.meta.url), 'utf8'), 'text/javascript; charset=utf-8');
   if (req.method !== 'POST') return send(res, 404, { error: 'not_found' });
 
   try {
     const body = JSON.parse((await readBody(req)) || '{}') as Record<string, unknown>;
+    if (url.pathname === '/api/profiles') {
+      const r = addProfiles(String(body.text ?? ''), `пульт ${new Date().toISOString().slice(0, 10)}`);
+      return send(res, 200, { ...r, profiles: profilesState() });
+    }
     if (url.pathname === '/api/files') {
       return send(res, 200, { ...addFiles(body.files as { name: string; text: string }[]), state: state() });
     }

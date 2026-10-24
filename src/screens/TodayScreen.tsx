@@ -17,7 +17,7 @@ import { useSwipe } from '@/lib/swipe';
 import { saveSettings, useDiary, useMechanics, useRole, useSettings } from '@/lib/settingsStore';
 import { tiltActive, tiltClean, tiltKey, type Tilt } from '@/lib/tilt';
 import { cinemaSlug } from '@/lib/cinemas';
-import { useFeature } from '@/lib/flags';
+import { useBookFirst, useBooks, useFeature } from '@/lib/flags';
 import { onExternalClick, openExternal, pick, shareUrl, tap, writeAuthorUrl } from '@/lib/telegram';
 import { formatDuration, titleOf } from '@/lib/format';
 import { cx } from '@/lib/cx';
@@ -158,6 +158,10 @@ const hintWanted = (): boolean => {
   } catch { return false; }
 };
 const hintDone = () => { try { localStorage.setItem(HINT_KEY, '1'); } catch { /* не страшно */ } };
+/** «Это лента книг, кино — там-то» (23.10, книжный вход): один раз, пока человек сам не переключил вид или не сказал «понятно». */
+const KIND_HINT_KEY = 'tm.hint.bookFeedKind';
+const kindHintWanted = (): boolean => { try { return localStorage.getItem(KIND_HINT_KEY) !== '1'; } catch { return false; } };
+const kindHintDone = () => { try { localStorage.setItem(KIND_HINT_KEY, '1'); } catch { /* не страшно */ } };
 
 /** Хвост ленты (17.10): из приглашений («выбрать вместе», подборки, позвать друга) — одно за раз, по очереди между
  *  запусками. Очередь — счётчиком на устройстве; хранилища нет — всегда первое, это не страшно. Номер берётся один
@@ -363,7 +367,11 @@ export function TodayScreen() {
   const subsOnly = subsOn && (subsOnlyNow ?? Boolean(userSettings?.subscriptionsOnly));
   // полка бесплатной классики (ЗП-43): место «Бесплатная классика» в ленте
   const freeOn = useFeature('freeClassics');
-  const booksOn = useFeature('readShelf');
+  // книги (11.10) — по доле readShelf; с 23.10 — и тем, кто пришёл по книжной ссылке (useBooks, флаг bookEntry)
+  const booksOn = useBooks();
+  // книжный вход в силе (23.10): холодный старт — про книги, над лентой книг — где кино
+  const bookFirst = useBookFirst();
+  const [kindHint, setKindHint] = useState(kindHintWanted);
   // первый вход свайпом (ДФ-2): новому человеку — /start, при 0–4 оценках — общая лента вместо холодного старта
   const swipeOn = useFeature('swipeStart');
   // кино или книги (11.10): что подбирает лента — переключателем рядом с силой, выбор помнят настройки
@@ -532,6 +540,7 @@ export function TodayScreen() {
   const changeKind = (k: FeedKind) => {
     if (k === kind) return;
     pick();
+    if (kindHint) { kindHintDone(); setKindHint(false); }
     setKind(k);
     saveSettings({ feedKind: k }).then(() => setAttempt((a) => a + 1)).catch(() => toast({ text: ui.settings.errorSave }));
   };
@@ -845,18 +854,20 @@ export function TodayScreen() {
             <h1 className="tm-title-2 tm-coldstart__title">{ui.today.introTitle}</h1>
             <p className="tm-body tm-coldstart__text">{ui.today.introText}</p>
             <p className="tm-body-sm tm-coldstart__text">
-              {`${ui.today.coldText(slate.coldStart.needed)} ${ui.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
+              {`${(bookFirst ? ui.today.coldTextBooks : ui.today.coldText)(slate.coldStart.needed)} ${ui.today.coldProgress(slate.coldStart.rated, slate.coldStart.needed)}`}
             </p>
             <div className="tm-row tm-row--gap-2 tm-row--wrap">
               <Button variant="primary" onClick={() => { tap('medium'); navigate('/rate'); }}>
-                {slate.coldStart.rated ? ui.today.coldMore : ui.today.coldAction}
+                {slate.coldStart.rated ? ui.today.coldMore : bookFirst ? ui.today.coldActionBooks : ui.today.coldAction}
               </Button>
               <Button variant="quiet" onClick={() => { tap(); setImporting(true); }}>{ui.today.coldImport}</Button>
             </div>
             <p className="tm-caption tm-coldstart__hint">{ui.today.coldImportHint}</p>
-            {/* уведомление о рекомендательных технологиях и политике данных (ЗП-5) — там, где человек их впервые встречает */}
+            {/* уведомление о рекомендательных технологиях и политике данных (ЗП-5) — там, где человек их впервые встречает;
+                24.10: словами закона (ст. 13.56 КоАП) и со ссылкой на отдельное согласие */}
             <p className="tm-caption tm-coldstart__legal">
-              {ui.legal.consentLead} <Link to="/legal/rules">{ui.legal.consentRules}</Link> {ui.legal.consentAnd}{' '}
+              {ui.legal.coldRules} <Link to="/legal/rules">{ui.legal.consentRules}</Link>. {ui.legal.consentLead}{' '}
+              <Link to="/legal/consent">{ui.legal.consentConsent}</Link> {ui.legal.consentAnd}{' '}
               <Link to="/legal/privacy">{ui.legal.consentPrivacy}</Link>.
             </p>
             <p className="tm-caption tm-coldstart__early">
@@ -877,6 +888,13 @@ export function TodayScreen() {
         {slate && !items.length && !slate.coldStart ? (
           <div className="tm-stream__pad">
             <EmptyState title={bookFeed ? ui.today.emptyBooks : ui.today.empty} text={bookFeed ? ui.today.emptyBooksText : ui.today.emptyText} action={ui.actions.retry} onAction={() => setAttempt(attempt + 1)} />
+          </div>
+        ) : null}
+        {/* книжный вход (23.10): лента книг выбрана за человека по ссылке — один раз говорим, где кино, пока он сам не переключал */}
+        {bookFirst && bookFeed && kindHint && items.length && !moodOn ? (
+          <div className="tm-stream__swipehint" role="note">
+            <span className="tm-caption">{ui.today.bookFeedHint}</span>
+            <Button variant="quiet" size="sm" onClick={() => { tap(); kindHintDone(); setKindHint(false); }}>{ui.feed.swipeHintOk}</Button>
           </div>
         ) : null}
         {hint && items.length && !moodOn ? (

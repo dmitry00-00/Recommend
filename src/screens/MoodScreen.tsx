@@ -9,7 +9,7 @@ import { tap } from '@/lib/telegram';
 import ui from '@/i18n';
 import { WorkCardSheet } from './WorkCardSheet';
 import { titleOf } from '@/lib/format';
-import { useFeature } from '@/lib/flags';
+import { useBooks } from '@/lib/flags';
 import { useSettings } from '@/lib/settingsStore';
 
 /** Подбор по настроению (/mood, ЗП-16): человек пишет словами, чего хочется, — экран показывает, что понято, и до
@@ -24,7 +24,7 @@ export function MoodScreen() {
   const [openId, setOpenId] = useState<ID | null>(null);
   const input = useRef<HTMLInputElement>(null);
   // из ленты книг (11.10) — подбор по книгам: что подбирает лента, помнят настройки
-  const booksOn = useFeature('readShelf');
+  const booksOn = useBooks(); // книги: readShelf или книжный вход (23.10, src/lib/flags.ts)
   const settings = useSettings();
   const kind = booksOn && settings?.feedKind === 'book' ? 'book' : 'screen';
   const book = kind === 'book';

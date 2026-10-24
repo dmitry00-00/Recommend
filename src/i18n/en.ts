@@ -747,7 +747,10 @@ export const en: Strings = {
   "coldImport": "Paste a list of what you've watched",
   "coldImportHint": "Titles one per line, or an export from Letterboxd, IMDb, Goodreads — what you've watched won't show up in the feed, and ratings will sharpen your taste.",
   "early": "This is an early version. If something's unclear or broken, write to me — I answer myself.",
-  "shareLead": "Found it useful? Invite someone you talk films with."
+  "shareLead": "Found it useful? Invite someone you talk films with.",
+  "coldTextBooks": (needed: number) => `The feed is built around your taste, and we don't know anything about it yet. Rate at least ${needed} books you've already read — and your first book picks will appear.`,
+  "coldActionBooks": "Rate books",
+  "bookFeedHint": "This is the book feed. Films are right here too: tap “Today” below once more and choose “Film”."
 },
   /* первые оценки: экран /rate */
   /* first entry by swiping (ДФ-2, 16.10): /start */
@@ -800,7 +803,11 @@ export const en: Strings = {
   "booksLead": "If you've read them, rate them. Books count towards your ratings: your first picks can come from them too.",
   "skipBook": "Haven't read it",
   "booksJumpLead": "Read more than you watch?",
-  "booksJump": "Rate books"
+  "booksJump": "Rate books",
+  "titleBooks": "Rate what you've read",
+  "leadBooks": "Mark how you liked the book — or skip it if you haven't read it. Five ratings are enough for a first book feed. Ratings are only for picks: no one else will see them.",
+  "filmsMore": "You can rate films too",
+  "filmsMoreLead": "Films and series count towards your ratings and sharpen your taste."
 },
   /* страница автора: все его разборы по нашим фильмам */
   /* связи между произведениями (Ж1): экранизация, сиквел, ремейк, цикл и франшиза */
@@ -954,6 +961,9 @@ export const en: Strings = {
   "aboutTitle": "About them and their work",
   "aboutNote": "Videos about the person as a whole, not about a single work.",
   "trajectories": "In paths",
+  "channelTitle": "Creator's channel",
+  "channelOpen": "Open channel",
+  "channelPosts": "In their own words",
   "unknown": "No such creator",
   "unknownText": "None of their works are among the ones we know — the link may be out of date.",
   "back": "‹ Back"
@@ -969,6 +979,7 @@ export const en: Strings = {
   "aboutNote": (n: number) => `Share across ${n} videos where we recognized the title; matches found by title alone count for less.`,
   "focus": "main focus",
   "share": (s: number) => `${Math.round(s * 100)}%`,
+  "shareText": (name: string) => `${name} — all of their breakdowns of films and series`, // link to the creator page (23.10)
   "back": "‹ Back"
 },
   /* разборы по авторам в карточке: строка авторов, материал, посты в Telegram */
@@ -1054,6 +1065,10 @@ export const en: Strings = {
   "watch": "Watch",
   "reviewsNoneHint": "We only show people who break down films — platform announcements don't go here. Posts and channels are under “Discussions”.",
   "talkNone": "Nothing on Telegram about this film yet — you can search the channels below.",
+  "reviewsNoneHintBook": "We only show people who break down books — announcements and roundups don't go here. Posts and channels are under “Discussions”.",
+  "reviewsNoneHintSeries": "We only show people who break down films and series — platform announcements don't go here. Posts and channels are under “Discussions”.",
+  "talkNoneBook": "Nothing on Telegram about this book yet — you can search the channels below.",
+  "talkNoneSeries": "Nothing on Telegram about this series yet — you can search the channels below.",
   "watchOn": (platform: string) => `Watch on ${platform}`,
   "watchByJustWatch": "Where to watch — data from JustWatch",
   "watchHint": (n: number) => `Platforms: ${n} — switch between them in the bar below.`,
@@ -1967,17 +1982,24 @@ export const en: Strings = {
   "rules": "How picks work",
   "privacy": "Data processing policy",
   "edition": (date: string) => `Version of ${date}`,
+  "consent": "Consent to data processing",
   "operator": "Service owner",
-  "email": "Contact email",
+  "email": "Email for legally significant messages and requests",
   "pendingOperator": "will be listed before the public launch",
   "pendingEmail": "will be listed before the public launch — for now, message the author on Telegram",
   "writeAuthor": "Message the author",
-  "other": { "rules": "Data processing policy", "privacy": "How picks work" } as Record<string, string>,
   "missing": "For the owner: VITE_LEGAL_OPERATOR and VITE_LEGAL_EMAIL aren't set in the build — without an owner and email the documents are incomplete.",
-  "consentLead": "By using the app, you accept the",
-  "consentRules": "pick rules",
-  "consentAnd": "and the",
+  "recTech": "This service uses recommendation technologies.",
+  "notice": "How picks work, what we store and consent to data processing — in your profile, \"Documents and data\".",
+  "noticeAction": "Details",
+  "coldRules": "This service uses recommendation technologies —",
+  "consentRules": "how picks work",
+  "consentLead": "By using the app, you give",
+  "consentConsent": "consent to data processing",
+  "consentAnd": "under the",
   "consentPrivacy": "data processing policy",
+  "officialRu": "Official version — in Russian",
+  "backToUi": "In the interface language",
   "notFound": "No such document",
   "export": "Download your diary",
   "exportText": "Everything you've marked and rated, as a file: a CSV table in Letterboxd's import format, or JSON with every field. The table can be imported back here or into Letterboxd.",
@@ -1993,62 +2015,111 @@ export const en: Strings = {
   "deleteConfirm": "Delete forever",
   "deleted": "Account deleted",
   "deleteFailed": "Couldn't delete. Try again or message the author.",
+  // 24.10: same structure as ru.legal; the Russian version is the official one (149-FZ requires the rules in Russian),
+  // LegalScreen offers it to English readers
   "rulesDoc": [
     { "h": "What this is", "p": [
-      "Transformative Media — the @recomend_media_bot mini app in Telegram and its web version — uses recommendation technologies: it picks films, series and books based on information about your preferences. This page describes what information we use for that, where it comes from and how picks work.",
+      "This service uses recommendation technologies. Transformative Media — the @recomend_media_bot mini app and bot in Telegram and the app's web version — picks films, series and books based on information about your preferences.",
+      "These are the rules for how recommendation technologies are used: what information about you is taken into account, where it comes from, how it is processed, how to influence picks and how to opt out. The service owner and the email for legally significant messages are at the end of this page.",
     ] },
     { "h": "What information about your preferences is used", "p": [
-      "Your ratings of films, series and books — on a scale of 1 to 5, and which rating means “fine” to you.",
-      "“Watched” marks, the diary (planned, watching, finished, dropped) and your answers after watching — how it went, whether it was hard or easy.",
-      "Responses to the feed: what you saved to plans, what you removed and why, how much you want to watch something.",
-      "Settings: how much effort you have for the evening, breakdown languages, spoilers, content warnings.",
-      "Your watch history, if you uploaded it yourself (titles, a Kinopoisk, Letterboxd, IMDb or Goodreads export).",
+      "Your ratings of films, series and books — on a 1 to 5 scale — and which rating means \"fine\" for you.",
+      "\"Seen\" marks, your diary (planned, watching, finished, dropped) and answers after watching: was it worth it, how it went, what held you.",
+      "Feed responses: what you saved to plans, what you removed and why, how much you want to watch something.",
+      "\"Pick in words\" requests — what you typed into the mood search.",
+      "Settings: how much energy you have tonight, films or books, whether to dim the most famous titles, which streaming services you subscribe to and whether to show only those, essay languages, spoilers, content warnings. The interface language decides which platforms appear under \"Where to watch\".",
+      "Your watch list, if you uploaded it yourself (titles, a Kinopoisk, Letterboxd, IMDb or Goodreads export).",
     ] },
     { "h": "Where this information comes from", "p": [
-      "Only from you: from what you mark and rate in the app, and from the list you uploaded. When you sign in via Telegram, the app receives your ID, name and username — they're needed to sign you in and play no part in picks.",
-      "Information about the works themselves — level, genre registers, what a work does to the viewer, creators' breakdowns — comes from open sources (Wikidata, TMDb, Kinopoisk, Open Library), from curators' annotation and from model processing. This is information about works, not about you.",
+      "Only from you: from what you mark and rate in the app and from the list you uploaded. When you sign in through Telegram, the app receives your ID, name and username — they're needed to sign you in and play no part in picks.",
+      "Information about the works themselves — level, genres, country, authors, what a work does to the viewer, fame, authors' essays — comes from open sources (Wikidata, Wikipedia, TMDb, Kinopoisk, Open Library), from curators' markup and from model processing. It's information about works, not about you.",
     ] },
     { "h": "How picks work", "p": [
-      "Collection. Each of your actions listed above is stored on the service's server and linked to your account.",
-      "Organization. Ratings are brought to a common scale relative to your “fine” rating; marks, the diary and your answers after watching are gathered into a profile: what you've seen and how it went.",
-      "Analysis. The model compares your ratings and answers with the works' annotation and estimates your usual level and strengths — which works come easily to you and which are hard.",
-      "Delivery. The feed gets works close to your level, with a step that depends on the effort you chose. Things you've already watched aren't shown. New members first see works that have creators' breakdowns. While there are few ratings, instead of the feed you get a short list of films to rate.",
-      "Picks only suggest and decide nothing for you: you choose what to watch.",
+      "Collection. Each of your actions listed above is saved on the service's server and tied to your account.",
+      "Organisation. Ratings are brought to a common scale relative to your \"fine\" rating; marks, the diary and after-watching answers are gathered into a profile: what you've seen and how it went.",
+      "Analysis. The program compares your ratings and answers with the works' markup and estimates your usual level and strengths — which works come easily to you and which are hard; with your first ratings, also how close a work is to what you've rated by genre, country and authors.",
+      "Delivery. The feed gets works close to your level, with a step that depends on the energy you chose. Things you've already seen aren't shown. The most famous titles are dimmed so the rest can be seen — you can change or turn this off in your profile. If you chose \"subscriptions only\", the feed comes from what's on your streaming services and free. New members first see works that have authors' essays. While you have few ratings, instead of a feed you get a short list of films to rate.",
+      "Picks only suggest and decide nothing for you: what to watch is your choice.",
+    ] },
+    { "h": "Other viewers' ratings", "collab": true, "p": [
+      "Besides your own information, picks take into account how other viewers rated works — only in aggregate: for works rated by at least three people, without who rated what. Your ratings likewise enter these aggregates without your name.",
+    ] },
+    { "h": "Picking together", "p": [
+      "If you pick a film together with others (the \"Together\" section, asking the bot \"@recomend_media_bot together\" or \"for @username\") or another member named you by username, the shared list draws on the films and series the program found suitable for you from your ratings, your plans and your favourites, and anything any participant has seen is removed. Other participants see the shared list, not your ratings.",
     ] },
     { "h": "What picks don't do", "p": [
-      "They don't read your Telegram chats, and don't use contacts, location or data from other services, except the list you uploaded yourself.",
-      "They don't rank anything higher because someone paid for it: ads and partner terms don't affect the order of the feed.",
+      "They don't read your Telegram chats and don't use contacts, location or data from other services, except the list you uploaded yourself.",
+      "They don't rank higher what someone paid for: ads and partner terms don't affect the feed order.",
       "They don't show an explanation for each recommendation — the general rules are described here.",
     ] },
     { "h": "How to influence picks", "p": [
-      "Add or remove a rating, mark something as “watched”, remove a film from the feed with a reason, change your evening effort and breakdown languages in your profile. You can delete your account — then picks forget everything and start over.",
+      "Add or remove a rating, mark something as seen, remove a film from the feed with a reason, change tonight's energy, dimming of famous titles, subscriptions and essay languages in your profile.",
     ] },
-  ] as { h: string; p: string[] }[],
+    { "h": "How to opt out of picks", "p": [
+      "Picks are built only from information you gave yourself. Search, film and book cards, essays and collections work without any ratings.",
+      "To make picks stop using information about you, remove your ratings and marks or the uploaded list. To make them forget everything, delete your account: \"Profile\" → \"Documents and data\" → \"Delete account\". The data is erased from the server right away and from backups within 30 days.",
+      "You can also opt out by writing to the email at the end of this page.",
+    ] },
+    { "h": "Changes to these rules", "p": [
+      "When the rules change, so does the version date at the top of this page. The version published here is the one in force.",
+    ] },
+  ] as { h: string; p: string[]; collab?: boolean }[],
   "privacyDoc": [
+    { "h": "Who processes the data", "p": [
+      "The operator is the owner of Transformative Media (the @recomend_media_bot mini app and bot in Telegram, the web version). Their name and contact email are at the end of this page.",
+    ] },
     { "h": "What data we store", "p": [
-      "When you sign in via Telegram — your ID, name and username, passed to us by Telegram. Outside Telegram — an anonymous identifier for this browser.",
-      "What you do in the app: ratings, “watched” marks, the diary, answers after watching, responses to the feed and which films were in it, opened cards and breakdowns (whose breakdown it was and how long until you came back to the app), “By mood” requests, that you shared a card or invited a friend (we don’t know with whom), answers to the app’s questions, clicks through to streaming services, the days you visited, settings, breakdown subscriptions, reports of inaccuracies and suggestions, the watch history you uploaded; and with each feed, the difficulty range of what you usually watch, calculated from your own ratings.",
-      "We don't collect your phone number, email, contacts, location, payment details or messages.",
+      "When you sign in through Telegram — your ID, name and username: Telegram passes them to us. Outside Telegram — an anonymous ID for this browser.",
+      "What you do in the app: ratings, \"seen\" marks, the diary, after-watching answers, feed responses and which films were in it, opened cards and essays (whose essay and how long until you came back to the app), \"Pick by mood\" requests, that you shared a card or invited a friend (we don't know whom), answers to the app's questions, clicks through to streaming services, the days you visited, settings, essay subscriptions, error reports and suggestions, the watch list you uploaded; with each feed — the difficulty range of what you usually watch, computed from your own ratings.",
+      "For picking together — the list of films and series suitable for you, computed from your ratings, and the usernames you named to the bot.",
+      "We don't collect your phone number, email, contacts, location, payment data or chats.",
     ] },
     { "h": "Why", "p": [
-      "To make the service work: to let you in, keep your history and pick films — that's what the data is for, and without it there are no picks.",
-      "So the bot can send a digest of new breakdowns — only if you subscribed and allowed the bot to message you.",
-      "To understand whether the service works: how many people come back, open breakdowns, find where to watch, whether what we picked was worth watching, and whether people move over time to films harder than the ones they started with. We only look at this in aggregate, across everyone.",
-      "For research into how a viewer's perspective changes — only with your separate consent in your profile. You can withdraw it at any time.",
+      "To make the service work: sign you in, keep your history and pick films — that's what the data is for; without it there are no picks.",
+      "To have the bot send a digest of new essays — only if you subscribed and allowed the bot to message you.",
+      "To understand whether the service works: how many people come back, open essays, find where to watch, whether what we picked was worth watching, and whether people over time reach films harder than the ones they started with. We look at this only in aggregate, across everyone.",
+      "For research into how a viewer's perspective changes — only with your separate consent in the profile. You can withdraw it at any time.",
+    ] },
+    { "h": "Aggregate ratings", "collab": true, "p": [
+      "Your ratings, without your name, become part of aggregate information about works — how viewers rated them. It's computed only for works rated by at least three people, and it can't tell who rated what.",
+    ] },
+    { "h": "Legal basis", "p": [
+      "Your consent — a separate document, \"Consent to data processing\" — and doing what you ask the service to do.",
+    ] },
+    { "h": "Where it's stored", "p": [
+      "The country of the service's server and any transfer of data to other countries will be stated here before the public launch.",
     ] },
     { "h": "How long we keep it", "p": [
-      "For as long as you have an account. After the account is deleted, data is erased from the server immediately and from backups within 30 days. A diary export file stays on the server for an hour — so Telegram can download it — and is then erased.",
+      "As long as you have an account. After you delete it, the data is erased from the server right away and from backups within 30 days. A diary export file stays on the server for an hour — so Telegram can download it — and is then erased.",
     ] },
     { "h": "Who we share it with", "p": [
-      "We don't sell or share it with anyone. Sign-in goes through Telegram, which has its own rules. Videos, posts and streaming services open on their own sites when you tap them, and their rules apply from there.",
+      "We don't sell or share it with anyone. Sign-in goes through Telegram — it has its own rules. Videos, posts and streaming services open on their own sites when you tap them, and their rules apply there.",
     ] },
     { "h": "Your rights", "p": [
-      "To find out what's stored about you, write to the email below; you can download your whole diary yourself — “Download your diary” in your profile. To correct it — right in the app. To delete everything — “Delete account” in your profile. To withdraw consent to the research — in the same place.",
+      "To find out what we store about you, write to the email below; you can download your whole diary yourself — \"Download your diary\" in the profile. Correct things right in the app. Delete everything and withdraw consent to processing — \"Delete account\" in the profile or by email. Withdraw research consent — in the profile.",
     ] },
     { "h": "How we protect it", "p": [
-      "Sign-in is verified by Telegram's signature, the access key is stored only on your device, and only the service owner has access to the database.",
+      "Sign-in is confirmed by Telegram's signature, the access key is stored only on your device, and only the service owner has access to the database.",
     ] },
-  ] as { h: string; p: string[] }[],
+  ] as { h: string; p: string[]; collab?: boolean }[],
+  "consentDoc": [
+    { "h": "To whom and for what", "p": [
+      "By using Transformative Media (the @recomend_media_bot mini app and bot in Telegram, the web version), I give its owner — the operator named at the end of this page — consent to process my personal data on the terms below.",
+    ] },
+    { "h": "What data", "p": [
+      "My Telegram ID, name and username or an anonymous browser ID; ratings, marks, the diary, after-watching answers, feed responses, pick requests, settings, subscriptions, the watch list I uploaded; for picking together — the list of films suitable for me and the usernames I named. The full list is in the data processing policy.",
+    ] },
+    { "h": "Why", "p": [
+      "Signing in and keeping my history; picking films, series and books using recommendation technologies — under the \"How picks work\" rules; picking together, if I use it or someone named me; a digest of new essays in the bot, if I subscribed; aggregate statistics on how the service works.",
+    ] },
+    { "h": "What is done with it", "p": [
+      "Collection, recording, organisation, accumulation, storage, clarification (updating, changing), retrieval, use, depersonalisation, blocking, deletion and destruction — by automated means. The data isn't transferred to third parties or made public.",
+    ] },
+    { "h": "Term and withdrawal", "p": [
+      "The consent is valid while I have an account. I can withdraw it at any time: \"Profile\" → \"Documents and data\" → \"Delete account\", or by writing to the email at the end of this page. After withdrawal the data is erased from the server right away and from backups within 30 days.",
+      "Consent to research into how a viewer's perspective changes is a different one and is given separately, in the profile.",
+    ] },
+  ] as { h: string; p: string[]; collab?: boolean }[],
 },
   /* единицы и метаданные карточки (ЗП-20, 07.10): src/lib/format.ts, FilmFormNote — тройки форм для plural() */
   units: {

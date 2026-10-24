@@ -159,6 +159,11 @@ async function startApi() {
     OWNER_TG_ID: process.env.OWNER_TG_ID || '',
     OWNER_SEED: seed,
     SLIM_CARDS: process.env.SLIM_CARDS === '1' ? '1' : '',
+    // соседи по вкусу (23.10, worker/neighbors.ts): выключены, пока не NEIGHBORS=1; опорные истории — файл вне репозитория
+    NEIGHBORS: process.env.NEIGHBORS === '1' ? '1' : '',
+    NEIGHBOR_ANCHORS: process.env.NEIGHBOR_ANCHORS_FILE ? () => fs.promises.readFile(process.env.NEIGHBOR_ANCHORS_FILE, 'utf8').catch(() => null) : undefined,
+    // EASE обученному счёту ленты (24.10, worker/ease.ts): выключен, пока не EASE=1; X — те же опорные и участники, что у соседей
+    EASE: process.env.EASE === '1' ? '1' : '',
   };
   // сигналы остановки (17.10) вешаются при старте процесса, ниже по файлу (shutdown); отсюда — только закрытие базы
   closeDb = () => current.close();
@@ -311,7 +316,10 @@ function runAnalytics(key, url, headers, userId) {
 async function handleAnalytics(req, res, p, userId) {
   const headers = {};
   for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers[k] = v;
-  const url = `http://${req.headers.host || 'localhost'}${req.url}`;
+  // адрес — тот же проверенный, что у воркера (24.10, apiTarget): Host от клиента в потоке аналитики бросал бы в new Request
+  const target = apiTarget(req) ?? new URL('http://localhost/');
+  headers.host = target.host;
+  const url = target.href;
   const key = `${p}?${(req.url || '').split('?')[1] ?? ''}|${userId ?? ''}`;
   try {
     const r = await runAnalytics(key, url, headers, userId);
@@ -476,10 +484,32 @@ function compressApi(buf, enc, key) {
   return z;
 }
 
+// ХБ (24.10): адрес запроса для воркера. Раньше склеивали `http://${Host}${req.url}`, а Host ставит клиент: «a b», «[»,
+// «a:999999» бросали в new Request (500 и трасса в журнал на каждый запрос), а «x/api/admin/restore?» уводил воркер на
+// другой путь, чем проверял сервер (пределы тела, ветки до воркера). Теперь Host — только имя/IPv4/[IPv6] с портом,
+// иначе localhost; путь сервер берёт из того же разобранного адреса, что получит воркер (и Host — тот же, для pages.ts)
+const HOST_FORM = /^(?:[A-Za-z0-9-]{1,63}(?:\.[A-Za-z0-9-]{1,63})*|\[[0-9A-Fa-f:.]{2,45}\])(?::\d{1,5})?$/;
+function apiTarget(req) {
+  const raw = req.headers.host;
+  for (const host of [typeof raw === 'string' && HOST_FORM.test(raw) ? raw : null, 'localhost']) {
+    if (!host) continue;
+    try { return new URL(`http://${host}${req.url || '/'}`); } catch { /* порт вне 0–65535 и т. п. — следующий */ }
+  }
+  return null;
+}
+function apiHeaders(req, target) {
+  const headers = new Headers();
+  for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
+  headers.set('host', target.host);
+  return headers;
+}
+
 async function handleApi(req, res) {
   if (!api) { res.writeHead(503, { 'content-type': 'application/json' }).end('{"error":"starting"}'); return; }
   try {
-    const p = (req.url || '/').split('?')[0].replace(/\/+$/, '');
+    const target = apiTarget(req);
+    if (!target) { sendJson(res, 400, { error: 'bad_target' }); req.resume(); return; }
+    const p = target.pathname.replace(/\/+$/, '');
     // справочник — до воркера (п. 27); имя — из списка воркера, неизвестное и отсутствующий файл — путь воркера (404)
     const ref = (req.method === 'GET' || req.method === 'HEAD') && /^\/api\/reference\/([A-Za-z0-9-]+)$/.exec(p);
     if (ref && api.workerModule.REFERENCE_NAMES?.has(ref[1]) && await serveReference(req, res, ref[1])) return;
@@ -490,9 +520,7 @@ async function handleApi(req, res) {
       return;
     }
     if (req.method === 'GET' && api.threads && p === '/api/report/loop' && api.worker.fetch && api.workerModule.ownerSession) {
-      const headers = new Headers();
-      for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
-      const owner = await api.workerModule.ownerSession(new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { headers }), api.env);
+      const owner = await api.workerModule.ownerSession(new Request(target.href, { headers: apiHeaders(req, target) }), api.env);
       // не владелец — путь воркера: он и ответит 401/403
       if (owner) { await handleAnalytics(req, res, p, owner); return; }
     }
@@ -513,9 +541,7 @@ async function handleApi(req, res) {
       if (Number(req.headers['content-length']) > bodyLimit(p)) { tooLarge(); return; }
       try { body = await readBody(req, bodyLimit(p)); } catch { if (!res.headersSent) tooLarge(); else req.destroy(); return; }
     }
-    const headers = new Headers();
-    for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
-    const request = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, { method: req.method, headers, body });
+    const request = new Request(target.href, { method: req.method, headers: apiHeaders(req, target), body });
     const response = await api.worker.fetch(request, api.env);
     let out = Buffer.from(await response.arrayBuffer());
     const head = { 'cache-control': 'no-store' };

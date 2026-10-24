@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-voices.mts (2026-09-23) из
+// Сгенерировано tools/build-voices.mts (2026-10-24) из
 // tools/voice-dictionary.ts: авторы разборов как лица, а не строки в поле `author`.
 // Аватары ютуб-каналов — YouTube Data API, телеграмовские — файлы в public/voices.
 // Ключи привязки: «yt:<название канала>» и «tg:<handle>».
@@ -388,6 +388,201 @@ export const voices: Voice[] = [
     ]
   },
   {
+    "id": "darlingadvice",
+    "title": "Дорогая Рекомендация",
+    "short": "Дорогая Рекомендация",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Дорогая Рекомендация",
+        "url": "https://t.me/darling_advice"
+      }
+    ]
+  },
+  {
+    "id": "melp",
+    "title": "МЕЛП",
+    "short": "МЕЛП",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "МЕЛП",
+        "url": "https://t.me/melphere"
+      }
+    ]
+  },
+  {
+    "id": "drunkcinema",
+    "title": "love, truth and cinema",
+    "short": "love, truth and cinema",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "love, truth and cinema",
+        "url": "https://t.me/drunk_cinema"
+      }
+    ]
+  },
+  {
+    "id": "seriesman",
+    "title": "Серийный Человек",
+    "short": "Серийный Человек",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Серийный Человек",
+        "url": "https://t.me/seriesman"
+      }
+    ]
+  },
+  {
+    "id": "cinemagraphie",
+    "title": "Cinemagraphie",
+    "short": "Cinemagraphie",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Cinemagraphie",
+        "url": "https://t.me/cinemagraphie"
+      }
+    ]
+  },
+  {
+    "id": "cinsolite",
+    "title": "Cinema insolite",
+    "short": "Cinema insolite",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Cinema insolite",
+        "url": "https://t.me/cinsolite"
+      }
+    ]
+  },
+  {
+    "id": "retsenzent",
+    "title": "Рецензент",
+    "short": "Рецензент",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Рецензент",
+        "url": "https://t.me/kipunk"
+      }
+    ]
+  },
+  {
+    "id": "fantasyjedi",
+    "title": "Джедай из Шира",
+    "short": "Джедай из Шира",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Джедай из Шира",
+        "url": "https://t.me/fantasy_jedi"
+      }
+    ]
+  },
+  {
+    "id": "serialsxbooks",
+    "title": "SERIALSxBOOKS",
+    "short": "SERIALSxBOOKS",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "SERIALSxBOOKS",
+        "url": "https://t.me/serialsxbooks"
+      }
+    ]
+  },
+  {
+    "id": "ageofcinema",
+    "title": "Age Of Cinema",
+    "short": "Age Of Cinema",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Age Of Cinema",
+        "url": "https://t.me/Age_of_Cinemaa"
+      }
+    ]
+  },
+  {
+    "id": "beforethenight",
+    "title": "before your night",
+    "short": "before your night",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "before your night",
+        "url": "https://t.me/beforethenight"
+      }
+    ]
+  },
+  {
+    "id": "vintage90s",
+    "title": "vintage 90’s",
+    "short": "vintage 90’s",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "vintage 90’s",
+        "url": "https://t.me/vintage_90s"
+      }
+    ]
+  },
+  {
+    "id": "cinefiles",
+    "title": "cine/files",
+    "short": "cine/files",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "cine/files",
+        "url": "https://t.me/cinefiles_txt"
+      }
+    ]
+  },
+  {
+    "id": "filmoclub",
+    "title": "КИНО CLUB",
+    "short": "КИНО CLUB",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "КИНО CLUB",
+        "url": "https://t.me/filmoclub"
+      }
+    ]
+  },
+  {
+    "id": "nonlinear",
+    "title": "Нелинейно",
+    "short": "Нелинейно",
+    "role": "author",
+    "outlets": [
+      {
+        "kind": "telegram",
+        "title": "Нелинейно",
+        "url": "https://t.me/nonlinearstory"
+      }
+    ]
+  },
+  {
     "id": "kinopoisk",
     "title": "Кинопоиск",
     "short": "Кинопоиск",
@@ -527,6 +722,21 @@ export const voiceKeys: Record<string, string> = {
   "tg:LifeIsScarier": "lifeisscarier",
   "tg:terminatarkovsky": "terminatarkovsky",
   "tg:CutTheChat": "cutthechat",
+  "tg:darling_advice": "darlingadvice",
+  "tg:melphere": "melp",
+  "tg:drunk_cinema": "drunkcinema",
+  "tg:seriesman": "seriesman",
+  "tg:cinemagraphie": "cinemagraphie",
+  "tg:cinsolite": "cinsolite",
+  "tg:kipunk": "retsenzent",
+  "tg:fantasy_jedi": "fantasyjedi",
+  "tg:serialsxbooks": "serialsxbooks",
+  "tg:Age_of_Cinemaa": "ageofcinema",
+  "tg:beforethenight": "beforethenight",
+  "tg:vintage_90s": "vintage90s",
+  "tg:cinefiles_txt": "cinefiles",
+  "tg:filmoclub": "filmoclub",
+  "tg:nonlinearstory": "nonlinear",
   "yt:Кинопоиск": "kinopoisk",
   "tg:kinopoisk": "kinopoisk",
   "yt:Кинопоиск | Фильмы и сериалы": "kinopoisk",

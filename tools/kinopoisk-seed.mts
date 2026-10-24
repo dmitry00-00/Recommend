@@ -5,7 +5,7 @@
 // названию и году (оба должны совпасть). Wikidata — не чаще раза в секунду, поэтому её ответы
 // кэшируются отдельно (.cache/kinopoisk-wikidata.json), карточки — в .cache/kinopoisk-resolve.json.
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from './env-file.mts';
 import { normalizeTitle, parseExport, type ImportedRecord } from '../src/lib/import/index.ts';
 import { lookupFilms, lookupFilmsSparql, tmdbFromEnv, type WikidataFilm } from '../src/lib/resolve/index.ts';
@@ -20,7 +20,11 @@ export const SEEDS = 'seeds';
 export const validNick = (s: string) => /^[A-Za-z0-9_]{3,40}$/.test(s);
 
 // ─── страницы ─────────────────────────────────────────────────────────────────
-export interface Page { name: string; records: ImportedRecord[]; profile?: string; page?: number }
+/** listPos (23.10) — место записи в списке «Оценки и просмотры» (сортировка «По порядку»): 0 — верх, то есть последняя
+ *  оценка или отметка. Дат в новой странице нет ни в разметке, ни в мини-__NEXT_DATA__ помощника (там только query),
+ *  а порядок — есть: по нему замер прячет последние оценки. Старая страница «Оценки» и список конвертера дают дату (date). */
+export type KpRecord = ImportedRecord & { listPos?: number };
+export interface Page { name: string; records: KpRecord[]; profile?: string; page?: number }
 
 /** Профиль и номер страницы — из __NEXT_DATA__ новой страницы: чтобы не смешать людей и
  *  увидеть пропуски. У старой страницы и у CSV их нет. */
@@ -33,10 +37,23 @@ function pageInfo(text: string): { profile?: string; page?: number } {
   } catch { return {}; }
 }
 
+/** Файл помощника-закладки (tools/kinopoisk-helper.html, 22.10): страницы оценок одного человека подряд, каждая
+ *  после метки `<!-- kp-page N -->`. Обычный файл — как есть, одной страницей. */
+export const BUNDLE_MARK = /<!-- kp-page (\d+) -->/;
+export function splitBundle(name: string, text: string): { name: string; text: string }[] {
+  if (!BUNDLE_MARK.test(text)) return [{ name, text }];
+  return text.split(/(?=<!-- kp-page \d+ -->)/).filter((part) => BUNDLE_MARK.test(part))
+    .map((part) => ({ name: `${name.replace(/\.html?$/i, '')} — стр. ${BUNDLE_MARK.exec(part)![1]}`, text: part }));
+}
+
 /** Текст файла → страница; не узнан формат — undefined. */
 export function readPage(name: string, text: string): Page | undefined {
   const p = parseExport(text);
-  return p ? { name, records: p.records, ...pageInfo(text) } : undefined;
+  if (!p) return undefined;
+  const info = pageInfo(text);
+  // по 20 карточек на странице (как в pagesReport); номер страницы — из __NEXT_DATA__, не из имени файла («10» < «2»)
+  const records = info.page != null ? p.records.map((r, i) => ({ ...r, listPos: (info.page! - 1) * 20 + i })) : p.records;
+  return { name, records, ...info };
 }
 
 export interface PagesReport { pages: number; max: number; missing: number[]; repeated: number[]; lastFull: boolean }
@@ -56,8 +73,8 @@ export function pagesReport(pages: Page[]): PagesReport | undefined {
 }
 
 /** Одна запись на ID Кинопоиска (или название с годом); запись с оценкой главнее. */
-export function mergeRecords(pages: Page[]): ImportedRecord[] {
-  const byKey = new Map<string, ImportedRecord>();
+export function mergeRecords(pages: Page[]): KpRecord[] {
+  const byKey = new Map<string, KpRecord>();
   for (const r of pages.flatMap((p) => p.records)) {
     const key = r.externalIds?.kinopoisk != null ? `kp:${r.externalIds.kinopoisk}`
       : r.externalIds?.imdb ?? (r.externalIds?.tmdb != null ? `tmdb:${r.externalIds.tmdb}` : `t:${r.type}:${r.title.toLowerCase()}:${r.year ?? ''}`);
@@ -155,13 +172,15 @@ export interface SeedResult {
   unmatched: string[]; dist: number[]; median?: number;
 }
 
+/** когда: дата (ISO) и/или место в списке Кинопоиска, 0 — последнее (23.10) */
+type Dated = { at?: string; listPos?: number };
 type Stored = UserSeed & {
   username: string; unmatched?: string[]; unmatchedKinopoisk?: string[]; resolvedAt?: string; publishedAt?: string;
 };
 
 /** Записи → seeds/<ник>.json. Сеть упала на полпути — файл не пишется (найденное остаётся в
  *  кэше, повтор продолжит с места): полупустой сид опаснее, чем никакого. */
-export async function buildSeed(name: string, records: ImportedRecord[], o: BuildOptions = {}): Promise<SeedResult> {
+export async function buildSeed(name: string, records: KpRecord[], o: BuildOptions = {}): Promise<SeedResult> {
   const log = o.log ?? (() => {});
   const tmdb = tmdbFromEnv(process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY);
   if (!tmdb) throw new Error('нужен TMDB_API_KEY (или VITE_TMDB_API_KEY) в .env.local');
@@ -189,7 +208,7 @@ export async function buildSeed(name: string, records: ImportedRecord[], o: Buil
     }
   }
 
-  const matched = new Map<ImportedRecord, WorkCard>();
+  const matched = new Map<KpRecord, WorkCard>();
   const unmatched: string[] = [];
   let done = 0;
   let failed = 0;
@@ -218,19 +237,21 @@ export async function buildSeed(name: string, records: ImportedRecord[], o: Buil
   }
   save(CARDS, cards);
 
-  const watched: UserSeed['watched'] = [];
-  const ratings: NonNullable<UserSeed['ratings']> = [];
+  // дата оценки (at, ISO-дата — её читает tools/taste-dump.mts --holdout-mode recent) и место в списке (23.10)
+  const watched: (UserSeed['watched'][number] & Dated)[] = [];
+  const ratings: (NonNullable<UserSeed['ratings']>[number] & Dated)[] = [];
   const taken = new Set<string>();
   for (const [r, work] of matched) {
     if (taken.has(work.id)) continue; // два ID Кинопоиска на одну карточку TMDb (перезалив и т. п.)
     taken.add(work.id);
+    const when = { ...(r.date ? { at: r.date } : {}), ...(r.listPos != null ? { listPos: r.listPos } : {}) };
     watched.push({
       workId: work.id, work, from: 'kinopoisk',
       ...(!isSeries(work) && work.externalIds?.tmdb != null ? { tmdb: work.externalIds.tmdb } : {}),
-      ...(work.externalIds?.imdb ? { imdb: work.externalIds.imdb } : {}),
+      ...(work.externalIds?.imdb ? { imdb: work.externalIds.imdb } : {}), ...when,
     });
     if (r.rating != null && r.rating > 0) {
-      ratings.push({ workId: work.id, rating: Math.min(5, Math.max(1, Math.round(r.rating / 2))), raw: r.rating, work });
+      ratings.push({ workId: work.id, rating: Math.min(5, Math.max(1, Math.round(r.rating / 2))), raw: r.rating, work, ...when });
     }
   }
 
@@ -245,7 +266,9 @@ export async function buildSeed(name: string, records: ImportedRecord[], o: Buil
     unmatched: prev?.unmatched ?? [], unmatchedKinopoisk: unmatched, resolvedAt: new Date().toISOString(),
   };
   mkdirSync(target.includes('/') ? target.slice(0, target.lastIndexOf('/')) : '.', { recursive: true });
-  writeFileSync(target, JSON.stringify(seed, null, 2));
+  // через временный файл (23.10): истории читают замеры, пока автоимпорт их пишет
+  writeFileSync(`${target}.tmp`, JSON.stringify(seed, null, 2));
+  renameSync(`${target}.tmp`, target);
 
   const raws = ratings.map((x) => x.raw!).sort((a, b) => a - b);
   return {
@@ -269,6 +292,12 @@ export async function publishSeed(name: string): Promise<Published> {
   const res = await fetch(`${server}/api/admin/seed/${name}`, {
     method: 'PUT', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` }, body: text,
   });
+  // 24.10 (worker/userSeed.ts): 409 — ник удалившегося участника или закреплён за другим номером; снять — publish-seed --release
+  if (res.status === 409) {
+    const e = await res.json().catch(() => ({})) as { error?: string };
+    throw new Error(e.error === 'deleted' ? 'участник удалил аккаунт — не отправлено (снять запрет: tools/publish-seed.mts <ник> --release)'
+      : 'ник закреплён за другим номером Telegram — не отправлено (tools/publish-seed.mts <ник> --tg <номер> --release)');
+  }
   if (!res.ok) throw new Error(`сервер ответил ${res.status} ${res.statusText}`);
   const r = await res.json() as Published;
   writeFileSync(path, JSON.stringify({ ...JSON.parse(text), publishedAt: new Date().toISOString() }, null, 2));

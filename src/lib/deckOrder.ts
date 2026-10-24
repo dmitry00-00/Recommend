@@ -17,3 +17,44 @@ export function partsInOrder<T extends Pick<WorkCard, 'title' | 'year'>>(list: T
   }
   return out;
 }
+
+// ─── «сначала известное, о чём мнения расходятся» (23.10, опыт `deckOrder`, src/lib/model/experiments.ts) ──────────
+// Порядок колоды первых оценок по HELF (Rashid et al. 2002/2008, research_notes/…/product_feedback.md): оценка фильма,
+// который видели все и оценили одинаково, о вкусе новичка почти ничего не говорит; фильм, которого никто не видел, — «не
+// смотрел». HELF — гармоническое среднее нормированной энтропии оценок и нормированного log числа оценивших: высок, только
+// когда высоко и то и другое. Оценки — в шкале каждого человека: z-оценка (как в consensus.ts) по пяти корзинам с границами
+// квинтилей нормального распределения. Не сырая шкала 1–5: у людей разные шкалы (Кинопоиск 1–10, Letterboxd 0,5–5), и
+// строгий против щедрого — это не разногласие о фильме, а разная привычка ставить оценки. Таблица по колодам —
+// tools/build-deck-order.mts → src/mocks/deckOrder.ts (лениво, ≈2 КБ); замер — tools/deck-order-eval.mts.
+export const DECK_ORDER = {
+  /** фильм, который оценили меньше людей, балла не получает (правило таблиц — не меньше 3) */
+  minPeople: 5,
+  /** границы корзин z: квинтили N(0, 1) */
+  zEdges: [-0.8416, -0.2533, 0.2533, 0.8416],
+};
+
+/** корзина z-оценки: 0 (сильно ниже своего среднего) … 4 (сильно выше) */
+export function zBin(z: number): number {
+  let b = 0;
+  while (b < DECK_ORDER.zEdges.length && z > DECK_ORDER.zEdges[b]) b++;
+  return b;
+}
+
+/** HELF фильма по числу оценок в корзинах; `people` — сколько людей в таблице (для нормировки log числа оценивших) */
+export function helf(bins: ArrayLike<number>, people: number): number {
+  let n = 0;
+  for (let i = 0; i < bins.length; i++) n += bins[i];
+  if (n < 2 || people < 2) return 0;
+  let h = 0;
+  for (let i = 0; i < bins.length; i++) if (bins[i]) { const p = bins[i] / n; h -= p * Math.log(p); }
+  const hn = h / Math.log(bins.length), lf = Math.min(1, Math.log(n) / Math.log(people));
+  return hn + lf > 0 ? (2 * hn * lf) / (hn + lf) : 0;
+}
+
+/** Колода по баллу: с баллом — по убыванию (равные — в прежнем порядке), без балла — следом в прежнем порядке (их почти
+ *  никто из наших зрителей не оценил, «не смотрел» вероятнее); части серии — по году на своих местах (partsInOrder). */
+export function byDeckScore<T extends Pick<WorkCard, 'title' | 'year'>>(list: T[], score: (w: T) => number | undefined): T[] {
+  const s = list.map((w, i) => ({ w, i, v: score(w) }));
+  const has = s.filter((x) => x.v != null).sort((a, b) => b.v! - a.v! || a.i - b.i);
+  return partsInOrder([...has, ...s.filter((x) => x.v == null)].map((x) => x.w));
+}

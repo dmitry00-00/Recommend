@@ -363,6 +363,8 @@ export function SettingsScreen() {
       {/* документы, данные, удаление аккаунта (ЗП-5): правила подбора (149-ФЗ), политика данных (152-ФЗ) */}
       <section className="tm-settings__section">
         <SettingHead title={ui.legal.docs} />
+        {/* уведомление о рекомендательных технологиях (24.10, ст. 13.56 КоАП) — здесь всегда, тост — один раз */}
+        <p className="tm-caption tm-settings__note">{ui.legal.recTech}</p>
         {owner && !legalComplete ? <p className="tm-caption tm-settings__note tm-settings__warn">{ui.legal.missing}</p> : null}
         {/* дневник файлом (ДФ-14): одна строка «Выгрузить»; CSV — главное, JSON — вторым вариантом в листе (17.10) */}
         <SettingRow label={ui.legal.export} note={ui.settings.exportShort} onClick={() => setExportOpen(true)} />
@@ -375,6 +377,7 @@ export function SettingsScreen() {
         </Sheet>
         <SettingRow label={ui.legal.rules} onClick={() => navigate('/legal/rules')} />
         <SettingRow label={ui.legal.privacy} onClick={() => navigate('/legal/privacy')} />
+        <SettingRow label={ui.legal.consent} onClick={() => navigate('/legal/consent')} />
         {/* откуда данные (17.10): одна строка, список — в листе; строка TMDb видна всегда — так требуют условия TMDb */}
         <SettingRow label={ui.settings.sources} note={ui.settings.sourcesShort} onClick={() => setSourcesOpen(true)} />
         <Sheet open={sourcesOpen} onOpenChange={setSourcesOpen} title={ui.settings.sources}>

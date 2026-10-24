@@ -183,6 +183,10 @@ export function computeGrowth(r: GrowthRows) {
       wau: weeks.at(-1)?.active ?? 0, active30: active30.size,
       spend90: r.seeding.filter((s) => s.price != null && (s.posted_at ?? today) >= from90).reduce((a, s) => a + (s.price ?? 0), 0) },
     sources, weeks, onboarding, virality,
+    /** входы по меткам за 90 дней (23.10, рекламная кампания: посты, приход по часам за 48 ч, «≥ 10 оценок и лента» —
+     *  считает пульт, tools/growth-desk.mts): без id; d1/d7 — null, пока день не прошёл; rated — оценок в первые сутки */
+    arrivals: fresh90.filter((u) => u.source).map((u) => ({ source: u.source!, at: u.created_at, activated: u.activated,
+      rated: ratings1.get(u.id) ?? 0, d1: u.due(1) ? u.back(1) : null, d7: u.due(7) ? u.back(7) : null })),
   };
 }
 export type Growth = ReturnType<typeof computeGrowth>;

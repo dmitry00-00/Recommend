@@ -5,7 +5,7 @@ import { getJourney, startWork, unplanWork } from '@/api';
 import { BackLink, Button, EmptyState, FilterMenu, KindFilter, ErrorState, FilmEdge, FilmTabs, QuickMark, Skeleton, WorkBanner, WorkSheet, useToast } from '@/components';
 import { useDiary } from '@/lib/settingsStore';
 import { tap } from '@/lib/telegram';
-import { useFeature } from '@/lib/flags';
+import { useBooks } from '@/lib/flags';
 import { formatDate, titleOf } from '@/lib/format';
 import { leadName } from '@/lib/credits';
 import { WorkPlaces, placesCount, usePlaces } from './WorkPlaces';
@@ -25,7 +25,7 @@ export function JournalScreen() {
   const toast = useToast();
   // фильтры (11.10): в архиве вперемешку планы, начатое, законченное и брошенное, кино и книги — без фильтра
   // планы среди сотни записей не найти. Род — за флагом книг, как лента книг
-  const booksOn = useFeature('readShelf');
+  const booksOn = useBooks(); // книги: readShelf или книжный вход (23.10, src/lib/flags.ts)
   const [status, setStatus] = useState<JourneyStatus | null>(null);
   const [kind, setKind] = useState<FeedKind | null>(null);
 

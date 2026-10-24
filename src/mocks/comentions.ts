@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-comention-index.mts (2026-10-21): что называют
+// Сгенерировано tools/build-comention-index.mts (2026-10-24): что называют
 // вместе в одном посте. Это не рекомендация и не похожесть по смыслу — это то, как о кино
 // говорят. Вес — косинус: сырой счёт тянут на себя те, о ком пишут каждый день.
 // Не править руками — перегенерировать.
@@ -31,18 +31,18 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.913
     },
     {
-      "key": "tmdb:74387",
-      "workId": "f-wd991440",
-      "title": "Вышибала",
-      "year": 2011,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
       "key": "tmdb:26517",
       "workId": "f-tmdb26517",
       "title": "Мартин",
       "year": 1978,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
+      "key": "tmdb:74387",
+      "workId": "f-wd991440",
+      "title": "Вышибала",
+      "year": 2011,
       "n": 5,
       "weight": 0.833
     },
@@ -81,18 +81,18 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.913
     },
     {
-      "key": "tmdb:74387",
-      "workId": "f-wd991440",
-      "title": "Вышибала",
-      "year": 2011,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
       "key": "tmdb:26517",
       "workId": "f-tmdb26517",
       "title": "Мартин",
       "year": 1978,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
+      "key": "tmdb:74387",
+      "workId": "f-wd991440",
+      "title": "Вышибала",
+      "year": 2011,
       "n": 5,
       "weight": 0.833
     },
@@ -180,7 +180,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полтергейст",
       "year": 1982,
       "n": 3,
-      "weight": 0.707
+      "weight": 0.655
     }
   ],
   "tmdb:13555": [
@@ -222,7 +222,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полтергейст",
       "year": 1982,
       "n": 3,
-      "weight": 0.707
+      "weight": 0.655
     }
   ],
   "tmdb:13559": [
@@ -264,7 +264,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полтергейст",
       "year": 1982,
       "n": 3,
-      "weight": 0.707
+      "weight": 0.655
     }
   ],
   "tmdb:16764": [
@@ -306,7 +306,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полтергейст",
       "year": 1982,
       "n": 3,
-      "weight": 0.707
+      "weight": 0.655
     }
   ],
   "tmdb:28942": [
@@ -327,14 +327,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.866
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.775
-    },
-    {
       "key": "tmdb:970947",
       "workId": "f-wd117357033",
       "title": "Саваны",
@@ -367,12 +359,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.655
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.577
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.306
+      "weight": 0.289
     }
   ],
   "tmdb:9538": [
@@ -393,14 +393,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.866
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.775
-    },
-    {
       "key": "tmdb:970947",
       "workId": "f-wd117357033",
       "title": "Саваны",
@@ -433,12 +425,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.655
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.577
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.306
+      "weight": 0.289
     }
   ],
   "tmdb:10349": [
@@ -446,14 +446,6 @@ export const comentions: Record<string, CoMention[]> = {
       "key": "tmdb:23047",
       "workId": "f-wd848391",
       "title": "Время ведьм",
-      "year": 2011,
-      "n": 5,
-      "weight": 1
-    },
-    {
-      "key": "tmdb:74387",
-      "workId": "f-wd991440",
-      "title": "Вышибала",
       "year": 2011,
       "n": 5,
       "weight": 1
@@ -471,6 +463,14 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-tmdb26517",
       "title": "Мартин",
       "year": 1978,
+      "n": 5,
+      "weight": 0.913
+    },
+    {
+      "key": "tmdb:74387",
+      "workId": "f-wd991440",
+      "title": "Вышибала",
+      "year": 2011,
       "n": 5,
       "weight": 0.913
     },
@@ -501,76 +501,26 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 1
     },
     {
+      "key": "tmdb:11683",
+      "workId": "f-wd1500141",
+      "title": "Земля мёртвых",
+      "year": 2005,
+      "n": 5,
+      "weight": 0.913
+    },
+    {
+      "key": "tmdb:26517",
+      "workId": "f-tmdb26517",
+      "title": "Мартин",
+      "year": 1978,
+      "n": 5,
+      "weight": 0.913
+    },
+    {
       "key": "tmdb:74387",
       "workId": "f-wd991440",
       "title": "Вышибала",
       "year": 2011,
-      "n": 5,
-      "weight": 1
-    },
-    {
-      "key": "tmdb:11683",
-      "workId": "f-wd1500141",
-      "title": "Земля мёртвых",
-      "year": 2005,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
-      "key": "tmdb:26517",
-      "workId": "f-tmdb26517",
-      "title": "Мартин",
-      "year": 1978,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
-      "key": "tmdb:8408",
-      "workId": "f-wd219170",
-      "title": "День мертвецов",
-      "year": 1985,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
-      "key": "tmdb:560981",
-      "workId": "f-wd106310944",
-      "title": "Парк развлечений",
-      "year": 2020,
-      "n": 5,
-      "weight": 0.745
-    }
-  ],
-  "tmdb:74387": [
-    {
-      "key": "tmdb:10349",
-      "workId": "f-wd940066",
-      "title": "Тёмная половина",
-      "year": 1993,
-      "n": 5,
-      "weight": 1
-    },
-    {
-      "key": "tmdb:23047",
-      "workId": "f-wd848391",
-      "title": "Время ведьм",
-      "year": 2011,
-      "n": 5,
-      "weight": 1
-    },
-    {
-      "key": "tmdb:11683",
-      "workId": "f-wd1500141",
-      "title": "Земля мёртвых",
-      "year": 2005,
-      "n": 5,
-      "weight": 0.913
-    },
-    {
-      "key": "tmdb:26517",
-      "workId": "f-tmdb26517",
-      "title": "Мартин",
-      "year": 1978,
       "n": 5,
       "weight": 0.913
     },
@@ -609,9 +559,51 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.913
     },
     {
+      "key": "tmdb:11683",
+      "workId": "f-wd1500141",
+      "title": "Земля мёртвых",
+      "year": 2005,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
       "key": "tmdb:74387",
       "workId": "f-wd991440",
       "title": "Вышибала",
+      "year": 2011,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
+      "key": "tmdb:8408",
+      "workId": "f-wd219170",
+      "title": "День мертвецов",
+      "year": 1985,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
+      "key": "tmdb:560981",
+      "workId": "f-wd106310944",
+      "title": "Парк развлечений",
+      "year": 2020,
+      "n": 5,
+      "weight": 0.68
+    }
+  ],
+  "tmdb:74387": [
+    {
+      "key": "tmdb:10349",
+      "workId": "f-wd940066",
+      "title": "Тёмная половина",
+      "year": 1993,
+      "n": 5,
+      "weight": 0.913
+    },
+    {
+      "key": "tmdb:23047",
+      "workId": "f-wd848391",
+      "title": "Время ведьм",
       "year": 2011,
       "n": 5,
       "weight": 0.913
@@ -621,6 +613,14 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-wd1500141",
       "title": "Земля мёртвых",
       "year": 2005,
+      "n": 5,
+      "weight": 0.833
+    },
+    {
+      "key": "tmdb:26517",
+      "workId": "f-tmdb26517",
+      "title": "Мартин",
+      "year": 1978,
       "n": 5,
       "weight": 0.833
     },
@@ -768,7 +768,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полтергейст",
       "year": 1982,
       "n": 3,
-      "weight": 0.612
+      "weight": 0.567
     }
   ],
   "tmdb:11336": [
@@ -787,14 +787,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1981,
       "n": 3,
       "weight": 0.866
-    },
-    {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.671
     },
     {
       "key": "tmdb:970947",
@@ -829,12 +821,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.567
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.5
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.265
+      "weight": 0.25
     }
   ],
   "tmdb:32146": [
@@ -915,66 +915,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.567
     }
   ],
-  "tmdb:10238": [
-    {
-      "key": "tmdb:12761",
-      "workId": "f-wd322572",
-      "title": "Осенняя соната",
-      "year": 1978,
-      "n": 5,
-      "weight": 0.791
-    },
-    {
-      "key": "tmdb:11602",
-      "workId": "f-tmdb11602",
-      "title": "Сквозь темное стекло",
-      "year": 1961,
-      "n": 5,
-      "weight": 0.722
-    },
-    {
-      "key": "tmdb:68730",
-      "workId": "f-tmdb68730",
-      "title": "Молчание",
-      "year": 2016,
-      "n": 6,
-      "weight": 0.53
-    },
-    {
-      "key": "tmdb:556694",
-      "workId": "f-wd94525569",
-      "title": "Три тысячи лет желаний",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.172
-    }
-  ],
-  "tmdb:12761": [
-    {
-      "key": "tmdb:10238",
-      "workId": "f-wd830874",
-      "title": "Шёпоты и крики",
-      "year": 1972,
-      "n": 5,
-      "weight": 0.791
-    },
-    {
-      "key": "tmdb:11602",
-      "workId": "f-tmdb11602",
-      "title": "Сквозь темное стекло",
-      "year": 1961,
-      "n": 4,
-      "weight": 0.73
-    },
-    {
-      "key": "tmdb:68730",
-      "workId": "f-tmdb68730",
-      "title": "Молчание",
-      "year": 2016,
-      "n": 5,
-      "weight": 0.559
-    }
-  ],
   "tmdb:1214077": [
     {
       "key": "tmdb:786892",
@@ -993,22 +933,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.717
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 12,
-      "weight": 0.669
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.657
-    },
-    {
       "key": "tmdb:938614",
       "workId": "f-wd119718080",
       "title": "Полночь с дьяволом",
@@ -1017,12 +941,28 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.655
     },
     {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.634
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.629
+    },
+    {
       "key": "imdb:tt12637874",
       "workId": "f-wd113127312",
       "title": "Фоллаут",
       "year": 2024,
       "n": 12,
-      "weight": 0.617
+      "weight": 0.596
     },
     {
       "key": "tmdb:1179316",
@@ -1030,13 +970,13 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 12,
-      "weight": 0.606
+      "weight": 0.596
     },
     {
-      "key": "tmdb:533535",
-      "workId": "f-wd102180106",
-      "title": "Дэдпул и Росомаха",
-      "year": 2024,
+      "key": "tmdb:974635",
+      "workId": "f-wd114437078",
+      "title": "Я не киллер",
+      "year": 2023,
       "n": 12,
       "weight": 0.596
     }
@@ -1067,14 +1007,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.676
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.657
-    },
-    {
       "key": "tmdb:938614",
       "workId": "f-wd119718080",
       "title": "Полночь с дьяволом",
@@ -1088,7 +1020,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 14,
-      "weight": 0.642
+      "weight": 0.631
     },
     {
       "key": "tmdb:743203",
@@ -1096,7 +1028,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Летучий корабль",
       "year": 2024,
       "n": 14,
-      "weight": 0.642
+      "weight": 0.62
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.618
     },
     {
       "key": "imdb:tt12637874",
@@ -1104,7 +1044,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фоллаут",
       "year": 2024,
       "n": 13,
-      "weight": 0.607
+      "weight": 0.585
     }
   ],
   "tmdb:1288070": [
@@ -1239,72 +1179,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.583
     }
   ],
-  "tmdb:884": [
-    {
-      "key": "tmdb:28942",
-      "workId": "f-wd389911",
-      "title": "Выводок",
-      "year": 1979,
-      "n": 3,
-      "weight": 0.775
-    },
-    {
-      "key": "tmdb:9538",
-      "workId": "f-tmdb9538",
-      "title": "Сканнеры",
-      "year": 1981,
-      "n": 3,
-      "weight": 0.775
-    },
-    {
-      "key": "tmdb:11336",
-      "workId": "f-wd466792",
-      "title": "Мёртвая зона",
-      "year": 1983,
-      "n": 3,
-      "weight": 0.671
-    },
-    {
-      "key": "tmdb:970947",
-      "workId": "f-wd117357033",
-      "title": "Саваны",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.6
-    },
-    {
-      "key": "tmdb:2742",
-      "workId": "f-wd1755864",
-      "title": "Обед нагишом",
-      "year": 1991,
-      "n": 3,
-      "weight": 0.548
-    },
-    {
-      "key": "tmdb:9960",
-      "workId": "f-wd386245",
-      "title": "Повелитель мух",
-      "year": 1963,
-      "n": 3,
-      "weight": 0.548
-    },
-    {
-      "key": "tmdb:837",
-      "workId": "f-tmdb837",
-      "title": "Видеодром",
-      "year": 1983,
-      "n": 3,
-      "weight": 0.507
-    },
-    {
-      "key": "tmdb:819876",
-      "workId": "f-tmdb819876",
-      "title": "Преступления будущего",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.237
-    }
-  ],
   "tmdb:970947": [
     {
       "key": "tmdb:28942",
@@ -1331,14 +1205,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.671
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.6
-    },
-    {
       "key": "tmdb:2742",
       "workId": "f-wd1755864",
       "title": "Обед нагишом",
@@ -1363,12 +1229,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.507
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.447
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.237
+      "weight": 0.224
     }
   ],
   "tmdb:939681": [
@@ -1397,20 +1271,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.745
     },
     {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.598
-    },
-    {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
       "n": 5,
       "weight": 0.598
+    },
+    {
+      "key": "imdb:tt32777999",
+      "workId": "f-wd131358971",
+      "title": "Дети перемен",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.577
     },
     {
       "key": "tmdb:1258151",
@@ -1521,14 +1395,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.745
     },
     {
-      "key": "tmdb:74387",
-      "workId": "f-wd991440",
-      "title": "Вышибала",
-      "year": 2011,
-      "n": 5,
-      "weight": 0.745
-    },
-    {
       "key": "tmdb:11683",
       "workId": "f-wd1500141",
       "title": "Земля мёртвых",
@@ -1545,6 +1411,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.68
     },
     {
+      "key": "tmdb:74387",
+      "workId": "f-wd991440",
+      "title": "Вышибала",
+      "year": 2011,
+      "n": 5,
+      "weight": 0.68
+    },
+    {
       "key": "tmdb:8408",
       "workId": "f-wd219170",
       "title": "День мертвецов",
@@ -1553,15 +1427,41 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.68
     }
   ],
-  "tmdb:11602": [
+  "tmdb:10238": [
+    {
+      "key": "tmdb:11602",
+      "workId": "f-tmdb11602",
+      "title": "Сквозь темное стекло",
+      "year": 1961,
+      "n": 5,
+      "weight": 0.722
+    },
     {
       "key": "tmdb:12761",
       "workId": "f-wd322572",
       "title": "Осенняя соната",
       "year": 1978,
-      "n": 4,
-      "weight": 0.73
+      "n": 5,
+      "weight": 0.625
     },
+    {
+      "key": "tmdb:68730",
+      "workId": "f-tmdb68730",
+      "title": "Молчание",
+      "year": 2016,
+      "n": 6,
+      "weight": 0.514
+    },
+    {
+      "key": "tmdb:556694",
+      "workId": "f-wd94525569",
+      "title": "Три тысячи лет желаний",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.172
+    }
+  ],
+  "tmdb:11602": [
     {
       "key": "tmdb:10238",
       "workId": "f-wd830874",
@@ -1571,12 +1471,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.722
     },
     {
+      "key": "tmdb:12761",
+      "workId": "f-wd322572",
+      "title": "Осенняя соната",
+      "year": 1978,
+      "n": 4,
+      "weight": 0.577
+    },
+    {
       "key": "tmdb:68730",
       "workId": "f-tmdb68730",
       "title": "Молчание",
       "year": 2016,
       "n": 5,
-      "weight": 0.51
+      "weight": 0.495
     }
   ],
   "tmdb:746036": [
@@ -1597,14 +1505,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.705
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.606
-    },
-    {
       "key": "tmdb:938614",
       "workId": "f-wd119718080",
       "title": "Полночь с дьяволом",
@@ -1613,12 +1513,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.593
     },
     {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.57
+    },
+    {
       "key": "imdb:tt12637874",
       "workId": "f-wd113127312",
       "title": "Фоллаут",
       "year": 2024,
       "n": 13,
-      "weight": 0.559
+      "weight": 0.54
     },
     {
       "key": "tmdb:1179316",
@@ -1626,15 +1534,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 13,
-      "weight": 0.549
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.549
+      "weight": 0.54
     },
     {
       "key": "tmdb:974635",
@@ -1643,6 +1543,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2023,
       "n": 13,
       "weight": 0.54
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.531
     }
   ],
   "tmdb:28966": [
@@ -1697,48 +1605,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.5
     }
   ],
-  "tmdb:609": [
-    {
-      "key": "imdb:tt0079844",
-      "workId": "f-wd909149",
-      "title": "Салемские вампиры",
-      "year": 1979,
-      "n": 3,
-      "weight": 0.707
-    },
-    {
-      "key": "tmdb:13555",
-      "workId": "f-wd2736572",
-      "title": "Смертельная забава",
-      "year": 1981,
-      "n": 3,
-      "weight": 0.707
-    },
-    {
-      "key": "tmdb:13559",
-      "workId": "f-wd1660446",
-      "title": "Давилка",
-      "year": 1995,
-      "n": 3,
-      "weight": 0.707
-    },
-    {
-      "key": "tmdb:16764",
-      "workId": "f-wd2987914",
-      "title": "Кошмар дома на холмах",
-      "year": 2004,
-      "n": 3,
-      "weight": 0.707
-    },
-    {
-      "key": "tmdb:11954",
-      "workId": "f-wd1455006",
-      "title": "Жизненная сила",
-      "year": 1985,
-      "n": 3,
-      "weight": 0.612
-    }
-  ],
   "tmdb:2742": [
     {
       "key": "tmdb:28942",
@@ -1765,14 +1631,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.612
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.548
-    },
-    {
       "key": "tmdb:970947",
       "workId": "f-wd117357033",
       "title": "Саваны",
@@ -1797,12 +1655,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.463
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.408
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.217
+      "weight": 0.204
     }
   ],
   "tmdb:9960": [
@@ -1831,14 +1697,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.612
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.548
-    },
-    {
       "key": "tmdb:970947",
       "workId": "f-wd117357033",
       "title": "Саваны",
@@ -1863,12 +1721,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.463
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.408
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.217
+      "weight": 0.204
     }
   ],
   "tmdb:1228475": [
@@ -1894,7 +1760,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Настоящая боль",
       "year": 2024,
       "n": 11,
-      "weight": 0.595
+      "weight": 0.564
     },
     {
       "key": "tmdb:1188064",
@@ -1952,7 +1818,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Настоящая боль",
       "year": 2024,
       "n": 11,
-      "weight": 0.648
+      "weight": 0.615
     },
     {
       "key": "tmdb:1288070",
@@ -2026,7 +1892,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 16,
-      "weight": 0.561
+      "weight": 0.552
     },
     {
       "key": "tmdb:743203",
@@ -2034,7 +1900,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Летучий корабль",
       "year": 2024,
       "n": 16,
-      "weight": 0.561
+      "weight": 0.542
     },
     {
       "key": "tmdb:746036",
@@ -2045,14 +1911,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.54
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.503
-    },
-    {
       "key": "tmdb:938614",
       "workId": "f-wd119718080",
       "title": "Полночь с дьяволом",
@@ -2061,144 +1919,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.493
     },
     {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.473
+    },
+    {
       "key": "imdb:tt12637874",
       "workId": "f-wd113127312",
       "title": "Фоллаут",
       "year": 2024,
       "n": 13,
-      "weight": 0.465
-    }
-  ],
-  "tmdb:1306368": [
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.674
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.63
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.577
-    },
-    {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.55
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.503
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.5
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.471
-    },
-    {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.449
-    }
-  ],
-  "tmdb:83533": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.674
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.546
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.5
-    },
-    {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.476
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.435
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.389
+      "weight": 0.448
     }
   ],
   "tmdb:1628": [
@@ -2219,138 +1953,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1962,
       "n": 3,
       "weight": 0.671
-    }
-  ],
-  "tmdb:1022789": [
-    {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
-      "n": 12,
-      "weight": 0.669
-    },
-    {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.657
-    },
-    {
-      "key": "tmdb:746036",
-      "workId": "f-wd113671585",
-      "title": "Каскадёры",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.606
-    },
-    {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
-      "n": 13,
-      "weight": 0.553
-    },
-    {
-      "key": "imdb:tt12637874",
-      "workId": "f-wd113127312",
-      "title": "Фоллаут",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.522
-    },
-    {
-      "key": "tmdb:1179316",
-      "workId": "f-tmdb1179316",
-      "title": "Бременские музыканты",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.512
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.512
-    },
-    {
-      "key": "tmdb:974635",
-      "workId": "f-wd114437078",
-      "title": "Я не киллер",
-      "year": 2023,
-      "n": 13,
-      "weight": 0.503
-    }
-  ],
-  "tmdb:743203": [
-    {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.657
-    },
-    {
-      "key": "tmdb:1179316",
-      "workId": "f-tmdb1179316",
-      "title": "Бременские музыканты",
-      "year": 2024,
-      "n": 18,
-      "weight": 0.643
-    },
-    {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 14,
-      "weight": 0.642
-    },
-    {
-      "key": "tmdb:974635",
-      "workId": "f-wd114437078",
-      "title": "Я не киллер",
-      "year": 2023,
-      "n": 16,
-      "weight": 0.561
-    },
-    {
-      "key": "tmdb:746036",
-      "workId": "f-wd113671585",
-      "title": "Каскадёры",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.549
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.512
-    },
-    {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
-      "n": 13,
-      "weight": 0.501
-    },
-    {
-      "key": "imdb:tt12637874",
-      "workId": "f-wd113127312",
-      "title": "Фоллаут",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.473
     }
   ],
   "tmdb:938614": [
@@ -2384,7 +1986,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Головоломка 2",
       "year": 2024,
       "n": 13,
-      "weight": 0.553
+      "weight": 0.52
     },
     {
       "key": "imdb:tt12637874",
@@ -2392,7 +1994,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фоллаут",
       "year": 2024,
       "n": 13,
-      "weight": 0.511
+      "weight": 0.493
     },
     {
       "key": "tmdb:1179316",
@@ -2400,15 +2002,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 13,
-      "weight": 0.501
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.501
+      "weight": 0.493
     },
     {
       "key": "tmdb:974635",
@@ -2417,42 +2011,56 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2023,
       "n": 13,
       "weight": 0.493
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.484
     }
   ],
-  "tmdb:459992": [
+  "tmdb:609": [
     {
-      "key": "tmdb:522518",
-      "workId": "f-wd61654745",
-      "title": "Собачья жизнь 2",
-      "year": 2019,
+      "key": "imdb:tt0079844",
+      "workId": "f-wd909149",
+      "title": "Салемские вампиры",
+      "year": 1979,
       "n": 3,
       "weight": 0.655
     },
     {
-      "key": "tmdb:521029",
-      "workId": "f-wd55973412",
-      "title": "Проклятие Аннабель 3",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.504
-    }
-  ],
-  "tmdb:522518": [
-    {
-      "key": "tmdb:459992",
-      "workId": "f-wd44491815",
-      "title": "Та еще парочка",
-      "year": 2019,
+      "key": "tmdb:13555",
+      "workId": "f-wd2736572",
+      "title": "Смертельная забава",
+      "year": 1981,
       "n": 3,
       "weight": 0.655
     },
     {
-      "key": "tmdb:521029",
-      "workId": "f-wd55973412",
-      "title": "Проклятие Аннабель 3",
-      "year": 2019,
+      "key": "tmdb:13559",
+      "workId": "f-wd1660446",
+      "title": "Давилка",
+      "year": 1995,
       "n": 3,
-      "weight": 0.577
+      "weight": 0.655
+    },
+    {
+      "key": "tmdb:16764",
+      "workId": "f-wd2987914",
+      "title": "Кошмар дома на холмах",
+      "year": 2004,
+      "n": 3,
+      "weight": 0.655
+    },
+    {
+      "key": "tmdb:11954",
+      "workId": "f-wd1455006",
+      "title": "Жизненная сила",
+      "year": 1985,
+      "n": 3,
+      "weight": 0.567
     }
   ],
   "tmdb:837": [
@@ -2481,14 +2089,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.567
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.507
-    },
-    {
       "key": "tmdb:970947",
       "workId": "f-wd117357033",
       "title": "Саваны",
@@ -2513,12 +2113,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.463
     },
     {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.378
+    },
+    {
       "key": "tmdb:819876",
       "workId": "f-tmdb819876",
       "title": "Преступления будущего",
       "year": 2022,
       "n": 3,
-      "weight": 0.2
+      "weight": 0.189
     }
   ],
   "tmdb:44115": [
@@ -2547,72 +2155,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.567
     }
   ],
-  "tmdb:1013850": [
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.648
-    },
-    {
-      "key": "tmdb:1228475",
-      "workId": "f-wd124408825",
-      "title": "Финист. Первый богатырь",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.595
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.55
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.55
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.527
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 8,
-      "weight": 0.504
-    },
-    {
-      "key": "tmdb:549509",
-      "workId": "f-wd101112656",
-      "title": "Бруталист",
-      "year": 2024,
-      "n": 15,
-      "weight": 0.495
-    },
-    {
-      "key": "imdb:tt30023782",
-      "workId": "f-wd131505336",
-      "title": "Первый номер",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.491
-    }
-  ],
   "imdb:tt0448190": [
     {
       "key": "tmdb:39023",
@@ -2633,14 +2175,146 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.645
     }
   ],
-  "tmdb:1179316": [
+  "tmdb:1306368": [
     {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.645
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.603
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.564
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.553
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.512
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.502
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.456
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.435
+    }
+  ],
+  "tmdb:83533": [
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 8,
+      "weight": 0.645
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.535
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.5
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.491
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.454
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.445
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.386
+    }
+  ],
+  "tmdb:743203": [
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
       "year": 2024,
-      "n": 18,
-      "weight": 0.643
+      "n": 13,
+      "weight": 0.634
     },
     {
       "key": "tmdb:786892",
@@ -2648,15 +2322,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фуриоса: Хроники Безумного Макса",
       "year": 2024,
       "n": 14,
-      "weight": 0.642
+      "weight": 0.62
     },
     {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
+      "key": "tmdb:1179316",
+      "workId": "f-tmdb1179316",
+      "title": "Бременские музыканты",
       "year": 2024,
-      "n": 12,
-      "weight": 0.606
+      "n": 18,
+      "weight": 0.61
     },
     {
       "key": "tmdb:974635",
@@ -2664,7 +2338,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я не киллер",
       "year": 2023,
       "n": 16,
-      "weight": 0.561
+      "weight": 0.542
     },
     {
       "key": "tmdb:746036",
@@ -2672,15 +2346,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Каскадёры",
       "year": 2024,
       "n": 13,
-      "weight": 0.549
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.512
+      "weight": 0.531
     },
     {
       "key": "tmdb:938614",
@@ -2688,7 +2354,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полночь с дьяволом",
       "year": 2023,
       "n": 13,
-      "weight": 0.501
+      "weight": 0.484
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.465
     },
     {
       "key": "imdb:tt12637874",
@@ -2696,7 +2370,73 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фоллаут",
       "year": 2024,
       "n": 13,
+      "weight": 0.441
+    }
+  ],
+  "tmdb:1179316": [
+    {
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 14,
+      "weight": 0.631
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 18,
+      "weight": 0.61
+    },
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.596
+    },
+    {
+      "key": "tmdb:974635",
+      "workId": "f-wd114437078",
+      "title": "Я не киллер",
+      "year": 2023,
+      "n": 16,
+      "weight": 0.552
+    },
+    {
+      "key": "tmdb:746036",
+      "workId": "f-wd113671585",
+      "title": "Каскадёры",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.54
+    },
+    {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 13,
+      "weight": 0.493
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
       "weight": 0.473
+    },
+    {
+      "key": "imdb:tt12637874",
+      "workId": "f-wd113127312",
+      "title": "Фоллаут",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.448
     }
   ],
   "tmdb:295882": [
@@ -2757,12 +2497,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.471
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
       "year": 2024,
       "n": 8,
-      "weight": 0.444
+      "weight": 0.433
     }
   ],
   "tmdb:461125": [
@@ -2823,140 +2563,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.535
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
       "year": 2024,
       "n": 8,
-      "weight": 0.504
+      "weight": 0.491
     }
   ],
-  "tmdb:1208348": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.63
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.57
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.546
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.546
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.535
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.472
-    },
-    {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
-      "n": 3,
-      "weight": 0.463
-    },
-    {
-      "key": "tmdb:1119449",
-      "workId": "f-wd125843356",
-      "title": "Удачи, веселья, не сдохни",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.445
-    }
-  ],
-  "tmdb:14069": [
-    {
-      "key": "tmdb:315465",
-      "workId": "f-tmdb315465",
-      "title": "Ученик чудовища",
-      "year": 2015,
-      "n": 5,
-      "weight": 0.63
-    },
-    {
-      "key": "tmdb:475215",
-      "workId": "f-wd45865176",
-      "title": "Мирай из будущего",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:776305",
-      "workId": "f-wd104184744",
-      "title": "Красавица и дракон",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.333
-    }
-  ],
-  "tmdb:315465": [
-    {
-      "key": "tmdb:14069",
-      "workId": "f-wd336012",
-      "title": "Девочка, покорившая время",
-      "year": 2006,
-      "n": 5,
-      "weight": 0.63
-    },
-    {
-      "key": "tmdb:475215",
-      "workId": "f-wd45865176",
-      "title": "Мирай из будущего",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.463
-    },
-    {
-      "key": "tmdb:776305",
-      "workId": "f-wd104184744",
-      "title": "Красавица и дракон",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.378
-    }
-  ],
-  "imdb:tt12637874": [
+  "tmdb:1022789": [
     {
       "key": "tmdb:1214077",
       "workId": "f-wd127966778",
       "title": "Пираты галактики Барракуда",
       "year": 2024,
       "n": 12,
-      "weight": 0.617
+      "weight": 0.629
     },
     {
       "key": "tmdb:786892",
@@ -2964,7 +2586,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фуриоса: Хроники Безумного Макса",
       "year": 2024,
       "n": 13,
-      "weight": 0.607
+      "weight": 0.618
     },
     {
       "key": "tmdb:746036",
@@ -2972,15 +2594,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Каскадёры",
       "year": 2024,
       "n": 13,
-      "weight": 0.559
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.522
+      "weight": 0.57
     },
     {
       "key": "tmdb:938614",
@@ -2988,7 +2602,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полночь с дьяволом",
       "year": 2023,
       "n": 13,
-      "weight": 0.511
+      "weight": 0.52
+    },
+    {
+      "key": "imdb:tt12637874",
+      "workId": "f-wd113127312",
+      "title": "Фоллаут",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.473
     },
     {
       "key": "tmdb:1179316",
@@ -2999,92 +2621,178 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.473
     },
     {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.473
-    },
-    {
       "key": "tmdb:974635",
       "workId": "f-wd114437078",
       "title": "Я не киллер",
       "year": 2023,
       "n": 13,
+      "weight": 0.473
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 13,
       "weight": 0.465
     }
   ],
-  "tmdb:55": [
+  "tmdb:12761": [
     {
-      "key": "tmdb:59436",
-      "workId": "f-wd206124",
-      "title": "Полночь в Париже",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.612
+      "key": "tmdb:10238",
+      "workId": "f-wd830874",
+      "title": "Шёпоты и крики",
+      "year": 1972,
+      "n": 5,
+      "weight": 0.625
     },
     {
-      "key": "tmdb:1417",
-      "workId": "f-tmdb1417",
-      "title": "Лабиринт Фавна",
-      "year": 2006,
-      "n": 3,
-      "weight": 0.548
+      "key": "tmdb:11602",
+      "workId": "f-tmdb11602",
+      "title": "Сквозь темное стекло",
+      "year": 1961,
+      "n": 4,
+      "weight": 0.577
+    },
+    {
+      "key": "tmdb:68730",
+      "workId": "f-tmdb68730",
+      "title": "Молчание",
+      "year": 2016,
+      "n": 5,
+      "weight": 0.429
     }
   ],
-  "tmdb:59436": [
+  "tmdb:1013850": [
     {
-      "key": "tmdb:55",
-      "workId": "f-tmdb55",
-      "title": "Сука-любовь",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.612
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.615
     },
     {
-      "key": "tmdb:1417",
-      "workId": "f-tmdb1417",
-      "title": "Лабиринт Фавна",
-      "year": 2006,
-      "n": 3,
-      "weight": 0.335
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.564
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.522
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.522
+    },
+    {
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
+      "n": 17,
+      "weight": 0.503
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.5
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 8,
+      "weight": 0.478
+    },
+    {
+      "key": "imdb:tt30023782",
+      "workId": "f-wd131505336",
+      "title": "Первый номер",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.466
     }
   ],
-  "tmdb:270246": [
+  "tmdb:1208348": [
     {
-      "key": "tmdb:63303",
-      "workId": "f-wd3178033",
-      "title": "Девушка без адреса",
-      "year": 1958,
-      "n": 3,
-      "weight": 0.612
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.603
     },
     {
-      "key": "tmdb:104810",
-      "workId": "f-wd4205762",
-      "title": "Июльский дождь",
-      "year": 1967,
-      "n": 3,
-      "weight": 0.257
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.555
     },
     {
-      "key": "tmdb:27862",
-      "workId": "f-wd244999",
-      "title": "Я шагаю по Москве",
-      "year": 1964,
-      "n": 3,
-      "weight": 0.257
-    }
-  ],
-  "tmdb:63303": [
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.535
+    },
     {
-      "key": "tmdb:270246",
-      "workId": "f-wd1949295",
-      "title": "Москва, любовь моя",
-      "year": 1974,
-      "n": 3,
-      "weight": 0.612
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.535
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.504
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.485
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.481
+    },
+    {
+      "key": "tmdb:1119449",
+      "workId": "f-wd125843356",
+      "title": "Удачи, веселья, не сдохни",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.459
     }
   ],
   "tmdb:1258151": [
@@ -3153,70 +2861,56 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.452
     }
   ],
-  "imdb:tt32777999": [
+  "tmdb:14069": [
     {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
+      "key": "tmdb:315465",
+      "workId": "f-tmdb315465",
+      "title": "Ученик чудовища",
+      "year": 2015,
       "n": 5,
       "weight": 0.598
     },
     {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 6,
-      "weight": 0.535
+      "key": "tmdb:475215",
+      "workId": "f-wd45865176",
+      "title": "Мирай из будущего",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.387
     },
     {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.535
-    },
+      "key": "tmdb:776305",
+      "workId": "f-wd104184744",
+      "title": "Красавица и дракон",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.316
+    }
+  ],
+  "tmdb:315465": [
     {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 7,
-      "weight": 0.5
-    },
-    {
-      "key": "tmdb:4347",
-      "workId": "f-wd1626186",
-      "title": "Искупление",
-      "year": 2007,
-      "n": 7,
-      "weight": 0.468
-    },
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.468
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
+      "key": "tmdb:14069",
+      "workId": "f-wd336012",
+      "title": "Девочка, покорившая время",
+      "year": 2006,
       "n": 5,
-      "weight": 0.445
+      "weight": 0.598
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.441
+      "key": "tmdb:475215",
+      "workId": "f-wd45865176",
+      "title": "Мирай из будущего",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.463
+    },
+    {
+      "key": "tmdb:776305",
+      "workId": "f-wd104184744",
+      "title": "Красавица и дракон",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.378
     }
   ],
   "tmdb:658224": [
@@ -3237,20 +2931,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.55
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.471
-    },
-    {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
       "year": 2024,
       "n": 11,
       "weight": 0.459
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.447
     },
     {
       "key": "tmdb:939681",
@@ -3285,7 +2979,7 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.4
     }
   ],
-  "tmdb:533535": [
+  "imdb:tt12637874": [
     {
       "key": "tmdb:1214077",
       "workId": "f-wd127966778",
@@ -3299,8 +2993,24 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-wd100361125",
       "title": "Фуриоса: Хроники Безумного Макса",
       "year": 2024,
-      "n": 12,
+      "n": 13,
+      "weight": 0.585
+    },
+    {
+      "key": "tmdb:746036",
+      "workId": "f-wd113671585",
+      "title": "Каскадёры",
+      "year": 2024,
+      "n": 13,
       "weight": 0.54
+    },
+    {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 13,
+      "weight": 0.493
     },
     {
       "key": "tmdb:1022789",
@@ -3308,7 +3018,49 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Головоломка 2",
       "year": 2024,
       "n": 13,
-      "weight": 0.503
+      "weight": 0.473
+    },
+    {
+      "key": "tmdb:1179316",
+      "workId": "f-tmdb1179316",
+      "title": "Бременские музыканты",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.448
+    },
+    {
+      "key": "tmdb:974635",
+      "workId": "f-wd114437078",
+      "title": "Я не киллер",
+      "year": 2023,
+      "n": 13,
+      "weight": 0.448
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.441
+    }
+  ],
+  "tmdb:533535": [
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.586
+    },
+    {
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.531
     },
     {
       "key": "tmdb:746036",
@@ -3316,7 +3068,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Каскадёры",
       "year": 2024,
       "n": 12,
-      "weight": 0.498
+      "weight": 0.49
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.465
     },
     {
       "key": "tmdb:938614",
@@ -3324,7 +3084,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Полночь с дьяволом",
       "year": 2023,
       "n": 12,
-      "weight": 0.455
+      "weight": 0.447
     },
     {
       "key": "imdb:tt12637874",
@@ -3332,7 +3092,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фоллаут",
       "year": 2024,
       "n": 12,
-      "weight": 0.429
+      "weight": 0.407
     },
     {
       "key": "tmdb:1179316",
@@ -3340,15 +3100,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 12,
-      "weight": 0.421
+      "weight": 0.407
     },
     {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
+      "key": "tmdb:974635",
+      "workId": "f-wd114437078",
+      "title": "Я не киллер",
+      "year": 2023,
       "n": 12,
-      "weight": 0.421
+      "weight": 0.407
     }
   ],
   "tmdb:4347": [
@@ -3401,20 +3161,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.5
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 8,
-      "weight": 0.471
-    },
-    {
       "key": "tmdb:295882",
       "workId": "f-wd4415136",
       "title": "Семейное счастье",
       "year": 1970,
       "n": 8,
       "weight": 0.471
+    },
+    {
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 8,
+      "weight": 0.459
     }
   ],
   "tmdb:986056": [
@@ -3483,40 +3243,106 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.438
     }
   ],
-  "tmdb:21135": [
+  "tmdb:379": [
     {
-      "key": "tmdb:5165",
-      "workId": "f-tmdb5165",
-      "title": "Приключение",
-      "year": 1960,
+      "key": "tmdb:4944",
+      "workId": "f-tmdb4944",
+      "title": "После прочтения сжечь",
+      "year": 2008,
       "n": 4,
       "weight": 0.577
     },
     {
-      "key": "tmdb:26638",
-      "workId": "f-tmdb26638",
-      "title": "Красная пустыня",
-      "year": 1964,
-      "n": 3,
-      "weight": 0.401
+      "key": "tmdb:6977",
+      "workId": "f-tmdb6977",
+      "title": "Старикам тут не место",
+      "year": 2007,
+      "n": 4,
+      "weight": 0.385
     }
   ],
-  "tmdb:5165": [
+  "tmdb:4944": [
     {
-      "key": "tmdb:21135",
-      "workId": "f-tmdb21135",
-      "title": "Затмение",
-      "year": 1962,
+      "key": "tmdb:379",
+      "workId": "f-tmdb379",
+      "title": "Перекресток Миллера",
+      "year": 1990,
       "n": 4,
       "weight": 0.577
     },
     {
-      "key": "tmdb:26638",
-      "workId": "f-tmdb26638",
-      "title": "Красная пустыня",
-      "year": 1964,
-      "n": 3,
-      "weight": 0.463
+      "key": "tmdb:6977",
+      "workId": "f-tmdb6977",
+      "title": "Старикам тут не место",
+      "year": 2007,
+      "n": 5,
+      "weight": 0.278
+    }
+  ],
+  "imdb:tt32777999": [
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.577
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.516
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.516
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 7,
+      "weight": 0.483
+    },
+    {
+      "key": "tmdb:4347",
+      "workId": "f-wd1626186",
+      "title": "Искупление",
+      "year": 2007,
+      "n": 7,
+      "weight": 0.452
+    },
+    {
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.452
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.43
+    },
+    {
+      "key": "tmdb:295882",
+      "workId": "f-wd4415136",
+      "title": "Семейное счастье",
+      "year": 1970,
+      "n": 7,
+      "weight": 0.426
     }
   ],
   "tmdb:575265": [
@@ -3585,136 +3411,106 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.373
     }
   ],
-  "wd:Q139902672": [
+  "tmdb:270246": [
     {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 6,
+      "key": "tmdb:63303",
+      "workId": "f-wd3178033",
+      "title": "Девушка без адреса",
+      "year": 1958,
+      "n": 3,
       "weight": 0.577
     },
     {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.546
+      "key": "tmdb:27862",
+      "workId": "f-wd244999",
+      "title": "Я шагаю по Москве",
+      "year": 1964,
+      "n": 3,
+      "weight": 0.243
     },
     {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 6,
+      "key": "tmdb:104810",
+      "workId": "f-wd4205762",
+      "title": "Июльский дождь",
+      "year": 1967,
+      "n": 3,
+      "weight": 0.236
+    }
+  ],
+  "tmdb:63303": [
+    {
+      "key": "tmdb:270246",
+      "workId": "f-wd1949295",
+      "title": "Москва, любовь моя",
+      "year": 1974,
+      "n": 3,
+      "weight": 0.577
+    }
+  ],
+  "tmdb:884": [
+    {
+      "key": "tmdb:28942",
+      "workId": "f-wd389911",
+      "title": "Выводок",
+      "year": 1979,
+      "n": 3,
+      "weight": 0.577
+    },
+    {
+      "key": "tmdb:9538",
+      "workId": "f-tmdb9538",
+      "title": "Сканнеры",
+      "year": 1981,
+      "n": 3,
+      "weight": 0.577
+    },
+    {
+      "key": "tmdb:11336",
+      "workId": "f-wd466792",
+      "title": "Мёртвая зона",
+      "year": 1983,
+      "n": 3,
       "weight": 0.5
     },
     {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.435
+      "key": "tmdb:970947",
+      "workId": "f-wd117357033",
+      "title": "Саваны",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.447
     },
     {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
+      "key": "tmdb:2742",
+      "workId": "f-wd1755864",
+      "title": "Обед нагишом",
+      "year": 1991,
+      "n": 3,
       "weight": 0.408
     },
     {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 6,
+      "key": "tmdb:9960",
+      "workId": "f-wd386245",
+      "title": "Повелитель мух",
+      "year": 1963,
+      "n": 3,
       "weight": 0.408
     },
     {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.389
-    }
-  ],
-  "tmdb:521029": [
-    {
-      "key": "tmdb:522518",
-      "workId": "f-wd61654745",
-      "title": "Собачья жизнь 2",
-      "year": 2019,
+      "key": "tmdb:837",
+      "workId": "f-tmdb837",
+      "title": "Видеодром",
+      "year": 1983,
       "n": 3,
-      "weight": 0.577
+      "weight": 0.378
     },
     {
-      "key": "tmdb:459992",
-      "workId": "f-wd44491815",
-      "title": "Та еще парочка",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.504
-    },
-    {
-      "key": "tmdb:412117",
-      "workId": "f-wd28561715",
-      "title": "Тайная жизнь домашних животных 2",
-      "year": 2019,
+      "key": "tmdb:819876",
+      "workId": "f-tmdb819876",
+      "title": "Преступления будущего",
+      "year": 2022,
       "n": 3,
-      "weight": 0.316
-    },
-    {
-      "key": "tmdb:479455",
-      "workId": "f-wd55439830",
-      "title": "Люди в чёрном: Интернэшнл",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.302
-    },
-    {
-      "key": "tmdb:301528",
-      "workId": "f-wd18517638",
-      "title": "История игрушек 4",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.261
-    },
-    {
-      "key": "tmdb:420817",
-      "workId": "f-wd27188178",
-      "title": "Аладдин",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.252
-    },
-    {
-      "key": "tmdb:429617",
-      "workId": "f-wd27985819",
-      "title": "Человек-паук: Вдали от дома",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.196
-    },
-    {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.093
+      "weight": 0.167
     }
   ],
   "tmdb:22970": [
@@ -3732,7 +3528,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я знаю, что вы сделали прошлым летом",
       "year": 1997,
       "n": 4,
-      "weight": 0.385
+      "weight": 0.37
     },
     {
       "key": "tmdb:9532",
@@ -3756,7 +3552,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Поезд в Пусан",
       "year": 2016,
       "n": 3,
-      "weight": 0.229
+      "weight": 0.224
     }
   ],
   "tmdb:6466": [
@@ -3774,7 +3570,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я знаю, что вы сделали прошлым летом",
       "year": 1997,
       "n": 3,
-      "weight": 0.5
+      "weight": 0.48
     },
     {
       "key": "tmdb:377",
@@ -3790,7 +3586,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Поезд в Пусан",
       "year": 2016,
       "n": 3,
-      "weight": 0.397
+      "weight": 0.387
     },
     {
       "key": "tmdb:9532",
@@ -3824,7 +3620,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Настоящая боль",
       "year": 2024,
       "n": 10,
-      "weight": 0.491
+      "weight": 0.466
     },
     {
       "key": "tmdb:939681",
@@ -3887,72 +3683,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.571
     }
   ],
-  "tmdb:1272837": [
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.57
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.503
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.435
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.435
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.426
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.377
-    },
-    {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
-      "n": 3,
-      "weight": 0.369
-    },
-    {
-      "key": "tmdb:1119449",
-      "workId": "f-wd125843356",
-      "title": "Удачи, веселья, не сдохни",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.355
-    }
-  ],
   "tmdb:1492201": [
     {
       "key": "tmdb:285331",
@@ -4011,12 +3741,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.327
     },
     {
-      "key": "tmdb:586387",
-      "workId": "f-wd135685436",
-      "title": "Август",
-      "year": 2025,
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
       "n": 3,
-      "weight": 0.327
+      "weight": 0.303
     }
   ],
   "tmdb:285331": [
@@ -4069,20 +3799,56 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.433
     },
     {
-      "key": "tmdb:586387",
-      "workId": "f-wd135685436",
-      "title": "Август",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.433
-    },
-    {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
       "n": 3,
       "weight": 0.401
+    },
+    {
+      "key": "tmdb:586387",
+      "workId": "f-wd135685436",
+      "title": "Август",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.401
+    }
+  ],
+  "tmdb:459992": [
+    {
+      "key": "tmdb:522518",
+      "workId": "f-wd61654745",
+      "title": "Собачья жизнь 2",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.567
+    },
+    {
+      "key": "tmdb:521029",
+      "workId": "f-wd55973412",
+      "title": "Проклятие Аннабель 3",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.504
+    }
+  ],
+  "tmdb:522518": [
+    {
+      "key": "tmdb:459992",
+      "workId": "f-wd44491815",
+      "title": "Та еще парочка",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.567
+    },
+    {
+      "key": "tmdb:521029",
+      "workId": "f-wd55973412",
+      "title": "Проклятие Аннабель 3",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.5
     }
   ],
   "tmdb:1473148": [
@@ -4105,6 +3871,240 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.567
     }
   ],
+  "wd:Q139902672": [
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.564
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.535
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.5
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.454
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.445
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.429
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.386
+    }
+  ],
+  "tmdb:1272837": [
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.555
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.502
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.445
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.445
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.419
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.4
+    },
+    {
+      "key": "tmdb:1119449",
+      "workId": "f-wd125843356",
+      "title": "Удачи, веселья, не сдохни",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.382
+    }
+  ],
+  "tmdb:1193824": [
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 8,
+      "weight": 0.553
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.491
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.459
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.429
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.389
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.382
+    },
+    {
+      "key": "tmdb:1248723",
+      "workId": "f-wd125472432",
+      "title": "Буратино",
+      "year": 2026,
+      "n": 9,
+      "weight": 0.371
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.347
+    }
+  ],
+  "tmdb:55": [
+    {
+      "key": "tmdb:59436",
+      "workId": "f-wd206124",
+      "title": "Полночь в Париже",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.548
+    },
+    {
+      "key": "tmdb:1417",
+      "workId": "f-tmdb1417",
+      "title": "Лабиринт Фавна",
+      "year": 2006,
+      "n": 3,
+      "weight": 0.522
+    }
+  ],
+  "tmdb:59436": [
+    {
+      "key": "tmdb:55",
+      "workId": "f-tmdb55",
+      "title": "Сука-любовь",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.548
+    },
+    {
+      "key": "tmdb:1417",
+      "workId": "f-tmdb1417",
+      "title": "Лабиринт Фавна",
+      "year": 2006,
+      "n": 3,
+      "weight": 0.286
+    }
+  ],
   "tmdb:14553": [
     {
       "key": "tmdb:668640",
@@ -4112,7 +4112,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Главная роль",
       "year": 2021,
       "n": 12,
-      "weight": 0.56
+      "weight": 0.546
     },
     {
       "key": "tmdb:772760",
@@ -4120,15 +4120,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Страна Саша",
       "year": 2022,
       "n": 5,
-      "weight": 0.373
-    },
-    {
-      "key": "tmdb:5967",
-      "workId": "f-wd163868",
-      "title": "Шербурские зонтики",
-      "year": 1964,
-      "n": 5,
-      "weight": 0.323
+      "weight": 0.364
     },
     {
       "key": "tmdb:152742",
@@ -4136,7 +4128,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лучшее предложение",
       "year": 2013,
       "n": 4,
-      "weight": 0.316
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:5967",
+      "workId": "f-wd163868",
+      "title": "Шербурские зонтики",
+      "year": 1964,
+      "n": 5,
+      "weight": 0.303
     },
     {
       "key": "tmdb:659991",
@@ -4144,7 +4144,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сделано в Италии",
       "year": 2020,
       "n": 3,
-      "weight": 0.254
+      "weight": 0.247
     },
     {
       "key": "tmdb:439",
@@ -4152,7 +4152,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 4,
-      "weight": 0.175
+      "weight": 0.168
     },
     {
       "key": "tmdb:152603",
@@ -4160,7 +4160,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Выживут только любовники",
       "year": 2013,
       "n": 3,
-      "weight": 0.129
+      "weight": 0.12
     }
   ],
   "tmdb:668640": [
@@ -4170,7 +4170,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ускользающая красота",
       "year": 1996,
       "n": 12,
-      "weight": 0.56
+      "weight": 0.546
     },
     {
       "key": "tmdb:772760",
@@ -4186,125 +4186,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Шербурские зонтики",
       "year": 1964,
       "n": 5,
-      "weight": 0.301
-    }
-  ],
-  "tmdb:68730": [
-    {
-      "key": "tmdb:12761",
-      "workId": "f-wd322572",
-      "title": "Осенняя соната",
-      "year": 1978,
-      "n": 5,
-      "weight": 0.559
-    },
-    {
-      "key": "tmdb:10238",
-      "workId": "f-wd830874",
-      "title": "Шёпоты и крики",
-      "year": 1972,
-      "n": 6,
-      "weight": 0.53
-    },
-    {
-      "key": "tmdb:11602",
-      "workId": "f-tmdb11602",
-      "title": "Сквозь темное стекло",
-      "year": 1961,
-      "n": 5,
-      "weight": 0.51
-    }
-  ],
-  "tmdb:1193824": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.55
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.476
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.445
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.355
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:1248723",
-      "workId": "f-wd125472432",
-      "title": "Буратино",
-      "year": 2026,
-      "n": 8,
-      "weight": 0.344
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.333
-    }
-  ],
-  "tmdb:1417": [
-    {
-      "key": "tmdb:55",
-      "workId": "f-tmdb55",
-      "title": "Сука-любовь",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.548
-    },
-    {
-      "key": "tmdb:59436",
-      "workId": "f-wd206124",
-      "title": "Полночь в Париже",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:194662",
-      "workId": "f-tmdb194662",
-      "title": "Бёрдмэн",
-      "year": 2014,
-      "n": 3,
-      "weight": 0.286
+      "weight": 0.289
     }
   ],
   "tmdb:1188064": [
@@ -4330,7 +4212,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Настоящая боль",
       "year": 2024,
       "n": 11,
-      "weight": 0.466
+      "weight": 0.442
     },
     {
       "key": "tmdb:658224",
@@ -4373,108 +4255,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.402
     }
   ],
-  "tmdb:1327819": [
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.535
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.471
-    },
-    {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
-      "n": 3,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.426
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.408
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.375
-    },
-    {
-      "key": "tmdb:1489187",
-      "workId": "f-wd136805944",
-      "title": "Сводишь с ума",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.365
-    }
-  ],
-  "tmdb:110416": [
-    {
-      "key": "tmdb:26963",
-      "workId": "f-wd908816",
-      "title": "Тайна Келлс",
-      "year": 2009,
-      "n": 4,
-      "weight": 0.535
-    },
-    {
-      "key": "tmdb:441130",
-      "workId": "f-wd68681463",
-      "title": "Легенда о волках",
-      "year": 2020,
-      "n": 4,
-      "weight": 0.447
-    }
-  ],
-  "tmdb:26963": [
-    {
-      "key": "tmdb:110416",
-      "workId": "f-wd17125101",
-      "title": "Песнь моря",
-      "year": 2014,
-      "n": 4,
-      "weight": 0.535
-    },
-    {
-      "key": "tmdb:441130",
-      "workId": "f-wd68681463",
-      "title": "Легенда о волках",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.359
-    }
-  ],
   "tmdb:152742": [
     {
       "key": "tmdb:659991",
@@ -4498,7 +4278,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 5,
-      "weight": 0.347
+      "weight": 0.34
     },
     {
       "key": "tmdb:14553",
@@ -4506,7 +4286,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ускользающая красота",
       "year": 1996,
       "n": 4,
-      "weight": 0.316
+      "weight": 0.309
     }
   ],
   "tmdb:659991": [
@@ -4532,7 +4312,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ускользающая красота",
       "year": 1996,
       "n": 3,
-      "weight": 0.254
+      "weight": 0.247
     },
     {
       "key": "tmdb:439",
@@ -4540,7 +4320,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 3,
-      "weight": 0.222
+      "weight": 0.218
     }
   ],
   "tmdb:1290159": [
@@ -4593,120 +4373,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.306
     },
     {
-      "key": "tmdb:586387",
-      "workId": "f-wd135685436",
-      "title": "Август",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.306
-    },
-    {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
       "n": 3,
       "weight": 0.283
-    }
-  ],
-  "tmdb:11305": [
-    {
-      "key": "tmdb:883",
-      "workId": "f-wd1106851",
-      "title": "Кофе и сигареты",
-      "year": 2003,
-      "n": 5,
-      "weight": 0.527
     },
     {
-      "key": "tmdb:922",
-      "workId": "f-wd547189",
-      "title": "Мертвец",
-      "year": 1995,
-      "n": 5,
-      "weight": 0.462
-    },
-    {
-      "key": "tmdb:1554",
-      "workId": "f-wd192409",
-      "title": "Вне закона",
-      "year": 1986,
+      "key": "tmdb:586387",
+      "workId": "f-wd135685436",
+      "title": "Август",
+      "year": 2025,
       "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:339",
-      "workId": "f-wd506279",
-      "title": "Ночь на Земле",
-      "year": 1991,
-      "n": 3,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 4,
-      "weight": 0.333
-    },
-    {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 5,
-      "weight": 0.321
-    }
-  ],
-  "tmdb:883": [
-    {
-      "key": "tmdb:11305",
-      "workId": "f-wd614795",
-      "title": "Таинственный поезд",
-      "year": 1989,
-      "n": 5,
-      "weight": 0.527
-    },
-    {
-      "key": "tmdb:1554",
-      "workId": "f-wd192409",
-      "title": "Вне закона",
-      "year": 1986,
-      "n": 3,
-      "weight": 0.387
-    },
-    {
-      "key": "tmdb:922",
-      "workId": "f-wd547189",
-      "title": "Мертвец",
-      "year": 1995,
-      "n": 4,
-      "weight": 0.351
-    },
-    {
-      "key": "tmdb:339",
-      "workId": "f-wd506279",
-      "title": "Ночь на Земле",
-      "year": 1991,
-      "n": 3,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 4,
-      "weight": 0.316
-    },
-    {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 5,
-      "weight": 0.304
+      "weight": 0.283
     }
   ],
   "tmdb:470326": [
@@ -4756,15 +4436,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Летучий корабль",
       "year": 2024,
       "n": 9,
-      "weight": 0.371
+      "weight": 0.359
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
       "n": 8,
-      "weight": 0.364
+      "weight": 0.356
     },
     {
       "key": "tmdb:1184918",
@@ -4772,43 +4452,33 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 7,
-      "weight": 0.36
+      "weight": 0.35
     }
   ],
-  "tmdb:225235": [
+  "tmdb:1417": [
     {
-      "key": "tmdb:516318",
-      "workId": "f-wd48940345",
-      "title": "В Кейптаунском порту",
-      "year": 2017,
+      "key": "tmdb:55",
+      "workId": "f-tmdb55",
+      "title": "Сука-любовь",
+      "year": 2000,
       "n": 3,
       "weight": 0.522
     },
     {
-      "key": "tmdb:38336",
-      "workId": "f-wd1962112",
-      "title": "Стиляги",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.364
+      "key": "tmdb:59436",
+      "workId": "f-wd206124",
+      "title": "Полночь в Париже",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.286
     },
     {
-      "key": "tmdb:23410",
-      "workId": "f-wd2331577",
-      "title": "Оттепель",
-      "year": 2009,
+      "key": "tmdb:194662",
+      "workId": "f-tmdb194662",
+      "title": "Бёрдмэн",
+      "year": 2014,
       "n": 3,
-      "weight": 0.302
-    }
-  ],
-  "tmdb:516318": [
-    {
-      "key": "tmdb:225235",
-      "workId": "f-tmdb225235",
-      "title": "Географ глобус пропил",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.522
+      "weight": 0.273
     }
   ],
   "tmdb:1930": [
@@ -4834,7 +4504,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "500 дней лета",
       "year": 2009,
       "n": 5,
-      "weight": 0.346
+      "weight": 0.329
     },
     {
       "key": "imdb:tt4786824",
@@ -4886,7 +4556,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я иду искать",
       "year": 2019,
       "n": 3,
-      "weight": 0.102
+      "weight": 0.1
     }
   ],
   "tmdb:591662": [
@@ -4942,7 +4612,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Твин Пикс",
       "year": 2017,
       "n": 3,
-      "weight": 0.085
+      "weight": 0.084
     }
   ],
   "tmdb:638": [
@@ -4968,139 +4638,99 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Твин Пикс",
       "year": 2017,
       "n": 3,
-      "weight": 0.088
+      "weight": 0.087
     }
   ],
-  "tmdb:929590": [
+  "tmdb:68730": [
     {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
-      "n": 10,
+      "key": "tmdb:10238",
+      "workId": "f-wd830874",
+      "title": "Шёпоты и крики",
+      "year": 1972,
+      "n": 6,
       "weight": 0.514
     },
     {
-      "key": "tmdb:746036",
-      "workId": "f-wd113671585",
-      "title": "Каскадёры",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.473
+      "key": "tmdb:11602",
+      "workId": "f-tmdb11602",
+      "title": "Сквозь темное стекло",
+      "year": 1961,
+      "n": 5,
+      "weight": 0.495
     },
     {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.467
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.401
-    },
-    {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
-      "n": 10,
-      "weight": 0.393
-    },
-    {
-      "key": "imdb:tt12637874",
-      "workId": "f-wd113127312",
-      "title": "Фоллаут",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.37
-    },
-    {
-      "key": "tmdb:1179316",
-      "workId": "f-tmdb1179316",
-      "title": "Бременские музыканты",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.364
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.364
+      "key": "tmdb:12761",
+      "workId": "f-wd322572",
+      "title": "Осенняя соната",
+      "year": 1978,
+      "n": 5,
+      "weight": 0.429
     }
   ],
-  "tmdb:842924": [
+  "tmdb:467905": [
     {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
       "n": 7,
-      "weight": 0.509
+      "weight": 0.512
     },
     {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
       "year": 2025,
-      "n": 7,
-      "weight": 0.509
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.488
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
       "n": 6,
-      "weight": 0.436
+      "weight": 0.485
     },
     {
-      "key": "tmdb:541671",
-      "workId": "f-wd84713105",
-      "title": "Балерина",
-      "year": 2025,
-      "n": 10,
-      "weight": 0.42
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 7,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:1258151",
-      "workId": "f-wd134983890",
-      "title": "Кракен",
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
       "year": 2025,
       "n": 7,
-      "weight": 0.394
+      "weight": 0.454
     },
     {
-      "key": "tmdb:4347",
-      "workId": "f-wd1626186",
-      "title": "Искупление",
-      "year": 2007,
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
       "n": 7,
-      "weight": 0.382
+      "weight": 0.454
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.389
+    },
+    {
+      "key": "tmdb:1119449",
+      "workId": "f-wd125843356",
+      "title": "Удачи, веселья, не сдохни",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.389
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.367
     }
   ],
   "tmdb:49106": [
@@ -5165,12 +4795,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.402
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
       "n": 8,
-      "weight": 0.393
+      "weight": 0.385
     },
     {
       "key": "tmdb:1184918",
@@ -5178,73 +4808,41 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 7,
-      "weight": 0.389
+      "weight": 0.379
     },
     {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
       "n": 8,
-      "weight": 0.385
+      "weight": 0.37
     }
   ],
-  "tmdb:467905": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.5
-    },
+  "tmdb:342898": [
     {
       "key": "tmdb:1208348",
       "workId": "f-wd124947229",
       "title": "Семья в аренду",
       "year": 2025,
-      "n": 5,
-      "weight": 0.472
+      "n": 4,
+      "weight": 0.504
     },
     {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.433
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
       "year": 2026,
-      "n": 5,
-      "weight": 0.377
+      "n": 3,
+      "weight": 0.463
     },
     {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:1119449",
-      "workId": "f-wd125843356",
-      "title": "Удачи, веселья, не сдохни",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.354
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.456
     },
     {
       "key": "tmdb:1327819",
@@ -5252,7 +4850,227 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Прыгуны",
       "year": 2026,
       "n": 4,
-      "weight": 0.354
+      "weight": 0.436
+    },
+    {
+      "key": "tmdb:931285",
+      "workId": "f-wd117830073",
+      "title": "Мортал Комбат 2",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.436
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.419
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.404
+    }
+  ],
+  "tmdb:521029": [
+    {
+      "key": "tmdb:459992",
+      "workId": "f-wd44491815",
+      "title": "Та еще парочка",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.504
+    },
+    {
+      "key": "tmdb:522518",
+      "workId": "f-wd61654745",
+      "title": "Собачья жизнь 2",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.5
+    },
+    {
+      "key": "tmdb:412117",
+      "workId": "f-wd28561715",
+      "title": "Тайная жизнь домашних животных 2",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.316
+    },
+    {
+      "key": "tmdb:479455",
+      "workId": "f-wd55439830",
+      "title": "Люди в чёрном: Интернэшнл",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.261
+    },
+    {
+      "key": "tmdb:420817",
+      "workId": "f-wd27188178",
+      "title": "Аладдин",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.252
+    },
+    {
+      "key": "tmdb:429617",
+      "workId": "f-wd27985819",
+      "title": "Человек-паук: Вдали от дома",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.196
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.09
+    }
+  ],
+  "tmdb:549509": [
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 17,
+      "weight": 0.503
+    },
+    {
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.364
+    },
+    {
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.334
+    },
+    {
+      "key": "tmdb:1188064",
+      "workId": "f-wd136124910",
+      "title": "Последний ронин",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 8,
+      "weight": 0.283
+    }
+  ],
+  "tmdb:225235": [
+    {
+      "key": "tmdb:516318",
+      "workId": "f-wd48940345",
+      "title": "В Кейптаунском порту",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.5
+    },
+    {
+      "key": "tmdb:38336",
+      "workId": "f-wd1962112",
+      "title": "Стиляги",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.348
+    },
+    {
+      "key": "tmdb:23410",
+      "workId": "f-wd2331577",
+      "title": "Оттепель",
+      "year": 2009,
+      "n": 3,
+      "weight": 0.289
+    }
+  ],
+  "tmdb:516318": [
+    {
+      "key": "tmdb:225235",
+      "workId": "f-tmdb225235",
+      "title": "Географ глобус пропил",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.5
+    }
+  ],
+  "tmdb:1159831": [
+    {
+      "key": "tmdb:358962",
+      "workId": "f-wd21148916",
+      "title": "Пиковая дама: Черный обряд",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.5
+    }
+  ],
+  "tmdb:358962": [
+    {
+      "key": "tmdb:1159831",
+      "workId": "f-wd124735657",
+      "title": "Невеста",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.5
     }
   ],
   "tmdb:561": [
@@ -5298,7 +5116,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Экстаз",
       "year": 2018,
       "n": 3,
-      "weight": 0.199
+      "weight": 0.189
     }
   ],
   "tmdb:458156": [
@@ -5324,157 +5142,37 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Экстаз",
       "year": 2018,
       "n": 3,
-      "weight": 0.199
+      "weight": 0.189
     }
   ],
-  "tmdb:3597": [
+  "tmdb:76": [
     {
-      "key": "tmdb:6466",
-      "workId": "f-wd965859",
-      "title": "Фредди против Джейсона",
-      "year": 2003,
+      "key": "tmdb:80",
+      "workId": "f-tmdb80",
+      "title": "Перед закатом",
+      "year": 2004,
       "n": 3,
       "weight": 0.5
-    },
-    {
-      "key": "tmdb:22970",
-      "workId": "f-tmdb22970",
-      "title": "Хижина в лесу",
-      "year": 2012,
-      "n": 4,
-      "weight": 0.385
-    },
-    {
-      "key": "tmdb:9532",
-      "workId": "f-wd7561043",
-      "title": "Пункт назначения",
-      "year": 2000,
-      "n": 5,
-      "weight": 0.323
-    },
-    {
-      "key": "tmdb:377",
-      "workId": "f-wd329434",
-      "title": "Кошмар на улице Вязов",
-      "year": 1984,
-      "n": 3,
-      "weight": 0.21
-    },
-    {
-      "key": "tmdb:396535",
-      "workId": "f-tmdb396535",
-      "title": "Поезд в Пусан",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.199
     }
   ],
-  "tmdb:792307": [
+  "tmdb:80": [
     {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 14,
-      "weight": 0.495
-    },
-    {
-      "key": "tmdb:1179316",
-      "workId": "f-tmdb1179316",
-      "title": "Бременские музыканты",
-      "year": 2024,
-      "n": 17,
-      "weight": 0.469
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 17,
-      "weight": 0.469
-    },
-    {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
-      "n": 12,
-      "weight": 0.468
-    },
-    {
-      "key": "tmdb:974635",
-      "workId": "f-wd114437078",
-      "title": "Я не киллер",
-      "year": 2023,
-      "n": 16,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:746036",
-      "workId": "f-wd113671585",
-      "title": "Каскадёры",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.424
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.395
-    },
-    {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
-      "n": 13,
-      "weight": 0.387
+      "key": "tmdb:76",
+      "workId": "f-tmdb76",
+      "title": "Перед рассветом",
+      "year": 1995,
+      "n": 3,
+      "weight": 0.5
     }
   ],
-  "tmdb:549509": [
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 15,
-      "weight": 0.495
-    },
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.385
-    },
-    {
-      "key": "tmdb:1228475",
-      "workId": "f-wd124408825",
-      "title": "Финист. Первый богатырь",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.353
-    },
-    {
-      "key": "tmdb:1188064",
-      "workId": "f-wd136124910",
-      "title": "Последний ронин",
-      "year": 2024,
-      "n": 13,
-      "weight": 0.327
-    },
+  "tmdb:842924": [
     {
       "key": "tmdb:1288070",
       "workId": "f-wd125861561",
       "title": "Как стать миллионером",
       "year": 2024,
       "n": 7,
-      "weight": 0.327
+      "weight": 0.497
     },
     {
       "key": "tmdb:574475",
@@ -5482,7 +5180,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Пункт назначения: Узы крови",
       "year": 2025,
       "n": 7,
-      "weight": 0.327
+      "weight": 0.497
     },
     {
       "key": "tmdb:939681",
@@ -5490,15 +5188,113 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Молоко матери",
       "year": 2023,
       "n": 5,
-      "weight": 0.313
+      "weight": 0.477
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.426
+    },
+    {
+      "key": "tmdb:541671",
+      "workId": "f-wd84713105",
+      "title": "Балерина",
+      "year": 2025,
+      "n": 10,
+      "weight": 0.41
     },
     {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
+      "n": 7,
+      "weight": 0.399
+    },
+    {
+      "key": "tmdb:1258151",
+      "workId": "f-wd134983890",
+      "title": "Кракен",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.385
+    },
+    {
+      "key": "tmdb:4347",
+      "workId": "f-wd1626186",
+      "title": "Искупление",
+      "year": 2007,
+      "n": 7,
+      "weight": 0.373
+    }
+  ],
+  "tmdb:929590": [
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.488
+    },
+    {
+      "key": "tmdb:746036",
+      "workId": "f-wd113671585",
+      "title": "Каскадёры",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.449
+    },
+    {
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.443
+    },
+    {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 10,
+      "weight": 0.373
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.358
+    },
+    {
+      "key": "tmdb:1152700",
+      "workId": "f-wd134650614",
+      "title": "Любовь Советского Союза",
+      "year": 2024,
       "n": 8,
-      "weight": 0.299
+      "weight": 0.344
+    },
+    {
+      "key": "imdb:tt12637874",
+      "workId": "f-wd113127312",
+      "title": "Фоллаут",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.339
+    },
+    {
+      "key": "tmdb:1179316",
+      "workId": "f-tmdb1179316",
+      "title": "Бременские музыканты",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.339
     }
   ],
   "tmdb:194662": [
@@ -5519,20 +5315,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.302
     },
     {
-      "key": "tmdb:1417",
-      "workId": "f-tmdb1417",
-      "title": "Лабиринт Фавна",
-      "year": 2006,
-      "n": 3,
-      "weight": 0.286
-    },
-    {
       "key": "tmdb:49047",
       "workId": "f-tmdb49047",
       "title": "Гравитация",
       "year": 2013,
       "n": 3,
       "weight": 0.286
+    },
+    {
+      "key": "tmdb:1417",
+      "workId": "f-tmdb1417",
+      "title": "Лабиринт Фавна",
+      "year": 2006,
+      "n": 3,
+      "weight": 0.273
     }
   ],
   "tmdb:281957": [
@@ -5561,146 +5357,214 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.254
     }
   ],
-  "tmdb:1396": [
+  "tmdb:1327819": [
     {
-      "key": "tmdb:1398",
-      "workId": "f-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 15,
-      "weight": 0.481
-    },
-    {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 14,
-      "weight": 0.412
-    },
-    {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
       "n": 5,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
-      "n": 3,
-      "weight": 0.189
-    },
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.185
-    },
-    {
-      "key": "tmdb:13515",
-      "workId": "f-wd1320806",
-      "title": "Зеркала",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:439",
-      "workId": "f-tmdb439",
-      "title": "Сладкая жизнь",
-      "year": 1960,
-      "n": 3,
-      "weight": 0.098
-    }
-  ],
-  "tmdb:1398": [
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 15,
       "weight": 0.481
     },
     {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 14,
-      "weight": 0.476
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.436
     },
     {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.435
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.4
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.386
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.386
+    },
+    {
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
+      "year": 2026,
       "n": 3,
-      "weight": 0.218
+      "weight": 0.354
     },
     {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.214
-    },
-    {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
-      "n": 4,
-      "weight": 0.192
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.35
     }
   ],
-  "tmdb:593": [
+  "tmdb:3597": [
     {
-      "key": "tmdb:1398",
-      "workId": "f-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 14,
-      "weight": 0.476
-    },
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 14,
-      "weight": 0.412
-    },
-    {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
+      "key": "tmdb:6466",
+      "workId": "f-wd965859",
+      "title": "Фредди против Джейсона",
+      "year": 2003,
       "n": 3,
-      "weight": 0.2
+      "weight": 0.48
     },
     {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
+      "key": "tmdb:22970",
+      "workId": "f-tmdb22970",
+      "title": "Хижина в лесу",
+      "year": 2012,
       "n": 4,
-      "weight": 0.196
+      "weight": 0.37
     },
     {
-      "key": "tmdb:1394",
-      "workId": "f-wd1138968",
-      "title": "Ностальгия",
-      "year": 1983,
+      "key": "tmdb:9532",
+      "workId": "f-wd7561043",
+      "title": "Пункт назначения",
+      "year": 2000,
+      "n": 5,
+      "weight": 0.31
+    },
+    {
+      "key": "tmdb:377",
+      "workId": "f-wd329434",
+      "title": "Кошмар на улице Вязов",
+      "year": 1984,
       "n": 3,
-      "weight": 0.133
+      "weight": 0.202
+    },
+    {
+      "key": "tmdb:396535",
+      "workId": "f-tmdb396535",
+      "title": "Поезд в Пусан",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.186
+    }
+  ],
+  "tmdb:110416": [
+    {
+      "key": "tmdb:26963",
+      "workId": "f-wd908816",
+      "title": "Тайна Келлс",
+      "year": 2009,
+      "n": 4,
+      "weight": 0.478
+    },
+    {
+      "key": "tmdb:441130",
+      "workId": "f-wd68681463",
+      "title": "Легенда о волках",
+      "year": 2020,
+      "n": 4,
+      "weight": 0.4
+    }
+  ],
+  "tmdb:26963": [
+    {
+      "key": "tmdb:110416",
+      "workId": "f-wd17125101",
+      "title": "Песнь моря",
+      "year": 2014,
+      "n": 4,
+      "weight": 0.478
+    },
+    {
+      "key": "tmdb:441130",
+      "workId": "f-wd68681463",
+      "title": "Легенда о волках",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.359
+    }
+  ],
+  "tmdb:792307": [
+    {
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 14,
+      "weight": 0.475
+    },
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.449
+    },
+    {
+      "key": "tmdb:1179316",
+      "workId": "f-tmdb1179316",
+      "title": "Бременские музыканты",
+      "year": 2024,
+      "n": 17,
+      "weight": 0.442
+    },
+    {
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
+      "year": 2024,
+      "n": 17,
+      "weight": 0.435
+    },
+    {
+      "key": "tmdb:974635",
+      "workId": "f-wd114437078",
+      "title": "Я не киллер",
+      "year": 2023,
+      "n": 16,
+      "weight": 0.416
+    },
+    {
+      "key": "tmdb:746036",
+      "workId": "f-wd113671585",
+      "title": "Каскадёры",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.407
+    },
+    {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 13,
+      "weight": 0.372
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.357
     }
   ],
   "tmdb:13506": [
@@ -5731,6 +5595,106 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.237
     }
   ],
+  "tmdb:1396": [
+    {
+      "key": "tmdb:1398",
+      "workId": "f-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 15,
+      "weight": 0.472
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 14,
+      "weight": 0.406
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 5,
+      "weight": 0.208
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.178
+    },
+    {
+      "key": "tmdb:13515",
+      "workId": "f-wd1320806",
+      "title": "Зеркала",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.177
+    },
+    {
+      "key": "tmdb:439",
+      "workId": "f-tmdb439",
+      "title": "Сладкая жизнь",
+      "year": 1960,
+      "n": 3,
+      "weight": 0.096
+    }
+  ],
+  "tmdb:1398": [
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 15,
+      "weight": 0.472
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 14,
+      "weight": 0.461
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.202
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 4,
+      "weight": 0.189
+    }
+  ],
   "tmdb:439": [
     {
       "key": "tmdb:59050",
@@ -5738,7 +5702,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Голос Луны",
       "year": 1990,
       "n": 8,
-      "weight": 0.473
+      "weight": 0.464
     },
     {
       "key": "tmdb:152742",
@@ -5746,7 +5710,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лучшее предложение",
       "year": 2013,
       "n": 5,
-      "weight": 0.347
+      "weight": 0.34
     },
     {
       "key": "tmdb:19120",
@@ -5754,7 +5718,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Джульетта и духи",
       "year": 1965,
       "n": 3,
-      "weight": 0.294
+      "weight": 0.289
     },
     {
       "key": "tmdb:12548",
@@ -5762,7 +5726,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Маменькины сынки",
       "year": 1953,
       "n": 3,
-      "weight": 0.24
+      "weight": 0.236
     },
     {
       "key": "tmdb:659991",
@@ -5770,7 +5734,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сделано в Италии",
       "year": 2020,
       "n": 3,
-      "weight": 0.222
+      "weight": 0.218
     },
     {
       "key": "tmdb:14553",
@@ -5778,7 +5742,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ускользающая красота",
       "year": 1996,
       "n": 4,
-      "weight": 0.175
+      "weight": 0.168
     },
     {
       "key": "tmdb:1396",
@@ -5786,7 +5750,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Зеркало",
       "year": 1975,
       "n": 3,
-      "weight": 0.098
+      "weight": 0.096
     }
   ],
   "tmdb:59050": [
@@ -5796,7 +5760,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 8,
-      "weight": 0.473
+      "weight": 0.464
     },
     {
       "key": "tmdb:19120",
@@ -5831,238 +5795,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.342
     }
   ],
-  "tmdb:104810": [
+  "tmdb:1330021": [
     {
-      "key": "tmdb:27862",
-      "workId": "f-wd244999",
-      "title": "Я шагаю по Москве",
-      "year": 1964,
-      "n": 8,
-      "weight": 0.471
-    },
-    {
-      "key": "tmdb:63293",
-      "workId": "f-wd4462912",
-      "title": "Три тополя на Плющихе",
-      "year": 1968,
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
       "n": 3,
-      "weight": 0.275
+      "weight": 0.463
     },
-    {
-      "key": "tmdb:270246",
-      "workId": "f-wd1949295",
-      "title": "Москва, любовь моя",
-      "year": 1974,
-      "n": 3,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:611914",
-      "workId": "f-wd65121080",
-      "title": "Курьер",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.182
-    }
-  ],
-  "tmdb:27862": [
-    {
-      "key": "tmdb:104810",
-      "workId": "f-wd4205762",
-      "title": "Июльский дождь",
-      "year": 1967,
-      "n": 8,
-      "weight": 0.471
-    },
-    {
-      "key": "tmdb:63293",
-      "workId": "f-wd4462912",
-      "title": "Три тополя на Плющихе",
-      "year": 1968,
-      "n": 3,
-      "weight": 0.275
-    },
-    {
-      "key": "tmdb:270246",
-      "workId": "f-wd1949295",
-      "title": "Москва, любовь моя",
-      "year": 1974,
-      "n": 3,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:27861",
-      "workId": "f-wd1519753",
-      "title": "Мимино",
-      "year": 1977,
-      "n": 3,
-      "weight": 0.188
-    },
-    {
-      "key": "tmdb:611914",
-      "workId": "f-wd65121080",
-      "title": "Курьер",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.182
-    }
-  ],
-  "tmdb:600583": [
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 23,
-      "weight": 0.465
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 21,
-      "weight": 0.445
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.367
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 23,
-      "weight": 0.364
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 17,
-      "weight": 0.306
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.289
-    },
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.269
-    },
-    {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 12,
-      "weight": 0.265
-    }
-  ],
-  "tmdb:777270": [
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 23,
-      "weight": 0.465
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 17,
-      "weight": 0.415
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 18,
-      "weight": 0.374
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 20,
-      "weight": 0.365
-    },
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.31
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.296
-    },
-    {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.254
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.245
-    }
-  ],
-  "tmdb:342898": [
     {
       "key": "tmdb:1208348",
       "workId": "f-wd124947229",
       "title": "Семья в аренду",
       "year": 2025,
       "n": 3,
-      "weight": 0.463
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.433
+      "weight": 0.408
     },
     {
       "key": "tmdb:1306368",
@@ -6070,7 +5818,23 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лакомый кусок",
       "year": 2026,
       "n": 3,
-      "weight": 0.408
+      "weight": 0.369
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.354
+    },
+    {
+      "key": "tmdb:931285",
+      "workId": "f-wd117830073",
+      "title": "Мортал Комбат 2",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.354
     },
     {
       "key": "tmdb:1272837",
@@ -6078,7 +5842,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "28 лет спустя: Храм костей",
       "year": 2026,
       "n": 3,
-      "weight": 0.369
+      "weight": 0.34
+    },
+    {
+      "key": "tmdb:291404",
+      "workId": "f-wd4229781",
+      "title": "Коммерсант",
+      "year": 1990,
+      "n": 3,
+      "weight": 0.327
     },
     {
       "key": "tmdb:83533",
@@ -6086,61 +5858,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Аватар: Пламя и пепел",
       "year": 2025,
       "n": 3,
-      "weight": 0.354
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:1489187",
-      "workId": "f-wd136805944",
-      "title": "Сводишь с ума",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.316
-    }
-  ],
-  "tmdb:1159831": [
-    {
-      "key": "tmdb:358962",
-      "workId": "f-wd21148916",
-      "title": "Пиковая дама: Черный обряд",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.463
-    }
-  ],
-  "tmdb:358962": [
-    {
-      "key": "tmdb:1159831",
-      "workId": "f-wd124735657",
-      "title": "Невеста",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.463
-    }
-  ],
-  "tmdb:26638": [
-    {
-      "key": "tmdb:5165",
-      "workId": "f-tmdb5165",
-      "title": "Приключение",
-      "year": 1960,
-      "n": 3,
-      "weight": 0.463
-    },
-    {
-      "key": "tmdb:21135",
-      "workId": "f-tmdb21135",
-      "title": "Затмение",
-      "year": 1962,
-      "n": 3,
-      "weight": 0.401
+      "weight": 0.327
     }
   ],
   "tmdb:475215": [
@@ -6166,57 +5884,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девочка, покорившая время",
       "year": 2006,
       "n": 3,
-      "weight": 0.408
-    }
-  ],
-  "tmdb:922": [
-    {
-      "key": "tmdb:11305",
-      "workId": "f-wd614795",
-      "title": "Таинственный поезд",
-      "year": 1989,
-      "n": 5,
-      "weight": 0.462
-    },
-    {
-      "key": "tmdb:1554",
-      "workId": "f-wd192409",
-      "title": "Вне закона",
-      "year": 1986,
-      "n": 4,
-      "weight": 0.453
-    },
-    {
-      "key": "tmdb:339",
-      "workId": "f-wd506279",
-      "title": "Ночь на Земле",
-      "year": 1991,
-      "n": 4,
-      "weight": 0.392
-    },
-    {
-      "key": "tmdb:883",
-      "workId": "f-wd1106851",
-      "title": "Кофе и сигареты",
-      "year": 2003,
-      "n": 4,
-      "weight": 0.351
-    },
-    {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 5,
-      "weight": 0.347
-    },
-    {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 5,
-      "weight": 0.267
+      "weight": 0.387
     }
   ],
   "tmdb:777443": [
@@ -6285,6 +5953,322 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.333
     }
   ],
+  "tmdb:593": [
+    {
+      "key": "tmdb:1398",
+      "workId": "f-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 14,
+      "weight": 0.461
+    },
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 14,
+      "weight": 0.406
+    },
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 3,
+      "weight": 0.197
+    },
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.186
+    },
+    {
+      "key": "tmdb:1394",
+      "workId": "f-wd1138968",
+      "title": "Ностальгия",
+      "year": 1983,
+      "n": 3,
+      "weight": 0.131
+    }
+  ],
+  "tmdb:1119449": [
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.459
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.415
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.389
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.382
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.368
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.368
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.347
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.331
+    }
+  ],
+  "tmdb:104810": [
+    {
+      "key": "tmdb:27862",
+      "workId": "f-wd244999",
+      "title": "Я шагаю по Москве",
+      "year": 1964,
+      "n": 8,
+      "weight": 0.457
+    },
+    {
+      "key": "tmdb:63293",
+      "workId": "f-wd4462912",
+      "title": "Три тополя на Плющихе",
+      "year": 1968,
+      "n": 3,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:270246",
+      "workId": "f-wd1949295",
+      "title": "Москва, любовь моя",
+      "year": 1974,
+      "n": 3,
+      "weight": 0.236
+    },
+    {
+      "key": "tmdb:611914",
+      "workId": "f-wd65121080",
+      "title": "Курьер",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.177
+    }
+  ],
+  "tmdb:27862": [
+    {
+      "key": "tmdb:104810",
+      "workId": "f-wd4205762",
+      "title": "Июльский дождь",
+      "year": 1967,
+      "n": 8,
+      "weight": 0.457
+    },
+    {
+      "key": "tmdb:63293",
+      "workId": "f-wd4462912",
+      "title": "Три тополя на Плющихе",
+      "year": 1968,
+      "n": 3,
+      "weight": 0.275
+    },
+    {
+      "key": "tmdb:270246",
+      "workId": "f-wd1949295",
+      "title": "Москва, любовь моя",
+      "year": 1974,
+      "n": 3,
+      "weight": 0.243
+    },
+    {
+      "key": "tmdb:27861",
+      "workId": "f-wd1519753",
+      "title": "Мимино",
+      "year": 1977,
+      "n": 3,
+      "weight": 0.188
+    },
+    {
+      "key": "tmdb:611914",
+      "workId": "f-wd65121080",
+      "title": "Курьер",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.182
+    }
+  ],
+  "tmdb:600583": [
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 23,
+      "weight": 0.457
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 22,
+      "weight": 0.442
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.361
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 23,
+      "weight": 0.358
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 17,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.284
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.278
+    },
+    {
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.261
+    }
+  ],
+  "tmdb:777270": [
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 23,
+      "weight": 0.457
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 17,
+      "weight": 0.4
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 18,
+      "weight": 0.367
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 20,
+      "weight": 0.365
+    },
+    {
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.306
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.251
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.245
+    }
+  ],
   "tmdb:1097549": [
     {
       "key": "tmdb:799766",
@@ -6293,14 +6277,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 10,
       "weight": 0.456
-    },
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.43
     },
     {
       "key": "tmdb:1288070",
@@ -6325,6 +6301,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 10,
       "weight": 0.419
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.408
     },
     {
       "key": "tmdb:939681",
@@ -6393,12 +6377,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.372
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
       "n": 8,
-      "weight": 0.356
+      "weight": 0.348
     },
     {
       "key": "tmdb:1184918",
@@ -6406,157 +6390,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 7,
-      "weight": 0.352
+      "weight": 0.342
     },
     {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
       "n": 8,
-      "weight": 0.348
-    }
-  ],
-  "tmdb:1554": [
-    {
-      "key": "tmdb:922",
-      "workId": "f-wd547189",
-      "title": "Мертвец",
-      "year": 1995,
-      "n": 4,
-      "weight": 0.453
-    },
-    {
-      "key": "tmdb:11305",
-      "workId": "f-wd614795",
-      "title": "Таинственный поезд",
-      "year": 1989,
-      "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:883",
-      "workId": "f-wd1106851",
-      "title": "Кофе и сигареты",
-      "year": 2003,
-      "n": 3,
-      "weight": 0.387
-    },
-    {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.306
-    },
-    {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.236
-    }
-  ],
-  "tmdb:473021": [
-    {
-      "key": "tmdb:776527",
-      "workId": "f-tmdb776527",
-      "title": "Лето соула",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.452
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.204
-    },
-    {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.195
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.179
-    }
-  ],
-  "tmdb:776527": [
-    {
-      "key": "tmdb:473021",
-      "workId": "f-wd64338088",
-      "title": "Сувенир: Часть 2",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.452
-    },
-    {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.236
-    },
-    {
-      "key": "tmdb:643532",
-      "workId": "f-wd85806717",
-      "title": "Холодный расчёт",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.213
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.2
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.197
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.18
-    },
-    {
-      "key": "tmdb:660120",
-      "workId": "f-tmdb660120",
-      "title": "Худший человек на свете",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.178
+      "weight": 0.334
     }
   ],
   "tmdb:19120": [
@@ -6574,7 +6416,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 3,
-      "weight": 0.294
+      "weight": 0.289
     }
   ],
   "tmdb:541671": [
@@ -6608,7 +6450,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Жизнь Чака",
       "year": 2024,
       "n": 10,
-      "weight": 0.42
+      "weight": 0.41
     },
     {
       "key": "tmdb:1320380",
@@ -6643,142 +6485,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.337
     }
   ],
-  "tmdb:1472573": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 7,
-      "weight": 0.449
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.389
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.389
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.364
-    },
-    {
-      "key": "tmdb:1368166",
-      "workId": "f-wd131630491",
-      "title": "Горничная",
-      "year": 2026,
-      "n": 10,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.318
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.29
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.289
-    }
-  ],
-  "tmdb:441130": [
-    {
-      "key": "tmdb:110416",
-      "workId": "f-wd17125101",
-      "title": "Песнь моря",
-      "year": 2014,
-      "n": 4,
-      "weight": 0.447
-    },
-    {
-      "key": "tmdb:26963",
-      "workId": "f-wd908816",
-      "title": "Тайна Келлс",
-      "year": 2009,
-      "n": 3,
-      "weight": 0.359
-    }
-  ],
-  "tmdb:64682": [
-    {
-      "key": "tmdb:824",
-      "workId": "f-wd193573",
-      "title": "Мулен Руж!",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.447
-    },
-    {
-      "key": "imdb:tt2193021",
-      "workId": "f-wd552314",
-      "title": "Стрела",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.3
-    },
-    {
-      "key": "tmdb:535581",
-      "workId": "f-tmdb535581",
-      "title": "Мёртвые не умирают",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.218
-    }
-  ],
-  "tmdb:824": [
-    {
-      "key": "tmdb:64682",
-      "workId": "f-tmdb64682",
-      "title": "Великий Гэтсби",
-      "year": 2013,
-      "n": 4,
-      "weight": 0.447
-    },
-    {
-      "key": "imdb:tt2193021",
-      "workId": "f-wd552314",
-      "title": "Стрела",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:535581",
-      "workId": "f-tmdb535581",
-      "title": "Мёртвые не умирают",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.243
-    }
-  ],
   "tmdb:11": [
     {
       "key": "tmdb:136797",
@@ -6799,7 +6505,7 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.447
     }
   ],
-  "tmdb:1032823": [
+  "tmdb:6947": [
     {
       "key": "tmdb:8645",
       "workId": "f-wd681092",
@@ -6809,12 +6515,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.447
     },
     {
-      "key": "tmdb:6947",
-      "workId": "f-wd465227",
-      "title": "Таинственный лес",
-      "year": 2004,
+      "key": "tmdb:1032823",
+      "workId": "f-wd124077893",
+      "title": "Ловушка",
+      "year": 2024,
       "n": 3,
-      "weight": 0.333
+      "weight": 0.316
     },
     {
       "key": "tmdb:9741",
@@ -6835,20 +6541,20 @@ export const comentions: Record<string, CoMention[]> = {
   ],
   "tmdb:8645": [
     {
-      "key": "tmdb:1032823",
-      "workId": "f-wd124077893",
-      "title": "Ловушка",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.447
-    },
-    {
       "key": "tmdb:6947",
       "workId": "f-wd465227",
       "title": "Таинственный лес",
       "year": 2004,
       "n": 3,
       "weight": 0.447
+    },
+    {
+      "key": "tmdb:1032823",
+      "workId": "f-wd124077893",
+      "title": "Ловушка",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.424
     },
     {
       "key": "tmdb:9741",
@@ -6867,114 +6573,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.359
     }
   ],
-  "tmdb:6947": [
-    {
-      "key": "tmdb:8645",
-      "workId": "f-wd681092",
-      "title": "Явление",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.447
-    },
-    {
-      "key": "tmdb:1032823",
-      "workId": "f-wd124077893",
-      "title": "Ловушка",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.333
-    },
-    {
-      "key": "tmdb:9741",
-      "workId": "f-wd650613",
-      "title": "Неуязвимый",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.302
-    },
-    {
-      "key": "tmdb:745",
-      "workId": "f-tmdb745",
-      "title": "Шестое чувство",
-      "year": 1999,
-      "n": 3,
-      "weight": 0.267
-    }
-  ],
-  "tmdb:1119449": [
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.445
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.393
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.355
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.34
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.34
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.333
-    },
-    {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.333
-    }
-  ],
   "tmdb:614917": [
     {
       "key": "tmdb:600583",
       "workId": "f-tmdb600583",
       "title": "Власть пса",
       "year": 2021,
-      "n": 21,
-      "weight": 0.445
+      "n": 22,
+      "weight": 0.442
     },
     {
       "key": "tmdb:777270",
@@ -6982,7 +6588,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Белфаст",
       "year": 2021,
       "n": 17,
-      "weight": 0.415
+      "weight": 0.4
     },
     {
       "key": "tmdb:517088",
@@ -6990,7 +6596,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Быть Рикардо",
       "year": 2021,
       "n": 8,
-      "weight": 0.355
+      "weight": 0.342
     },
     {
       "key": "tmdb:511809",
@@ -6998,7 +6604,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Вестсайдская История",
       "year": 2021,
       "n": 18,
-      "weight": 0.345
+      "weight": 0.332
     },
     {
       "key": "tmdb:718032",
@@ -7006,7 +6612,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лакричная пицца",
       "year": 2021,
       "n": 15,
-      "weight": 0.327
+      "weight": 0.309
     },
     {
       "key": "tmdb:591538",
@@ -7014,7 +6620,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Трагедия Макбета",
       "year": 2021,
       "n": 9,
-      "weight": 0.314
+      "weight": 0.303
     },
     {
       "key": "tmdb:646380",
@@ -7022,81 +6628,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Не смотрите наверх",
       "year": 2021,
       "n": 11,
-      "weight": 0.275
+      "weight": 0.262
     },
     {
       "key": "tmdb:776503",
       "workId": "f-tmdb776503",
       "title": "CODA: Ребенок глухих родителей",
       "year": 2021,
-      "n": 8,
-      "weight": 0.214
-    }
-  ],
-  "tmdb:1184918": [
-    {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.441
-    },
-    {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.4
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 8,
-      "weight": 0.393
-    },
-    {
-      "key": "tmdb:1152700",
-      "workId": "f-wd134650614",
-      "title": "Любовь Советского Союза",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.389
-    },
-    {
-      "key": "tmdb:746036",
-      "workId": "f-wd113671585",
-      "title": "Каскадёры",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.369
-    },
-    {
-      "key": "tmdb:470326",
-      "workId": "f-wd4399922",
-      "title": "Руки вверх!",
-      "year": 1981,
-      "n": 7,
-      "weight": 0.36
-    },
-    {
-      "key": "imdb:tt28143089",
-      "workId": "f-wd120279756",
-      "title": "Последний богатырь. Наследие",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.352
-    },
-    {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
-      "n": 7,
-      "weight": 0.337
+      "n": 9,
+      "weight": 0.228
     }
   ],
   "tmdb:985": [
@@ -7122,167 +6662,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Твин Пикс",
       "year": 2017,
       "n": 3,
-      "weight": 0.085
-    }
-  ],
-  "tmdb:4638": [
-    {
-      "key": "tmdb:747",
-      "workId": "f-wd858724",
-      "title": "Зомби по имени Шон",
-      "year": 2004,
-      "n": 5,
-      "weight": 0.435
-    }
-  ],
-  "tmdb:747": [
-    {
-      "key": "tmdb:4638",
-      "workId": "f-wd729788",
-      "title": "Типа крутые легавые",
-      "year": 2007,
-      "n": 5,
-      "weight": 0.435
-    },
-    {
-      "key": "tmdb:576845",
-      "workId": "f-tmdb576845",
-      "title": "Прошлой ночью в Сохо",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.173
-    }
-  ],
-  "tmdb:696506": [
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.418
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.415
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 8,
-      "weight": 0.397
-    },
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.394
-    },
-    {
-      "key": "tmdb:1228475",
-      "workId": "f-wd124408825",
-      "title": "Финист. Первый богатырь",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.383
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 6,
-      "weight": 0.371
-    }
-  ],
-  "tmdb:586387": [
-    {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
-      "n": 3,
-      "weight": 0.433
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.387
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.385
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.385
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.385
-    },
-    {
-      "key": "tmdb:166424",
-      "workId": "f-wd16795448",
-      "title": "Фантастическая четвёрка",
-      "year": 2015,
-      "n": 5,
-      "weight": 0.34
-    },
-    {
-      "key": "tmdb:575265",
-      "workId": "f-wd61876374",
-      "title": "Миссия невыполнима: Финальная расплата",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.333
-    },
-    {
-      "key": "tmdb:1492201",
-      "workId": "f-wd136674052",
-      "title": "Папины дочки. Мама вернулась",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.327
+      "weight": 0.084
     }
   ],
   "tmdb:931285": [
@@ -7291,29 +6671,21 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-wd12655879",
       "title": "Красавица",
       "year": 1970,
-      "n": 3,
-      "weight": 0.433
+      "n": 4,
+      "weight": 0.436
     },
     {
       "key": "tmdb:1208348",
       "workId": "f-wd124947229",
       "title": "Семья в аренду",
       "year": 2025,
-      "n": 3,
-      "weight": 0.401
+      "n": 4,
+      "weight": 0.385
     },
     {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.375
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
       "year": 2026,
       "n": 3,
       "weight": 0.354
@@ -7323,32 +6695,264 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-wd126488898",
       "title": "Наследник",
       "year": 2026,
+      "n": 5,
+      "weight": 0.35
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
       "n": 4,
-      "weight": 0.354
+      "weight": 0.348
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.333
     },
     {
       "key": "tmdb:1119449",
       "workId": "f-wd125843356",
       "title": "Удачи, веселья, не сдохни",
       "year": 2025,
-      "n": 4,
-      "weight": 0.333
+      "n": 5,
+      "weight": 0.331
     },
     {
       "key": "tmdb:1272837",
       "workId": "f-wd129423731",
       "title": "28 лет спустя: Храм костей",
       "year": 2026,
-      "n": 3,
+      "n": 4,
       "weight": 0.32
+    }
+  ],
+  "tmdb:1554": [
+    {
+      "key": "tmdb:922",
+      "workId": "f-wd547189",
+      "title": "Мертвец",
+      "year": 1995,
+      "n": 4,
+      "weight": 0.436
+    },
+    {
+      "key": "tmdb:11305",
+      "workId": "f-wd614795",
+      "title": "Таинственный поезд",
+      "year": 1989,
+      "n": 3,
+      "weight": 0.369
+    },
+    {
+      "key": "tmdb:883",
+      "workId": "f-wd1106851",
+      "title": "Кофе и сигареты",
+      "year": 2003,
+      "n": 3,
+      "weight": 0.34
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.306
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.224
+    }
+  ],
+  "tmdb:922": [
+    {
+      "key": "tmdb:1554",
+      "workId": "f-wd192409",
+      "title": "Вне закона",
+      "year": 1986,
+      "n": 4,
+      "weight": 0.436
+    },
+    {
+      "key": "tmdb:11305",
+      "workId": "f-wd614795",
+      "title": "Таинственный поезд",
+      "year": 1989,
+      "n": 5,
+      "weight": 0.403
+    },
+    {
+      "key": "tmdb:339",
+      "workId": "f-wd506279",
+      "title": "Ночь на Земле",
+      "year": 1991,
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
+      "n": 5,
+      "weight": 0.334
+    },
+    {
+      "key": "tmdb:883",
+      "workId": "f-wd1106851",
+      "title": "Кофе и сигареты",
+      "year": 2003,
+      "n": 4,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 5,
+      "weight": 0.244
+    }
+  ],
+  "tmdb:1248723": [
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 8,
+      "weight": 0.433
     },
     {
       "key": "tmdb:83533",
       "workId": "f-wd29580929",
       "title": "Аватар: Пламя и пепел",
       "year": 2025,
-      "n": 3,
-      "weight": 0.306
+      "n": 8,
+      "weight": 0.384
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 9,
+      "weight": 0.371
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.359
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.336
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.305
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.299
+    },
+    {
+      "key": "tmdb:1368166",
+      "workId": "f-wd131630491",
+      "title": "Горничная",
+      "year": 2026,
+      "n": 10,
+      "weight": 0.288
+    }
+  ],
+  "tmdb:1472573": [
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 8,
+      "weight": 0.433
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.384
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.384
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.359
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.33
+    },
+    {
+      "key": "tmdb:1368166",
+      "workId": "f-wd131630491",
+      "title": "Горничная",
+      "year": 2026,
+      "n": 11,
+      "weight": 0.316
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 7,
+      "weight": 0.305
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.299
     }
   ],
   "tmdb:100402": [
@@ -7369,18 +6973,18 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.231
     },
     {
-      "key": "tmdb:284054",
-      "workId": "f-tmdb284054",
-      "title": "Чёрная Пантера",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.2
-    },
-    {
       "key": "tmdb:118340",
       "workId": "f-tmdb118340",
       "title": "Стражи Галактики",
       "year": 2014,
+      "n": 3,
+      "weight": 0.197
+    },
+    {
+      "key": "tmdb:284054",
+      "workId": "f-tmdb284054",
+      "title": "Чёрная Пантера",
+      "year": 2018,
       "n": 3,
       "weight": 0.197
     },
@@ -7390,7 +6994,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 3,
-      "weight": 0.098
+      "weight": 0.096
     }
   ],
   "tmdb:271110": [
@@ -7419,40 +7023,238 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.267
     },
     {
-      "key": "tmdb:284054",
-      "workId": "f-tmdb284054",
-      "title": "Чёрная Пантера",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
       "key": "tmdb:299536",
       "workId": "f-tmdb299536",
       "title": "Мстители: Война бесконечности",
       "year": 2018,
       "n": 3,
       "weight": 0.231
+    },
+    {
+      "key": "tmdb:284054",
+      "workId": "f-tmdb284054",
+      "title": "Чёрная Пантера",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.227
     }
   ],
-  "tmdb:116745": [
+  "tmdb:473021": [
     {
-      "key": "tmdb:501907",
-      "workId": "f-wd56703347",
-      "title": "Прекрасный день по соседству",
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.433
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.2
+    },
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.195
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.179
+    }
+  ],
+  "tmdb:776527": [
+    {
+      "key": "tmdb:473021",
+      "workId": "f-wd64338088",
+      "title": "Сувенир: Часть 2",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.433
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.225
+    },
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.225
+    },
+    {
+      "key": "tmdb:643532",
+      "workId": "f-wd85806717",
+      "title": "Холодный расчёт",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.19
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.178
+    }
+  ],
+  "tmdb:1184918": [
+    {
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.429
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.405
+    },
+    {
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.389
+    },
+    {
+      "key": "tmdb:1152700",
+      "workId": "f-wd134650614",
+      "title": "Любовь Советского Союза",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.379
+    },
+    {
+      "key": "tmdb:746036",
+      "workId": "f-wd113671585",
+      "title": "Каскадёры",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.359
+    },
+    {
+      "key": "tmdb:470326",
+      "workId": "f-wd4399922",
+      "title": "Руки вверх!",
+      "year": 1981,
+      "n": 7,
+      "weight": 0.35
+    },
+    {
+      "key": "imdb:tt28143089",
+      "workId": "f-wd120279756",
+      "title": "Последний богатырь. Наследие",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.342
+    },
+    {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 7,
+      "weight": 0.328
+    }
+  ],
+  "tmdb:64682": [
+    {
+      "key": "tmdb:824",
+      "workId": "f-wd193573",
+      "title": "Мулен Руж!",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.426
+    },
+    {
+      "key": "imdb:tt2193021",
+      "workId": "f-wd552314",
+      "title": "Стрела",
+      "year": 2012,
+      "n": 3,
+      "weight": 0.273
+    },
+    {
+      "key": "tmdb:535581",
+      "workId": "f-tmdb535581",
+      "title": "Мёртвые не умирают",
       "year": 2019,
       "n": 3,
-      "weight": 0.433
+      "weight": 0.193
     }
   ],
-  "tmdb:501907": [
+  "tmdb:824": [
     {
-      "key": "tmdb:116745",
-      "workId": "f-wd3522637",
-      "title": "Невероятная жизнь Уолтера Митти",
+      "key": "tmdb:64682",
+      "workId": "f-tmdb64682",
+      "title": "Великий Гэтсби",
       "year": 2013,
+      "n": 4,
+      "weight": 0.426
+    },
+    {
+      "key": "imdb:tt2193021",
+      "workId": "f-wd552314",
+      "title": "Стрела",
+      "year": 2012,
       "n": 3,
-      "weight": 0.433
+      "weight": 0.32
+    },
+    {
+      "key": "tmdb:535581",
+      "workId": "f-tmdb535581",
+      "title": "Мёртвые не умирают",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.226
     }
   ],
   "tmdb:71078": [
@@ -7475,70 +7277,66 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.426
     }
   ],
-  "tmdb:1248723": [
+  "tmdb:4638": [
     {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 7,
+      "key": "tmdb:747",
+      "workId": "f-wd858724",
+      "title": "Зомби по имени Шон",
+      "year": 2004,
+      "n": 5,
+      "weight": 0.426
+    }
+  ],
+  "tmdb:747": [
+    {
+      "key": "tmdb:4638",
+      "workId": "f-wd729788",
+      "title": "Типа крутые легавые",
+      "year": 2007,
+      "n": 5,
       "weight": 0.426
     },
     {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.369
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
+      "key": "tmdb:576845",
+      "workId": "f-tmdb576845",
+      "title": "Прошлой ночью в Сохо",
+      "year": 2021,
       "n": 5,
-      "weight": 0.345
+      "weight": 0.169
+    }
+  ],
+  "tmdb:1032823": [
+    {
+      "key": "tmdb:8645",
+      "workId": "f-wd681092",
+      "title": "Явление",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.424
     },
     {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 8,
-      "weight": 0.344
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
+      "key": "tmdb:6947",
+      "workId": "f-wd465227",
+      "title": "Таинственный лес",
+      "year": 2004,
+      "n": 3,
       "weight": 0.316
     },
     {
-      "key": "tmdb:1368166",
-      "workId": "f-wd131630491",
-      "title": "Горничная",
-      "year": 2026,
-      "n": 9,
+      "key": "tmdb:9741",
+      "workId": "f-wd650613",
+      "title": "Неуязвимый",
+      "year": 2000,
+      "n": 3,
       "weight": 0.286
     },
     {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.275
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.274
+      "key": "tmdb:745",
+      "workId": "f-tmdb745",
+      "title": "Шестое чувство",
+      "year": 1999,
+      "n": 3,
+      "weight": 0.254
     }
   ],
   "wd:Q108100658": [
@@ -7549,14 +7347,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 10,
       "weight": 0.423
-    },
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 10,
-      "weight": 0.398
     },
     {
       "key": "tmdb:1288070",
@@ -7581,6 +7371,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 10,
       "weight": 0.388
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 10,
+      "weight": 0.378
     },
     {
       "key": "tmdb:939681",
@@ -7657,20 +7455,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.34
     },
     {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 5,
+      "weight": 0.315
+    },
+    {
       "key": "tmdb:586387",
       "workId": "f-wd135685436",
       "title": "Август",
       "year": 2025,
       "n": 5,
-      "weight": 0.34
-    },
-    {
-      "key": "tmdb:1924",
-      "workId": "f-wd213053",
-      "title": "Супермен",
-      "year": 1978,
-      "n": 7,
-      "weight": 0.324
+      "weight": 0.315
     }
   ],
   "tmdb:377": [
@@ -7696,7 +7494,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я знаю, что вы сделали прошлым летом",
       "year": 1997,
       "n": 3,
-      "weight": 0.21
+      "weight": 0.202
     },
     {
       "key": "tmdb:396535",
@@ -7704,7 +7502,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Поезд в Пусан",
       "year": 2016,
       "n": 3,
-      "weight": 0.167
+      "weight": 0.163
     },
     {
       "key": "tmdb:9532",
@@ -7725,20 +7523,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.419
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.395
-    },
-    {
       "key": "tmdb:1228475",
       "workId": "f-wd124408825",
       "title": "Финист. Первый богатырь",
       "year": 2024,
       "n": 11,
       "weight": 0.385
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.375
     },
     {
       "key": "tmdb:461125",
@@ -7781,146 +7579,170 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.323
     }
   ],
-  "tmdb:31442": [
+  "tmdb:696506": [
     {
-      "key": "tmdb:895",
-      "workId": "f-tmdb895",
-      "title": "Андрей Рублёв",
-      "year": 1966,
-      "n": 4,
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 7,
       "weight": 0.419
     },
     {
-      "key": "tmdb:38360",
-      "workId": "f-wd714524",
-      "title": "Летят журавли",
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.419
+    },
+    {
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.402
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
       "year": 1957,
-      "n": 4,
-      "weight": 0.231
+      "n": 8,
+      "weight": 0.384
     },
     {
-      "key": "tmdb:1398",
-      "workId": "f-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 4,
-      "weight": 0.214
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.371
     },
     {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 4,
-      "weight": 0.196
-    },
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 4,
-      "weight": 0.185
-    }
-  ],
-  "tmdb:895": [
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.419
-    },
-    {
-      "key": "tmdb:1398",
-      "workId": "f-tmdb1398",
-      "title": "Сталкер",
-      "year": 1979,
-      "n": 3,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:593",
-      "workId": "w06",
-      "title": "Солярис",
-      "year": 1972,
-      "n": 3,
-      "weight": 0.2
-    },
-    {
-      "key": "tmdb:1396",
-      "workId": "w07",
-      "title": "Зеркало",
-      "year": 1975,
-      "n": 3,
-      "weight": 0.189
-    }
-  ],
-  "tmdb:291276": [
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.417
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.394
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 6,
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 9,
       "weight": 0.361
     },
     {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.361
-    },
+      "key": "tmdb:4347",
+      "workId": "f-wd1626186",
+      "title": "Искупление",
+      "year": 2007,
+      "n": 8,
+      "weight": 0.359
+    }
+  ],
+  "tmdb:11305": [
     {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
+      "key": "tmdb:883",
+      "workId": "f-wd1106851",
+      "title": "Кофе и сигареты",
+      "year": 2003,
       "n": 5,
-      "weight": 0.314
+      "weight": 0.418
     },
     {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 6,
-      "weight": 0.313
+      "key": "tmdb:922",
+      "workId": "f-wd547189",
+      "title": "Мертвец",
+      "year": 1995,
+      "n": 5,
+      "weight": 0.403
     },
     {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.295
+      "key": "tmdb:1554",
+      "workId": "f-wd192409",
+      "title": "Вне закона",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.369
     },
     {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
+      "key": "tmdb:339",
+      "workId": "f-wd506279",
+      "title": "Ночь на Земле",
+      "year": 1991,
+      "n": 3,
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
       "n": 4,
-      "weight": 0.295
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 5,
+      "weight": 0.275
+    }
+  ],
+  "tmdb:883": [
+    {
+      "key": "tmdb:11305",
+      "workId": "f-wd614795",
+      "title": "Таинственный поезд",
+      "year": 1989,
+      "n": 5,
+      "weight": 0.418
+    },
+    {
+      "key": "tmdb:1554",
+      "workId": "f-wd192409",
+      "title": "Вне закона",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.34
+    },
+    {
+      "key": "tmdb:922",
+      "workId": "f-wd547189",
+      "title": "Мертвец",
+      "year": 1995,
+      "n": 4,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
+      "n": 4,
+      "weight": 0.277
+    },
+    {
+      "key": "tmdb:339",
+      "workId": "f-wd506279",
+      "title": "Ночь на Земле",
+      "year": 1991,
+      "n": 3,
+      "weight": 0.277
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 5,
+      "weight": 0.253
     }
   ],
   "tmdb:1128655": [
@@ -7943,51 +7765,7 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.416
     }
   ],
-  "tmdb:2786": [
-    {
-      "key": "tmdb:50785",
-      "workId": "f-wd1199284",
-      "title": "Маленький солдат",
-      "year": 1963,
-      "n": 3,
-      "weight": 0.416
-    },
-    {
-      "key": "tmdb:266",
-      "workId": "f-tmdb266",
-      "title": "Презрение",
-      "year": 1963,
-      "n": 5,
-      "weight": 0.347
-    },
-    {
-      "key": "tmdb:269",
-      "workId": "f-tmdb269",
-      "title": "На последнем дыхании",
-      "year": 1960,
-      "n": 5,
-      "weight": 0.194
-    }
-  ],
-  "tmdb:50785": [
-    {
-      "key": "tmdb:2786",
-      "workId": "f-tmdb2786",
-      "title": "Безумный Пьеро",
-      "year": 1965,
-      "n": 3,
-      "weight": 0.416
-    }
-  ],
   "wd:Q188538": [
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 18,
-      "weight": 0.413
-    },
     {
       "key": "tmdb:786892",
       "workId": "f-wd100361125",
@@ -7997,12 +7775,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.412
     },
     {
-      "key": "tmdb:1179316",
-      "workId": "f-tmdb1179316",
-      "title": "Бременские музыканты",
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
       "year": 2024,
-      "n": 17,
-      "weight": 0.39
+      "n": 18,
+      "weight": 0.399
     },
     {
       "key": "tmdb:1214077",
@@ -8011,6 +7789,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 12,
       "weight": 0.389
+    },
+    {
+      "key": "tmdb:1179316",
+      "workId": "f-tmdb1179316",
+      "title": "Бременские музыканты",
+      "year": 2024,
+      "n": 17,
+      "weight": 0.383
     },
     {
       "key": "tmdb:746036",
@@ -8029,96 +7815,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.36
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 14,
-      "weight": 0.354
-    },
-    {
       "key": "tmdb:938614",
       "workId": "f-wd119718080",
       "title": "Полночь с дьяволом",
       "year": 2023,
       "n": 14,
       "weight": 0.347
-    }
-  ],
-  "tmdb:11297": [
-    {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.408
-    }
-  ],
-  "tmdb:701387": [
-    {
-      "key": "tmdb:11297",
-      "workId": "f-wd482944",
-      "title": "Спасти зелёную планету!",
-      "year": 2003,
-      "n": 4,
-      "weight": 0.408
     },
     {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.347
-    },
-    {
-      "key": "tmdb:858024",
-      "workId": "f-wd122741016",
-      "title": "Хамнет",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.236
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 5,
-      "weight": 0.225
-    },
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.217
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.193
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.16
-    },
-    {
-      "key": "tmdb:1078605",
-      "workId": "f-wd126487478",
-      "title": "Орудия",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.154
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 14,
+      "weight": 0.333
     }
   ],
   "tmdb:20874": [
@@ -8215,14 +7925,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.293
     },
     {
-      "key": "tmdb:1408208",
-      "workId": "f-wd134480207",
-      "title": "Выход 8",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.286
-    },
-    {
       "key": "tmdb:1258151",
       "workId": "f-wd134983890",
       "title": "Кракен",
@@ -8231,68 +7933,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.283
     },
     {
+      "key": "tmdb:1408208",
+      "workId": "f-wd134480207",
+      "title": "Выход 8",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.279
+    },
+    {
       "key": "tmdb:4347",
       "workId": "f-wd1626186",
       "title": "Искупление",
       "year": 2007,
       "n": 6,
       "weight": 0.274
-    }
-  ],
-  "tmdb:324786": [
-    {
-      "key": "tmdb:334541",
-      "workId": "f-tmdb334541",
-      "title": "Манчестер у моря",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.408
-    }
-  ],
-  "tmdb:334541": [
-    {
-      "key": "tmdb:324786",
-      "workId": "f-wd21010856",
-      "title": "По соображениям совести",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:313369",
-      "workId": "f-tmdb313369",
-      "title": "Ла-Ла Ленд",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.123
-    }
-  ],
-  "tmdb:359940": [
-    {
-      "key": "tmdb:8321",
-      "workId": "f-tmdb8321",
-      "title": "Залечь на дно в Брюгге",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.408
-    }
-  ],
-  "tmdb:8321": [
-    {
-      "key": "tmdb:359940",
-      "workId": "f-tmdb359940",
-      "title": "Три билборда на границе Эббинга, Миссури",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.152
     }
   ],
   "tmdb:284052": [
@@ -8313,20 +7967,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.218
     },
     {
-      "key": "tmdb:284054",
-      "workId": "f-tmdb284054",
-      "title": "Чёрная Пантера",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.189
-    },
-    {
       "key": "tmdb:299536",
       "workId": "f-tmdb299536",
       "title": "Мстители: Война бесконечности",
       "year": 2018,
       "n": 3,
       "weight": 0.189
+    },
+    {
+      "key": "tmdb:284054",
+      "workId": "f-tmdb284054",
+      "title": "Чёрная Пантера",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.186
     }
   ],
   "tmdb:776305": [
@@ -8352,136 +8006,46 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девочка, покорившая время",
       "year": 2006,
       "n": 3,
-      "weight": 0.333
+      "weight": 0.316
     }
   ],
-  "tmdb:589982": [
+  "imdb:tt0362192": [
     {
-      "key": "tmdb:893366",
-      "workId": "f-wd112730403",
-      "title": "Маленький Николя",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.408
-    },
-    {
-      "key": "tmdb:346648",
-      "workId": "f-wd27590871",
-      "title": "Приключения Паддингтона 2",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.306
-    },
-    {
-      "key": "tmdb:116149",
-      "workId": "f-wd15055478",
-      "title": "Приключения Паддингтона",
+      "key": "tmdb:241239",
+      "workId": "f-wd15915435",
+      "title": "Самый жестокий год",
       "year": 2014,
       "n": 3,
-      "weight": 0.267
+      "weight": 0.408
     },
     {
-      "key": "tmdb:556694",
-      "workId": "f-wd94525569",
-      "title": "Три тысячи лет желаний",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.265
-    },
-    {
-      "key": "tmdb:475303",
-      "workId": "f-wd42307699",
-      "title": "Дождливый день в Нью-Йорке",
-      "year": 2019,
+      "key": "tmdb:82633",
+      "workId": "f-wd253901",
+      "title": "Самый пьяный округ в мире",
+      "year": 2012,
       "n": 3,
-      "weight": 0.245
+      "weight": 0.302
     }
   ],
-  "tmdb:893366": [
+  "tmdb:241239": [
     {
-      "key": "tmdb:589982",
-      "workId": "f-wd55596695",
-      "title": "Расправь крылья",
-      "year": 2019,
+      "key": "imdb:tt0362192",
+      "workId": "f-wd174390",
+      "title": "Большая игра",
+      "year": 2003,
       "n": 3,
       "weight": 0.408
     },
     {
-      "key": "tmdb:556694",
-      "workId": "f-wd94525569",
-      "title": "Три тысячи лет желаний",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.216
-    }
-  ],
-  "tmdb:1168197": [
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.406
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.406
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.406
-    },
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.392
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.389
-    },
-    {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "year": 2024,
-      "n": 8,
-      "weight": 0.372
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 8,
-      "weight": 0.372
-    },
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 9,
+      "key": "tmdb:82633",
+      "workId": "f-wd253901",
+      "title": "Самый пьяный округ в мире",
+      "year": 2012,
+      "n": 3,
       "weight": 0.369
     }
   ],
-  "tmdb:1368166": [
+  "tmdb:291276": [
     {
       "key": "tmdb:1306368",
       "workId": "f-wd131189949",
@@ -8491,60 +8055,60 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.406
     },
     {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.385
+    },
+    {
       "key": "tmdb:83533",
       "workId": "f-wd29580929",
       "title": "Аватар: Пламя и пепел",
       "year": 2025,
       "n": 7,
-      "weight": 0.352
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 8,
-      "weight": 0.348
-    },
-    {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 10,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.329
-    },
-    {
-      "key": "tmdb:1193824",
-      "workId": "f-wd123260727",
-      "title": "Ловушка для кролика",
-      "year": 2025,
-      "n": 8,
-      "weight": 0.328
+      "weight": 0.36
     },
     {
       "key": "wd:Q139902672",
       "workId": "f-wd139902672",
       "title": "День рождения Сидни Люмета",
       "year": 2025,
-      "n": 6,
-      "weight": 0.302
+      "n": 7,
+      "weight": 0.36
     },
     {
-      "key": "tmdb:1248723",
-      "workId": "f-wd125472432",
-      "title": "Буратино",
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
       "year": 2026,
-      "n": 9,
-      "weight": 0.286
+      "n": 7,
+      "weight": 0.327
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.32
+    },
+    {
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.291
     }
   ],
   "tmdb:1080252": [
@@ -8578,15 +8142,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бременские музыканты",
       "year": 2024,
       "n": 15,
-      "weight": 0.339
-    },
-    {
-      "key": "tmdb:743203",
-      "workId": "f-wd116834076",
-      "title": "Летучий корабль",
-      "year": 2024,
-      "n": 15,
-      "weight": 0.339
+      "weight": 0.333
     },
     {
       "key": "tmdb:974635",
@@ -8597,12 +8153,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.333
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
+      "key": "tmdb:743203",
+      "workId": "f-wd116834076",
+      "title": "Летучий корабль",
       "year": 2024,
-      "n": 13,
-      "weight": 0.324
+      "n": 15,
+      "weight": 0.327
     },
     {
       "key": "tmdb:938614",
@@ -8611,6 +8167,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2023,
       "n": 13,
       "weight": 0.317
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 13,
+      "weight": 0.305
     }
   ],
   "tmdb:9741": [
@@ -8623,20 +8187,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.405
     },
     {
-      "key": "tmdb:1032823",
-      "workId": "f-wd124077893",
-      "title": "Ловушка",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.302
-    },
-    {
       "key": "tmdb:6947",
       "workId": "f-wd465227",
       "title": "Таинственный лес",
       "year": 2004,
       "n": 3,
       "weight": 0.302
+    },
+    {
+      "key": "tmdb:1032823",
+      "workId": "f-wd124077893",
+      "title": "Ловушка",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.286
     },
     {
       "key": "tmdb:745",
@@ -8652,7 +8216,119 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Рик и Морти",
       "year": 2013,
       "n": 3,
-      "weight": 0.106
+      "weight": 0.105
+    }
+  ],
+  "tmdb:31442": [
+    {
+      "key": "tmdb:895",
+      "workId": "f-tmdb895",
+      "title": "Андрей Рублёв",
+      "year": 1966,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:38360",
+      "workId": "f-wd714524",
+      "title": "Летят журавли",
+      "year": 1957,
+      "n": 4,
+      "weight": 0.223
+    },
+    {
+      "key": "tmdb:1398",
+      "workId": "f-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 4,
+      "weight": 0.202
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 4,
+      "weight": 0.186
+    },
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 4,
+      "weight": 0.178
+    }
+  ],
+  "tmdb:895": [
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:1398",
+      "workId": "f-tmdb1398",
+      "title": "Сталкер",
+      "year": 1979,
+      "n": 3,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:593",
+      "workId": "w06",
+      "title": "Солярис",
+      "year": 1972,
+      "n": 3,
+      "weight": 0.197
+    },
+    {
+      "key": "tmdb:1396",
+      "workId": "w07",
+      "title": "Зеркало",
+      "year": 1975,
+      "n": 3,
+      "weight": 0.189
+    }
+  ],
+  "tmdb:8321": [
+    {
+      "key": "tmdb:86838",
+      "workId": "f-wd59610",
+      "title": "Семь психопатов",
+      "year": 2012,
+      "n": 4,
+      "weight": 0.404
+    },
+    {
+      "key": "tmdb:359940",
+      "workId": "f-tmdb359940",
+      "title": "Три билборда на границе Эббинга, Миссури",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.199
+    }
+  ],
+  "tmdb:86838": [
+    {
+      "key": "tmdb:8321",
+      "workId": "f-tmdb8321",
+      "title": "Залечь на дно в Брюгге",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.404
     }
   ],
   "tmdb:38700": [
@@ -8670,7 +8346,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бамблби",
       "year": 2018,
       "n": 4,
-      "weight": 0.252
+      "weight": 0.245
     }
   ],
   "tmdb:495764": [
@@ -8688,7 +8364,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бамблби",
       "year": 2018,
       "n": 4,
-      "weight": 0.356
+      "weight": 0.347
     }
   ],
   "tmdb:452": [
@@ -8727,86 +8403,106 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.348
     }
   ],
-  "tmdb:435615": [
+  "tmdb:586387": [
     {
-      "key": "tmdb:579828",
-      "workId": "f-wd97181122",
-      "title": "Кольская сверхглубокая",
-      "year": 2020,
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
       "n": 3,
       "weight": 0.401
     },
     {
-      "key": "tmdb:728552",
-      "workId": "f-wd98819893",
-      "title": "Побочный эффект",
-      "year": 2020,
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
       "n": 3,
-      "weight": 0.375
+      "weight": 0.359
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:166424",
+      "workId": "f-wd16795448",
+      "title": "Фантастическая четвёрка",
+      "year": 2015,
+      "n": 5,
+      "weight": 0.315
+    },
+    {
+      "key": "tmdb:575265",
+      "workId": "f-wd61876374",
+      "title": "Миссия невыполнима: Финальная расплата",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:1492201",
+      "workId": "f-wd136674052",
+      "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.303
     }
   ],
-  "tmdb:579828": [
+  "tmdb:2786": [
     {
-      "key": "tmdb:435615",
-      "workId": "f-tmdb435615",
-      "title": "В чужой шкуре",
-      "year": 2020,
+      "key": "tmdb:50785",
+      "workId": "f-wd1199284",
+      "title": "Маленький солдат",
+      "year": 1963,
       "n": 3,
       "weight": 0.401
     },
     {
-      "key": "tmdb:728552",
-      "workId": "f-wd98819893",
-      "title": "Побочный эффект",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.401
-    }
-  ],
-  "tmdb:728552": [
-    {
-      "key": "tmdb:579828",
-      "workId": "f-wd97181122",
-      "title": "Кольская сверхглубокая",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.401
+      "key": "tmdb:266",
+      "workId": "f-tmdb266",
+      "title": "Презрение",
+      "year": 1963,
+      "n": 5,
+      "weight": 0.315
     },
     {
-      "key": "tmdb:435615",
-      "workId": "f-tmdb435615",
-      "title": "В чужой шкуре",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.375
+      "key": "tmdb:269",
+      "workId": "f-tmdb269",
+      "title": "На последнем дыхании",
+      "year": 1960,
+      "n": 5,
+      "weight": 0.182
     }
   ],
-  "tmdb:612": [
+  "tmdb:50785": [
     {
-      "key": "tmdb:72976",
-      "workId": "f-tmdb72976",
-      "title": "Линкольн",
-      "year": 2012,
+      "key": "tmdb:2786",
+      "workId": "f-tmdb2786",
+      "title": "Безумный Пьеро",
+      "year": 1965,
       "n": 3,
       "weight": 0.401
-    }
-  ],
-  "tmdb:72976": [
-    {
-      "key": "tmdb:612",
-      "workId": "f-tmdb612",
-      "title": "Мюнхен",
-      "year": 2005,
-      "n": 3,
-      "weight": 0.401
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.136
     }
   ],
   "tmdb:398181": [
@@ -8829,170 +8525,108 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.401
     }
   ],
-  "tmdb:1408208": [
+  "tmdb:116745": [
     {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.4
-    },
+      "key": "tmdb:501907",
+      "workId": "f-wd56703347",
+      "title": "Прекрасный день по соседству",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.401
+    }
+  ],
+  "tmdb:501907": [
+    {
+      "key": "tmdb:116745",
+      "workId": "f-wd3522637",
+      "title": "Невероятная жизнь Уолтера Митти",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.401
+    }
+  ],
+  "tmdb:1168197": [
     {
       "key": "tmdb:1288070",
       "workId": "f-wd125861561",
       "title": "Как стать миллионером",
       "year": 2024,
-      "n": 5,
-      "weight": 0.373
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.373
+      "n": 7,
+      "weight": 0.4
     },
     {
       "key": "tmdb:574475",
       "workId": "f-wd118212751",
       "title": "Пункт назначения: Узы крови",
       "year": 2025,
-      "n": 5,
-      "weight": 0.373
+      "n": 7,
+      "weight": 0.4
     },
     {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
-      "n": 3,
-      "weight": 0.335
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.4
     },
     {
-      "key": "tmdb:575265",
-      "workId": "f-wd61876374",
-      "title": "Миссия невыполнима: Финальная расплата",
-      "year": 2025,
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.386
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
       "n": 5,
-      "weight": 0.323
+      "weight": 0.383
     },
     {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
-      "n": 5,
-      "weight": 0.299
+      "n": 8,
+      "weight": 0.367
     },
     {
-      "key": "tmdb:1258151",
-      "workId": "f-wd134983890",
-      "title": "Кракен",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.289
-    }
-  ],
-  "tmdb:396535": [
-    {
-      "key": "tmdb:6466",
-      "workId": "f-wd965859",
-      "title": "Фредди против Джейсона",
-      "year": 2003,
-      "n": 3,
-      "weight": 0.397
-    },
-    {
-      "key": "imdb:tt12235718",
-      "workId": "f-wd100934044",
-      "title": "Зов ада",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.281
-    },
-    {
-      "key": "tmdb:22970",
-      "workId": "f-tmdb22970",
-      "title": "Хижина в лесу",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.229
-    },
-    {
-      "key": "imdb:tt4209256",
-      "workId": "f-wd19593682",
-      "title": "Колония",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:3597",
-      "workId": "f-wd302174",
-      "title": "Я знаю, что вы сделали прошлым летом",
-      "year": 1997,
-      "n": 3,
-      "weight": 0.199
-    },
-    {
-      "key": "tmdb:377",
-      "workId": "f-wd329434",
-      "title": "Кошмар на улице Вязов",
-      "year": 1984,
-      "n": 3,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:9532",
-      "workId": "f-wd7561043",
-      "title": "Пункт назначения",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.154
-    }
-  ],
-  "tmdb:339": [
-    {
-      "key": "tmdb:922",
-      "workId": "f-wd547189",
-      "title": "Мертвец",
-      "year": 1995,
-      "n": 4,
-      "weight": 0.392
-    },
-    {
-      "key": "tmdb:11305",
-      "workId": "f-wd614795",
-      "title": "Таинственный поезд",
-      "year": 1989,
-      "n": 3,
+      "key": "imdb:tt32777999",
+      "workId": "f-wd131358971",
+      "title": "Дети перемен",
+      "year": 2024,
+      "n": 8,
       "weight": 0.354
     },
     {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 4,
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 9,
       "weight": 0.354
+    }
+  ],
+  "tmdb:441130": [
+    {
+      "key": "tmdb:110416",
+      "workId": "f-wd17125101",
+      "title": "Песнь моря",
+      "year": 2014,
+      "n": 4,
+      "weight": 0.4
     },
     {
-      "key": "tmdb:883",
-      "workId": "f-wd1106851",
-      "title": "Кофе и сигареты",
-      "year": 2003,
+      "key": "tmdb:26963",
+      "workId": "f-wd908816",
+      "title": "Тайна Келлс",
+      "year": 2009,
       "n": 3,
-      "weight": 0.335
-    },
-    {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.204
+      "weight": 0.359
     }
   ],
   "tmdb:1489187": [
@@ -9001,116 +8635,130 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-wd124947229",
       "title": "Семья в аренду",
       "year": 2025,
-      "n": 4,
-      "weight": 0.39
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.365
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.344
+      "n": 5,
+      "weight": 0.393
     },
     {
       "key": "tmdb:342898",
       "workId": "f-wd12655879",
       "title": "Красавица",
       "year": 1970,
-      "n": 3,
-      "weight": 0.316
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.355
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.34
     },
     {
       "key": "tmdb:1272837",
       "workId": "f-wd129423731",
       "title": "28 лет спустя: Храм костей",
       "year": 2026,
-      "n": 4,
-      "weight": 0.311
+      "n": 5,
+      "weight": 0.327
     },
     {
       "key": "tmdb:83533",
       "workId": "f-wd29580929",
       "title": "Аватар: Пламя и пепел",
       "year": 2025,
-      "n": 4,
-      "weight": 0.298
+      "n": 5,
+      "weight": 0.315
     },
     {
       "key": "wd:Q139902672",
       "workId": "f-wd139902672",
       "title": "День рождения Сидни Люмета",
       "year": 2025,
-      "n": 4,
-      "weight": 0.298
+      "n": 5,
+      "weight": 0.315
     },
     {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
       "year": 2026,
       "n": 3,
-      "weight": 0.274
+      "weight": 0.289
     }
   ],
-  "tmdb:1562": [
+  "tmdb:1408208": [
     {
-      "key": "tmdb:170",
-      "workId": "f-wd221075",
-      "title": "28 дней спустя",
-      "year": 2002,
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
       "n": 4,
       "weight": 0.39
     },
     {
-      "key": "tmdb:1100988",
-      "workId": "f-wd125392328",
-      "title": "28 лет спустя",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.264
-    }
-  ],
-  "tmdb:170": [
-    {
-      "key": "tmdb:1562",
-      "workId": "f-wd221102",
-      "title": "28 недель спустя",
-      "year": 2007,
-      "n": 4,
-      "weight": 0.39
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.364
     },
     {
-      "key": "tmdb:264660",
-      "workId": "f-tmdb264660",
-      "title": "Из машины",
-      "year": 2015,
-      "n": 4,
-      "weight": 0.175
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.364
     },
     {
-      "key": "tmdb:1100988",
-      "workId": "f-wd125392328",
-      "title": "28 лет спустя",
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
       "year": 2025,
       "n": 5,
-      "weight": 0.161
+      "weight": 0.364
     },
     {
-      "key": "tmdb:780609",
-      "workId": "f-wd106514711",
-      "title": "Род мужской",
-      "year": 2022,
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
       "n": 3,
-      "weight": 0.128
+      "weight": 0.327
+    },
+    {
+      "key": "tmdb:575265",
+      "workId": "f-wd61876374",
+      "title": "Миссия невыполнима: Финальная расплата",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.315
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 5,
+      "weight": 0.292
+    },
+    {
+      "key": "tmdb:1258151",
+      "workId": "f-wd134983890",
+      "title": "Кракен",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.282
     }
   ],
   "tmdb:889737": [
@@ -9147,20 +8795,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.306
     },
     {
+      "key": "tmdb:938614",
+      "workId": "f-wd119718080",
+      "title": "Полночь с дьяволом",
+      "year": 2023,
+      "n": 9,
+      "weight": 0.298
+    },
+    {
       "key": "tmdb:1184918",
       "workId": "f-wd124378349",
       "title": "Дикий робот",
       "year": 2024,
       "n": 8,
-      "weight": 0.306
-    },
-    {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.304
+      "weight": 0.298
     },
     {
       "key": "tmdb:533535",
@@ -9168,15 +8816,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дэдпул и Росомаха",
       "year": 2024,
       "n": 10,
-      "weight": 0.301
+      "weight": 0.296
     },
     {
-      "key": "tmdb:938614",
-      "workId": "f-wd119718080",
-      "title": "Полночь с дьяволом",
-      "year": 2023,
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
       "n": 9,
-      "weight": 0.298
+      "weight": 0.286
     }
   ],
   "tmdb:27922": [
@@ -9189,32 +8837,62 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.387
     }
   ],
-  "tmdb:1112403": [
+  "tmdb:396535": [
     {
-      "key": "tmdb:888003",
-      "workId": "f-wd113042728",
-      "title": "Книга решений",
-      "year": 2023,
+      "key": "tmdb:6466",
+      "workId": "f-wd965859",
+      "title": "Фредди против Джейсона",
+      "year": 2003,
       "n": 3,
       "weight": 0.387
     },
     {
-      "key": "tmdb:503417",
-      "workId": "f-wd116172540",
-      "title": "Иди ко мне, детка",
-      "year": 2023,
+      "key": "imdb:tt12235718",
+      "workId": "f-wd100934044",
+      "title": "Зов ада",
+      "year": 2021,
       "n": 3,
-      "weight": 0.289
-    }
-  ],
-  "tmdb:888003": [
+      "weight": 0.274
+    },
     {
-      "key": "tmdb:1112403",
-      "workId": "f-wd132816181",
-      "title": "Чувства Анны",
-      "year": 2023,
+      "key": "tmdb:22970",
+      "workId": "f-tmdb22970",
+      "title": "Хижина в лесу",
+      "year": 2012,
       "n": 3,
-      "weight": 0.387
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:3597",
+      "workId": "f-wd302174",
+      "title": "Я знаю, что вы сделали прошлым летом",
+      "year": 1997,
+      "n": 3,
+      "weight": 0.186
+    },
+    {
+      "key": "imdb:tt4209256",
+      "workId": "f-wd19593682",
+      "title": "Колония",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.186
+    },
+    {
+      "key": "tmdb:377",
+      "workId": "f-wd329434",
+      "title": "Кошмар на улице Вязов",
+      "year": 1984,
+      "n": 3,
+      "weight": 0.163
+    },
+    {
+      "key": "tmdb:9532",
+      "workId": "f-wd7561043",
+      "title": "Пункт назначения",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.15
     }
   ],
   "tmdb:9532": [
@@ -9232,7 +8910,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Я знаю, что вы сделали прошлым летом",
       "year": 1997,
       "n": 5,
-      "weight": 0.323
+      "weight": 0.31
     },
     {
       "key": "tmdb:22970",
@@ -9256,199 +8934,317 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Поезд в Пусан",
       "year": 2016,
       "n": 3,
-      "weight": 0.154
+      "weight": 0.15
     }
   ],
-  "tmdb:5967": [
+  "tmdb:1368166": [
     {
-      "key": "tmdb:772760",
-      "workId": "f-wd110687009",
-      "title": "Страна Саша",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.385
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 8,
+      "weight": 0.386
     },
     {
-      "key": "tmdb:14553",
-      "workId": "f-wd749191",
-      "title": "Ускользающая красота",
-      "year": 1996,
-      "n": 5,
-      "weight": 0.323
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 9,
+      "weight": 0.35
     },
     {
-      "key": "tmdb:668640",
-      "workId": "f-wd87192572",
-      "title": "Главная роль",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.301
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.342
     },
     {
-      "key": "tmdb:843",
-      "workId": "f-tmdb843",
-      "title": "Любовное настроение",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.153
-    }
-  ],
-  "tmdb:772760": [
-    {
-      "key": "tmdb:5967",
-      "workId": "f-wd163868",
-      "title": "Шербурские зонтики",
-      "year": 1964,
-      "n": 4,
-      "weight": 0.385
+      "key": "tmdb:1193824",
+      "workId": "f-wd123260727",
+      "title": "Ловушка для кролика",
+      "year": 2025,
+      "n": 9,
+      "weight": 0.331
     },
     {
-      "key": "tmdb:14553",
-      "workId": "f-wd749191",
-      "title": "Ускользающая красота",
-      "year": 1996,
-      "n": 5,
-      "weight": 0.373
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.32
     },
     {
-      "key": "tmdb:668640",
-      "workId": "f-wd87192572",
-      "title": "Главная роль",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.348
-    }
-  ],
-  "tmdb:554230": [
+      "key": "tmdb:1472573",
+      "workId": "f-wd138718968",
+      "title": "Здесь был Юра",
+      "year": 2026,
+      "n": 11,
+      "weight": 0.316
+    },
     {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.3
+    },
+    {
+      "key": "tmdb:1248723",
+      "workId": "f-wd125472432",
+      "title": "Буратино",
+      "year": 2026,
       "n": 10,
+      "weight": 0.288
+    }
+  ],
+  "tmdb:11297": [
+    {
+      "key": "tmdb:701387",
+      "workId": "f-wd125971387",
+      "title": "Бугония",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.385
+    }
+  ],
+  "tmdb:701387": [
+    {
+      "key": "tmdb:11297",
+      "workId": "f-wd482944",
+      "title": "Спасти зелёную планету!",
+      "year": 2003,
+      "n": 4,
+      "weight": 0.385
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.304
+    },
+    {
+      "key": "tmdb:858024",
+      "workId": "f-wd122741016",
+      "title": "Хамнет",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.216
+    },
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.196
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 5,
+      "weight": 0.194
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.147
+    },
+    {
+      "key": "tmdb:1078605",
+      "workId": "f-wd126487478",
+      "title": "Орудия",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.139
+    }
+  ],
+  "tmdb:6977": [
+    {
+      "key": "tmdb:379",
+      "workId": "f-tmdb379",
+      "title": "Перекресток Миллера",
+      "year": 1990,
+      "n": 4,
+      "weight": 0.385
+    },
+    {
+      "key": "tmdb:4944",
+      "workId": "f-tmdb4944",
+      "title": "После прочтения сжечь",
+      "year": 2008,
+      "n": 5,
+      "weight": 0.278
+    },
+    {
+      "key": "tmdb:38",
+      "workId": "f-tmdb38",
+      "title": "Вечное сияние чистого разума",
+      "year": 2004,
+      "n": 3,
+      "weight": 0.154
+    },
+    {
+      "key": "tmdb:155",
+      "workId": "f-tmdb155",
+      "title": "Тёмный рыцарь",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.148
+    },
+    {
+      "key": "tmdb:37799",
+      "workId": "f-tmdb37799",
+      "title": "Социальная сеть",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.14
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.065
+    }
+  ],
+  "tmdb:1480387": [
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 5,
       "weight": 0.382
     },
     {
-      "key": "imdb:tt7278862",
-      "workId": "f-wd56411652",
-      "title": "Моя гениальная подруга",
-      "year": 2018,
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.347
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.346
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.331
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.318
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.307
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.307
+    },
+    {
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
+      "year": 2026,
       "n": 3,
       "weight": 0.281
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.255
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.245
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.243
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.219
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.219
-    },
-    {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.209
     }
   ],
-  "tmdb:776503": [
+  "tmdb:1562": [
     {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.382
+      "key": "tmdb:170",
+      "workId": "f-wd221075",
+      "title": "28 дней спустя",
+      "year": 2002,
+      "n": 4,
+      "weight": 0.381
     },
     {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 12,
-      "weight": 0.265
+      "key": "tmdb:1100988",
+      "workId": "f-wd125392328",
+      "title": "28 лет спустя",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.264
+    }
+  ],
+  "tmdb:170": [
+    {
+      "key": "tmdb:1562",
+      "workId": "f-wd221102",
+      "title": "28 недель спустя",
+      "year": 2007,
+      "n": 4,
+      "weight": 0.381
     },
     {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 12,
-      "weight": 0.26
+      "key": "tmdb:264660",
+      "workId": "f-tmdb264660",
+      "title": "Из машины",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.167
     },
     {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.254
+      "key": "tmdb:1100988",
+      "workId": "f-wd125392328",
+      "title": "28 лет спустя",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.157
     },
     {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.234
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.214
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.204
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.179
+      "key": "tmdb:780609",
+      "workId": "f-wd106514711",
+      "title": "Род мужской",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.123
     }
   ],
   "tmdb:412117": [
@@ -9519,136 +9315,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.228
     }
   ],
-  "tmdb:1054867": [
+  "tmdb:324786": [
     {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 17,
-      "weight": 0.379
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 13,
-      "weight": 0.36
-    },
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.3
-    },
-    {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 12,
-      "weight": 0.286
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 11,
-      "weight": 0.272
-    },
-    {
-      "key": "tmdb:858024",
-      "workId": "f-wd122741016",
-      "title": "Хамнет",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.193
-    },
-    {
-      "key": "tmdb:1160360",
-      "workId": "f-wd124450734",
-      "title": "Я бы тебя пнула, если бы могла",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.186
+      "key": "tmdb:334541",
+      "workId": "f-tmdb334541",
+      "title": "Манчестер у моря",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.378
     }
   ],
-  "tmdb:1233413": [
+  "tmdb:334541": [
     {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 17,
-      "weight": 0.379
+      "key": "tmdb:324786",
+      "workId": "f-wd21010856",
+      "title": "По соображениям совести",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.378
     },
     {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.337
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.337
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.323
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 12,
-      "weight": 0.311
-    },
-    {
-      "key": "tmdb:986056",
-      "workId": "f-wd112322474",
-      "title": "Громовержцы*",
-      "year": 2025,
-      "n": 8,
-      "weight": 0.289
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 6,
-      "weight": 0.289
-    },
-    {
-      "key": "tmdb:842924",
-      "workId": "f-wd123169098",
-      "title": "Жизнь Чака",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.283
+      "key": "tmdb:313369",
+      "workId": "f-tmdb313369",
+      "title": "Ла-Ла Ленд",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.123
     }
   ],
   "tmdb:503736": [
@@ -9674,7 +9366,139 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Экстаз",
       "year": 2018,
       "n": 3,
-      "weight": 0.15
+      "weight": 0.143
+    }
+  ],
+  "tmdb:554230": [
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.377
+    },
+    {
+      "key": "imdb:tt7278862",
+      "workId": "f-wd56411652",
+      "title": "Моя гениальная подруга",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.281
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.255
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.245
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.239
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.219
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.215
+    },
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.209
+    }
+  ],
+  "tmdb:776503": [
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.377
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.278
+    },
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 12,
+      "weight": 0.257
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.251
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.228
+    },
+    {
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.228
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.198
+    },
+    {
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.19
     }
   ],
   "tmdb:377278": [
@@ -9697,6 +9521,42 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.375
     }
   ],
+  "tmdb:579828": [
+    {
+      "key": "tmdb:728552",
+      "workId": "f-wd98819893",
+      "title": "Побочный эффект",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.375
+    },
+    {
+      "key": "tmdb:435615",
+      "workId": "f-tmdb435615",
+      "title": "В чужой шкуре",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.335
+    }
+  ],
+  "tmdb:728552": [
+    {
+      "key": "tmdb:579828",
+      "workId": "f-wd97181122",
+      "title": "Кольская сверхглубокая",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.375
+    },
+    {
+      "key": "tmdb:435615",
+      "workId": "f-tmdb435615",
+      "title": "В чужой шкуре",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.335
+    }
+  ],
   "tmdb:517839": [
     {
       "key": "tmdb:728118",
@@ -9712,7 +9572,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.119
     }
   ],
   "tmdb:728118": [
@@ -9730,73 +9590,35 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.119
     }
   ],
-  "tmdb:718032": [
+  "tmdb:612": [
     {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 18,
-      "weight": 0.374
-    },
+      "key": "tmdb:72976",
+      "workId": "f-tmdb72976",
+      "title": "Линкольн",
+      "year": 2012,
+      "n": 3,
+      "weight": 0.375
+    }
+  ],
+  "tmdb:72976": [
     {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 15,
-      "weight": 0.327
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 17,
-      "weight": 0.306
+      "key": "tmdb:612",
+      "workId": "f-tmdb612",
+      "title": "Мюнхен",
+      "year": 2005,
+      "n": 3,
+      "weight": 0.375
     },
     {
       "key": "tmdb:511809",
       "workId": "f-tmdb511809",
       "title": "Вестсайдская История",
       "year": 2021,
-      "n": 18,
-      "weight": 0.293
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.226
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.219
-    },
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.213
-    },
-    {
-      "key": "tmdb:19169",
-      "workId": "f-wd685234",
-      "title": "Аллея кошмаров",
-      "year": 1947,
-      "n": 9,
-      "weight": 0.21
+      "n": 3,
+      "weight": 0.127
     }
   ],
   "tmdb:503417": [
@@ -9814,7 +9636,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "По щучьему велению",
       "year": 2023,
       "n": 3,
-      "weight": 0.289
+      "weight": 0.277
     },
     {
       "key": "tmdb:1112403",
@@ -9822,7 +9644,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чувства Анны",
       "year": 2023,
       "n": 3,
-      "weight": 0.289
+      "weight": 0.277
     }
   ],
   "tmdb:859235": [
@@ -9848,7 +9670,55 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "По щучьему велению",
       "year": 2023,
       "n": 3,
-      "weight": 0.194
+      "weight": 0.186
+    }
+  ],
+  "tmdb:696": [
+    {
+      "key": "tmdb:703",
+      "workId": "f-wd233464",
+      "title": "Энни Холл",
+      "year": 1977,
+      "n": 3,
+      "weight": 0.372
+    }
+  ],
+  "tmdb:703": [
+    {
+      "key": "tmdb:696",
+      "workId": "f-wd731310",
+      "title": "Манхэттен",
+      "year": 1979,
+      "n": 3,
+      "weight": 0.372
+    }
+  ],
+  "tmdb:1112403": [
+    {
+      "key": "tmdb:888003",
+      "workId": "f-wd113042728",
+      "title": "Книга решений",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.372
+    },
+    {
+      "key": "tmdb:503417",
+      "workId": "f-wd116172540",
+      "title": "Иди ко мне, детка",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.277
+    }
+  ],
+  "tmdb:888003": [
+    {
+      "key": "tmdb:1112403",
+      "workId": "f-wd132816181",
+      "title": "Чувства Анны",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.372
     }
   ],
   "imdb:tt30852730": [
@@ -9877,20 +9747,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.363
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 9,
-      "weight": 0.344
-    },
-    {
       "key": "tmdb:1228475",
       "workId": "f-wd124408825",
       "title": "Финист. Первый богатырь",
       "year": 2024,
       "n": 9,
       "weight": 0.335
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.326
     },
     {
       "key": "tmdb:1288070",
@@ -9914,7 +9784,67 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Кончится лето",
       "year": 2024,
       "n": 11,
-      "weight": 0.311
+      "weight": 0.306
+    }
+  ],
+  "tmdb:5967": [
+    {
+      "key": "tmdb:772760",
+      "workId": "f-wd110687009",
+      "title": "Страна Саша",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.37
+    },
+    {
+      "key": "tmdb:14553",
+      "workId": "f-wd749191",
+      "title": "Ускользающая красота",
+      "year": 1996,
+      "n": 5,
+      "weight": 0.303
+    },
+    {
+      "key": "tmdb:668640",
+      "workId": "f-wd87192572",
+      "title": "Главная роль",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.289
+    },
+    {
+      "key": "tmdb:843",
+      "workId": "f-tmdb843",
+      "title": "Любовное настроение",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.147
+    }
+  ],
+  "tmdb:772760": [
+    {
+      "key": "tmdb:5967",
+      "workId": "f-wd163868",
+      "title": "Шербурские зонтики",
+      "year": 1964,
+      "n": 4,
+      "weight": 0.37
+    },
+    {
+      "key": "tmdb:14553",
+      "workId": "f-wd749191",
+      "title": "Ускользающая красота",
+      "year": 1996,
+      "n": 5,
+      "weight": 0.364
+    },
+    {
+      "key": "tmdb:668640",
+      "workId": "f-wd87192572",
+      "title": "Главная роль",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.348
     }
   ],
   "tmdb:408": [
@@ -9932,7 +9862,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "500 дней лета",
       "year": 2009,
       "n": 3,
-      "weight": 0.281
+      "weight": 0.267
     }
   ],
   "tmdb:12548": [
@@ -9950,7 +9880,177 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сладкая жизнь",
       "year": 1960,
       "n": 3,
-      "weight": 0.24
+      "weight": 0.236
+    }
+  ],
+  "tmdb:82633": [
+    {
+      "key": "tmdb:241239",
+      "workId": "f-wd15915435",
+      "title": "Самый жестокий год",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.369
+    },
+    {
+      "key": "imdb:tt0362192",
+      "workId": "f-wd174390",
+      "title": "Большая игра",
+      "year": 2003,
+      "n": 3,
+      "weight": 0.302
+    }
+  ],
+  "tmdb:718032": [
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 18,
+      "weight": 0.367
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 15,
+      "weight": 0.309
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 17,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 18,
+      "weight": 0.287
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.215
+    },
+    {
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.206
+    },
+    {
+      "key": "tmdb:19169",
+      "workId": "f-wd685234",
+      "title": "Аллея кошмаров",
+      "year": 1947,
+      "n": 9,
+      "weight": 0.2
+    }
+  ],
+  "tmdb:511809": [
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 20,
+      "weight": 0.365
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 23,
+      "weight": 0.358
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 18,
+      "weight": 0.332
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 18,
+      "weight": 0.287
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.235
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.219
+    },
+    {
+      "key": "tmdb:19169",
+      "workId": "f-wd685234",
+      "title": "Аллея кошмаров",
+      "year": 1947,
+      "n": 10,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.199
+    }
+  ],
+  "imdb:tt0092357": [
+    {
+      "key": "imdb:tt23148340",
+      "workId": "f-wd135166893",
+      "title": "Хрустальное озеро",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.364
+    }
+  ],
+  "imdb:tt23148340": [
+    {
+      "key": "imdb:tt0092357",
+      "workId": "f-wd1348299",
+      "title": "Пятница, 13-е",
+      "year": 1987,
+      "n": 4,
+      "weight": 0.364
     }
   ],
   "tmdb:517088": [
@@ -9960,7 +10060,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Власть пса",
       "year": 2021,
       "n": 10,
-      "weight": 0.367
+      "weight": 0.361
     },
     {
       "key": "tmdb:614917",
@@ -9968,7 +10068,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Король Ричард",
       "year": 2021,
       "n": 8,
-      "weight": 0.355
+      "weight": 0.342
     },
     {
       "key": "tmdb:591538",
@@ -9995,20 +10095,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.255
     },
     {
-      "key": "tmdb:601470",
-      "workId": "f-wd73537423",
-      "title": "Глаза Тэмми Фэй",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
       "key": "tmdb:718032",
       "workId": "f-tmdb718032",
       "title": "Лакричная пицца",
       "year": 2021,
       "n": 6,
-      "weight": 0.226
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:601470",
+      "workId": "f-wd73537423",
+      "title": "Глаза Тэмми Фэй",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.222
     },
     {
       "key": "tmdb:511809",
@@ -10019,256 +10119,24 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.199
     }
   ],
-  "tmdb:1480387": [
+  "tmdb:21135": [
     {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.367
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.343
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.323
-    },
-    {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
+      "key": "tmdb:26638",
+      "workId": "f-tmdb26638",
+      "title": "Красная пустыня",
+      "year": 1964,
       "n": 3,
-      "weight": 0.297
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.293
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.28
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.28
-    },
-    {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.257
+      "weight": 0.359
     }
   ],
-  "tmdb:511809": [
+  "tmdb:26638": [
     {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 20,
-      "weight": 0.365
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 23,
-      "weight": 0.364
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 18,
-      "weight": 0.345
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 18,
-      "weight": 0.293
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.235
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.219
-    },
-    {
-      "key": "tmdb:19169",
-      "workId": "f-wd685234",
-      "title": "Аллея кошмаров",
-      "year": 1947,
-      "n": 10,
-      "weight": 0.205
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.199
-    }
-  ],
-  "tmdb:38336": [
-    {
-      "key": "tmdb:225235",
-      "workId": "f-tmdb225235",
-      "title": "Географ глобус пропил",
-      "year": 2013,
-      "n": 4,
-      "weight": 0.364
-    },
-    {
-      "key": "tmdb:23410",
-      "workId": "f-wd2331577",
-      "title": "Оттепель",
-      "year": 2009,
+      "key": "tmdb:21135",
+      "workId": "f-tmdb21135",
+      "title": "Затмение",
+      "year": 1962,
       "n": 3,
-      "weight": 0.302
-    }
-  ],
-  "imdb:tt30415293": [
-    {
-      "key": "imdb:tt30491353",
-      "workId": "f-wd123956516",
-      "title": "Комбинация",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.363
-    },
-    {
-      "key": "imdb:tt30852730",
-      "workId": "f-wd132769188",
-      "title": "Аутсорс",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.112
-    },
-    {
-      "key": "imdb:tt23805316",
-      "workId": "f-wd124362179",
-      "title": "Внутри убийцы",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.109
-    }
-  ],
-  "imdb:tt30491353": [
-    {
-      "key": "imdb:tt30415293",
-      "workId": "f-wd130737350",
-      "title": "Трасса",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.363
-    }
-  ],
-  "tmdb:3035": [
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 13,
-      "weight": 0.36
-    },
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 12,
-      "weight": 0.311
-    },
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.299
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 9,
-      "weight": 0.259
-    },
-    {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.225
-    },
-    {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 8,
-      "weight": 0.222
-    },
-    {
-      "key": "tmdb:858024",
-      "workId": "f-wd122741016",
-      "title": "Хамнет",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.212
-    },
-    {
-      "key": "tmdb:32691",
-      "workId": "f-wd1114038",
-      "title": "Новая волна",
-      "year": 1990,
-      "n": 6,
-      "weight": 0.2
+      "weight": 0.359
     }
   ],
   "tmdb:745": [
@@ -10281,20 +10149,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.359
     },
     {
-      "key": "tmdb:1032823",
-      "workId": "f-wd124077893",
-      "title": "Ловушка",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.267
-    },
-    {
       "key": "tmdb:6947",
       "workId": "f-wd465227",
       "title": "Таинственный лес",
       "year": 2004,
       "n": 3,
       "weight": 0.267
+    },
+    {
+      "key": "tmdb:1032823",
+      "workId": "f-wd124077893",
+      "title": "Ловушка",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.254
     },
     {
       "key": "tmdb:9741",
@@ -10305,202 +10173,46 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.242
     }
   ],
-  "tmdb:12": [
-    {
-      "key": "tmdb:585",
-      "workId": "f-tmdb585",
-      "title": "Корпорация монстров",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.356
-    },
-    {
-      "key": "tmdb:862",
-      "workId": "f-wd171048",
-      "title": "История игрушек",
-      "year": 1995,
-      "n": 6,
-      "weight": 0.309
-    },
-    {
-      "key": "tmdb:150540",
-      "workId": "f-wd6144664",
-      "title": "Головоломка",
-      "year": 2015,
-      "n": 4,
-      "weight": 0.243
-    }
-  ],
-  "tmdb:585": [
-    {
-      "key": "tmdb:12",
-      "workId": "f-wd132863",
-      "title": "В поисках Немо",
-      "year": 2003,
-      "n": 4,
-      "weight": 0.356
-    },
-    {
-      "key": "tmdb:862",
-      "workId": "f-wd171048",
-      "title": "История игрушек",
-      "year": 1995,
-      "n": 4,
-      "weight": 0.33
-    }
-  ],
-  "tmdb:424783": [
-    {
-      "key": "tmdb:495764",
-      "workId": "f-wd57177410",
-      "title": "Хищные птицы: Потрясающая история Харли Квинн",
-      "year": 2020,
-      "n": 4,
-      "weight": 0.356
-    },
-    {
-      "key": "tmdb:38700",
-      "workId": "f-wd29021224",
-      "title": "Плохие парни навсегда",
-      "year": 2020,
-      "n": 4,
-      "weight": 0.252
-    }
-  ],
-  "tmdb:426063": [
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 12,
-      "weight": 0.354
-    },
-    {
-      "key": "tmdb:799766",
-      "workId": "f-wd106261265",
-      "title": "Быть лучше: История Робби Уильямса",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.344
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 8,
-      "weight": 0.333
-    },
-    {
-      "key": "tmdb:1228475",
-      "workId": "f-wd124408825",
-      "title": "Финист. Первый богатырь",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.315
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.292
-    },
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.28
-    },
-    {
-      "key": "tmdb:658224",
-      "workId": "f-wd120514821",
-      "title": "Волшебник Изумрудного города",
-      "year": 2024,
-      "n": 11,
-      "weight": 0.275
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 8,
-      "weight": 0.267
-    }
-  ],
-  "imdb:tt14190708": [
-    {
-      "key": "imdb:tt14597228",
-      "workId": "f-wd111464647",
-      "title": "Хрустальный",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.354
-    }
-  ],
-  "imdb:tt14597228": [
-    {
-      "key": "imdb:tt14190708",
-      "workId": "f-wd93089019",
-      "title": "Угрюм-река",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.354
-    }
-  ],
-  "tmdb:370755": [
-    {
-      "key": "tmdb:339",
-      "workId": "f-wd506279",
-      "title": "Ночь на Земле",
-      "year": 1991,
-      "n": 4,
-      "weight": 0.354
-    },
+  "tmdb:339": [
     {
       "key": "tmdb:922",
       "workId": "f-wd547189",
       "title": "Мертвец",
       "year": 1995,
-      "n": 5,
-      "weight": 0.347
+      "n": 4,
+      "weight": 0.356
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
+      "n": 4,
+      "weight": 0.333
     },
     {
       "key": "tmdb:11305",
       "workId": "f-wd614795",
       "title": "Таинственный поезд",
       "year": 1989,
-      "n": 4,
-      "weight": 0.333
+      "n": 3,
+      "weight": 0.302
     },
     {
       "key": "tmdb:883",
       "workId": "f-wd1106851",
       "title": "Кофе и сигареты",
       "year": 2003,
-      "n": 4,
-      "weight": 0.316
-    },
-    {
-      "key": "tmdb:1554",
-      "workId": "f-wd192409",
-      "title": "Вне закона",
-      "year": 1986,
       "n": 3,
-      "weight": 0.306
+      "weight": 0.277
     },
     {
       "key": "tmdb:152603",
       "workId": "f-tmdb152603",
       "title": "Выживут только любовники",
       "year": 2013,
-      "n": 5,
-      "weight": 0.241
+      "n": 3,
+      "weight": 0.183
     }
   ],
   "tmdb:1205515": [
@@ -10569,72 +10281,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.277
     }
   ],
-  "tmdb:1924": [
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.351
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.327
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.327
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.327
-    },
-    {
-      "key": "tmdb:166424",
-      "workId": "f-wd16795448",
-      "title": "Фантастическая четвёрка",
-      "year": 2015,
-      "n": 7,
-      "weight": 0.324
-    },
-    {
-      "key": "tmdb:986056",
-      "workId": "f-wd112322474",
-      "title": "Громовержцы*",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.294
-    },
-    {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
-      "n": 3,
-      "weight": 0.294
-    },
-    {
-      "key": "tmdb:575265",
-      "workId": "f-wd61876374",
-      "title": "Миссия невыполнима: Финальная расплата",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.283
-    }
-  ],
   "imdb:tt9561862": [
     {
       "key": "tmdb:939681",
@@ -10669,20 +10315,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.26
     },
     {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "year": 2024,
-      "n": 6,
-      "weight": 0.25
-    },
-    {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
       "n": 6,
       "weight": 0.25
+    },
+    {
+      "key": "imdb:tt32777999",
+      "workId": "f-wd131358971",
+      "title": "Дети перемен",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.242
     },
     {
       "key": "tmdb:1258151",
@@ -10699,6 +10345,24 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2007,
       "n": 6,
       "weight": 0.234
+    }
+  ],
+  "tmdb:38336": [
+    {
+      "key": "tmdb:225235",
+      "workId": "f-tmdb225235",
+      "title": "Географ глобус пропил",
+      "year": 2013,
+      "n": 4,
+      "weight": 0.348
+    },
+    {
+      "key": "tmdb:23410",
+      "workId": "f-wd2331577",
+      "title": "Оттепель",
+      "year": 2009,
+      "n": 3,
+      "weight": 0.302
     }
   ],
   "tmdb:16": [
@@ -10719,88 +10383,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.289
     }
   ],
-  "tmdb:1241983": [
+  "tmdb:424783": [
     {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 5,
+      "key": "tmdb:495764",
+      "workId": "f-wd57177410",
+      "title": "Хищные птицы: Потрясающая история Харли Квинн",
+      "year": 2020,
+      "n": 4,
       "weight": 0.347
     },
     {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.3
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 6,
-      "weight": 0.299
-    },
-    {
-      "key": "tmdb:1456349",
-      "workId": "f-wd133866932",
-      "title": "Простая случайность",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.277
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.266
-    },
-    {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:639988",
-      "workId": "f-wd129906152",
-      "title": "Метод исключения",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.251
-    },
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.2
-    }
-  ],
-  "tmdb:266": [
-    {
-      "key": "tmdb:2786",
-      "workId": "f-tmdb2786",
-      "title": "Безумный Пьеро",
-      "year": 1965,
-      "n": 5,
-      "weight": 0.347
-    },
-    {
-      "key": "tmdb:269",
-      "workId": "f-tmdb269",
-      "title": "На последнем дыхании",
-      "year": 1960,
-      "n": 5,
-      "weight": 0.175
+      "key": "tmdb:38700",
+      "workId": "f-wd29021224",
+      "title": "Плохие парни навсегда",
+      "year": 2020,
+      "n": 4,
+      "weight": 0.245
     }
   ],
   "tmdb:37176": [
@@ -10813,22 +10411,40 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.346
     }
   ],
-  "tmdb:19913": [
+  "imdb:tt30415293": [
     {
-      "key": "tmdb:1930",
-      "workId": "f-wd229808",
-      "title": "Новый Человек-паук",
-      "year": 2012,
+      "key": "imdb:tt30491353",
+      "workId": "f-wd123956516",
+      "title": "Комбинация",
+      "year": 2024,
       "n": 5,
       "weight": 0.346
     },
     {
-      "key": "tmdb:408",
-      "workId": "f-wd134430",
-      "title": "Белоснежка и семь гномов",
-      "year": 1937,
+      "key": "imdb:tt30852730",
+      "workId": "f-wd132769188",
+      "title": "Аутсорс",
+      "year": 2025,
       "n": 3,
-      "weight": 0.281
+      "weight": 0.112
+    },
+    {
+      "key": "imdb:tt23805316",
+      "workId": "f-wd124362179",
+      "title": "Внутри убийцы",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.109
+    }
+  ],
+  "imdb:tt30491353": [
+    {
+      "key": "imdb:tt30415293",
+      "workId": "f-wd130737350",
+      "title": "Трасса",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.346
     }
   ],
   "tmdb:516729": [
@@ -10862,7 +10478,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 5,
-      "weight": 0.304
+      "weight": 0.296
     },
     {
       "key": "tmdb:746036",
@@ -10878,7 +10494,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дэдпул и Росомаха",
       "year": 2024,
       "n": 6,
-      "weight": 0.288
+      "weight": 0.283
     },
     {
       "key": "tmdb:945961",
@@ -10895,6 +10511,72 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1981,
       "n": 5,
       "weight": 0.282
+    }
+  ],
+  "tmdb:426063": [
+    {
+      "key": "tmdb:799766",
+      "workId": "f-wd106261265",
+      "title": "Быть лучше: История Робби Уильямса",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.344
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 12,
+      "weight": 0.335
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.333
+    },
+    {
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.315
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.292
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.28
+    },
+    {
+      "key": "tmdb:658224",
+      "workId": "f-wd120514821",
+      "title": "Волшебник Изумрудного города",
+      "year": 2024,
+      "n": 11,
+      "weight": 0.275
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 8,
+      "weight": 0.267
     }
   ],
   "tmdb:142": [
@@ -10941,6 +10623,66 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.204
     }
   ],
+  "tmdb:589982": [
+    {
+      "key": "tmdb:893366",
+      "workId": "f-wd112730403",
+      "title": "Маленький Николя",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.342
+    },
+    {
+      "key": "tmdb:346648",
+      "workId": "f-wd27590871",
+      "title": "Приключения Паддингтона 2",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.275
+    },
+    {
+      "key": "tmdb:116149",
+      "workId": "f-wd15055478",
+      "title": "Приключения Паддингтона",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.247
+    },
+    {
+      "key": "tmdb:556694",
+      "workId": "f-wd94525569",
+      "title": "Три тысячи лет желаний",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.245
+    },
+    {
+      "key": "tmdb:475303",
+      "workId": "f-wd42307699",
+      "title": "Дождливый день в Нью-Йорке",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.222
+    }
+  ],
+  "tmdb:893366": [
+    {
+      "key": "tmdb:589982",
+      "workId": "f-wd55596695",
+      "title": "Расправь крылья",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.342
+    },
+    {
+      "key": "tmdb:556694",
+      "workId": "f-wd94525569",
+      "title": "Три тысячи лет желаний",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.196
+    }
+  ],
   "imdb:tt0460649": [
     {
       "key": "imdb:tt14500082",
@@ -10956,7 +10698,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Зависнуть в Палм-Спрингс",
       "year": 2020,
       "n": 3,
-      "weight": 0.153
+      "weight": 0.137
     }
   ],
   "imdb:tt14500082": [
@@ -11005,6 +10747,138 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.075
     }
   ],
+  "tmdb:1054867": [
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 18,
+      "weight": 0.34
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 13,
+      "weight": 0.291
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 12,
+      "weight": 0.255
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.246
+    },
+    {
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 12,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:701387",
+      "workId": "f-wd125971387",
+      "title": "Бугония",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:858024",
+      "workId": "f-wd122741016",
+      "title": "Хамнет",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.187
+    },
+    {
+      "key": "tmdb:1160360",
+      "workId": "f-wd124450734",
+      "title": "Я бы тебя пнула, если бы могла",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.164
+    }
+  ],
+  "tmdb:1233413": [
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 18,
+      "weight": 0.34
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.324
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.324
+    },
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.31
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 13,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:986056",
+      "workId": "f-wd112322474",
+      "title": "Громовержцы*",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.277
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.277
+    },
+    {
+      "key": "tmdb:842924",
+      "workId": "f-wd123169098",
+      "title": "Жизнь Чака",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.266
+    }
+  ],
   "tmdb:471707": [
     {
       "key": "tmdb:582873",
@@ -11045,82 +10919,138 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.34
     }
   ],
-  "tmdb:310307": [
+  "tmdb:1924": [
     {
-      "key": "tmdb:389015",
-      "workId": "f-wd28369564",
-      "title": "Тоня против всех",
-      "year": 2017,
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
       "n": 4,
       "weight": 0.338
     },
     {
-      "key": "imdb:tt13659418",
-      "workId": "f-wd106609866",
-      "title": "Пэм и Томми",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.291
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.315
     },
     {
-      "key": "tmdb:337404",
-      "workId": "f-wd24284363",
-      "title": "Круэлла",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.239
-    }
-  ],
-  "tmdb:389015": [
-    {
-      "key": "tmdb:310307",
-      "workId": "f-wd20031748",
-      "title": "Основатель",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.338
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.315
     },
     {
-      "key": "tmdb:337404",
-      "workId": "f-wd24284363",
-      "title": "Круэлла",
-      "year": 2021,
-      "n": 8,
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.315
+    },
+    {
+      "key": "tmdb:166424",
+      "workId": "f-wd16795448",
+      "title": "Фантастическая четвёрка",
+      "year": 2015,
+      "n": 7,
+      "weight": 0.312
+    },
+    {
+      "key": "tmdb:986056",
+      "workId": "f-wd112322474",
+      "title": "Громовержцы*",
+      "year": 2025,
+      "n": 6,
       "weight": 0.283
     },
     {
-      "key": "imdb:tt13659418",
-      "workId": "f-wd106609866",
-      "title": "Пэм и Томми",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.172
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
+      "n": 3,
+      "weight": 0.283
+    },
+    {
+      "key": "tmdb:575265",
+      "workId": "f-wd61876374",
+      "title": "Миссия невыполнима: Финальная расплата",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.273
     }
   ],
-  "imdb:tt2193021": [
+  "tmdb:435615": [
     {
-      "key": "tmdb:824",
-      "workId": "f-wd193573",
-      "title": "Мулен Руж!",
-      "year": 2001,
+      "key": "tmdb:579828",
+      "workId": "f-wd97181122",
+      "title": "Кольская сверхглубокая",
+      "year": 2020,
       "n": 3,
       "weight": 0.335
     },
     {
-      "key": "tmdb:64682",
-      "workId": "f-tmdb64682",
-      "title": "Великий Гэтсби",
-      "year": 2013,
+      "key": "tmdb:728552",
+      "workId": "f-wd98819893",
+      "title": "Побочный эффект",
+      "year": 2020,
       "n": 3,
-      "weight": 0.3
+      "weight": 0.335
+    }
+  ],
+  "tmdb:370755": [
+    {
+      "key": "tmdb:922",
+      "workId": "f-wd547189",
+      "title": "Мертвец",
+      "year": 1995,
+      "n": 5,
+      "weight": 0.334
     },
     {
-      "key": "tmdb:535581",
-      "workId": "f-tmdb535581",
-      "title": "Мёртвые не умирают",
-      "year": 2019,
+      "key": "tmdb:339",
+      "workId": "f-wd506279",
+      "title": "Ночь на Земле",
+      "year": 1991,
       "n": 4,
-      "weight": 0.29
+      "weight": 0.333
+    },
+    {
+      "key": "tmdb:1554",
+      "workId": "f-wd192409",
+      "title": "Вне закона",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.306
+    },
+    {
+      "key": "tmdb:11305",
+      "workId": "f-wd614795",
+      "title": "Таинственный поезд",
+      "year": 1989,
+      "n": 4,
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:883",
+      "workId": "f-wd1106851",
+      "title": "Кофе и сигареты",
+      "year": 2003,
+      "n": 4,
+      "weight": 0.277
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 5,
+      "weight": 0.228
     }
   ],
   "tmdb:1033148": [
@@ -11146,7 +11076,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Иллюзия обмана 3",
       "year": 2025,
       "n": 4,
-      "weight": 0.169
+      "weight": 0.163
     },
     {
       "key": "tmdb:1259102",
@@ -11181,12 +11111,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.119
     },
     {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.119
+      "key": "tmdb:32691",
+      "workId": "f-wd1114038",
+      "title": "Новая волна",
+      "year": 1990,
+      "n": 4,
+      "weight": 0.117
     }
   ],
   "tmdb:1160360": [
@@ -11223,20 +11153,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.213
     },
     {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.186
-    },
-    {
       "key": "tmdb:1233413",
       "workId": "f-wd125473145",
       "title": "Грешники",
       "year": 2025,
       "n": 4,
-      "weight": 0.174
+      "weight": 0.167
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.164
     },
     {
       "key": "tmdb:3035",
@@ -11244,7 +11174,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Франкенштейн",
       "year": 1931,
       "n": 3,
-      "weight": 0.162
+      "weight": 0.149
     },
     {
       "key": "tmdb:1078605",
@@ -11252,10 +11182,30 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Орудия",
       "year": 2025,
       "n": 3,
-      "weight": 0.14
+      "weight": 0.133
     }
   ],
-  "tmdb:862": [
+  "imdb:tt14190708": [
+    {
+      "key": "imdb:tt14597228",
+      "workId": "f-wd111464647",
+      "title": "Хрустальный",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.333
+    }
+  ],
+  "imdb:tt14597228": [
+    {
+      "key": "imdb:tt14190708",
+      "workId": "f-wd93089019",
+      "title": "Угрюм-река",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.333
+    }
+  ],
+  "tmdb:12": [
     {
       "key": "tmdb:585",
       "workId": "f-tmdb585",
@@ -11265,12 +11215,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.33
     },
     {
-      "key": "tmdb:12",
-      "workId": "f-wd132863",
-      "title": "В поисках Немо",
-      "year": 2003,
-      "n": 6,
-      "weight": 0.309
+      "key": "tmdb:862",
+      "workId": "f-wd171048",
+      "title": "История игрушек",
+      "year": 1995,
+      "n": 7,
+      "weight": 0.319
+    },
+    {
+      "key": "tmdb:10681",
+      "workId": "f-wd104905",
+      "title": "ВАЛЛ•И",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.218
     },
     {
       "key": "tmdb:150540",
@@ -11278,151 +11236,161 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Головоломка",
       "year": 2015,
       "n": 4,
-      "weight": 0.225
-    },
-    {
-      "key": "tmdb:301528",
-      "workId": "f-wd18517638",
-      "title": "История игрушек 4",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.128
-    }
-  ],
-  "tmdb:1025491": [
-    {
-      "key": "tmdb:732698",
-      "workId": "f-wd115254112",
-      "title": "Сто лет тому вперёд",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.327
-    },
-    {
-      "key": "wd:Q188538",
-      "workId": "w16",
-      "title": "Мастер и Маргарита",
-      "year": 1967,
-      "n": 3,
-      "weight": 0.182
-    }
-  ],
-  "tmdb:732698": [
-    {
-      "key": "tmdb:1025491",
-      "workId": "f-wd116032513",
-      "title": "По Фрейду",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.327
-    },
-    {
-      "key": "wd:Q188538",
-      "workId": "w16",
-      "title": "Мастер и Маргарита",
-      "year": 1967,
-      "n": 5,
-      "weight": 0.132
-    }
-  ],
-  "tmdb:475303": [
-    {
-      "key": "tmdb:556694",
-      "workId": "f-wd94525569",
-      "title": "Три тысячи лет желаний",
-      "year": 2022,
-      "n": 10,
-      "weight": 0.324
-    },
-    {
-      "key": "tmdb:589982",
-      "workId": "f-wd55596695",
-      "title": "Расправь крылья",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.245
-    },
-    {
-      "key": "tmdb:339397",
-      "workId": "f-wd20950014",
-      "title": "Светская жизнь",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.245
-    },
-    {
-      "key": "tmdb:788977",
-      "workId": "f-wd111600269",
-      "title": "Заговор в Каире",
-      "year": 2022,
-      "n": 3,
       "weight": 0.212
-    },
-    {
-      "key": "tmdb:576986",
-      "workId": "f-wd55659358",
-      "title": "Сердце пармы",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.207
     }
   ],
-  "tmdb:556694": [
+  "tmdb:585": [
     {
-      "key": "tmdb:475303",
-      "workId": "f-wd42307699",
-      "title": "Дождливый день в Нью-Йорке",
-      "year": 2019,
-      "n": 10,
-      "weight": 0.324
-    },
-    {
-      "key": "tmdb:589982",
-      "workId": "f-wd55596695",
-      "title": "Расправь крылья",
-      "year": 2019,
+      "key": "tmdb:12",
+      "workId": "f-wd132863",
+      "title": "В поисках Немо",
+      "year": 2003,
       "n": 4,
-      "weight": 0.265
+      "weight": 0.33
     },
     {
-      "key": "tmdb:576986",
-      "workId": "f-wd55659358",
-      "title": "Сердце пармы",
-      "year": 2022,
-      "n": 6,
-      "weight": 0.251
+      "key": "tmdb:862",
+      "workId": "f-wd171048",
+      "title": "История игрушек",
+      "year": 1995,
+      "n": 4,
+      "weight": 0.315
+    }
+  ],
+  "tmdb:310307": [
+    {
+      "key": "tmdb:389015",
+      "workId": "f-wd28369564",
+      "title": "Тоня против всех",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.33
     },
     {
-      "key": "tmdb:893366",
-      "workId": "f-wd112730403",
-      "title": "Маленький Николя",
+      "key": "imdb:tt13659418",
+      "workId": "f-wd106609866",
+      "title": "Пэм и Томми",
       "year": 2022,
       "n": 4,
-      "weight": 0.216
+      "weight": 0.291
     },
     {
-      "key": "tmdb:10238",
-      "workId": "f-wd830874",
-      "title": "Шёпоты и крики",
-      "year": 1972,
-      "n": 3,
-      "weight": 0.172
+      "key": "tmdb:337404",
+      "workId": "f-wd24284363",
+      "title": "Круэлла",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.236
+    }
+  ],
+  "tmdb:389015": [
+    {
+      "key": "tmdb:310307",
+      "workId": "f-wd20031748",
+      "title": "Основатель",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.33
     },
     {
-      "key": "tmdb:788977",
-      "workId": "f-wd111600269",
-      "title": "Заговор в Каире",
+      "key": "tmdb:337404",
+      "workId": "f-wd24284363",
+      "title": "Круэлла",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.273
+    },
+    {
+      "key": "imdb:tt13659418",
+      "workId": "f-wd106609866",
+      "title": "Пэм и Томми",
       "year": 2022,
-      "n": 3,
-      "weight": 0.172
+      "n": 4,
+      "weight": 0.168
+    }
+  ],
+  "tmdb:19913": [
+    {
+      "key": "tmdb:1930",
+      "workId": "f-wd229808",
+      "title": "Новый Человек-паук",
+      "year": 2012,
+      "n": 5,
+      "weight": 0.329
     },
     {
-      "key": "tmdb:819876",
-      "workId": "f-tmdb819876",
-      "title": "Преступления будущего",
-      "year": 2022,
+      "key": "tmdb:408",
+      "workId": "f-wd134430",
+      "title": "Белоснежка и семь гномов",
+      "year": 1937,
       "n": 3,
-      "weight": 0.086
+      "weight": 0.267
+    }
+  ],
+  "tmdb:291404": [
+    {
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.327
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 3,
+      "weight": 0.303
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.231
+    },
+    {
+      "key": "tmdb:931285",
+      "workId": "f-wd117830073",
+      "title": "Мортал Комбат 2",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.231
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.214
     }
   ],
   "imdb:tt31806037": [
@@ -11459,14 +11427,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.289
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 8,
-      "weight": 0.272
-    },
-    {
       "key": "imdb:tt30023782",
       "workId": "f-wd131505336",
       "title": "Первый номер",
@@ -11475,114 +11435,28 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.271
     },
     {
-      "key": "imdb:tt32777999",
-      "workId": "f-wd131358971",
-      "title": "Дети перемен",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.27
-    },
-    {
       "key": "tmdb:461125",
       "workId": "f-wd19802064",
       "title": "На этой земле",
       "year": 1957,
       "n": 7,
       "weight": 0.27
-    }
-  ],
-  "tmdb:1417539": [
-    {
-      "key": "tmdb:895371",
-      "workId": "f-wd4259248",
-      "title": "Лермонтов",
-      "year": 1986,
-      "n": 4,
-      "weight": 0.322
-    }
-  ],
-  "tmdb:895371": [
-    {
-      "key": "tmdb:1417539",
-      "workId": "f-wd136523547",
-      "title": "Алиса в Стране чудес",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.322
     },
     {
-      "key": "tmdb:648878",
-      "workId": "f-wd121433282",
-      "title": "Эддингтон",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.16
-    }
-  ],
-  "tmdb:152603": [
-    {
-      "key": "tmdb:11305",
-      "workId": "f-wd614795",
-      "title": "Таинственный поезд",
-      "year": 1989,
-      "n": 5,
-      "weight": 0.321
+      "key": "tmdb:1228475",
+      "workId": "f-wd124408825",
+      "title": "Финист. Первый богатырь",
+      "year": 2024,
+      "n": 8,
+      "weight": 0.265
     },
     {
-      "key": "tmdb:883",
-      "workId": "f-wd1106851",
-      "title": "Кофе и сигареты",
-      "year": 2003,
-      "n": 5,
-      "weight": 0.304
-    },
-    {
-      "key": "tmdb:469",
-      "workId": "f-wd1345409",
-      "title": "Более странно, чем в раю",
-      "year": 1984,
-      "n": 3,
-      "weight": 0.289
-    },
-    {
-      "key": "tmdb:922",
-      "workId": "f-wd547189",
-      "title": "Мертвец",
-      "year": 1995,
-      "n": 5,
-      "weight": 0.267
-    },
-    {
-      "key": "tmdb:370755",
-      "workId": "f-tmdb370755",
-      "title": "Патерсон",
-      "year": 2016,
-      "n": 5,
-      "weight": 0.241
-    },
-    {
-      "key": "tmdb:1554",
-      "workId": "f-wd192409",
-      "title": "Вне закона",
-      "year": 1986,
-      "n": 3,
-      "weight": 0.236
-    },
-    {
-      "key": "tmdb:746",
-      "workId": "f-wd212775",
-      "title": "Последний император",
-      "year": 1987,
-      "n": 3,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:339",
-      "workId": "f-wd506279",
-      "title": "Ночь на Земле",
-      "year": 1991,
-      "n": 3,
-      "weight": 0.204
+      "key": "imdb:tt32777999",
+      "workId": "f-wd131358971",
+      "title": "Дети перемен",
+      "year": 2024,
+      "n": 7,
+      "weight": 0.261
     }
   ],
   "tmdb:1033776": [
@@ -11652,7 +11526,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 4,
-      "weight": 0.16
+      "weight": 0.158
     }
   ],
   "tmdb:365177": [
@@ -11670,7 +11544,241 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 3,
-      "weight": 0.102
+      "weight": 0.101
+    }
+  ],
+  "imdb:tt2193021": [
+    {
+      "key": "tmdb:824",
+      "workId": "f-wd193573",
+      "title": "Мулен Руж!",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.32
+    },
+    {
+      "key": "tmdb:64682",
+      "workId": "f-tmdb64682",
+      "title": "Великий Гэтсби",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.273
+    },
+    {
+      "key": "tmdb:535581",
+      "workId": "f-tmdb535581",
+      "title": "Мёртвые не умирают",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.257
+    }
+  ],
+  "tmdb:862": [
+    {
+      "key": "tmdb:12",
+      "workId": "f-wd132863",
+      "title": "В поисках Немо",
+      "year": 2003,
+      "n": 7,
+      "weight": 0.319
+    },
+    {
+      "key": "tmdb:585",
+      "workId": "f-tmdb585",
+      "title": "Корпорация монстров",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.315
+    },
+    {
+      "key": "tmdb:2062",
+      "workId": "f-wd170035",
+      "title": "Рататуй",
+      "year": 2007,
+      "n": 3,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:150540",
+      "workId": "f-wd6144664",
+      "title": "Головоломка",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.202
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.123
+    }
+  ],
+  "tmdb:475303": [
+    {
+      "key": "tmdb:556694",
+      "workId": "f-wd94525569",
+      "title": "Три тысячи лет желаний",
+      "year": 2022,
+      "n": 10,
+      "weight": 0.318
+    },
+    {
+      "key": "tmdb:339397",
+      "workId": "f-wd20950014",
+      "title": "Светская жизнь",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.24
+    },
+    {
+      "key": "tmdb:589982",
+      "workId": "f-wd55596695",
+      "title": "Расправь крылья",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:788977",
+      "workId": "f-wd111600269",
+      "title": "Заговор в Каире",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.208
+    },
+    {
+      "key": "tmdb:576986",
+      "workId": "f-wd55659358",
+      "title": "Сердце пармы",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.203
+    }
+  ],
+  "tmdb:556694": [
+    {
+      "key": "tmdb:475303",
+      "workId": "f-wd42307699",
+      "title": "Дождливый день в Нью-Йорке",
+      "year": 2019,
+      "n": 10,
+      "weight": 0.318
+    },
+    {
+      "key": "tmdb:576986",
+      "workId": "f-wd55659358",
+      "title": "Сердце пармы",
+      "year": 2022,
+      "n": 6,
+      "weight": 0.251
+    },
+    {
+      "key": "tmdb:589982",
+      "workId": "f-wd55596695",
+      "title": "Расправь крылья",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.245
+    },
+    {
+      "key": "tmdb:893366",
+      "workId": "f-wd112730403",
+      "title": "Маленький Николя",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.196
+    },
+    {
+      "key": "tmdb:10238",
+      "workId": "f-wd830874",
+      "title": "Шёпоты и крики",
+      "year": 1972,
+      "n": 3,
+      "weight": 0.172
+    },
+    {
+      "key": "tmdb:788977",
+      "workId": "f-wd111600269",
+      "title": "Заговор в Каире",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.172
+    },
+    {
+      "key": "tmdb:819876",
+      "workId": "f-tmdb819876",
+      "title": "Преступления будущего",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.081
+    }
+  ],
+  "tmdb:1545976": [
+    {
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.316
+    },
+    {
+      "key": "tmdb:467905",
+      "workId": "f-wd126488898",
+      "title": "Наследник",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.313
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 3,
+      "weight": 0.293
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.258
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.234
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:931285",
+      "workId": "f-wd117830073",
+      "title": "Мортал Комбат 2",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.215
     }
   ],
   "tmdb:158": [
@@ -11701,70 +11809,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.147
     }
   ],
-  "tmdb:591538": [
+  "tmdb:266": [
     {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.314
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
+      "key": "tmdb:2786",
+      "workId": "f-tmdb2786",
+      "title": "Безумный Пьеро",
+      "year": 1965,
       "n": 5,
-      "weight": 0.303
+      "weight": 0.315
     },
     {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.289
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.235
-    },
-    {
-      "key": "tmdb:776527",
-      "workId": "f-tmdb776527",
-      "title": "Лето соула",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.197
-    },
-    {
-      "key": "tmdb:19169",
-      "workId": "f-wd685234",
-      "title": "Аллея кошмаров",
-      "year": 1947,
+      "key": "tmdb:269",
+      "workId": "f-tmdb269",
+      "title": "На последнем дыхании",
+      "year": 1960,
       "n": 5,
-      "weight": 0.187
-    },
-    {
-      "key": "tmdb:601470",
-      "workId": "f-wd73537423",
-      "title": "Глаза Тэмми Фэй",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.182
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.178
+      "weight": 0.16
     }
   ],
   "tmdb:11224": [
@@ -11787,106 +11847,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.314
     }
   ],
-  "imdb:tt3655448": [
+  "tmdb:1417539": [
     {
-      "key": "imdb:tt7157248",
-      "workId": "f-wd60769208",
-      "title": "Новый Папа",
-      "year": 2020,
-      "n": 6,
-      "weight": 0.31
+      "key": "tmdb:895371",
+      "workId": "f-wd4259248",
+      "title": "Лермонтов",
+      "year": 1986,
+      "n": 4,
+      "weight": 0.309
+    }
+  ],
+  "tmdb:895371": [
+    {
+      "key": "tmdb:1417539",
+      "workId": "f-wd136523547",
+      "title": "Алиса в Стране чудес",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.309
     },
     {
-      "key": "tmdb:179144",
-      "workId": "f-wd6379279",
-      "title": "Великая красота",
-      "year": 2013,
+      "key": "tmdb:648878",
+      "workId": "f-wd121433282",
+      "title": "Эддингтон",
+      "year": 2025,
       "n": 3,
-      "weight": 0.118
-    }
-  ],
-  "imdb:tt7157248": [
-    {
-      "key": "imdb:tt3655448",
-      "workId": "f-wd22026371",
-      "title": "Молодой Папа",
-      "year": 2016,
-      "n": 6,
-      "weight": 0.31
-    },
-    {
-      "key": "tmdb:475557",
-      "workId": "f-tmdb475557",
-      "title": "Джокер",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.087
-    }
-  ],
-  "tmdb:646380": [
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.31
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.275
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.269
-    },
-    {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.234
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.213
-    },
-    {
-      "key": "tmdb:19169",
-      "workId": "f-wd685234",
-      "title": "Аллея кошмаров",
-      "year": 1947,
-      "n": 7,
-      "weight": 0.187
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.173
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.149
+      "weight": 0.16
     }
   ],
   "tmdb:11093": [
@@ -11937,215 +11923,233 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.101
     }
   ],
-  "tmdb:346648": [
+  "tmdb:646380": [
     {
-      "key": "tmdb:589982",
-      "workId": "f-wd55596695",
-      "title": "Расправь крылья",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.306
-    }
-  ],
-  "tmdb:11220": [
-    {
-      "key": "tmdb:843",
-      "workId": "f-tmdb843",
-      "title": "Любовное настроение",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.306
-    }
-  ],
-  "tmdb:843": [
-    {
-      "key": "tmdb:11220",
-      "workId": "f-wd1353408",
-      "title": "Падшие ангелы",
-      "year": 1995,
-      "n": 3,
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 13,
       "weight": 0.306
     },
     {
-      "key": "tmdb:10515",
-      "workId": "f-wd498577",
-      "title": "Небесный замок Лапута",
-      "year": 1986,
-      "n": 3,
-      "weight": 0.237
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.262
     },
     {
-      "key": "tmdb:11104",
-      "workId": "f-tmdb11104",
-      "title": "Чунгкингский экспресс",
-      "year": 1994,
-      "n": 5,
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.261
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 9,
       "weight": 0.228
     },
     {
-      "key": "tmdb:179144",
-      "workId": "f-wd6379279",
-      "title": "Великая красота",
-      "year": 2013,
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.206
+    },
+    {
+      "key": "tmdb:19169",
+      "workId": "f-wd685234",
+      "title": "Аллея кошмаров",
+      "year": 1947,
+      "n": 7,
+      "weight": 0.18
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.171
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.148
+    }
+  ],
+  "tmdb:1241983": [
+    {
+      "key": "tmdb:701387",
+      "workId": "f-wd125971387",
+      "title": "Бугония",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.304
+    },
+    {
+      "key": "tmdb:1456349",
+      "workId": "f-wd133866932",
+      "title": "Простая случайность",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.258
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
       "n": 6,
-      "weight": 0.172
+      "weight": 0.255
     },
     {
-      "key": "tmdb:5967",
-      "workId": "f-wd163868",
-      "title": "Шербурские зонтики",
-      "year": 1964,
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.246
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:639988",
+      "workId": "f-wd129906152",
+      "title": "Метод исключения",
+      "year": 2025,
       "n": 3,
-      "weight": 0.153
+      "weight": 0.234
     },
     {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 4,
-      "weight": 0.136
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.213
     },
     {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 3,
-      "weight": 0.085
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.179
     }
   ],
-  "tmdb:819876": [
+  "tmdb:591538": [
     {
-      "key": "tmdb:28942",
-      "workId": "f-wd389911",
-      "title": "Выводок",
-      "year": 1979,
-      "n": 3,
-      "weight": 0.306
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.303
     },
     {
-      "key": "tmdb:9538",
-      "workId": "f-tmdb9538",
-      "title": "Сканнеры",
-      "year": 1981,
-      "n": 3,
-      "weight": 0.306
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.303
     },
     {
-      "key": "tmdb:11336",
-      "workId": "f-wd466792",
-      "title": "Мёртвая зона",
-      "year": 1983,
-      "n": 3,
-      "weight": 0.265
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.284
     },
     {
-      "key": "tmdb:884",
-      "workId": "f-wd839133",
-      "title": "Автокатастрофа",
-      "year": 1996,
-      "n": 3,
-      "weight": 0.237
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.235
     },
     {
-      "key": "tmdb:970947",
-      "workId": "f-wd117357033",
-      "title": "Саваны",
-      "year": 2024,
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
       "n": 3,
-      "weight": 0.237
+      "weight": 0.189
     },
     {
-      "key": "tmdb:2742",
-      "workId": "f-wd1755864",
-      "title": "Обед нагишом",
-      "year": 1991,
-      "n": 3,
-      "weight": 0.217
+      "key": "tmdb:19169",
+      "workId": "f-wd685234",
+      "title": "Аллея кошмаров",
+      "year": 1947,
+      "n": 5,
+      "weight": 0.182
     },
     {
-      "key": "tmdb:9960",
-      "workId": "f-wd386245",
-      "title": "Повелитель мух",
-      "year": 1963,
+      "key": "tmdb:601470",
+      "workId": "f-wd73537423",
+      "title": "Глаза Тэмми Фэй",
+      "year": 2021,
       "n": 3,
-      "weight": 0.217
+      "weight": 0.175
     },
     {
-      "key": "tmdb:837",
-      "workId": "f-tmdb837",
-      "title": "Видеодром",
-      "year": 1983,
-      "n": 3,
-      "weight": 0.2
-    }
-  ],
-  "tmdb:1266127": [
-    {
-      "key": "tmdb:567609",
-      "workId": "f-wd58815115",
-      "title": "Я иду искать",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.306
-    }
-  ],
-  "tmdb:567609": [
-    {
-      "key": "tmdb:1266127",
-      "workId": "f-wd134054683",
-      "title": "Я иду искать 2",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.306
-    },
-    {
-      "key": "tmdb:514684",
-      "workId": "f-wd60850079",
-      "title": "Папа, сдохни",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.102
-    }
-  ],
-  "tmdb:264660": [
-    {
-      "key": "tmdb:300668",
-      "workId": "f-tmdb300668",
-      "title": "Аннигиляция",
-      "year": 2018,
-      "n": 4,
-      "weight": 0.302
-    },
-    {
-      "key": "tmdb:170",
-      "workId": "f-wd221075",
-      "title": "28 дней спустя",
-      "year": 2002,
-      "n": 4,
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 6,
       "weight": 0.175
     }
   ],
-  "tmdb:300668": [
+  "imdb:tt16288804": [
     {
-      "key": "tmdb:264660",
-      "workId": "f-tmdb264660",
-      "title": "Из машины",
-      "year": 2015,
+      "key": "tmdb:41965",
+      "workId": "f-wd905466",
+      "title": "Бумажный дом",
+      "year": 1988,
       "n": 4,
       "weight": 0.302
     }
   ],
-  "tmdb:23410": [
+  "tmdb:41965": [
     {
-      "key": "tmdb:225235",
-      "workId": "f-tmdb225235",
-      "title": "Географ глобус пропил",
-      "year": 2013,
-      "n": 3,
+      "key": "imdb:tt16288804",
+      "workId": "f-wd109850709",
+      "title": "Берлин",
+      "year": 2023,
+      "n": 4,
       "weight": 0.302
     },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.066
+    }
+  ],
+  "tmdb:23410": [
     {
       "key": "tmdb:38336",
       "workId": "f-wd1962112",
@@ -12153,6 +12157,50 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2008,
       "n": 3,
       "weight": 0.302
+    },
+    {
+      "key": "tmdb:225235",
+      "workId": "f-tmdb225235",
+      "title": "Географ глобус пропил",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.289
+    }
+  ],
+  "imdb:tt3655448": [
+    {
+      "key": "imdb:tt7157248",
+      "workId": "f-wd60769208",
+      "title": "Новый Папа",
+      "year": 2020,
+      "n": 6,
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:179144",
+      "workId": "f-wd6379279",
+      "title": "Великая красота",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.115
+    }
+  ],
+  "imdb:tt7157248": [
+    {
+      "key": "imdb:tt3655448",
+      "workId": "f-wd22026371",
+      "title": "Молодой Папа",
+      "year": 2016,
+      "n": 6,
+      "weight": 0.302
+    },
+    {
+      "key": "tmdb:475557",
+      "workId": "f-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.087
     }
   ],
   "tmdb:82693": [
@@ -12173,32 +12221,182 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.267
     }
   ],
-  "imdb:tt10574558": [
+  "tmdb:414453": [
     {
-      "key": "tmdb:11772",
-      "workId": "f-wd865987",
-      "title": "Призрак дома на холме",
-      "year": 1963,
-      "n": 3,
-      "weight": 0.302
-    }
-  ],
-  "tmdb:11772": [
-    {
-      "key": "imdb:tt10574558",
-      "workId": "f-wd98915688",
-      "title": "Полуночная месса",
+      "key": "tmdb:585378",
+      "workId": "f-wd63398229",
+      "title": "После Янга",
       "year": 2021,
       "n": 3,
-      "weight": 0.302
+      "weight": 0.3
+    }
+  ],
+  "tmdb:585378": [
+    {
+      "key": "tmdb:414453",
+      "workId": "f-tmdb414453",
+      "title": "Колумбус",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.3
     },
     {
-      "key": "tmdb:501170",
-      "workId": "f-wd56881169",
-      "title": "Доктор Сон",
+      "key": "tmdb:751171",
+      "workId": "f-wd110653007",
+      "title": "Чебурашка",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.096
+    }
+  ],
+  "tmdb:1266127": [
+    {
+      "key": "tmdb:567609",
+      "workId": "f-wd58815115",
+      "title": "Я иду искать",
       "year": 2019,
       "n": 3,
-      "weight": 0.209
+      "weight": 0.3
+    }
+  ],
+  "tmdb:567609": [
+    {
+      "key": "tmdb:1266127",
+      "workId": "f-wd134054683",
+      "title": "Я иду искать 2",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.3
+    },
+    {
+      "key": "tmdb:514684",
+      "workId": "f-wd60850079",
+      "title": "Папа, сдохни",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.1
+    }
+  ],
+  "tmdb:264660": [
+    {
+      "key": "tmdb:300668",
+      "workId": "f-tmdb300668",
+      "title": "Аннигиляция",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:170",
+      "workId": "f-wd221075",
+      "title": "28 дней спустя",
+      "year": 2002,
+      "n": 4,
+      "weight": 0.167
+    }
+  ],
+  "tmdb:300668": [
+    {
+      "key": "tmdb:264660",
+      "workId": "f-tmdb264660",
+      "title": "Из машины",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.296
+    }
+  ],
+  "tmdb:3035": [
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 13,
+      "weight": 0.296
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 13,
+      "weight": 0.291
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.255
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 9,
+      "weight": 0.231
+    },
+    {
+      "key": "tmdb:701387",
+      "workId": "f-wd125971387",
+      "title": "Бугония",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.194
+    },
+    {
+      "key": "tmdb:858024",
+      "workId": "f-wd122741016",
+      "title": "Хамнет",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:32691",
+      "workId": "f-wd1114038",
+      "title": "Новая волна",
+      "year": 1990,
+      "n": 6,
+      "weight": 0.183
+    },
+    {
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 8,
+      "weight": 0.181
+    }
+  ],
+  "tmdb:245891": [
+    {
+      "key": "tmdb:383498",
+      "workId": "f-wd25431158",
+      "title": "Дэдпул 2",
+      "year": 2018,
+      "n": 11,
+      "weight": 0.295
+    },
+    {
+      "key": "tmdb:866398",
+      "workId": "f-wd115766625",
+      "title": "Пчеловод",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.149
+    }
+  ],
+  "tmdb:383498": [
+    {
+      "key": "tmdb:245891",
+      "workId": "f-wd15732802",
+      "title": "Джон Уик",
+      "year": 2014,
+      "n": 11,
+      "weight": 0.295
     }
   ],
   "tmdb:945961": [
@@ -12208,7 +12406,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 7,
-      "weight": 0.301
+      "weight": 0.293
     },
     {
       "key": "tmdb:1214077",
@@ -12251,274 +12449,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.258
     },
     {
-      "key": "tmdb:929590",
-      "workId": "f-wd111538862",
-      "title": "Падение империи",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.246
-    },
-    {
       "key": "tmdb:746036",
       "workId": "f-wd113671585",
       "title": "Каскадёры",
       "year": 2024,
       "n": 6,
       "weight": 0.245
-    }
-  ],
-  "tmdb:414453": [
-    {
-      "key": "tmdb:585378",
-      "workId": "f-wd63398229",
-      "title": "После Янга",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.3
-    }
-  ],
-  "tmdb:585378": [
-    {
-      "key": "tmdb:414453",
-      "workId": "f-tmdb414453",
-      "title": "Колумбус",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.3
     },
     {
-      "key": "tmdb:751171",
-      "workId": "f-wd110653007",
-      "title": "Чебурашка",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.096
-    }
-  ],
-  "tmdb:245891": [
-    {
-      "key": "tmdb:383498",
-      "workId": "f-wd25431158",
-      "title": "Дэдпул 2",
-      "year": 2018,
-      "n": 11,
-      "weight": 0.297
-    },
-    {
-      "key": "tmdb:866398",
-      "workId": "f-wd115766625",
-      "title": "Пчеловод",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.15
-    }
-  ],
-  "tmdb:383498": [
-    {
-      "key": "tmdb:245891",
-      "workId": "f-wd15732802",
-      "title": "Джон Уик",
-      "year": 2014,
-      "n": 11,
-      "weight": 0.297
-    }
-  ],
-  "imdb:tt0903747": [
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 25,
-      "weight": 0.295
-    },
-    {
-      "key": "tmdb:559969",
-      "workId": "f-wd61741521",
-      "title": "Путь: Во все тяжкие. Фильм",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.156
-    },
-    {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
-      "n": 5,
-      "weight": 0.126
-    },
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 5,
-      "weight": 0.102
-    },
-    {
-      "key": "tmdb:628",
-      "workId": "f-wd318910",
-      "title": "Интервью с вампиром",
-      "year": 1994,
-      "n": 4,
-      "weight": 0.089
-    },
-    {
-      "key": "imdb:tt15276418",
-      "workId": "f-wd111536616",
-      "title": "Ваша честь",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.07
-    },
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.038
-    },
-    {
-      "key": "imdb:tt0944947",
-      "workId": "f-wd23572",
-      "title": "Игра престолов",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.027
-    }
-  ],
-  "imdb:tt3032476": [
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 25,
-      "weight": 0.295
-    },
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 11,
-      "weight": 0.15
-    },
-    {
-      "key": "imdb:tt4955642",
-      "workId": "f-wd22908690",
-      "title": "В лучшем мире",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.139
-    },
-    {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 7,
-      "weight": 0.121
-    },
-    {
-      "key": "imdb:tt5788792",
-      "workId": "f-wd30634329",
-      "title": "Удивительная миссис Мейзел",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.107
-    },
-    {
-      "key": "tmdb:628",
-      "workId": "f-wd318910",
-      "title": "Интервью с вампиром",
-      "year": 1994,
-      "n": 4,
-      "weight": 0.097
-    },
-    {
-      "key": "imdb:tt0264235",
-      "workId": "f-wd23722",
-      "title": "Умерь свой энтузиазм",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.094
-    },
-    {
-      "key": "imdb:tt7016936",
-      "workId": "f-wd39049904",
-      "title": "Убивая Еву",
-      "year": 2018,
+      "key": "tmdb:470326",
+      "workId": "f-wd4399922",
+      "title": "Руки вверх!",
+      "year": 1981,
       "n": 6,
-      "weight": 0.091
-    }
-  ],
-  "tmdb:1124566": [
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.292
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 12,
-      "weight": 0.286
-    },
-    {
-      "key": "tmdb:291276",
-      "workId": "f-wd19363956",
-      "title": "Секретный агент",
-      "year": 2017,
-      "n": 8,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.233
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.223
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.223
+      "weight": 0.239
     }
   ],
   "imdb:tt13659418": [
@@ -12536,7 +12480,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Тоня против всех",
       "year": 2017,
       "n": 4,
-      "weight": 0.172
+      "weight": 0.168
     },
     {
       "key": "imdb:tt8740976",
@@ -12544,7 +12488,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Изобретая Анну",
       "year": 2022,
       "n": 4,
-      "weight": 0.168
+      "weight": 0.164
     },
     {
       "key": "tmdb:337404",
@@ -12552,7 +12496,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Круэлла",
       "year": 2021,
       "n": 4,
-      "weight": 0.122
+      "weight": 0.12
     },
     {
       "key": "imdb:tt13406094",
@@ -12561,32 +12505,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 3,
       "weight": 0.078
-    }
-  ],
-  "tmdb:535581": [
-    {
-      "key": "imdb:tt2193021",
-      "workId": "f-wd552314",
-      "title": "Стрела",
-      "year": 2012,
-      "n": 4,
-      "weight": 0.29
-    },
-    {
-      "key": "tmdb:824",
-      "workId": "f-wd193573",
-      "title": "Мулен Руж!",
-      "year": 2001,
-      "n": 3,
-      "weight": 0.243
-    },
-    {
-      "key": "tmdb:64682",
-      "workId": "f-tmdb64682",
-      "title": "Великий Гэтсби",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.218
     }
   ],
   "tmdb:10515": [
@@ -12617,20 +12535,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.29
     },
     {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 6,
-      "weight": 0.187
-    },
-    {
       "key": "tmdb:746",
       "workId": "f-wd212775",
       "title": "Последний император",
       "year": 1987,
       "n": 3,
       "weight": 0.184
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 6,
+      "weight": 0.178
     },
     {
       "key": "tmdb:843",
@@ -12662,7 +12580,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Молодость",
       "year": 2015,
       "n": 3,
-      "weight": 0.14
+      "weight": 0.135
     },
     {
       "key": "tmdb:1109255",
@@ -12670,7 +12588,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Партенопа",
       "year": 2024,
       "n": 3,
-      "weight": 0.14
+      "weight": 0.135
     }
   ],
   "tmdb:20449": [
@@ -12693,32 +12611,202 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.289
     }
   ],
-  "tmdb:469": [
+  "tmdb:819876": [
     {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.289
-    }
-  ],
-  "tmdb:1033774": [
-    {
-      "key": "tmdb:503417",
-      "workId": "f-wd116172540",
-      "title": "Иди ко мне, детка",
-      "year": 2023,
+      "key": "tmdb:28942",
+      "workId": "f-wd389911",
+      "title": "Выводок",
+      "year": 1979,
       "n": 3,
       "weight": 0.289
     },
     {
-      "key": "tmdb:859235",
-      "workId": "f-wd114670912",
-      "title": "Великая ирония",
-      "year": 2023,
+      "key": "tmdb:9538",
+      "workId": "f-tmdb9538",
+      "title": "Сканнеры",
+      "year": 1981,
       "n": 3,
-      "weight": 0.194
+      "weight": 0.289
+    },
+    {
+      "key": "tmdb:11336",
+      "workId": "f-wd466792",
+      "title": "Мёртвая зона",
+      "year": 1983,
+      "n": 3,
+      "weight": 0.25
+    },
+    {
+      "key": "tmdb:970947",
+      "workId": "f-wd117357033",
+      "title": "Саваны",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:2742",
+      "workId": "f-wd1755864",
+      "title": "Обед нагишом",
+      "year": 1991,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "tmdb:9960",
+      "workId": "f-wd386245",
+      "title": "Повелитель мух",
+      "year": 1963,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "tmdb:837",
+      "workId": "f-tmdb837",
+      "title": "Видеодром",
+      "year": 1983,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:884",
+      "workId": "f-wd839133",
+      "title": "Автокатастрофа",
+      "year": 1996,
+      "n": 3,
+      "weight": 0.167
+    }
+  ],
+  "imdb:tt0903747": [
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 25,
+      "weight": 0.287
+    },
+    {
+      "key": "tmdb:559969",
+      "workId": "f-wd61741521",
+      "title": "Путь: Во все тяжкие. Фильм",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 5,
+      "weight": 0.123
+    },
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 5,
+      "weight": 0.1
+    },
+    {
+      "key": "tmdb:628",
+      "workId": "f-wd318910",
+      "title": "Интервью с вампиром",
+      "year": 1994,
+      "n": 4,
+      "weight": 0.083
+    },
+    {
+      "key": "imdb:tt15276418",
+      "workId": "f-wd111536616",
+      "title": "Ваша честь",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.068
+    },
+    {
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.036
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.026
+    }
+  ],
+  "imdb:tt3032476": [
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 25,
+      "weight": 0.287
+    },
+    {
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 11,
+      "weight": 0.149
+    },
+    {
+      "key": "imdb:tt4955642",
+      "workId": "f-wd22908690",
+      "title": "В лучшем мире",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.139
+    },
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 7,
+      "weight": 0.119
+    },
+    {
+      "key": "imdb:tt5788792",
+      "workId": "f-wd30634329",
+      "title": "Удивительная миссис Мейзел",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.107
+    },
+    {
+      "key": "imdb:tt0264235",
+      "workId": "f-wd23722",
+      "title": "Умерь свой энтузиазм",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.094
+    },
+    {
+      "key": "tmdb:628",
+      "workId": "f-wd318910",
+      "title": "Интервью с вампиром",
+      "year": 1994,
+      "n": 4,
+      "weight": 0.092
+    },
+    {
+      "key": "imdb:tt7016936",
+      "workId": "f-wd39049904",
+      "title": "Убивая Еву",
+      "year": 2018,
+      "n": 6,
+      "weight": 0.091
     }
   ],
   "tmdb:502033": [
@@ -12744,7 +12832,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 6,
-      "weight": 0.21
+      "weight": 0.208
     },
     {
       "key": "tmdb:661914",
@@ -12760,7 +12848,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Земля кочевников",
       "year": 2021,
       "n": 5,
-      "weight": 0.132
+      "weight": 0.131
     }
   ],
   "tmdb:583406": [
@@ -12778,7 +12866,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 7,
-      "weight": 0.257
+      "weight": 0.254
     },
     {
       "key": "tmdb:615643",
@@ -12789,20 +12877,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.202
     },
     {
-      "key": "tmdb:581734",
-      "workId": "f-tmdb581734",
-      "title": "Земля кочевников",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.194
-    },
-    {
       "key": "tmdb:661914",
       "workId": "f-wd83973479",
       "title": "Одна ночь в Майами",
       "year": 2020,
       "n": 3,
       "weight": 0.194
+    },
+    {
+      "key": "tmdb:581734",
+      "workId": "f-tmdb581734",
+      "title": "Земля кочевников",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.193
     },
     {
       "key": "tmdb:740985",
@@ -12839,112 +12927,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.254
     }
   ],
-  "tmdb:269": [
+  "imdb:tt10574558": [
     {
-      "key": "tmdb:32691",
-      "workId": "f-wd1114038",
-      "title": "Новая волна",
-      "year": 1990,
-      "n": 11,
-      "weight": 0.286
-    },
-    {
-      "key": "tmdb:2546",
-      "workId": "f-wd167905",
-      "title": "Зази в метро",
-      "year": 1960,
-      "n": 3,
-      "weight": 0.243
-    },
-    {
-      "key": "tmdb:2786",
-      "workId": "f-tmdb2786",
-      "title": "Безумный Пьеро",
-      "year": 1965,
-      "n": 5,
-      "weight": 0.194
-    },
-    {
-      "key": "tmdb:266",
-      "workId": "f-tmdb266",
-      "title": "Презрение",
+      "key": "tmdb:11772",
+      "workId": "f-wd865987",
+      "title": "Призрак дома на холме",
       "year": 1963,
-      "n": 5,
-      "weight": 0.175
-    },
-    {
-      "key": "tmdb:8073",
-      "workId": "f-tmdb8073",
-      "title": "Банда аутсайдеров",
-      "year": 1964,
       "n": 3,
-      "weight": 0.149
+      "weight": 0.286
     }
   ],
-  "tmdb:32691": [
+  "tmdb:11772": [
     {
-      "key": "tmdb:269",
-      "workId": "f-tmdb269",
-      "title": "На последнем дыхании",
-      "year": 1960,
-      "n": 11,
+      "key": "imdb:tt10574558",
+      "workId": "f-wd98915688",
+      "title": "Полуночная месса",
+      "year": 2021,
+      "n": 3,
       "weight": 0.286
     },
     {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
+      "key": "tmdb:501170",
+      "workId": "f-wd56881169",
+      "title": "Доктор Сон",
+      "year": 2019,
       "n": 3,
-      "weight": 0.279
-    },
-    {
-      "key": "tmdb:1299655",
-      "workId": "f-wd127118129",
-      "title": "Голубая луна",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.249
-    },
-    {
-      "key": "tmdb:1492201",
-      "workId": "f-wd136674052",
-      "title": "Папины дочки. Мама вернулась",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.211
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 6,
-      "weight": 0.2
-    },
-    {
-      "key": "tmdb:425274",
-      "workId": "f-wd65146722",
-      "title": "Иллюзия обмана 3",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.199
-    },
-    {
-      "key": "tmdb:1290159",
-      "workId": "f-wd131686066",
-      "title": "Дом динамита",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.197
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.186
+      "weight": 0.198
     }
   ],
   "tmdb:23843": [
@@ -12970,7 +12978,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 7,
-      "weight": 0.12
+      "weight": 0.119
     },
     {
       "key": "imdb:tt0903747",
@@ -12978,7 +12986,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Во все тяжкие",
       "year": 2008,
       "n": 5,
-      "weight": 0.102
+      "weight": 0.1
     },
     {
       "key": "imdb:tt7660850",
@@ -12986,7 +12994,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 3,
-      "weight": 0.071
+      "weight": 0.07
     }
   ],
   "tmdb:29427": [
@@ -13012,7 +13020,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Во все тяжкие",
       "year": 2008,
       "n": 5,
-      "weight": 0.126
+      "weight": 0.123
     },
     {
       "key": "imdb:tt0944947",
@@ -13020,7 +13028,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 5,
-      "weight": 0.106
+      "weight": 0.105
     },
     {
       "key": "imdb:tt7660850",
@@ -13028,131 +13036,35 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 3,
-      "weight": 0.088
+      "weight": 0.087
     }
   ],
-  "tmdb:501929": [
+  "tmdb:49018": [
     {
-      "key": "tmdb:568124",
-      "workId": "f-tmdb568124",
-      "title": "Энканто",
-      "year": 2021,
-      "n": 5,
+      "key": "tmdb:82507",
+      "workId": "l-tmdb82507",
+      "title": "Синистер",
+      "year": 2012,
+      "n": 4,
       "weight": 0.284
     },
     {
-      "key": "tmdb:527774",
-      "workId": "f-tmdb527774",
-      "title": "Райя и последний дракон",
-      "year": 2021,
+      "key": "tmdb:23827",
+      "workId": "f-wd381028",
+      "title": "Паранормальное явление",
+      "year": 2007,
       "n": 3,
-      "weight": 0.224
-    },
-    {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.158
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.152
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.145
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.129
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.126
+      "weight": 0.236
     }
   ],
-  "tmdb:568124": [
+  "tmdb:82507": [
     {
-      "key": "tmdb:501929",
-      "workId": "f-tmdb501929",
-      "title": "Митчеллы против машин",
-      "year": 2021,
-      "n": 5,
+      "key": "tmdb:49018",
+      "workId": "f-wd122713",
+      "title": "Астрал",
+      "year": 2010,
+      "n": 4,
       "weight": 0.284
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.214
-    },
-    {
-      "key": "tmdb:766798",
-      "workId": "f-wd106103421",
-      "title": "Параллельные матери",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.173
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.15
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.137
-    },
-    {
-      "key": "tmdb:537116",
-      "workId": "f-wd85323361",
-      "title": "Тик-так, бум!",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.131
-    },
-    {
-      "key": "tmdb:527774",
-      "workId": "f-tmdb527774",
-      "title": "Райя и последний дракон",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.127
     }
   ],
   "tmdb:940139": [
@@ -13170,7 +13082,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дракула",
       "year": 1992,
       "n": 3,
-      "weight": 0.136
+      "weight": 0.13
     },
     {
       "key": "tmdb:1033148",
@@ -13181,20 +13093,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.127
     },
     {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.124
-    },
-    {
       "key": "tmdb:1078605",
       "workId": "f-wd126487478",
       "title": "Орудия",
       "year": 2025,
       "n": 3,
-      "weight": 0.124
+      "weight": 0.118
     },
     {
       "key": "imdb:tt31806037",
@@ -13203,92 +13107,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2025,
       "n": 3,
       "weight": 0.116
-    }
-  ],
-  "tmdb:12405": [
-    {
-      "key": "tmdb:627",
-      "workId": "f-tmdb627",
-      "title": "На игле",
-      "year": 1996,
-      "n": 4,
-      "weight": 0.283
-    }
-  ],
-  "tmdb:627": [
-    {
-      "key": "tmdb:12405",
-      "workId": "f-wd125076",
-      "title": "Миллионер из трущоб",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.283
-    }
-  ],
-  "tmdb:337404": [
-    {
-      "key": "tmdb:389015",
-      "workId": "f-wd28369564",
-      "title": "Тоня против всех",
-      "year": 2017,
-      "n": 8,
-      "weight": 0.283
     },
     {
-      "key": "tmdb:12230",
-      "workId": "f-wd165512",
-      "title": "101 далматинец",
-      "year": 1961,
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
       "n": 3,
-      "weight": 0.274
-    },
-    {
-      "key": "tmdb:310307",
-      "workId": "f-wd20031748",
-      "title": "Основатель",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.239
-    },
-    {
-      "key": "imdb:tt13659418",
-      "workId": "f-wd106609866",
-      "title": "Пэм и Томми",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.122
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.076
-    },
-    {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.073
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.065
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.063
+      "weight": 0.109
     }
   ],
   "imdb:tt7278862": [
@@ -13301,14 +13127,116 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.281
     }
   ],
-  "imdb:tt12235718": [
+  "tmdb:11906": [
     {
-      "key": "tmdb:396535",
-      "workId": "f-tmdb396535",
-      "title": "Поезд в Пусан",
-      "year": 2016,
+      "key": "tmdb:234",
+      "workId": "f-tmdb234",
+      "title": "Кабинет доктора Калигари",
+      "year": 1920,
       "n": 3,
-      "weight": 0.281
+      "weight": 0.28
+    },
+    {
+      "key": "tmdb:22538",
+      "workId": "f-wd753899",
+      "title": "Скотт Пилигрим против всех",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.125
+    }
+  ],
+  "tmdb:234": [
+    {
+      "key": "tmdb:11906",
+      "workId": "f-tmdb11906",
+      "title": "Суспирия",
+      "year": 1977,
+      "n": 3,
+      "weight": 0.28
+    },
+    {
+      "key": "tmdb:22538",
+      "workId": "f-wd753899",
+      "title": "Скотт Пилигрим против всех",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.268
+    }
+  ],
+  "tmdb:824016": [
+    {
+      "key": "tmdb:859235",
+      "workId": "f-wd114670912",
+      "title": "Великая ирония",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.28
+    }
+  ],
+  "tmdb:32691": [
+    {
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
+      "n": 3,
+      "weight": 0.279
+    },
+    {
+      "key": "tmdb:269",
+      "workId": "f-tmdb269",
+      "title": "На последнем дыхании",
+      "year": 1960,
+      "n": 11,
+      "weight": 0.278
+    },
+    {
+      "key": "tmdb:1299655",
+      "workId": "f-wd127118129",
+      "title": "Голубая луна",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.249
+    },
+    {
+      "key": "tmdb:1492201",
+      "workId": "f-wd136674052",
+      "title": "Папины дочки. Мама вернулась",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.211
+    },
+    {
+      "key": "tmdb:1290159",
+      "workId": "f-wd131686066",
+      "title": "Дом динамита",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.197
+    },
+    {
+      "key": "tmdb:425274",
+      "workId": "f-wd65146722",
+      "title": "Иллюзия обмана 3",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.186
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.186
     }
   ],
   "tmdb:581734": [
@@ -13318,7 +13246,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Минари",
       "year": 2021,
       "n": 15,
-      "weight": 0.28
+      "weight": 0.278
     },
     {
       "key": "tmdb:582014",
@@ -13326,7 +13254,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 13,
-      "weight": 0.265
+      "weight": 0.26
     },
     {
       "key": "tmdb:615667",
@@ -13334,7 +13262,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ма Рейни: Мать блюза",
       "year": 2020,
       "n": 7,
-      "weight": 0.241
+      "weight": 0.239
     },
     {
       "key": "tmdb:583406",
@@ -13342,7 +13270,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Иуда и Черный Мессия",
       "year": 2021,
       "n": 7,
-      "weight": 0.194
+      "weight": 0.193
     },
     {
       "key": "tmdb:740985",
@@ -13350,7 +13278,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Борат 2",
       "year": 2020,
       "n": 6,
-      "weight": 0.166
+      "weight": 0.165
     },
     {
       "key": "tmdb:502033",
@@ -13358,7 +13286,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Звук металла",
       "year": 2019,
       "n": 5,
-      "weight": 0.132
+      "weight": 0.131
     },
     {
       "key": "tmdb:641662",
@@ -13366,15 +13294,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фрагменты женщины",
       "year": 2020,
       "n": 3,
-      "weight": 0.132
+      "weight": 0.131
     },
     {
-      "key": "tmdb:580175",
-      "workId": "f-tmdb580175",
-      "title": "Ещё по одной",
+      "key": "imdb:tt10048342",
+      "workId": "f-wd85808226",
+      "title": "Ход королевы",
       "year": 2020,
-      "n": 5,
-      "weight": 0.086
+      "n": 4,
+      "weight": 0.081
     }
   ],
   "tmdb:615643": [
@@ -13384,7 +13312,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Земля кочевников",
       "year": 2021,
       "n": 15,
-      "weight": 0.28
+      "weight": 0.278
     },
     {
       "key": "tmdb:582014",
@@ -13392,7 +13320,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 11,
-      "weight": 0.273
+      "weight": 0.269
     },
     {
       "key": "tmdb:502033",
@@ -13424,7 +13352,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ещё по одной",
       "year": 2020,
       "n": 7,
-      "weight": 0.146
+      "weight": 0.139
     },
     {
       "key": "tmdb:615667",
@@ -13435,140 +13363,46 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.125
     }
   ],
-  "tmdb:824016": [
+  "tmdb:269": [
     {
-      "key": "tmdb:859235",
-      "workId": "f-wd114670912",
-      "title": "Великая ирония",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.28
-    }
-  ],
-  "tmdb:1339713": [
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.279
+      "key": "tmdb:32691",
+      "workId": "f-wd1114038",
+      "title": "Новая волна",
+      "year": 1990,
+      "n": 11,
+      "weight": 0.278
     },
     {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.246
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.222
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.213
-    },
-    {
-      "key": "wd:Q139902672",
-      "workId": "f-wd139902672",
-      "title": "День рождения Сидни Люмета",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.213
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.209
-    },
-    {
-      "key": "tmdb:467905",
-      "workId": "f-wd126488898",
-      "title": "Наследник",
-      "year": 2026,
-      "n": 5,
-      "weight": 0.184
-    },
-    {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
+      "key": "tmdb:2546",
+      "workId": "f-wd167905",
+      "title": "Зази в метро",
+      "year": 1960,
       "n": 3,
-      "weight": 0.181
-    }
-  ],
-  "tmdb:129": [
+      "weight": 0.236
+    },
     {
-      "key": "tmdb:25538",
-      "workId": "f-wd704513",
-      "title": "Один и два",
-      "year": 2000,
+      "key": "tmdb:2786",
+      "workId": "f-tmdb2786",
+      "title": "Безумный Пьеро",
+      "year": 1965,
+      "n": 5,
+      "weight": 0.182
+    },
+    {
+      "key": "tmdb:266",
+      "workId": "f-tmdb266",
+      "title": "Презрение",
+      "year": 1963,
+      "n": 5,
+      "weight": 0.16
+    },
+    {
+      "key": "tmdb:8073",
+      "workId": "f-tmdb8073",
+      "title": "Банда аутсайдеров",
+      "year": 1964,
       "n": 3,
-      "weight": 0.279
-    },
-    {
-      "key": "tmdb:4935",
-      "workId": "f-tmdb4935",
-      "title": "Ходячий замок",
-      "year": 2004,
-      "n": 4,
-      "weight": 0.263
-    },
-    {
-      "key": "tmdb:8392",
-      "workId": "f-wd39571",
-      "title": "Мой сосед Тоторо",
-      "year": 1988,
-      "n": 6,
-      "weight": 0.227
-    },
-    {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.119
-    },
-    {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.083
-    }
-  ],
-  "tmdb:25538": [
-    {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 3,
-      "weight": 0.279
-    },
-    {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 3,
-      "weight": 0.24
+      "weight": 0.129
     }
   ],
   "tmdb:21028": [
@@ -13586,7 +13420,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Москва слезам не верит. Всё только начинается",
       "year": 2025,
       "n": 4,
-      "weight": 0.196
+      "weight": 0.185
     },
     {
       "key": "tmdb:97666",
@@ -13607,42 +13441,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.277
     }
   ],
-  "tmdb:1456349": [
+  "tmdb:1033774": [
     {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
+      "key": "tmdb:503417",
+      "workId": "f-wd116172540",
+      "title": "Иди ко мне, детка",
+      "year": 2023,
       "n": 3,
       "weight": 0.277
     },
     {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.206
-    }
-  ],
-  "tmdb:137113": [
-    {
-      "key": "tmdb:787",
-      "workId": "f-tmdb787",
-      "title": "Мистер и миссис Смит",
-      "year": 2005,
-      "n": 4,
-      "weight": 0.276
-    }
-  ],
-  "tmdb:787": [
-    {
-      "key": "tmdb:137113",
-      "workId": "f-wd1187607",
-      "title": "Грань будущего",
-      "year": 2014,
-      "n": 4,
-      "weight": 0.276
+      "key": "tmdb:859235",
+      "workId": "f-wd114670912",
+      "title": "Великая ирония",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.186
     }
   ],
   "tmdb:376867": [
@@ -13697,72 +13511,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.276
     }
   ],
-  "tmdb:1078605": [
-    {
-      "key": "tmdb:939681",
-      "workId": "f-wd123513550",
-      "title": "Молоко матери",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.276
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:575265",
-      "workId": "f-wd61876374",
-      "title": "Миссия невыполнима: Финальная расплата",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.223
-    },
-    {
-      "key": "tmdb:461125",
-      "workId": "f-wd19802064",
-      "title": "На этой земле",
-      "year": 1957,
-      "n": 5,
-      "weight": 0.206
-    },
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 9,
-      "weight": 0.2
-    }
-  ],
   "imdb:tt1266020": [
     {
       "key": "imdb:tt1439629",
@@ -13778,7 +13526,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Клиника",
       "year": 2010,
       "n": 3,
-      "weight": 0.178
+      "weight": 0.173
     }
   ],
   "imdb:tt1439629": [
@@ -13796,18 +13544,76 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Клиника",
       "year": 2010,
       "n": 3,
-      "weight": 0.184
+      "weight": 0.179
+    }
+  ],
+  "tmdb:152603": [
+    {
+      "key": "tmdb:11305",
+      "workId": "f-wd614795",
+      "title": "Таинственный поезд",
+      "year": 1989,
+      "n": 5,
+      "weight": 0.275
+    },
+    {
+      "key": "tmdb:883",
+      "workId": "f-wd1106851",
+      "title": "Кофе и сигареты",
+      "year": 2003,
+      "n": 5,
+      "weight": 0.253
+    },
+    {
+      "key": "tmdb:469",
+      "workId": "f-wd1345409",
+      "title": "Более странно, чем в раю",
+      "year": 1984,
+      "n": 3,
+      "weight": 0.245
+    },
+    {
+      "key": "tmdb:922",
+      "workId": "f-wd547189",
+      "title": "Мертвец",
+      "year": 1995,
+      "n": 5,
+      "weight": 0.244
+    },
+    {
+      "key": "tmdb:370755",
+      "workId": "f-tmdb370755",
+      "title": "Патерсон",
+      "year": 2016,
+      "n": 5,
+      "weight": 0.228
+    },
+    {
+      "key": "tmdb:1554",
+      "workId": "f-wd192409",
+      "title": "Вне закона",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:746",
+      "workId": "f-wd212775",
+      "title": "Последний император",
+      "year": 1987,
+      "n": 3,
+      "weight": 0.207
+    },
+    {
+      "key": "tmdb:339",
+      "workId": "f-wd506279",
+      "title": "Ночь на Земле",
+      "year": 1991,
+      "n": 3,
+      "weight": 0.183
     }
   ],
   "tmdb:63293": [
-    {
-      "key": "tmdb:104810",
-      "workId": "f-wd4205762",
-      "title": "Июльский дождь",
-      "year": 1967,
-      "n": 3,
-      "weight": 0.275
-    },
     {
       "key": "tmdb:27862",
       "workId": "f-wd244999",
@@ -13815,26 +13621,166 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1964,
       "n": 3,
       "weight": 0.275
+    },
+    {
+      "key": "tmdb:104810",
+      "workId": "f-wd4205762",
+      "title": "Июльский дождь",
+      "year": 1967,
+      "n": 3,
+      "weight": 0.267
     }
   ],
-  "imdb:tt11823076": [
+  "tmdb:346648": [
     {
-      "key": "tmdb:454992",
-      "workId": "f-wd33256094",
-      "title": "Шпион, который меня кинул",
-      "year": 2018,
+      "key": "tmdb:589982",
+      "workId": "f-wd55596695",
+      "title": "Расправь крылья",
+      "year": 2019,
       "n": 3,
       "weight": 0.275
     }
   ],
-  "tmdb:454992": [
+  "tmdb:1124566": [
     {
-      "key": "imdb:tt11823076",
-      "workId": "f-wd88306935",
-      "title": "Король тигров",
-      "year": 2020,
-      "n": 3,
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 6,
       "weight": 0.275
+    },
+    {
+      "key": "tmdb:291276",
+      "workId": "f-wd19363956",
+      "title": "Секретный агент",
+      "year": 2017,
+      "n": 10,
+      "weight": 0.264
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.248
+    },
+    {
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.229
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 12,
+      "weight": 0.224
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.22
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.22
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 10,
+      "weight": 0.215
+    }
+  ],
+  "imdb:tt12235718": [
+    {
+      "key": "tmdb:396535",
+      "workId": "f-tmdb396535",
+      "title": "Поезд в Пусан",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.274
+    }
+  ],
+  "tmdb:337404": [
+    {
+      "key": "tmdb:389015",
+      "workId": "f-wd28369564",
+      "title": "Тоня против всех",
+      "year": 2017,
+      "n": 8,
+      "weight": 0.273
+    },
+    {
+      "key": "tmdb:12230",
+      "workId": "f-wd165512",
+      "title": "101 далматинец",
+      "year": 1961,
+      "n": 3,
+      "weight": 0.271
+    },
+    {
+      "key": "tmdb:310307",
+      "workId": "f-wd20031748",
+      "title": "Основатель",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.236
+    },
+    {
+      "key": "imdb:tt13659418",
+      "workId": "f-wd106609866",
+      "title": "Пэм и Томми",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.12
+    },
+    {
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.083
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.081
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.077
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.075
     }
   ],
   "tmdb:12230": [
@@ -13844,73 +13790,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Круэлла",
       "year": 2021,
       "n": 3,
-      "weight": 0.274
-    }
-  ],
-  "tmdb:582014": [
-    {
-      "key": "tmdb:615643",
-      "workId": "f-tmdb615643",
-      "title": "Минари",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.273
-    },
-    {
-      "key": "tmdb:581734",
-      "workId": "f-tmdb581734",
-      "title": "Земля кочевников",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.265
-    },
-    {
-      "key": "tmdb:583406",
-      "workId": "f-wd73536766",
-      "title": "Иуда и Черный Мессия",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.257
-    },
-    {
-      "key": "tmdb:740985",
-      "workId": "f-wd99671372",
-      "title": "Борат 2",
-      "year": 2020,
-      "n": 6,
-      "weight": 0.221
-    },
-    {
-      "key": "tmdb:502033",
-      "workId": "f-wd65158549",
-      "title": "Звук металла",
-      "year": 2019,
-      "n": 6,
-      "weight": 0.21
-    },
-    {
-      "key": "tmdb:661914",
-      "workId": "f-wd83973479",
-      "title": "Одна ночь в Майами",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.142
-    },
-    {
-      "key": "tmdb:615667",
-      "workId": "f-wd65049470",
-      "title": "Ма Рейни: Мать блюза",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.137
-    },
-    {
-      "key": "tmdb:580175",
-      "workId": "f-tmdb580175",
-      "title": "Ещё по одной",
-      "year": 2020,
-      "n": 6,
-      "weight": 0.137
+      "weight": 0.271
     }
   ],
   "tmdb:493922": [
@@ -13920,7 +13800,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солнцестояние",
       "year": 2019,
       "n": 8,
-      "weight": 0.272
+      "weight": 0.27
     },
     {
       "key": "tmdb:798286",
@@ -13938,7 +13818,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Реинкарнация",
       "year": 2018,
       "n": 8,
-      "weight": 0.272
+      "weight": 0.27
     },
     {
       "key": "tmdb:798286",
@@ -13946,7 +13826,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Все страхи Бо",
       "year": 2023,
       "n": 6,
-      "weight": 0.136
+      "weight": 0.135
     },
     {
       "key": "tmdb:111919",
@@ -13954,7 +13834,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Третий день",
       "year": 1965,
       "n": 3,
-      "weight": 0.136
+      "weight": 0.135
     },
     {
       "key": "tmdb:780609",
@@ -13962,7 +13842,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Род мужской",
       "year": 2022,
       "n": 5,
-      "weight": 0.133
+      "weight": 0.13
     },
     {
       "key": "tmdb:545611",
@@ -13970,181 +13850,111 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Всё везде и сразу",
       "year": 2022,
       "n": 4,
-      "weight": 0.053
+      "weight": 0.052
     }
   ],
-  "tmdb:1317288": [
+  "tmdb:12405": [
     {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
+      "key": "tmdb:627",
+      "workId": "f-tmdb627",
+      "title": "На игле",
+      "year": 1996,
+      "n": 4,
+      "weight": 0.27
+    }
+  ],
+  "tmdb:627": [
+    {
+      "key": "tmdb:12405",
+      "workId": "f-wd125076",
+      "title": "Миллионер из трущоб",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.27
+    }
+  ],
+  "tmdb:582014": [
+    {
+      "key": "tmdb:615643",
+      "workId": "f-tmdb615643",
+      "title": "Минари",
+      "year": 2021,
       "n": 11,
-      "weight": 0.272
+      "weight": 0.269
     },
     {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
+      "key": "tmdb:581734",
+      "workId": "f-tmdb581734",
+      "title": "Земля кочевников",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.26
+    },
+    {
+      "key": "tmdb:583406",
+      "workId": "f-wd73536766",
+      "title": "Иуда и Черный Мессия",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.254
+    },
+    {
+      "key": "tmdb:740985",
+      "workId": "f-wd99671372",
+      "title": "Борат 2",
+      "year": 2020,
       "n": 6,
-      "weight": 0.266
+      "weight": 0.218
     },
     {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 9,
-      "weight": 0.259
-    },
-    {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 8,
-      "weight": 0.247
-    },
-    {
-      "key": "tmdb:858024",
-      "workId": "f-wd122741016",
-      "title": "Хамнет",
-      "year": 2025,
+      "key": "tmdb:502033",
+      "workId": "f-wd65158549",
+      "title": "Звук металла",
+      "year": 2019,
       "n": 6,
-      "weight": 0.226
-    },
-    {
-      "key": "tmdb:1368166",
-      "workId": "f-wd131630491",
-      "title": "Горничная",
-      "year": 2026,
-      "n": 8,
-      "weight": 0.223
-    },
-    {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 9,
-      "weight": 0.222
-    },
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 9,
       "weight": 0.208
-    }
-  ],
-  "tmdb:617653": [
-    {
-      "key": "tmdb:644495",
-      "workId": "f-wd105549749",
-      "title": "Дом Gucci",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.27
     },
     {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.143
-    },
-    {
-      "key": "tmdb:524434",
-      "workId": "f-tmdb524434",
-      "title": "Вечные",
-      "year": 2021,
+      "key": "tmdb:661914",
+      "workId": "f-wd83973479",
+      "title": "Одна ночь в Майами",
+      "year": 2020,
       "n": 3,
-      "weight": 0.08
+      "weight": 0.14
     },
     {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
+      "key": "tmdb:615667",
+      "workId": "f-wd65049470",
+      "title": "Ма Рейни: Мать блюза",
+      "year": 2020,
       "n": 3,
-      "weight": 0.079
+      "weight": 0.135
     },
     {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.059
-    }
-  ],
-  "tmdb:644495": [
-    {
-      "key": "tmdb:617653",
-      "workId": "f-wd85000980",
-      "title": "Последняя дуэль",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.27
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.183
-    },
-    {
-      "key": "tmdb:601470",
-      "workId": "f-wd73537423",
-      "title": "Глаза Тэмми Фэй",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.165
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.137
-    },
-    {
-      "key": "tmdb:19169",
-      "workId": "f-wd685234",
-      "title": "Аллея кошмаров",
-      "year": 1947,
-      "n": 5,
+      "key": "tmdb:580175",
+      "workId": "f-tmdb580175",
+      "title": "Ещё по одной",
+      "year": 2020,
+      "n": 6,
       "weight": 0.128
-    },
+    }
+  ],
+  "tmdb:22538": [
     {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
+      "key": "tmdb:234",
+      "workId": "f-tmdb234",
+      "title": "Кабинет доктора Калигари",
+      "year": 1920,
       "n": 3,
-      "weight": 0.124
+      "weight": 0.268
     },
     {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.095
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.091
+      "key": "tmdb:11906",
+      "workId": "f-tmdb11906",
+      "title": "Суспирия",
+      "year": 1977,
+      "n": 3,
+      "weight": 0.125
     }
   ],
   "tmdb:451928": [
@@ -14167,142 +13977,100 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.267
     }
   ],
-  "tmdb:1259102": [
+  "tmdb:1339713": [
     {
-      "key": "tmdb:425274",
-      "workId": "f-wd65146722",
-      "title": "Иллюзия обмана 3",
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
       "year": 2025,
-      "n": 3,
+      "n": 6,
       "weight": 0.267
     },
     {
-      "key": "tmdb:1033148",
-      "workId": "f-wd117745793",
-      "title": "Умри, моя любовь",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.158
-    }
-  ],
-  "tmdb:425274": [
-    {
-      "key": "tmdb:1259102",
-      "workId": "f-wd126203157",
-      "title": "Вечность",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.267
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.242
     },
     {
-      "key": "tmdb:32691",
-      "workId": "f-wd1114038",
-      "title": "Новая волна",
-      "year": 1990,
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
+      "n": 6,
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:83533",
+      "workId": "f-wd29580929",
+      "title": "Аватар: Пламя и пепел",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.214
+    },
+    {
+      "key": "wd:Q139902672",
+      "workId": "f-wd139902672",
+      "title": "День рождения Сидни Люмета",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
       "n": 4,
-      "weight": 0.199
+      "weight": 0.202
     },
-    {
-      "key": "tmdb:842924",
-      "workId": "f-wd123169098",
-      "title": "Жизнь Чака",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.175
-    },
-    {
-      "key": "tmdb:1033148",
-      "workId": "f-wd117745793",
-      "title": "Умри, моя любовь",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.169
-    },
-    {
-      "key": "tmdb:1205515",
-      "workId": "f-wd131450483",
-      "title": "Прости, детка",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.157
-    },
-    {
-      "key": "tmdb:1924",
-      "workId": "f-wd213053",
-      "title": "Супермен",
-      "year": 1978,
-      "n": 3,
-      "weight": 0.157
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 3,
-      "weight": 0.144
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.124
-    }
-  ],
-  "tmdb:1545976": [
     {
       "key": "tmdb:467905",
       "workId": "f-wd126488898",
       "title": "Наследник",
       "year": 2026,
-      "n": 4,
-      "weight": 0.267
+      "n": 6,
+      "weight": 0.194
     },
     {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.171
-    },
-    {
-      "key": "tmdb:291276",
-      "workId": "f-wd19363956",
-      "title": "Секретный агент",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.167
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 5,
+      "weight": 0.193
     }
   ],
-  "tmdb:23827": [
+  "tmdb:359940": [
     {
-      "key": "tmdb:49018",
-      "workId": "f-wd122713",
-      "title": "Астрал",
-      "year": 2010,
+      "key": "tmdb:8321",
+      "workId": "f-tmdb8321",
+      "title": "Залечь на дно в Брюгге",
+      "year": 2008,
       "n": 3,
       "weight": 0.267
     }
   ],
-  "tmdb:49018": [
+  "imdb:tt11823076": [
     {
-      "key": "tmdb:23827",
-      "workId": "f-wd381028",
-      "title": "Паранормальное явление",
-      "year": 2007,
+      "key": "tmdb:454992",
+      "workId": "f-wd33256094",
+      "title": "Шпион, который меня кинул",
+      "year": 2018,
       "n": 3,
       "weight": 0.267
-    },
+    }
+  ],
+  "tmdb:454992": [
     {
-      "key": "tmdb:82507",
-      "workId": "l-tmdb82507",
-      "title": "Синистер",
-      "year": 2012,
+      "key": "imdb:tt11823076",
+      "workId": "f-wd88306935",
+      "title": "Король тигров",
+      "year": 2020,
       "n": 3,
-      "weight": 0.254
+      "weight": 0.267
     }
   ],
   "tmdb:284053": [
@@ -14336,7 +14104,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чёрная Пантера",
       "year": 2018,
       "n": 4,
-      "weight": 0.165
+      "weight": 0.162
     },
     {
       "key": "tmdb:299536",
@@ -14360,101 +14128,385 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 3,
-      "weight": 0.061
+      "weight": 0.059
     }
   ],
-  "tmdb:116149": [
+  "tmdb:617653": [
     {
-      "key": "tmdb:589982",
-      "workId": "f-wd55596695",
-      "title": "Расправь крылья",
-      "year": 2019,
-      "n": 3,
+      "key": "tmdb:644495",
+      "workId": "f-wd105549749",
+      "title": "Дом Gucci",
+      "year": 2021,
+      "n": 11,
       "weight": 0.267
-    }
-  ],
-  "tmdb:507076": [
+    },
     {
-      "key": "tmdb:693134",
-      "workId": "f-tmdb693134",
-      "title": "Дюна: Часть вторая",
-      "year": 2024,
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
       "n": 4,
-      "weight": 0.265
+      "weight": 0.143
     },
     {
-      "key": "tmdb:141052",
-      "workId": "f-wd20501835",
-      "title": "Лига справедливости",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.205
-    },
-    {
-      "key": "tmdb:1271",
-      "workId": "f-tmdb1271",
-      "title": "300 спартанцев",
-      "year": 2007,
-      "n": 3,
-      "weight": 0.199
-    },
-    {
-      "key": "tmdb:458156",
-      "workId": "f-wd52951815",
-      "title": "Джон Уик 3",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.199
-    },
-    {
-      "key": "tmdb:1212763",
-      "workId": "f-wd132731331",
-      "title": "Зловещие мертвецы: Пекло",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:503736",
-      "workId": "f-wd65648534",
-      "title": "Армия мертвецов",
+      "key": "tmdb:524434",
+      "workId": "f-tmdb524434",
+      "title": "Вечные",
       "year": 2021,
       "n": 3,
-      "weight": 0.15
+      "weight": 0.08
     },
     {
-      "key": "tmdb:287947",
-      "workId": "f-wd23685878",
-      "title": "Шазам!",
-      "year": 2019,
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.076
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.059
+    }
+  ],
+  "tmdb:644495": [
+    {
+      "key": "tmdb:617653",
+      "workId": "f-wd85000980",
+      "title": "Последняя дуэль",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.177
+    },
+    {
+      "key": "tmdb:601470",
+      "workId": "f-wd73537423",
+      "title": "Глаза Тэмми Фэй",
+      "year": 2021,
       "n": 4,
+      "weight": 0.158
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.135
+    },
+    {
+      "key": "tmdb:19169",
+      "workId": "f-wd685234",
+      "title": "Аллея кошмаров",
+      "year": 1947,
+      "n": 5,
+      "weight": 0.123
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.123
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.09
+    }
+  ],
+  "tmdb:501929": [
+    {
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:527774",
+      "workId": "f-tmdb527774",
+      "title": "Райя и последний дракон",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.208
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 3,
       "weight": 0.149
     },
     {
-      "key": "imdb:tt13210838",
-      "workId": "f-wd115860329",
-      "title": "Джентльмены",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.126
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.14
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.138
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.121
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.118
     }
   ],
-  "tmdb:693134": [
+  "tmdb:568124": [
     {
-      "key": "tmdb:507076",
-      "workId": "f-wd52000412",
-      "title": "Экстаз",
-      "year": 2018,
-      "n": 4,
+      "key": "tmdb:501929",
+      "workId": "f-tmdb501929",
+      "title": "Митчеллы против машин",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.267
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.23
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.191
+    },
+    {
+      "key": "tmdb:766798",
+      "workId": "f-wd106103421",
+      "title": "Параллельные матери",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.174
+    },
+    {
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.153
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.148
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.145
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.135
+    }
+  ],
+  "tmdb:129": [
+    {
+      "key": "tmdb:25538",
+      "workId": "f-wd704513",
+      "title": "Один и два",
+      "year": 2000,
+      "n": 3,
       "weight": 0.265
     },
     {
-      "key": "tmdb:1212763",
-      "workId": "f-wd132731331",
-      "title": "Зловещие мертвецы: Пекло",
-      "year": 2026,
+      "key": "tmdb:4935",
+      "workId": "f-tmdb4935",
+      "title": "Ходячий замок",
+      "year": 2004,
+      "n": 5,
+      "weight": 0.255
+    },
+    {
+      "key": "tmdb:8392",
+      "workId": "f-wd39571",
+      "title": "Мой сосед Тоторо",
+      "year": 1988,
+      "n": 6,
+      "weight": 0.217
+    },
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.112
+    },
+    {
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
       "n": 3,
-      "weight": 0.21
+      "weight": 0.079
+    }
+  ],
+  "tmdb:25538": [
+    {
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.265
+    },
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.237
+    }
+  ],
+  "tmdb:137113": [
+    {
+      "key": "tmdb:787",
+      "workId": "f-tmdb787",
+      "title": "Мистер и миссис Смит",
+      "year": 2005,
+      "n": 4,
+      "weight": 0.264
+    }
+  ],
+  "tmdb:787": [
+    {
+      "key": "tmdb:137113",
+      "workId": "f-wd1187607",
+      "title": "Грань будущего",
+      "year": 2014,
+      "n": 4,
+      "weight": 0.264
+    }
+  ],
+  "tmdb:1078605": [
+    {
+      "key": "tmdb:939681",
+      "workId": "f-wd123513550",
+      "title": "Молоко матери",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.264
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.246
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.246
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.246
+    },
+    {
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
+      "n": 3,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:575265",
+      "workId": "f-wd61876374",
+      "title": "Миссия невыполнима: Финальная расплата",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.213
+    },
+    {
+      "key": "tmdb:461125",
+      "workId": "f-wd19802064",
+      "title": "На этой земле",
+      "year": 1957,
+      "n": 5,
+      "weight": 0.197
+    },
+    {
+      "key": "tmdb:1258151",
+      "workId": "f-wd134983890",
+      "title": "Кракен",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.19
     }
   ],
   "tmdb:1100988": [
@@ -14472,7 +14524,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "28 дней спустя",
       "year": 2002,
       "n": 5,
-      "weight": 0.161
+      "weight": 0.157
     },
     {
       "key": "tmdb:433808",
@@ -14483,124 +14535,38 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.156
     }
   ],
-  "tmdb:337339": [
+  "tmdb:974950": [
     {
-      "key": "tmdb:440642",
-      "workId": "f-wd21637453",
-      "title": "Время первых",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:440642": [
-    {
-      "key": "tmdb:337339",
-      "workId": "f-wd19829521",
-      "title": "Форсаж 8",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.263
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.264
     },
     {
-      "key": "tmdb:438740",
-      "workId": "f-wd30611842",
-      "title": "Салют-7",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:438740": [
-    {
-      "key": "tmdb:440642",
-      "workId": "f-wd21637453",
-      "title": "Время первых",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:512954": [
-    {
-      "key": "tmdb:587554",
-      "workId": "f-wd65146656",
-      "title": "Большая поэзия",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:587554": [
-    {
-      "key": "tmdb:512954",
-      "workId": "f-wd58874611",
-      "title": "Братство",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:4935": [
-    {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.263
-    }
-  ],
-  "tmdb:103": [
-    {
-      "key": "tmdb:1578",
-      "workId": "f-tmdb1578",
-      "title": "Бешеный бык",
-      "year": 1980,
-      "n": 4,
-      "weight": 0.263
-    },
-    {
-      "key": "tmdb:643532",
-      "workId": "f-wd85806717",
-      "title": "Холодный расчёт",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.131
-    },
-    {
-      "key": "tmdb:238",
-      "workId": "f-tmdb238",
-      "title": "Крёстный отец",
-      "year": 1972,
-      "n": 3,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:466272",
-      "workId": "f-tmdb466272",
-      "title": "Однажды в… Голливуде",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.049
-    }
-  ],
-  "tmdb:1578": [
-    {
-      "key": "tmdb:103",
-      "workId": "f-tmdb103",
-      "title": "Таксист",
-      "year": 1976,
-      "n": 4,
-      "weight": 0.263
-    },
-    {
-      "key": "tmdb:643532",
-      "workId": "f-wd85806717",
-      "title": "Холодный расчёт",
-      "year": 2021,
-      "n": 3,
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
+      "n": 8,
       "weight": 0.25
+    },
+    {
+      "key": "tmdb:974576",
+      "workId": "f-wd116701124",
+      "title": "Конклав",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:933260",
+      "workId": "l-tmdb933260",
+      "title": "Субстанция",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.13
     }
   ],
   "tmdb:301528": [
@@ -14650,7 +14616,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "История игрушек",
       "year": 1995,
       "n": 3,
-      "weight": 0.128
+      "weight": 0.123
     },
     {
       "key": "tmdb:420818",
@@ -14658,7 +14624,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Король Лев",
       "year": 2019,
       "n": 3,
-      "weight": 0.123
+      "weight": 0.12
     },
     {
       "key": "tmdb:299534",
@@ -14666,101 +14632,161 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 5,
-      "weight": 0.091
+      "weight": 0.088
     }
   ],
-  "imdb:tt16288804": [
+  "tmdb:1259102": [
     {
-      "key": "tmdb:41965",
-      "workId": "f-wd905466",
-      "title": "Бумажный дом",
-      "year": 1988,
+      "key": "tmdb:425274",
+      "workId": "f-wd65146722",
+      "title": "Иллюзия обмана 3",
+      "year": 2025,
       "n": 3,
-      "weight": 0.261
+      "weight": 0.258
+    },
+    {
+      "key": "tmdb:1033148",
+      "workId": "f-wd117745793",
+      "title": "Умри, моя любовь",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.158
     }
   ],
-  "tmdb:41965": [
+  "tmdb:425274": [
     {
-      "key": "imdb:tt16288804",
-      "workId": "f-wd109850709",
-      "title": "Берлин",
-      "year": 2023,
+      "key": "tmdb:1259102",
+      "workId": "f-wd126203157",
+      "title": "Вечность",
+      "year": 2025,
       "n": 3,
-      "weight": 0.261
+      "weight": 0.258
     },
     {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
+      "key": "tmdb:32691",
+      "workId": "f-wd1114038",
+      "title": "Новая волна",
+      "year": 1990,
+      "n": 4,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:842924",
+      "workId": "f-wd123169098",
+      "title": "Жизнь Чака",
+      "year": 2024,
       "n": 3,
-      "weight": 0.071
+      "weight": 0.165
+    },
+    {
+      "key": "tmdb:1033148",
+      "workId": "f-wd117745793",
+      "title": "Умри, моя любовь",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.163
+    },
+    {
+      "key": "tmdb:1205515",
+      "workId": "f-wd131450483",
+      "title": "Прости, детка",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:1924",
+      "workId": "f-wd213053",
+      "title": "Супермен",
+      "year": 1978,
+      "n": 3,
+      "weight": 0.146
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 3,
+      "weight": 0.127
+    },
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.107
     }
   ],
-  "tmdb:758866": [
+  "tmdb:1456349": [
     {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 12,
-      "weight": 0.26
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.258
     },
     {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 14,
-      "weight": 0.241
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.183
+    }
+  ],
+  "tmdb:103": [
+    {
+      "key": "tmdb:1578",
+      "workId": "f-tmdb1578",
+      "title": "Бешеный бык",
+      "year": 1980,
+      "n": 4,
+      "weight": 0.258
     },
     {
-      "key": "tmdb:776527",
-      "workId": "f-tmdb776527",
-      "title": "Лето соула",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.236
-    },
-    {
-      "key": "tmdb:660120",
-      "workId": "f-tmdb660120",
-      "title": "Худший человек на свете",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.211
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.209
-    },
-    {
-      "key": "tmdb:473021",
-      "workId": "f-wd64338088",
-      "title": "Сувенир: Часть 2",
+      "key": "tmdb:643532",
+      "workId": "f-wd85806717",
+      "title": "Холодный расчёт",
       "year": 2021,
       "n": 3,
-      "weight": 0.195
+      "weight": 0.129
     },
     {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.177
+      "key": "tmdb:238",
+      "workId": "f-tmdb238",
+      "title": "Крёстный отец",
+      "year": 1972,
+      "n": 3,
+      "weight": 0.093
     },
     {
-      "key": "tmdb:766798",
-      "workId": "f-wd106103421",
-      "title": "Параллельные матери",
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.047
+    }
+  ],
+  "tmdb:1578": [
+    {
+      "key": "tmdb:103",
+      "workId": "f-tmdb103",
+      "title": "Таксист",
+      "year": 1976,
+      "n": 4,
+      "weight": 0.258
+    },
+    {
+      "key": "tmdb:643532",
+      "workId": "f-wd85806717",
+      "title": "Холодный расчёт",
       "year": 2021,
-      "n": 8,
-      "weight": 0.171
+      "n": 3,
+      "weight": 0.25
     }
   ],
   "imdb:tt15435876": [
@@ -14802,7 +14828,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 5,
-      "weight": 0.227
+      "weight": 0.221
     },
     {
       "key": "tmdb:746036",
@@ -14829,78 +14855,264 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.205
     }
   ],
-  "tmdb:6114": [
+  "tmdb:535581": [
     {
-      "key": "tmdb:285331",
-      "workId": "f-wd4299882",
-      "title": "Мой сын",
-      "year": 1928,
+      "key": "imdb:tt2193021",
+      "workId": "f-wd552314",
+      "title": "Стрела",
+      "year": 2012,
+      "n": 4,
+      "weight": 0.257
+    },
+    {
+      "key": "tmdb:824",
+      "workId": "f-wd193573",
+      "title": "Мулен Руж!",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.226
+    },
+    {
+      "key": "tmdb:64682",
+      "workId": "f-tmdb64682",
+      "title": "Великий Гэтсби",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.193
+    }
+  ],
+  "tmdb:758866": [
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 12,
+      "weight": 0.257
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 14,
+      "weight": 0.237
+    },
+    {
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.225
+    },
+    {
+      "key": "tmdb:660120",
+      "workId": "f-tmdb660120",
+      "title": "Худший человек на свете",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.211
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.209
+    },
+    {
+      "key": "tmdb:473021",
+      "workId": "f-wd64338088",
+      "title": "Сувенир: Часть 2",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.195
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.174
+    },
+    {
+      "key": "tmdb:766798",
+      "workId": "f-wd106103421",
+      "title": "Параллельные матери",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.171
+    }
+  ],
+  "tmdb:1025491": [
+    {
+      "key": "tmdb:732698",
+      "workId": "f-wd115254112",
+      "title": "Сто лет тому вперёд",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.255
+    },
+    {
+      "key": "wd:Q188538",
+      "workId": "w16",
+      "title": "Мастер и Маргарита",
+      "year": 1967,
+      "n": 3,
+      "weight": 0.149
+    }
+  ],
+  "tmdb:732698": [
+    {
+      "key": "tmdb:1025491",
+      "workId": "f-wd116032513",
+      "title": "По Фрейду",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.255
+    },
+    {
+      "key": "wd:Q188538",
+      "workId": "w16",
+      "title": "Мастер и Маргарита",
+      "year": 1967,
+      "n": 5,
+      "weight": 0.126
+    }
+  ],
+  "tmdb:4935": [
+    {
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
+      "n": 5,
+      "weight": 0.255
+    }
+  ],
+  "tmdb:1317288": [
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 12,
+      "weight": 0.255
+    },
+    {
+      "key": "tmdb:1472573",
+      "workId": "f-wd138718968",
+      "title": "Здесь был Юра",
+      "year": 2026,
+      "n": 9,
+      "weight": 0.252
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.236
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 9,
+      "weight": 0.231
+    },
+    {
+      "key": "tmdb:1368166",
+      "workId": "f-wd131630491",
+      "title": "Горничная",
+      "year": 2026,
+      "n": 9,
+      "weight": 0.225
+    },
+    {
+      "key": "tmdb:858024",
+      "workId": "f-wd122741016",
+      "title": "Хамнет",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.215
+    },
+    {
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 10,
+      "weight": 0.215
+    }
+  ],
+  "tmdb:337339": [
+    {
+      "key": "tmdb:440642",
+      "workId": "f-wd21637453",
+      "title": "Время первых",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.254
+    }
+  ],
+  "tmdb:440642": [
+    {
+      "key": "tmdb:337339",
+      "workId": "f-wd19829521",
+      "title": "Форсаж 8",
+      "year": 2017,
       "n": 3,
       "weight": 0.254
     },
     {
-      "key": "tmdb:586387",
-      "workId": "f-wd135685436",
-      "title": "Август",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.244
-    },
-    {
-      "key": "tmdb:574475",
-      "workId": "f-wd118212751",
-      "title": "Пункт назначения: Узы крови",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.225
-    },
-    {
-      "key": "tmdb:575265",
-      "workId": "f-wd61876374",
-      "title": "Миссия невыполнима: Финальная расплата",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.195
-    },
-    {
-      "key": "tmdb:1492201",
-      "workId": "f-wd136674052",
-      "title": "Папины дочки. Мама вернулась",
-      "year": 2025,
+      "key": "tmdb:438740",
+      "workId": "f-wd30611842",
+      "title": "Салют-7",
+      "year": 2017,
       "n": 3,
-      "weight": 0.192
-    },
-    {
-      "key": "tmdb:1290159",
-      "workId": "f-wd131686066",
-      "title": "Дом динамита",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.179
-    },
-    {
-      "key": "tmdb:1288070",
-      "workId": "f-wd125861561",
-      "title": "Как стать миллионером",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.169
-    },
-    {
-      "key": "tmdb:1320380",
-      "workId": "f-wd131344599",
-      "title": "Филателия",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.169
+      "weight": 0.254
     }
   ],
-  "tmdb:82507": [
+  "tmdb:438740": [
     {
-      "key": "tmdb:49018",
-      "workId": "f-wd122713",
-      "title": "Астрал",
-      "year": 2010,
+      "key": "tmdb:440642",
+      "workId": "f-wd21637453",
+      "title": "Время первых",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.254
+    }
+  ],
+  "tmdb:512954": [
+    {
+      "key": "tmdb:587554",
+      "workId": "f-wd65146656",
+      "title": "Большая поэзия",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.254
+    }
+  ],
+  "tmdb:587554": [
+    {
+      "key": "tmdb:512954",
+      "workId": "f-wd58874611",
+      "title": "Братство",
+      "year": 2019,
       "n": 3,
       "weight": 0.254
     }
@@ -14928,7 +15140,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Король Лев",
       "year": 2019,
       "n": 5,
-      "weight": 0.197
+      "weight": 0.193
     },
     {
       "key": "tmdb:412117",
@@ -14980,85 +15192,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дождливый день в Нью-Йорке",
       "year": 2019,
       "n": 4,
-      "weight": 0.207
-    }
-  ],
-  "tmdb:639988": [
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.251
-    },
-    {
-      "key": "tmdb:1205515",
-      "workId": "f-wd131450483",
-      "title": "Прости, детка",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.14
-    },
-    {
-      "key": "tmdb:1078605",
-      "workId": "f-wd126487478",
-      "title": "Орудия",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.14
-    }
-  ],
-  "tmdb:401513": [
-    {
-      "key": "tmdb:514207",
-      "workId": "f-wd55655546",
-      "title": "Вторжение",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.251
-    },
-    {
-      "key": "tmdb:594718",
-      "workId": "f-wd86675345",
-      "title": "Спутник",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.177
-    }
-  ],
-  "tmdb:514207": [
-    {
-      "key": "tmdb:401513",
-      "workId": "f-wd24515019",
-      "title": "Притяжение",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.251
-    },
-    {
-      "key": "tmdb:576917",
-      "workId": "f-wd63842704",
-      "title": "Лёд 2",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:594718",
-      "workId": "f-wd86675345",
-      "title": "Спутник",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.163
+      "weight": 0.203
     }
   ],
   "tmdb:798286": [
@@ -15084,7 +15218,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солнцестояние",
       "year": 2019,
       "n": 6,
-      "weight": 0.136
+      "weight": 0.135
     },
     {
       "key": "tmdb:603692",
@@ -15118,7 +15252,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лето соула",
       "year": 2021,
       "n": 3,
-      "weight": 0.213
+      "weight": 0.204
     },
     {
       "key": "tmdb:477044",
@@ -15142,7 +15276,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Таксист",
       "year": 1976,
       "n": 3,
-      "weight": 0.131
+      "weight": 0.129
     },
     {
       "key": "tmdb:758866",
@@ -15166,7 +15300,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Власть пса",
       "year": 2021,
       "n": 3,
-      "weight": 0.094
+      "weight": 0.092
     }
   ],
   "tmdb:1299655": [
@@ -15184,165 +15318,243 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Грешники",
       "year": 2025,
       "n": 3,
-      "weight": 0.194
+      "weight": 0.186
     }
   ],
-  "tmdb:724495": [
+  "tmdb:116149": [
     {
-      "key": "tmdb:804095",
-      "workId": "f-tmdb804095",
-      "title": "Фабельманы",
-      "year": 2022,
+      "key": "tmdb:589982",
+      "workId": "f-wd55596695",
+      "title": "Расправь крылья",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.247
+    }
+  ],
+  "tmdb:469": [
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
       "n": 3,
       "weight": 0.245
-    },
+    }
+  ],
+  "tmdb:6114": [
     {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.194
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
+      "key": "tmdb:285331",
+      "workId": "f-wd4299882",
+      "title": "Мой сын",
+      "year": 1928,
       "n": 3,
+      "weight": 0.243
+    },
+    {
+      "key": "tmdb:586387",
+      "workId": "f-wd135685436",
+      "title": "Август",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.217
+    },
+    {
+      "key": "tmdb:574475",
+      "workId": "f-wd118212751",
+      "title": "Пункт назначения: Узы крови",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.216
+    },
+    {
+      "key": "tmdb:575265",
+      "workId": "f-wd61876374",
+      "title": "Миссия невыполнима: Финальная расплата",
+      "year": 2025,
+      "n": 4,
       "weight": 0.187
     },
     {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.158
-    }
-  ],
-  "tmdb:804095": [
-    {
-      "key": "tmdb:724495",
-      "workId": "f-tmdb724495",
-      "title": "Королева-воин",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.245
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 6,
-      "weight": 0.183
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 9,
-      "weight": 0.174
-    },
-    {
-      "key": "tmdb:497828",
-      "workId": "f-tmdb497828",
-      "title": "Треугольник печали",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.149
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.119
-    },
-    {
-      "key": "tmdb:76600",
-      "workId": "f-tmdb76600",
-      "title": "Аватар: Путь воды",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.096
-    },
-    {
-      "key": "imdb:tt13406094",
-      "workId": "f-wd106679014",
-      "title": "Белый лотос",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.081
-    }
-  ],
-  "tmdb:339397": [
-    {
-      "key": "tmdb:475303",
-      "workId": "f-wd42307699",
-      "title": "Дождливый день в Нью-Йорке",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.245
-    }
-  ],
-  "tmdb:10363": [
-    {
-      "key": "tmdb:1136867",
-      "workId": "f-wd125726790",
-      "title": "Материалистка",
+      "key": "tmdb:1492201",
+      "workId": "f-wd136674052",
+      "title": "Папины дочки. Мама вернулась",
       "year": 2025,
       "n": 3,
-      "weight": 0.245
-    }
-  ],
-  "tmdb:1136867": [
-    {
-      "key": "tmdb:10363",
-      "workId": "f-wd919444",
-      "title": "На ярком солнце",
-      "year": 1960,
-      "n": 3,
-      "weight": 0.245
+      "weight": 0.184
     },
     {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
+      "key": "tmdb:1290159",
+      "workId": "f-wd131686066",
+      "title": "Дом динамита",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.172
+    },
+    {
+      "key": "tmdb:1288070",
+      "workId": "f-wd125861561",
+      "title": "Как стать миллионером",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.162
+    },
+    {
+      "key": "tmdb:1320380",
+      "workId": "f-wd131344599",
+      "title": "Филателия",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.162
+    }
+  ],
+  "tmdb:1325734": [
+    {
+      "key": "tmdb:342898",
+      "workId": "f-wd12655879",
+      "title": "Красавица",
+      "year": 1970,
+      "n": 4,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:1208348",
+      "workId": "f-wd124947229",
+      "title": "Семья в аренду",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:1330021",
+      "workId": "f-wd137203795",
+      "title": "Необычайно умные создания",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.196
+    },
+    {
+      "key": "tmdb:1306368",
+      "workId": "f-wd131189949",
+      "title": "Лакомый кусок",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.193
+    },
+    {
+      "key": "tmdb:1327819",
+      "workId": "f-wd128798957",
+      "title": "Прыгуны",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.185
+    },
+    {
+      "key": "tmdb:931285",
+      "workId": "f-wd117830073",
+      "title": "Мортал Комбат 2",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.185
+    },
+    {
+      "key": "tmdb:1119449",
+      "workId": "f-wd125843356",
+      "title": "Удачи, веселья, не сдохни",
+      "year": 2025,
       "n": 5,
-      "weight": 0.156
-    }
-  ],
-  "tmdb:150540": [
-    {
-      "key": "tmdb:12",
-      "workId": "f-wd132863",
-      "title": "В поисках Немо",
-      "year": 2003,
-      "n": 4,
-      "weight": 0.243
+      "weight": 0.184
     },
     {
-      "key": "tmdb:862",
-      "workId": "f-wd171048",
-      "title": "История игрушек",
-      "year": 1995,
+      "key": "tmdb:1272837",
+      "workId": "f-wd129423731",
+      "title": "28 лет спустя: Храм костей",
+      "year": 2026,
       "n": 4,
-      "weight": 0.225
+      "weight": 0.178
     }
   ],
-  "tmdb:2546": [
+  "tmdb:507076": [
     {
-      "key": "tmdb:269",
-      "workId": "f-tmdb269",
-      "title": "На последнем дыхании",
-      "year": 1960,
+      "key": "tmdb:693134",
+      "workId": "f-tmdb693134",
+      "title": "Дюна: Часть вторая",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:141052",
+      "workId": "f-wd20501835",
+      "title": "Лига справедливости",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.195
+    },
+    {
+      "key": "tmdb:1271",
+      "workId": "f-tmdb1271",
+      "title": "300 спартанцев",
+      "year": 2007,
       "n": 3,
-      "weight": 0.243
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:458156",
+      "workId": "f-wd52951815",
+      "title": "Джон Уик 3",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:503736",
+      "workId": "f-wd65648534",
+      "title": "Армия мертвецов",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.143
+    },
+    {
+      "key": "tmdb:287947",
+      "workId": "f-wd23685878",
+      "title": "Шазам!",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.142
+    },
+    {
+      "key": "tmdb:1212763",
+      "workId": "f-wd132731331",
+      "title": "Зловещие мертвецы: Пекло",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.14
+    },
+    {
+      "key": "imdb:tt13210838",
+      "workId": "f-wd115860329",
+      "title": "Джентльмены",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.118
+    }
+  ],
+  "tmdb:693134": [
+    {
+      "key": "tmdb:507076",
+      "workId": "f-wd52000412",
+      "title": "Экстаз",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.242
+    },
+    {
+      "key": "tmdb:1212763",
+      "workId": "f-wd132731331",
+      "title": "Зловещие мертвецы: Пекло",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.177
     }
   ],
   "imdb:tt6532868": [
@@ -15380,7 +15592,109 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Джокер",
       "year": 2019,
       "n": 3,
-      "weight": 0.062
+      "weight": 0.061
+    }
+  ],
+  "tmdb:724495": [
+    {
+      "key": "tmdb:804095",
+      "workId": "f-tmdb804095",
+      "title": "Фабельманы",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.24
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.183
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.157
+    }
+  ],
+  "tmdb:804095": [
+    {
+      "key": "tmdb:724495",
+      "workId": "f-tmdb724495",
+      "title": "Королева-воин",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.24
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 6,
+      "weight": 0.175
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 9,
+      "weight": 0.17
+    },
+    {
+      "key": "tmdb:497828",
+      "workId": "f-tmdb497828",
+      "title": "Треугольник печали",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.146
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.116
+    },
+    {
+      "key": "tmdb:76600",
+      "workId": "f-tmdb76600",
+      "title": "Аватар: Путь воды",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.094
+    },
+    {
+      "key": "imdb:tt13406094",
+      "workId": "f-wd106679014",
+      "title": "Белый лотос",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.079
+    }
+  ],
+  "tmdb:339397": [
+    {
+      "key": "tmdb:475303",
+      "workId": "f-wd42307699",
+      "title": "Дождливый день в Нью-Йорке",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.24
     }
   ],
   "tmdb:615667": [
@@ -15390,7 +15704,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Земля кочевников",
       "year": 2021,
       "n": 7,
-      "weight": 0.241
+      "weight": 0.239
     },
     {
       "key": "tmdb:582014",
@@ -15398,7 +15712,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 3,
-      "weight": 0.137
+      "weight": 0.135
     },
     {
       "key": "tmdb:615643",
@@ -15407,204 +15721,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 3,
       "weight": 0.125
-    }
-  ],
-  "tmdb:1018": [
-    {
-      "key": "tmdb:25538",
-      "workId": "f-wd704513",
-      "title": "Один и два",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.24
-    },
-    {
-      "key": "tmdb:313369",
-      "workId": "f-tmdb313369",
-      "title": "Ла-Ла Ленд",
-      "year": 2016,
-      "n": 8,
-      "weight": 0.158
-    },
-    {
-      "key": "tmdb:793",
-      "workId": "f-tmdb793",
-      "title": "Синий бархат",
-      "year": 1986,
-      "n": 3,
-      "weight": 0.152
-    },
-    {
-      "key": "tmdb:660120",
-      "workId": "f-tmdb660120",
-      "title": "Худший человек на свете",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.142
-    },
-    {
-      "key": "tmdb:38",
-      "workId": "f-tmdb38",
-      "title": "Вечное сияние чистого разума",
-      "year": 2004,
-      "n": 3,
-      "weight": 0.133
-    },
-    {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.119
-    },
-    {
-      "key": "imdb:tt4093826",
-      "workId": "f-wd23971551",
-      "title": "Твин Пикс",
-      "year": 2017,
-      "n": 6,
-      "weight": 0.109
-    },
-    {
-      "key": "tmdb:843",
-      "workId": "f-tmdb843",
-      "title": "Любовное настроение",
-      "year": 2000,
-      "n": 3,
-      "weight": 0.085
-    }
-  ],
-  "tmdb:766798": [
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 11,
-      "weight": 0.24
-    },
-    {
-      "key": "tmdb:722778",
-      "workId": "f-tmdb722778",
-      "title": "Рука Бога",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.179
-    },
-    {
-      "key": "tmdb:568124",
-      "workId": "f-tmdb568124",
-      "title": "Энканто",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.171
-    },
-    {
-      "key": "tmdb:643532",
-      "workId": "f-wd85806717",
-      "title": "Холодный расчёт",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.155
-    },
-    {
-      "key": "tmdb:776527",
-      "workId": "f-tmdb776527",
-      "title": "Лето соула",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.149
-    },
-    {
-      "key": "tmdb:749004",
-      "workId": "f-tmdb749004",
-      "title": "Маленькая мама",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.149
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.134
-    }
-  ],
-  "tmdb:858024": [
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.238
-    },
-    {
-      "key": "tmdb:701387",
-      "workId": "f-wd125971387",
-      "title": "Бугония",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.236
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.226
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 6,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:3035",
-      "workId": "f-wd546829",
-      "title": "Франкенштейн",
-      "year": 1931,
-      "n": 5,
-      "weight": 0.212
-    },
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.196
-    },
-    {
-      "key": "tmdb:291276",
-      "workId": "f-wd19363956",
-      "title": "Секретный агент",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.147
-    },
-    {
-      "key": "tmdb:1124566",
-      "workId": "f-wd130284179",
-      "title": "Сентиментальная ценность",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.145
     }
   ],
   "tmdb:517034": [
@@ -15617,12 +15733,156 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.237
     }
   ],
+  "tmdb:1018": [
+    {
+      "key": "tmdb:25538",
+      "workId": "f-wd704513",
+      "title": "Один и два",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.237
+    },
+    {
+      "key": "tmdb:313369",
+      "workId": "f-tmdb313369",
+      "title": "Ла-Ла Ленд",
+      "year": 2016,
+      "n": 8,
+      "weight": 0.156
+    },
+    {
+      "key": "tmdb:793",
+      "workId": "f-tmdb793",
+      "title": "Синий бархат",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.143
+    },
+    {
+      "key": "tmdb:660120",
+      "workId": "f-tmdb660120",
+      "title": "Худший человек на свете",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.14
+    },
+    {
+      "key": "tmdb:38",
+      "workId": "f-tmdb38",
+      "title": "Вечное сияние чистого разума",
+      "year": 2004,
+      "n": 3,
+      "weight": 0.127
+    },
+    {
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
+      "n": 4,
+      "weight": 0.112
+    },
+    {
+      "key": "imdb:tt4093826",
+      "workId": "f-wd23971551",
+      "title": "Твин Пикс",
+      "year": 2017,
+      "n": 6,
+      "weight": 0.106
+    },
+    {
+      "key": "tmdb:843",
+      "workId": "f-tmdb843",
+      "title": "Любовное настроение",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.084
+    }
+  ],
+  "tmdb:11220": [
+    {
+      "key": "tmdb:843",
+      "workId": "f-tmdb843",
+      "title": "Любовное настроение",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.237
+    }
+  ],
+  "tmdb:843": [
+    {
+      "key": "tmdb:11220",
+      "workId": "f-wd1353408",
+      "title": "Падшие ангелы",
+      "year": 1995,
+      "n": 3,
+      "weight": 0.237
+    },
+    {
+      "key": "tmdb:10515",
+      "workId": "f-wd498577",
+      "title": "Небесный замок Лапута",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.237
+    },
+    {
+      "key": "tmdb:11104",
+      "workId": "f-tmdb11104",
+      "title": "Чунгкингский экспресс",
+      "year": 1994,
+      "n": 5,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:179144",
+      "workId": "f-wd6379279",
+      "title": "Великая красота",
+      "year": 2013,
+      "n": 6,
+      "weight": 0.172
+    },
+    {
+      "key": "tmdb:5967",
+      "workId": "f-wd163868",
+      "title": "Шербурские зонтики",
+      "year": 1964,
+      "n": 3,
+      "weight": 0.147
+    },
+    {
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
+      "n": 4,
+      "weight": 0.129
+    },
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.084
+    }
+  ],
   "tmdb:555630": [
     {
       "key": "tmdb:1152700",
       "workId": "f-wd134650614",
       "title": "Любовь Советского Союза",
       "year": 2024,
+      "n": 3,
+      "weight": 0.236
+    }
+  ],
+  "tmdb:23827": [
+    {
+      "key": "tmdb:49018",
+      "workId": "f-wd122713",
+      "title": "Астрал",
+      "year": 2010,
       "n": 3,
       "weight": 0.236
     }
@@ -15654,32 +15914,114 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.123
     }
   ],
-  "tmdb:424": [
+  "tmdb:2546": [
     {
-      "key": "tmdb:578",
-      "workId": "f-tmdb578",
-      "title": "Челюсти",
-      "year": 1975,
+      "key": "tmdb:269",
+      "workId": "f-tmdb269",
+      "title": "На последнем дыхании",
+      "year": 1960,
+      "n": 3,
+      "weight": 0.236
+    }
+  ],
+  "tmdb:766798": [
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 11,
+      "weight": 0.235
+    },
+    {
+      "key": "tmdb:722778",
+      "workId": "f-tmdb722778",
+      "title": "Рука Бога",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.179
+    },
+    {
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.174
+    },
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.171
+    },
+    {
+      "key": "tmdb:643532",
+      "workId": "f-wd85806717",
+      "title": "Холодный расчёт",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.155
+    },
+    {
+      "key": "tmdb:749004",
+      "workId": "f-tmdb749004",
+      "title": "Маленькая мама",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.149
+    },
+    {
+      "key": "tmdb:776527",
+      "workId": "f-tmdb776527",
+      "title": "Лето соула",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.142
+    },
+    {
+      "key": "tmdb:477044",
+      "workId": "f-wd59065557",
+      "title": "Остров Бергмана",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.132
+    }
+  ],
+  "tmdb:639988": [
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
       "n": 3,
       "weight": 0.234
     },
     {
-      "key": "tmdb:329",
-      "workId": "f-tmdb329",
-      "title": "Парк юрского периода",
-      "year": 1993,
+      "key": "tmdb:1205515",
+      "workId": "f-wd131450483",
+      "title": "Прости, детка",
+      "year": 2025,
       "n": 3,
-      "weight": 0.208
-    }
-  ],
-  "tmdb:578": [
+      "weight": 0.177
+    },
     {
-      "key": "tmdb:424",
-      "workId": "f-tmdb424",
-      "title": "Список Шиндлера",
-      "year": 1993,
+      "key": "tmdb:1078605",
+      "workId": "f-wd126487478",
+      "title": "Орудия",
+      "year": 2025,
       "n": 3,
-      "weight": 0.234
+      "weight": 0.133
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.123
     }
   ],
   "tmdb:1726": [
@@ -15705,7 +16047,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 3,
-      "weight": 0.114
+      "weight": 0.11
     }
   ],
   "tmdb:299536": [
@@ -15747,7 +16089,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мстители: Финал",
       "year": 2019,
       "n": 7,
-      "weight": 0.123
+      "weight": 0.119
     },
     {
       "key": "tmdb:284054",
@@ -15755,271 +16097,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чёрная Пантера",
       "year": 2018,
       "n": 3,
-      "weight": 0.107
-    },
-    {
-      "key": "tmdb:24428",
-      "workId": "f-tmdb24428",
-      "title": "Мстители",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.077
-    }
-  ],
-  "tmdb:284054": [
-    {
-      "key": "tmdb:271110",
-      "workId": "f-tmdb271110",
-      "title": "Первый мститель: Противостояние",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:100402",
-      "workId": "f-tmdb100402",
-      "title": "Первый мститель: Другая война",
-      "year": 2014,
-      "n": 3,
-      "weight": 0.2
-    },
-    {
-      "key": "tmdb:284052",
-      "workId": "f-wd18406872",
-      "title": "Доктор Стрэндж",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.189
-    },
-    {
-      "key": "tmdb:284053",
-      "workId": "f-tmdb284053",
-      "title": "Тор: Рагнарёк",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.165
-    },
-    {
-      "key": "tmdb:299536",
-      "workId": "f-tmdb299536",
-      "title": "Мстители: Война бесконечности",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.107
-    },
-    {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.053
-    }
-  ],
-  "tmdb:38360": [
-    {
-      "key": "tmdb:31442",
-      "workId": "f-tmdb31442",
-      "title": "Иваново детство",
-      "year": 1962,
-      "n": 4,
-      "weight": 0.231
-    }
-  ],
-  "tmdb:601470": [
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.191
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.189
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.184
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.182
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.178
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.169
-    },
-    {
-      "key": "tmdb:644495",
-      "workId": "f-wd105549749",
-      "title": "Дом Gucci",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.165
-    }
-  ],
-  "tmdb:37799": [
-    {
-      "key": "tmdb:38",
-      "workId": "f-tmdb38",
-      "title": "Вечное сияние чистого разума",
-      "year": 2004,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:6977",
-      "workId": "f-tmdb6977",
-      "title": "Старикам тут не место",
-      "year": 2007,
-      "n": 3,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:155",
-      "workId": "f-tmdb155",
-      "title": "Тёмный рыцарь",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.163
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.093
-    }
-  ],
-  "tmdb:38": [
-    {
-      "key": "tmdb:37799",
-      "workId": "f-tmdb37799",
-      "title": "Социальная сеть",
-      "year": 2010,
-      "n": 3,
-      "weight": 0.231
-    },
-    {
-      "key": "tmdb:155",
-      "workId": "f-tmdb155",
-      "title": "Тёмный рыцарь",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:6977",
-      "workId": "f-tmdb6977",
-      "title": "Старикам тут не место",
-      "year": 2007,
-      "n": 3,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 3,
-      "weight": 0.133
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.124
-    }
-  ],
-  "imdb:tt0412142": [
-    {
-      "key": "tmdb:57749",
-      "workId": "f-wd980327",
-      "title": "Клиника",
-      "year": 2010,
-      "n": 3,
-      "weight": 0.229
-    }
-  ],
-  "tmdb:57749": [
-    {
-      "key": "imdb:tt0412142",
-      "workId": "f-wd23558",
-      "title": "Доктор Хаус",
-      "year": 2004,
-      "n": 3,
-      "weight": 0.229
-    },
-    {
-      "key": "imdb:tt1439629",
-      "workId": "l-tmdbtv18347",
-      "title": "Сообщество",
-      "year": 2009,
-      "n": 3,
-      "weight": 0.184
-    },
-    {
-      "key": "imdb:tt1266020",
-      "workId": "f-wd218035",
-      "title": "Парки и зоны отдыха",
-      "year": 2009,
-      "n": 3,
-      "weight": 0.178
-    },
-    {
-      "key": "imdb:tt0411008",
-      "workId": "f-wd23567",
-      "title": "Остаться в живых",
-      "year": 2004,
-      "n": 3,
-      "weight": 0.124
-    }
-  ],
-  "tmdb:11104": [
-    {
-      "key": "tmdb:843",
-      "workId": "f-tmdb843",
-      "title": "Любовное настроение",
-      "year": 2000,
-      "n": 5,
-      "weight": 0.228
+      "weight": 0.105
     }
   ],
   "tmdb:118340": [
@@ -16048,162 +16126,98 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.119
     }
   ],
-  "tmdb:8392": [
+  "tmdb:284054": [
     {
-      "key": "tmdb:129",
-      "workId": "f-tmdb129",
-      "title": "Унесённые призраками",
-      "year": 2001,
-      "n": 6,
+      "key": "tmdb:271110",
+      "workId": "f-tmdb271110",
+      "title": "Первый мститель: Противостояние",
+      "year": 2016,
+      "n": 3,
       "weight": 0.227
     },
     {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
+      "key": "tmdb:100402",
+      "workId": "f-tmdb100402",
+      "title": "Первый мститель: Другая война",
+      "year": 2014,
       "n": 3,
-      "weight": 0.091
-    }
-  ],
-  "tmdb:558449": [
-    {
-      "key": "tmdb:516729",
-      "workId": "f-wd121076570",
-      "title": "Приключения Паддингтона 3",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.224
+      "weight": 0.197
     },
     {
-      "key": "tmdb:1184918",
-      "workId": "f-wd124378349",
-      "title": "Дикий робот",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.204
-    },
-    {
-      "key": "tmdb:533535",
-      "workId": "f-wd102180106",
-      "title": "Дэдпул и Росомаха",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.161
-    },
-    {
-      "key": "tmdb:945961",
-      "workId": "f-wd115932544",
-      "title": "Чужой: Ромул",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.158
-    },
-    {
-      "key": "tmdb:889737",
-      "workId": "f-wd108628759",
-      "title": "Джокер: Безумие на двоих",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.14
-    }
-  ],
-  "tmdb:527774": [
-    {
-      "key": "tmdb:501929",
-      "workId": "f-tmdb501929",
-      "title": "Митчеллы против машин",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.224
-    },
-    {
-      "key": "tmdb:568124",
-      "workId": "f-tmdb568124",
-      "title": "Энканто",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.127
-    }
-  ],
-  "tmdb:184155": [
-    {
-      "key": "tmdb:87502",
-      "workId": "f-wd564298",
-      "title": "Экипаж",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.224
-    }
-  ],
-  "tmdb:87502": [
-    {
-      "key": "tmdb:184155",
-      "workId": "f-tmdb184155",
-      "title": "Легенда №17",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.224
-    }
-  ],
-  "imdb:tt10048342": [
-    {
-      "key": "imdb:tt3764724",
-      "workId": "f-wd18407360",
-      "title": "Великая",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.224
-    },
-    {
-      "key": "tmdb:740985",
-      "workId": "f-wd99671372",
-      "title": "Борат 2",
-      "year": 2020,
-      "n": 4,
-      "weight": 0.149
-    },
-    {
-      "key": "imdb:tt4786824",
-      "workId": "f-wd20707362",
-      "title": "Корона",
+      "key": "tmdb:284052",
+      "workId": "f-wd18406872",
+      "title": "Доктор Стрэндж",
       "year": 2016,
-      "n": 7,
-      "weight": 0.134
-    },
-    {
-      "key": "tmdb:581734",
-      "workId": "f-tmdb581734",
-      "title": "Земля кочевников",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.083
-    },
-    {
-      "key": "imdb:tt10986410",
-      "workId": "f-wd96407897",
-      "title": "Тед Лассо",
-      "year": 2020,
       "n": 3,
-      "weight": 0.064
+      "weight": 0.186
     },
     {
-      "key": "imdb:tt8111088",
-      "workId": "f-wd56876444",
-      "title": "Мандалорец",
+      "key": "tmdb:284053",
+      "workId": "f-tmdb284053",
+      "title": "Тор: Рагнарёк",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.162
+    },
+    {
+      "key": "tmdb:299536",
+      "workId": "f-tmdb299536",
+      "title": "Мстители: Война бесконечности",
+      "year": 2018,
+      "n": 3,
+      "weight": 0.105
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
       "year": 2019,
       "n": 3,
-      "weight": 0.061
+      "weight": 0.05
     }
   ],
-  "imdb:tt3764724": [
+  "tmdb:401513": [
     {
-      "key": "imdb:tt10048342",
-      "workId": "f-wd85808226",
-      "title": "Ход королевы",
+      "key": "tmdb:514207",
+      "workId": "f-wd55655546",
+      "title": "Вторжение",
       "year": 2020,
       "n": 3,
-      "weight": 0.224
+      "weight": 0.226
+    },
+    {
+      "key": "tmdb:594718",
+      "workId": "f-wd86675345",
+      "title": "Спутник",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.177
+    }
+  ],
+  "tmdb:514207": [
+    {
+      "key": "tmdb:401513",
+      "workId": "f-wd24515019",
+      "title": "Притяжение",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.226
+    },
+    {
+      "key": "tmdb:576917",
+      "workId": "f-wd63842704",
+      "title": "Лёд 2",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.188
+    },
+    {
+      "key": "tmdb:594718",
+      "workId": "f-wd86675345",
+      "title": "Спутник",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.147
     }
   ],
   "imdb:tt4179452": [
@@ -16257,7 +16271,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фабельманы",
       "year": 2022,
       "n": 5,
-      "weight": 0.149
+      "weight": 0.146
     },
     {
       "key": "tmdb:661374",
@@ -16300,6 +16314,304 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.072
     }
   ],
+  "tmdb:38360": [
+    {
+      "key": "tmdb:31442",
+      "workId": "f-tmdb31442",
+      "title": "Иваново детство",
+      "year": 1962,
+      "n": 4,
+      "weight": 0.223
+    }
+  ],
+  "tmdb:858024": [
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 7,
+      "weight": 0.223
+    },
+    {
+      "key": "tmdb:701387",
+      "workId": "f-wd125971387",
+      "title": "Бугония",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.216
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.215
+    },
+    {
+      "key": "tmdb:3035",
+      "workId": "f-wd546829",
+      "title": "Франкенштейн",
+      "year": 1931,
+      "n": 5,
+      "weight": 0.189
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 6,
+      "weight": 0.187
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.178
+    },
+    {
+      "key": "tmdb:291276",
+      "workId": "f-wd19363956",
+      "title": "Секретный агент",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.132
+    },
+    {
+      "key": "tmdb:1124566",
+      "workId": "f-wd130284179",
+      "title": "Сентиментальная ценность",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.126
+    }
+  ],
+  "tmdb:601470": [
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.222
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.209
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.206
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.184
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.179
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.176
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.175
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.163
+    }
+  ],
+  "tmdb:2062": [
+    {
+      "key": "tmdb:862",
+      "workId": "f-wd171048",
+      "title": "История игрушек",
+      "year": 1995,
+      "n": 3,
+      "weight": 0.221
+    }
+  ],
+  "tmdb:11104": [
+    {
+      "key": "tmdb:843",
+      "workId": "f-tmdb843",
+      "title": "Любовное настроение",
+      "year": 2000,
+      "n": 5,
+      "weight": 0.221
+    }
+  ],
+  "tmdb:974576": [
+    {
+      "key": "tmdb:974950",
+      "workId": "f-wd123928072",
+      "title": "Эмилия Перес",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
+      "n": 9,
+      "weight": 0.186
+    },
+    {
+      "key": "tmdb:1013850",
+      "workId": "f-wd123690368",
+      "title": "Настоящая боль",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.175
+    },
+    {
+      "key": "tmdb:1109255",
+      "workId": "f-wd122169131",
+      "title": "Партенопа",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.13
+    },
+    {
+      "key": "tmdb:392817",
+      "workId": "f-wd23925050",
+      "title": "Ученик",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.114
+    },
+    {
+      "key": "tmdb:933260",
+      "workId": "l-tmdb933260",
+      "title": "Субстанция",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.107
+    },
+    {
+      "key": "tmdb:143",
+      "workId": "f-tmdb143",
+      "title": "На западном фронте без перемен",
+      "year": 1930,
+      "n": 3,
+      "weight": 0.083
+    },
+    {
+      "key": "tmdb:592831",
+      "workId": "f-wd115175910",
+      "title": "Мегалополис",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.07
+    }
+  ],
+  "imdb:tt10048342": [
+    {
+      "key": "imdb:tt3764724",
+      "workId": "f-wd18407360",
+      "title": "Великая",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.221
+    },
+    {
+      "key": "tmdb:740985",
+      "workId": "f-wd99671372",
+      "title": "Борат 2",
+      "year": 2020,
+      "n": 4,
+      "weight": 0.147
+    },
+    {
+      "key": "imdb:tt4786824",
+      "workId": "f-wd20707362",
+      "title": "Корона",
+      "year": 2016,
+      "n": 7,
+      "weight": 0.132
+    },
+    {
+      "key": "tmdb:581734",
+      "workId": "f-tmdb581734",
+      "title": "Земля кочевников",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.081
+    },
+    {
+      "key": "imdb:tt10986410",
+      "workId": "f-wd96407897",
+      "title": "Тед Лассо",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.063
+    },
+    {
+      "key": "imdb:tt8111088",
+      "workId": "f-wd56876444",
+      "title": "Мандалорец",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.06
+    }
+  ],
+  "imdb:tt3764724": [
+    {
+      "key": "imdb:tt10048342",
+      "workId": "f-wd85808226",
+      "title": "Ход королевы",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.221
+    }
+  ],
+  "tmdb:10681": [
+    {
+      "key": "tmdb:12",
+      "workId": "f-wd132863",
+      "title": "В поисках Немо",
+      "year": 2003,
+      "n": 3,
+      "weight": 0.218
+    }
+  ],
   "tmdb:740985": [
     {
       "key": "tmdb:582014",
@@ -16307,7 +16619,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 6,
-      "weight": 0.221
+      "weight": 0.218
     },
     {
       "key": "tmdb:615643",
@@ -16323,7 +16635,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Земля кочевников",
       "year": 2021,
       "n": 6,
-      "weight": 0.166
+      "weight": 0.165
     },
     {
       "key": "tmdb:583406",
@@ -16339,7 +16651,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ход королевы",
       "year": 2020,
       "n": 4,
-      "weight": 0.149
+      "weight": 0.147
     },
     {
       "key": "imdb:tt4786824",
@@ -16350,266 +16662,64 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.077
     }
   ],
-  "tmdb:746": [
+  "tmdb:8392": [
     {
-      "key": "tmdb:152603",
-      "workId": "f-tmdb152603",
-      "title": "Выживут только любовники",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:179144",
-      "workId": "f-wd6379279",
-      "title": "Великая красота",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.184
-    }
-  ],
-  "tmdb:555285": [
-    {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.218
-    }
-  ],
-  "tmdb:915935": [
-    {
-      "key": "tmdb:555285",
-      "workId": "f-wd106448550",
-      "title": "Ты здесь, Бог? Это я, Маргарет",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:467244",
-      "workId": "f-tmdb467244",
-      "title": "Зона интересов",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.201
-    },
-    {
-      "key": "tmdb:1056360",
-      "workId": "f-wd116413183",
-      "title": "Американское чтиво",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.12
-    },
-    {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.094
-    },
-    {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.07
-    }
-  ],
-  "tmdb:18": [
-    {
-      "key": "tmdb:339964",
-      "workId": "f-wd20926273",
-      "title": "Валериан и город тысячи планет",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.218
-    }
-  ],
-  "tmdb:339964": [
-    {
-      "key": "tmdb:18",
-      "workId": "f-tmdb18",
-      "title": "Пятый элемент",
-      "year": 1997,
-      "n": 3,
-      "weight": 0.218
-    }
-  ],
-  "imdb:tt20863294": [
-    {
-      "key": "tmdb:1083381",
-      "workId": "f-wd125131076",
-      "title": "Закулисье реальности",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.218
-    }
-  ],
-  "tmdb:1083381": [
-    {
-      "key": "imdb:tt20863294",
-      "workId": "f-wd125131315",
-      "title": "Закулисье",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:1339713",
-      "workId": "f-wd136163067",
-      "title": "Обсессия",
-      "year": 2025,
-      "n": 7,
-      "weight": 0.167
-    }
-  ],
-  "tmdb:155": [
-    {
-      "key": "tmdb:38",
-      "workId": "f-tmdb38",
-      "title": "Вечное сияние чистого разума",
-      "year": 2004,
-      "n": 4,
-      "weight": 0.218
-    },
-    {
-      "key": "tmdb:6977",
-      "workId": "f-tmdb6977",
-      "title": "Старикам тут не место",
-      "year": 2007,
-      "n": 4,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:37799",
-      "workId": "f-tmdb37799",
-      "title": "Социальная сеть",
-      "year": 2010,
-      "n": 3,
-      "weight": 0.163
-    },
-    {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
-      "n": 4,
-      "weight": 0.124
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.088
-    },
-    {
-      "key": "tmdb:13183",
-      "workId": "f-tmdb13183",
-      "title": "Хранители",
-      "year": 2009,
-      "n": 3,
-      "weight": 0.076
-    }
-  ],
-  "tmdb:974950": [
-    {
-      "key": "tmdb:549509",
-      "workId": "f-wd101112656",
-      "title": "Бруталист",
-      "year": 2024,
+      "key": "tmdb:129",
+      "workId": "f-tmdb129",
+      "title": "Унесённые призраками",
+      "year": 2001,
       "n": 6,
       "weight": 0.217
     },
     {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
       "n": 3,
-      "weight": 0.183
-    },
-    {
-      "key": "tmdb:974576",
-      "workId": "f-wd116701124",
-      "title": "Конклав",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.165
-    },
-    {
-      "key": "tmdb:933260",
-      "workId": "l-tmdb933260",
-      "title": "Субстанция",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.11
+      "weight": 0.091
     }
   ],
-  "tmdb:157336": [
+  "tmdb:558449": [
     {
-      "key": "tmdb:374720",
-      "workId": "f-tmdb374720",
-      "title": "Дюнкерк",
-      "year": 2017,
-      "n": 8,
-      "weight": 0.217
-    },
-    {
-      "key": "tmdb:98",
-      "workId": "f-tmdb98",
-      "title": "Гладиатор",
-      "year": 2000,
-      "n": 4,
-      "weight": 0.175
-    },
-    {
-      "key": "tmdb:686",
-      "workId": "f-tmdb686",
-      "title": "Контакт",
-      "year": 1997,
+      "key": "tmdb:516729",
+      "workId": "f-wd121076570",
+      "title": "Приключения Паддингтона 3",
+      "year": 2024,
       "n": 3,
-      "weight": 0.143
+      "weight": 0.215
     },
     {
-      "key": "tmdb:155",
-      "workId": "f-tmdb155",
-      "title": "Тёмный рыцарь",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.124
-    },
-    {
-      "key": "tmdb:419704",
-      "workId": "f-wd38774788",
-      "title": "К звёздам",
-      "year": 2019,
+      "key": "tmdb:1184918",
+      "workId": "f-wd124378349",
+      "title": "Дикий робот",
+      "year": 2024,
       "n": 3,
-      "weight": 0.09
-    }
-  ],
-  "tmdb:374720": [
+      "weight": 0.191
+    },
     {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
-      "n": 8,
-      "weight": 0.217
+      "key": "tmdb:533535",
+      "workId": "f-wd102180106",
+      "title": "Дэдпул и Росомаха",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:945961",
+      "workId": "f-wd115932544",
+      "title": "Чужой: Ромул",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:889737",
+      "workId": "f-wd108628759",
+      "title": "Джокер: Безумие на двоих",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.135
     }
   ],
   "tmdb:254320": [
@@ -16635,7 +16745,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бедные-несчастные",
       "year": 2023,
       "n": 3,
-      "weight": 0.121
+      "weight": 0.117
     }
   ],
   "tmdb:399057": [
@@ -16648,148 +16758,156 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.215
     }
   ],
-  "tmdb:1325734": [
+  "tmdb:10363": [
     {
-      "key": "tmdb:342898",
-      "workId": "f-wd12655879",
-      "title": "Красавица",
-      "year": 1970,
-      "n": 3,
-      "weight": 0.213
-    },
-    {
-      "key": "tmdb:1208348",
-      "workId": "f-wd124947229",
-      "title": "Семья в аренду",
+      "key": "tmdb:1136867",
+      "workId": "f-wd125726790",
+      "title": "Материалистка",
       "year": 2025,
       "n": 3,
-      "weight": 0.197
-    },
-    {
-      "key": "tmdb:1327819",
-      "workId": "f-wd128798957",
-      "title": "Прыгуны",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.185
-    },
-    {
-      "key": "tmdb:931285",
-      "workId": "f-wd117830073",
-      "title": "Мортал Комбат 2",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.185
-    },
-    {
-      "key": "tmdb:1306368",
-      "workId": "f-wd131189949",
-      "title": "Лакомый кусок",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.174
-    },
-    {
-      "key": "tmdb:1119449",
-      "workId": "f-wd125843356",
-      "title": "Удачи, веселья, не сдохни",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.164
-    },
-    {
-      "key": "tmdb:1272837",
-      "workId": "f-wd129423731",
-      "title": "28 лет спустя: Храм костей",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.157
-    },
-    {
-      "key": "tmdb:83533",
-      "workId": "f-wd29580929",
-      "title": "Аватар: Пламя и пепел",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.151
+      "weight": 0.214
     }
   ],
-  "tmdb:1137350": [
+  "tmdb:1136867": [
     {
-      "key": "tmdb:648878",
-      "workId": "f-wd121433282",
-      "title": "Эддингтон",
-      "year": 2025,
+      "key": "tmdb:10363",
+      "workId": "f-wd919444",
+      "title": "На ярком солнце",
+      "year": 1960,
       "n": 3,
-      "weight": 0.212
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.148
     }
   ],
-  "tmdb:648878": [
+  "tmdb:555285": [
     {
-      "key": "tmdb:1137350",
-      "workId": "f-wd124758337",
-      "title": "Финикийская схема",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.212
-    },
-    {
-      "key": "tmdb:1241983",
-      "workId": "f-wd126086662",
-      "title": "Сны поездов",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.166
-    },
-    {
-      "key": "tmdb:895371",
-      "workId": "f-wd4259248",
-      "title": "Лермонтов",
-      "year": 1986,
-      "n": 3,
-      "weight": 0.16
-    },
-    {
-      "key": "tmdb:1054867",
-      "workId": "f-wd117085614",
-      "title": "Битва за битвой",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.123
-    },
-    {
-      "key": "tmdb:798286",
-      "workId": "f-tmdb798286",
-      "title": "Все страхи Бо",
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
       "year": 2023,
       "n": 3,
-      "weight": 0.1
-    },
-    {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.096
+      "weight": 0.214
     }
   ],
-  "tmdb:788977": [
+  "tmdb:915935": [
     {
-      "key": "tmdb:475303",
-      "workId": "f-wd42307699",
-      "title": "Дождливый день в Нью-Йорке",
-      "year": 2019,
+      "key": "tmdb:555285",
+      "workId": "f-wd106448550",
+      "title": "Ты здесь, Бог? Это я, Маргарет",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.214
+    },
+    {
+      "key": "tmdb:467244",
+      "workId": "f-tmdb467244",
+      "title": "Зона интересов",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.193
+    },
+    {
+      "key": "tmdb:1056360",
+      "workId": "f-wd116413183",
+      "title": "Американское чтиво",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.146
+    },
+    {
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.118
+    },
+    {
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.068
+    }
+  ],
+  "tmdb:18": [
+    {
+      "key": "tmdb:339964",
+      "workId": "f-wd20926273",
+      "title": "Валериан и город тысячи планет",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.212
+    }
+  ],
+  "tmdb:339964": [
+    {
+      "key": "tmdb:18",
+      "workId": "f-tmdb18",
+      "title": "Пятый элемент",
+      "year": 1997,
+      "n": 3,
+      "weight": 0.212
+    }
+  ],
+  "imdb:tt0412142": [
+    {
+      "key": "tmdb:57749",
+      "workId": "f-wd980327",
+      "title": "Клиника",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.212
+    }
+  ],
+  "tmdb:57749": [
+    {
+      "key": "imdb:tt0412142",
+      "workId": "f-wd23558",
+      "title": "Доктор Хаус",
+      "year": 2004,
       "n": 3,
       "weight": 0.212
     },
     {
-      "key": "tmdb:556694",
-      "workId": "f-wd94525569",
-      "title": "Три тысячи лет желаний",
-      "year": 2022,
+      "key": "imdb:tt1439629",
+      "workId": "l-tmdbtv18347",
+      "title": "Сообщество",
+      "year": 2009,
       "n": 3,
-      "weight": 0.172
+      "weight": 0.179
+    },
+    {
+      "key": "imdb:tt1266020",
+      "workId": "f-wd218035",
+      "title": "Парки и зоны отдыха",
+      "year": 2009,
+      "n": 3,
+      "weight": 0.173
+    },
+    {
+      "key": "imdb:tt0411008",
+      "workId": "f-wd23567",
+      "title": "Остаться в живых",
+      "year": 2004,
+      "n": 3,
+      "weight": 0.12
     }
   ],
   "tmdb:1004096": [
@@ -16828,6 +16946,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.119
     }
   ],
+  "tmdb:150540": [
+    {
+      "key": "tmdb:12",
+      "workId": "f-wd132863",
+      "title": "В поисках Немо",
+      "year": 2003,
+      "n": 4,
+      "weight": 0.212
+    },
+    {
+      "key": "tmdb:862",
+      "workId": "f-wd171048",
+      "title": "История игрушек",
+      "year": 1995,
+      "n": 4,
+      "weight": 0.202
+    },
+    {
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.143
+    }
+  ],
   "tmdb:660120": [
     {
       "key": "tmdb:758866",
@@ -16843,7 +16987,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лето соула",
       "year": 2021,
       "n": 4,
-      "weight": 0.178
+      "weight": 0.17
     },
     {
       "key": "tmdb:632617",
@@ -16875,7 +17019,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Малхолланд Драйв",
       "year": 2001,
       "n": 6,
-      "weight": 0.142
+      "weight": 0.14
     },
     {
       "key": "tmdb:718032",
@@ -16883,7 +17027,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лакричная пицца",
       "year": 2021,
       "n": 7,
-      "weight": 0.14
+      "weight": 0.138
     },
     {
       "key": "tmdb:545611",
@@ -16922,126 +17066,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.211
     }
   ],
-  "tmdb:19169": [
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.21
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 10,
-      "weight": 0.205
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.204
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.192
-    },
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.187
-    },
-    {
-      "key": "tmdb:591538",
-      "workId": "f-tmdb591538",
-      "title": "Трагедия Макбета",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.187
-    },
-    {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.183
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.157
-    }
-  ],
-  "tmdb:1159206": [
-    {
-      "key": "tmdb:1416281",
-      "workId": "f-wd136399995",
-      "title": "Простоквашино",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.21
-    }
-  ],
-  "tmdb:1416281": [
-    {
-      "key": "tmdb:1159206",
-      "workId": "f-wd124364048",
-      "title": "Отец, мать, сестра, брат",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.21
-    },
-    {
-      "key": "wd:Q333637",
-      "workId": "f-wd333637",
-      "title": "Ну, погоди!",
-      "year": 1969,
-      "n": 3,
-      "weight": 0.146
-    },
-    {
-      "key": "tmdb:1248723",
-      "workId": "f-wd125472432",
-      "title": "Буратино",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.133
-    }
-  ],
-  "tmdb:1212763": [
-    {
-      "key": "tmdb:693134",
-      "workId": "f-tmdb693134",
-      "title": "Дюна: Часть вторая",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.21
-    },
-    {
-      "key": "tmdb:507076",
-      "workId": "f-wd52000412",
-      "title": "Экстаз",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.167
-    }
-  ],
   "tmdb:954": [
     {
       "key": "tmdb:955",
@@ -17076,24 +17100,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.129
     }
   ],
-  "tmdb:501170": [
-    {
-      "key": "tmdb:11772",
-      "workId": "f-wd865987",
-      "title": "Призрак дома на холме",
-      "year": 1963,
-      "n": 3,
-      "weight": 0.209
-    },
-    {
-      "key": "tmdb:694",
-      "workId": "f-tmdb694",
-      "title": "Сияние",
-      "year": 1980,
-      "n": 5,
-      "weight": 0.167
-    }
-  ],
   "tmdb:1394": [
     {
       "key": "tmdb:1396",
@@ -17109,7 +17115,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сталкер",
       "year": 1979,
       "n": 4,
-      "weight": 0.192
+      "weight": 0.189
     },
     {
       "key": "tmdb:593",
@@ -17117,115 +17123,43 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солярис",
       "year": 1972,
       "n": 3,
-      "weight": 0.133
+      "weight": 0.131
     }
   ],
-  "tmdb:18240": [
+  "tmdb:788977": [
     {
-      "key": "tmdb:238",
-      "workId": "f-tmdb238",
-      "title": "Крёстный отец",
-      "year": 1972,
-      "n": 5,
-      "weight": 0.208
-    }
-  ],
-  "tmdb:238": [
-    {
-      "key": "tmdb:18240",
-      "workId": "f-wd108586",
-      "title": "Предложение",
-      "year": 2009,
-      "n": 5,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:28",
-      "workId": "f-tmdb28",
-      "title": "Апокалипсис сегодня",
-      "year": 1979,
-      "n": 3,
-      "weight": 0.122
-    },
-    {
-      "key": "tmdb:103",
-      "workId": "f-tmdb103",
-      "title": "Таксист",
-      "year": 1976,
-      "n": 3,
-      "weight": 0.098
-    }
-  ],
-  "tmdb:576917": [
-    {
-      "key": "tmdb:514207",
-      "workId": "f-wd55655546",
-      "title": "Вторжение",
-      "year": 2020,
+      "key": "tmdb:475303",
+      "workId": "f-wd42307699",
+      "title": "Дождливый день в Нью-Йорке",
+      "year": 2019,
       "n": 3,
       "weight": 0.208
     },
     {
-      "key": "imdb:tt13210838",
-      "workId": "f-wd115860329",
-      "title": "Джентльмены",
-      "year": 2024,
+      "key": "tmdb:556694",
+      "workId": "f-wd94525569",
+      "title": "Три тысячи лет желаний",
+      "year": 2022,
       "n": 3,
-      "weight": 0.103
+      "weight": 0.172
     }
   ],
-  "tmdb:229974": [
+  "tmdb:527774": [
     {
-      "key": "tmdb:610351",
-      "workId": "f-wd104670580",
-      "title": "Родные",
+      "key": "tmdb:501929",
+      "workId": "f-tmdb501929",
+      "title": "Митчеллы против машин",
       "year": 2021,
       "n": 3,
       "weight": 0.208
     },
     {
-      "key": "imdb:tt12273194",
-      "workId": "f-wd97276107",
-      "title": "Мир! Дружба! Жвачка!",
-      "year": 2020,
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
       "n": 3,
-      "weight": 0.102
-    }
-  ],
-  "tmdb:610351": [
-    {
-      "key": "tmdb:229974",
-      "workId": "f-wd15270569",
-      "title": "Горько!",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.208
-    },
-    {
-      "key": "imdb:tt12273194",
-      "workId": "f-wd97276107",
-      "title": "Мир! Дружба! Жвачка!",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.185
-    }
-  ],
-  "tmdb:329": [
-    {
-      "key": "tmdb:424",
-      "workId": "f-tmdb424",
-      "title": "Список Шиндлера",
-      "year": 1993,
-      "n": 3,
-      "weight": 0.208
-    },
-    {
-      "key": "tmdb:507086",
-      "workId": "f-wd55178974",
-      "title": "Мир юрского периода: Господство",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.172
+      "weight": 0.122
     }
   ],
   "tmdb:763329": [
@@ -17243,7 +17177,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "CODA: Ребенок глухих родителей",
       "year": 2021,
       "n": 3,
-      "weight": 0.151
+      "weight": 0.149
     },
     {
       "key": "tmdb:758866",
@@ -17254,50 +17188,142 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.118
     }
   ],
-  "imdb:tt4209256": [
+  "tmdb:746": [
     {
-      "key": "tmdb:396535",
-      "workId": "f-tmdb396535",
-      "title": "Поезд в Пусан",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.208
-    }
-  ],
-  "tmdb:865": [
-    {
-      "key": "tmdb:842924",
-      "workId": "f-wd123169098",
-      "title": "Жизнь Чака",
-      "year": 2024,
+      "key": "tmdb:152603",
+      "workId": "f-tmdb152603",
+      "title": "Выживут только любовники",
+      "year": 2013,
       "n": 3,
       "weight": 0.207
+    },
+    {
+      "key": "tmdb:179144",
+      "workId": "f-wd6379279",
+      "title": "Великая красота",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.184
     }
   ],
-  "tmdb:141052": [
+  "tmdb:155": [
     {
-      "key": "tmdb:507076",
-      "workId": "f-wd52000412",
-      "title": "Экстаз",
-      "year": 2018,
+      "key": "tmdb:38",
+      "workId": "f-tmdb38",
+      "title": "Вечное сияние чистого разума",
+      "year": 2004,
       "n": 4,
-      "weight": 0.205
+      "weight": 0.206
     },
     {
-      "key": "tmdb:287947",
-      "workId": "f-wd23685878",
-      "title": "Шазам!",
+      "key": "tmdb:6977",
+      "workId": "f-tmdb6977",
+      "title": "Старикам тут не место",
+      "year": 2007,
+      "n": 4,
+      "weight": 0.148
+    },
+    {
+      "key": "tmdb:37799",
+      "workId": "f-tmdb37799",
+      "title": "Социальная сеть",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.14
+    },
+    {
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
+      "year": 2014,
+      "n": 4,
+      "weight": 0.114
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
       "year": 2019,
       "n": 4,
-      "weight": 0.145
+      "weight": 0.086
     },
     {
-      "key": "imdb:tt13210838",
-      "workId": "f-wd115860329",
-      "title": "Джентльмены",
-      "year": 2024,
+      "key": "tmdb:13183",
+      "workId": "f-tmdb13183",
+      "title": "Хранители",
+      "year": 2009,
+      "n": 3,
+      "weight": 0.075
+    }
+  ],
+  "tmdb:38": [
+    {
+      "key": "tmdb:155",
+      "workId": "f-tmdb155",
+      "title": "Тёмный рыцарь",
+      "year": 2008,
       "n": 4,
-      "weight": 0.123
+      "weight": 0.206
+    },
+    {
+      "key": "tmdb:37799",
+      "workId": "f-tmdb37799",
+      "title": "Социальная сеть",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.194
+    },
+    {
+      "key": "tmdb:6977",
+      "workId": "f-tmdb6977",
+      "title": "Старикам тут не место",
+      "year": 2007,
+      "n": 3,
+      "weight": 0.154
+    },
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 3,
+      "weight": 0.127
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.12
+    }
+  ],
+  "tmdb:424": [
+    {
+      "key": "tmdb:578",
+      "workId": "f-tmdb578",
+      "title": "Челюсти",
+      "year": 1975,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "tmdb:329",
+      "workId": "f-tmdb329",
+      "title": "Парк юрского периода",
+      "year": 1993,
+      "n": 3,
+      "weight": 0.199
+    }
+  ],
+  "tmdb:578": [
+    {
+      "key": "tmdb:424",
+      "workId": "f-tmdb424",
+      "title": "Список Шиндлера",
+      "year": 1993,
+      "n": 3,
+      "weight": 0.204
     }
   ],
   "imdb:tt11691774": [
@@ -17315,7 +17341,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Псы резервации",
       "year": 2021,
       "n": 3,
-      "weight": 0.194
+      "weight": 0.185
     },
     {
       "key": "imdb:tt10986410",
@@ -17368,6 +17394,72 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.127
     }
   ],
+  "tmdb:229974": [
+    {
+      "key": "tmdb:610351",
+      "workId": "f-wd104670580",
+      "title": "Родные",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "imdb:tt12273194",
+      "workId": "f-wd97276107",
+      "title": "Мир! Дружба! Жвачка!",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.099
+    }
+  ],
+  "tmdb:610351": [
+    {
+      "key": "tmdb:229974",
+      "workId": "f-wd15270569",
+      "title": "Горько!",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.204
+    },
+    {
+      "key": "imdb:tt12273194",
+      "workId": "f-wd97276107",
+      "title": "Мир! Дружба! Жвачка!",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.182
+    }
+  ],
+  "tmdb:184155": [
+    {
+      "key": "tmdb:87502",
+      "workId": "f-wd564298",
+      "title": "Экипаж",
+      "year": 2012,
+      "n": 3,
+      "weight": 0.204
+    }
+  ],
+  "tmdb:87502": [
+    {
+      "key": "tmdb:184155",
+      "workId": "f-tmdb184155",
+      "title": "Легенда №17",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.204
+    }
+  ],
+  "tmdb:865": [
+    {
+      "key": "tmdb:842924",
+      "workId": "f-wd123169098",
+      "title": "Жизнь Чака",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.202
+    }
+  ],
   "tmdb:419704": [
     {
       "key": "tmdb:615952",
@@ -17383,7 +17475,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Человек на Луне",
       "year": 2018,
       "n": 4,
-      "weight": 0.183
+      "weight": 0.173
     },
     {
       "key": "tmdb:157336",
@@ -17391,7 +17483,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Интерстеллар",
       "year": 2014,
       "n": 3,
-      "weight": 0.09
+      "weight": 0.084
     },
     {
       "key": "tmdb:475557",
@@ -17399,7 +17491,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Джокер",
       "year": 2019,
       "n": 4,
-      "weight": 0.078
+      "weight": 0.077
     }
   ],
   "tmdb:615952": [
@@ -17412,146 +17504,70 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.202
     }
   ],
-  "tmdb:467244": [
+  "tmdb:19169": [
     {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.2
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 10,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.195
+    },
+    {
+      "key": "tmdb:591538",
+      "workId": "f-tmdb591538",
+      "title": "Трагедия Макбета",
+      "year": 2021,
       "n": 5,
-      "weight": 0.201
+      "weight": 0.182
     },
     {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.101
-    },
-    {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.1
-    },
-    {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:792307",
-      "workId": "f-tmdb792307",
-      "title": "Бедные-несчастные",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.091
-    }
-  ],
-  "tmdb:497698": [
-    {
-      "key": "tmdb:524434",
-      "workId": "f-tmdb524434",
-      "title": "Вечные",
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
       "year": 2021,
-      "n": 8,
-      "weight": 0.2
+      "n": 7,
+      "weight": 0.18
     },
     {
-      "key": "tmdb:550988",
-      "workId": "f-wd38685497",
-      "title": "Главный герой",
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
       "year": 2021,
-      "n": 3,
-      "weight": 0.164
+      "n": 7,
+      "weight": 0.18
     },
     {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.178
+    },
+    {
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
       "year": 2021,
       "n": 4,
-      "weight": 0.093
-    },
-    {
-      "key": "tmdb:566525",
-      "workId": "f-wd65768589",
-      "title": "Шан-Чи и легенда десяти колец",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.081
-    },
-    {
-      "key": "imdb:tt9208876",
-      "workId": "f-wd65979734",
-      "title": "Сокол и Зимний солдат",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.075
-    },
-    {
-      "key": "tmdb:337404",
-      "workId": "f-wd24284363",
-      "title": "Круэлла",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.073
-    },
-    {
-      "key": "imdb:tt2861424",
-      "workId": "f-wd15659308",
-      "title": "Рик и Морти",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.054
-    },
-    {
-      "key": "tmdb:370172",
-      "workId": "f-wd21534241",
-      "title": "Не время умирать",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.052
-    }
-  ],
-  "tmdb:524434": [
-    {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.2
-    },
-    {
-      "key": "tmdb:566525",
-      "workId": "f-wd65768589",
-      "title": "Шан-Чи и легенда десяти колец",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.085
-    },
-    {
-      "key": "tmdb:617653",
-      "workId": "f-wd85000980",
-      "title": "Последняя дуэль",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.08
-    },
-    {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.073
+      "weight": 0.153
     }
   ],
   "tmdb:126889": [
@@ -17574,6 +17590,178 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.2
     }
   ],
+  "tmdb:157336": [
+    {
+      "key": "tmdb:374720",
+      "workId": "f-tmdb374720",
+      "title": "Дюнкерк",
+      "year": 2017,
+      "n": 8,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:98",
+      "workId": "f-tmdb98",
+      "title": "Гладиатор",
+      "year": 2000,
+      "n": 4,
+      "weight": 0.164
+    },
+    {
+      "key": "tmdb:686",
+      "workId": "f-tmdb686",
+      "title": "Контакт",
+      "year": 1997,
+      "n": 3,
+      "weight": 0.123
+    },
+    {
+      "key": "tmdb:155",
+      "workId": "f-tmdb155",
+      "title": "Тёмный рыцарь",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.114
+    },
+    {
+      "key": "tmdb:419704",
+      "workId": "f-wd38774788",
+      "title": "К звёздам",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.084
+    }
+  ],
+  "tmdb:374720": [
+    {
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
+      "year": 2014,
+      "n": 8,
+      "weight": 0.199
+    }
+  ],
+  "tmdb:18240": [
+    {
+      "key": "tmdb:238",
+      "workId": "f-tmdb238",
+      "title": "Крёстный отец",
+      "year": 1972,
+      "n": 5,
+      "weight": 0.199
+    }
+  ],
+  "tmdb:238": [
+    {
+      "key": "tmdb:18240",
+      "workId": "f-wd108586",
+      "title": "Предложение",
+      "year": 2009,
+      "n": 5,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:28",
+      "workId": "f-tmdb28",
+      "title": "Апокалипсис сегодня",
+      "year": 1979,
+      "n": 3,
+      "weight": 0.111
+    },
+    {
+      "key": "tmdb:103",
+      "workId": "f-tmdb103",
+      "title": "Таксист",
+      "year": 1976,
+      "n": 3,
+      "weight": 0.093
+    }
+  ],
+  "tmdb:674324": [
+    {
+      "key": "tmdb:8321",
+      "workId": "f-tmdb8321",
+      "title": "Залечь на дно в Брюгге",
+      "year": 2008,
+      "n": 5,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:724495",
+      "workId": "f-tmdb724495",
+      "title": "Королева-воин",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.183
+    },
+    {
+      "key": "tmdb:804095",
+      "workId": "f-tmdb804095",
+      "title": "Фабельманы",
+      "year": 2022,
+      "n": 6,
+      "weight": 0.175
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 12,
+      "weight": 0.172
+    },
+    {
+      "key": "tmdb:143",
+      "workId": "f-tmdb143",
+      "title": "На западном фронте без перемен",
+      "year": 1930,
+      "n": 4,
+      "weight": 0.105
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.088
+    },
+    {
+      "key": "tmdb:301502",
+      "workId": "f-wd66823622",
+      "title": "Блондинка",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.085
+    },
+    {
+      "key": "tmdb:76600",
+      "workId": "f-tmdb76600",
+      "title": "Аватар: Путь воды",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.072
+    }
+  ],
+  "tmdb:329": [
+    {
+      "key": "tmdb:424",
+      "workId": "f-tmdb424",
+      "title": "Список Шиндлера",
+      "year": 1993,
+      "n": 3,
+      "weight": 0.199
+    },
+    {
+      "key": "tmdb:507086",
+      "workId": "f-wd55178974",
+      "title": "Мир юрского периода: Господство",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.167
+    }
+  ],
   "imdb:tt4786824": [
     {
       "key": "tmdb:9543",
@@ -17589,7 +17777,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Шиттс Крик",
       "year": 2015,
       "n": 5,
-      "weight": 0.139
+      "weight": 0.135
     },
     {
       "key": "imdb:tt10048342",
@@ -17597,7 +17785,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ход королевы",
       "year": 2020,
       "n": 7,
-      "weight": 0.134
+      "weight": 0.132
     },
     {
       "key": "tmdb:1930",
@@ -17640,6 +17828,106 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.081
     }
   ],
+  "tmdb:497698": [
+    {
+      "key": "tmdb:524434",
+      "workId": "f-tmdb524434",
+      "title": "Вечные",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.198
+    },
+    {
+      "key": "tmdb:550988",
+      "workId": "f-wd38685497",
+      "title": "Главный герой",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.09
+    },
+    {
+      "key": "tmdb:566525",
+      "workId": "f-wd65768589",
+      "title": "Шан-Чи и легенда десяти колец",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.08
+    },
+    {
+      "key": "imdb:tt9208876",
+      "workId": "f-wd65979734",
+      "title": "Сокол и Зимний солдат",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.074
+    },
+    {
+      "key": "tmdb:337404",
+      "workId": "f-wd24284363",
+      "title": "Круэлла",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.071
+    },
+    {
+      "key": "imdb:tt2861424",
+      "workId": "f-wd15659308",
+      "title": "Рик и Морти",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.053
+    },
+    {
+      "key": "tmdb:370172",
+      "workId": "f-wd21534241",
+      "title": "Не время умирать",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.051
+    }
+  ],
+  "tmdb:524434": [
+    {
+      "key": "tmdb:497698",
+      "workId": "f-wd23894626",
+      "title": "Чёрная вдова",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.198
+    },
+    {
+      "key": "tmdb:566525",
+      "workId": "f-wd65768589",
+      "title": "Шан-Чи и легенда десяти колец",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.085
+    },
+    {
+      "key": "tmdb:617653",
+      "workId": "f-wd85000980",
+      "title": "Последняя дуэль",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.08
+    },
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.072
+    }
+  ],
   "tmdb:579816": [
     {
       "key": "tmdb:587609",
@@ -17660,40 +17948,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.198
     }
   ],
-  "tmdb:420818": [
+  "tmdb:501170": [
     {
-      "key": "tmdb:420817",
-      "workId": "f-wd27188178",
-      "title": "Аладдин",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.197
+      "key": "tmdb:11772",
+      "workId": "f-wd865987",
+      "title": "Призрак дома на холме",
+      "year": 1963,
+      "n": 3,
+      "weight": 0.198
     },
     {
-      "key": "tmdb:301528",
-      "workId": "f-wd18517638",
-      "title": "История игрушек 4",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.123
-    },
-    {
-      "key": "tmdb:466272",
-      "workId": "f-tmdb466272",
-      "title": "Однажды в… Голливуде",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.055
-    }
-  ],
-  "imdb:tt33483912": [
-    {
-      "key": "tmdb:21028",
-      "workId": "f-tmdb21028",
-      "title": "Москва слезам не верит",
+      "key": "tmdb:694",
+      "workId": "f-tmdb694",
+      "title": "Сияние",
       "year": 1980,
-      "n": 4,
-      "weight": 0.196
+      "n": 5,
+      "weight": 0.165
     }
   ],
   "tmdb:429617": [
@@ -17722,90 +17992,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.111
     }
   ],
-  "tmdb:76600": [
-    {
-      "key": "tmdb:777245",
-      "workId": "f-tmdb777245",
-      "title": "Говорят женщины",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.196
-    },
-    {
-      "key": "tmdb:804095",
-      "workId": "f-tmdb804095",
-      "title": "Фабельманы",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.096
-    },
-    {
-      "key": "tmdb:19995",
-      "workId": "f-tmdb19995",
-      "title": "Аватар",
-      "year": 2009,
-      "n": 5,
-      "weight": 0.096
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.095
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.073
-    },
-    {
-      "key": "tmdb:497828",
-      "workId": "f-tmdb497828",
-      "title": "Треугольник печали",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.072
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.062
-    }
-  ],
-  "tmdb:777245": [
-    {
-      "key": "tmdb:76600",
-      "workId": "f-tmdb76600",
-      "title": "Аватар: Путь воды",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.196
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.145
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.118
-    }
-  ],
   "tmdb:800852": [
     {
       "key": "tmdb:751171",
@@ -17822,6 +18008,32 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2022,
       "n": 3,
       "weight": 0.183
+    }
+  ],
+  "tmdb:141052": [
+    {
+      "key": "tmdb:507076",
+      "workId": "f-wd52000412",
+      "title": "Экстаз",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.195
+    },
+    {
+      "key": "tmdb:287947",
+      "workId": "f-wd23685878",
+      "title": "Шазам!",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.145
+    },
+    {
+      "key": "imdb:tt13210838",
+      "workId": "f-wd115860329",
+      "title": "Джентльмены",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.121
     }
   ],
   "imdb:tt0106179": [
@@ -17849,73 +18061,41 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ходячие мертвецы",
       "year": 2010,
       "n": 3,
-      "weight": 0.13
+      "weight": 0.128
     }
   ],
-  "tmdb:361743": [
+  "tmdb:37799": [
     {
-      "key": "tmdb:724495",
-      "workId": "f-tmdb724495",
-      "title": "Королева-воин",
-      "year": 2022,
-      "n": 4,
+      "key": "tmdb:38",
+      "workId": "f-tmdb38",
+      "title": "Вечное сияние чистого разума",
+      "year": 2004,
+      "n": 3,
       "weight": 0.194
     },
     {
-      "key": "tmdb:777245",
-      "workId": "f-tmdb777245",
-      "title": "Говорят женщины",
-      "year": 2022,
+      "key": "tmdb:155",
+      "workId": "f-tmdb155",
+      "title": "Тёмный рыцарь",
+      "year": 2008,
       "n": 3,
-      "weight": 0.145
+      "weight": 0.14
     },
     {
-      "key": "tmdb:804095",
-      "workId": "f-tmdb804095",
-      "title": "Фабельманы",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.119
+      "key": "tmdb:6977",
+      "workId": "f-tmdb6977",
+      "title": "Старикам тут не место",
+      "year": 2007,
+      "n": 3,
+      "weight": 0.14
     },
     {
-      "key": "tmdb:76600",
-      "workId": "f-tmdb76600",
-      "title": "Аватар: Путь воды",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.095
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 8,
-      "weight": 0.092
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:497828",
-      "workId": "f-tmdb497828",
-      "title": "Треугольник печали",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.088
-    },
-    {
-      "key": "tmdb:414906",
-      "workId": "f-tmdb414906",
-      "title": "Бэтмен",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.072
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.081
     }
   ],
   "imdb:tt23805316": [
@@ -17954,24 +18134,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.194
     }
   ],
-  "imdb:tt13623580": [
-    {
-      "key": "imdb:tt11691774",
-      "workId": "f-wd104007235",
-      "title": "Убийства в одном здании",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.194
-    },
-    {
-      "key": "imdb:tt10986410",
-      "workId": "f-wd96407897",
-      "title": "Тед Лассо",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.12
-    }
-  ],
   "tmdb:661914": [
     {
       "key": "tmdb:583406",
@@ -17995,7 +18157,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Девушка, подающая надежды",
       "year": 2020,
       "n": 3,
-      "weight": 0.142
+      "weight": 0.14
     }
   ],
   "tmdb:611914": [
@@ -18008,20 +18170,154 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.194
     },
     {
-      "key": "tmdb:104810",
-      "workId": "f-wd4205762",
-      "title": "Июльский дождь",
-      "year": 1967,
-      "n": 3,
-      "weight": 0.182
-    },
-    {
       "key": "tmdb:27862",
       "workId": "f-wd244999",
       "title": "Я шагаю по Москве",
       "year": 1964,
       "n": 3,
       "weight": 0.182
+    },
+    {
+      "key": "tmdb:104810",
+      "workId": "f-wd4205762",
+      "title": "Июльский дождь",
+      "year": 1967,
+      "n": 3,
+      "weight": 0.177
+    }
+  ],
+  "tmdb:420818": [
+    {
+      "key": "tmdb:420817",
+      "workId": "f-wd27188178",
+      "title": "Аладдин",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.193
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.12
+    },
+    {
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.052
+    }
+  ],
+  "tmdb:467244": [
+    {
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.193
+    },
+    {
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.098
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.098
+    },
+    {
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.096
+    },
+    {
+      "key": "tmdb:792307",
+      "workId": "f-tmdb792307",
+      "title": "Бедные-несчастные",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.086
+    }
+  ],
+  "tmdb:361743": [
+    {
+      "key": "tmdb:724495",
+      "workId": "f-tmdb724495",
+      "title": "Королева-воин",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.192
+    },
+    {
+      "key": "tmdb:777245",
+      "workId": "f-tmdb777245",
+      "title": "Говорят женщины",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.134
+    },
+    {
+      "key": "tmdb:804095",
+      "workId": "f-tmdb804095",
+      "title": "Фабельманы",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.116
+    },
+    {
+      "key": "tmdb:76600",
+      "workId": "f-tmdb76600",
+      "title": "Аватар: Путь воды",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.094
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 8,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:497828",
+      "workId": "f-tmdb497828",
+      "title": "Треугольник печали",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.088
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.088
+    },
+    {
+      "key": "tmdb:414906",
+      "workId": "f-tmdb414906",
+      "title": "Бэтмен",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.071
     }
   ],
   "tmdb:592813": [
@@ -18065,7 +18361,75 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Купе номер 6",
       "year": 2021,
       "n": 3,
-      "weight": 0.092
+      "weight": 0.09
+    }
+  ],
+  "tmdb:1137350": [
+    {
+      "key": "tmdb:648878",
+      "workId": "f-wd121433282",
+      "title": "Эддингтон",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.19
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.129
+    }
+  ],
+  "tmdb:648878": [
+    {
+      "key": "tmdb:1137350",
+      "workId": "f-wd124758337",
+      "title": "Финикийская схема",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.19
+    },
+    {
+      "key": "tmdb:895371",
+      "workId": "f-wd4259248",
+      "title": "Лермонтов",
+      "year": 1986,
+      "n": 3,
+      "weight": 0.16
+    },
+    {
+      "key": "tmdb:1241983",
+      "workId": "f-wd126086662",
+      "title": "Сны поездов",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.155
+    },
+    {
+      "key": "tmdb:1054867",
+      "workId": "f-wd117085614",
+      "title": "Битва за битвой",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.109
+    },
+    {
+      "key": "tmdb:798286",
+      "workId": "f-tmdb798286",
+      "title": "Все страхи Бо",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.1
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.094
     }
   ],
   "imdb:tt0070644": [
@@ -18135,7 +18499,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Зависнуть в Палм-Спрингс",
       "year": 2020,
       "n": 3,
-      "weight": 0.142
+      "weight": 0.127
     }
   ],
   "tmdb:928344": [
@@ -18148,96 +18512,104 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.189
     }
   ],
-  "tmdb:674324": [
+  "tmdb:1159206": [
     {
-      "key": "tmdb:724495",
-      "workId": "f-tmdb724495",
-      "title": "Королева-воин",
-      "year": 2022,
+      "key": "tmdb:1416281",
+      "workId": "f-wd136399995",
+      "title": "Простоквашино",
+      "year": 2026,
       "n": 3,
-      "weight": 0.187
-    },
-    {
-      "key": "tmdb:804095",
-      "workId": "f-tmdb804095",
-      "title": "Фабельманы",
-      "year": 2022,
-      "n": 6,
-      "weight": 0.183
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 12,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:8321",
-      "workId": "f-tmdb8321",
-      "title": "Залечь на дно в Брюгге",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.152
-    },
-    {
-      "key": "tmdb:143",
-      "workId": "f-tmdb143",
-      "title": "На западном фронте без перемен",
-      "year": 1930,
-      "n": 4,
-      "weight": 0.113
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:301502",
-      "workId": "f-wd66823622",
-      "title": "Блондинка",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:76600",
-      "workId": "f-tmdb76600",
-      "title": "Аватар: Путь воды",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.073
+      "weight": 0.188
     }
   ],
-  "imdb:tt12273194": [
+  "tmdb:1416281": [
     {
-      "key": "tmdb:610351",
-      "workId": "f-wd104670580",
-      "title": "Родные",
+      "key": "tmdb:1159206",
+      "workId": "f-wd124364048",
+      "title": "Отец, мать, сестра, брат",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.188
+    },
+    {
+      "key": "wd:Q333637",
+      "workId": "f-wd333637",
+      "title": "Ну, погоди!",
+      "year": 1969,
+      "n": 3,
+      "weight": 0.146
+    },
+    {
+      "key": "tmdb:1248723",
+      "workId": "f-wd125472432",
+      "title": "Буратино",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.131
+    }
+  ],
+  "tmdb:576917": [
+    {
+      "key": "tmdb:514207",
+      "workId": "f-wd55655546",
+      "title": "Вторжение",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.188
+    },
+    {
+      "key": "imdb:tt13210838",
+      "workId": "f-wd115860329",
+      "title": "Джентльмены",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.101
+    }
+  ],
+  "imdb:tt4209256": [
+    {
+      "key": "tmdb:396535",
+      "workId": "f-tmdb396535",
+      "title": "Поезд в Пусан",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.186
+    }
+  ],
+  "imdb:tt33483912": [
+    {
+      "key": "tmdb:21028",
+      "workId": "f-tmdb21028",
+      "title": "Москва слезам не верит",
+      "year": 1980,
+      "n": 4,
+      "weight": 0.185
+    },
+    {
+      "key": "imdb:tt32777999",
+      "workId": "f-wd131358971",
+      "title": "Дети перемен",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.183
+    }
+  ],
+  "imdb:tt13623580": [
+    {
+      "key": "imdb:tt11691774",
+      "workId": "f-wd104007235",
+      "title": "Убийства в одном здании",
       "year": 2021,
       "n": 3,
       "weight": 0.185
     },
     {
-      "key": "tmdb:229974",
-      "workId": "f-wd15270569",
-      "title": "Горько!",
-      "year": 2013,
+      "key": "imdb:tt10986410",
+      "workId": "f-wd96407897",
+      "title": "Тед Лассо",
+      "year": 2020,
       "n": 3,
-      "weight": 0.102
-    },
-    {
-      "key": "imdb:tt15939084",
-      "workId": "l-tmdbtv219806",
-      "title": "Король и Шут",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.083
+      "weight": 0.115
     }
   ],
   "imdb:tt6704972": [
@@ -18255,27 +18627,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 3,
-      "weight": 0.097
-    }
-  ],
-  "tmdb:369972": [
-    {
-      "key": "tmdb:419704",
-      "workId": "f-wd38774788",
-      "title": "К звёздам",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.183
-    }
-  ],
-  "tmdb:795811": [
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.183
+      "weight": 0.096
     }
   ],
   "imdb:tt8968158": [
@@ -18306,82 +18658,114 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.154
     }
   ],
-  "tmdb:398978": [
+  "imdb:tt12273194": [
     {
-      "key": "tmdb:551332",
-      "workId": "f-wd58894738",
-      "title": "Два папы",
-      "year": 2019,
+      "key": "tmdb:610351",
+      "workId": "f-wd104670580",
+      "title": "Родные",
+      "year": 2021,
       "n": 3,
       "weight": 0.182
     },
     {
-      "key": "tmdb:515001",
-      "workId": "f-wd54862508",
-      "title": "Кролик Джоджо",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.14
-    },
-    {
-      "key": "tmdb:475557",
-      "workId": "f-tmdb475557",
-      "title": "Джокер",
-      "year": 2019,
-      "n": 6,
-      "weight": 0.106
-    },
-    {
-      "key": "tmdb:466272",
-      "workId": "f-tmdb466272",
-      "title": "Однажды в… Голливуде",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.06
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
+      "key": "tmdb:229974",
+      "workId": "f-wd15270569",
+      "title": "Горько!",
+      "year": 2013,
       "n": 3,
-      "weight": 0.058
+      "weight": 0.099
+    },
+    {
+      "key": "imdb:tt15939084",
+      "workId": "l-tmdbtv219806",
+      "title": "Король и Шут",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.082
     }
   ],
-  "tmdb:551332": [
+  "tmdb:76600": [
     {
-      "key": "tmdb:398978",
-      "workId": "f-tmdb398978",
-      "title": "Ирландец",
-      "year": 2019,
+      "key": "tmdb:777245",
+      "workId": "f-tmdb777245",
+      "title": "Говорят женщины",
+      "year": 2022,
       "n": 3,
       "weight": 0.182
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.094
+    },
+    {
+      "key": "tmdb:804095",
+      "workId": "f-tmdb804095",
+      "title": "Фабельманы",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.094
+    },
+    {
+      "key": "tmdb:19995",
+      "workId": "f-tmdb19995",
+      "title": "Аватар",
+      "year": 2009,
+      "n": 5,
+      "weight": 0.092
+    },
+    {
+      "key": "tmdb:497828",
+      "workId": "f-tmdb497828",
+      "title": "Треугольник печали",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.072
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.072
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.062
     }
   ],
-  "tmdb:604079": [
+  "tmdb:777245": [
     {
-      "key": "tmdb:842924",
-      "workId": "f-wd123169098",
-      "title": "Жизнь Чака",
-      "year": 2024,
+      "key": "tmdb:76600",
+      "workId": "f-tmdb76600",
+      "title": "Аватар: Путь воды",
+      "year": 2022,
       "n": 3,
       "weight": 0.182
     },
     {
-      "key": "tmdb:1242011",
-      "workId": "f-wd131870558",
-      "title": "Одно целое",
-      "year": 2025,
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
       "n": 3,
-      "weight": 0.152
+      "weight": 0.134
     },
     {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.109
     }
   ],
   "imdb:tt10986410": [
@@ -18399,7 +18783,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 10,
-      "weight": 0.153
+      "weight": 0.152
     },
     {
       "key": "imdb:tt10155688",
@@ -18423,7 +18807,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Псы резервации",
       "year": 2021,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.115
     },
     {
       "key": "imdb:tt0264235",
@@ -18450,138 +18834,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.102
     }
   ],
-  "imdb:tt7203552": [
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 9,
-      "weight": 0.181
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
-      "n": 8,
-      "weight": 0.147
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.139
-    },
-    {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.102
-    },
-    {
-      "key": "imdb:tt3920596",
-      "workId": "f-wd19873404",
-      "title": "Большая маленькая ложь",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.09
-    },
-    {
-      "key": "imdb:tt8772296",
-      "workId": "f-wd56275505",
-      "title": "Эйфория",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.089
-    },
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.08
-    },
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.078
-    }
-  ],
-  "imdb:tt7660850": [
-    {
-      "key": "imdb:tt7203552",
-      "workId": "f-wd54958411",
-      "title": "Утреннее шоу",
-      "year": 2019,
-      "n": 9,
-      "weight": 0.181
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
-      "n": 13,
-      "weight": 0.173
-    },
-    {
-      "key": "imdb:tt5788792",
-      "workId": "f-wd30634329",
-      "title": "Удивительная миссис Мейзел",
-      "year": 2017,
-      "n": 6,
-      "weight": 0.17
-    },
-    {
-      "key": "imdb:tt10986410",
-      "workId": "f-wd96407897",
-      "title": "Тед Лассо",
-      "year": 2020,
-      "n": 10,
-      "weight": 0.153
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 11,
-      "weight": 0.15
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.134
-    },
-    {
-      "key": "imdb:tt10155688",
-      "workId": "f-wd61040213",
-      "title": "Мейр из Исттауна",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.12
-    },
-    {
-      "key": "imdb:tt1759761",
-      "workId": "f-wd74801",
-      "title": "Вице-президент",
-      "year": 2012,
-      "n": 4,
-      "weight": 0.12
-    }
-  ],
   "tmdb:583198": [
     {
       "key": "tmdb:766428",
@@ -18605,7 +18857,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Купе номер 6",
       "year": 2021,
       "n": 6,
-      "weight": 0.142
+      "weight": 0.14
     },
     {
       "key": "tmdb:609490",
@@ -18657,7 +18909,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Кончится лето",
       "year": 2024,
       "n": 3,
-      "weight": 0.174
+      "weight": 0.171
     },
     {
       "key": "tmdb:549509",
@@ -18665,51 +18917,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бруталист",
       "year": 2024,
       "n": 3,
-      "weight": 0.14
-    }
-  ],
-  "tmdb:146233": [
-    {
-      "key": "tmdb:329865",
-      "workId": "w04",
-      "title": "Прибытие",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.18
-    }
-  ],
-  "tmdb:329865": [
-    {
-      "key": "tmdb:146233",
-      "workId": "f-tmdb146233",
-      "title": "Пленницы",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.18
-    },
-    {
-      "key": "tmdb:269149",
-      "workId": "f-tmdb269149",
-      "title": "Зверополис",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.139
-    },
-    {
-      "key": "tmdb:376867",
-      "workId": "f-tmdb376867",
-      "title": "Лунный свет",
-      "year": 2016,
-      "n": 4,
-      "weight": 0.121
-    },
-    {
-      "key": "tmdb:313369",
-      "workId": "f-tmdb313369",
-      "title": "Ла-Ла Ленд",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.066
+      "weight": 0.132
     }
   ],
   "tmdb:722778": [
@@ -18722,17 +18930,17 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.179
     },
     {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.145
-    },
-    {
       "key": "tmdb:758866",
       "workId": "f-tmdb758866",
       "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.142
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
       "year": 2021,
       "n": 5,
       "weight": 0.142
@@ -18743,7 +18951,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Король Ричард",
       "year": 2021,
       "n": 3,
-      "weight": 0.105
+      "weight": 0.101
     },
     {
       "key": "tmdb:660120",
@@ -18752,6 +18960,148 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 3,
       "weight": 0.097
+    }
+  ],
+  "imdb:tt7203552": [
+    {
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 9,
+      "weight": 0.179
+    },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 8,
+      "weight": 0.146
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.139
+    },
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.101
+    },
+    {
+      "key": "imdb:tt3920596",
+      "workId": "f-wd19873404",
+      "title": "Большая маленькая ложь",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.088
+    },
+    {
+      "key": "imdb:tt8772296",
+      "workId": "f-wd56275505",
+      "title": "Эйфория",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.088
+    },
+    {
+      "key": "imdb:tt5834204",
+      "workId": "f-wd25207350",
+      "title": "Рассказ служанки",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.077
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.077
+    }
+  ],
+  "imdb:tt7660850": [
+    {
+      "key": "imdb:tt7203552",
+      "workId": "f-wd54958411",
+      "title": "Утреннее шоу",
+      "year": 2019,
+      "n": 9,
+      "weight": 0.179
+    },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 13,
+      "weight": 0.171
+    },
+    {
+      "key": "imdb:tt5788792",
+      "workId": "f-wd30634329",
+      "title": "Удивительная миссис Мейзел",
+      "year": 2017,
+      "n": 6,
+      "weight": 0.169
+    },
+    {
+      "key": "imdb:tt10986410",
+      "workId": "f-wd96407897",
+      "title": "Тед Лассо",
+      "year": 2020,
+      "n": 10,
+      "weight": 0.152
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 11,
+      "weight": 0.149
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.133
+    },
+    {
+      "key": "imdb:tt10155688",
+      "workId": "f-wd61040213",
+      "title": "Мейр из Исттауна",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.12
+    },
+    {
+      "key": "imdb:tt1759761",
+      "workId": "f-wd74801",
+      "title": "Вице-президент",
+      "year": 2012,
+      "n": 4,
+      "weight": 0.12
+    }
+  ],
+  "tmdb:795811": [
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.179
     }
   ],
   "tmdb:97666": [
@@ -18764,24 +19114,30 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.177
     }
   ],
-  "tmdb:20994": [
+  "tmdb:604079": [
     {
-      "key": "tmdb:34869",
-      "workId": "f-wd2196619",
-      "title": "Груз 200",
-      "year": 2007,
+      "key": "tmdb:842924",
+      "workId": "f-wd123169098",
+      "title": "Жизнь Чака",
+      "year": 2024,
       "n": 3,
       "weight": 0.177
-    }
-  ],
-  "tmdb:34869": [
+    },
     {
-      "key": "tmdb:20994",
-      "workId": "f-wd4180811",
-      "title": "Жмурки",
-      "year": 2005,
+      "key": "tmdb:1242011",
+      "workId": "f-wd131870558",
+      "title": "Одно целое",
+      "year": 2025,
       "n": 3,
-      "weight": 0.177
+      "weight": 0.152
+    },
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.115
     }
   ],
   "tmdb:594718": [
@@ -18799,107 +19155,25 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Вторжение",
       "year": 2020,
       "n": 3,
-      "weight": 0.163
+      "weight": 0.147
     }
   ],
-  "tmdb:6977": [
+  "tmdb:1212763": [
     {
-      "key": "tmdb:37799",
-      "workId": "f-tmdb37799",
-      "title": "Социальная сеть",
-      "year": 2010,
+      "key": "tmdb:693134",
+      "workId": "f-tmdb693134",
+      "title": "Дюна: Часть вторая",
+      "year": 2024,
       "n": 3,
       "weight": 0.177
     },
     {
-      "key": "tmdb:38",
-      "workId": "f-tmdb38",
-      "title": "Вечное сияние чистого разума",
-      "year": 2004,
+      "key": "tmdb:507076",
+      "workId": "f-wd52000412",
+      "title": "Экстаз",
+      "year": 2018,
       "n": 3,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:155",
-      "workId": "f-tmdb155",
-      "title": "Тёмный рыцарь",
-      "year": 2008,
-      "n": 4,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.072
-    }
-  ],
-  "tmdb:545611": [
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 12,
-      "weight": 0.177
-    },
-    {
-      "key": "tmdb:804095",
-      "workId": "f-tmdb804095",
-      "title": "Фабельманы",
-      "year": 2022,
-      "n": 9,
-      "weight": 0.174
-    },
-    {
-      "key": "tmdb:724495",
-      "workId": "f-tmdb724495",
-      "title": "Королева-воин",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.158
-    },
-    {
-      "key": "tmdb:660120",
-      "workId": "f-tmdb660120",
-      "title": "Худший человек на свете",
-      "year": 2021,
-      "n": 9,
-      "weight": 0.128
-    },
-    {
-      "key": "tmdb:777245",
-      "workId": "f-tmdb777245",
-      "title": "Говорят женщины",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.118
-    },
-    {
-      "key": "tmdb:632617",
-      "workId": "f-wd73537113",
-      "title": "Камон Камон",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.097
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 8,
-      "weight": 0.092
-    },
-    {
-      "key": "tmdb:555604",
-      "workId": "f-tmdb555604",
-      "title": "Пиноккио Гильермо дель Торо",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.078
+      "weight": 0.14
     }
   ],
   "tmdb:13515": [
@@ -18910,6 +19184,34 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1975,
       "n": 3,
       "weight": 0.177
+    }
+  ],
+  "tmdb:20993": [
+    {
+      "key": "tmdb:20994",
+      "workId": "f-wd4180811",
+      "title": "Жмурки",
+      "year": 2005,
+      "n": 3,
+      "weight": 0.176
+    }
+  ],
+  "tmdb:20994": [
+    {
+      "key": "tmdb:20993",
+      "workId": "f-wd1528731",
+      "title": "Брат 2",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.176
+    },
+    {
+      "key": "tmdb:34869",
+      "workId": "f-wd2196619",
+      "title": "Груз 200",
+      "year": 2007,
+      "n": 3,
+      "weight": 0.152
     }
   ],
   "tmdb:417427": [
@@ -18945,7 +19247,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Человек из Подольска",
       "year": 2020,
       "n": 3,
-      "weight": 0.139
+      "weight": 0.131
     }
   ],
   "tmdb:130794": [
@@ -18958,127 +19260,153 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.176
     }
   ],
-  "tmdb:98": [
+  "tmdb:398978": [
     {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
-      "n": 4,
-      "weight": 0.175
-    }
-  ],
-  "tmdb:576845": [
-    {
-      "key": "tmdb:747",
-      "workId": "f-wd858724",
-      "title": "Зомби по имени Шон",
-      "year": 2004,
-      "n": 5,
-      "weight": 0.173
-    }
-  ],
-  "imdb:tt10919420": [
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 13,
-      "weight": 0.173
-    },
-    {
-      "key": "tmdb:554230",
-      "workId": "f-wd99926331",
-      "title": "Незнакомая дочь",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.152
-    },
-    {
-      "key": "imdb:tt7203552",
-      "workId": "f-wd54958411",
-      "title": "Утреннее шоу",
+      "key": "tmdb:551332",
+      "workId": "f-wd58894738",
+      "title": "Два папы",
       "year": 2019,
-      "n": 8,
-      "weight": 0.147
-    },
-    {
-      "key": "imdb:tt8714904",
-      "workId": "f-wd55657276",
-      "title": "Нарко: Мексика",
-      "year": 2018,
       "n": 3,
-      "weight": 0.117
+      "weight": 0.174
     },
     {
-      "key": "tmdb:776503",
-      "workId": "f-tmdb776503",
-      "title": "CODA: Ребенок глухих родителей",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.092
-    },
-    {
-      "key": "tmdb:517088",
-      "workId": "f-wd105907125",
-      "title": "Быть Рикардо",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.092
-    },
-    {
-      "key": "imdb:tt11126994",
-      "workId": "f-wd85518571",
-      "title": "Аркейн",
-      "year": 2021,
+      "key": "tmdb:515001",
+      "workId": "f-wd54862508",
+      "title": "Кролик Джоджо",
+      "year": 2019,
       "n": 4,
-      "weight": 0.09
+      "weight": 0.127
     },
     {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.084
+      "key": "tmdb:475557",
+      "workId": "f-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 6,
+      "weight": 0.101
+    },
+    {
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.056
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.055
     }
   ],
-  "tmdb:1109255": [
+  "tmdb:551332": [
     {
-      "key": "tmdb:592831",
-      "workId": "f-wd115175910",
-      "title": "Мегалополис",
-      "year": 2024,
+      "key": "tmdb:398978",
+      "workId": "f-tmdb398978",
+      "title": "Ирландец",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.174
+    }
+  ],
+  "tmdb:369972": [
+    {
+      "key": "tmdb:419704",
+      "workId": "f-wd38774788",
+      "title": "К звёздам",
+      "year": 2019,
       "n": 4,
+      "weight": 0.173
+    }
+  ],
+  "tmdb:545611": [
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 12,
       "weight": 0.172
     },
     {
-      "key": "tmdb:179144",
-      "workId": "f-wd6379279",
-      "title": "Великая красота",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.14
+      "key": "tmdb:804095",
+      "workId": "f-tmdb804095",
+      "title": "Фабельманы",
+      "year": 2022,
+      "n": 9,
+      "weight": 0.17
     },
     {
-      "key": "tmdb:974576",
-      "workId": "f-wd116701124",
-      "title": "Конклав",
-      "year": 2024,
+      "key": "tmdb:724495",
+      "workId": "f-tmdb724495",
+      "title": "Королева-воин",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.157
+    },
+    {
+      "key": "tmdb:660120",
+      "workId": "f-tmdb660120",
+      "title": "Худший человек на свете",
+      "year": 2021,
+      "n": 9,
+      "weight": 0.128
+    },
+    {
+      "key": "tmdb:777245",
+      "workId": "f-tmdb777245",
+      "title": "Говорят женщины",
+      "year": 2022,
       "n": 3,
-      "weight": 0.139
+      "weight": 0.109
+    },
+    {
+      "key": "tmdb:632617",
+      "workId": "f-wd73537113",
+      "title": "Камон Камон",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.096
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 8,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:555604",
+      "workId": "f-tmdb555604",
+      "title": "Пиноккио Гильермо дель Торо",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.075
+    }
+  ],
+  "imdb:tt0141842": [
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 4,
+      "weight": 0.171
+    },
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.159
     }
   ],
   "tmdb:592831": [
-    {
-      "key": "tmdb:1109255",
-      "workId": "f-wd122169131",
-      "title": "Партенопа",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.172
-    },
     {
       "key": "tmdb:1228475",
       "workId": "f-wd124408825",
@@ -19086,6 +19414,14 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 5,
       "weight": 0.171
+    },
+    {
+      "key": "tmdb:1109255",
+      "workId": "f-wd122169131",
+      "title": "Партенопа",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.165
     },
     {
       "key": "tmdb:49687",
@@ -19109,35 +19445,127 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Конклав",
       "year": 2024,
       "n": 3,
-      "weight": 0.072
+      "weight": 0.07
     }
   ],
-  "tmdb:507086": [
+  "imdb:tt10919420": [
     {
-      "key": "tmdb:329",
-      "workId": "f-tmdb329",
-      "title": "Парк юрского периода",
-      "year": 1993,
-      "n": 3,
-      "weight": 0.172
-    }
-  ],
-  "imdb:tt0141842": [
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 4,
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 13,
       "weight": 0.171
     },
     {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
+      "key": "tmdb:554230",
+      "workId": "f-wd99926331",
+      "title": "Незнакомая дочь",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.151
+    },
+    {
+      "key": "imdb:tt7203552",
+      "workId": "f-wd54958411",
+      "title": "Утреннее шоу",
+      "year": 2019,
+      "n": 8,
+      "weight": 0.146
+    },
+    {
+      "key": "imdb:tt8714904",
+      "workId": "f-wd55657276",
+      "title": "Нарко: Мексика",
+      "year": 2018,
       "n": 3,
-      "weight": 0.159
+      "weight": 0.116
+    },
+    {
+      "key": "tmdb:517088",
+      "workId": "f-wd105907125",
+      "title": "Быть Рикардо",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:776503",
+      "workId": "f-tmdb776503",
+      "title": "CODA: Ребенок глухих родителей",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.09
+    },
+    {
+      "key": "imdb:tt11126994",
+      "workId": "f-wd85518571",
+      "title": "Аркейн",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.09
+    },
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.083
+    }
+  ],
+  "tmdb:146233": [
+    {
+      "key": "tmdb:329865",
+      "workId": "w04",
+      "title": "Прибытие",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.17
+    }
+  ],
+  "tmdb:329865": [
+    {
+      "key": "tmdb:146233",
+      "workId": "f-tmdb146233",
+      "title": "Пленницы",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.17
+    },
+    {
+      "key": "tmdb:269149",
+      "workId": "f-tmdb269149",
+      "title": "Зверополис",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.139
+    },
+    {
+      "key": "tmdb:376867",
+      "workId": "f-tmdb376867",
+      "title": "Лунный свет",
+      "year": 2016,
+      "n": 4,
+      "weight": 0.121
+    },
+    {
+      "key": "tmdb:313369",
+      "workId": "f-tmdb313369",
+      "title": "Ла-Ла Ленд",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.066
+    }
+  ],
+  "tmdb:576845": [
+    {
+      "key": "tmdb:747",
+      "workId": "f-wd858724",
+      "title": "Зомби по имени Шон",
+      "year": 2004,
+      "n": 5,
+      "weight": 0.169
     }
   ],
   "imdb:tt5788792": [
@@ -19147,7 +19575,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 6,
-      "weight": 0.17
+      "weight": 0.169
     },
     {
       "key": "imdb:tt11691774",
@@ -19241,6 +19669,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.06
     }
   ],
+  "tmdb:1083381": [
+    {
+      "key": "tmdb:1339713",
+      "workId": "f-wd136163067",
+      "title": "Обсессия",
+      "year": 2025,
+      "n": 9,
+      "weight": 0.168
+    },
+    {
+      "key": "imdb:tt20863294",
+      "workId": "f-wd125131315",
+      "title": "Закулисье",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.149
+    },
+    {
+      "key": "tmdb:1489187",
+      "workId": "f-wd136805944",
+      "title": "Сводишь с ума",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.099
+    }
+  ],
   "imdb:tt1221072": [
     {
       "key": "tmdb:470326",
@@ -19288,7 +19742,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дикий робот",
       "year": 2024,
       "n": 4,
-      "weight": 0.145
+      "weight": 0.142
     },
     {
       "key": "tmdb:746036",
@@ -19305,16 +19759,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2024,
       "n": 4,
       "weight": 0.132
-    }
-  ],
-  "imdb:tt8740976": [
-    {
-      "key": "imdb:tt13659418",
-      "workId": "f-wd106609866",
-      "title": "Пэм и Томми",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.168
     }
   ],
   "imdb:tt7660970": [
@@ -19342,7 +19786,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Вечное сияние чистого разума",
       "year": 2004,
       "n": 4,
-      "weight": 0.124
+      "weight": 0.12
     },
     {
       "key": "tmdb:11423",
@@ -19353,28 +19797,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.093
     },
     {
-      "key": "tmdb:37799",
-      "workId": "f-tmdb37799",
-      "title": "Социальная сеть",
-      "year": 2010,
-      "n": 3,
-      "weight": 0.093
-    },
-    {
       "key": "tmdb:155",
       "workId": "f-tmdb155",
       "title": "Тёмный рыцарь",
       "year": 2008,
       "n": 4,
-      "weight": 0.088
+      "weight": 0.086
     },
     {
-      "key": "tmdb:6977",
-      "workId": "f-tmdb6977",
-      "title": "Старикам тут не место",
-      "year": 2007,
+      "key": "tmdb:37799",
+      "workId": "f-tmdb37799",
+      "title": "Социальная сеть",
+      "year": 2010,
       "n": 3,
-      "weight": 0.072
+      "weight": 0.081
     },
     {
       "key": "tmdb:244786",
@@ -19390,7 +19826,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Джокер",
       "year": 2019,
       "n": 6,
-      "weight": 0.069
+      "weight": 0.068
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.066
     }
   ],
   "tmdb:287947": [
@@ -19403,20 +19847,20 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.168
     },
     {
-      "key": "tmdb:507076",
-      "workId": "f-wd52000412",
-      "title": "Экстаз",
-      "year": 2018,
-      "n": 4,
-      "weight": 0.149
-    },
-    {
       "key": "tmdb:141052",
       "workId": "f-wd20501835",
       "title": "Лига справедливости",
       "year": 2017,
       "n": 4,
       "weight": 0.145
+    },
+    {
+      "key": "tmdb:507076",
+      "workId": "f-wd52000412",
+      "title": "Экстаз",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.142
     },
     {
       "key": "tmdb:157433",
@@ -19432,7 +19876,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Джентльмены",
       "year": 2024,
       "n": 4,
-      "weight": 0.089
+      "weight": 0.087
     }
   ],
   "tmdb:456740": [
@@ -19445,6 +19889,70 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.168
     }
   ],
+  "tmdb:507086": [
+    {
+      "key": "tmdb:329",
+      "workId": "f-tmdb329",
+      "title": "Парк юрского периода",
+      "year": 1993,
+      "n": 3,
+      "weight": 0.167
+    }
+  ],
+  "tmdb:13": [
+    {
+      "key": "tmdb:594",
+      "workId": "f-tmdb594",
+      "title": "Терминал",
+      "year": 2004,
+      "n": 3,
+      "weight": 0.167
+    },
+    {
+      "key": "tmdb:105",
+      "workId": "f-tmdb105",
+      "title": "Назад в будущее",
+      "year": 1985,
+      "n": 5,
+      "weight": 0.088
+    }
+  ],
+  "tmdb:594": [
+    {
+      "key": "tmdb:13",
+      "workId": "f-tmdb13",
+      "title": "Форрест Гамп",
+      "year": 1994,
+      "n": 3,
+      "weight": 0.167
+    }
+  ],
+  "tmdb:1109255": [
+    {
+      "key": "tmdb:592831",
+      "workId": "f-wd115175910",
+      "title": "Мегалополис",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.165
+    },
+    {
+      "key": "tmdb:179144",
+      "workId": "f-wd6379279",
+      "title": "Великая красота",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.135
+    },
+    {
+      "key": "tmdb:974576",
+      "workId": "f-wd116701124",
+      "title": "Конклав",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.13
+    }
+  ],
   "tmdb:694": [
     {
       "key": "tmdb:501170",
@@ -19452,7 +19960,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Доктор Сон",
       "year": 2019,
       "n": 5,
-      "weight": 0.167
+      "weight": 0.165
     },
     {
       "key": "tmdb:620",
@@ -19460,93 +19968,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Охотники за привидениями",
       "year": 1984,
       "n": 3,
-      "weight": 0.124
-    }
-  ],
-  "imdb:tt13649112": [
-    {
-      "key": "imdb:tt15435876",
-      "workId": "f-wd111189743",
-      "title": "Пингвин",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.167
-    }
-  ],
-  "tmdb:1056360": [
-    {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.167
-    },
-    {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.14
-    }
-  ],
-  "tmdb:974576": [
-    {
-      "key": "tmdb:974950",
-      "workId": "f-wd123928072",
-      "title": "Эмилия Перес",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.165
-    },
-    {
-      "key": "tmdb:549509",
-      "workId": "f-wd101112656",
-      "title": "Бруталист",
-      "year": 2024,
-      "n": 7,
-      "weight": 0.157
-    },
-    {
-      "key": "tmdb:1109255",
-      "workId": "f-wd122169131",
-      "title": "Партенопа",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.139
-    },
-    {
-      "key": "tmdb:1013850",
-      "workId": "f-wd123690368",
-      "title": "Настоящая боль",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.113
-    },
-    {
-      "key": "tmdb:933260",
-      "workId": "l-tmdb933260",
-      "title": "Субстанция",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.091
-    },
-    {
-      "key": "tmdb:143",
-      "workId": "f-tmdb143",
-      "title": "На западном фронте без перемен",
-      "year": 1930,
-      "n": 3,
-      "weight": 0.089
-    },
-    {
-      "key": "tmdb:592831",
-      "workId": "f-wd115175910",
-      "title": "Мегалополис",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.072
+      "weight": 0.119
     }
   ],
   "tmdb:297761": [
@@ -19569,132 +19991,90 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.164
     }
   ],
-  "tmdb:550988": [
+  "imdb:tt8740976": [
     {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 3,
+      "key": "imdb:tt13659418",
+      "workId": "f-wd106609866",
+      "title": "Пэм и Томми",
+      "year": 2022,
+      "n": 4,
       "weight": 0.164
     }
   ],
-  "tmdb:283995": [
+  "tmdb:98": [
     {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.161
-    }
-  ],
-  "tmdb:299534": [
-    {
-      "key": "tmdb:283995",
-      "workId": "f-wd20001199",
-      "title": "Стражи Галактики. Часть 2",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.161
-    },
-    {
-      "key": "tmdb:24428",
-      "workId": "f-tmdb24428",
-      "title": "Мстители",
-      "year": 2012,
-      "n": 11,
-      "weight": 0.139
-    },
-    {
-      "key": "tmdb:299536",
-      "workId": "f-tmdb299536",
-      "title": "Мстители: Война бесконечности",
-      "year": 2018,
-      "n": 7,
-      "weight": 0.123
-    },
-    {
-      "key": "tmdb:1726",
-      "workId": "f-tmdb1726",
-      "title": "Железный человек",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.114
-    },
-    {
-      "key": "tmdb:100402",
-      "workId": "f-tmdb100402",
-      "title": "Первый мститель: Другая война",
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
       "year": 2014,
-      "n": 3,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:521029",
-      "workId": "f-wd55973412",
-      "title": "Проклятие Аннабель 3",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.093
-    },
-    {
-      "key": "tmdb:301528",
-      "workId": "f-wd18517638",
-      "title": "История игрушек 4",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.091
-    },
-    {
-      "key": "tmdb:284053",
-      "workId": "f-tmdb284053",
-      "title": "Тор: Рагнарёк",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.061
+      "n": 4,
+      "weight": 0.164
     }
   ],
-  "tmdb:537116": [
+  "tmdb:933260": [
     {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
+      "key": "tmdb:1022789",
+      "workId": "f-wd113877606",
+      "title": "Головоломка 2",
+      "year": 2024,
+      "n": 6,
+      "weight": 0.162
+    },
+    {
+      "key": "tmdb:1184918",
+      "workId": "f-wd124378349",
+      "title": "Дикий робот",
+      "year": 2024,
       "n": 5,
-      "weight": 0.161
+      "weight": 0.158
     },
     {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
+      "key": "tmdb:1214077",
+      "workId": "f-wd127966778",
+      "title": "Пираты галактики Барракуда",
+      "year": 2024,
       "n": 4,
-      "weight": 0.155
+      "weight": 0.147
     },
     {
-      "key": "tmdb:568124",
-      "workId": "f-tmdb568124",
-      "title": "Энканто",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.131
+      "key": "tmdb:516729",
+      "workId": "f-wd121076570",
+      "title": "Приключения Паддингтона 3",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.142
     },
     {
-      "key": "tmdb:777270",
-      "workId": "f-tmdb777270",
-      "title": "Белфаст",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.111
+      "key": "tmdb:786892",
+      "workId": "f-wd100361125",
+      "title": "Фуриоса: Хроники Безумного Макса",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.133
     },
     {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.087
+      "key": "imdb:tt15435876",
+      "workId": "f-wd111189743",
+      "title": "Пингвин",
+      "year": 2024,
+      "n": 5,
+      "weight": 0.132
+    },
+    {
+      "key": "tmdb:1152700",
+      "workId": "f-wd134650614",
+      "title": "Любовь Советского Союза",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.13
+    },
+    {
+      "key": "tmdb:974950",
+      "workId": "f-wd123928072",
+      "title": "Эмилия Перес",
+      "year": 2024,
+      "n": 4,
+      "weight": 0.13
     }
   ],
   "tmdb:589761": [
@@ -19704,7 +20084,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Хостел",
       "year": 2005,
       "n": 4,
-      "weight": 0.16
+      "weight": 0.158
     },
     {
       "key": "tmdb:517839",
@@ -19712,7 +20092,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "На границе миров",
       "year": 2018,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.119
     },
     {
       "key": "tmdb:728118",
@@ -19720,7 +20100,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Куда ты идёшь, Аида?",
       "year": 2020,
       "n": 3,
-      "weight": 0.12
+      "weight": 0.119
     },
     {
       "key": "tmdb:365177",
@@ -19728,7 +20108,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бордерлендс",
       "year": 2024,
       "n": 3,
-      "weight": 0.102
+      "weight": 0.101
     },
     {
       "key": "tmdb:452008",
@@ -19736,7 +20116,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Теснота",
       "year": 2017,
       "n": 4,
-      "weight": 0.099
+      "weight": 0.098
     },
     {
       "key": "imdb:tt0944947",
@@ -19744,7 +20124,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 7,
-      "weight": 0.07
+      "weight": 0.068
     },
     {
       "key": "imdb:tt3581920",
@@ -19752,7 +20132,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Одни из нас",
       "year": 2023,
       "n": 6,
-      "weight": 0.069
+      "weight": 0.067
     },
     {
       "key": "imdb:tt1869454",
@@ -19760,35 +20140,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Благие знамения",
       "year": 2019,
       "n": 3,
-      "weight": 0.067
-    }
-  ],
-  "tmdb:218": [
-    {
-      "key": "tmdb:290859",
-      "workId": "f-wd39072454",
-      "title": "Терминатор: Тёмные судьбы",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.16
-    }
-  ],
-  "tmdb:290859": [
-    {
-      "key": "tmdb:218",
-      "workId": "f-tmdb218",
-      "title": "Терминатор",
-      "year": 1984,
-      "n": 4,
-      "weight": 0.16
-    },
-    {
-      "key": "imdb:tt8111088",
-      "workId": "f-wd56876444",
-      "title": "Мандалорец",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.083
+      "weight": 0.066
     }
   ],
   "tmdb:508883": [
@@ -19822,7 +20174,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Унесённые призраками",
       "year": 2001,
       "n": 3,
-      "weight": 0.083
+      "weight": 0.079
     },
     {
       "key": "tmdb:872585",
@@ -19830,7 +20182,161 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Оппенгеймер",
       "year": 2023,
       "n": 3,
-      "weight": 0.054
+      "weight": 0.053
+    }
+  ],
+  "tmdb:452008": [
+    {
+      "key": "tmdb:583198",
+      "workId": "f-wd107426602",
+      "title": "Разжимая кулаки",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.157
+    },
+    {
+      "key": "imdb:tt3581920",
+      "workId": "f-wd87131973",
+      "title": "Одни из нас",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.11
+    },
+    {
+      "key": "tmdb:589761",
+      "workId": "f-wd65154504",
+      "title": "Чернобыль",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.098
+    }
+  ],
+  "tmdb:433808": [
+    {
+      "key": "tmdb:1100988",
+      "workId": "f-wd125392328",
+      "title": "28 лет спустя",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.156
+    }
+  ],
+  "tmdb:632617": [
+    {
+      "key": "tmdb:758866",
+      "workId": "f-tmdb758866",
+      "title": "Сядь за руль моей машины",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.156
+    },
+    {
+      "key": "tmdb:660120",
+      "workId": "f-tmdb660120",
+      "title": "Худший человек на свете",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.147
+    },
+    {
+      "key": "tmdb:505026",
+      "workId": "f-wd56816969",
+      "title": "Смерть на Ниле",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.115
+    },
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.107
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.096
+    }
+  ],
+  "tmdb:283995": [
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.156
+    }
+  ],
+  "tmdb:299534": [
+    {
+      "key": "tmdb:283995",
+      "workId": "f-wd20001199",
+      "title": "Стражи Галактики. Часть 2",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.156
+    },
+    {
+      "key": "tmdb:299536",
+      "workId": "f-tmdb299536",
+      "title": "Мстители: Война бесконечности",
+      "year": 2018,
+      "n": 7,
+      "weight": 0.119
+    },
+    {
+      "key": "tmdb:1726",
+      "workId": "f-tmdb1726",
+      "title": "Железный человек",
+      "year": 2008,
+      "n": 3,
+      "weight": 0.11
+    },
+    {
+      "key": "tmdb:100402",
+      "workId": "f-tmdb100402",
+      "title": "Первый мститель: Другая война",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.096
+    },
+    {
+      "key": "tmdb:521029",
+      "workId": "f-wd55973412",
+      "title": "Проклятие Аннабель 3",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.09
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.088
+    },
+    {
+      "key": "tmdb:19995",
+      "workId": "f-tmdb19995",
+      "title": "Аватар",
+      "year": 2009,
+      "n": 7,
+      "weight": 0.073
+    },
+    {
+      "key": "tmdb:284053",
+      "workId": "f-tmdb284053",
+      "title": "Тор: Рагнарёк",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.059
     }
   ],
   "tmdb:313369": [
@@ -19840,7 +20346,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Малхолланд Драйв",
       "year": 2001,
       "n": 8,
-      "weight": 0.158
+      "weight": 0.156
     },
     {
       "key": "tmdb:872",
@@ -19899,196 +20405,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.059
     }
   ],
-  "tmdb:452008": [
-    {
-      "key": "tmdb:583198",
-      "workId": "f-wd107426602",
-      "title": "Разжимая кулаки",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.157
-    },
-    {
-      "key": "imdb:tt3581920",
-      "workId": "f-wd87131973",
-      "title": "Одни из нас",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.111
-    },
-    {
-      "key": "tmdb:589761",
-      "workId": "f-wd65154504",
-      "title": "Чернобыль",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.099
-    }
-  ],
-  "tmdb:559969": [
-    {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
-      "n": 3,
-      "weight": 0.156
-    }
-  ],
-  "tmdb:433808": [
-    {
-      "key": "tmdb:1100988",
-      "workId": "f-wd125392328",
-      "title": "28 лет спустя",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.156
-    }
-  ],
-  "tmdb:632617": [
-    {
-      "key": "tmdb:758866",
-      "workId": "f-tmdb758866",
-      "title": "Сядь за руль моей машины",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.156
-    },
-    {
-      "key": "tmdb:660120",
-      "workId": "f-tmdb660120",
-      "title": "Худший человек на свете",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.147
-    },
-    {
-      "key": "tmdb:505026",
-      "workId": "f-wd56816969",
-      "title": "Смерть на Ниле",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.118
-    },
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.109
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.097
-    }
-  ],
-  "tmdb:666277": [
-    {
-      "key": "tmdb:1136867",
-      "workId": "f-wd125726790",
-      "title": "Материалистка",
-      "year": 2025,
-      "n": 5,
-      "weight": 0.156
-    },
-    {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.12
-    },
-    {
-      "key": "tmdb:839369",
-      "workId": "f-tmdb839369",
-      "title": "Май декабрь",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.102
-    },
-    {
-      "key": "tmdb:467244",
-      "workId": "f-tmdb467244",
-      "title": "Зона интересов",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.076
-    },
-    {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.075
-    },
-    {
-      "key": "tmdb:792307",
-      "workId": "f-tmdb792307",
-      "title": "Бедные-несчастные",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.068
-    },
-    {
-      "key": "wd:Q188538",
-      "workId": "w16",
-      "title": "Мастер и Маргарита",
-      "year": 1967,
-      "n": 3,
-      "weight": 0.057
-    }
-  ],
-  "tmdb:14372": [
-    {
-      "key": "tmdb:429174",
-      "workId": "f-tmdb429174",
-      "title": "Нелюбовь",
-      "year": 2017,
-      "n": 5,
-      "weight": 0.155
-    },
-    {
-      "key": "imdb:tt30852730",
-      "workId": "f-wd132769188",
-      "title": "Аутсорс",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.092
-    }
-  ],
-  "tmdb:429174": [
-    {
-      "key": "tmdb:14372",
-      "workId": "f-tmdb14372",
-      "title": "Левиафан",
-      "year": 1989,
-      "n": 5,
-      "weight": 0.155
-    },
-    {
-      "key": "tmdb:457842",
-      "workId": "f-wd30611924",
-      "title": "Аритмия",
-      "year": 2017,
-      "n": 3,
-      "weight": 0.101
-    }
-  ],
   "tmdb:375262": [
     {
       "key": "tmdb:254320",
@@ -20104,7 +20420,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Бедные-несчастные",
       "year": 2023,
       "n": 3,
-      "weight": 0.081
+      "weight": 0.078
+    }
+  ],
+  "imdb:tt13649112": [
+    {
+      "key": "imdb:tt15435876",
+      "workId": "f-wd111189743",
+      "title": "Пингвин",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.154
     }
   ],
   "tmdb:576920": [
@@ -20130,7 +20456,49 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 3,
-      "weight": 0.055
+      "weight": 0.054
+    }
+  ],
+  "tmdb:537116": [
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.153
+    },
+    {
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.145
+    },
+    {
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.125
+    },
+    {
+      "key": "tmdb:777270",
+      "workId": "f-tmdb777270",
+      "title": "Белфаст",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.108
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.085
     }
   ],
   "imdb:tt1759761": [
@@ -20156,7 +20524,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 5,
-      "weight": 0.11
+      "weight": 0.108
     }
   ],
   "imdb:tt4288182": [
@@ -20174,121 +20542,109 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Большая маленькая ложь",
       "year": 2017,
       "n": 3,
-      "weight": 0.11
+      "weight": 0.108
     }
   ],
-  "tmdb:587792": [
+  "tmdb:14372": [
     {
-      "key": "imdb:tt0460649",
-      "workId": "f-wd147235",
-      "title": "Как я встретил вашу маму",
-      "year": 2005,
-      "n": 3,
+      "key": "tmdb:429174",
+      "workId": "f-tmdb429174",
+      "title": "Нелюбовь",
+      "year": 2017,
+      "n": 5,
       "weight": 0.153
     },
     {
-      "key": "imdb:tt2467372",
-      "workId": "f-wd13417244",
-      "title": "Бруклин 9-9",
-      "year": 2013,
+      "key": "imdb:tt30852730",
+      "workId": "f-wd132769188",
+      "title": "Аутсорс",
+      "year": 2025,
       "n": 3,
-      "weight": 0.142
+      "weight": 0.09
     }
   ],
-  "tmdb:793": [
+  "tmdb:429174": [
     {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
+      "key": "tmdb:14372",
+      "workId": "f-tmdb14372",
+      "title": "Левиафан",
+      "year": 1989,
+      "n": 5,
+      "weight": 0.153
+    },
+    {
+      "key": "tmdb:457842",
+      "workId": "f-wd30611924",
+      "title": "Аритмия",
+      "year": 2017,
+      "n": 3,
+      "weight": 0.101
+    }
+  ],
+  "tmdb:550988": [
+    {
+      "key": "tmdb:497698",
+      "workId": "f-wd23894626",
+      "title": "Чёрная вдова",
+      "year": 2021,
       "n": 3,
       "weight": 0.152
     }
   ],
-  "imdb:tt37185587": [
+  "tmdb:559969": [
     {
-      "key": "tmdb:100784",
-      "workId": "f-wd1986362",
-      "title": "Хрусталёв, машину!",
-      "year": 1998,
-      "n": 4,
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 3,
       "weight": 0.152
     }
   ],
-  "tmdb:100784": [
+  "tmdb:34869": [
     {
-      "key": "imdb:tt37185587",
-      "workId": "f-wd123956510",
-      "title": "Трудно быть богом",
-      "year": 2026,
-      "n": 4,
+      "key": "tmdb:20994",
+      "workId": "f-wd4180811",
+      "title": "Жмурки",
+      "year": 2005,
+      "n": 3,
       "weight": 0.152
     }
   ],
-  "tmdb:933260": [
+  "tmdb:218": [
     {
-      "key": "tmdb:1214077",
-      "workId": "f-wd127966778",
-      "title": "Пираты галактики Барракуда",
-      "year": 2024,
+      "key": "tmdb:290859",
+      "workId": "f-wd39072454",
+      "title": "Терминатор: Тёмные судьбы",
+      "year": 2019,
       "n": 4,
       "weight": 0.151
     },
     {
-      "key": "tmdb:1022789",
-      "workId": "f-wd113877606",
-      "title": "Головоломка 2",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.147
-    },
+      "key": "tmdb:19995",
+      "workId": "f-tmdb19995",
+      "title": "Аватар",
+      "year": 2009,
+      "n": 3,
+      "weight": 0.057
+    }
+  ],
+  "tmdb:290859": [
     {
-      "key": "tmdb:516729",
-      "workId": "f-wd121076570",
-      "title": "Приключения Паддингтона 3",
-      "year": 2024,
+      "key": "tmdb:218",
+      "workId": "f-tmdb218",
+      "title": "Терминатор",
+      "year": 1984,
       "n": 4,
-      "weight": 0.146
+      "weight": 0.151
     },
     {
-      "key": "tmdb:786892",
-      "workId": "f-wd100361125",
-      "title": "Фуриоса: Хроники Безумного Макса",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.137
-    },
-    {
-      "key": "imdb:tt15435876",
-      "workId": "f-wd111189743",
-      "title": "Пингвин",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.136
-    },
-    {
-      "key": "tmdb:929590",
-      "workId": "f-wd111538862",
-      "title": "Падение империи",
-      "year": 2024,
-      "n": 5,
-      "weight": 0.136
-    },
-    {
-      "key": "tmdb:1152700",
-      "workId": "f-wd134650614",
-      "title": "Любовь Советского Союза",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.133
-    },
-    {
-      "key": "tmdb:1184918",
-      "workId": "f-wd124378349",
-      "title": "Дикий робот",
-      "year": 2024,
-      "n": 4,
-      "weight": 0.133
+      "key": "imdb:tt8111088",
+      "workId": "f-wd56876444",
+      "title": "Мандалорец",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.083
     }
   ],
   "tmdb:872": [
@@ -20309,82 +20665,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.146
     }
   ],
-  "tmdb:598014": [
-    {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.151
-    }
-  ],
-  "tmdb:634649": [
-    {
-      "key": "tmdb:598014",
-      "workId": "f-wd104641226",
-      "title": "Последний богатырь: Посланник тьмы",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.151
-    },
-    {
-      "key": "tmdb:624860",
-      "workId": "f-wd80322391",
-      "title": "Матрица: Воскрешение",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.132
-    },
-    {
-      "key": "tmdb:566525",
-      "workId": "f-wd65768589",
-      "title": "Шан-Чи и легенда десяти колец",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.105
-    },
-    {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.093
-    },
-    {
-      "key": "tmdb:524434",
-      "workId": "f-tmdb524434",
-      "title": "Вечные",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.073
-    },
-    {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.056
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.054
-    },
-    {
-      "key": "tmdb:370172",
-      "workId": "f-wd21534241",
-      "title": "Не время умирать",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.051
-    }
-  ],
   "tmdb:796185": [
     {
       "key": "tmdb:798286",
@@ -20395,22 +20675,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.151
     }
   ],
-  "tmdb:866398": [
-    {
-      "key": "tmdb:245891",
-      "workId": "f-wd15732802",
-      "title": "Джон Уик",
-      "year": 2014,
-      "n": 3,
-      "weight": 0.15
-    }
-  ],
   "tmdb:49687": [
     {
       "key": "tmdb:592831",
       "workId": "f-wd115175910",
       "title": "Мегалополис",
       "year": 2024,
+      "n": 3,
+      "weight": 0.149
+    }
+  ],
+  "tmdb:866398": [
+    {
+      "key": "tmdb:245891",
+      "workId": "f-wd15732802",
+      "title": "Джон Уик",
+      "year": 2014,
       "n": 3,
       "weight": 0.149
     }
@@ -20433,12 +20713,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.118
     }
   ],
-  "tmdb:8073": [
+  "imdb:tt20863294": [
     {
-      "key": "tmdb:269",
-      "workId": "f-tmdb269",
-      "title": "На последнем дыхании",
-      "year": 1960,
+      "key": "tmdb:1083381",
+      "workId": "f-wd125131076",
+      "title": "Закулисье реальности",
+      "year": 2026,
       "n": 3,
       "weight": 0.149
     }
@@ -20493,6 +20773,72 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.055
     }
   ],
+  "tmdb:666277": [
+    {
+      "key": "tmdb:1136867",
+      "workId": "f-wd125726790",
+      "title": "Материалистка",
+      "year": 2025,
+      "n": 5,
+      "weight": 0.148
+    },
+    {
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.118
+    },
+    {
+      "key": "tmdb:839369",
+      "workId": "f-tmdb839369",
+      "title": "Май декабрь",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.102
+    },
+    {
+      "key": "tmdb:467244",
+      "workId": "f-tmdb467244",
+      "title": "Зона интересов",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.096
+    },
+    {
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.075
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.075
+    },
+    {
+      "key": "tmdb:792307",
+      "workId": "f-tmdb792307",
+      "title": "Бедные-несчастные",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.066
+    },
+    {
+      "key": "wd:Q188538",
+      "workId": "w16",
+      "title": "Мастер и Маргарита",
+      "year": 1967,
+      "n": 3,
+      "weight": 0.057
+    }
+  ],
   "tmdb:433502": [
     {
       "key": "tmdb:954",
@@ -20501,6 +20847,82 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 1996,
       "n": 3,
       "weight": 0.147
+    }
+  ],
+  "tmdb:598014": [
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.147
+    }
+  ],
+  "tmdb:634649": [
+    {
+      "key": "tmdb:598014",
+      "workId": "f-wd104641226",
+      "title": "Последний богатырь: Посланник тьмы",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.147
+    },
+    {
+      "key": "tmdb:624860",
+      "workId": "f-wd80322391",
+      "title": "Матрица: Воскрешение",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.129
+    },
+    {
+      "key": "tmdb:566525",
+      "workId": "f-wd65768589",
+      "title": "Шан-Чи и легенда десяти колец",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.103
+    },
+    {
+      "key": "tmdb:497698",
+      "workId": "f-wd23894626",
+      "title": "Чёрная вдова",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.09
+    },
+    {
+      "key": "tmdb:524434",
+      "workId": "f-tmdb524434",
+      "title": "Вечные",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.072
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.053
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.053
+    },
+    {
+      "key": "tmdb:370172",
+      "workId": "f-wd21534241",
+      "title": "Не время умирать",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.049
     }
   ],
   "tmdb:221667": [
@@ -20513,98 +20935,22 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.147
     }
   ],
-  "tmdb:466420": [
-    {
-      "key": "tmdb:753342",
-      "workId": "f-wd105806948",
-      "title": "Наполеон",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.147
-    },
-    {
-      "key": "tmdb:1056360",
-      "workId": "f-wd116413183",
-      "title": "Американское чтиво",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.14
-    },
-    {
-      "key": "tmdb:467244",
-      "workId": "f-tmdb467244",
-      "title": "Зона интересов",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.101
-    },
-    {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.098
-    },
+  "tmdb:1056360": [
     {
       "key": "tmdb:915935",
       "workId": "c-anatomy",
       "title": "Анатомия падения",
       "year": 2023,
       "n": 3,
-      "weight": 0.094
+      "weight": 0.146
     },
-    {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.076
-    },
-    {
-      "key": "imdb:tt4786824",
-      "workId": "f-wd20707362",
-      "title": "Корона",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.056
-    }
-  ],
-  "tmdb:753342": [
     {
       "key": "tmdb:466420",
       "workId": "f-tmdb466420",
       "title": "Убийцы цветочной луны",
       "year": 2023,
       "n": 3,
-      "weight": 0.147
-    }
-  ],
-  "tmdb:580175": [
-    {
-      "key": "tmdb:615643",
-      "workId": "f-tmdb615643",
-      "title": "Минари",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.146
-    },
-    {
-      "key": "tmdb:582014",
-      "workId": "f-tmdb582014",
-      "title": "Девушка, подающая надежды",
-      "year": 2020,
-      "n": 6,
-      "weight": 0.137
-    },
-    {
-      "key": "tmdb:581734",
-      "workId": "f-tmdb581734",
-      "title": "Земля кочевников",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.086
+      "weight": 0.124
     }
   ],
   "wd:Q333637": [
@@ -20617,72 +20963,6 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.146
     }
   ],
-  "tmdb:913290": [
-    {
-      "key": "tmdb:1078605",
-      "workId": "f-wd126487478",
-      "title": "Орудия",
-      "year": 2025,
-      "n": 4,
-      "weight": 0.145
-    }
-  ],
-  "imdb:tt10857164": [
-    {
-      "key": "imdb:tt1520211",
-      "workId": "f-wd232737",
-      "title": "Ходячие мертвецы",
-      "year": 2010,
-      "n": 4,
-      "weight": 0.145
-    }
-  ],
-  "imdb:tt1520211": [
-    {
-      "key": "imdb:tt10857164",
-      "workId": "f-wd84712813",
-      "title": "Мисс Марвел",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.145
-    },
-    {
-      "key": "imdb:tt0460681",
-      "workId": "f-wd130585",
-      "title": "Сверхъестественное",
-      "year": 2005,
-      "n": 3,
-      "weight": 0.13
-    },
-    {
-      "key": "imdb:tt4574334",
-      "workId": "f-wd19798734",
-      "title": "Очень странные дела",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.044
-    }
-  ],
-  "tmdb:1314481": [
-    {
-      "key": "tmdb:350",
-      "workId": "f-tmdb350",
-      "title": "Дьявол носит Prada",
-      "year": 2006,
-      "n": 4,
-      "weight": 0.144
-    }
-  ],
-  "tmdb:350": [
-    {
-      "key": "tmdb:1314481",
-      "workId": "f-wd134611972",
-      "title": "Дьявол носит Prada 2",
-      "year": 2026,
-      "n": 4,
-      "weight": 0.144
-    }
-  ],
   "imdb:tt2403776": [
     {
       "key": "imdb:tt10155688",
@@ -20693,12 +20973,48 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.144
     }
   ],
-  "tmdb:686": [
+  "imdb:tt10857164": [
     {
-      "key": "tmdb:157336",
-      "workId": "f-tmdb157336",
-      "title": "Интерстеллар",
-      "year": 2014,
+      "key": "imdb:tt1520211",
+      "workId": "f-wd232737",
+      "title": "Ходячие мертвецы",
+      "year": 2010,
+      "n": 4,
+      "weight": 0.143
+    }
+  ],
+  "imdb:tt1520211": [
+    {
+      "key": "imdb:tt10857164",
+      "workId": "f-wd84712813",
+      "title": "Мисс Марвел",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.143
+    },
+    {
+      "key": "imdb:tt0460681",
+      "workId": "f-wd130585",
+      "title": "Сверхъестественное",
+      "year": 2005,
+      "n": 3,
+      "weight": 0.128
+    },
+    {
+      "key": "imdb:tt4574334",
+      "workId": "f-wd19798734",
+      "title": "Очень странные дела",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.043
+    }
+  ],
+  "tmdb:793": [
+    {
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
       "n": 3,
       "weight": 0.143
     }
@@ -20710,7 +21026,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Разжимая кулаки",
       "year": 2021,
       "n": 6,
-      "weight": 0.142
+      "weight": 0.14
     },
     {
       "key": "tmdb:818621",
@@ -20718,7 +21034,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Капитан Волконогов бежал",
       "year": 2021,
       "n": 3,
-      "weight": 0.092
+      "weight": 0.09
     },
     {
       "key": "tmdb:758866",
@@ -20726,7 +21042,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сядь за руль моей машины",
       "year": 2021,
       "n": 4,
-      "weight": 0.086
+      "weight": 0.084
     },
     {
       "key": "tmdb:766798",
@@ -20734,61 +21050,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Параллельные матери",
       "year": 2021,
       "n": 3,
-      "weight": 0.081
-    }
-  ],
-  "tmdb:310593": [
-    {
-      "key": "tmdb:179144",
-      "workId": "f-wd6379279",
-      "title": "Великая красота",
-      "year": 2013,
-      "n": 3,
-      "weight": 0.14
-    }
-  ],
-  "tmdb:515001": [
-    {
-      "key": "tmdb:398978",
-      "workId": "f-tmdb398978",
-      "title": "Ирландец",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.14
-    },
-    {
-      "key": "tmdb:475557",
-      "workId": "f-tmdb475557",
-      "title": "Джокер",
-      "year": 2019,
-      "n": 6,
-      "weight": 0.126
-    },
-    {
-      "key": "tmdb:466272",
-      "workId": "f-tmdb466272",
-      "title": "Однажды в… Голливуде",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.068
-    }
-  ],
-  "tmdb:633882": [
-    {
-      "key": "tmdb:595464",
-      "workId": "f-wd65154239",
-      "title": "Доктор Лиза",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.139
+      "weight": 0.08
     }
   ],
   "tmdb:269149": [
@@ -20809,48 +21071,126 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.131
     }
   ],
-  "imdb:tt3526078": [
+  "tmdb:913290": [
+    {
+      "key": "tmdb:1078605",
+      "workId": "f-wd126487478",
+      "title": "Орудия",
+      "year": 2025,
+      "n": 4,
+      "weight": 0.139
+    }
+  ],
+  "imdb:tt4955642": [
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.139
+    }
+  ],
+  "tmdb:466420": [
+    {
+      "key": "tmdb:753342",
+      "workId": "f-wd105806948",
+      "title": "Наполеон",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.139
+    },
+    {
+      "key": "tmdb:1056360",
+      "workId": "f-wd116413183",
+      "title": "Американское чтиво",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.124
+    },
+    {
+      "key": "tmdb:467244",
+      "workId": "f-tmdb467244",
+      "title": "Зона интересов",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.098
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.096
+    },
+    {
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.091
+    },
+    {
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.075
+    },
     {
       "key": "imdb:tt4786824",
       "workId": "f-wd20707362",
       "title": "Корона",
       "year": 2016,
-      "n": 5,
-      "weight": 0.139
-    },
-    {
-      "key": "imdb:tt10986410",
-      "workId": "f-wd96407897",
-      "title": "Тед Лассо",
-      "year": 2020,
       "n": 3,
-      "weight": 0.092
+      "weight": 0.055
     }
   ],
-  "tmdb:24428": [
+  "tmdb:753342": [
     {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 11,
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.139
+    }
+  ],
+  "tmdb:580175": [
+    {
+      "key": "tmdb:615643",
+      "workId": "f-tmdb615643",
+      "title": "Минари",
+      "year": 2021,
+      "n": 7,
       "weight": 0.139
     },
     {
-      "key": "tmdb:299536",
-      "workId": "f-tmdb299536",
-      "title": "Мстители: Война бесконечности",
-      "year": 2018,
-      "n": 3,
-      "weight": 0.077
+      "key": "tmdb:582014",
+      "workId": "f-tmdb582014",
+      "title": "Девушка, подающая надежды",
+      "year": 2020,
+      "n": 6,
+      "weight": 0.128
     },
     {
-      "key": "tmdb:19995",
-      "workId": "f-tmdb19995",
-      "title": "Аватар",
-      "year": 2009,
+      "key": "tmdb:663870",
+      "workId": "f-wd87126473",
+      "title": "Рыцари справедливости",
+      "year": 2020,
       "n": 3,
-      "weight": 0.049
+      "weight": 0.114
+    },
+    {
+      "key": "tmdb:581734",
+      "workId": "f-tmdb581734",
+      "title": "Земля кочевников",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.081
     }
   ],
   "imdb:tt10160804": [
@@ -20860,7 +21200,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ванда/Вижн",
       "year": 2021,
       "n": 5,
-      "weight": 0.139
+      "weight": 0.137
     },
     {
       "key": "imdb:tt9208876",
@@ -20878,7 +21218,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Соколиный глаз",
       "year": 2021,
       "n": 5,
-      "weight": 0.139
+      "weight": 0.137
     },
     {
       "key": "imdb:tt9208876",
@@ -20886,7 +21226,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Сокол и Зимний солдат",
       "year": 2021,
       "n": 6,
-      "weight": 0.135
+      "weight": 0.134
     },
     {
       "key": "imdb:tt10155688",
@@ -20897,100 +21237,32 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.069
     }
   ],
-  "imdb:tt4955642": [
+  "tmdb:587792": [
     {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
+      "key": "imdb:tt0460649",
+      "workId": "f-wd147235",
+      "title": "Как я встретил вашу маму",
+      "year": 2005,
       "n": 3,
-      "weight": 0.139
+      "weight": 0.137
+    },
+    {
+      "key": "imdb:tt2467372",
+      "workId": "f-wd13417244",
+      "title": "Бруклин 9-9",
+      "year": 2013,
+      "n": 3,
+      "weight": 0.127
     }
   ],
-  "tmdb:301502": [
+  "imdb:tt3526078": [
     {
-      "key": "tmdb:744594",
-      "workId": "f-wd107377383",
-      "title": "Белый шум",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.139
-    },
-    {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.057
-    }
-  ],
-  "tmdb:744594": [
-    {
-      "key": "tmdb:301502",
-      "workId": "f-wd66823622",
-      "title": "Блондинка",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.139
-    }
-  ],
-  "imdb:tt11280740": [
-    {
-      "key": "imdb:tt22202452",
-      "workId": "f-wd122155720",
-      "title": "Одна из многих",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.138
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 7,
-      "weight": 0.121
-    },
-    {
-      "key": "imdb:tt7203552",
-      "workId": "f-wd54958411",
-      "title": "Утреннее шоу",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.102
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
+      "key": "imdb:tt4786824",
+      "workId": "f-wd20707362",
+      "title": "Корона",
+      "year": 2016,
       "n": 5,
-      "weight": 0.084
-    },
-    {
-      "key": "imdb:tt8772296",
-      "workId": "f-wd56275505",
-      "title": "Эйфория",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.082
-    },
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 4,
-      "weight": 0.073
+      "weight": 0.135
     },
     {
       "key": "imdb:tt10986410",
@@ -20998,17 +21270,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Тед Лассо",
       "year": 2020,
       "n": 3,
-      "weight": 0.058
+      "weight": 0.09
     }
   ],
-  "imdb:tt22202452": [
+  "tmdb:310593": [
     {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
+      "key": "tmdb:179144",
+      "workId": "f-wd6379279",
+      "title": "Великая красота",
+      "year": 2013,
       "n": 3,
-      "weight": 0.138
+      "weight": 0.135
     }
   ],
   "tmdb:111919": [
@@ -21017,16 +21289,6 @@ export const comentions: Record<string, CoMention[]> = {
       "workId": "f-tmdb530385",
       "title": "Солнцестояние",
       "year": 2019,
-      "n": 3,
-      "weight": 0.136
-    }
-  ],
-  "tmdb:318846": [
-    {
-      "key": "tmdb:646380",
-      "workId": "f-tmdb646380",
-      "title": "Не смотрите наверх",
-      "year": 2021,
       "n": 3,
       "weight": 0.135
     }
@@ -21038,7 +21300,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ванда/Вижн",
       "year": 2021,
       "n": 6,
-      "weight": 0.135
+      "weight": 0.134
     },
     {
       "key": "imdb:tt10160804",
@@ -21054,105 +21316,141 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чёрная вдова",
       "year": 2021,
       "n": 3,
-      "weight": 0.075
+      "weight": 0.074
     }
   ],
-  "tmdb:10191": [
+  "tmdb:301502": [
     {
-      "key": "tmdb:1184918",
-      "workId": "f-wd124378349",
-      "title": "Дикий робот",
-      "year": 2024,
+      "key": "tmdb:744594",
+      "workId": "f-wd107377383",
+      "title": "Белый шум",
+      "year": 2022,
       "n": 3,
       "weight": 0.134
-    }
-  ],
-  "tmdb:780609": [
-    {
-      "key": "tmdb:530385",
-      "workId": "f-tmdb530385",
-      "title": "Солнцестояние",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.133
     },
     {
-      "key": "tmdb:170",
-      "workId": "f-wd221075",
-      "title": "28 дней спустя",
-      "year": 2002,
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
       "n": 3,
-      "weight": 0.128
+      "weight": 0.085
     },
     {
       "key": "tmdb:545611",
       "workId": "f-tmdb545611",
       "title": "Всё везде и сразу",
       "year": 2022,
+      "n": 3,
+      "weight": 0.055
+    }
+  ],
+  "tmdb:744594": [
+    {
+      "key": "tmdb:301502",
+      "workId": "f-wd66823622",
+      "title": "Блондинка",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.134
+    }
+  ],
+  "tmdb:1314481": [
+    {
+      "key": "tmdb:350",
+      "workId": "f-tmdb350",
+      "title": "Дьявол носит Prada",
+      "year": 2006,
       "n": 4,
-      "weight": 0.076
-    }
-  ],
-  "tmdb:505026": [
-    {
-      "key": "tmdb:718032",
-      "workId": "f-tmdb718032",
-      "title": "Лакричная пицца",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.133
-    },
-    {
-      "key": "tmdb:632617",
-      "workId": "f-wd73537113",
-      "title": "Камон Камон",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.118
-    }
-  ],
-  "tmdb:28": [
-    {
-      "key": "tmdb:1472573",
-      "workId": "f-wd138718968",
-      "title": "Здесь был Юра",
-      "year": 2026,
-      "n": 3,
       "weight": 0.132
-    },
+    }
+  ],
+  "tmdb:350": [
     {
-      "key": "tmdb:238",
-      "workId": "f-tmdb238",
-      "title": "Крёстный отец",
-      "year": 1972,
+      "key": "tmdb:1314481",
+      "workId": "f-wd134611972",
+      "title": "Дьявол носит Prada 2",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.132
+    }
+  ],
+  "tmdb:633882": [
+    {
+      "key": "tmdb:595464",
+      "workId": "f-wd65154239",
+      "title": "Доктор Лиза",
+      "year": 2020,
       "n": 3,
-      "weight": 0.122
-    },
+      "weight": 0.131
+    }
+  ],
+  "imdb:tt11280740": [
     {
-      "key": "tmdb:1317288",
-      "workId": "f-wd130118681",
-      "title": "Марти Великолепный",
+      "key": "imdb:tt22202452",
+      "workId": "f-wd122155720",
+      "title": "Одна из многих",
       "year": 2025,
       "n": 3,
-      "weight": 0.11
-    }
-  ],
-  "tmdb:624860": [
-    {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.132
+      "weight": 0.131
     },
     {
-      "key": "tmdb:603",
-      "workId": "f-tmdb603",
-      "title": "Матрица",
-      "year": 1999,
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 7,
+      "weight": 0.119
+    },
+    {
+      "key": "imdb:tt7203552",
+      "workId": "f-wd54958411",
+      "title": "Утреннее шоу",
+      "year": 2019,
       "n": 4,
-      "weight": 0.113
+      "weight": 0.101
+    },
+    {
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.083
+    },
+    {
+      "key": "imdb:tt8772296",
+      "workId": "f-wd56275505",
+      "title": "Эйфория",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.079
+    },
+    {
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.072
+    },
+    {
+      "key": "imdb:tt10986410",
+      "workId": "f-wd96407897",
+      "title": "Тед Лассо",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.057
+    }
+  ],
+  "imdb:tt22202452": [
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.131
     }
   ],
   "tmdb:641662": [
@@ -21162,27 +21460,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Земля кочевников",
       "year": 2021,
       "n": 3,
-      "weight": 0.132
-    }
-  ],
-  "tmdb:12503": [
-    {
-      "key": "tmdb:1233413",
-      "workId": "f-wd125473145",
-      "title": "Грешники",
-      "year": 2025,
-      "n": 3,
       "weight": 0.131
-    }
-  ],
-  "imdb:tt30027562": [
-    {
-      "key": "imdb:tt30852730",
-      "workId": "f-wd132769188",
-      "title": "Аутсорс",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.13
     }
   ],
   "tmdb:157433": [
@@ -21195,12 +21473,104 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.13
     }
   ],
+  "tmdb:780609": [
+    {
+      "key": "tmdb:530385",
+      "workId": "f-tmdb530385",
+      "title": "Солнцестояние",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.13
+    },
+    {
+      "key": "tmdb:170",
+      "workId": "f-wd221075",
+      "title": "28 дней спустя",
+      "year": 2002,
+      "n": 3,
+      "weight": 0.123
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.074
+    }
+  ],
+  "tmdb:8073": [
+    {
+      "key": "tmdb:269",
+      "workId": "f-tmdb269",
+      "title": "На последнем дыхании",
+      "year": 1960,
+      "n": 3,
+      "weight": 0.129
+    }
+  ],
   "tmdb:353081": [
     {
       "key": "tmdb:954",
       "workId": "f-wd1741232",
       "title": "Миссия невыполнима",
       "year": 1996,
+      "n": 4,
+      "weight": 0.129
+    }
+  ],
+  "tmdb:624860": [
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.129
+    },
+    {
+      "key": "tmdb:603",
+      "workId": "f-tmdb603",
+      "title": "Матрица",
+      "year": 1999,
+      "n": 4,
+      "weight": 0.112
+    }
+  ],
+  "tmdb:505026": [
+    {
+      "key": "tmdb:718032",
+      "workId": "f-tmdb718032",
+      "title": "Лакричная пицца",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.129
+    },
+    {
+      "key": "tmdb:632617",
+      "workId": "f-wd73537113",
+      "title": "Камон Камон",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.115
+    }
+  ],
+  "imdb:tt37185587": [
+    {
+      "key": "tmdb:100784",
+      "workId": "f-wd1986362",
+      "title": "Хрусталёв, машину!",
+      "year": 1998,
+      "n": 4,
+      "weight": 0.129
+    }
+  ],
+  "tmdb:100784": [
+    {
+      "key": "imdb:tt37185587",
+      "workId": "f-wd123956510",
+      "title": "Трудно быть богом",
+      "year": 2026,
       "n": 4,
       "weight": 0.129
     }
@@ -21228,7 +21598,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мир Дикого запада",
       "year": 2016,
       "n": 4,
-      "weight": 0.099
+      "weight": 0.098
     },
     {
       "key": "tmdb:244786",
@@ -21244,7 +21614,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 5,
-      "weight": 0.093
+      "weight": 0.092
     },
     {
       "key": "imdb:tt3920596",
@@ -21252,7 +21622,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Большая маленькая ложь",
       "year": 2017,
       "n": 3,
-      "weight": 0.083
+      "weight": 0.082
     },
     {
       "key": "imdb:tt7203552",
@@ -21268,25 +21638,119 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Король Ричард",
       "year": 2021,
       "n": 3,
-      "weight": 0.074
+      "weight": 0.071
+    }
+  ],
+  "tmdb:318846": [
+    {
+      "key": "tmdb:646380",
+      "workId": "f-tmdb646380",
+      "title": "Не смотрите наверх",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.128
+    }
+  ],
+  "tmdb:10191": [
+    {
+      "key": "tmdb:1184918",
+      "workId": "f-wd124378349",
+      "title": "Дикий робот",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.128
+    }
+  ],
+  "tmdb:515001": [
+    {
+      "key": "tmdb:398978",
+      "workId": "f-tmdb398978",
+      "title": "Ирландец",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.127
+    },
+    {
+      "key": "tmdb:475557",
+      "workId": "f-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 6,
+      "weight": 0.118
+    },
+    {
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.082
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.065
+    }
+  ],
+  "imdb:tt30027562": [
+    {
+      "key": "imdb:tt30852730",
+      "workId": "f-wd132769188",
+      "title": "Аутсорс",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.126
+    }
+  ],
+  "tmdb:12503": [
+    {
+      "key": "tmdb:1233413",
+      "workId": "f-wd125473145",
+      "title": "Грешники",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.125
+    }
+  ],
+  "tmdb:661374": [
+    {
+      "key": "tmdb:497828",
+      "workId": "f-tmdb497828",
+      "title": "Треугольник печали",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.124
+    }
+  ],
+  "tmdb:686": [
+    {
+      "key": "tmdb:157336",
+      "workId": "f-tmdb157336",
+      "title": "Интерстеллар",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.123
     }
   ],
   "imdb:tt13210838": [
-    {
-      "key": "tmdb:507076",
-      "workId": "f-wd52000412",
-      "title": "Экстаз",
-      "year": 2018,
-      "n": 4,
-      "weight": 0.126
-    },
     {
       "key": "tmdb:141052",
       "workId": "f-wd20501835",
       "title": "Лига справедливости",
       "year": 2017,
       "n": 4,
-      "weight": 0.123
+      "weight": 0.121
+    },
+    {
+      "key": "tmdb:507076",
+      "workId": "f-wd52000412",
+      "title": "Экстаз",
+      "year": 2018,
+      "n": 4,
+      "weight": 0.118
     },
     {
       "key": "tmdb:576917",
@@ -21294,7 +21758,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Лёд 2",
       "year": 2020,
       "n": 3,
-      "weight": 0.103
+      "weight": 0.101
     },
     {
       "key": "tmdb:287947",
@@ -21302,7 +21766,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Шазам!",
       "year": 2019,
       "n": 4,
-      "weight": 0.089
+      "weight": 0.087
     },
     {
       "key": "imdb:tt0312098",
@@ -21310,7 +21774,121 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Хищные птицы",
       "year": 2002,
       "n": 3,
-      "weight": 0.086
+      "weight": 0.084
+    }
+  ],
+  "imdb:tt0411008": [
+    {
+      "key": "tmdb:57749",
+      "workId": "f-wd980327",
+      "title": "Клиника",
+      "year": 2010,
+      "n": 3,
+      "weight": 0.12
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.047
+    }
+  ],
+  "imdb:tt0944947": [
+    {
+      "key": "tmdb:23843",
+      "workId": "f-wd4675507",
+      "title": "Прослушка",
+      "year": 2006,
+      "n": 7,
+      "weight": 0.119
+    },
+    {
+      "key": "imdb:tt1759761",
+      "workId": "f-wd74801",
+      "title": "Вице-президент",
+      "year": 2012,
+      "n": 5,
+      "weight": 0.108
+    },
+    {
+      "key": "tmdb:29427",
+      "workId": "f-wd427296",
+      "title": "Безумцы",
+      "year": 2010,
+      "n": 5,
+      "weight": 0.105
+    },
+    {
+      "key": "imdb:tt0475784",
+      "workId": "f-wd17572811",
+      "title": "Мир Дикого запада",
+      "year": 2016,
+      "n": 6,
+      "weight": 0.082
+    },
+    {
+      "key": "imdb:tt1751634",
+      "workId": "f-wd92590789",
+      "title": "Песочный человек",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.072
+    },
+    {
+      "key": "tmdb:589761",
+      "workId": "f-wd65154504",
+      "title": "Чернобыль",
+      "year": 2021,
+      "n": 7,
+      "weight": 0.068
+    },
+    {
+      "key": "imdb:tt7016936",
+      "workId": "f-wd39049904",
+      "title": "Убивая Еву",
+      "year": 2018,
+      "n": 5,
+      "weight": 0.058
+    },
+    {
+      "key": "imdb:tt5834204",
+      "workId": "f-wd25207350",
+      "title": "Рассказ служанки",
+      "year": 2017,
+      "n": 4,
+      "weight": 0.054
+    }
+  ],
+  "tmdb:11362": [
+    {
+      "key": "tmdb:933260",
+      "workId": "l-tmdb933260",
+      "title": "Субстанция",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.119
+    }
+  ],
+  "tmdb:9740": [
+    {
+      "key": "tmdb:118340",
+      "workId": "f-tmdb118340",
+      "title": "Стражи Галактики",
+      "year": 2014,
+      "n": 3,
+      "weight": 0.119
+    }
+  ],
+  "tmdb:620": [
+    {
+      "key": "tmdb:694",
+      "workId": "f-tmdb694",
+      "title": "Сияние",
+      "year": 1980,
+      "n": 3,
+      "weight": 0.119
     }
   ],
   "tmdb:475557": [
@@ -21320,7 +21898,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Кролик Джоджо",
       "year": 2019,
       "n": 6,
-      "weight": 0.126
+      "weight": 0.118
     },
     {
       "key": "tmdb:398978",
@@ -21328,7 +21906,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ирландец",
       "year": 2019,
       "n": 6,
-      "weight": 0.106
+      "weight": 0.101
     },
     {
       "key": "imdb:tt7157248",
@@ -21344,7 +21922,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "К звёздам",
       "year": 2019,
       "n": 4,
-      "weight": 0.078
+      "weight": 0.077
     },
     {
       "key": "tmdb:496243",
@@ -21352,7 +21930,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Паразиты",
       "year": 2019,
       "n": 6,
-      "weight": 0.069
+      "weight": 0.068
     },
     {
       "key": "tmdb:331482",
@@ -21360,7 +21938,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Маленькие женщины",
       "year": 2019,
       "n": 3,
-      "weight": 0.062
+      "weight": 0.061
     },
     {
       "key": "tmdb:359724",
@@ -21376,149 +21954,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Однажды в… Голливуде",
       "year": 2019,
       "n": 6,
-      "weight": 0.054
-    }
-  ],
-  "tmdb:620": [
-    {
-      "key": "tmdb:694",
-      "workId": "f-tmdb694",
-      "title": "Сияние",
-      "year": 1980,
-      "n": 3,
-      "weight": 0.124
-    }
-  ],
-  "tmdb:661374": [
-    {
-      "key": "tmdb:497828",
-      "workId": "f-tmdb497828",
-      "title": "Треугольник печали",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.124
-    }
-  ],
-  "imdb:tt0411008": [
-    {
-      "key": "tmdb:57749",
-      "workId": "f-wd980327",
-      "title": "Клиника",
-      "year": 2010,
-      "n": 3,
-      "weight": 0.124
-    },
-    {
-      "key": "imdb:tt0944947",
-      "workId": "f-wd23572",
-      "title": "Игра престолов",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.047
-    }
-  ],
-  "tmdb:21575": [
-    {
-      "key": "tmdb:1168197",
-      "workId": "f-wd131295126",
-      "title": "Кончится лето",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.123
-    },
-    {
-      "key": "imdb:tt30852730",
-      "workId": "f-wd132769188",
-      "title": "Аутсорс",
-      "year": 2025,
-      "n": 3,
-      "weight": 0.115
-    }
-  ],
-  "tmdb:11362": [
-    {
-      "key": "tmdb:933260",
-      "workId": "l-tmdb933260",
-      "title": "Субстанция",
-      "year": 2024,
-      "n": 3,
-      "weight": 0.122
-    }
-  ],
-  "imdb:tt0944947": [
-    {
-      "key": "tmdb:23843",
-      "workId": "f-wd4675507",
-      "title": "Прослушка",
-      "year": 2006,
-      "n": 7,
-      "weight": 0.12
-    },
-    {
-      "key": "imdb:tt1759761",
-      "workId": "f-wd74801",
-      "title": "Вице-президент",
-      "year": 2012,
-      "n": 5,
-      "weight": 0.11
-    },
-    {
-      "key": "tmdb:29427",
-      "workId": "f-wd427296",
-      "title": "Безумцы",
-      "year": 2010,
-      "n": 5,
-      "weight": 0.106
-    },
-    {
-      "key": "imdb:tt0475784",
-      "workId": "f-wd17572811",
-      "title": "Мир Дикого запада",
-      "year": 2016,
-      "n": 6,
-      "weight": 0.084
-    },
-    {
-      "key": "imdb:tt1751634",
-      "workId": "f-wd92590789",
-      "title": "Песочный человек",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.073
-    },
-    {
-      "key": "tmdb:589761",
-      "workId": "f-wd65154504",
-      "title": "Чернобыль",
-      "year": 2021,
-      "n": 7,
-      "weight": 0.07
-    },
-    {
-      "key": "imdb:tt7016936",
-      "workId": "f-wd39049904",
-      "title": "Убивая Еву",
-      "year": 2018,
-      "n": 5,
-      "weight": 0.059
-    },
-    {
-      "key": "imdb:tt5834204",
-      "workId": "f-wd25207350",
-      "title": "Рассказ служанки",
-      "year": 2017,
-      "n": 4,
-      "weight": 0.054
-    }
-  ],
-  "tmdb:9740": [
-    {
-      "key": "tmdb:118340",
-      "workId": "f-tmdb118340",
-      "title": "Стражи Галактики",
-      "year": 2014,
-      "n": 3,
-      "weight": 0.119
+      "weight": 0.052
     }
   ],
   "tmdb:603692": [
@@ -21531,64 +21967,38 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.118
     }
   ],
+  "tmdb:28": [
+    {
+      "key": "tmdb:1472573",
+      "workId": "f-wd138718968",
+      "title": "Здесь был Юра",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.118
+    },
+    {
+      "key": "tmdb:238",
+      "workId": "f-tmdb238",
+      "title": "Крёстный отец",
+      "year": 1972,
+      "n": 3,
+      "weight": 0.111
+    },
+    {
+      "key": "tmdb:1317288",
+      "workId": "f-wd130118681",
+      "title": "Марти Великолепный",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.102
+    }
+  ],
   "imdb:tt8714904": [
     {
       "key": "imdb:tt10919420",
       "workId": "f-wd106582931",
       "title": "Игра в кальмара",
       "year": 2021,
-      "n": 3,
-      "weight": 0.117
-    }
-  ],
-  "tmdb:414906": [
-    {
-      "key": "tmdb:508947",
-      "workId": "f-tmdb508947",
-      "title": "Я Краснею",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.116
-    },
-    {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.072
-    },
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.059
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 4,
-      "weight": 0.055
-    },
-    {
-      "key": "imdb:tt4574334",
-      "workId": "f-wd19798734",
-      "title": "Очень странные дела",
-      "year": 2016,
-      "n": 3,
-      "weight": 0.033
-    }
-  ],
-  "tmdb:508947": [
-    {
-      "key": "tmdb:414906",
-      "workId": "f-tmdb414906",
-      "title": "Бэтмен",
-      "year": 2022,
       "n": 3,
       "weight": 0.116
     }
@@ -21645,14 +22055,14 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.07
     }
   ],
-  "tmdb:3423": [
+  "tmdb:1000837": [
     {
-      "key": "tmdb:1008445",
-      "workId": "f-wd124153738",
-      "title": "Пророк. История Александра Пушкина",
-      "year": 2025,
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
       "n": 3,
-      "weight": 0.114
+      "weight": 0.115
     }
   ],
   "tmdb:609490": [
@@ -21686,7 +22096,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Не время умирать",
       "year": 2020,
       "n": 3,
-      "weight": 0.043
+      "weight": 0.042
     }
   ],
   "tmdb:901358": [
@@ -21699,30 +22109,78 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.114
     }
   ],
-  "tmdb:143": [
+  "tmdb:663870": [
     {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.113
-    },
+      "key": "tmdb:580175",
+      "workId": "f-tmdb580175",
+      "title": "Ещё по одной",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.114
+    }
+  ],
+  "tmdb:392817": [
     {
       "key": "tmdb:974576",
       "workId": "f-wd116701124",
       "title": "Конклав",
       "year": 2024,
       "n": 3,
-      "weight": 0.089
+      "weight": 0.114
     },
     {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
+      "key": "tmdb:549509",
+      "workId": "f-wd101112656",
+      "title": "Бруталист",
+      "year": 2024,
       "n": 3,
-      "weight": 0.054
+      "weight": 0.096
+    }
+  ],
+  "tmdb:21575": [
+    {
+      "key": "tmdb:1168197",
+      "workId": "f-wd131295126",
+      "title": "Кончится лето",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.112
+    },
+    {
+      "key": "imdb:tt30852730",
+      "workId": "f-wd132769188",
+      "title": "Аутсорс",
+      "year": 2025,
+      "n": 3,
+      "weight": 0.106
+    }
+  ],
+  "tmdb:1275779": [
+    {
+      "key": "tmdb:1368337",
+      "workId": "f-wd131547207",
+      "title": "Одиссея",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.112
+    }
+  ],
+  "tmdb:1368337": [
+    {
+      "key": "tmdb:1275779",
+      "workId": "f-wd126683577",
+      "title": "День разоблачения",
+      "year": 2026,
+      "n": 4,
+      "weight": 0.112
+    },
+    {
+      "key": "tmdb:969681",
+      "workId": "f-wd113244935",
+      "title": "Человек-паук: Новый день",
+      "year": 2026,
+      "n": 3,
+      "weight": 0.059
     }
   ],
   "tmdb:603": [
@@ -21732,25 +22190,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Матрица: Воскрешение",
       "year": 2021,
       "n": 4,
-      "weight": 0.113
+      "weight": 0.112
     }
   ],
-  "imdb:tt3581920": [
+  "tmdb:3423": [
     {
-      "key": "tmdb:452008",
-      "workId": "f-wd29413154",
-      "title": "Теснота",
-      "year": 2017,
-      "n": 5,
+      "key": "tmdb:1008445",
+      "workId": "f-wd124153738",
+      "title": "Пророк. История Александра Пушкина",
+      "year": 2025,
+      "n": 3,
       "weight": 0.111
-    },
-    {
-      "key": "tmdb:589761",
-      "workId": "f-wd65154504",
-      "title": "Чернобыль",
-      "year": 2021,
-      "n": 6,
-      "weight": 0.069
     }
   ],
   "tmdb:984317": [
@@ -21763,6 +22213,76 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.111
     }
   ],
+  "tmdb:414906": [
+    {
+      "key": "tmdb:508947",
+      "workId": "f-tmdb508947",
+      "title": "Я Краснею",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.11
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.071
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.058
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.055
+    },
+    {
+      "key": "imdb:tt4574334",
+      "workId": "f-wd19798734",
+      "title": "Очень странные дела",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.033
+    }
+  ],
+  "tmdb:508947": [
+    {
+      "key": "tmdb:414906",
+      "workId": "f-tmdb414906",
+      "title": "Бэтмен",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.11
+    }
+  ],
+  "imdb:tt3581920": [
+    {
+      "key": "tmdb:452008",
+      "workId": "f-wd29413154",
+      "title": "Теснота",
+      "year": 2017,
+      "n": 5,
+      "weight": 0.11
+    },
+    {
+      "key": "tmdb:589761",
+      "workId": "f-wd65154504",
+      "title": "Чернобыль",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.067
+    }
+  ],
   "tmdb:531219": [
     {
       "key": "tmdb:426063",
@@ -21770,7 +22290,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Носферату",
       "year": 2024,
       "n": 5,
-      "weight": 0.11
+      "weight": 0.109
     }
   ],
   "imdb:tt3920596": [
@@ -21780,15 +22300,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Атланта",
       "year": 2016,
       "n": 3,
-      "weight": 0.11
-    },
-    {
-      "key": "imdb:tt2085059",
-      "workId": "f-wd558112",
-      "title": "Чёрное зеркало",
-      "year": 2011,
-      "n": 3,
-      "weight": 0.094
+      "weight": 0.108
     },
     {
       "key": "imdb:tt7203552",
@@ -21796,7 +22308,15 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Утреннее шоу",
       "year": 2019,
       "n": 3,
-      "weight": 0.09
+      "weight": 0.088
+    },
+    {
+      "key": "imdb:tt2085059",
+      "workId": "f-wd558112",
+      "title": "Чёрное зеркало",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.087
     },
     {
       "key": "imdb:tt5834204",
@@ -21804,41 +22324,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Рассказ служанки",
       "year": 2017,
       "n": 3,
-      "weight": 0.083
-    }
-  ],
-  "imdb:tt4093826": [
-    {
-      "key": "tmdb:1018",
-      "workId": "c-mulholland",
-      "title": "Малхолланд Драйв",
-      "year": 2001,
-      "n": 6,
-      "weight": 0.109
-    },
-    {
-      "key": "tmdb:638",
-      "workId": "f-wd289204",
-      "title": "Шоссе в никуда",
-      "year": 1997,
-      "n": 3,
-      "weight": 0.088
-    },
-    {
-      "key": "tmdb:1923",
-      "workId": "f-wd1140578",
-      "title": "Твин Пикс: Сквозь огонь",
-      "year": 1992,
-      "n": 3,
-      "weight": 0.085
-    },
-    {
-      "key": "tmdb:985",
-      "workId": "f-wd11618",
-      "title": "Голова-ластик",
-      "year": 1977,
-      "n": 3,
-      "weight": 0.085
+      "weight": 0.082
     }
   ],
   "tmdb:616037": [
@@ -21851,46 +22337,38 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.106
     }
   ],
-  "imdb:tt2861424": [
+  "imdb:tt4093826": [
     {
-      "key": "tmdb:9741",
-      "workId": "f-wd650613",
-      "title": "Неуязвимый",
-      "year": 2000,
-      "n": 3,
+      "key": "tmdb:1018",
+      "workId": "c-mulholland",
+      "title": "Малхолланд Драйв",
+      "year": 2001,
+      "n": 6,
       "weight": 0.106
     },
     {
-      "key": "tmdb:588228",
-      "workId": "f-wd67171072",
-      "title": "Война будущего",
-      "year": 2021,
+      "key": "tmdb:638",
+      "workId": "f-wd289204",
+      "title": "Шоссе в никуда",
+      "year": 1997,
       "n": 3,
-      "weight": 0.101
+      "weight": 0.087
     },
     {
-      "key": "imdb:tt7529770",
-      "workId": "l-tmdbtv78950",
-      "title": "Чудотворцы",
-      "year": 2019,
+      "key": "tmdb:1923",
+      "workId": "f-wd1140578",
+      "title": "Твин Пикс: Сквозь огонь",
+      "year": 1992,
       "n": 3,
-      "weight": 0.072
+      "weight": 0.084
     },
     {
-      "key": "imdb:tt7658402",
-      "workId": "f-wd57899682",
-      "title": "Харли Квинн",
-      "year": 2019,
+      "key": "tmdb:985",
+      "workId": "f-wd11618",
+      "title": "Голова-ластик",
+      "year": 1977,
       "n": 3,
-      "weight": 0.063
-    },
-    {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.054
+      "weight": 0.084
     }
   ],
   "imdb:tt0264235": [
@@ -21908,7 +22386,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 3,
-      "weight": 0.1
+      "weight": 0.099
     },
     {
       "key": "imdb:tt3032476",
@@ -21917,6 +22395,58 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2015,
       "n": 3,
       "weight": 0.094
+    }
+  ],
+  "tmdb:19995": [
+    {
+      "key": "tmdb:597",
+      "workId": "f-wd44578",
+      "title": "Титаник",
+      "year": 1997,
+      "n": 6,
+      "weight": 0.106
+    },
+    {
+      "key": "tmdb:76600",
+      "workId": "f-tmdb76600",
+      "title": "Аватар: Путь воды",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.092
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 7,
+      "weight": 0.073
+    },
+    {
+      "key": "tmdb:218",
+      "workId": "f-tmdb218",
+      "title": "Терминатор",
+      "year": 1984,
+      "n": 3,
+      "weight": 0.057
+    }
+  ],
+  "tmdb:597": [
+    {
+      "key": "tmdb:19995",
+      "workId": "f-tmdb19995",
+      "title": "Аватар",
+      "year": 2009,
+      "n": 6,
+      "weight": 0.106
+    },
+    {
+      "key": "tmdb:299534",
+      "workId": "f-tmdb299534",
+      "title": "Мстители: Финал",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.041
     }
   ],
   "tmdb:1164": [
@@ -21937,108 +22467,64 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.083
     }
   ],
-  "tmdb:872585": [
+  "tmdb:143": [
     {
-      "key": "tmdb:792307",
-      "workId": "f-tmdb792307",
-      "title": "Бедные-несчастные",
-      "year": 2023,
-      "n": 6,
-      "weight": 0.105
-    },
-    {
-      "key": "tmdb:467244",
-      "workId": "f-tmdb467244",
-      "title": "Зона интересов",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.1
-    },
-    {
-      "key": "tmdb:466420",
-      "workId": "f-tmdb466420",
-      "title": "Убийцы цветочной луны",
-      "year": 2023,
-      "n": 5,
-      "weight": 0.098
-    },
-    {
-      "key": "tmdb:840430",
-      "workId": "f-wd112114745",
-      "title": "Оставленные",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.093
-    },
-    {
-      "key": "tmdb:666277",
-      "workId": "f-tmdb666277",
-      "title": "Прошлые жизни",
-      "year": 2023,
-      "n": 4,
-      "weight": 0.075
-    },
-    {
-      "key": "tmdb:915935",
-      "workId": "c-anatomy",
-      "title": "Анатомия падения",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.07
-    },
-    {
-      "key": "tmdb:2383",
-      "workId": "f-wd379460",
-      "title": "Медведь",
-      "year": 1988,
-      "n": 3,
-      "weight": 0.065
-    },
-    {
-      "key": "tmdb:508883",
-      "workId": "f-tmdb508883",
-      "title": "Мальчик и птица",
-      "year": 2023,
-      "n": 3,
-      "weight": 0.054
-    }
-  ],
-  "imdb:tt0159206": [
-    {
-      "key": "imdb:tt13819960",
-      "workId": "f-wd107272501",
-      "title": "И просто так…",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.105
-    }
-  ],
-  "imdb:tt13819960": [
-    {
-      "key": "imdb:tt0159206",
-      "workId": "l-tmdbtv105",
-      "title": "Секс в большом городе",
-      "year": 1998,
-      "n": 3,
-      "weight": 0.105
-    }
-  ],
-  "tmdb:566525": [
-    {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
-      "year": 2021,
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
       "n": 4,
       "weight": 0.105
     },
     {
-      "key": "tmdb:524434",
-      "workId": "f-tmdb524434",
-      "title": "Вечные",
+      "key": "tmdb:974576",
+      "workId": "f-wd116701124",
+      "title": "Конклав",
+      "year": 2024,
+      "n": 3,
+      "weight": 0.083
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.051
+    }
+  ],
+  "imdb:tt2861424": [
+    {
+      "key": "tmdb:9741",
+      "workId": "f-wd650613",
+      "title": "Неуязвимый",
+      "year": 2000,
+      "n": 3,
+      "weight": 0.105
+    },
+    {
+      "key": "tmdb:588228",
+      "workId": "f-wd67171072",
+      "title": "Война будущего",
       "year": 2021,
       "n": 3,
-      "weight": 0.085
+      "weight": 0.101
+    },
+    {
+      "key": "imdb:tt7529770",
+      "workId": "l-tmdbtv78950",
+      "title": "Чудотворцы",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.071
+    },
+    {
+      "key": "imdb:tt7658402",
+      "workId": "f-wd57899682",
+      "title": "Харли Квинн",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.063
     },
     {
       "key": "tmdb:497698",
@@ -22046,15 +22532,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чёрная вдова",
       "year": 2021,
       "n": 3,
-      "weight": 0.081
-    },
-    {
-      "key": "tmdb:370172",
-      "workId": "f-wd21534241",
-      "title": "Не время умирать",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.059
+      "weight": 0.053
     }
   ],
   "imdb:tt13406094": [
@@ -22104,7 +22582,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Фабельманы",
       "year": 2022,
       "n": 3,
-      "weight": 0.081
+      "weight": 0.079
     },
     {
       "key": "imdb:tt13659418",
@@ -22123,6 +22601,40 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.061
     }
   ],
+  "tmdb:566525": [
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.103
+    },
+    {
+      "key": "tmdb:524434",
+      "workId": "f-tmdb524434",
+      "title": "Вечные",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.085
+    },
+    {
+      "key": "tmdb:497698",
+      "workId": "f-wd23894626",
+      "title": "Чёрная вдова",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.08
+    },
+    {
+      "key": "tmdb:370172",
+      "workId": "f-wd21534241",
+      "title": "Не время умирать",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.058
+    }
+  ],
   "tmdb:839369": [
     {
       "key": "tmdb:666277",
@@ -22133,56 +22645,156 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.102
     }
   ],
-  "tmdb:670": [
+  "tmdb:370172": [
     {
-      "key": "tmdb:705996",
-      "workId": "f-tmdb705996",
-      "title": "Решение уйти",
-      "year": 2022,
-      "n": 3,
+      "key": "tmdb:614917",
+      "workId": "f-tmdb614917",
+      "title": "Король Ричард",
+      "year": 2021,
+      "n": 6,
       "weight": 0.102
+    },
+    {
+      "key": "tmdb:600583",
+      "workId": "f-tmdb600583",
+      "title": "Власть пса",
+      "year": 2021,
+      "n": 6,
+      "weight": 0.086
+    },
+    {
+      "key": "tmdb:36557",
+      "workId": "f-wd151904",
+      "title": "Казино «Рояль»",
+      "year": 2006,
+      "n": 3,
+      "weight": 0.08
+    },
+    {
+      "key": "tmdb:568124",
+      "workId": "f-tmdb568124",
+      "title": "Энканто",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.059
+    },
+    {
+      "key": "tmdb:566525",
+      "workId": "f-wd65768589",
+      "title": "Шан-Чи и легенда десяти колец",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.058
+    },
+    {
+      "key": "tmdb:511809",
+      "workId": "f-tmdb511809",
+      "title": "Вестсайдская История",
+      "year": 2021,
+      "n": 4,
+      "weight": 0.053
+    },
+    {
+      "key": "tmdb:497698",
+      "workId": "f-wd23894626",
+      "title": "Чёрная вдова",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.051
+    },
+    {
+      "key": "tmdb:634649",
+      "workId": "f-tmdb634649",
+      "title": "Человек-паук: Нет пути домой",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.049
     }
   ],
-  "tmdb:705996": [
+  "imdb:tt0159206": [
     {
-      "key": "tmdb:670",
-      "workId": "f-tmdb670",
-      "title": "Олдбой",
-      "year": 2003,
+      "key": "imdb:tt13819960",
+      "workId": "f-wd107272501",
+      "title": "И просто так…",
+      "year": 2021,
       "n": 3,
-      "weight": 0.102
+      "weight": 0.101
+    }
+  ],
+  "imdb:tt13819960": [
+    {
+      "key": "imdb:tt0159206",
+      "workId": "l-tmdbtv105",
+      "title": "Секс в большом городе",
+      "year": 1998,
+      "n": 3,
+      "weight": 0.101
+    }
+  ],
+  "tmdb:872585": [
+    {
+      "key": "tmdb:792307",
+      "workId": "f-tmdb792307",
+      "title": "Бедные-несчастные",
+      "year": 2023,
+      "n": 6,
+      "weight": 0.1
     },
     {
-      "key": "tmdb:965150",
-      "workId": "f-tmdb965150",
-      "title": "Солнце моё",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.086
+      "key": "tmdb:467244",
+      "workId": "f-tmdb467244",
+      "title": "Зона интересов",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.098
     },
     {
-      "key": "tmdb:497828",
-      "workId": "f-tmdb497828",
-      "title": "Треугольник печали",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.086
+      "key": "tmdb:466420",
+      "workId": "f-tmdb466420",
+      "title": "Убийцы цветочной луны",
+      "year": 2023,
+      "n": 5,
+      "weight": 0.096
     },
     {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
+      "key": "tmdb:840430",
+      "workId": "f-wd112114745",
+      "title": "Оставленные",
+      "year": 2023,
       "n": 3,
-      "weight": 0.069
+      "weight": 0.082
     },
     {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
+      "key": "tmdb:666277",
+      "workId": "f-tmdb666277",
+      "title": "Прошлые жизни",
+      "year": 2023,
+      "n": 4,
+      "weight": 0.075
+    },
+    {
+      "key": "tmdb:915935",
+      "workId": "c-anatomy",
+      "title": "Анатомия падения",
+      "year": 2023,
       "n": 3,
-      "weight": 0.056
+      "weight": 0.068
+    },
+    {
+      "key": "tmdb:2383",
+      "workId": "f-wd379460",
+      "title": "Медведь",
+      "year": 1988,
+      "n": 3,
+      "weight": 0.062
+    },
+    {
+      "key": "tmdb:508883",
+      "workId": "f-tmdb508883",
+      "title": "Мальчик и птица",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.053
     }
   ],
   "imdb:tt0475784": [
@@ -22192,7 +22804,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Рассказ служанки",
       "year": 2017,
       "n": 4,
-      "weight": 0.099
+      "weight": 0.098
     },
     {
       "key": "imdb:tt0944947",
@@ -22200,27 +22812,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 6,
-      "weight": 0.084
-    }
-  ],
-  "tmdb:385128": [
-    {
-      "key": "tmdb:9799",
-      "workId": "f-wd155476",
-      "title": "Форсаж",
-      "year": 2001,
-      "n": 4,
-      "weight": 0.099
-    }
-  ],
-  "tmdb:9799": [
-    {
-      "key": "tmdb:385128",
-      "workId": "f-wd29466808",
-      "title": "Форсаж 9",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.099
+      "weight": 0.082
     }
   ],
   "imdb:tt8111088": [
@@ -22254,7 +22846,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ход королевы",
       "year": 2020,
       "n": 3,
-      "weight": 0.061
+      "weight": 0.06
     },
     {
       "key": "tmdb:13183",
@@ -22289,74 +22881,24 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.032
     }
   ],
-  "tmdb:19995": [
+  "tmdb:385128": [
     {
-      "key": "tmdb:597",
-      "workId": "f-wd44578",
-      "title": "Титаник",
-      "year": 1997,
-      "n": 5,
-      "weight": 0.097
-    },
-    {
-      "key": "tmdb:76600",
-      "workId": "f-tmdb76600",
-      "title": "Аватар: Путь воды",
-      "year": 2022,
-      "n": 5,
-      "weight": 0.096
-    },
-    {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.055
-    },
-    {
-      "key": "tmdb:24428",
-      "workId": "f-tmdb24428",
-      "title": "Мстители",
-      "year": 2012,
-      "n": 3,
-      "weight": 0.049
-    }
-  ],
-  "tmdb:597": [
-    {
-      "key": "tmdb:19995",
-      "workId": "f-tmdb19995",
-      "title": "Аватар",
-      "year": 2009,
-      "n": 5,
-      "weight": 0.097
-    },
-    {
-      "key": "tmdb:299534",
-      "workId": "f-tmdb299534",
-      "title": "Мстители: Финал",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.045
-    }
-  ],
-  "tmdb:628": [
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
+      "key": "tmdb:9799",
+      "workId": "f-wd155476",
+      "title": "Форсаж",
+      "year": 2001,
       "n": 4,
       "weight": 0.097
-    },
+    }
+  ],
+  "tmdb:9799": [
     {
-      "key": "imdb:tt0903747",
-      "workId": "f-wd1079",
-      "title": "Во все тяжкие",
-      "year": 2008,
+      "key": "tmdb:385128",
+      "workId": "f-wd29466808",
+      "title": "Форсаж 9",
+      "year": 2021,
       "n": 4,
-      "weight": 0.089
+      "weight": 0.097
     }
   ],
   "imdb:tt7016936": [
@@ -22366,7 +22908,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 6,
-      "weight": 0.097
+      "weight": 0.096
     },
     {
       "key": "imdb:tt3032476",
@@ -22382,7 +22924,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 5,
-      "weight": 0.059
+      "weight": 0.058
     },
     {
       "key": "tmdb:589761",
@@ -22393,24 +22935,56 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.045
     }
   ],
-  "imdb:tt2085059": [
+  "tmdb:670": [
     {
-      "key": "imdb:tt3920596",
-      "workId": "f-wd19873404",
-      "title": "Большая маленькая ложь",
-      "year": 2017,
+      "key": "tmdb:705996",
+      "workId": "f-tmdb705996",
+      "title": "Решение уйти",
+      "year": 2022,
       "n": 3,
-      "weight": 0.094
+      "weight": 0.095
     }
   ],
-  "tmdb:840430": [
+  "tmdb:705996": [
     {
-      "key": "tmdb:872585",
-      "workId": "f-tmdb872585",
-      "title": "Оппенгеймер",
-      "year": 2023,
+      "key": "tmdb:670",
+      "workId": "f-tmdb670",
+      "title": "Олдбой",
+      "year": 2003,
       "n": 3,
-      "weight": 0.093
+      "weight": 0.095
+    },
+    {
+      "key": "tmdb:497828",
+      "workId": "f-tmdb497828",
+      "title": "Треугольник печали",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.086
+    },
+    {
+      "key": "tmdb:965150",
+      "workId": "f-tmdb965150",
+      "title": "Солнце моё",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.085
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.068
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.056
     }
   ],
   "tmdb:11423": [
@@ -22423,6 +22997,24 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.093
     }
   ],
+  "tmdb:628": [
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 4,
+      "weight": 0.092
+    },
+    {
+      "key": "imdb:tt0903747",
+      "workId": "f-wd1079",
+      "title": "Во все тяжкие",
+      "year": 2008,
+      "n": 4,
+      "weight": 0.083
+    }
+  ],
   "imdb:tt11126994": [
     {
       "key": "imdb:tt10919420",
@@ -22431,196 +23023,6 @@ export const comentions: Record<string, CoMention[]> = {
       "year": 2021,
       "n": 4,
       "weight": 0.09
-    }
-  ],
-  "tmdb:370172": [
-    {
-      "key": "tmdb:614917",
-      "workId": "f-tmdb614917",
-      "title": "Король Ричард",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:36557",
-      "workId": "f-wd151904",
-      "title": "Казино «Рояль»",
-      "year": 2006,
-      "n": 3,
-      "weight": 0.084
-    },
-    {
-      "key": "tmdb:600583",
-      "workId": "f-tmdb600583",
-      "title": "Власть пса",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.075
-    },
-    {
-      "key": "tmdb:566525",
-      "workId": "f-wd65768589",
-      "title": "Шан-Чи и легенда десяти колец",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.059
-    },
-    {
-      "key": "tmdb:511809",
-      "workId": "f-tmdb511809",
-      "title": "Вестсайдская История",
-      "year": 2021,
-      "n": 4,
-      "weight": 0.054
-    },
-    {
-      "key": "tmdb:497698",
-      "workId": "f-wd23894626",
-      "title": "Чёрная вдова",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.052
-    },
-    {
-      "key": "tmdb:634649",
-      "workId": "f-tmdb634649",
-      "title": "Человек-паук: Нет пути домой",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.051
-    },
-    {
-      "key": "tmdb:609490",
-      "workId": "f-wd85864528",
-      "title": "Петровы в гриппе",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.043
-    }
-  ],
-  "tmdb:466272": [
-    {
-      "key": "tmdb:515001",
-      "workId": "f-wd54862508",
-      "title": "Кролик Джоджо",
-      "year": 2019,
-      "n": 5,
-      "weight": 0.09
-    },
-    {
-      "key": "tmdb:398978",
-      "workId": "f-tmdb398978",
-      "title": "Ирландец",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.06
-    },
-    {
-      "key": "tmdb:420818",
-      "workId": "f-wd27044293",
-      "title": "Король Лев",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.055
-    },
-    {
-      "key": "tmdb:475557",
-      "workId": "f-tmdb475557",
-      "title": "Джокер",
-      "year": 2019,
-      "n": 6,
-      "weight": 0.054
-    },
-    {
-      "key": "tmdb:301528",
-      "workId": "f-wd18517638",
-      "title": "История игрушек 4",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.052
-    },
-    {
-      "key": "tmdb:103",
-      "workId": "f-tmdb103",
-      "title": "Таксист",
-      "year": 1976,
-      "n": 3,
-      "weight": 0.049
-    },
-    {
-      "key": "tmdb:496243",
-      "workId": "w09",
-      "title": "Паразиты",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.039
-    }
-  ],
-  "imdb:tt8772296": [
-    {
-      "key": "imdb:tt7203552",
-      "workId": "f-wd54958411",
-      "title": "Утреннее шоу",
-      "year": 2019,
-      "n": 4,
-      "weight": 0.089
-    },
-    {
-      "key": "imdb:tt33332385",
-      "workId": "f-wd136498700",
-      "title": "Бухта вдов",
-      "year": 2026,
-      "n": 3,
-      "weight": 0.087
-    },
-    {
-      "key": "imdb:tt4574334",
-      "workId": "f-wd19798734",
-      "title": "Очень странные дела",
-      "year": 2016,
-      "n": 7,
-      "weight": 0.084
-    },
-    {
-      "key": "imdb:tt11280740",
-      "workId": "f-wd101096725",
-      "title": "Разделение",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.082
-    },
-    {
-      "key": "imdb:tt7660850",
-      "workId": "f-wd30599007",
-      "title": "Наследники",
-      "year": 2018,
-      "n": 5,
-      "weight": 0.08
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 5,
-      "weight": 0.076
-    },
-    {
-      "key": "imdb:tt10919420",
-      "workId": "f-wd106582931",
-      "title": "Игра в кальмара",
-      "year": 2021,
-      "n": 5,
-      "weight": 0.074
-    },
-    {
-      "key": "imdb:tt13406094",
-      "workId": "f-wd106679014",
-      "title": "Белый лотос",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.054
     }
   ],
   "imdb:tt1475582": [
@@ -22633,66 +23035,98 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.089
     }
   ],
-  "imdb:tt33332385": [
+  "tmdb:105": [
     {
-      "key": "imdb:tt8772296",
-      "workId": "f-wd56275505",
-      "title": "Эйфория",
-      "year": 2019,
-      "n": 3,
-      "weight": 0.087
-    }
-  ],
-  "tmdb:965150": [
-    {
-      "key": "tmdb:705996",
-      "workId": "f-tmdb705996",
-      "title": "Решение уйти",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.086
+      "key": "tmdb:13",
+      "workId": "f-tmdb13",
+      "title": "Форрест Гамп",
+      "year": 1994,
+      "n": 5,
+      "weight": 0.088
     },
     {
-      "key": "imdb:tt9059760",
-      "workId": "f-wd81672757",
-      "title": "Нормальные люди",
-      "year": 2020,
+      "key": "tmdb:466272",
+      "workId": "f-tmdb466272",
+      "title": "Однажды в… Голливуде",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.036
+    }
+  ],
+  "imdb:tt8772296": [
+    {
+      "key": "imdb:tt7203552",
+      "workId": "f-wd54958411",
+      "title": "Утреннее шоу",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.088
+    },
+    {
+      "key": "imdb:tt4574334",
+      "workId": "f-wd19798734",
+      "title": "Очень странные дела",
+      "year": 2016,
+      "n": 7,
+      "weight": 0.082
+    },
+    {
+      "key": "imdb:tt33332385",
+      "workId": "f-wd136498700",
+      "title": "Бухта вдов",
+      "year": 2026,
       "n": 3,
+      "weight": 0.082
+    },
+    {
+      "key": "imdb:tt11280740",
+      "workId": "f-wd101096725",
+      "title": "Разделение",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.079
+    },
+    {
+      "key": "imdb:tt7660850",
+      "workId": "f-wd30599007",
+      "title": "Наследники",
+      "year": 2018,
+      "n": 5,
       "weight": 0.078
     },
     {
-      "key": "tmdb:674324",
-      "workId": "f-tmdb674324",
-      "title": "Банши Инишерина",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.068
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 5,
+      "weight": 0.074
     },
     {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 4,
-      "weight": 0.058
+      "key": "imdb:tt10919420",
+      "workId": "f-wd106582931",
+      "title": "Игра в кальмара",
+      "year": 2021,
+      "n": 5,
+      "weight": 0.072
     },
     {
-      "key": "tmdb:361743",
-      "workId": "f-tmdb361743",
-      "title": "Топ Ган: Мэверик",
-      "year": 2022,
+      "key": "imdb:tt13406094",
+      "workId": "f-wd106679014",
+      "title": "Белый лотос",
+      "year": 2021,
       "n": 3,
       "weight": 0.053
     }
   ],
-  "imdb:tt0312098": [
+  "imdb:tt2085059": [
     {
-      "key": "imdb:tt13210838",
-      "workId": "f-wd115860329",
-      "title": "Джентльмены",
-      "year": 2024,
+      "key": "imdb:tt3920596",
+      "workId": "f-wd19873404",
+      "title": "Большая маленькая ложь",
+      "year": 2017,
       "n": 3,
-      "weight": 0.086
+      "weight": 0.087
     }
   ],
   "imdb:tt6905686": [
@@ -22721,74 +23155,66 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.077
     }
   ],
-  "imdb:tt11198330": [
+  "tmdb:965150": [
     {
-      "key": "tmdb:2383",
-      "workId": "f-wd379460",
-      "title": "Медведь",
-      "year": 1988,
-      "n": 5,
-      "weight": 0.084
-    },
-    {
-      "key": "imdb:tt7631058",
-      "workId": "f-wd59149852",
-      "title": "Властелин колец: Кольца власти",
+      "key": "tmdb:705996",
+      "workId": "f-tmdb705996",
+      "title": "Решение уйти",
       "year": 2022,
-      "n": 4,
-      "weight": 0.062
+      "n": 3,
+      "weight": 0.085
     },
     {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
+      "key": "imdb:tt9059760",
+      "workId": "f-wd81672757",
+      "title": "Нормальные люди",
+      "year": 2020,
       "n": 3,
-      "weight": 0.032
+      "weight": 0.077
+    },
+    {
+      "key": "tmdb:674324",
+      "workId": "f-tmdb674324",
+      "title": "Банши Инишерина",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.066
     },
     {
       "key": "tmdb:545611",
       "workId": "f-tmdb545611",
       "title": "Всё везде и сразу",
       "year": 2022,
+      "n": 4,
+      "weight": 0.057
+    },
+    {
+      "key": "tmdb:361743",
+      "workId": "f-tmdb361743",
+      "title": "Топ Ган: Мэверик",
+      "year": 2022,
       "n": 3,
-      "weight": 0.027
+      "weight": 0.052
     }
   ],
-  "tmdb:2383": [
+  "imdb:tt0312098": [
     {
-      "key": "imdb:tt11198330",
-      "workId": "f-wd72930269",
-      "title": "Дом Дракона",
-      "year": 2022,
-      "n": 5,
+      "key": "imdb:tt13210838",
+      "workId": "f-wd115860329",
+      "title": "Джентльмены",
+      "year": 2024,
+      "n": 3,
       "weight": 0.084
-    },
+    }
+  ],
+  "tmdb:840430": [
     {
       "key": "tmdb:872585",
       "workId": "f-tmdb872585",
       "title": "Оппенгеймер",
       "year": 2023,
       "n": 3,
-      "weight": 0.065
-    },
-    {
-      "key": "imdb:tt3032476",
-      "workId": "f-wd14925221",
-      "title": "Лучше звоните Солу",
-      "year": 2015,
-      "n": 3,
-      "weight": 0.061
-    }
-  ],
-  "tmdb:36557": [
-    {
-      "key": "tmdb:370172",
-      "workId": "f-wd21534241",
-      "title": "Не время умирать",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.084
+      "weight": 0.082
     }
   ],
   "imdb:tt4574334": [
@@ -22798,7 +23224,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Эйфория",
       "year": 2019,
       "n": 7,
-      "weight": 0.084
+      "weight": 0.082
     },
     {
       "key": "imdb:tt7767422",
@@ -22806,7 +23232,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Половое воспитание",
       "year": 2019,
       "n": 3,
-      "weight": 0.072
+      "weight": 0.069
     },
     {
       "key": "imdb:tt3032476",
@@ -22830,7 +23256,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Ходячие мертвецы",
       "year": 2010,
       "n": 3,
-      "weight": 0.044
+      "weight": 0.043
     },
     {
       "key": "imdb:tt7660850",
@@ -22854,7 +23280,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра в кальмара",
       "year": 2021,
       "n": 3,
-      "weight": 0.03
+      "weight": 0.029
+    }
+  ],
+  "imdb:tt33332385": [
+    {
+      "key": "imdb:tt8772296",
+      "workId": "f-wd56275505",
+      "title": "Эйфория",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.082
     }
   ],
   "imdb:tt15939084": [
@@ -22864,7 +23300,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мир! Дружба! Жвачка!",
       "year": 2020,
       "n": 4,
-      "weight": 0.083
+      "weight": 0.082
     },
     {
       "key": "tmdb:1468698",
@@ -22875,6 +23311,150 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.073
     }
   ],
+  "tmdb:466272": [
+    {
+      "key": "tmdb:515001",
+      "workId": "f-wd54862508",
+      "title": "Кролик Джоджо",
+      "year": 2019,
+      "n": 5,
+      "weight": 0.082
+    },
+    {
+      "key": "tmdb:398978",
+      "workId": "f-tmdb398978",
+      "title": "Ирландец",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.056
+    },
+    {
+      "key": "tmdb:420818",
+      "workId": "f-wd27044293",
+      "title": "Король Лев",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.052
+    },
+    {
+      "key": "tmdb:475557",
+      "workId": "f-tmdb475557",
+      "title": "Джокер",
+      "year": 2019,
+      "n": 6,
+      "weight": 0.052
+    },
+    {
+      "key": "tmdb:301528",
+      "workId": "f-wd18517638",
+      "title": "История игрушек 4",
+      "year": 2019,
+      "n": 3,
+      "weight": 0.05
+    },
+    {
+      "key": "tmdb:103",
+      "workId": "f-tmdb103",
+      "title": "Таксист",
+      "year": 1976,
+      "n": 3,
+      "weight": 0.047
+    },
+    {
+      "key": "tmdb:496243",
+      "workId": "w09",
+      "title": "Паразиты",
+      "year": 2019,
+      "n": 4,
+      "weight": 0.038
+    },
+    {
+      "key": "tmdb:105",
+      "workId": "f-tmdb105",
+      "title": "Назад в будущее",
+      "year": 1985,
+      "n": 4,
+      "weight": 0.036
+    }
+  ],
+  "tmdb:36557": [
+    {
+      "key": "tmdb:370172",
+      "workId": "f-wd21534241",
+      "title": "Не время умирать",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.08
+    }
+  ],
+  "imdb:tt11198330": [
+    {
+      "key": "tmdb:2383",
+      "workId": "f-wd379460",
+      "title": "Медведь",
+      "year": 1988,
+      "n": 5,
+      "weight": 0.079
+    },
+    {
+      "key": "imdb:tt7631058",
+      "workId": "f-wd59149852",
+      "title": "Властелин колец: Кольца власти",
+      "year": 2022,
+      "n": 4,
+      "weight": 0.059
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.031
+    },
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.026
+    },
+    {
+      "key": "imdb:tt0944947",
+      "workId": "f-wd23572",
+      "title": "Игра престолов",
+      "year": 2011,
+      "n": 3,
+      "weight": 0.024
+    }
+  ],
+  "tmdb:2383": [
+    {
+      "key": "imdb:tt11198330",
+      "workId": "f-wd72930269",
+      "title": "Дом Дракона",
+      "year": 2022,
+      "n": 5,
+      "weight": 0.079
+    },
+    {
+      "key": "tmdb:872585",
+      "workId": "f-tmdb872585",
+      "title": "Оппенгеймер",
+      "year": 2023,
+      "n": 3,
+      "weight": 0.062
+    },
+    {
+      "key": "imdb:tt3032476",
+      "workId": "f-wd14925221",
+      "title": "Лучше звоните Солу",
+      "year": 2015,
+      "n": 3,
+      "weight": 0.059
+    }
+  ],
   "tmdb:399566": [
     {
       "key": "tmdb:460465",
@@ -22882,7 +23462,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Мортал Комбат",
       "year": 2021,
       "n": 3,
-      "weight": 0.082
+      "weight": 0.079
     }
   ],
   "tmdb:460465": [
@@ -22892,26 +23472,6 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Годзилла против Конга",
       "year": 2021,
       "n": 3,
-      "weight": 0.082
-    }
-  ],
-  "tmdb:105": [
-    {
-      "key": "tmdb:13",
-      "workId": "f-tmdb13",
-      "title": "Форрест Гамп",
-      "year": 1994,
-      "n": 4,
-      "weight": 0.079
-    }
-  ],
-  "tmdb:13": [
-    {
-      "key": "tmdb:105",
-      "workId": "f-tmdb105",
-      "title": "Назад в будущее",
-      "year": 1985,
-      "n": 4,
       "weight": 0.079
     }
   ],
@@ -22922,17 +23482,43 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Солнце моё",
       "year": 2022,
       "n": 3,
-      "weight": 0.078
+      "weight": 0.077
     }
   ],
-  "tmdb:555604": [
+  "imdb:tt12112298": [
     {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
+      "key": "imdb:tt9742812",
+      "workId": "f-wd88282989",
+      "title": "Последний министр",
+      "year": 2020,
       "n": 3,
-      "weight": 0.078
+      "weight": 0.075
+    },
+    {
+      "key": "imdb:tt13266012",
+      "workId": "l-tmdbtv110623",
+      "title": "Пищеблок",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.063
+    }
+  ],
+  "imdb:tt9742812": [
+    {
+      "key": "imdb:tt12112298",
+      "workId": "f-wd100927398",
+      "title": "Беспринципные",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.075
+    },
+    {
+      "key": "imdb:tt13266012",
+      "workId": "l-tmdbtv110623",
+      "title": "Пищеблок",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.062
     }
   ],
   "tmdb:13183": [
@@ -22942,7 +23528,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Тёмный рыцарь",
       "year": 2008,
       "n": 3,
-      "weight": 0.076
+      "weight": 0.075
     },
     {
       "key": "imdb:tt8111088",
@@ -22958,43 +23544,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Наследники",
       "year": 2018,
       "n": 3,
-      "weight": 0.047
+      "weight": 0.046
     }
   ],
-  "imdb:tt12112298": [
+  "tmdb:555604": [
     {
-      "key": "imdb:tt9742812",
-      "workId": "f-wd88282989",
-      "title": "Последний министр",
-      "year": 2020,
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
       "n": 3,
-      "weight": 0.076
-    },
-    {
-      "key": "imdb:tt13266012",
-      "workId": "l-tmdbtv110623",
-      "title": "Пищеблок",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.064
-    }
-  ],
-  "imdb:tt9742812": [
-    {
-      "key": "imdb:tt12112298",
-      "workId": "f-wd100927398",
-      "title": "Беспринципные",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.076
-    },
-    {
-      "key": "imdb:tt13266012",
-      "workId": "l-tmdbtv110623",
-      "title": "Пищеблок",
-      "year": 2021,
-      "n": 3,
-      "weight": 0.063
+      "weight": 0.075
     }
   ],
   "tmdb:1468698": [
@@ -23007,6 +23567,42 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.073
     }
   ],
+  "imdb:tt15527340": [
+    {
+      "key": "imdb:tt9011124",
+      "workId": "f-wd60321735",
+      "title": "Триггер",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.073
+    },
+    {
+      "key": "imdb:tt13266012",
+      "workId": "l-tmdbtv110623",
+      "title": "Пищеблок",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.057
+    }
+  ],
+  "imdb:tt9011124": [
+    {
+      "key": "imdb:tt15527340",
+      "workId": "f-wd112130011",
+      "title": "Нулевой пациент",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.073
+    },
+    {
+      "key": "imdb:tt13266012",
+      "workId": "l-tmdbtv110623",
+      "title": "Пищеблок",
+      "year": 2021,
+      "n": 3,
+      "weight": 0.066
+    }
+  ],
   "imdb:tt1751634": [
     {
       "key": "imdb:tt0944947",
@@ -23014,26 +23610,6 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Игра престолов",
       "year": 2011,
       "n": 4,
-      "weight": 0.073
-    }
-  ],
-  "tmdb:453395": [
-    {
-      "key": "tmdb:545611",
-      "workId": "f-tmdb545611",
-      "title": "Всё везде и сразу",
-      "year": 2022,
-      "n": 3,
-      "weight": 0.073
-    }
-  ],
-  "imdb:tt7767422": [
-    {
-      "key": "imdb:tt4574334",
-      "workId": "f-wd19798734",
-      "title": "Очень странные дела",
-      "year": 2016,
-      "n": 3,
       "weight": 0.072
     }
   ],
@@ -23044,7 +23620,27 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Рик и Морти",
       "year": 2013,
       "n": 3,
-      "weight": 0.072
+      "weight": 0.071
+    }
+  ],
+  "tmdb:453395": [
+    {
+      "key": "tmdb:545611",
+      "workId": "f-tmdb545611",
+      "title": "Всё везде и сразу",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.07
+    }
+  ],
+  "imdb:tt7767422": [
+    {
+      "key": "imdb:tt4574334",
+      "workId": "f-wd19798734",
+      "title": "Очень странные дела",
+      "year": 2016,
+      "n": 3,
+      "weight": 0.069
     }
   ],
   "imdb:tt15276418": [
@@ -23054,7 +23650,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Во все тяжкие",
       "year": 2008,
       "n": 3,
-      "weight": 0.07
+      "weight": 0.068
     }
   ],
   "imdb:tt2442560": [
@@ -23064,7 +23660,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Корона",
       "year": 2016,
       "n": 3,
-      "weight": 0.069
+      "weight": 0.066
     }
   ],
   "imdb:tt1869454": [
@@ -23074,7 +23670,41 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Чернобыль",
       "year": 2021,
       "n": 3,
-      "weight": 0.067
+      "weight": 0.066
+    }
+  ],
+  "imdb:tt13266012": [
+    {
+      "key": "imdb:tt9011124",
+      "workId": "f-wd60321735",
+      "title": "Триггер",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.066
+    },
+    {
+      "key": "imdb:tt12112298",
+      "workId": "f-wd100927398",
+      "title": "Беспринципные",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.063
+    },
+    {
+      "key": "imdb:tt9742812",
+      "workId": "f-wd88282989",
+      "title": "Последний министр",
+      "year": 2020,
+      "n": 3,
+      "weight": 0.062
+    },
+    {
+      "key": "imdb:tt15527340",
+      "workId": "f-wd112130011",
+      "title": "Нулевой пациент",
+      "year": 2022,
+      "n": 3,
+      "weight": 0.057
     }
   ],
   "tmdb:110415": [
@@ -23087,20 +23717,12 @@ export const comentions: Record<string, CoMention[]> = {
       "weight": 0.065
     }
   ],
-  "imdb:tt13266012": [
+  "imdb:tt7658402": [
     {
-      "key": "imdb:tt12112298",
-      "workId": "f-wd100927398",
-      "title": "Беспринципные",
-      "year": 2020,
-      "n": 3,
-      "weight": 0.064
-    },
-    {
-      "key": "imdb:tt9742812",
-      "workId": "f-wd88282989",
-      "title": "Последний министр",
-      "year": 2020,
+      "key": "imdb:tt2861424",
+      "workId": "f-wd15659308",
+      "title": "Рик и Морти",
+      "year": 2013,
       "n": 3,
       "weight": 0.063
     }
@@ -23112,7 +23734,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Властелин колец",
       "year": 1978,
       "n": 3,
-      "weight": 0.063
+      "weight": 0.061
     },
     {
       "key": "imdb:tt11198330",
@@ -23120,7 +23742,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Дом Дракона",
       "year": 2022,
       "n": 4,
-      "weight": 0.062
+      "weight": 0.059
     }
   ],
   "tmdb:123": [
@@ -23130,17 +23752,17 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Властелин колец: Кольца власти",
       "year": 2022,
       "n": 3,
-      "weight": 0.063
+      "weight": 0.061
     }
   ],
-  "imdb:tt7658402": [
+  "tmdb:969681": [
     {
-      "key": "imdb:tt2861424",
-      "workId": "f-wd15659308",
-      "title": "Рик и Морти",
-      "year": 2013,
+      "key": "tmdb:1368337",
+      "workId": "f-wd131547207",
+      "title": "Одиссея",
+      "year": 2026,
       "n": 3,
-      "weight": 0.063
+      "weight": 0.059
     }
   ],
   "tmdb:359724": [
@@ -23160,7 +23782,7 @@ export const comentions: Record<string, CoMention[]> = {
       "title": "Корона",
       "year": 2016,
       "n": 3,
-      "weight": 0.056
+      "weight": 0.054
     }
   ],
   "imdb:tt5290382": [

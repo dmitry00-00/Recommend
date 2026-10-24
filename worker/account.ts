@@ -7,7 +7,10 @@
 // Так уходит и послесловие к просмотренному (`afterword`, 17.10) — тем же пакетом (tools/afterword-test.mts).
 // Копии базы (server/backup.js — 14 дней на сервере, 30 на Mac владельца) стираются по своему сроку:
 // так и написано в политике.
+// Исключение (24.10): привязка присланного списка к номеру Telegram (seed_owner, без user_id) остаётся с пометкой
+// «удалён» — чтобы «чистый лист» не отменила повторная публикация (worker/userSeed.ts).
 import type { D1Database, Env } from './env';
+import { forgetSeedOwner, seedNicksOf } from './userSeed';
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 
@@ -30,11 +33,9 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
   if (!me) return json({ error: 'not_found' }, 404);
   const tables = await userTables(db);
   // присланные списки (seed--<ник>.json) — по привязкам `nick:<ник>` участника (ХБ, 17.10): после смены ника файл лежит
-  // под старым ником, а файл под текущим ником с чужой привязкой трогать нельзя — он не этого участника
-  const nicks = tables.includes('seed_applied')
-    ? ((await db.prepare("SELECT seed FROM seed_applied WHERE user_id = ? AND seed LIKE 'nick:%'").bind(userId).all<{ seed: string }>()).results ?? [])
-      .map((r) => r.seed.slice('nick:'.length)).filter((n) => /^[a-z0-9_]{3,40}$/.test(n))
-    : [];
+  // под старым ником, а файл под текущим ником с чужой привязкой трогать нельзя — он не этого участника.
+  // 24.10: и по номеру в seed_owner (worker/userSeed.ts) — она переживает удаление с пометкой «удалён»
+  const nicks = await seedNicksOf(db, userId, me.tg_id);
   const nick = me.username?.replace(/^@/, '').toLowerCase();
   const counts: Record<string, number> = {};
   for (const t of tables) {
@@ -56,6 +57,9 @@ export async function deleteAccount(userId: string, env: Env): Promise<Response>
     ...(me.tg_id != null
       ? [db.prepare('DELETE FROM tester WHERE tg_id = ? OR (username = ? AND tg_id IS NULL)').bind(me.tg_id, nick ?? '')]
       : nick ? [db.prepare('DELETE FROM tester WHERE username = ? AND tg_id IS NULL').bind(nick)] : []),
+    // 24.10: привязки списков к номеру — не стираются, а помечаются «удалён»: повторная публикация того же ника не
+    // вернёт историю ни ему, ни новому владельцу ника без явного решения владельца (worker/userSeed.ts)
+    ...forgetSeedOwner(db, me.tg_id, nicks),
     // кого участник привёл (ЗП-37) — у них ссылка на него стирается
     db.prepare('UPDATE user SET invited_by = NULL WHERE invited_by = ?').bind(userId),
     db.prepare('DELETE FROM user WHERE id = ?').bind(userId),

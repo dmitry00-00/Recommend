@@ -126,7 +126,12 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel: spoilerIn, watch: 
     if (book && freeOn) getFreeRead(book).then((x) => alive && setFreeRead(x)).catch(() => undefined);
     return () => { alive = false; };
   }, [book?.id, freeOn]); // eslint-disable-line react-hooks/exhaustive-deps
-  const watchOn = useFeature('watch') || (freeOn && (watchIn.some((o) => o.source === 'wikidata') || freeRead.length > 0));
+  // книжный вход (23.10, флаг bookEntry): у книги «Читать» (где читать, сколько часов) — и в минимальной редакции; тексты
+  // пустых вкладок — по виду произведения, а не «об этом фильме» у книги и сериала
+  const entryOn = useFeature('bookEntry');
+  const workKind = book ? 'book' : kind ?? 'film';
+  const textKind = entryOn ? workKind : 'film';
+  const watchOn = useFeature('watch') || (entryOn && Boolean(book)) || (freeOn && (watchIn.some((o) => o.source === 'wikidata') || freeRead.length > 0));
   const baseModes: Mode[] = depth ? [...ZONES.filter((z) => zoneCount[z] > 0 || z === mode), 'watch'] : MODES;
   const modes = (watchOn ? baseModes : baseModes.filter((m) => m !== 'watch'));
   if (depth && !modes.some(isZone)) modes.unshift('opinions');
@@ -219,8 +224,8 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel: spoilerIn, watch: 
               <div className="tm-voice__textmain">
                 {loading ? <p className="tm-body-sm" aria-busy="true">{ui.film.loading}</p> : (
                   <>
-                    <p className="tm-body-sm">{ui.voices.nobody}</p>
-                    <p className="tm-caption tm-voice__nonehint">{ui.film.reviewsNoneHint}</p>
+                    <p className="tm-body-sm">{textKind === 'book' ? ui.voices.nobodyBook : textKind === 'series' ? ui.voices.nobodySeries : ui.voices.nobody}</p>
+                    <p className="tm-caption tm-voice__nonehint">{textKind === 'book' ? ui.film.reviewsNoneHintBook : textKind === 'series' ? ui.film.reviewsNoneHintSeries : ui.film.reviewsNoneHint}</p>
                   </>
                 )}
               </div>
@@ -236,7 +241,7 @@ export function FilmTabs({ analyses, workTitle, spoilerLevel: spoilerIn, watch: 
             ) : null}
             {!talkCount ? (
               <section className="tm-stream__group tm-voice__none">
-                <p className="tm-body-sm" aria-busy={loading ? 'true' : undefined}>{loading ? ui.film.loading : ui.film.talkNone}</p>
+                <p className="tm-body-sm" aria-busy={loading ? 'true' : undefined}>{loading ? ui.film.loading : textKind === 'book' ? ui.film.talkNoneBook : textKind === 'series' ? ui.film.talkNoneSeries : ui.film.talkNone}</p>
               </section>
             ) : null}
             {discussions}

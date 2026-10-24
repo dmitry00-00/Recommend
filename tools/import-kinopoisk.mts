@@ -13,7 +13,7 @@
 // кинопоисковые заменяются новыми. Папка seeds/ — чужие личные данные, в git не уходит.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, join } from 'node:path';
-import { buildSeed, mergeRecords, pagesReport, readPage, validNick, type Page } from './kinopoisk-seed.mts';
+import { buildSeed, mergeRecords, pagesReport, readPage, splitBundle, validNick, type Page } from './kinopoisk-seed.mts';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => { const i = args.indexOf(name); return i < 0 ? false : (args.splice(i, 1), true); };
@@ -30,13 +30,15 @@ if (!validNick(name) || !inputs.length) {
 const files = inputs.flatMap((p) => {
   if (!existsSync(p)) { console.error(`нет файла: ${p}`); process.exit(1); }
   return statSync(p).isDirectory()
-    ? readdirSync(p).filter((f) => /\.(html?|csv|txt)$/i.test(f)).sort().map((f) => join(p, f))
+    ? readdirSync(p).filter((f) => /\.(html?|csv|txt)$/i.test(f) && !f.endsWith('-контакты.html')).sort().map((f) => join(p, f))
     : [p];
 });
 const pages: Page[] = [];
 for (const file of files) {
-  const page = readPage(basename(file), readFileSync(file, 'utf8'));
-  if (page) pages.push(page); else console.error(`  не узнал формат, пропускаю: ${basename(file)}`);
+  for (const part of splitBundle(basename(file), readFileSync(file, 'utf8'))) {
+    const page = readPage(part.name, part.text);
+    if (page) pages.push(page); else console.error(`  не узнал формат, пропускаю: ${part.name}`);
+  }
 }
 
 const profiles = new Map<string, string[]>();

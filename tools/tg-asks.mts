@@ -30,16 +30,26 @@ const DIR = new URL('.cache/tg-asks/', root);
 const LABELS = new URL('labels.json', DIR);
 const PAIRS = new URL('pairs.json', DIR);
 const FOUND = new URL('found.json', DIR);
+// ручные пометки из пульта (вкладка «Запросы», 21.10): «не просьба» — вид поста, который главнее разметки модели
+const OVERRIDES = new URL('overrides.json', DIR);
 const prompt = readFileSync(new URL('tools/prompts/tg-ask.md', root), 'utf8');
 const phash = sha(prompt, 12);
+// перепроверка просьб (21.10, замечание владельца): основной промпт путает подборку канала с риторическим «не знаете, что
+// посмотреть?» и рассказ «поделюсь, что зашло» с просьбой. Второй короткий промпт смотрит только посты-просьбы — заново
+// размечать все находки ради этого не нужно
+const checkPrompt = readFileSync(new URL('tools/prompts/tg-ask-check.md', root), 'utf8');
+const chash = sha(checkPrompt, 12);
 
 type AskKind = 'ask' | 'advice' | 'share' | 'other';
 const KINDS: readonly AskKind[] = ['ask', 'advice', 'share', 'other'];
 interface Found { id: number; kind: 'posts' | 'chat' | 'replies'; query?: string; channel: string; title?: string; msg_id: number; parent_id: number; date?: string; text: string; replies?: number }
-interface AskLabel { h: string; kind: AskKind; works: LlmWork[]; liked?: LlmWork[]; want?: string; conf?: number; model: string; at: string }
+interface AskLabel { h: string; kind: AskKind; works: LlmWork[]; liked?: LlmWork[]; want?: string; conf?: number; model: string; at: string;
+  /** перепроверка поста-просьбы вторым промптом (tools/prompts/tg-ask-check.md) */
+  check?: { h: string; kind: AskKind; conf?: number } }
 interface LabelFile { prompt: string; items: Record<string, AskLabel> }
 
 const file: LabelFile = existsSync(LABELS) ? JSON.parse(readFileSync(LABELS, 'utf8')) : { prompt: phash, items: {} };
+const overrides: Record<string, { kind: AskKind; at: string }> = existsSync(OVERRIDES) ? JSON.parse(readFileSync(OVERRIDES, 'utf8')) : {};
 const save = () => { mkdirSync(DIR, { recursive: true }); const tmp = `${LABELS.pathname}.tmp`; writeFileSync(tmp, JSON.stringify(file)); renameSync(tmp, LABELS.pathname); };
 
 // ─── находки шлюза ───────────────────────────────────────────────────────────
@@ -73,6 +83,19 @@ const posts = new Map(all.filter((f) => f.kind !== 'replies').map((f) => [`${f.c
 const textOf = (f: Found) => f.kind === 'replies'
   ? `[ОТВЕТ] (${oneLine(posts.get(`${f.channel}/${f.parent_id}`)?.text ?? '', 90)}) ${oneLine(f.text, 500)}`
   : `[ПОСТ] ${oneLine(f.text, 900)}`;
+/** Подборка, а не просьба: пост с тремя и больше названиями, и ни одно не «понравилось» — так пишут списки каналов. */
+const listicle = (f: Found, l: AskLabel) => f.kind !== 'replies' && l.kind === 'ask' && !l.liked?.length && l.works.length >= 3;
+/** Прямая просьба во втором лице — «посоветуйте», «подскажите», «скиньте»: перепроверка такую просьбу не снимает (21.10:
+ *  она сняла «Посоветуйте фильм про Вендиго…» и «Порекомендуйте фильмы про ИИ, давайте соберём»). Риторическое «не знаете,
+ *  что посмотреть?» сюда не входит — его и ловит перепроверка. */
+const ASK_VERB = /(?:^|[^а-яё])(?:посоветуй(?:те)?|подскажи(?:те)?|порекомендуй(?:те)?|скиньте|накидайте)(?![а-яё])/i;
+/** Опознание («что за фильм?», «как называется», «помогите найти мультфильм») — не просьба совета. */
+const IDENTIFY = /что\s+за\s+(?:фильм|сериал|мульт)|как\s+(?:он\s+)?называ|помогите\s+найти|ищу\s+(?:фильм|сериал|мульт)/i;
+/** Прямая просьба — в начале поста: глагол где-то в середине длинного рассказа («За 5 дней в Грузии…») — не она. */
+const directAsk = (text: string) => ASK_VERB.test(text.slice(0, 200)) && !IDENTIFY.test(text);
+/** Вид сообщения: ручная пометка → подборка по правилу → перепроверка (кроме прямых просьб) → основная разметка. */
+const kindOf = (f: Found, l: AskLabel): AskKind => overrides[idOf(f)]?.kind ?? (listicle(f, l) ? 'advice' : undefined)
+  ?? (l.check && l.check.kind !== 'ask' && !(l.kind === 'ask' && directAsk(f.text)) ? l.check.kind : undefined) ?? l.kind;
 
 if (!REPORT) {
   // сначала ветки с комментариями и их посты: пары «понравилось → посоветовали» только оттуда
@@ -122,6 +145,34 @@ if (!REPORT) {
   save();
   if (stopped) console.error(`остановка: ${stopped}`);
   console.error(`размечено ${done}, ошибок ${failed}, ждут ${todo.length - done} · ${Math.round((Date.now() - started) / 1000)} с`);
+
+  // перепроверка постов-просьб вторым промптом — только тех, что не решены рукой или правилом подборки
+  const checkOf = (f: Found) => sha(chash + textOf(f));
+  const recheck = all.filter((f) => {
+    const l = file.items[idOf(f)];
+    return f.kind !== 'replies' && l?.kind === 'ask' && !overrides[idOf(f)] && !listicle(f, l) && l.check?.h !== checkOf(f);
+  });
+  let checked = 0, changed = 0;
+  for (let i = 0; i < recheck.length && !stopped;) {
+    if (Date.now() - started > MINUTES * 60e3) { stopped = `время (${MINUTES} мин)`; break; }
+    const chunk = recheck.slice(i, i + BATCH);
+    let res;
+    try {
+      res = await classify(chunk.map((f) => ({ id: idOf(f), text: textOf(f) })), { prompt: checkPrompt, model: MODEL, batch: BATCH, maxChars: 1000, labels: KINDS });
+    } catch (e) { console.error(`перепроверка: ${(e as Error).message}`); break; }
+    i += chunk.length;
+    for (const r of res.results) {
+      const f = chunk.find((c) => idOf(c) === r.id);
+      if (!f || r.error || !r.kind || !(KINDS as readonly string[]).includes(r.kind)) continue;
+      file.items[r.id].check = { h: checkOf(f), kind: r.kind as AskKind, ...(typeof r.confidence === 'number' ? { conf: Math.round(r.confidence * 100) / 100 } : {}) };
+      checked += 1;
+      if (r.kind !== 'ask') changed += 1;
+    }
+    save();
+    console.error(`  перепроверка ${Math.min(i, recheck.length)}/${recheck.length} · не просьба ${changed}`);
+    if (res.stats.stopped) break;
+  }
+  if (recheck.length) console.error(`перепроверено ${checked} из ${recheck.length}: не просьба ${changed}`);
 }
 
 // ─── свод: названия → ключи, пары «понравилось → посоветовали» ────────────────
@@ -179,7 +230,7 @@ function ref(w: LlmWork, ctx: Ctx): Ref | undefined {
 }
 const yearOf = (f: Found) => (f.date ? Number(f.date.slice(0, 4)) : undefined);
 
-interface Ask { id: string; channel: string; msg_id: number; date?: string; text: string; replies?: number; want?: string; liked: Ref[]; notWanted?: Ref[]; offered?: Ref[]; advice: (Ref & { n: number })[]; answers: number }
+interface Ask { id: string; kind: AskKind; channel: string; msg_id: number; date?: string; text: string; replies?: number; want?: string; liked: Ref[]; notWanted?: Ref[]; offered?: Ref[]; advice: (Ref & { n: number })[]; answers: number }
 const asks: Ask[] = [];
 const kinds: Record<string, number> = {};
 const advised = new Map<string, number>();
@@ -191,11 +242,12 @@ for (const f of all) if (f.kind === 'replies') byParent.set(`${f.channel}/${f.pa
 for (const f of all) {
   const l = file.items[idOf(f)];
   if (!l) continue;
-  kinds[`${f.kind === 'replies' ? 'ответ' : 'пост'}:${l.kind}`] = (kinds[`${f.kind === 'replies' ? 'ответ' : 'пост'}:${l.kind}`] ?? 0) + 1;
+  const k = kindOf(f, l);
+  kinds[`${f.kind === 'replies' ? 'ответ' : 'пост'}:${k}`] = (kinds[`${f.kind === 'replies' ? 'ответ' : 'пост'}:${k}`] ?? 0) + 1;
   if (f.kind === 'replies') continue;
   const thread = byParent.get(`${f.channel}/${f.msg_id}`) ?? [];
   // ветка просьбы или «чем впечатлились» (share-посты зовут советовать — их ответы тоже советы)
-  if (l.kind !== 'ask' && !(l.kind === 'share' && thread.length)) continue;
+  if (k !== 'ask' && !(k === 'share' && thread.length)) continue;
   const tally = new Map<string, Ref & { n: number }>();
   let answers = 0;
   // вид названия по всей ветке: «Извне и ОСД … оба сериала» в одном ответе — и «извне» в соседнем ответе тоже сериал
@@ -213,7 +265,7 @@ for (const f of all) {
   const anchor = new Set([...liked, ...notWanted, ...byAuthor].map((r) => r.key).filter(Boolean));
   for (const c of thread) {
     const cl = file.items[idOf(c)];
-    if (!cl || (cl.kind !== 'advice' && cl.kind !== 'share')) continue;
+    if (!cl || (kindOf(c, cl) !== 'advice' && kindOf(c, cl) !== 'share')) continue;
     answers += 1;
     const seen = new Set<string>();
     for (const w of cl.works) {
@@ -230,7 +282,7 @@ for (const f of all) {
     }
   }
   asks.push({
-    id: idOf(f), channel: f.channel, msg_id: f.msg_id, date: f.date, text: oneLine(f.text, 300), replies: f.replies,
+    id: idOf(f), kind: k, channel: f.channel, msg_id: f.msg_id, date: f.date, text: oneLine(f.text, 300), replies: f.replies,
     ...(l.want ? { want: l.want } : {}), liked, ...(notWanted.length ? { notWanted } : {}), ...(byAuthor.length ? { offered: byAuthor } : {}), advice: [...tally.values()].sort((a, b) => b.n - a.n), answers,
   });
 }

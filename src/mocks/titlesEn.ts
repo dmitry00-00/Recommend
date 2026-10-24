@@ -1,4 +1,4 @@
-// Сгенерировано tools/titles-en.mts (2026-10-19): английские названия для карточек, у
+// Сгенерировано tools/titles-en.mts (2026-10-24): английские названия для карточек, у
 // которых английское название не совпадает с оригиналом (TMDb, language=en-US). Читает titleOf в английском интерфейсе.
 // Не править руками — перегенерировать.
 export const titlesEn: Record<string, string> = {
@@ -3904,6 +3904,7 @@ export const titlesEn: Record<string, string> = {
   "m214937":"It Couldn't Have Happened (But It Did)",
   "m21494":"Moliere",
   "m214973":"Šťastie príde v nedeľu",
+  "m21506":"Noroi: The Curse",
   "m21521":"Project A - Part II",
   "m215222":"The Drag Net",
   "m215280":"Billy Badd",
@@ -4660,6 +4661,7 @@ export const titlesEn: Record<string, string> = {
   "m276144":"Beauties on bicycles",
   "m276518":"The Boarder",
   "m276613":"Grandmother",
+  "m276624":"I Am a Hero",
   "m276646":"Larry and Steve",
   "m2767":"The Lovers on the Bridge",
   "m276972":"The Night of Saint-Germain-des-Prés",

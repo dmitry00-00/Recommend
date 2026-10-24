@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-10-21): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-10-24): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -6,12 +6,31 @@ import type { SourceCandidate } from '@/types/tmdf';
 
 export const sourceCandidates: SourceCandidate[] = [
   {
+    "id": "srcc-kinopoisk_soon",
+    "title": "Кинопоиск | Новости",
+    "handle": "kinopoisk_soon",
+    "url": "https://t.me/kinopoisk_soon",
+    "mentions": 844,
+    "reposts": 340,
+    "by": [
+      "Cinemaholics",
+      "Terminatarkovsky",
+      "capellafilmrussia",
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-16",
+    "sample": "Дженна Ортега и Эми Адамс, Аран Мерфи и Флоренс Пью на лондонской премьере «Клары и солн…"
+  },
+  {
     "id": "srcc-transgressivesamourai",
     "title": "Цветок для подопытного Кролика",
     "handle": "transgressivesamourai",
     "url": "https://t.me/transgressivesamourai",
-    "mentions": 89,
-    "reposts": 27,
+    "mentions": 94,
+    "reposts": 32,
     "by": [
       "Tanya in Horrorland",
       "Жизнь страшнее. Фильмы ужасов",
@@ -21,26 +40,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Тревожные кассеты",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-10-05",
-    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
-  },
-  {
-    "id": "srcc-kinopoisk_soon",
-    "title": "Кинопоиск | Новости",
-    "handle": "kinopoisk_soon",
-    "url": "https://t.me/kinopoisk_soon",
-    "mentions": 838,
-    "reposts": 338,
-    "by": [
-      "Cinemaholics",
-      "Terminatarkovsky",
-      "Заскриптованный",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-09-30",
-    "sample": "Зак Креггер после «Обители зла» взялся за фантастику в духе «Чужого», и главную роль в н…"
+    "lastAt": "2026-10-19",
+    "sample": "Вновь рубрика #мастераужасов держит курс на Индонезию. Тамошний хоррор настолько на подъ…"
   },
   {
     "id": "srcc-exponentafilm",
@@ -48,20 +49,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "handle": "exponentafilm",
     "url": "https://t.me/exponentafilm",
     "mentions": 25,
-    "reposts": 15,
+    "reposts": 16,
     "by": [
       "Cinemaholics",
       "Дзига-аппаратчик",
       "Жизнь страшнее. Фильмы ужасов",
       "Кинопоиск | Фильмы и сериалы",
       "Кинотеатр «Художественный»",
+      "Ремизорро",
       "Уютный уголок любителя ужасов",
       "ШишКИНО",
       "Што это было",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-08-14",
-    "sample": "​Пятница! Рекомендую идеальное кино для томного вечера — уморительную камерную драму Оли…"
+    "lastAt": "2026-10-08",
+    "sample": "Спешим с отличной новостью: «Рокки — это я» выходит раньше!"
   },
   {
     "id": "srcc-kinopoisk_industry",
@@ -84,7 +86,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "бурый дженкин",
     "handle": "b_jenkin",
     "url": "https://t.me/b_jenkin",
-    "mentions": 89,
+    "mentions": 94,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -97,8 +99,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-10-05",
-    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
+    "lastAt": "2026-10-19",
+    "sample": "Вновь рубрика #мастераужасов держит курс на Индонезию. Тамошний хоррор настолько на подъ…"
   },
   {
     "id": "srcc-cinemasha",
@@ -120,15 +122,15 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Кинопоиск | Игры",
     "handle": "igrapoisk",
     "url": "https://t.me/igrapoisk",
-    "mentions": 105,
+    "mentions": 106,
     "reposts": 59,
     "by": [
       "Terminatarkovsky",
       "Заскриптованный",
       "Кинопоиск | Фильмы и сериалы"
     ],
-    "lastAt": "2026-08-26",
-    "sample": "У Геральта в новом дополнении к «Ведьмаку 3» появится цепь, у самого The Witcher 3 — рем…"
+    "lastAt": "2026-10-15",
+    "sample": "GTA VI все ближе, и Rockstar выпустила ее финальный (и очень атмосферный) трейлер."
   },
   {
     "id": "srcc-7kingdoms.ru",
@@ -150,7 +152,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-кроненберг нефильтрованный",
     "title": "Кроненберг нефильтрованный",
     "mentions": 0,
-    "reposts": 60,
+    "reposts": 61,
     "by": [
       "Cinemaholics",
       "Заскриптованный",
@@ -158,15 +160,15 @@ export const sourceCandidates: SourceCandidate[] = [
       "Ремизорро",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-09-30",
-    "sample": "Will Tom Cruise’s ‘Digger’ Continue Warner Bros.’ Dismal Box Office Year?"
+    "lastAt": "2026-10-21",
+    "sample": "Всех — с днем фильма «Назад в будущее»!"
   },
   {
     "id": "srcc-volgafilms",
     "title": "Вольга про кино",
     "handle": "volgafilms",
     "url": "https://t.me/volgafilms",
-    "mentions": 25,
+    "mentions": 27,
     "reposts": 0,
     "by": [
       "Cinemaholics",
@@ -181,7 +183,7 @@ export const sourceCandidates: SourceCandidate[] = [
       "ЭПИЗОДЫ",
       "обзора не будет"
     ],
-    "lastAt": "2026-09-23",
+    "lastAt": "2026-10-05",
     "sample": "Вольгá про кино"
   },
   {
@@ -189,7 +191,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Horror TOSH",
     "handle": "horrortosh",
     "url": "https://t.me/horrortosh",
-    "mentions": 96,
+    "mentions": 101,
     "reposts": 10,
     "by": [
       "Abramacabre!",
@@ -200,8 +202,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Сеанс в 23:30 📽",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-10-05",
-    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
+    "lastAt": "2026-10-19",
+    "sample": "Вновь рубрика #мастераужасов держит курс на Индонезию. Тамошний хоррор настолько на подъ…"
   },
   {
     "id": "srcc-plus_yndx",
@@ -215,6 +217,24 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2025-12-26",
     "sample": "Знакомьтесь, это люмен!"
+  },
+  {
+    "id": "srcc-kinotv",
+    "title": "КИНОТВ",
+    "handle": "kinotv",
+    "url": "https://t.me/kinotv",
+    "mentions": 9,
+    "reposts": 20,
+    "by": [
+      "Cinemaholics",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ШишКИНО",
+      "Што это было",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-17",
+    "sample": "«Дракула» Фрэнсиса Форда Копполы, «Блэйд» Стивена Норрингтона, «От заката до рассвета» Р…"
   },
   {
     "id": "srcc-booksyandex",
@@ -256,7 +276,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "AHK",
     "handle": "alyashorror",
     "url": "https://t.me/alyashorror",
-    "mentions": 89,
+    "mentions": 94,
     "reposts": 8,
     "by": [
       "Tanya in Horrorland",
@@ -267,26 +287,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Тревожные кассеты",
       "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-10-05",
-    "sample": "а что у нас сегодня? новый выпуск рубрики #НишевыеХорроры!"
-  },
-  {
-    "id": "srcc-kinotv",
-    "title": "КИНОТВ",
-    "handle": "kinotv",
-    "url": "https://t.me/kinotv",
-    "mentions": 6,
-    "reposts": 19,
-    "by": [
-      "Cinemaholics",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "ШишКИНО",
-      "Што это было",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-10-01",
-    "sample": "В чём фишка платьев главной героини «Любовного настроения»? С какого сериала сплагиачен…"
+    "lastAt": "2026-10-19",
+    "sample": "Вновь рубрика #мастераужасов держит курс на Индонезию. Тамошний хоррор настолько на подъ…"
   },
   {
     "id": "srcc-maysaltburn",
@@ -308,6 +310,26 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-04-22",
     "sample": "\"Я иду искать 2\" / \"Ready or Not 2: Here I Come\", 2026, реж. Мэтт Беттинелли-Олпин"
+  },
+  {
+    "id": "srcc-house_of_light",
+    "title": "Свет далёкого маяка",
+    "handle": "house_of_light",
+    "url": "https://t.me/house_of_light",
+    "mentions": 39,
+    "reposts": 3,
+    "by": [
+      "Abramacabre!",
+      "Жизнь страшнее. Фильмы ужасов",
+      "На майские едем в Хоргу",
+      "Невнимательный зритель",
+      "Сеанс в 23:30 📽",
+      "Тревожные кассеты",
+      "Уютный уголок любителя ужасов",
+      "обзора не будет"
+    ],
+    "lastAt": "2026-10-20",
+    "sample": "В честь дня рождения решил сделать подарок себе и, надеюсь, Вам - запускаю гостевую рубр…"
   },
   {
     "id": "srcc-beatfest",
@@ -371,7 +393,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Her Frame",
     "handle": "her_frame_movie",
     "url": "https://t.me/her_frame_movie",
-    "mentions": 45,
+    "mentions": 46,
     "reposts": 11,
     "by": [
       "Tanya in Horrorland",
@@ -380,20 +402,60 @@ export const sourceCandidates: SourceCandidate[] = [
       "Невнимательный зритель",
       "Сеанс в 23:30 📽"
     ],
-    "lastAt": "2026-08-20",
-    "sample": "На исходе лета #Культовый_киноклуб посмотрел романтическую комедию Уильяма Уайлера Римск…"
+    "lastAt": "2026-10-13",
+    "sample": "👸 Образ Анны Болейн в киноэкранизациях прошел путь от идеализированного трагического ге…"
+  },
+  {
+    "id": "srcc-aonefilms",
+    "title": "@aonefilms",
+    "handle": "aonefilms",
+    "url": "https://t.me/aonefilms",
+    "mentions": 40,
+    "reposts": 0,
+    "by": [
+      "Abramacabre!",
+      "Cinemaholics",
+      "Terminatarkovsky",
+      "kinoru61",
+      "Кинопоиск | Фильмы и сериалы",
+      "Кинотеатр «Художественный»",
+      "Тревожные кассеты",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-04-08",
+    "sample": "О, а попробуем-ка новый формат! @aonefilms и @oembox в \"Сентиментальной ценности\" есть с…"
+  },
+  {
+    "id": "srcc-oembox",
+    "title": "Егор Москвитин",
+    "handle": "oembox",
+    "url": "https://t.me/oembox",
+    "mentions": 34,
+    "reposts": 0,
+    "by": [
+      "Cinemaholics",
+      "chbpsd",
+      "Невнимательный зритель",
+      "Ремизорро",
+      "Тревожные кассеты",
+      "ШишКИНО",
+      "Што это было",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-20",
+    "sample": "Егор Москвитин и Санденс Кид"
   },
   {
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
-    "reposts": 154,
+    "reposts": 180,
     "by": [
       "Cut The Chat",
       "ЭПИЗОДЫ"
     ],
-    "lastAt": "2026-10-02",
-    "sample": "На текущий момент сериал «Фонари» в среднем собирает около 19 миллионов зрителей за эпиз…"
+    "lastAt": "2026-10-04",
+    "sample": "Новый постер фильма #AvengersDoomsday"
   },
   {
     "id": "srcc-pollydaily",
@@ -415,11 +477,28 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "▪️Кэрри (1976)"
   },
   {
+    "id": "srcc-ershovfilm",
+    "title": "Я видел свечение экрана",
+    "handle": "ershovfilm",
+    "url": "https://t.me/ershovfilm",
+    "mentions": 9,
+    "reposts": 16,
+    "by": [
+      "Дзига-аппаратчик",
+      "Жизнь страшнее. Фильмы ужасов",
+      "Заскриптованный",
+      "Ремизорро",
+      "Што это было"
+    ],
+    "lastAt": "2026-10-20",
+    "sample": "Я видел свечение экрана"
+  },
+  {
     "id": "srcc-horror_russorosso",
     "title": "RussoRosso",
     "handle": "horror_RussoRosso",
     "url": "https://t.me/horror_RussoRosso",
-    "mentions": 7,
+    "mentions": 8,
     "reposts": 9,
     "by": [
       "Abramacabre!",
@@ -430,8 +509,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-08-19",
-    "sample": "Начнем обратный отсчет до Хэллоуина важнейшим жанровым анонсом: в октябре в прокат выход…"
+    "lastAt": "2026-10-12",
+    "sample": "Друзья!!! Хочу напомнить, что 15 октября в прокат выходит хоррор \"Красный экран\"!!!"
   },
   {
     "id": "srcc-trkvsk_vrt",
@@ -453,23 +532,6 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "На завершение первого сезона рубрики Геля решила отвести #админскийкиноклуб на меланхоли…"
   },
   {
-    "id": "srcc-ershovfilm",
-    "title": "Я видел свечение экрана",
-    "handle": "ershovfilm",
-    "url": "https://t.me/ershovfilm",
-    "mentions": 8,
-    "reposts": 15,
-    "by": [
-      "Дзига-аппаратчик",
-      "Жизнь страшнее. Фильмы ужасов",
-      "Заскриптованный",
-      "Ремизорро",
-      "Што это было"
-    ],
-    "lastAt": "2026-09-30",
-    "sample": "Я видел свечение экрана"
-  },
-  {
     "id": "srcc-streamingverse",
     "title": "into the streaming-verse",
     "handle": "streamingverse",
@@ -486,63 +548,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-19",
     "sample": "Christian Metal Band Demon Hunter Sues Netflix, AEG Over ‘KPop Demon Hunters’ Trademark"
-  },
-  {
-    "id": "srcc-aonefilms",
-    "title": "@aonefilms",
-    "handle": "aonefilms",
-    "url": "https://t.me/aonefilms",
-    "mentions": 38,
-    "reposts": 0,
-    "by": [
-      "Abramacabre!",
-      "Cinemaholics",
-      "Terminatarkovsky",
-      "Кинопоиск | Фильмы и сериалы",
-      "Кинотеатр «Художественный»",
-      "Тревожные кассеты",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-04-08",
-    "sample": "О, а попробуем-ка новый формат! @aonefilms и @oembox в \"Сентиментальной ценности\" есть с…"
-  },
-  {
-    "id": "srcc-oembox",
-    "title": "Егор Москвитин",
-    "handle": "oembox",
-    "url": "https://t.me/oembox",
-    "mentions": 31,
-    "reposts": 0,
-    "by": [
-      "Cinemaholics",
-      "Невнимательный зритель",
-      "Ремизорро",
-      "Тревожные кассеты",
-      "ШишКИНО",
-      "Што это было",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-09-28",
-    "sample": "Постер драмы «Любовь моя» номинанта на «Оскар» Родриго Сорогойена с Хавьером Бардемом в…"
-  },
-  {
-    "id": "srcc-house_of_light",
-    "title": "Свет далекого маяка",
-    "handle": "house_of_light",
-    "url": "https://t.me/house_of_light",
-    "mentions": 39,
-    "reposts": 0,
-    "by": [
-      "Abramacabre!",
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Невнимательный зритель",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2026-09-13",
-    "sample": "Оглядываясь на первый сезон рубрики #админскийкиноклуб, мне показалось, что прошел он сл…"
   },
   {
     "id": "srcc-user stakan",
@@ -570,12 +575,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "id": "srcc-сериал «трудно быть богом»",
     "title": "Сериал «Трудно быть богом»",
     "mentions": 0,
-    "reposts": 39,
+    "reposts": 45,
     "by": [
       "Wink"
     ],
-    "lastAt": "2026-10-05",
-    "sample": "Возомнил себя королем 👑"
+    "lastAt": "2026-10-21",
+    "sample": "Вот мы и нашли, кого кошмарили на этом проекте больше всего 💔"
   },
   {
     "id": "srcc-nemakarov",
@@ -647,7 +652,7 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "VONMORGUE",
     "handle": "vonmorgue",
     "url": "https://t.me/vonmorgue",
-    "mentions": 25,
+    "mentions": 26,
     "reposts": 6,
     "by": [
       "Abramacabre!",
@@ -656,8 +661,8 @@ export const sourceCandidates: SourceCandidate[] = [
       "Уютный уголок любителя ужасов",
       "обзора не будет"
     ],
-    "lastAt": "2026-08-27",
-    "sample": "С 27 августа в кино – мистический хоррор «Кошмар на улице Корал-Гроув»."
+    "lastAt": "2026-10-12",
+    "sample": "Друзья!!! Хочу напомнить, что 15 октября в прокат выходит хоррор \"Красный экран\"!!!"
   },
   {
     "id": "srcc-guljantv",
@@ -791,6 +796,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Каннский призер Синь зовет всех в кино на «Черного пса» — ее звездный час!"
   },
   {
+    "id": "srcc-егор москвитин и санденс кид",
+    "title": "Егор Москвитин и Санденс Кид",
+    "mentions": 0,
+    "reposts": 8,
+    "by": [
+      "Cinemaholics",
+      "Okko Кино",
+      "Tanya in Horrorland",
+      "Заскриптованный",
+      "Ремизорро",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-13",
+    "sample": "Ежегодный праздник мурашек уже на этой неделе!"
+  },
+  {
     "id": "srcc-provzglyad",
     "title": "Про:взгляд",
     "handle": "provzglyad",
@@ -841,6 +862,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "До вручения «Оскара» осталось совсем чуть-чуть! И мы, конечно, будем пристально следить…"
   },
   {
+    "id": "srcc-это всего лишь a-one",
+    "title": "Это всего лишь A-ONE",
+    "mentions": 0,
+    "reposts": 10,
+    "by": [
+      "Abramacabre!",
+      "Cinemaholics",
+      "Дзига-аппаратчик",
+      "Кинотеатр «Художественный»",
+      "Ремизорро"
+    ],
+    "lastAt": "2026-10-13",
+    "sample": "Фото с премьеры фильма «Любовь моя» номинанта на «Оскар» Родриго Сорогойена в кинотеатре…"
+  },
+  {
     "id": "srcc-fear_room",
     "title": "Кинодневник",
     "handle": "fear_room",
@@ -877,19 +913,15 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "На исходе лета #Культовый_киноклуб посмотрел романтическую комедию Уильяма Уайлера Римск…"
   },
   {
-    "id": "srcc-это всего лишь a-one",
-    "title": "Это всего лишь A-ONE",
+    "id": "srcc-screenborn - фильмы ужасов | хоррор | жанровое кино",
+    "title": "ScreenBorn - Фильмы Ужасов | Хоррор | Жанровое Кино",
     "mentions": 0,
-    "reposts": 9,
+    "reposts": 23,
     "by": [
-      "Abramacabre!",
-      "Cinemaholics",
-      "Дзига-аппаратчик",
-      "Кинотеатр «Художественный»",
-      "Ремизорро"
+      "Уютный уголок любителя ужасов"
     ],
-    "lastAt": "2026-09-28",
-    "sample": "Постер драмы «Любовь моя» номинанта на «Оскар» Родриго Сорогойена с Хавьером Бардемом в…"
+    "lastAt": "2026-10-19",
+    "sample": "Внимание, упыри! Внимание, вурдалаки!"
   },
   {
     "id": "srcc-kinoprotebya",
@@ -973,6 +1005,23 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "сегодня у меня рождения ⛩️"
   },
   {
+    "id": "srcc-kinokotik",
+    "title": "КиноКотик",
+    "handle": "kinokotik",
+    "url": "https://t.me/kinokotik",
+    "mentions": 6,
+    "reposts": 6,
+    "by": [
+      "Terminatarkovsky",
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-16",
+    "sample": "Большое и теплое интервью Паулины Андреевой, взял которое Тема Ремизов."
+  },
+  {
     "id": "srcc-kinocostume",
     "title": "Кинокостюм для чайников",
     "handle": "kinocostume",
@@ -1006,6 +1055,18 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-03-11",
     "sample": "Дамы и господа, приготовьтесь насладиться новым выпуском рубрики #УжасныйКвартет"
+  },
+  {
+    "id": "srcc-horrorzone.ru 🔞 новости хоррора",
+    "title": "HorrorZone.Ru 🔞 Новости хоррора",
+    "mentions": 0,
+    "reposts": 18,
+    "by": [
+      "Сеанс в 23:30 📽",
+      "Уютный уголок любителя ужасов"
+    ],
+    "lastAt": "2026-10-17",
+    "sample": "Вниманию москвичей. Завтра, 18 октября, в кинотеатре \"Синема Парк Мосфильм\" пройдет спец…"
   },
   {
     "id": "srcc-chestnoe_kino",
@@ -1124,6 +1185,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Пионерки кино: истории женщин-первопроходцев. Часть II."
   },
   {
+    "id": "srcc-kinometro",
+    "title": "@kinometro",
+    "handle": "kinometro",
+    "url": "https://t.me/kinometro",
+    "mentions": 46,
+    "reposts": 0,
+    "by": [
+      "Заскриптованный",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-20",
+    "sample": "Пожалуйста, не надо."
+  },
+  {
     "id": "srcc-frankyisshtaining",
     "title": "Рабочий файл (1)",
     "handle": "frankyisshtaining",
@@ -1139,17 +1216,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-30",
     "sample": "сегодня у меня рождения ⛩️"
-  },
-  {
-    "id": "srcc-screenborn - фильмы ужасов | хоррор | жанровое кино",
-    "title": "ScreenBorn - Фильмы Ужасов | Хоррор | Жанровое Кино",
-    "mentions": 0,
-    "reposts": 20,
-    "by": [
-      "Уютный уголок любителя ужасов"
-    ],
-    "lastAt": "2026-09-21",
-    "sample": "Коварные технодемоны безжалостно вынуждают нас перезаписать следующий регулярный выпуск…"
   },
   {
     "id": "srcc-sk8ergirl_exe",
@@ -1185,6 +1251,24 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-02-17",
     "sample": "Про трех белых коней наврали, слышали? Скачет ведь никто иная, как красная лошадь, а по…"
+  },
+  {
+    "id": "srcc-karoartcinema",
+    "title": "КАРО/АРТ",
+    "handle": "karoartcinema",
+    "url": "https://t.me/karoartcinema",
+    "mentions": 8,
+    "reposts": 0,
+    "by": [
+      "Cinemaholics",
+      "damngoodmovie",
+      "Дзига-аппаратчик",
+      "Ремизорро",
+      "Уютный уголок любителя ужасов",
+      "ШишКИНО"
+    ],
+    "lastAt": "2026-10-12",
+    "sample": "Уже в среду — старт фестиваля КАРО/АРТ 👁"
   },
   {
     "id": "srcc-запасаемся попкорном",
@@ -1255,85 +1339,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-01-23",
     "sample": "⬆️⬆️⬆️"
-  },
-  {
-    "id": "srcc-goldchihuahua",
-    "title": "Golden Chihuahua",
-    "handle": "goldchihuahua",
-    "url": "https://t.me/goldchihuahua",
-    "mentions": 1,
-    "reposts": 15,
-    "by": [
-      "Cinemaholics",
-      "Кинопоиск | Фильмы и сериалы"
-    ],
-    "lastAt": "2024-01-16",
-    "sample": "Окей, платье Обри Плазы, превращенное в записку Кэрри из Sex and the City это лучшее на…"
-  },
-  {
-    "id": "srcc-bodycountfilms",
-    "title": "Body Count Films",
-    "handle": "bodycountfilms",
-    "url": "https://t.me/bodycountfilms",
-    "mentions": 16,
-    "reposts": 0,
-    "by": [
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2026-09-13",
-    "sample": "Оглядываясь на первый сезон рубрики #админскийкиноклуб, мне показалось, что прошел он сл…"
-  },
-  {
-    "id": "srcc-filmru",
-    "title": "Film.ru",
-    "handle": "filmru",
-    "url": "https://t.me/filmru",
-    "mentions": 13,
-    "reposts": 4,
-    "by": [
-      "Cinemaholics",
-      "Дзига-аппаратчик",
-      "Ремизорро",
-      "Што это было"
-    ],
-    "lastAt": "2026-09-11",
-    "sample": "Приглашаем на предпремьерный показ экшн-триллера «Натиск» с Адрией Архоной"
-  },
-  {
-    "id": "srcc-smotru_kino",
-    "title": "Смотрю кино с котом",
-    "handle": "smotru_kino",
-    "url": "https://t.me/smotru_kino",
-    "mentions": 15,
-    "reposts": 3,
-    "by": [
-      "Жизнь страшнее. Фильмы ужасов",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2025-02-14",
-    "sample": "🥰ПОДБОРКА \"ПАРОЧКИ, КОТОРЫМ НЕ ПОВЕЗЛО\"🥰"
-  },
-  {
-    "id": "srcc-teplokino",
-    "title": "тепло о кино",
-    "handle": "teplokino",
-    "url": "https://t.me/teplokino",
-    "mentions": 5,
-    "reposts": 3,
-    "by": [
-      "Tanya in Horrorland",
-      "Жизнь страшнее. Фильмы ужасов",
-      "Невнимательный зритель",
-      "Сеанс в 23:30 📽",
-      "обзора не будет"
-    ],
-    "lastAt": "2026-03-08",
-    "sample": "к 8 марта мы сделали зин о женщинах в кино!"
   }
 ];

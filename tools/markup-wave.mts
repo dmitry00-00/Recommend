@@ -1,6 +1,10 @@
 // Заходы черновой разметки справочника (ТВ-13, 13.10): очередь пачками и слияние ответов разметчиков.
 //   npx tsx tools/markup-wave.mts queue <заход> [--size 60] [--limit N] [--calib 50 [--only-calib]]
 //   npx tsx tools/markup-wave.mts merge <заход> [--dry]
+//   queue … --keys <файл.json> (23.10) — только эти фильмы (массив ключей tmdb:/imdb: или строк { keys: [...] }, в его
+//   порядке): так размечают отобранное по историям зрителей (.cache/eval/catalog-gaps-2310.json, слово владельца
+//   «разметка 1000 фильмов»). Карточки из каналов и хвоста (minor) и новинки 2026 тогда не пропускаются; прочие
+//   правила (отложенное, убранное, пропущенное разметчиками, телепередачи) — те же.
 // До 13.10 скрипты заходов жили во временной папке сессии и пропали вместе с ней — теперь здесь, а очереди и ответы —
 // в .cache/markup/wave-<заход>/.
 //
@@ -101,6 +105,9 @@ async function queue() {
   for (const w of userWorks) { const t = (w.externalIds ?? externalIds[w.id])?.tmdb; if (t != null && userAnnotations[w.id]) own.add(`tmdb:${t}`); }
   const held = new Set(readdirSync(MARK).filter((f) => /^gap-held-.*\.json$/.test(f)).flatMap((f) => readJson<{ key: string }[]>(MARK + f, []).map((h) => h.key)));
   const tv = new Set(tvPrograms as string[]);
+  // --keys: ключ → место в списке (фильм с несколькими ключами — по любому из них)
+  const KEYS = opt('--keys') ? new Map(readJson<(string | { keys: string[] })[]>(opt('--keys')!, [])
+    .flatMap((x, i) => (typeof x === 'string' ? [x] : x.keys).map((k) => [k, i] as const))) : undefined;
   const seen = new Set<string>();
   const index = worksIndex({ all: true });
   const todo: Item[] = [];
@@ -109,8 +116,9 @@ async function queue() {
     seen.add(w.key);
     const work = w.work;
     if (work.type === 'book' || work.primaryOperations.length || draftAnnotations[w.key] || seriesAnnotations[w.key] || own.has(w.key)) continue;
-    if (draftReview[`draft:${w.key}`] || w.key in withheldWorks || w.key in heldWorks || held.has(w.key) || offered[w.key] || tv.has(work.id) || w.minor) continue;
-    if (!work.year || work.year >= 2026 || !/^(tmdb|imdb):/.test(w.key)) continue;
+    if (KEYS && !KEYS.has(w.key)) continue;
+    if (draftReview[`draft:${w.key}`] || w.key in withheldWorks || w.key in heldWorks || held.has(w.key) || offered[w.key] || tv.has(work.id) || (w.minor && !KEYS)) continue;
+    if (!work.year || (work.year >= 2026 && !KEYS) || !/^(tmdb|imdb):/.test(w.key)) continue;
     todo.push({ key: w.key, type: isSeries(work) ? 'series' : 'film', title: work.title, year: work.year, original: work.originalTitle, creators: (work.creators ?? []).slice(0, 2) });
   }
   console.error(`без разметки: ${todo.length} (фильмов ${todo.filter((x) => x.type === 'film').length}, сериалов ${todo.filter((x) => x.type === 'series').length})`);
@@ -157,7 +165,7 @@ async function queue() {
   }
   const line = (x: Item) => [x.key, x.type, x.title, x.year, x.original ?? '', x.creators.join(', '), x.n ? `${x.n} разделов Википедии` : '', x.plot ?? '']
     .map((v) => String(v).replace(/[\t\n]+/g, ' ')).join('\t');
-  todo.sort((a, b) => (b.n ?? 0) - (a.n ?? 0) || a.title.localeCompare(b.title, 'ru'));
+  todo.sort((a, b) => (KEYS ? KEYS.get(a.key)! - KEYS.get(b.key)! : 0) || (b.n ?? 0) - (a.n ?? 0) || a.title.localeCompare(b.title, 'ru'));
   if (argv.includes('--only-calib')) {
     for (const x of calib) if ((x as Item & { art?: string }).art) x.plot = await article(x.lang!, (x as Item & { art?: string }).art!);
     writeFileSync(DIR + 'calib.tsv', calib.map(line).join('\n') + '\n');
@@ -235,14 +243,16 @@ async function merge() {
   const date = new Date().toISOString().slice(0, 10);
   // фильмы и сериалы из роста справочника (РР-4, РР-5) — в ленивые модули разметки рядом с их карточками: в
   // draftAnnotations.ts / seriesAnnotations.ts (первая загрузка) они ломают бюджет сборки
-  const keysOf = async (mod: string, name: string, id: 'tmdb' | 'imdb') => {
+  const keysOf = async (mod: string, name: string, ids: ('tmdb' | 'imdb')[]) => {
     const url = new URL(`../src/mocks/${mod}.ts`, import.meta.url);
     if (!existsSync(url)) return new Set<string>();
     const ws = (await import(url.href))[name] as { externalIds?: { tmdb?: number; imdb?: string } }[];
-    return new Set(ws.flatMap((w) => (w.externalIds?.[id] != null ? [`${id}:${w.externalIds[id]}`] : [])));
+    return new Set(ws.flatMap((w) => ids.flatMap((id) => (w.externalIds?.[id] != null ? [`${id}:${w.externalIds[id]}`] : []))));
   };
-  const filmLinks = await keysOf('filmBaseLinks', 'filmBaseLinks', 'tmdb');
-  const seriesWiki = await keysOf('seriesBaseWiki', 'seriesBaseWiki', 'imdb');
+  // хвост справочника (filmBaseTail) грузится лениво вместе с filmBaseLinks — и разметка ему туда же (23.10). Фильм без
+  // номера TMDb стоит в очереди под imdb:tt… — поэтому и IMDb (24.10, ревью п. 9: иначе 761 фильм хвоста шёл в первую загрузку)
+  const filmLinks = new Set([...await keysOf('filmBaseLinks', 'filmBaseLinks', ['tmdb', 'imdb']), ...await keysOf('filmBaseTail', 'filmBaseTail', ['tmdb', 'imdb'])]);
+  const seriesWiki = await keysOf('seriesBaseWiki', 'seriesBaseWiki', ['imdb']);
   const targets: [string, Row[]][] = [
     ['src/mocks/draftAnnotations.ts', films.filter((r) => !filmLinks.has(r.key))],
     ['src/mocks/draftAnnotationsLinks.ts', films.filter((r) => filmLinks.has(r.key))],

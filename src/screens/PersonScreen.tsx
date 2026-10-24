@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getPerson, getSettings, type PersonPage } from '@/api';
+import { getPerson, getPersonChannel, getSettings, type PersonChannelView, type PersonPage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
 import { BackLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
 import { registers } from '@/lib/registers';
@@ -10,6 +10,10 @@ import { Face } from '@/components/Face';
 import { OpenContext } from '@/lib/openContext';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
+import { useFeature } from '@/lib/flags';
+import { onExternalClick } from '@/lib/telegram';
+import { voiceOf } from '@/lib/voices';
+import { FeedPost } from '@/components/WorkVoices';
 
 /** Страница автора-создателя (/person/:id, трек Д3): режиссёр, сценарист, шоураннер, писатель.
  *  Отвечает на вопрос «это Вильнёв — а что ещё у него и с чего начать»: его работы с нашей
@@ -26,6 +30,9 @@ export function PersonScreen() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [spoilers, setSpoilers] = useState<SpoilerLevel>(0);
+  // канал автора (24.10, флаг personChannel): отдельным запросом, чтобы страница не ждала постов канала
+  const channelOn = useFeature('personChannel');
+  const [channel, setChannel] = useState<PersonChannelView | undefined>();
 
   useEffect(() => { getSettings().then((s) => setSpoilers(s.spoilerLevel)).catch(() => undefined); }, []);
 
@@ -38,6 +45,13 @@ export function PersonScreen() {
       .catch(() => alive && setFailed(true));
     return () => { alive = false; };
   }, [id, attempt]);
+
+  useEffect(() => {
+    let alive = true;
+    setChannel(undefined);
+    if (channelOn) getPersonChannel(id).then((c) => alive && setChannel(c)).catch(() => undefined);
+    return () => { alive = false; };
+  }, [id, channelOn]);
 
   return (
     <main className="tm-shell__main tm-voicepage tm-person">
@@ -89,6 +103,8 @@ export function PersonScreen() {
               </p>
             ) : null}
           </header>
+
+          {channel ? <PersonChannel channel={channel} spoilers={spoilers} /> : null}
 
           {data.startWith ? (
             <section className="tm-person__start">
@@ -179,6 +195,40 @@ export function PersonScreen() {
 function Thumb({ work }: { work: PersonPage['works'][number]['work'] }) {
   return (
     <WorkThumb work={work} />
+  );
+}
+
+/** Канал автора (24.10): имя канала, «Открыть канал» и его посты о своих работах — карточками ленты постов, как в
+ *  карточке фильма (FeedPost), по вещам: название — над её постами. Постов нет — только ссылка. */
+function PersonChannel({ channel, spoilers }: { channel: PersonChannelView; spoilers: SpoilerLevel }) {
+  const groups: { work: PersonChannelView['posts'][number]['work']; items: PersonChannelView['posts'] }[] = [];
+  for (const x of channel.posts) {
+    const g = groups.find((y) => y.work.id === x.work.id);
+    if (g) g.items.push(x); else groups.push({ work: x.work, items: [x] });
+  }
+  return (
+    <section className="tm-person__section tm-person__channel">
+      <h2 className="tm-title-3">{ui.person.channelTitle}</h2>
+      <p className="tm-body">{channel.title}</p>
+      <p className="tm-voice__outlets">
+        <a className="tm-btn tm-btn--secondary tm-btn--sm" href={channel.url} target="_blank" rel="noreferrer noopener"
+           onClick={onExternalClick(channel.url)}>{ui.person.channelOpen}</a>
+      </p>
+      {groups.length ? <p className="tm-caption tm-person__about">{ui.person.channelPosts}</p> : null}
+      {groups.map(({ work, items }) => (
+        <div key={work.id}>
+          <p className="tm-caption tm-person__about">{titleOf(work)}</p>
+          {/* как в карточке: видели — открыто всё, нет — по настройке спойлеров */}
+          <OpenContext.Provider value={{ place: 'person', workId: work.id }}>
+            <div className="tm-voicefeed__list tm-voicefeed__list--telegram">
+              {items.map(({ analysis, seen }) => (
+                <FeedPost key={analysis.id} item={{ a: analysis, voice: voiceOf(analysis) }} spoilerLevel={seen ? 2 : spoilers} shelves={false} />
+              ))}
+            </div>
+          </OpenContext.Provider>
+        </div>
+      ))}
+    </section>
   );
 }
 

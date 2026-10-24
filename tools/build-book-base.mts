@@ -115,6 +115,14 @@ const openLibrary = async (q: Record<string, string>): Promise<Info | undefined>
     ...(d.first_publish_year ? { year: d.first_publish_year } : {}), ...(d.cover_i ? { cover: d.cover_i } : {}) };
 };
 type Claim = { mainsnak: { datavalue?: { value: unknown } } };
+// год из даты Wikidata (24.10, правки карточек): знак «до н. э.» не теряем (−0600 → −600, а не 600); вещам до 1500 года —
+// год 0, как в слое правок (BOOK_YEAR_ZERO_2410): точной даты у них нет, а год перевода из Open Library хуже нуля
+const DATE_PROPS = ['P577', 'P571', 'P1191'];
+const wdYear = (time: string): number => Number(/^([+-]?\d+)-/.exec(time)?.[1] ?? NaN);
+const bookYear = (ys: number[]): number | undefined => {
+  const y = ys.filter((x) => Number.isFinite(x) && x !== 0);
+  return y.length ? (Math.min(...y) < 1500 ? 0 : Math.min(...y)) : undefined;
+};
 type Ent = { labels?: Record<string, { value: string }>; claims?: Record<string, Claim[]> };
 /** Сведения о книге из Wikidata (метки, год, автор, Open Library ID) и обложка из Open Library. */
 async function wdInfo(q: string, fallbackTitle: string, e?: Ent): Promise<Info> {
@@ -122,10 +130,10 @@ async function wdInfo(q: string, fallbackTitle: string, e?: Ent): Promise<Info> 
   const val = (p: string) => e?.claims?.[p]?.map((c) => c.mainsnak.datavalue?.value).filter(Boolean) ?? [];
   const authorIds = val('P50').map((v) => (v as { id: string }).id).slice(0, 3);
   const names = authorIds.length ? (await wd<{ entities?: Record<string, Ent> }>({ action: 'wbgetentities', ids: authorIds.join('|'), props: 'labels', languages: 'ru|en' })).entities ?? {} : {};
-  const years = val('P577').map((v) => Number((v as { time: string }).time.slice(1, 5))).filter((y) => y > 0);
+  const year = bookYear(DATE_PROPS.flatMap((p) => val(p)).map((v) => wdYear((v as { time: string }).time)));
   const olid = val('P648').map(String).find((x) => /^OL\d+W$/.test(x));
   const info: Info = { wd: q, title: e?.labels?.ru?.value ?? e?.labels?.en?.value, en: e?.labels?.en?.value,
-    ...(years.length ? { year: Math.min(...years) } : {}),
+    ...(year !== undefined ? { year } : {}),
     authors: authorIds.map((id) => names[id]?.labels?.ru?.value ?? names[id]?.labels?.en?.value).filter((x): x is string => Boolean(x)),
     ...(olid ? { olw: olid } : {}) };
   // обложка — у Open Library: по английскому названию и автору
@@ -215,14 +223,14 @@ if (!CACHED_SAID) {
     if (qs.length) {
       const det = await sparqlRows(`SELECT ?f ?ru ?en ?date ?olid ?au ?auRu ?auEn WHERE { VALUES ?f { ${qs.map((q) => `wd:${q}`).join(' ')} }
         OPTIONAL { ?f rdfs:label ?ru FILTER(lang(?ru) = 'ru') } OPTIONAL { ?f rdfs:label ?en FILTER(lang(?en) = 'en') }
-        OPTIONAL { ?f wdt:P577 ?date } OPTIONAL { ?f wdt:P648 ?olid }
+        OPTIONAL { VALUES ?dp { wdt:P577 wdt:P571 wdt:P1191 } ?f ?dp ?date } OPTIONAL { ?f wdt:P648 ?olid }
         OPTIONAL { ?f wdt:P50 ?au . OPTIONAL { ?au rdfs:label ?auRu FILTER(lang(?auRu) = 'ru') } OPTIONAL { ?au rdfs:label ?auEn FILTER(lang(?auEn) = 'en') } } }`).catch(() => []);
       for (const b of det) {
         const q = qidOf(b.f)!;
         const x = info.get(q) ?? { wd: q, authors: [] };
         x.title ??= b.ru?.value ?? b.en?.value; x.en ??= b.en?.value;
-        const y = Number(b.date?.value.slice(0, 4));
-        if (y > 0) x.year = x.year ? Math.min(x.year, y) : y;
+        const y = b.date ? bookYear([wdYear(b.date.value), ...(x.year ? [x.year] : [])]) : undefined;
+        if (y !== undefined && (x.year === undefined || x.year !== 0)) x.year = y;
         if (b.olid && /^OL\d+W$/.test(b.olid.value)) x.olw ??= b.olid.value;
         const name = b.auRu?.value ?? b.auEn?.value;
         if (name && !x.authors!.includes(name) && x.authors!.length < 3) x.authors!.push(name);
@@ -255,16 +263,28 @@ for (const [k, s] of said) {
   await sleep(300);
 }
 // списки читателей
-type ListBook = { title: string; author?: string; why: string };
+// 24.10: у строки списка может быть готовый элемент Wikidata (`qid`) — список отобран и проверен заранее (произведение, не
+// издание; автор, год): тогда поиска по названию нет, сведения — как у «что ищут», под ключом `wd:` (так строка списка и
+// книга из топов Википедии — одна запись кэша). Так заведено пополнение книжного каталога для читателей книжных каналов
+// (.cache/book-lists/reader-gaps-2410.json)
+type ListBook = { title: string; author?: string; qid?: string; why: string };
 const listDir = new URL('../.cache/book-lists/', import.meta.url);
 const listed: ListBook[] = existsSync(listDir) ? readdirSync(listDir).filter((f) => f.endsWith('.json')).flatMap((f) => {
-  const d = JSON.parse(readFileSync(new URL(f, listDir), 'utf8')) as { why?: string; books?: { title: string; author?: string }[] };
+  const d = JSON.parse(readFileSync(new URL(f, listDir), 'utf8')) as { why?: string; books?: { title: string; author?: string; qid?: string }[] };
   return (d.books ?? []).filter((b) => b.title).map((b) => ({ ...b, why: d.why ?? f }));
 }) : [];
-console.error(`книг из списков читателей: ${listed.length}`);
+const listKey = (b: ListBook) => (b.qid ? `wd:${b.qid}` : `list:${titleKey(b.title)}|${(b.author ?? '').toLowerCase()}`);
+console.error(`книг из списков читателей: ${listed.length} (с готовым элементом Wikidata: ${listed.filter((b) => b.qid).length})`);
 for (const b of listed) {
-  const k = `list:${titleKey(b.title)}|${(b.author ?? '').toLowerCase()}`;
+  const k = listKey(b);
   if (cache[k]) continue;
+  if (b.qid) {
+    const q = b.qid;
+    try { cache[k] = await wdInfo(q, b.title); } catch (e) { fail(k, b.title, () => wdInfo(q, b.title), e); continue; }
+    if (++asked % 20 === 0) writeCache('book-base.json', cache);
+    await sleep(300);
+    continue;
+  }
   try {
     const authors = (b.author ?? '').split(/\s+и\s+|,\s*|\s*&\s*/).map((x) => x.trim()).filter(Boolean);
     const found = authors.length ? await wdFind(b.title, authors) : undefined;
@@ -355,9 +375,10 @@ for (const [k, s] of said) {
   rows.push([s.book ? 'книжные каналы' : 'эссеисты', s.title, s.author ?? info?.authors?.join(', ') ?? '', info?.year ?? '', info?.wd ? `wd:${info.wd}` : info?.olw ? `olw:${info.olw}` : '', `${s.channels.size} кан.: ${s.context.slice(0, 80)}`, c ? 'да' : 'нет'].join('\t'));
 }
 for (const b of listed) {
-  const info = cache[`list:${titleKey(b.title)}|${(b.author ?? '').toLowerCase()}`];
+  const info = cache[listKey(b)];
   const named = (b.author ?? '').split(/\s+и\s+|,\s*|\s*&\s*/).map((x) => x.trim()).filter(Boolean);
-  const authorOk = !named.length || !info?.authors?.length || info.authors.some((a) => named.some((x) => sameSurname(x, a)));
+  // с готовым элементом автор проверен при отборе (24.10): «Марина и Сергей Дяченко» разбивались бы на имена
+  const authorOk = Boolean(b.qid) || !named.length || !info?.authors?.length || info.authors.some((a) => named.some((x) => sameSurname(x, a)));
   const c = info && !info.miss && authorOk ? card(info, `Из списков читателей: ${b.why}`) : undefined;
   put(c, 'списки читателей');
   rows.push(['списки читателей', b.title, b.author ?? info?.authors?.join(', ') ?? '', info?.year ?? '', info?.wd ? `wd:${info.wd}` : info?.olw ? `olw:${info.olw}` : '', b.why, c ? 'да' : 'нет'].join('\t'));

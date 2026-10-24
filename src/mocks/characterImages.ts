@@ -1,4 +1,4 @@
-// Сгенерировано tools/character-images.mts (2026-10-21): изображения героев.
+// Сгенерировано tools/character-images.mts (2026-10-24): изображения героев.
 // commons — файл Wikimedia Commons (P18 героя), tmdb — фото актёра в роли; byWork — исполнитель в
 // конкретном произведении. Не править руками — перегенерировать.
 export interface CharacterImage { img: string; src: 'commons' | 'tmdb'; actor?: string; work?: string; byWork?: Record<string, { img: string; actor: string }> }

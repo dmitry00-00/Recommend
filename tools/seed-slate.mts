@@ -4,6 +4,9 @@
 // истории владельца нет; «видел» — setWatched, оценки — rateWork, дальше getSlate — как в Telegram.
 // В расчёт идут только фильмы справочника: чего в нём нет, модель не знает (у таких нет разметки).
 //   npx tsx tools/seed-slate.mts tg-episodesfilm [normal|low|high|normal,low,high]
+//   EXP=learnedBlend,fullPool npx tsx tools/seed-slate.mts … — с опытами (23.10, src/lib/model/experiments.ts); таблицы
+//   «как оценили другие» и сходства берутся целиком, с самим человеком, — шестёрка чуть лучше настоящей. EXP=twoStage (23.10) —
+//   подбор в два шага, как в ленте: getSlate → slateFor ждёт известность и src/mocks/consensusCount.ts → recommend → twoStageSort
 // Несколько сил через запятую — за один прогон (11.10): профиль из импорта Кинопоиска — это две тысячи отметок, и
 // грузить их заново на каждую силу незачем. Паузы-имитации сети у api (`delay`, до 300 мс) здесь проходят сразу:
 // с ними две тысячи отметок шли минут семь на каждую ленту.
@@ -32,7 +35,7 @@ g.document = { documentElement: { lang: 'ru', dataset: {}, style: { setProperty(
 // сид импорта Кинопоиска несёт свои карточки (`l-tmdb…`), которых в справочнике нет: такой сид приложение получает с
 // сервера состоянием (`hydrate`) — им же его и кладём; внутренняя функция открывается только этому процессу
 const vite = await createServer({ root: process.cwd(), server: { middlewareMode: true, hmr: false, watch: null }, appType: 'custom', logLevel: 'error', optimizeDeps: { noDiscovery: true, include: [] },
-  plugins: [{ name: 'seed-slate', enforce: 'post', transform(code, id) { if (id.endsWith('/src/api/index.ts')) return `${code}\nexport const __hydrate = hydrate;`; } }] });
+  plugins: [{ name: 'seed-slate', enforce: 'post', transform(code, id) { if (id.endsWith('/src/api/index.ts')) return `${code}\nexport const __hydrate = hydrate;\nimport { setExperiments as __se } from '@/lib/model/experiments'; __se(${JSON.stringify((process.env.EXP ?? '').split(',').filter(Boolean))});`; } }] });
 try {
   const api = await vite.ssrLoadModule('/src/api/index.ts');
   await api.getRatingDeck();

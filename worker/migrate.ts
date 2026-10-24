@@ -124,6 +124,16 @@ const TABLES: string[] = [
   // старше двух суток чистит тик (worker/index.ts, scheduled)
   'CREATE TABLE IF NOT EXISTS tg_update (update_id INTEGER PRIMARY KEY, at TEXT NOT NULL)',
   'CREATE INDEX IF NOT EXISTS tg_update_at ON tg_update(at)',
+  // 24.10, рекламная кампания: хвост из /start за номером Telegram — для входа кнопкой меню, без start_param
+  // (worker/invite.ts); снимается при заведении участника, старше недели чистит тик (worker/index.ts, scheduled)
+  'CREATE TABLE IF NOT EXISTS start_mark (tg_id INTEGER PRIMARY KEY, tail TEXT NOT NULL, at TEXT NOT NULL)',
+  'CREATE INDEX IF NOT EXISTS start_mark_at ON start_mark(at)',
+  // 24.10, аудит безопасности: присланный список — за номером Telegram; удаление аккаунта ставит deleted_at, а не
+  // стирает (worker/userSeed.ts, account.ts); отказы под чужим ником — для пульта
+  'CREATE TABLE IF NOT EXISTS seed_owner (nick TEXT PRIMARY KEY, tg_id INTEGER, at TEXT NOT NULL, deleted_at TEXT)',
+  'CREATE INDEX IF NOT EXISTS seed_owner_tg ON seed_owner(tg_id)',
+  `CREATE TABLE IF NOT EXISTS seed_refusal (nick TEXT NOT NULL, tg_id INTEGER NOT NULL, reason TEXT NOT NULL, n INTEGER NOT NULL,
+    first_at TEXT NOT NULL, at TEXT NOT NULL, PRIMARY KEY (nick, tg_id))`,
   // 17.10, аудит отказов п. 8: замки периодических работ — сводка подписок (worker/follow.ts). locked_at '' — свободно,
   // until — не начинать раньше (пауза по 429 от Telegram)
   "CREATE TABLE IF NOT EXISTS job_lock (name TEXT PRIMARY KEY, locked_at TEXT NOT NULL DEFAULT '', until TEXT NOT NULL DEFAULT '')",
@@ -183,6 +193,12 @@ const ONCE: { name: string; sql: string }[] = [
        WHERE c.worth BETWEEN 1 AND 5 AND c.work_id <> '' AND c.user_id IN (SELECT id FROM user)
          AND NOT EXISTS (SELECT 1 FROM checkin d WHERE d.user_id = c.user_id AND d.work_id = c.work_id AND d.worth BETWEEN 1 AND 5
                           AND (d.at > c.at OR (d.at = c.at AND d.id > c.id)))` },
+  // 24.10: привязки списков старого образца (`nick:<ник>` в seed_applied, по user_id) — к номеру Telegram того аккаунта
+  // (worker/userSeed.ts). Ник, лёгший двоим (до 16.10), — первому по времени
+  { name: 'seed-owner-from-nick', sql: `INSERT OR IGNORE INTO seed_owner (nick, tg_id, at)
+      SELECT substr(s.seed, 6), u.tg_id, s.at FROM seed_applied s JOIN user u ON u.id = s.user_id
+       WHERE s.seed LIKE 'nick:%' AND u.tg_id IS NOT NULL
+       ORDER BY s.at` },
 ];
 
 let done: Promise<void> | undefined;

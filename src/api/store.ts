@@ -285,6 +285,18 @@ export async function putTasteTop(items: unknown[]): Promise<boolean> {
   }
 }
 
+/** EASE обученному счёту ленты (24.10, опыт ease, worker/ease.ts): тело ответа как есть (разбирает easeUnpack); без сервера,
+ *  без ручки (404 — EASE не включён) и при ошибке сети — undefined: лента тогда считает прежним счётом */
+export async function fetchEase(): Promise<unknown | undefined> {
+  if (API === undefined) return undefined;
+  try {
+    const res = await call('/api/ease');
+    return res?.ok ? await res.json() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** выбор компанией (ЗП-11): запрос к /api/together* — статус и тело; без сервера — undefined */
 export async function togetherCall<T>(path: string, init: RequestInit = {}): Promise<{ status: number; body?: T } | undefined> {
   if (API === undefined) return undefined;

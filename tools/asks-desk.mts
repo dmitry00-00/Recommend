@@ -9,24 +9,38 @@
 // Хост и заголовок x-desk проверяет общий пульт.
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { spawn, type ChildProcess } from 'node:child_process';
-import { createWriteStream, existsSync, readFileSync, statSync } from 'node:fs';
+import { createWriteStream, existsSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { letterboxdUser, postLink, viewerProfiles, type FoundPost } from './viewer-profiles.mts';
 
-const ROOT = fileURLToPath(new URL('../', import.meta.url));
+const ROOT_URL = new URL('../', import.meta.url);
+const ROOT = fileURLToPath(ROOT_URL);
 const DIR = new URL('../.cache/tg-asks/', import.meta.url);
 const PAGE = new URL('./asks-desk.html', import.meta.url);
 const LOG = new URL('desk-run.log', DIR);
+// «это не просьба» с пульта (21.10): вид поста рукой — его же читает tools/tg-asks.mts при сборке свода
+const OVERRIDES = new URL('overrides.json', DIR);
+const KINDS = ['ask', 'advice', 'share', 'other'] as const;
+type Kind = typeof KINDS[number];
+const readOverrides = (): Record<string, { kind: Kind; at: string }> => (existsSync(OVERRIDES) ? JSON.parse(readFileSync(OVERRIDES, 'utf8')) : {});
+function setOverride(id: string, kind: Kind): void {
+  const o = readOverrides();
+  o[id] = { kind, at: new Date().toISOString() };
+  const tmp = `${fileURLToPath(OVERRIDES)}.tmp`;
+  writeFileSync(tmp, JSON.stringify(o, null, 1));
+  renameSync(tmp, OVERRIDES);
+}
 const send = (res: ServerResponse, code: number, body: unknown, type = 'application/json; charset=utf-8') => {
   res.writeHead(code, { 'content-type': type, 'cache-control': 'no-store' });
   res.end(typeof body === 'string' ? body : JSON.stringify(body));
 };
 
 interface Ref { title: string; key?: string }
-interface Ask { id: string; channel: string; msg_id: number; date?: string; text: string; replies?: number; want?: string;
+interface Ask { id: string; kind?: Kind; channel: string; msg_id: number; date?: string; text: string; replies?: number; want?: string;
   liked: Ref[]; notWanted?: Ref[]; offered?: Ref[]; advice: (Ref & { n: number })[]; answers: number }
 interface Pairs { built: string; kinds: Record<string, number>; asks: Ask[]; pairs: { liked: string; advised: string; n: number }[];
   advised: Record<string, number>; unknown: Record<string, number> }
-interface Found { kind: string; query?: string; channel: string; title?: string; msg_id: number; parent_id?: number; date?: string; text?: string; replies?: number }
+interface Found extends FoundPost { kind: string; query?: string; replies?: number }
 
 // файлы большие (found.json — мегабайты): перечитываем, только когда они поменялись
 const memo = new Map<string, { stamp: string; value: unknown }>();
@@ -42,32 +56,15 @@ function readCached<T>(name: string): T | undefined {
   return value;
 }
 
-const PROFILE = /https?:\/\/(?:www\.)?(?:kinopoisk\.ru\/user\/\d+|letterboxd\.com\/[\w.-]+|trakt\.tv\/users\/[\w.-]+|kinorium\.com\/user\/\d+)\/?/gi;
-const site = (url: string) => /kinopoisk/.test(url) ? 'Кинопоиск' : /letterboxd/.test(url) ? 'Letterboxd' : /trakt/.test(url) ? 'Trakt' : 'Кинориум';
-
 function data() {
   const p = readCached<Pairs>('pairs.json');
   if (!p) return { error: 'свода ещё нет: нажмите «Забрать новое и разметить» или запустите npx tsx tools/tg-asks.mts' };
   const found = readCached<Found[]>('found.json') ?? [];
   const labels = readCached<{ items: Record<string, unknown> }>('labels.json');
+  const overrides = readOverrides();
   // названия ключей — из самих просьб: у каждой ссылки на справочник есть и ключ, и название
   const title: Record<string, string> = {};
   for (const a of p.asks) for (const r of [...a.liked, ...a.advice, ...(a.offered ?? []), ...(a.notWanted ?? [])]) if (r.key && !title[r.key]) title[r.key] = r.title;
-  // профили зрителей: один человек — один профиль, свежее сообщение главнее
-  const profiles = new Map<string, { url: string; site: string; ru: boolean; channel: string; channelTitle?: string; date?: string; text: string; link: string }>();
-  for (const f of found) {
-    for (const m of (f.text ?? '').matchAll(PROFILE)) {
-      const url = m[0].replace(/\/$/, '');
-      // служебные разделы Letterboxd — не профиль человека: /film/…, /films/, /lists/ и т. п.
-      if (/letterboxd\.com\/(?:film|films|lists?|journal|members|search|about|pro|tag|actor|director|crew|people|showdown|year)$/i.test(url)) continue;
-      const prev = profiles.get(url.toLowerCase());
-      if (prev && (prev.date ?? '') >= (f.date ?? '')) continue;
-      // русскоязычный адресат: Кинопоиск и Кинориум — всегда, остальные — по кириллице в сообщении или названии канала
-      const ru = /kinopoisk|kinorium/i.test(url) || /[а-яё]/i.test(`${f.text ?? ''} ${f.title ?? ''}`);
-      profiles.set(url.toLowerCase(), { url, site: site(url), ru, channel: f.channel, channelTitle: f.title, date: f.date,
-        text: (f.text ?? '').replace(/\s+/g, ' ').trim().slice(0, 240), link: link(f.channel, f.msg_id, f.parent_id) });
-    }
-  }
   const queries: Record<string, number> = {};
   for (const f of found) if (f.kind === 'posts' && f.query) queries[f.query] = (queries[f.query] ?? 0) + 1;
   return {
@@ -76,18 +73,24 @@ function data() {
     counts: { found: found.length, labelled: labels ? Object.keys(labels.items).length : 0 },
     kinds: p.kinds,
     queries,
-    asks: p.asks.map((a) => ({ ...a, link: link(a.channel, a.msg_id) })),
+    // только просьбы: посты «делится» с ответами свод держит ради пар, а пометки рукой главнее свода
+    asks: p.asks.filter((a) => (overrides[a.id]?.kind ?? a.kind ?? 'ask') === 'ask').map((a) => ({ ...a, link: postLink(a.channel, a.msg_id) })),
+    marked: Object.values(overrides).filter((o) => o.kind !== 'ask').length,
     pairs: p.pairs.map((x) => ({ ...x, likedTitle: title[x.liked] ?? x.liked, advisedTitle: title[x.advised] ?? x.advised })),
     advised: Object.entries(p.advised).sort((a, b) => b[1] - a[1]).slice(0, 80).map(([key, n]) => ({ key, title: title[key] ?? key, n })),
     unknown: Object.entries(p.unknown).sort((a, b) => b[1] - a[1]).slice(0, 120).map(([t, n]) => ({ title: t, n })),
-    profiles: [...profiles.values()].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '')),
+    // у профиля Letterboxd — собранная история (ночной сбор, tools/profile-seed.mts --auto)
+    profiles: viewerProfiles(found).map((x) => ({ ...x, seed: x.site === 'Letterboxd' ? seedOf(letterboxdUser(x.url)) : undefined })),
     run: runState(),
   };
 }
 
-/** Ссылка на пост публичного канала; у комментария — на пост с открытым обсуждением. */
-function link(channel: string, msg: number, parent?: number): string {
-  return parent ? `https://t.me/${channel}/${parent}?comment=${msg}` : `https://t.me/${channel}/${msg}`;
+/** История Letterboxd на диске: сколько фильмов, с оценкой и когда обновлена. */
+function seedOf(user?: string): { watched: number; rated: number; at?: string } | undefined {
+  const file = user && new URL(`seeds/letterboxd-${user.toLowerCase()}.json`, ROOT_URL);
+  if (!file || !existsSync(file)) return undefined;
+  const j = JSON.parse(readFileSync(file, 'utf8')) as { watched?: unknown[]; ratings?: unknown[]; resolvedAt?: string };
+  return { watched: j.watched?.length ?? 0, rated: j.ratings?.length ?? 0, at: j.resolvedAt };
 }
 
 // ─── прогон tools/tg-asks.mts ────────────────────────────────────────────────
@@ -117,6 +120,13 @@ export async function asksRoute(req: IncomingMessage, res: ServerResponse, path:
     try { return send(res, 200, data()); } catch (e) { return send(res, 500, { error: (e as Error).message }); }
   }
   if (path === '/api/run' && req.method === 'GET') return send(res, 200, runState());
+  if (path === '/api/override' && req.method === 'POST') {
+    const body = await new Promise<string>((ok) => { let b = ''; req.on('data', (c) => { b += c; if (b.length > 2000) req.destroy(); }); req.on('end', () => ok(b)); });
+    const { id, kind } = JSON.parse(body || '{}') as { id?: unknown; kind?: unknown };
+    if (typeof id !== 'string' || !/^[\w-]{3,64}\/\d{1,9}$/.test(id) || !KINDS.includes(kind as Kind)) return send(res, 400, { error: 'bad_override' });
+    setOverride(id, kind as Kind);
+    return send(res, 200, { ok: true });
+  }
   if (path === '/api/run' && req.method === 'POST') {
     const mode = new URL(req.url ?? '/', 'http://x').searchParams.get('mode') === 'full' ? 'full' : 'match';
     const r = start(mode);

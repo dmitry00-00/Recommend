@@ -11319,5 +11319,82 @@ export const filmBaseMarkup: WorkCard[] = [
       "tmdb": 11551,
       "imdb": "tt0122718"
     }
+  },
+  {
+    "id": "f-wd28082055",
+    "type": "film",
+    "title": "I Am a Hero",
+    "year": 2015,
+    "creators": [
+      "Синсуке Сато"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 127,
+    "externalIds": {
+      "tmdb": 276624,
+      "imdb": "tt3775202"
+    }
+  },
+  {
+    "id": "f-wd122570867",
+    "type": "film",
+    "title": "The Cuckoo's Curse",
+    "year": 2023,
+    "creators": [
+      "Мар Таргарона"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 113,
+    "externalIds": {
+      "tmdb": 1064801,
+      "imdb": "tt12748562"
+    }
+  },
+  {
+    "id": "f-wd105043986",
+    "type": "film",
+    "title": "Мы все идем на всемирную выставку",
+    "originalTitle": "We're All Going to the World's Fair",
+    "year": 2021,
+    "creators": [
+      "Джейн Шёнбрун"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 86,
+    "externalIds": {
+      "tmdb": 776501,
+      "imdb": "tt13648224"
+    }
+  },
+  {
+    "id": "f-wd2053980",
+    "type": "film",
+    "title": "The Curse",
+    "year": 2005,
+    "creators": [
+      "Кодзи Сираиси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "durationMinutes": 115,
+    "externalIds": {
+      "tmdb": 21506,
+      "imdb": "tt0930083"
+    }
   }
 ];

@@ -683,6 +683,9 @@ export interface UserSettings {
   subscriptionsOnly?: boolean;
   /** что подбирает «Сегодня» (11.10): кино и сериалы или книги; нет — кино. Переключатель над лентой, эталон */
   feedKind?: FeedKind;
+  /** пришёл по книжной ссылке (23.10, `startapp=books`, флаг bookEntry в src/lib/flags.ts): книги видны и в минимальной
+   *  редакции, даже когда лента переключена на кино */
+  bookEntry?: boolean;
   /** полки вкуса новичка (ЗП-45, 11.10): «что вам ближе» на экране первых оценок — id из `TASTE_SHELVES`
    *  (src/lib/model/taste.ts); кормят якорь вкуса и ставят своё вперёд в колоде */
   tasteShelves?: string[];

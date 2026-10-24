@@ -49,6 +49,15 @@
   .note { padding: 10px 14px; border-left: 3px solid var(--warn); background: var(--panel); border-radius: 0 10px 10px 0; margin: 0 0 18px; }
   .err { color: var(--bad); }
   .x { border: 0; background: none; color: var(--muted); padding: 0 4px; } .x:hover { color: var(--bad); }
+  /* кампания (23.10): приход по часам за 48 ч, ввод посевов списком */
+  .curve { display: flex; align-items: flex-end; gap: 1px; height: 36px; min-width: 200px; }
+  .curve span { flex: 1; display: flex; flex-direction: column-reverse; height: 100%; }
+  .curve i { display: block; min-height: 0; } .curve i.a { background: var(--bar); border-radius: 0 0 1px 1px; } .curve i.j { background: var(--bar2); border-radius: 2px 2px 0 0; }
+  .curve span.day { border-left: 1px dashed var(--line); }
+  tr.sub td { color: var(--muted); font-size: 13px; } tr.sub td:first-child { padding-left: 22px; }
+  textarea { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; width: 100%; min-height: 110px; border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--panel); color: var(--ink); }
+  details > summary { cursor: pointer; color: var(--accent); margin: 10px 0 6px; }
+  code.link { font-size: 12px; user-select: all; }
 </style>
 <link rel="stylesheet" href="/shell.css">
 </head>
@@ -137,11 +146,67 @@ function seedingView(rows, cur) {
       <input name="currency" placeholder="RUB" value="${esc(rows.find((s) => s.currency)?.currency ?? 'RUB')}">
       <input name="note" placeholder="заметка: формат, охват, erid">
       <button type="submit">Добавить</button></form>
-    ${rows.length ? `<table><thead><tr><th>Метка</th><th>Канал</th><th>Дата</th><th class="n">Цена</th><th>Заметка</th><th></th></tr></thead><tbody>
-      ${rows.map((s) => `<tr><td>${esc(s.label)}</td><td>${esc(s.channel ?? '')}</td><td>${esc(dd(s.posted_at))}</td><td class="n">${s.price == null ? '—' : money(s.price, CUR[s.currency] ?? s.currency ?? cur)}</td>
-        <td class="muted">${esc(s.note ?? '')}</td><td class="n"><button type="button" class="x" data-del="${esc(s.id)}" title="убрать">×</button></td></tr>`).join('')}</tbody></table>`
+    <details id="bulkbox"><summary>Списком — несколько посевов сразу</summary>
+      <p class="muted" style="font-size:13px;margin:0 0 6px">Строка — пост: <code>@канал метка цена дата [время] [заметка]</code> в любом порядке, через пробелы, <code>;</code> или табы;
+        строки таблиц плана (<code>| @канал | … | метка |</code>) — как есть, вместе с заголовком. Без метки — <code>tg_&lt;канал&gt;</code>. «~7 000» и «охват 7000» — охват, <code>19:00</code> — время выхода по Москве
+        (оба — в заметку). Под заголовком «потолок цены» ₽ — потолок, а не цена. Строка с той же меткой правит записанный посев без даты (или с той же датой): так сначала вносится план, потом — дата, время и цена покупки.</p>
+      <textarea id="bulk" placeholder="@cinsolite tg_cinsolite 2100 25.10 19:00&#10;tg_kinoogon 6800 02.11 20:00 охват 8560 erid 2Vtz…"></textarea>
+      <div style="display:flex;gap:8px;margin:6px 0"><button type="button" id="bulkParse">Разобрать</button><button type="button" id="bulkSave" disabled>Записать</button><span class="muted" id="bulkMsg"></span></div>
+      <div id="bulkPreview"></div></details>
+    ${rows.length ? `<table><thead><tr><th>Метка</th><th>Канал</th><th>Дата</th><th class="n">Цена</th><th>Заметка</th><th>Ссылка</th><th></th></tr></thead><tbody>
+      ${rows.map((s) => `<tr><td>${esc(s.label)}</td><td>${esc(s.channel ?? '')}</td><td>${esc(dd(s.posted_at))}${timeOf(s.note) ? ` ${esc(timeOf(s.note))}` : ''}</td><td class="n">${s.price == null ? '—' : money(s.price, CUR[s.currency] ?? s.currency ?? cur)}</td>
+        <td class="muted">${esc(s.note ?? '')}</td><td><code class="link">${esc(link(s.label))}</code></td><td class="n"><button type="button" class="x" data-del="${esc(s.id)}" title="убрать">×</button></td></tr>`).join('')}</tbody></table>`
       : '<p class="muted">посевов пока нет — первый пост в канале запишите здесь: метка из ссылки, канал, дата, цена</p>'}
-    <p class="muted" style="font-size:13px;margin:8px 0 0">Ссылка посева: <code>t.me/recomend_media_bot?startapp=--s&lt;метка&gt;</code>. Российские каналы — только до 31.12.2026 и с erid (ПР-1).</p>`;
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Ссылка посева: <code>t.me/recomend_media_bot?startapp=--s&lt;метка&gt;</code>; на карточку фильма — <code>startapp=w-tmdb_&lt;номер&gt;--s&lt;метка&gt;</code>;
+      на страницу автора — метка <code>tg_&lt;канал&gt;_v</code> (сводится в тот же канал). Время выхода и охват — в заметку: «охват 7000; выход 19:00». Российские каналы — только до 31.12.2026 и с erid (ПР-1).</p>`;
+}
+
+// ── кампания (23.10): каналы (tg_x и tg_x_v — один канал), посты и приход по часам; считает пульт (tools/growth-desk.mts)
+const link = (label) => `https://t.me/recomend_media_bot?startapp=--s${label}`;
+const timeOf = (note) => /выход\s*(\d{1,2}:\d{2})/.exec(note ?? '')?.[1] ?? null;
+const cpm = (x, cur) => (x == null ? '—' : money(x * 1000, cur));
+function funnelCells(x, cur, strict) {
+  return `<td class="n">${x.reach == null ? '<span class="muted">·</span>' : fmt(x.reach)}</td>
+    <td class="n">${fmt(x.joined)}${x.openRate == null ? '' : `<span class="ci">${fmt(x.openRate * 100, 2)}% охвата</span>`}</td>
+    <td class="n">${sh(x.activation)}</td>${strict ? `<td class="n">${sh(x.activationStrict)}</td>` : ''}<td class="n">${sh(x.d1)}</td><td class="n">${sh(x.d7)}</td>
+    <td class="n">${x.cost == null ? '<span class="muted">·</span>' : money(x.cost, cur)}</td><td class="n">${cpm(x.perReach, cur)}</td>
+    <td class="n">${money(x.perJoined, cur)}</td><td class="n">${money(x.perActivated, cur)}</td><td class="n">${money(x.perD7, cur)}</td>`;
+}
+function campaignView(C, cur) {
+  if (!C) return '<p class="err">Пульт запущен до правки 23.10 — перезапустите его, чтобы появились каналы, посты и ввод списком.</p>';
+  if (!C.channels.length) return '<p class="muted">меток посевов пока нет: ни посевов в таблице, ни пришедших по ссылке с <code>--s</code></p>';
+  const strict = C.strictKnown;
+  return `<table><thead><tr><th>Канал / метка</th><th class="n">Охват</th><th class="n">Открыли приложение</th><th class="n">Активированы</th>
+      ${strict ? '<th class="n">≥ 10 оценок и лента</th>' : ''}<th class="n">D1</th><th class="n">D7</th><th class="n">Потрачено</th><th class="n">CPM</th>
+      <th class="n">за открывшего</th><th class="n">за активированного</th><th class="n">за D7</th></tr></thead><tbody>
+    ${C.channels.map((ch) => {
+      const subs = ch.labels.length > 1 ? C.labels.filter((l) => l.channel === ch.channel) : [];
+      return `<tr><td><b>${esc(ch.channel)}</b>${ch.names.length ? `<span class="ci">${esc(ch.names.join(', '))}</span>` : ''}</td>${funnelCells(ch, cur, strict)}</tr>
+        ${subs.map((l) => `<tr class="sub"><td>${esc(l.label)}${l.label.endsWith('_v') ? ' · страница автора' : ''}</td>${funnelCells(l, cur, strict)}</tr>`).join('')}`;
+    }).join('')}</tbody></table>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Охват — из заметки посева (просмотры поста, вписать руками со статистики канала). «Открыли приложение» — новые участники с меткой: участник заводится
+      при первом входе в приложение, переходы по ссылке без входа не видны. Активация — как во всём пульте: первая лента в первые сутки (лента открывается с 5 оценок).
+      ${strict ? '«≥ 10 оценок и лента» — то же плюс 10 оценок в первые сутки (критерий плана).' : 'Критерий плана «оценил ≥ 10 и получил ленту» появится, когда сервер отдаст <code>arrivals</code> с оценками.'}
+      Канал — метки <code>tg_x</code> и <code>tg_x_v</code> вместе; цена посева, записанная на одну из них, — цена канала.</p>`;
+}
+function curve(P) {
+  const max = Math.max(1, ...P.hours);
+  return `<div class="curve">${P.hours.map((n, h) => `<span class="${h === 24 ? 'day' : ''}" title="${h}–${h + 1} ч после выхода: пришли ${n}, из них активированы ${P.activatedHours[h]}">
+    <i class="j" style="height:${((n - P.activatedHours[h]) / max) * 100}%"></i><i class="a" style="height:${(P.activatedHours[h] / max) * 100}%"></i></span>`).join('')}</div>`;
+}
+function postsView(C, cur) {
+  if (!C) return '';
+  if (!C.posts.length) return '<p class="muted">посевов с датой выхода пока нет</p>';
+  const at = (p) => (p.timeKnown ? dt(p.at) : `${dd(new Date(Date.parse(p.at) + 3 * 3600e3).toISOString().slice(0, 10))} <span class="muted">время?</span>`);
+  return `${C.arrivalsKnown ? '' : '<div class="note">Кривой прихода и разбивки по постам пока нет: серверу нужно отдавать <code>arrivals</code> (правка worker/growth.ts, 23.10). Сводка по каналам выше — уже по сводке сервера.</div>'}
+    <table><thead><tr><th>Выход (Мск)</th><th>Канал</th><th class="n">Цена</th><th class="n">Охват</th><th class="n">Пришли</th><th class="n">за 48 ч</th><th class="n">Активированы за 48 ч</th>
+      <th class="n">за пришедшего</th><th>По часам, 48 ч</th></tr></thead><tbody>
+    ${C.posts.map((p) => `<tr><td>${at(p)}</td><td>${esc(p.name ?? p.channel)}<span class="ci">${esc(p.byLabel ? Object.entries(p.byLabel).map(([k, n]) => `${k}: ${n}`).join(' · ') : p.label)}</span></td>
+      <td class="n">${p.price == null ? '—' : money(p.price, CUR[p.currency] ?? cur)}</td><td class="n">${p.reach == null ? '·' : fmt(p.reach)}</td>
+      <td class="n">${p.joined == null ? '—' : fmt(p.joined)}</td><td class="n">${p.joined48 == null ? '—' : fmt(p.joined48)}</td><td class="n">${p.activated48 == null ? '—' : fmt(p.activated48)}</td>
+      <td class="n">${money(p.perJoined, cur)}</td><td>${p.hours ? curve(p) : '<span class="muted">·</span>'}</td></tr>`).join('')}</tbody></table>
+    <p class="legend"><i style="background:var(--bar)"></i>активированы <i style="background:var(--bar2)"></i>остальные пришедшие · пунктир — 24 ч. Вход по любой метке канала идёт к последнему посту канала,
+      вышедшему до входа; вход раньше выхода (автор проверял ссылку) — ни к какому. Нет времени выхода — счёт от полуночи по Москве.</p>`;
 }
 
 async function load(fresh) {
@@ -170,6 +235,8 @@ function render(d) {
       <div class="tile"><b>${S.spend90 && S.activation30.n ? money(S.spend90 / S.activation30.n, cur) : '—'}</b><span>за активированного, грубо: все посевы / все активированные</span></div>
     </div>
     <div class="cards">
+      <div class="card wide"><h2>Кампания: каналы, 90 дней</h2>${campaignView(d.campaign, cur)}</div>
+      <div class="card wide"><h2>Посты: приход за первые 48 ч</h2>${postsView(d.campaign, cur)}</div>
       <div class="card wide"><h2>Источники за 90 дней</h2>${sourcesView(d.sources, cur)}</div>
       <div class="card wide"><h2>Посевы</h2><div id="seeding"></div></div>
       <div class="card wide"><h2>По неделям</h2>${weeksView(d.weeks)}</div>
@@ -183,7 +250,10 @@ function render(d) {
 let seeding = [];
 function renderSeeding(rows, cur) {
   seeding = rows;
+  // набранный список и раскрытый блок переживают обновление сводки
+  const keep = { text: $('#bulk')?.value ?? '', open: $('#bulkbox')?.open ?? false };
   $('#seeding').innerHTML = seedingView(rows, cur);
+  $('#bulk').value = keep.text; $('#bulkbox').open = keep.open || Boolean(keep.text);
   $('#seed').onsubmit = async (e) => {
     e.preventDefault();
     const f = new FormData(e.target);
@@ -192,6 +262,39 @@ function renderSeeding(rows, cur) {
     const j = await r.json();
     if (!r.ok) { alert(j.hint ?? j.error ?? r.status); return; }
     load(true);
+  };
+  // посевы списком (23.10): разбор на пульте → просмотр → запись по строке
+  const bulkCur = rows.find((s) => s.currency)?.currency ?? 'RUB';
+  const post = async (path) => {
+    const r = await fetch(path, { method: 'POST', headers: { 'x-desk': '1', 'content-type': 'application/json' }, body: JSON.stringify({ text: $('#bulk').value, currency: bulkCur }) });
+    const j = await r.json().catch(() => ({ error: r.status === 404 ? 'пульт запущен до правки 23.10 — перезапустите' : r.status }));
+    if (!r.ok) throw new Error(j.error ?? r.status);
+    return j;
+  };
+  $('#bulk').oninput = () => { $('#bulkSave').disabled = true; $('#bulkPreview').innerHTML = ''; $('#bulkMsg').textContent = ''; };
+  $('#bulkParse').onclick = async () => {
+    try {
+      const { rows: P } = await post('api/seeding/parse');
+      const ok = P.filter((p) => p.body);
+      $('#bulkMsg').textContent = `строк ${P.length}: новых ${ok.filter((p) => !p.update).length}, правка записанных ${ok.filter((p) => p.update).length}, с ошибкой ${P.length - ok.length}`;
+      $('#bulkSave').disabled = !ok.length;
+      $('#bulkSave').textContent = `Записать ${ok.length}`;
+      $('#bulkPreview').innerHTML = P.length ? `<table><thead><tr><th class="n">Строка</th><th>Метка</th><th>Канал</th><th>Выход</th><th class="n">Цена</th><th>Заметка</th><th></th></tr></thead><tbody>
+        ${P.map((p) => `<tr><td class="n">${p.line}</td><td>${esc(p.label ?? '—')}</td><td>${esc(p.body?.channel ?? p.channel ?? '')}</td><td>${esc(dd(p.body?.posted_at ?? p.posted_at))}${p.time ? ` ${esc(p.time)}` : ''}</td>
+          <td class="n">${p.body?.price == null ? '—' : fmt(p.body.price)}</td><td class="muted">${esc(p.body?.note ?? '')}</td>
+          <td>${p.error ? `<span class="err">${esc(p.error)}</span>` : `${p.update ? 'правка записанного' : 'новый'}${p.warnings.length ? `<span class="ci warn">${esc(p.warnings.join(' · '))}</span>` : ''}`}</td></tr>`).join('')}
+        </tbody></table>` : '<p class="muted">ни одной строки с меткой или каналом</p>';
+    } catch (e) { $('#bulkMsg').textContent = e.message; }
+  };
+  $('#bulkSave').onclick = async () => {
+    $('#bulkSave').disabled = true;
+    try {
+      const { done } = await post('api/seeding/bulk');
+      const bad = done.filter((x) => !x.ok);
+      if (bad.length) alert(`записано ${done.length - bad.length}, не записано ${bad.length}:\n${bad.map((x) => `строка ${x.line}: ${x.error}`).join('\n')}`);
+      else $('#bulk').value = '';
+      load(true);
+    } catch (e) { $('#bulkMsg').textContent = e.message; $('#bulkSave').disabled = false; }
   };
   for (const b of document.querySelectorAll('[data-del]')) b.onclick = async () => {
     if (!confirm('Убрать этот посев из таблицы?')) return;

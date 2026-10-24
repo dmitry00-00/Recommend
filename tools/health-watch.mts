@@ -3,8 +3,13 @@
 //   - две неудачи подряд — тревога сообщением в Telegram; пока сервер лежит — напоминание раз в 6 ч;
 //   - снова ответил — «снова работает» (если до этого была тревога);
 //   - раз в сутки — самая новая копия базы в ~/recomend-backups/db (TM_DB_BACKUP_DIR) моложе 30 ч, иначе тревога.
-// Сообщение шлёт бот приложения (BOT_TOKEN или TELEGRAM_BOT_TOKEN — тот же, что у бота на bothost) владельцу
-// (OWNER_TG_ID) — оба из .env.local. Нет любого из них — тревога только в журнал и в state.json.
+//   - 22.10: сервер на Mac отвечает, а адрес снаружи нет (Cloudflare 530 — туннель потерял связь, так бывает после смены
+//     VPN) — перезапуск туннеля (launchd tm.recomend.tunnel, TM_TUNNEL_LABEL), не чаще раза в 10 мин, и проверка ещё
+//     раз; помогло — сообщение владельцу и никакой тревоги. Включён Happ (с ним туннель не работает) — так и пишем.
+//     Сервер на Mac — TM_LOCAL_ORIGIN (http://127.0.0.1:3100); агента туннеля нет — шаг пропускается.
+// Сообщение шлёт бот приложения (BOT_TOKEN или TELEGRAM_BOT_TOKEN) владельцу (OWNER_TG_ID): из .env.local, а нет там —
+// из настроек боевого сервера на Mac (~/recomend-local/recomend.env, TM_SERVER_ENV; 22.10 — до этого тревоги шли только в
+// журнал). Нет любого из них — тревога только в журнал и в state.json.
 // Состояние — .cache/health/state.json, журнал событий — .cache/health/health.log (TM_HEALTH_DIR).
 // Обычный удачный прогон ничего не печатает: журнал launchd растёт только событиями.
 //
@@ -18,6 +23,7 @@
 //   launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/tm.recomend.health.plist
 // Выключить: launchctl bootout gui/$(id -u)/tm.recomend.health (и .backup).
 // Для проверки на заглушке: TM_SERVER=http://127.0.0.1:<порт>, TG_API_BASE=<адрес заглушки Bot API>, TM_HEALTH_DIR=<папка>.
+import { spawnSync } from 'node:child_process';
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
@@ -31,8 +37,18 @@ const DIR = process.env.TM_HEALTH_DIR ?? join(ROOT, '.cache', 'health');
 const STATE = join(DIR, 'state.json');
 const LOG = join(DIR, 'health.log');
 const BACKUPS = process.env.TM_DB_BACKUP_DIR ?? join(homedir(), 'recomend-backups', 'db');
-const botToken = (process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || '').trim();
-const ownerId = (process.env.OWNER_TG_ID || '').trim();
+// из настроек сервера берём только эти два значения: остальное там — сервера, не наше
+const SERVER_ENV = process.env.TM_SERVER_ENV ?? join(homedir(), 'recomend-local', 'recomend.env');
+const serverEnv = (key: string): string => {
+  if (!existsSync(SERVER_ENV)) return '';
+  const m = new RegExp(`^\\s*${key}\\s*=\\s*(.*?)\\s*$`, 'm').exec(readFileSync(SERVER_ENV, 'utf8'));
+  return (m?.[1] ?? '').replace(/^['"]|['"]$/g, '');
+};
+const botToken = (process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || serverEnv('BOT_TOKEN')).trim();
+const ownerId = (process.env.OWNER_TG_ID || serverEnv('OWNER_TG_ID')).trim();
+const localOrigin = (process.env.TM_LOCAL_ORIGIN ?? 'http://127.0.0.1:3100').replace(/\/+$/, '');
+const tunnelLabel = process.env.TM_TUNNEL_LABEL ?? 'tm.recomend.tunnel';
+const TUNNEL_RETRY_MS = 10 * 60e3;
 const tgApi = (process.env.TG_API_BASE ?? 'https://api.telegram.org').replace(/\/+$/, '');
 
 const FAILS_TO_ALERT = 2;
@@ -53,6 +69,7 @@ interface State {
   backupNewest?: string;      // имя самой новой копии на прошлой проверке
   backupStale?: boolean;
   pending?: string[];         // тревоги, которые не удалось отправить (бот не ответил) — попробуем в следующий прогон
+  tunnelRestartAt?: string;   // когда последний раз перезапускали туннель
 }
 
 mkdirSync(DIR, { recursive: true });
@@ -85,10 +102,10 @@ async function notify(text: string): Promise<boolean | 'no-bot'> {
 }
 
 /** Один GET /api/health: ok — 2xx и в ответе `ok: true` (так отвечает воркер). */
-async function probe(): Promise<{ ok: boolean; error?: string; ms: number }> {
+async function probe(base = server): Promise<{ ok: boolean; error?: string; ms: number }> {
   const t = Date.now();
   try {
-    const res = await fetch(`${server}/api/health`, { signal: AbortSignal.timeout(10e3), headers: { 'cache-control': 'no-cache' } });
+    const res = await fetch(`${base}/api/health`, { signal: AbortSignal.timeout(10e3), headers: { 'cache-control': 'no-cache' } });
     const text = await res.text();
     if (!res.ok) return { ok: false, error: `${res.status} ${text.slice(0, 80).replace(/\s+/g, ' ')}`, ms: Date.now() - t };
     let ok = false;
@@ -111,6 +128,34 @@ function newestBackup(): { name: string; at: number } | undefined {
   return all.sort((a, b) => b.at - a.at)[0];
 }
 
+// ─── туннель ─────────────────────────────────────────────────────────────────
+const uid = process.getuid?.() ?? 501;
+const run = (cmd: string, args: string[]) => spawnSync(cmd, args, { encoding: 'utf8', timeout: 15e3 });
+/** Агент туннеля есть в launchd этого пользователя — значит, сервер отдаётся наружу с этого Mac. */
+const tunnelHere = () => server !== localOrigin && run('launchctl', ['print', `gui/${uid}/${tunnelLabel}`]).status === 0;
+/** Happ Plus подключён: с ним туннель не держит соединение (20–22.10), перезапуск не поможет. */
+const happOn = () => /Connected\)[^\n]*happ/i.test(run('scutil', ['--nc', 'list']).stdout ?? '');
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Адрес снаружи не отвечает, а сервер на Mac — да: перезапустить туннель и проверить ещё раз (до трёх раз за ~45 с).
+ *  true — после перезапуска адрес ответил; undefined — шаг не к месту (не туннель, рано, сервер лежит сам). */
+async function healTunnel(st: State): Promise<{ healed: boolean; note: string } | undefined> {
+  if (!tunnelHere()) return undefined;
+  if (st.tunnelRestartAt && now.getTime() - Date.parse(st.tunnelRestartAt) < TUNNEL_RETRY_MS) return undefined;
+  const local = await probe(localOrigin);
+  if (!local.ok) return undefined;
+  const happ = happOn();
+  st.tunnelRestartAt = new Date().toISOString();
+  const r = run('launchctl', ['kickstart', '-k', `gui/${uid}/${tunnelLabel}`]);
+  if (r.status !== 0) return { healed: false, note: `перезапуск туннеля не удался: ${clean((r.stderr || r.stdout || '').trim()) || `код ${r.status}`}` };
+  for (let i = 0; i < 3; i++) {
+    await sleep(Number(process.env.TM_TUNNEL_WAIT_MS ?? 15e3));
+    if ((await probe()).ok) return { healed: true, note: 'туннель перезапущен — адрес снова отвечает' };
+  }
+  return { healed: false, note: happ ? 'туннель перезапущен, но включён Happ — с ним туннель не работает: отключите Happ, включите AmneziaVPN'
+    : 'туннель перезапущен, но адрес так и не ответил (сервер на Mac работает)' };
+}
+
 if (process.argv.includes('--status')) {
   console.log(JSON.stringify(load(), null, 2));
   console.log(`сервер ${server}; бот ${botToken ? 'есть' : 'нет'}, номер владельца ${ownerId ? 'есть' : 'нет'}`);
@@ -131,7 +176,19 @@ const alert = async (text: string) => {
   return r;
 };
 
-const p = await probe();
+let p = await probe();
+let tunnelNote: string | undefined;
+if (!p.ok) {
+  const heal = await healTunnel(st);
+  if (heal) {
+    journal(`/api/health: ${clean(p.error ?? '?')} — ${heal.note}`);
+    tunnelNote = heal.note;
+    if (heal.healed) {
+      await alert(`🔁 recomend: адрес не отвечал (${clean(p.error ?? '?').slice(0, 40)}), сервер на Mac работал — ${heal.note}. ${server}`);
+      p = { ok: true, ms: 0 };
+    }
+  }
+}
 if (p.ok) {
   if (st.down) {
     const since = st.downSince ? Math.round((now.getTime() - Date.parse(st.downSince)) / 60e3) : undefined;
@@ -149,7 +206,7 @@ if (p.ok) {
   const remind = st.down && st.alertSentAt && now.getTime() - Date.parse(st.alertSentAt) >= REMIND_MS;
   if ((!st.down && st.fails >= FAILS_TO_ALERT) || remind) {
     const r = await alert(`🔴 recomend: сервер не отвечает${remind ? ' (всё ещё)' : ''} — неудачных проверок подряд: ${st.fails}, с ${local(st.downSince)} МСК. `
-      + `Последняя ошибка: ${st.lastError}. ${server}/api/health`);
+      + `Последняя ошибка: ${st.lastError}.${tunnelNote ? ` ${tunnelNote[0].toUpperCase()}${tunnelNote.slice(1)}.` : ''} ${server}/api/health`);
     st.down = true;
     st.alertSentAt = iso;
     st.alertDelivered = r === true;

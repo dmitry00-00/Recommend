@@ -38,6 +38,7 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
   const today = mskDay();
   const from120 = addDays(today, -120);
   const since30 = `${addDays(today, -30)}T00:00:00.000Z`;
+  const since90 = `${addDays(today, -90)}T00:00:00.000Z`;
   const since120 = `${from120}T00:00:00.000Z`;
 
   const [users, visits, firstFeed, ratingsDay1, onboard, shares, together, participants, polls, voters, seeding, internal] = await Promise.all([
@@ -47,7 +48,7 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
     // свёрнутые показы старше 120 дней (worker/retention.ts, если включено) — тоже в счёт
     firstFeedRows(db, userWhere, binds),
     q<GrowthRows['ratingsDay1'][number]>(`SELECT r.user_id, COUNT(*) AS n FROM rating r JOIN user u ON u.id = r.user_id
-      WHERE r.${inUsers} AND u.created_at >= ? AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day') GROUP BY r.user_id`, since30),
+      WHERE r.${inUsers} AND u.created_at >= ? AND r.at <= strftime('%Y-%m-%dT%H:%M:%fZ', u.created_at, '+1 day') GROUP BY r.user_id`, since90), // 90 дней (23.10): «≥ 10 оценок» у входов по меткам; первый вход берёт свои 30 сам
     q<GrowthRows['onboard'][number]>(`SELECT user_id, place, detail, at FROM event WHERE kind = 'onboard' AND ${inUsers} AND at >= ?`, since30),
     q<GrowthRows['shares'][number]>(`SELECT user_id, at FROM event WHERE kind = 'share_sent' AND ${inUsers} AND at >= ?`, since120),
     one<{ n: number }>(`SELECT COUNT(*) AS n FROM together WHERE ${inUsers} AND created_at >= ?`, since30),

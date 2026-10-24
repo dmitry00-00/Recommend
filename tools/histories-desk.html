@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Истории</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da;
+    --accent: #2f5fd0; --accent-ink: #fff; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8; --soft: #eef2fc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d;
+      --accent: #7ea2ff; --accent-ink: #0d1530; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926; --soft: #232a3d; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0; }
+  a { color: var(--accent); }
+  .sub { color: var(--muted); margin: 4px 0 16px; max-width: 860px; }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .err { color: var(--bad); }
+  button, input, select { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; }
+  button { cursor: pointer; }
+  input[type=search] { min-width: 220px; }
+  label { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 14px; }
+  .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 0 0 18px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 4px 8px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .src { font-size: 12px; color: var(--muted); }
+  .st { display: inline-block; padding: 1px 8px; border-radius: 10px; background: var(--chip); font-size: 13px; white-space: nowrap; }
+  .st.ok { background: none; border: 1px solid var(--ok); } .st.warn { background: none; border: 1px solid var(--warn); } .st.bad { background: none; border: 1px solid var(--bad); }
+  tr.open td { background: var(--soft); }
+  td.detail { padding: 10px 14px 16px; }
+  .detail ol { margin: 6px 0 0; padding-left: 22px; }
+  .detail pre { white-space: pre-wrap; font: 14px/1.5 inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0 0; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div class="head"><h1>Истории зрителей</h1><span class="muted" id="when"></span></div>
+  <p class="sub">Профили зрителей на Кинопоиске и Letterboxd → история оценок → подборка → текст письма. Кинопоиск качает помощник-закладка по очереди, скачанное само собирается в историю; Letterboxd обновляется каждую ночь. Пишет людям только владелец, со своего аккаунта.</p>
+  <div class="tiles" id="tiles"></div>
+  <div class="bar">
+    <input type="search" id="q" placeholder="канал, профиль…">
+    <select id="site"><option value="">все сервисы</option><option>Кинопоиск</option><option>Letterboxd</option></select>
+    <select id="state"><option value="">любой статус</option></select>
+    <label><input type="checkbox" id="withChannel"> только с каналом</label>
+    <label><input type="checkbox" id="withSlate"> только с подборкой</label>
+  </div>
+  <div class="card"><table><thead><tr>
+    <th>Канал</th><th class="n">Подписчиков</th><th>Профиль</th><th>Статус</th><th class="n">Оценок</th><th class="n">Медиана</th><th>История</th><th>Подборка</th><th>Текст</th>
+  </tr></thead><tbody id="rows"></tbody></table></div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmt = (n) => (n == null ? '' : Number(n).toLocaleString('ru-RU'));
+const dd = (s) => (s ? new Date(s).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' }) : '');
+const CLS = { 'собран': 'ok', 'качается': '', 'в очереди': '', 'оценки скрыты': 'warn', 'отложен': 'bad', 'ночью': '' };
+let D, open;
+const st = (() => { try { return JSON.parse(localStorage.getItem('histories') || '{}'); } catch { return {}; } })();
+const save = () => { try { localStorage.setItem('histories', JSON.stringify(st)); } catch { /* без памяти */ } };
+
+async function load() {
+  D = await fetch('api/data').then((r) => r.json());
+  const states = [...new Set(D.rows.map((r) => r.state))];
+  $('#state').innerHTML = '<option value="">любой статус</option>' + states.map((s) => `<option>${esc(s)}</option>`).join('');
+  for (const [id, key] of [['#q', 'q'], ['#site', 'site'], ['#state', 'state']]) if (st[key] != null) $(id).value = st[key];
+  $('#withChannel').checked = !!st.withChannel; $('#withSlate').checked = !!st.withSlate;
+  render();
+}
+
+function render() {
+  const R = D.rows;
+  const n = (f) => R.filter(f).length;
+  $('#when').textContent = D.slatesAt ? `подборки от ${new Date(D.slatesAt).toLocaleString('ru-RU')}` : '';
+  $('#tiles').innerHTML = [
+    [R.length, 'адресатов'], [n((r) => r.rated), 'с историей'], [n((r) => r.state === 'в очереди' || r.state === 'качается'), 'ждут помощника'],
+    [n((r) => r.state === 'оценки скрыты' || r.state === 'отложен'), 'скрыты или отложены'], [n((r) => r.picks), 'с подборкой'], [n((r) => r.text), 'текст готов'],
+  ].map(([v, s]) => `<div class="tile"><b>${fmt(v)}</b><span>${s}</span></div>`).join('');
+  const q = $('#q').value.trim().toLowerCase();
+  const rows = R.filter((r) => (!q || `${r.channel} ${r.profile} ${r.title ?? ''} ${r.seed}`.toLowerCase().includes(q))
+    && (!$('#site').value || r.site === $('#site').value) && (!$('#state').value || r.state === $('#state').value)
+    && (!$('#withChannel').checked || r.channel) && (!$('#withSlate').checked || r.picks))
+    .sort((a, b) => (b.subs ?? -1) - (a.subs ?? -1) || (b.rated ?? -1) - (a.rated ?? -1) || (a.queue ?? 1e9) - (b.queue ?? 1e9));
+  $('#rows').innerHTML = rows.map((r) => `<tr data-seed="${esc(r.seed)}" class="${open === r.seed ? 'open' : ''}">
+    <td>${r.channel ? `<a href="https://t.me/${esc(r.channel)}" target="_blank" rel="noopener">@${esc(r.channel)}</a>` : '<span class="muted">—</span>'}${r.title ? `<div class="src">${esc(r.title)}${r.kind && r.kind !== 'канал' ? ` · ${esc(r.kind)}` : ''}</div>` : ''}</td>
+    <td class="n">${fmt(r.subs)}</td>
+    <td><a href="${esc(r.profile)}" target="_blank" rel="noopener">${esc(r.site)}</a><div class="src">${esc(r.profile.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''))}</div><div class="src">${esc(r.from)}</div></td>
+    <td><span class="st ${CLS[r.state] ?? ''}">${esc(r.state)}</span>${r.state === 'в очереди' && r.queue != null ? `<div class="src">№ ${r.queue + 1} в очереди</div>` : ''}${r.note && r.state !== 'собран' ? `<div class="src">${esc(r.note.slice(0, 80))}</div>` : ''}</td>
+    <td class="n">${fmt(r.rated)}${r.watched && r.watched !== r.rated ? `<div class="src">видел ${fmt(r.watched)}</div>` : ''}</td>
+    <td class="n">${r.median ?? ''}</td>
+    <td class="src">${r.seedAt ? dd(r.seedAt) : ''}</td>
+    <td>${r.picks ? `<button data-open="${esc(r.seed)}">${r.picks} фильмов</button>` : ''}</td>
+    <td>${r.text ? '<span class="st ok">готов</span>' : ''}</td></tr>${open === r.seed ? `<tr><td colspan="9" class="detail" id="detail">…</td></tr>` : ''}`).join('')
+    || '<tr><td colspan="9" class="muted">ничего не нашлось</td></tr>';
+  if (open) loadDetail(open);
+}
+
+async function loadDetail(seed) {
+  const d = await fetch(`api/slate/${encodeURIComponent(seed)}`).then((r) => r.json());
+  const box = $('#detail');
+  if (!box) return;
+  const s = d.slate;
+  box.innerHTML = `<div class="cols">
+    <div><b>Любит</b>${s?.top?.length ? `<ol>${s.top.slice(0, 10).map((t) => `<li>${esc(t.title)} (${t.year})${t.raw != null ? ` — ${t.raw}` : ''}</li>`).join('')}</ol>` : '<p class="muted">нет оценок</p>'}
+      ${d.about ? `<p class="src">${esc(d.about)}</p>` : ''}</div>
+    <div><b>Лента приложения</b> <span class="muted">— сырьё для письма</span>${s?.picks?.length ? `<ol>${s.picks.map((p) => `<li>${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)} (${p.year})${p.essays ? ` · разборов ${p.essays}` : ''}</li>`).join('')}</ol>` : '<p class="muted">подборки нет</p>'}</div>
+    <div><b>Текст письма</b>${d.text ? ` <span class="src">${esc(d.text.file)}</span><pre>${esc(d.text.body)}</pre><button id="copy">Скопировать</button>` : '<p class="muted">ещё не написан</p>'}</div></div>`;
+  $('#copy')?.addEventListener('click', () => navigator.clipboard.writeText(d.text.body).then(() => { $('#copy').textContent = 'Скопировано'; }));
+}
+
+$('#rows').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-open]');
+  if (!b) return;
+  open = open === b.dataset.open ? undefined : b.dataset.open;
+  render();
+});
+for (const [id, key, ev] of [['#q', 'q', 'input'], ['#site', 'site', 'change'], ['#state', 'state', 'change']])
+  $(id).addEventListener(ev, () => { st[key] = $(id).value; save(); render(); });
+for (const [id, key] of [['#withChannel', 'withChannel'], ['#withSlate', 'withSlate']])
+  $(id).addEventListener('change', () => { st[key] = $(id).checked; save(); render(); });
+load();
+setInterval(() => fetch('api/data').then((r) => r.json()).then((d) => { D = d; render(); }).catch(() => undefined), 60e3);
+</script>
+</body>
+</html>

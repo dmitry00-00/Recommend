@@ -58,6 +58,7 @@
   .run { padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 10px 10px 0; margin: 0 0 16px; font-size: 14px; }
   .run pre { margin: 6px 0 0; font: 12px/1.4 ui-monospace, Menlo, monospace; color: var(--muted); white-space: pre-wrap; }
   .more { margin: 12px 0 0; }
+  select.mark { margin-top: 6px; padding: 1px 6px; font-size: 12px; color: var(--muted); }
 </style>
 <link rel="stylesheet" href="/shell.css">
 </head>
@@ -100,14 +101,16 @@ function asksView() {
       <label><input type="checkbox" id="liked" ${st.liked ? 'checked' : ''}> назвали, что понравилось</label>
       <label><input type="checkbox" id="answered" ${st.answered ? 'checked' : ''}> есть советы в ответах</label>
       <select id="sort"><option value="date">сначала свежие</option><option value="replies">сначала обсуждаемые</option></select>
-      <span class="muted">${fmt(A.length)} из ${fmt(D.asks.length)}</span></div>
+      <span class="muted">${fmt(A.length)} из ${fmt(D.asks.length)}${D.marked ? ` · снято рукой ${fmt(D.marked)}` : ''}</span></div>
     ${shown.length ? `<div class="card"><table><thead><tr><th>Когда</th><th>Просьба</th><th>Понравилось</th><th>Советуют</th><th class="n">Ответов</th></tr></thead><tbody>
       ${shown.map((a) => `<tr><td class="n">${esc(dd(a.date))}<div class="src"><a href="${esc(a.link)}" target="_blank" rel="noopener">@${esc(a.channel)}</a></div></td>
         <td class="ask"><div class="t cut">${esc(a.text)}</div>${a.want ? `<div class="want">хочется: ${esc(a.want)}</div>` : ''}
           ${a.notWanted?.length ? `<div class="want">не надо: ${a.notWanted.map((r) => esc(r.title)).join(', ')}</div>` : ''}</td>
         <td class="refs"><div class="chips">${a.liked.map((r) => chip(r)).join('') || '<span class="muted">·</span>'}</div></td>
         <td class="refs"><div class="chips">${a.advice.slice(0, 8).map((r) => chip(r, r.n > 1 ? r.n : 0)).join('') || '<span class="muted">·</span>'}${a.advice.length > 8 ? `<span class="muted">+${a.advice.length - 8}</span>` : ''}</div></td>
-        <td class="n">${fmt(a.replies ?? 0)}${a.answers ? `<div class="src">разобрано ${fmt(a.answers)}</div>` : ''}</td></tr>`).join('')}
+        <td class="n">${fmt(a.replies ?? 0)}${a.answers ? `<div class="src">разобрано ${fmt(a.answers)}</div>` : ''}
+          <div><select class="mark" data-id="${esc(a.id)}" title="Модель ошиблась? Пометка сохранится и при пересборке свода">
+            <option value="ask">просьба</option><option value="advice">подборка</option><option value="share">делится</option><option value="other">другое</option></select></div></td></tr>`).join('')}
       </tbody></table></div>
       ${A.length > shown.length ? `<p class="more"><button id="more">Показать ещё ${fmt(Math.min(150, A.length - shown.length))}</button></p>` : ''}`
     : '<p class="muted">ничего не нашлось — ослабьте фильтры</p>'}
@@ -137,8 +140,9 @@ function profilesView() {
   for (const p of P) by[p.site] = (by[p.site] ?? 0) + 1;
   return `<div class="bar"><label><input type="checkbox" id="ruOnly" ${st.ruOnly ? 'checked' : ''}> только русскоязычные</label>
       <span class="muted">${Object.entries(by).map(([s, n]) => `${esc(s)} — ${fmt(n)}`).join(' · ') || 'профилей нет'}</span></div>
-    ${P.length ? `<div class="card"><table><thead><tr><th>Когда</th><th>Профиль</th><th>Канал</th><th>Сообщение</th></tr></thead><tbody>
+    ${P.length ? `<div class="card"><table><thead><tr><th>Когда</th><th>Профиль</th><th>История</th><th>Канал</th><th>Сообщение</th></tr></thead><tbody>
       ${P.map((p) => `<tr><td class="n">${esc(dd(p.date))}</td><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.site)}</a><div class="src">${esc(p.url.replace(/^https?:\/\/(www\.)?/, ''))}</div></td>
+        <td class="n">${p.seed ? `${fmt(p.seed.watched)} фильмов<div class="src">с оценкой ${fmt(p.seed.rated)} · ${esc(dd(p.seed.at))}</div>` : p.site === 'Letterboxd' ? '<span class="muted">ночью</span>' : ''}</td>
         <td><a href="${esc(p.link)}" target="_blank" rel="noopener">@${esc(p.channel)}</a>${p.channelTitle ? `<div class="src">${esc(p.channelTitle)}</div>` : ''}</td>
         <td class="ask"><div class="t cut">${esc(p.text)}</div></td></tr>`).join('')}</tbody></table></div>` : ''}`;
 }
@@ -206,7 +210,15 @@ $('#view').addEventListener('click', (e) => {
 $('#view').addEventListener('input', (e) => {
   if (e.target.id === 'q') { st.q = e.target.value; st.limit = 150; const pos = e.target.selectionStart; render(); const q = $('#q'); q.focus(); q.setSelectionRange(pos, pos); }
 });
-$('#view').addEventListener('change', (e) => {
+$('#view').addEventListener('change', async (e) => {
+  if (e.target.classList.contains('mark')) {
+    const { id } = e.target.dataset, kind = e.target.value;
+    e.target.disabled = true;
+    const r = await fetch('api/override', { method: 'POST', headers: { 'x-desk': '1', 'content-type': 'application/json' }, body: JSON.stringify({ id, kind }) }).catch(() => null);
+    if (!r?.ok) { e.target.disabled = false; e.target.value = 'ask'; alert('не сохранилось'); return; }
+    if (kind !== 'ask') { D.asks = D.asks.filter((a) => a.id !== id); D.marked = (D.marked ?? 0) + 1; render(); }
+    return;
+  }
   const id = e.target.id;
   if (id === 'liked' || id === 'answered') st[id] = e.target.checked;
   else if (id === 'ruOnly') { st.ruOnly = e.target.checked; store.set('ruOnly', st.ruOnly ? '1' : '0'); }

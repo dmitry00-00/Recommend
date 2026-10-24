@@ -80,6 +80,8 @@ export interface UserSeed {
    *  список (tools/resolve-seed.mts). Воркеру не нужен, нужен сборщикам, чтобы не затирать друг друга */
   watched: { workId: string; work: unknown; tmdb?: number; imdb?: string; from?: 'kinopoisk' }[];
   ratings?: { workId: string; rating: number; raw?: number; work?: unknown }[];
+  /** 24.10: номер Telegram того, чей список, если сборщик его знает — выдаётся только ему (worker/userSeed.ts) */
+  tgId?: number;
 }
 
 /** Имя бота для ссылок и команд: задаётся из окружения на входе в воркер (`useBot`). Объект, а не строка: модули читают

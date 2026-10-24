@@ -1,14 +1,15 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useRoutes } from 'react-router-dom';
 import { ScreenLoading, routes } from '@/routes';
 import { AppShell } from '@/components/AppShell';
 import { CuratorShell } from '@/components/CuratorShell';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ToastProvider, useToast } from '@/components/Toast';
-import { visitDays } from '@/api';
+import { coldStartLeft, visitDays } from '@/api';
 import { SESSION_STALE_EVENT } from '@/api/store';
-import { loadSettings, useMechanics } from '@/lib/settingsStore';
+import { loadSettings, saveSettings, useMechanics, useSettings } from '@/lib/settingsStore';
 import { useFeature } from '@/lib/flags';
+import { useLegalNotice } from '@/hooks/useLegalNotice';
 import { addToHomeScreen, homeScreenMissed, startParam } from '@/lib/telegram';
 import ui from '@/i18n';
 
@@ -60,6 +61,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const search = useFeature('search');
   useHomeScreenOffer();
   useStaleSession();
+  useLegalNotice(); // рекомендательные технологии (24.10, ст. 13.56 КоАП): один тост при первом запуске
   const nav = NAV.filter((item) => item.id === 'today' || (item.id === 'search' && search) || (mechanics && item.id !== 'journal' && item.id !== 'search'));
   return <AppShell nav={nav.map((item) => ({ ...item, label: ui.nav[item.id] }))}>{children}</AppShell>;
 }
@@ -75,7 +77,35 @@ function useSharedStart() {
     else if (p && /^t-[a-z0-9]{6,16}$/.test(p)) navigate(`/together/${p.slice(2)}`, { replace: true });
     // собрать подборку для чата (команда /together, 11.10): `g-<ключ чата>`
     else if (p && /^g-[a-z0-9]{6,16}$/.test(p)) navigate(`/together?chat=${p.slice(2)}`, { replace: true });
+    // страница автора (23.10, партнёрство с каналами): `v-<id из справочника>` (episodes) или `v-<handle канала>`
+    // (episodesfilm, 5–32 знака по правилам Telegram) — handle VoiceScreen сводит к id сам. Хвост `--s<метка>` уже срезан
+    else if (p && /^v-[A-Za-z0-9_]{2,32}$/.test(p)) navigate(`/voice/${p.slice(2)}`, { replace: true });
+    // страница человека (24.10, сотрудничество с режиссёрами и писателями, tools/person-link.mts): `p-<элемент Wikidata>`;
+    // вселенная — `u-<элемент>` (её страница открыта только с `pages`)
+    else if (p && /^p-Q\d{1,12}$/.test(p)) navigate(`/person/${p.slice(2)}`, { replace: true });
+    else if (p && /^u-Q\d{1,12}$/.test(p)) navigate(`/universe/${p.slice(2)}`, { replace: true });
   }, []);
+}
+
+/** Книжный вход (23.10, флаг bookEntry; .cache/outreach/book-onboarding-2310.md): `startapp=books` из поста книжного канала
+ *  (хвост `--s<метка>` уже срезан) — лента книг и признак книжного входа в настройки, затем первые оценки с рядом книг
+ *  первым; оценок уже хватает — сразу лента книг. Ждёт настроек: от них редакция (useFeature) и сохранение. Только startapp:
+ *  /start в личке бота отвечает фильмами дня (worker/startPicks.ts). Отдельным узлом, а не в App: подписка на настройки
+ *  не перерисовывает всё приложение на каждое их сохранение. */
+function BookStart() {
+  const navigate = useNavigate();
+  const settings = useSettings();
+  const bookEntry = useFeature('bookEntry');
+  const bookChecked = useRef(false);
+  useEffect(() => {
+    if (!settings || bookChecked.current) return;
+    bookChecked.current = true;
+    if (!bookEntry || startParam() !== 'books') return;
+    const go = (left: number) => navigate(left > 0 ? '/rate?books=1' : '/today', { replace: true });
+    saveSettings({ feedKind: 'book', bookEntry: true }).catch(() => undefined)
+      .then(() => coldStartLeft()).then(go, () => go(1));
+  }, [settings, bookEntry]); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
 }
 
 export function App() {
@@ -91,6 +121,7 @@ export function App() {
   const screenKey = `${location.key}:${location.pathname}`;
   return (
     <ToastProvider>
+      <BookStart />
       {curator
         ? <CuratorShell><ErrorBoundary resetKey={screenKey}><Suspense fallback={null}>{element}</Suspense></ErrorBoundary></CuratorShell>
         : <Shell><ErrorBoundary resetKey={screenKey}><Suspense fallback={<ScreenLoading />}>{element}</Suspense></ErrorBoundary></Shell>}

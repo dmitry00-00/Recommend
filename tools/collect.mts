@@ -71,6 +71,11 @@ if (process.env.REGISTRY_MODE === 'server') {
 // решения владельца с телефона (экран «Разметка», 06.10) — до индексов: сборка их уже учтёт
 if (process.env.TM_ADMIN_TOKEN) step('решения с телефона', ...tsx('tools/owner-pull.mts'), { optional: true });
 step('посты каналов', ...tsx('tools/telegram-pull.mts'), { optional: true, mark: 'tg' });
+// история новых каналов с t.me/s (24.10, слово владельца): подписку делает telegram-pull выше, бюджет аккаунта шлюза на
+// первый визит не тратится; за час — ~50 каналов, остальные — завтра. Забрать их посты — тем же telegram-pull ещё раз
+const gwPython = join(process.env.HOME ?? '', 'core/.venv/bin/python');
+if (existsSync(gwPython) && step('история новых каналов (t.me/s)', gwPython, ['-u', 'tools/telegram-web-backfill.py', '--page-pause', '1.2'], { optional: true, minutes: 60 }))
+  step('посты новых каналов', ...tsx('tools/telegram-pull.mts'), { optional: true });
 // у каких каналов включены комментарии — для кнопки «Обсуждение» у поста (ТВ-5б)
 step('комментарии каналов', ...tsx('tools/telegram-comments.mts'), { optional: true });
 
@@ -132,6 +137,10 @@ step('рубрики роликов', ...tsx('tools/llm-lens.mts', '--new', '--m
 // просьбы «посоветуйте» (ТВ-12а/б, 17.10): шлюз ищет их ночью, а разметка и очередь веток для шлюза жили только в пульте —
 // с 15.10 находки копились неразобранными. Модель та же, что у разметки, предел — 15 мин внутри и 20 снаружи
 step('просьбы из Telegram', ...tsx('tools/tg-asks.mts', '--minutes', '15', '--model', process.env.LLM_LABEL_MODEL ?? 'qwen'), { optional: true, minutes: 20 });
+// профили Letterboxd из находок — истории зрителей для личных подборок (ЗП-46, 22.10): лента RSS, дописываем к прошлой
+step('истории Letterboxd', ...tsx('tools/profile-seed.mts', '--auto'), { optional: true, minutes: 15 });
+// книжные читатели (23.10): Фантлаб (открытый API) и Goodreads (RSS полки «прочитано») — seeds/books/, история копится
+step('истории читателей книг', ...tsx('tools/book-profile-seed.mts', '--auto'), { optional: true, minutes: 30 });
 step('рубрики каналов', ...tsx('tools/rubrics.mts'), { optional: true });
 step('кандидаты в стоп-слова', ...tsx('tools/stopwords.mts'), { optional: true });
 step('замер на ручной разметке', ...tsx('tools/markup-eval.mts'), { optional: true, mark: 'eval' });
@@ -181,8 +190,10 @@ step('трейлеры', ...tsx('tools/trailers.mts', '--minutes', '15'), { opti
 step('читать бесплатно', ...tsx('tools/free-read.mts'), { optional: true, minutes: 5 });
 // английские названия новых карточек (ЗП-20, 08.10): из кэша, в TMDb — только новые; в сборку попадут при следующем деплое
 step('английские названия', ...tsx('tools/titles-en.mts'), { optional: true, minutes: 15 });
-// жанры TMDb для якоря вкуса новичка (09.10): из кэша, без сети — до людей доходят со сборкой
-step('жанры фильмов', ...tsx('tools/film-genres.mts'), { optional: true });
+// жанры и страны для якоря вкуса (23.10, вместо tools/film-genres.mts): filmGenres — прежний набор TMDb тем же видом,
+// дозаполнение (filmGenresFill.ts) — Wikidata, у новинок без неё — TMDb. С --net докачка только новых ключей: Wikidata
+// ≤ 1 запроса в секунду, TMDb — новинки; до людей доходят со сборкой
+step('жанры и страны', ...tsx('tools/fill-genres-wikidata.mts', '--final', '--net'), { optional: true, minutes: 20 });
 if (!process.argv.includes('--no-publish')) step('публикация на сервер', ...tsx('tools/publish-reference.mts'), { optional: true, mark: 'publish' });
 // обложки книг (11.10): сервер берёт их с Open Library при первом запросе — прогреваем сами, чтобы не ждал читатель
 if (!process.argv.includes('--no-publish')) step('обложки книг', ...tsx('tools/warm-covers.mts'), { optional: true, minutes: 30 });

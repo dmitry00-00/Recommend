@@ -28,6 +28,12 @@ export const ROLLOUT = {
   follows: 0,
   /** страницы голосов, людей, вселенных, героев и полная страница фильма со всеми разделами */
   pages: 0,
+  /** страница автора /voice/:id отдельно от `pages` (23.10, партнёрство с каналами): автор даёт у себя ссылку
+   *  `startapp=v-<id>` — она должна открываться, даже когда остальные страницы закрыты */
+  voicePage: 0,
+  /** канал автора на странице /person/:id (24.10, слово владельца): его Telegram и посты о своих работах; и ссылка
+   *  `startapp=p-<Q>` открывает страницу человека, даже когда остальные страницы закрыты (как `voicePage`) */
+  personChannel: 0,
   /** «Мои подписки» (ЗП-42): кинотеатры в настройках, доступное без доплаты — вперёд, пометка у карточки */
   subscriptions: 0,
   /** полка бесплатной легальной классики (ЗП-43): место в ленте и «Смотреть бесплатно» с источником */
@@ -43,6 +49,10 @@ export const ROLLOUT = {
   collections: 0,
   /** «Почитать» (книжный трек, 11.10): одна книга по силам в ленте, сверх фильмов */
   readShelf: 0,
+  /** книжный вход (23.10, .cache/outreach/book-onboarding-2310.md): ссылка `startapp=books--s<метка>` из книжного канала — лента
+   *  книг в настройки и первые оценки с рядом книг первым (ручная колода src/mocks/bookRatingDeck.ts); книги видны такому
+   *  человеку и при readShelf = 0, у карточки книги — «Читать» и тексты пустых вкладок по виду произведения */
+  bookEntry: 0,
 } as const;
 export type Flag = keyof typeof ROLLOUT;
 
@@ -76,6 +86,21 @@ export function useEdition(): Edition {
 /** Включена ли функция: в эталоне — всегда, в минимуме — если человек попал в долю выката. */
 export function useFeature(feature: Feature): boolean {
   return useEdition() === 'full' || inRollout(feature);
+}
+
+/** Книги человеку (23.10, книжный вход): «Почитать» по доле выката — или флаг bookEntry и человек пришёл по книжной ссылке
+ *  (`bookEntry` в настройках, App.tsx) либо выбрал ленту книг. Остальным — как было: только readShelf. */
+export function useBooks(): boolean {
+  const s = useSettings();
+  const shelf = useFeature('readShelf');
+  const entry = useFeature('bookEntry');
+  return shelf || (entry && Boolean(s && (s.feedKind === 'book' || s.bookEntry)));
+}
+
+/** Книжный вход в силе (23.10): флаг bookEntry и лента книг выбрана — первые оценки с книг, книжные тексты холодного старта. */
+export function useBookFirst(): boolean {
+  const s = useSettings();
+  return useFeature('bookEntry') && s?.feedKind === 'book';
 }
 
 /** Полки рубрик: тестеру — всегда; админу — по умолчанию да, переключатель в настройках выключает;

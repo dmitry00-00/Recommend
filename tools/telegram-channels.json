@@ -2,47 +2,5306 @@
   "_": "Каналы, из которых собираются индексы. paths — что читать: папка официального экспорта Telegram Desktop и/или файл свежей выемки (tools/telegram-fetch.py). Посты сливаются по id, пересечение не удваивается. Имя канала задаётся здесь явно: в экспорте его нет.",
   "_role": "voice — о кино говорят, оттуда идут разборы; platform — канал онлайн-кинотеатра: разборов не даёт вовсе (замер 23.09: ноль привязок на 527 постов), но пишет название в кавычках и ссылку на свой каталог, поэтому лежит здесь под «где посмотреть».",
   "channels": [
-    {"username": "episodesfilm", "paths": ["~/Downloads/ChatExport_ЭПИЗОДЫ", ".cache/telegram/episodesfilm.json"]},
-    {"username": "chtozapersonazh", "paths": ["~/Downloads/ChatExport_Что за персонаж_", ".cache/telegram/chtozapersonazh.json"]},
-    {"username": "elcinemanew", "paths": ["~/Downloads/ChatExport_elcinema", ".cache/telegram/elcinemanew.json"]},
-    {"username": "nukedie", "paths": ["~/Downloads/ChatExport_nukerrr", ".cache/telegram/nukedie.json"]},
-    {"username": "cinemysterium", "paths": ["~/Downloads/ChatExport_Abramacabre!_2", ".cache/telegram/cinemysterium.json"]},
-    {"username": "cinemaholicsofficial", "paths": ["~/Downloads/ChatExport_Cinemaholics", ".cache/telegram/cinemaholicsofficial.json"]},
-    {"username": "kinopoisk", "paths": ["~/Downloads/ChatExport_Кинопоиск _ Фильмы и сериалы", ".cache/telegram/kinopoisk.json"]},
-    {"username": "cinema1909", "paths": ["~/Downloads/ChatExport_Кинотеатр «Художественный»", ".cache/telegram/cinema1909.json"]},
-    {"username": "LifeIsScarier", "paths": ["~/Downloads/ChatExport_Жизнь страшнее. Фильмы ужасов", ".cache/telegram/LifeIsScarier.json"]},
-    {"username": "alarm_cassettes", "paths": ["~/Downloads/ChatExport_Тревожные кассеты", ".cache/telegram/alarm_cassettes.json"]},
-    {"username": "LazarenkoFantasy", "paths": ["~/Downloads/ChatExport_Драма Тмин", ".cache/telegram/LazarenkoFantasy.json"]},
-    {"username": "a_researcher", "paths": ["~/Downloads/ChatExport_R⁴²", ".cache/telegram/a_researcher.json"]},
-    {"username": "filologofrus", "paths": ["~/Downloads/ChatExport_Филолог всея Руси", ".cache/telegram/filologofrus.json"]},
-    {"username": "logovofilologa", "paths": ["~/Downloads/ChatExport_Логово Филолога", ".cache/telegram/logovofilologa.json"]},
-    {"username": "CutTheChat", "paths": [".cache/telegram/CutTheChat.json"]},
-    {"username": "terminatarkovsky", "paths": [".cache/telegram/terminatarkovsky.json"]},
-    {"role": "platform", "username": "okkomovies", "paths": [".cache/telegram/okkomovies.json"]},
-    {"role": "platform", "username": "kionru", "paths": [".cache/telegram/kionru.json"]},
-    {"role": "platform", "username": "WinkRussia", "paths": [".cache/telegram/WinkRussia.json"]},
-    {"role": "platform", "username": "viju_kino", "paths": [".cache/telegram/viju_kino.json"]},
-    {"username": "ubobra", "paths": [".cache/telegram/ubobra.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "ugolokhorror", "paths": [".cache/telegram/ugolokhorror.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "tanya_horrorland", "paths": [".cache/telegram/tanya_horrorland.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "horrorreview", "paths": [".cache/telegram/horrorreview.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "ireadscripts", "paths": [".cache/telegram/ireadscripts.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "shishkino", "paths": [".cache/telegram/shishkino.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "kinodziga", "paths": [".cache/telegram/kinodziga.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "remizorro", "paths": [".cache/telegram/remizorro.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "shtoetobilo", "paths": [".cache/telegram/shtoetobilo.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "obzoranebudet", "paths": [".cache/telegram/obzoranebudet.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "seance2330", "paths": [".cache/telegram/seance2330.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "mayinharga", "paths": [".cache/telegram/mayinharga.json"], "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия"},
-    {"username": "grrm7kingdoms", "paths": [".cache/telegram/grrm7kingdoms.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "kingofthenorthru", "paths": [".cache/telegram/kingofthenorthru.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "teamrhaenyra", "paths": [".cache/telegram/teamrhaenyra.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "hotdgreenteam", "paths": [".cache/telegram/hotdgreenteam.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "thenortherners", "paths": [".cache/telegram/thenortherners.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "planetoshotd", "paths": [".cache/telegram/planetoshotd.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "greenconcilium", "paths": [".cache/telegram/greenconcilium.json"], "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10"},
-    {"username": "iron_wind", "paths": [".cache/telegram/iron_wind.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"},
-    {"username": "avtorskayakomnata", "paths": [".cache/telegram/avtorskayakomnata.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"},
-    {"username": "PiratskiyHronist", "paths": [".cache/telegram/PiratskiyHronist.json"], "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10"}
+    {
+      "username": "episodesfilm",
+      "paths": [
+        "~/Downloads/ChatExport_ЭПИЗОДЫ",
+        ".cache/telegram/episodesfilm.json"
+      ],
+      "category": "critic",
+      "sub": "российское кино и сериалы"
+    },
+    {
+      "username": "chtozapersonazh",
+      "paths": [
+        "~/Downloads/ChatExport_Что за персонаж_",
+        ".cache/telegram/chtozapersonazh.json"
+      ],
+      "category": "critic",
+      "sub": "разборы персонажей"
+    },
+    {
+      "username": "elcinemanew",
+      "paths": [
+        "~/Downloads/ChatExport_elcinema",
+        ".cache/telegram/elcinemanew.json"
+      ],
+      "category": "critic",
+      "sub": "видеоразборы, YouTube"
+    },
+    {
+      "username": "nukedie",
+      "paths": [
+        "~/Downloads/ChatExport_nukerrr",
+        ".cache/telegram/nukedie.json"
+      ]
+    },
+    {
+      "username": "cinemysterium",
+      "paths": [
+        "~/Downloads/ChatExport_Abramacabre!_2",
+        ".cache/telegram/cinemysterium.json"
+      ],
+      "category": "critic",
+      "sub": "хоррор, мрачное кино"
+    },
+    {
+      "username": "cinemaholicsofficial",
+      "paths": [
+        "~/Downloads/ChatExport_Cinemaholics",
+        ".cache/telegram/cinemaholicsofficial.json"
+      ],
+      "category": "media",
+      "sub": "новости и кадры"
+    },
+    {
+      "username": "kinopoisk",
+      "paths": [
+        "~/Downloads/ChatExport_Кинопоиск _ Фильмы и сериалы",
+        ".cache/telegram/kinopoisk.json"
+      ],
+      "category": "service"
+    },
+    {
+      "username": "cinema1909",
+      "paths": [
+        "~/Downloads/ChatExport_Кинотеатр «Художественный»",
+        ".cache/telegram/cinema1909.json"
+      ],
+      "category": "cinema",
+      "sub": "Москва, Художественный"
+    },
+    {
+      "username": "LifeIsScarier",
+      "paths": [
+        "~/Downloads/ChatExport_Жизнь страшнее. Фильмы ужасов",
+        ".cache/telegram/LifeIsScarier.json"
+      ],
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "alarm_cassettes",
+      "paths": [
+        "~/Downloads/ChatExport_Тревожные кассеты",
+        ".cache/telegram/alarm_cassettes.json"
+      ],
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "LazarenkoFantasy",
+      "paths": [
+        "~/Downloads/ChatExport_Драма Тмин",
+        ".cache/telegram/LazarenkoFantasy.json"
+      ],
+      "category": "books",
+      "sub": "писательница фэнтези"
+    },
+    {
+      "username": "a_researcher",
+      "paths": [
+        "~/Downloads/ChatExport_R⁴²",
+        ".cache/telegram/a_researcher.json"
+      ],
+      "category": "critic",
+      "sub": "эссе о кино и сериалах"
+    },
+    {
+      "username": "filologofrus",
+      "paths": [
+        "~/Downloads/ChatExport_Филолог всея Руси",
+        ".cache/telegram/filologofrus.json"
+      ]
+    },
+    {
+      "username": "logovofilologa",
+      "paths": [
+        "~/Downloads/ChatExport_Логово Филолога",
+        ".cache/telegram/logovofilologa.json"
+      ]
+    },
+    {
+      "username": "CutTheChat",
+      "paths": [
+        ".cache/telegram/CutTheChat.json"
+      ]
+    },
+    {
+      "username": "terminatarkovsky",
+      "paths": [
+        ".cache/telegram/terminatarkovsky.json"
+      ],
+      "category": "critic"
+    },
+    {
+      "role": "platform",
+      "username": "okkomovies",
+      "paths": [
+        ".cache/telegram/okkomovies.json"
+      ],
+      "category": "service",
+      "sub": "Okko"
+    },
+    {
+      "role": "platform",
+      "username": "kionru",
+      "paths": [
+        ".cache/telegram/kionru.json"
+      ],
+      "category": "service",
+      "sub": "КИОН"
+    },
+    {
+      "role": "platform",
+      "username": "WinkRussia",
+      "paths": [
+        ".cache/telegram/WinkRussia.json"
+      ],
+      "category": "service"
+    },
+    {
+      "role": "platform",
+      "username": "viju_kino",
+      "paths": [
+        ".cache/telegram/viju_kino.json"
+      ],
+      "category": "service"
+    },
+    {
+      "username": "ubobra",
+      "paths": [
+        ".cache/telegram/ubobra.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic"
+    },
+    {
+      "username": "ugolokhorror",
+      "paths": [
+        ".cache/telegram/ugolokhorror.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "tanya_horrorland",
+      "paths": [
+        ".cache/telegram/tanya_horrorland.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "horrorreview",
+      "paths": [
+        ".cache/telegram/horrorreview.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор и жанровое"
+    },
+    {
+      "username": "ireadscripts",
+      "paths": [
+        ".cache/telegram/ireadscripts.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "сценарный разбор"
+    },
+    {
+      "username": "shishkino",
+      "paths": [
+        ".cache/telegram/shishkino.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "creator",
+      "sub": "кино с точки зрения продакшена"
+    },
+    {
+      "username": "kinodziga",
+      "paths": [
+        ".cache/telegram/kinodziga.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "фестивали, арт-хаус"
+    },
+    {
+      "username": "remizorro",
+      "paths": [
+        ".cache/telegram/remizorro.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "кино и сериалы"
+    },
+    {
+      "username": "shtoetobilo",
+      "paths": [
+        ".cache/telegram/shtoetobilo.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "кино, мода, путешествия"
+    },
+    {
+      "username": "obzoranebudet",
+      "paths": [
+        ".cache/telegram/obzoranebudet.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор и короткий метр"
+    },
+    {
+      "username": "seance2330",
+      "paths": [
+        ".cache/telegram/seance2330.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "mayinharga",
+      "paths": [
+        ".cache/telegram/mayinharga.json"
+      ],
+      "note": "кандидат из репостов и ссылок наших источников (23.09), первая партия",
+      "category": "critic",
+      "sub": "хоррор"
+    },
+    {
+      "username": "grrm7kingdoms",
+      "paths": [
+        ".cache/telegram/grrm7kingdoms.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Игра престолов / ПЛИО"
+    },
+    {
+      "username": "kingofthenorthru",
+      "paths": [
+        ".cache/telegram/kingofthenorthru.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Игра престолов"
+    },
+    {
+      "username": "teamrhaenyra",
+      "paths": [
+        ".cache/telegram/teamrhaenyra.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Дом дракона"
+    },
+    {
+      "username": "hotdgreenteam",
+      "paths": [
+        ".cache/telegram/hotdgreenteam.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Дом дракона"
+    },
+    {
+      "username": "thenortherners",
+      "paths": [
+        ".cache/telegram/thenortherners.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Дом дракона"
+    },
+    {
+      "username": "planetoshotd",
+      "paths": [
+        ".cache/telegram/planetoshotd.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Игра престолов"
+    },
+    {
+      "username": "greenconcilium",
+      "paths": [
+        ".cache/telegram/greenconcilium.json"
+      ],
+      "note": "«Песнь льда и огня»: «Игра престолов», «Дом дракона» — прислал владелец 02.10",
+      "category": "fandom",
+      "sub": "Дом дракона / ПЛИО"
+    },
+    {
+      "username": "iron_wind",
+      "paths": [
+        ".cache/telegram/iron_wind.json"
+      ],
+      "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10",
+      "category": "other",
+      "sub": "военная история"
+    },
+    {
+      "username": "avtorskayakomnata",
+      "paths": [
+        ".cache/telegram/avtorskayakomnata.json"
+      ],
+      "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10",
+      "category": "podcast",
+      "sub": "сценаристы"
+    },
+    {
+      "username": "PiratskiyHronist",
+      "paths": [
+        ".cache/telegram/PiratskiyHronist.json"
+      ],
+      "note": "тонкие рубрики (ТВ-3д): «все сильные» — владелец 06.10",
+      "category": "other",
+      "sub": "история"
+    },
+    {
+      "username": "sovet_da_film",
+      "paths": [
+        ".cache/telegram/sovet_da_film.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "watchub",
+      "paths": [
+        ".cache/telegram/watchub.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kinchik0ff",
+      "paths": [
+        ".cache/telegram/kinchik0ff.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "news"
+    },
+    {
+      "username": "chbpsd",
+      "paths": [
+        ".cache/telegram/chbpsd.json"
+      ],
+      "note": "кино для детей — собрал владелец 22.10",
+      "category": "picks",
+      "sub": "детское кино"
+    },
+    {
+      "username": "Cinemanews_kh",
+      "paths": [
+        ".cache/telegram/Cinemanews_kh.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "news"
+    },
+    {
+      "username": "lilkirpichik",
+      "paths": [
+        ".cache/telegram/lilkirpichik.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "chto_posmotret4",
+      "paths": [
+        ".cache/telegram/chto_posmotret4.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "news"
+    },
+    {
+      "username": "whatswatch_films",
+      "paths": [
+        ".cache/telegram/whatswatch_films.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kinozavr2024",
+      "paths": [
+        ".cache/telegram/kinozavr2024.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kino_smotritel",
+      "paths": [
+        ".cache/telegram/kino_smotritel.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "finefilms4you",
+      "paths": [
+        ".cache/telegram/finefilms4you.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "cinoipopcorn",
+      "paths": [
+        ".cache/telegram/cinoipopcorn.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks",
+      "sub": "трейлеры и карточки"
+    },
+    {
+      "username": "filmonline77",
+      "paths": [
+        ".cache/telegram/filmonline77.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "pirate"
+    },
+    {
+      "username": "infackts",
+      "paths": [
+        ".cache/telegram/infackts.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы"
+    },
+    {
+      "username": "filmsandmove",
+      "paths": [
+        ".cache/telegram/filmsandmove.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks",
+      "sub": "автоподборки"
+    },
+    {
+      "username": "smotriserialchiki",
+      "paths": [
+        ".cache/telegram/smotriserialchiki.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "posmotrimvecherom",
+      "paths": [
+        ".cache/telegram/posmotrimvecherom.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kinoozornik",
+      "paths": [
+        ".cache/telegram/kinoozornik.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "critic",
+      "sub": "любительские рекомендации"
+    },
+    {
+      "username": "Kira_whattoread",
+      "paths": [
+        ".cache/telegram/Kira_whattoread.json"
+      ],
+      "note": "о книгах (Кира Ярмыш) — собрал владелец 22.10",
+      "category": "books",
+      "sub": "книжный клуб"
+    },
+    {
+      "username": "kinowkanavecherr",
+      "paths": [
+        ".cache/telegram/kinowkanavecherr.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kino_online3",
+      "paths": [
+        ".cache/telegram/kino_online3.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kinonapodumat",
+      "paths": [
+        ".cache/telegram/kinonapodumat.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "Kinoklub_Michael",
+      "paths": [
+        ".cache/telegram/Kinoklub_Michael.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "kino_klub_msk",
+      "paths": [
+        ".cache/telegram/kino_klub_msk.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "club",
+      "sub": "Москва, обсуждения"
+    },
+    {
+      "username": "svetlana_merchenko",
+      "paths": [
+        ".cache/telegram/svetlana_merchenko.json"
+      ],
+      "note": "психолог, кинотерапия — собрал владелец 22.10",
+      "category": "club",
+      "sub": "кино и психология"
+    },
+    {
+      "username": "kinoru61",
+      "paths": [
+        ".cache/telegram/kinoru61.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "club",
+      "sub": "показы и лекции"
+    },
+    {
+      "username": "kino_redram",
+      "paths": [
+        ".cache/telegram/kino_redram.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "club",
+      "sub": "Петербург, показы с лекциями"
+    },
+    {
+      "username": "cinemateka_vrn",
+      "paths": [
+        ".cache/telegram/cinemateka_vrn.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "club",
+      "sub": "Воронеж, кинопоказы"
+    },
+    {
+      "username": "damngoodmovie",
+      "paths": [
+        ".cache/telegram/damngoodmovie.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "club",
+      "sub": "кинопоказы в Циферблате"
+    },
+    {
+      "username": "kinoklubb",
+      "paths": [
+        ".cache/telegram/kinoklubb.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "critic",
+      "sub": "на украинском, классика"
+    },
+    {
+      "username": "kinoteatr",
+      "paths": [
+        ".cache/telegram/kinoteatr.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "picks"
+    },
+    {
+      "username": "capellafilmrussia",
+      "paths": [
+        ".cache/telegram/capellafilmrussia.json"
+      ],
+      "note": "дистрибьютор (Capella Film) — собрал владелец 22.10",
+      "category": "studio",
+      "sub": "прокатчик Capella Film"
+    },
+    {
+      "username": "kinomimimika",
+      "paths": [
+        ".cache/telegram/kinomimimika.json"
+      ],
+      "note": "собрал владелец 22.10: каналы «что посмотреть» и киноклубы",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "neonuarkino",
+      "paths": [
+        ".cache/telegram/neonuarkino.json"
+      ],
+      "note": "НЕОНУАР — прислал владелец 22.10 (YouTube @neonuarkino уже в источниках)",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "KinemArt",
+      "paths": [
+        ".cache/telegram/KinemArt.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "фестивали, российское кино"
+    },
+    {
+      "username": "bambitopukanellis",
+      "paths": [
+        ".cache/telegram/bambitopukanellis.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "online_lipnem",
+      "paths": [
+        ".cache/telegram/online_lipnem.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "nik_cha",
+      "paths": [
+        ".cache/telegram/nik_cha.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "ohahoj",
+      "paths": [
+        ".cache/telegram/ohahoj.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "filmoclub",
+      "paths": [
+        ".cache/telegram/filmoclub.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "рецензии с вердиктом"
+    },
+    {
+      "username": "monroky",
+      "paths": [
+        ".cache/telegram/monroky.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "not_bad_things",
+      "paths": [
+        ".cache/telegram/not_bad_things.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "froxes_edit",
+      "paths": [
+        ".cache/telegram/froxes_edit.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "эдиты, стримы"
+    },
+    {
+      "username": "doch_docenta",
+      "paths": [
+        ".cache/telegram/doch_docenta.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "books",
+      "sub": "литература и искусство"
+    },
+    {
+      "username": "SdelalKrolik",
+      "paths": [
+        ".cache/telegram/SdelalKrolik.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "memes",
+      "sub": "кино и игры"
+    },
+    {
+      "username": "theshowergel",
+      "paths": [
+        ".cache/telegram/theshowergel.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "игры, стримы"
+    },
+    {
+      "username": "fragile_female",
+      "paths": [
+        ".cache/telegram/fragile_female.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "s3e_ya",
+      "paths": [
+        ".cache/telegram/s3e_ya.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "oldgothichka666",
+      "paths": [
+        ".cache/telegram/oldgothichka666.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "aoe_davalka",
+      "paths": [
+        ".cache/telegram/aoe_davalka.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стримы"
+    },
+    {
+      "username": "podcastposuda",
+      "paths": [
+        ".cache/telegram/podcastposuda.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "noklyshko",
+      "paths": [
+        ".cache/telegram/noklyshko.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "gilmanov_timur",
+      "paths": [
+        ".cache/telegram/gilmanov_timur.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "психология"
+    },
+    {
+      "username": "ccexperiment",
+      "paths": [
+        ".cache/telegram/ccexperiment.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "club",
+      "sub": "классика и авторское кино"
+    },
+    {
+      "username": "schmalzden",
+      "paths": [
+        ".cache/telegram/schmalzden.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "stereopolina_offical",
+      "paths": [
+        ".cache/telegram/stereopolina_offical.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыкант"
+    },
+    {
+      "username": "moddenyt",
+      "paths": [
+        ".cache/telegram/moddenyt.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "katedits99",
+      "paths": [
+        ".cache/telegram/katedits99.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "memes",
+      "sub": "эдиты и кадры"
+    },
+    {
+      "username": "pucckieguys",
+      "paths": [
+        ".cache/telegram/pucckieguys.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "Amikochan",
+      "paths": [
+        ".cache/telegram/Amikochan.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "косплей"
+    },
+    {
+      "username": "godofmoviees",
+      "paths": [
+        ".cache/telegram/godofmoviees.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские рецензии"
+    },
+    {
+      "username": "kkirba",
+      "paths": [
+        ".cache/telegram/kkirba.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "huhuskytunes",
+      "paths": [
+        ".cache/telegram/huhuskytunes.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыка, концерты"
+    },
+    {
+      "username": "talking_reed",
+      "paths": [
+        ".cache/telegram/talking_reed.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "domegora",
+      "paths": [
+        ".cache/telegram/domegora.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "picks",
+      "sub": "карточки фильмов"
+    },
+    {
+      "username": "zenosarrows",
+      "paths": [
+        ".cache/telegram/zenosarrows.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "africaseg",
+      "paths": [
+        ".cache/telegram/africaseg.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "Африка"
+    },
+    {
+      "username": "CastleOfShadows",
+      "paths": [
+        ".cache/telegram/CastleOfShadows.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "TexasBlitzableiter",
+      "paths": [
+        ".cache/telegram/TexasBlitzableiter.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "ch_an",
+      "paths": [
+        ".cache/telegram/ch_an.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "kojixac",
+      "paths": [
+        ".cache/telegram/kojixac.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "marikelona",
+      "paths": [
+        ".cache/telegram/marikelona.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "skolosova_psy",
+      "paths": [
+        ".cache/telegram/skolosova_psy.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "психология"
+    },
+    {
+      "username": "mysteryem",
+      "paths": [
+        ".cache/telegram/mysteryem.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "memes",
+      "sub": "фото актёров"
+    },
+    {
+      "username": "momscocaine",
+      "paths": [
+        ".cache/telegram/momscocaine.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "foxplayss",
+      "paths": [
+        ".cache/telegram/foxplayss.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "игры и видео"
+    },
+    {
+      "username": "strimanss",
+      "paths": [
+        ".cache/telegram/strimanss.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "curiouss79",
+      "paths": [
+        ".cache/telegram/curiouss79.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "volchijczass",
+      "paths": [
+        ".cache/telegram/volchijczass.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "иллюстрации, эстетика"
+    },
+    {
+      "username": "goose_opinion",
+      "paths": [
+        ".cache/telegram/goose_opinion.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "юмор, игры"
+    },
+    {
+      "username": "macintohen",
+      "paths": [
+        ".cache/telegram/macintohen.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "elenaBelenaB1",
+      "paths": [
+        ".cache/telegram/elenaBelenaB1.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "tokareva_mariaa",
+      "paths": [
+        ".cache/telegram/tokareva_mariaa.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "justenterthevoid",
+      "paths": [
+        ".cache/telegram/justenterthevoid.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог, психология"
+    },
+    {
+      "username": "lexseyarts",
+      "paths": [
+        ".cache/telegram/lexseyarts.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "анимация"
+    },
+    {
+      "username": "mokin94",
+      "paths": [
+        ".cache/telegram/mokin94.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стендап"
+    },
+    {
+      "username": "look_good_audio",
+      "paths": [
+        ".cache/telegram/look_good_audio.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "books",
+      "sub": "детская литература"
+    },
+    {
+      "username": "iconic_film_directors",
+      "paths": [
+        ".cache/telegram/iconic_film_directors.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "memes",
+      "sub": "режиссёры, байки"
+    },
+    {
+      "username": "gelu1437",
+      "paths": [
+        ".cache/telegram/gelu1437.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "zapiski_pepe",
+      "paths": [
+        ".cache/telegram/zapiski_pepe.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "uglovs",
+      "paths": [
+        ".cache/telegram/uglovs.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "JohnnyDepparmy",
+      "paths": [
+        ".cache/telegram/JohnnyDepparmy.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "fandom",
+      "sub": "Джонни Депп"
+    },
+    {
+      "username": "luvolver",
+      "paths": [
+        ".cache/telegram/luvolver.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "kinorid",
+      "paths": [
+        ".cache/telegram/kinorid.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские рекомендации"
+    },
+    {
+      "username": "VirtuozZ777",
+      "paths": [
+        ".cache/telegram/VirtuozZ777.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стримы, покер"
+    },
+    {
+      "username": "eto_snova_isekai",
+      "paths": [
+        ".cache/telegram/eto_snova_isekai.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "anime",
+      "sub": "манхва"
+    },
+    {
+      "username": "theword_in_the_beginning",
+      "paths": [
+        ".cache/telegram/theword_in_the_beginning.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "православие и литература"
+    },
+    {
+      "username": "poymi_kino",
+      "paths": [
+        ".cache/telegram/poymi_kino.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "club",
+      "sub": "кино и психология"
+    },
+    {
+      "username": "selfdestruct1337",
+      "paths": [
+        ".cache/telegram/selfdestruct1337.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "киберспорт"
+    },
+    {
+      "username": "kinokos_official",
+      "paths": [
+        ".cache/telegram/kinokos_official.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "energology_master",
+      "paths": [
+        ".cache/telegram/energology_master.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "эзотерика"
+    },
+    {
+      "username": "mirelelin",
+      "paths": [
+        ".cache/telegram/mirelelin.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "nongrataqq",
+      "paths": [
+        ".cache/telegram/nongrataqq.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "gen4christ",
+      "paths": [
+        ".cache/telegram/gen4christ.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "религия"
+    },
+    {
+      "username": "HlebAndCheq",
+      "paths": [
+        ".cache/telegram/HlebAndCheq.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "koff_ce",
+      "paths": [
+        ".cache/telegram/koff_ce.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "yugybunyg",
+      "paths": [
+        ".cache/telegram/yugybunyg.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стримы"
+    },
+    {
+      "username": "shuma11172nsk",
+      "paths": [
+        ".cache/telegram/shuma11172nsk.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "teriviki",
+      "paths": [
+        ".cache/telegram/teriviki.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "kinofoma",
+      "paths": [
+        ".cache/telegram/kinofoma.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "короткий метр"
+    },
+    {
+      "username": "mrkurns",
+      "paths": [
+        ".cache/telegram/mrkurns.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "amas_mortigi",
+      "paths": [
+        ".cache/telegram/amas_mortigi.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "tokarev78",
+      "paths": [
+        ".cache/telegram/tokarev78.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "grustniydenc",
+      "paths": [
+        ".cache/telegram/grustniydenc.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "betvc_voice",
+      "paths": [
+        ".cache/telegram/betvc_voice.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "kinopoisk_videoessay",
+      "paths": [
+        ".cache/telegram/kinopoisk_videoessay.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "service",
+      "sub": "видеоэссе"
+    },
+    {
+      "username": "dimonkinokiller",
+      "paths": [
+        ".cache/telegram/dimonkinokiller.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "видеообзоры"
+    },
+    {
+      "username": "madarapoe",
+      "paths": [
+        ".cache/telegram/madarapoe.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "anilibrialupin",
+      "paths": [
+        ".cache/telegram/anilibrialupin.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "аниме-дубляж"
+    },
+    {
+      "username": "bogatiinov21r",
+      "paths": [
+        ".cache/telegram/bogatiinov21r.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "strechinaangelina",
+      "paths": [
+        ".cache/telegram/strechinaangelina.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator"
+    },
+    {
+      "username": "chernobaev_nick",
+      "paths": [
+        ".cache/telegram/chernobaev_nick.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "режиссёр и автор курсов"
+    },
+    {
+      "username": "strangecritic",
+      "paths": [
+        ".cache/telegram/strangecritic.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "видеообзоры"
+    },
+    {
+      "username": "currentmoo",
+      "paths": [
+        ".cache/telegram/currentmoo.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "starostinflix",
+      "paths": [
+        ".cache/telegram/starostinflix.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "фантастика и сторителлинг"
+    },
+    {
+      "username": "a_iz_krkn",
+      "paths": [
+        ".cache/telegram/a_iz_krkn.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские рецензии"
+    },
+    {
+      "username": "vassaussa",
+      "paths": [
+        ".cache/telegram/vassaussa.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "nikitaantagonist",
+      "paths": [
+        ".cache/telegram/nikitaantagonist.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "видеообзоры на YouTube"
+    },
+    {
+      "username": "filmsmarketing",
+      "paths": [
+        ".cache/telegram/filmsmarketing.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "кино и маркетинг"
+    },
+    {
+      "username": "sngsedits",
+      "paths": [
+        ".cache/telegram/sngsedits.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "memes",
+      "sub": "эдиты"
+    },
+    {
+      "username": "kulakov_gena",
+      "paths": [
+        ".cache/telegram/kulakov_gena.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "видеоблогер о кино"
+    },
+    {
+      "username": "rshakov",
+      "paths": [
+        ".cache/telegram/rshakov.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator"
+    },
+    {
+      "username": "krasivozhivesh",
+      "paths": [
+        ".cache/telegram/krasivozhivesh.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "лайфстайл"
+    },
+    {
+      "username": "paketik_molochka",
+      "paths": [
+        ".cache/telegram/paketik_molochka.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "batare1ka",
+      "paths": [
+        ".cache/telegram/batare1ka.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator"
+    },
+    {
+      "username": "straday_dumay",
+      "paths": [
+        ".cache/telegram/straday_dumay.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "macura3v",
+      "paths": [
+        ".cache/telegram/macura3v.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "porsche1027",
+      "paths": [
+        ".cache/telegram/porsche1027.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "charmy_games",
+      "paths": [
+        ".cache/telegram/charmy_games.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "видеоигры"
+    },
+    {
+      "username": "leonidkka1",
+      "paths": [
+        ".cache/telegram/leonidkka1.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "dmitrythewind_kino",
+      "paths": [
+        ".cache/telegram/dmitrythewind_kino.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "прокат, хоррор"
+    },
+    {
+      "username": "kitandco",
+      "paths": [
+        ".cache/telegram/kitandco.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "revykin",
+      "paths": [
+        ".cache/telegram/revykin.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "iamnotgg",
+      "paths": [
+        ".cache/telegram/iamnotgg.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "flexxxidtwitch",
+      "paths": [
+        ".cache/telegram/flexxxidtwitch.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "feiler404",
+      "paths": [
+        ".cache/telegram/feiler404.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "terlkabot_official",
+      "paths": [
+        ".cache/telegram/terlkabot_official.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "strulban",
+      "paths": [
+        ".cache/telegram/strulban.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "aumorya1",
+      "paths": [
+        ".cache/telegram/aumorya1.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "художница"
+    },
+    {
+      "username": "meviuslss27",
+      "paths": [
+        ".cache/telegram/meviuslss27.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыка"
+    },
+    {
+      "username": "hwanik888",
+      "paths": [
+        ".cache/telegram/hwanik888.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "previouslyon_podcast",
+      "paths": [
+        ".cache/telegram/previouslyon_podcast.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "podcast",
+      "sub": "сериалы"
+    },
+    {
+      "username": "dragonorganismus_universe",
+      "paths": [
+        ".cache/telegram/dragonorganismus_universe.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "эзотерика"
+    },
+    {
+      "username": "asel_actress",
+      "paths": [
+        ".cache/telegram/asel_actress.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator"
+    },
+    {
+      "username": "kiranagibator",
+      "paths": [
+        ".cache/telegram/kiranagibator.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "subject_404",
+      "paths": [
+        ".cache/telegram/subject_404.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "видеоразборы"
+    },
+    {
+      "username": "tolkomigriflazin",
+      "paths": [
+        ".cache/telegram/tolkomigriflazin.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "batmankhalik",
+      "paths": [
+        ".cache/telegram/batmankhalik.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "prosto_zahar03",
+      "paths": [
+        ".cache/telegram/prosto_zahar03.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "rita_snimaet",
+      "paths": [
+        ".cache/telegram/rita_snimaet.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "dobrozlodevochki",
+      "paths": [
+        ".cache/telegram/dobrozlodevochki.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "balans_bednogo",
+      "paths": [
+        ".cache/telegram/balans_bednogo.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "v4263n",
+      "paths": [
+        ".cache/telegram/v4263n.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "ryza_22",
+      "paths": [
+        ".cache/telegram/ryza_22.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские рецензии"
+    },
+    {
+      "username": "leephillipscinema",
+      "paths": [
+        ".cache/telegram/leephillipscinema.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "отзывы режиссёра"
+    },
+    {
+      "username": "obschimplanom",
+      "paths": [
+        ".cache/telegram/obschimplanom.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "podcast",
+      "sub": "подкаст Кинопоиска"
+    },
+    {
+      "username": "shabopaleykum",
+      "paths": [
+        ".cache/telegram/shabopaleykum.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "standupzen",
+      "paths": [
+        ".cache/telegram/standupzen.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стендап"
+    },
+    {
+      "username": "kinoversus",
+      "paths": [
+        ".cache/telegram/kinoversus.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "AVPhub",
+      "paths": [
+        ".cache/telegram/AVPhub.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "игры"
+    },
+    {
+      "username": "shumeiko",
+      "paths": [
+        ".cache/telegram/shumeiko.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "takeyourseat",
+      "paths": [
+        ".cache/telegram/takeyourseat.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "UMizukach",
+      "paths": [
+        ".cache/telegram/UMizukach.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "игры, стримы"
+    },
+    {
+      "username": "jullxqw",
+      "paths": [
+        ".cache/telegram/jullxqw.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "olegboozov",
+      "paths": [
+        ".cache/telegram/olegboozov.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "siberian_life",
+      "paths": [
+        ".cache/telegram/siberian_life.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "explagiarism",
+      "paths": [
+        ".cache/telegram/explagiarism.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыка"
+    },
+    {
+      "username": "sasha_smotrit_kino",
+      "paths": [
+        ".cache/telegram/sasha_smotrit_kino.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "neil_minyard152",
+      "paths": [
+        ".cache/telegram/neil_minyard152.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "ahahamonsterahaha",
+      "paths": [
+        ".cache/telegram/ahahamonsterahaha.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "pogovorimokinoinetolko",
+      "paths": [
+        ".cache/telegram/pogovorimokinoinetolko.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "loublom",
+      "paths": [
+        ".cache/telegram/loublom.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские оценки"
+    },
+    {
+      "username": "sheronair",
+      "paths": [
+        ".cache/telegram/sheronair.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "jimdi_me",
+      "paths": [
+        ".cache/telegram/jimdi_me.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "kkotari",
+      "paths": [
+        ".cache/telegram/kkotari.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "metodsenge",
+      "paths": [
+        ".cache/telegram/metodsenge.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "психология"
+    },
+    {
+      "username": "puritanskaya_doch",
+      "paths": [
+        ".cache/telegram/puritanskaya_doch.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "vladimir_maslov",
+      "paths": [
+        ".cache/telegram/vladimir_maslov.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "ponedelnik_rita",
+      "paths": [
+        ".cache/telegram/ponedelnik_rita.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "vojdz",
+      "paths": [
+        ".cache/telegram/vojdz.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "Gilticus",
+      "paths": [
+        ".cache/telegram/Gilticus.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "Irtysh_16",
+      "paths": [
+        ".cache/telegram/Irtysh_16.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "sashaseyes",
+      "paths": [
+        ".cache/telegram/sashaseyes.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "лайфстайл"
+    },
+    {
+      "username": "zvezdi_vo_glave_bala",
+      "paths": [
+        ".cache/telegram/zvezdi_vo_glave_bala.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "астрология"
+    },
+    {
+      "username": "kinobloknotik",
+      "paths": [
+        ".cache/telegram/kinobloknotik.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "личный блог, подкаст"
+    },
+    {
+      "username": "moviesteem",
+      "paths": [
+        ".cache/telegram/moviesteem.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "news"
+    },
+    {
+      "username": "daashadaasha",
+      "paths": [
+        ".cache/telegram/daashadaasha.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "певица"
+    },
+    {
+      "username": "marrymemariya13",
+      "paths": [
+        ".cache/telegram/marrymemariya13.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "SECHKA2x0",
+      "paths": [
+        ".cache/telegram/SECHKA2x0.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "alko_dvig",
+      "paths": [
+        ".cache/telegram/alko_dvig.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "roadmov",
+      "paths": [
+        ".cache/telegram/roadmov.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "klever429380",
+      "paths": [
+        ".cache/telegram/klever429380.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "whatkriswants",
+      "paths": [
+        ".cache/telegram/whatkriswants.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "AGBoxing",
+      "paths": [
+        ".cache/telegram/AGBoxing.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "бокс"
+    },
+    {
+      "username": "lehina_kinoha",
+      "paths": [
+        ".cache/telegram/lehina_kinoha.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic"
+    },
+    {
+      "username": "MaxAndSe",
+      "paths": [
+        ".cache/telegram/MaxAndSe.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "сериалы"
+    },
+    {
+      "username": "karmalita_online",
+      "paths": [
+        ".cache/telegram/karmalita_online.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "Ярославль"
+    },
+    {
+      "username": "maksimhateshome",
+      "paths": [
+        ".cache/telegram/maksimhateshome.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыка"
+    },
+    {
+      "username": "happynarrative",
+      "paths": [
+        ".cache/telegram/happynarrative.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "imdtrxxx",
+      "paths": [
+        ".cache/telegram/imdtrxxx.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "dktribute",
+      "paths": [
+        ".cache/telegram/dktribute.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "fandom",
+      "sub": "Данила Козловский"
+    },
+    {
+      "username": "textortexel",
+      "paths": [
+        ".cache/telegram/textortexel.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic"
+    },
+    {
+      "username": "DreamsShadow",
+      "paths": [
+        ".cache/telegram/DreamsShadow.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "музыка"
+    },
+    {
+      "username": "ilyakulikov81",
+      "paths": [
+        ".cache/telegram/ilyakulikov81.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "creator",
+      "sub": "сериалы"
+    },
+    {
+      "username": "kinocostume",
+      "paths": [
+        ".cache/telegram/kinocostume.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "костюм в кино"
+    },
+    {
+      "username": "ozodowww",
+      "paths": [
+        ".cache/telegram/ozodowww.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "krinzhovnik",
+      "paths": [
+        ".cache/telegram/krinzhovnik.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other"
+    },
+    {
+      "username": "bpemrcom",
+      "paths": [
+        ".cache/telegram/bpemrcom.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "стример"
+    },
+    {
+      "username": "kinocastone",
+      "paths": [
+        ".cache/telegram/kinocastone.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "sayanamongush",
+      "paths": [
+        ".cache/telegram/sayanamongush.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "other",
+      "sub": "личный блог"
+    },
+    {
+      "username": "Batsergey",
+      "paths": [
+        ".cache/telegram/Batsergey.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "Axmurov",
+      "paths": [
+        ".cache/telegram/Axmurov.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "TimurIndominus",
+      "paths": [
+        ".cache/telegram/TimurIndominus.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "sonyakrank",
+      "paths": [
+        ".cache/telegram/sonyakrank.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "MisterChristmas",
+      "paths": [
+        ".cache/telegram/MisterChristmas.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "Mikhael535",
+      "paths": [
+        ".cache/telegram/Mikhael535.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "iVanime8",
+      "paths": [
+        ".cache/telegram/iVanime8.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "kiisanblog",
+      "paths": [
+        ".cache/telegram/kiisanblog.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "Ray_Mccall",
+      "paths": [
+        ".cache/telegram/Ray_Mccall.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "mentallm",
+      "paths": [
+        ".cache/telegram/mentallm.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "tsimakou",
+      "paths": [
+        ".cache/telegram/tsimakou.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "thesevenlight",
+      "paths": [
+        ".cache/telegram/thesevenlight.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "Golowa69",
+      "paths": [
+        ".cache/telegram/Golowa69.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "MisterStar21",
+      "paths": [
+        ".cache/telegram/MisterStar21.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "kinofilnii",
+      "paths": [
+        ".cache/telegram/kinofilnii.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "chelovekiam",
+      "paths": [
+        ".cache/telegram/chelovekiam.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "lostmydao",
+      "paths": [
+        ".cache/telegram/lostmydao.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "thelakewoodripper",
+      "paths": [
+        ".cache/telegram/thelakewoodripper.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "westside_movieclub",
+      "paths": [
+        ".cache/telegram/westside_movieclub.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "club",
+      "sub": "Калининград, показы"
+    },
+    {
+      "username": "cinefiles_txt",
+      "paths": [
+        ".cache/telegram/cinefiles_txt.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)",
+      "category": "media",
+      "sub": "разборы и новинки"
+    },
+    {
+      "username": "lisachu",
+      "paths": [
+        ".cache/telegram/lisachu.json"
+      ],
+      "note": "списки владельца 22–23.10 (канал → профиль Кинопоиска/Letterboxd)"
+    },
+    {
+      "username": "Cronenberg1664",
+      "paths": [
+        ".cache/telegram/Cronenberg1664.json"
+      ],
+      "note": "подборки статей 23.10 — Кроненберг нефильтрованный, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); PEOPLETALK: на какие каналы о кино подписаться (2025); Стратегия: топ-30 каналов о кино (2025); tlgrm.ru: каталог «Фильмы и сериалы» (2026); Т—Ж: каналы о кино (2024)"
+    },
+    {
+      "username": "FBChu",
+      "paths": [
+        ".cache/telegram/FBChu.json"
+      ],
+      "note": "подборки статей 23.10 — Фёдор, Бонд и Чук, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); PEOPLETALK: на какие каналы о кино подписаться (2025); Стратегия: топ-30 каналов о кино (2025); tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "critic",
+      "sub": "российские сериалы и кино"
+    },
+    {
+      "username": "apichatpong",
+      "paths": [
+        ".cache/telegram/apichatpong.json"
+      ],
+      "note": "подборки статей 23.10 — Нувельваг, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic"
+    },
+    {
+      "username": "fourword",
+      "paths": [
+        ".cache/telegram/fourword.json"
+      ],
+      "note": "подборки статей 23.10 — 4 Word Film Review, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025); tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "critic",
+      "sub": "рецензии в четыре слова"
+    },
+    {
+      "username": "kimkibabaduk",
+      "paths": [
+        ".cache/telegram/kimkibabaduk.json"
+      ],
+      "note": "подборки статей 23.10 — Kinkybambuk, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)"
+    },
+    {
+      "username": "KingOfYantar",
+      "paths": [
+        ".cache/telegram/KingOfYantar.json"
+      ],
+      "note": "подборки статей 23.10 — Культовые русские сериалы, сериалы: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); PEOPLETALK: на какие каналы о кино подписаться (2025); tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "critic",
+      "sub": "российские сериалы"
+    },
+    {
+      "username": "moviehorse",
+      "paths": [
+        ".cache/telegram/moviehorse.json"
+      ],
+      "note": "подборки статей 23.10 — супер8, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); iHoops: пять каналов о кино и сериалах (2017); tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "news",
+      "sub": "светская хроника"
+    },
+    {
+      "username": "naked_movie",
+      "paths": [
+        ".cache/telegram/naked_movie.json"
+      ],
+      "note": "подборки статей 23.10 — Naked movie, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); iHoops: пять каналов о кино и сериалах (2017); Собака.ru: 12 каналов о кино (2017)"
+    },
+    {
+      "username": "oembox",
+      "paths": [
+        ".cache/telegram/oembox.json"
+      ],
+      "note": "подборки статей 23.10 — Another Day of Sundance, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); PEOPLETALK: на какие каналы о кино подписаться (2025); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "critic"
+    },
+    {
+      "username": "watchandsee",
+      "paths": [
+        ".cache/telegram/watchandsee.json"
+      ],
+      "note": "подборки статей 23.10 — Смотреть и видеть, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic"
+    },
+    {
+      "username": "carnavalesque",
+      "paths": [
+        ".cache/telegram/carnavalesque.json"
+      ],
+      "note": "подборки статей 23.10 — Карнавал, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)"
+    },
+    {
+      "username": "ccritique",
+      "paths": [
+        ".cache/telegram/ccritique.json"
+      ],
+      "note": "подборки статей 23.10 — Cinema Critique, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "memes",
+      "sub": "смешные отзывы на постерах"
+    },
+    {
+      "username": "cinemacritique",
+      "paths": [
+        ".cache/telegram/cinemacritique.json"
+      ],
+      "note": "подборки статей 23.10 — Cinema Critique, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "media",
+      "sub": "рецензии и новости"
+    },
+    {
+      "username": "cinemagraphie",
+      "paths": [
+        ".cache/telegram/cinemagraphie.json"
+      ],
+      "note": "подборки статей 23.10 — Cinemagraphie, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "media",
+      "sub": "авторское и классическое кино"
+    },
+    {
+      "username": "cinemarticle",
+      "paths": [
+        ".cache/telegram/cinemarticle.json"
+      ],
+      "note": "подборки статей 23.10 — Cinemarticle, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "critic"
+    },
+    {
+      "username": "feltlikeakiss",
+      "paths": [
+        ".cache/telegram/feltlikeakiss.json"
+      ],
+      "note": "подборки статей 23.10 — Муха на стене, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "festival",
+      "sub": "документальное, Beat Film"
+    },
+    {
+      "username": "goodbyedragoninn",
+      "paths": [
+        ".cache/telegram/goodbyedragoninn.json"
+      ],
+      "note": "подборки статей 23.10 — Большой фестиваль, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)"
+    },
+    {
+      "username": "guilty_pleasure",
+      "paths": [
+        ".cache/telegram/guilty_pleasure.json"
+      ],
+      "note": "подборки статей 23.10 — Постыдные удовольствия, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic"
+    },
+    {
+      "username": "in_cinema",
+      "paths": [
+        ".cache/telegram/in_cinema.json"
+      ],
+      "note": "подборки статей 23.10 — кино | искусство, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)"
+    },
+    {
+      "username": "kinoivan",
+      "paths": [
+        ".cache/telegram/kinoivan.json"
+      ],
+      "note": "подборки статей 23.10 — Киноиван, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic",
+      "sub": "итоги года, фестивали"
+    },
+    {
+      "username": "kinokrotik",
+      "paths": [
+        ".cache/telegram/kinokrotik.json"
+      ],
+      "note": "подборки статей 23.10 — Кинокротик, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic"
+    },
+    {
+      "username": "nevergoodenough",
+      "paths": [
+        ".cache/telegram/nevergoodenough.json"
+      ],
+      "note": "подборки статей 23.10 — Everybody's Doing It Now, кино: Рамблер (Собака.ru): 12 каналов о кино (2017); Собака.ru: 12 каналов о кино (2017)",
+      "category": "critic"
+    },
+    {
+      "username": "odno_kino",
+      "paths": [
+        ".cache/telegram/odno_kino.json"
+      ],
+      "note": "подборки статей 23.10 — Одно кино, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Т—Ж: каналы о кино (2024)",
+      "category": "critic"
+    },
+    {
+      "username": "seance_light",
+      "paths": [
+        ".cache/telegram/seance_light.json"
+      ],
+      "note": "подборки статей 23.10 — СЕАНС, кино: Стратегия: топ-30 каналов о кино (2025); Т—Ж: каналы о кино (2024)",
+      "category": "media",
+      "sub": "Сеанс"
+    },
+    {
+      "username": "vershki",
+      "paths": [
+        ".cache/telegram/vershki.json"
+      ],
+      "note": "подборки статей 23.10 — Вершки и корешки, кино: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)"
+    },
+    {
+      "username": "cartoonas",
+      "paths": [
+        ".cache/telegram/cartoonas.json"
+      ],
+      "note": "подборки статей 23.10 — cartoonas, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "анимация"
+    },
+    {
+      "username": "film_cover",
+      "paths": [
+        ".cache/telegram/film_cover.json"
+      ],
+      "note": "подборки статей 23.10 — FilmCover, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "редкое кино"
+    },
+    {
+      "username": "ghostwood",
+      "paths": [
+        ".cache/telegram/ghostwood.json"
+      ],
+      "note": "подборки статей 23.10 — Парни из Читальни, кино: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "critic",
+      "sub": "российское кино, фестивали"
+    },
+    {
+      "username": "kinokotik",
+      "paths": [
+        ".cache/telegram/kinokotik.json"
+      ],
+      "note": "подборки статей 23.10 — КиноКотик, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "новости и фестивали"
+    },
+    {
+      "username": "kinolikbez",
+      "paths": [
+        ".cache/telegram/kinolikbez.json"
+      ],
+      "note": "подборки статей 23.10 — Киноликбез, кино: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "critic",
+      "sub": "кино и философия"
+    },
+    {
+      "username": "kinowino",
+      "paths": [
+        ".cache/telegram/kinowino.json"
+      ],
+      "note": "подборки статей 23.10 — кино и вино александра залесова, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic"
+    },
+    {
+      "username": "kipunk",
+      "paths": [
+        ".cache/telegram/kipunk.json"
+      ],
+      "note": "подборки статей 23.10 — Кино-Панк, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "media",
+      "sub": "Санкт-Петербург, рецензии"
+    },
+    {
+      "username": "micmacs",
+      "paths": [
+        ".cache/telegram/micmacs.json"
+      ],
+      "note": "подборки статей 23.10 — Тинтина вечно заносит в склепы, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic"
+    },
+    {
+      "username": "mistergreenblog",
+      "paths": [
+        ".cache/telegram/mistergreenblog.json"
+      ],
+      "note": "подборки статей 23.10 — Мистер Грин, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic"
+    },
+    {
+      "username": "teplokino",
+      "paths": [
+        ".cache/telegram/teplokino.json"
+      ],
+      "note": "подборки статей 23.10 — ТЕПЛО О КИНО, кино: BURO.: каналы о кино (2024)",
+      "category": "critic"
+    },
+    {
+      "username": "the_climax",
+      "paths": [
+        ".cache/telegram/the_climax.json"
+      ],
+      "note": "подборки статей 23.10 — Climax, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "verdictedmk",
+      "paths": [
+        ".cache/telegram/verdictedmk.json"
+      ],
+      "note": "подборки статей 23.10 — Verdicted | Макс Храбров, кино: Т—Ж: каналы о кино (2024)",
+      "category": "critic"
+    },
+    {
+      "username": "watch_once",
+      "paths": [
+        ".cache/telegram/watch_once.json"
+      ],
+      "note": "подборки статей 23.10 — один раз увидеть, кино: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "короткие рекомендации"
+    },
+    {
+      "username": "zapasaemsyapopkornom",
+      "paths": [
+        ".cache/telegram/zapasaemsyapopkornom.json"
+      ],
+      "note": "подборки статей 23.10 — Запасаемся попкорном, сериалы: tlgrm.ru: каталог «Фильмы и сериалы» (2026)",
+      "category": "media",
+      "sub": "сериалы"
+    },
+    {
+      "username": "booksfox",
+      "paths": [
+        ".cache/telegram/booksfox.json"
+      ],
+      "note": "подборки статей 23.10 — Книжный Лис 🦊📚, книги: tlgrm.ru: каталог «Литература» (2026); МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); topmi.ru: каналы про книги (2025); Мел: каналы о книгах (2016); Сергей Капличный: литературные каналы (2016); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "обзоры и розыгрыши"
+    },
+    {
+      "username": "prometa",
+      "paths": [
+        ".cache/telegram/prometa.json"
+      ],
+      "note": "подборки статей 23.10 — Prometa.pro, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); BURO.: каналы о книгах (2023); LiveLib / МИФ: 30 каналов для книголюбов (2018); Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books",
+      "sub": "нон-фикшн"
+    },
+    {
+      "username": "bibliodush",
+      "paths": [
+        ".cache/telegram/bibliodush.json"
+      ],
+      "note": "подборки статей 23.10 — Библиодуш, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "BOO_n_K_er",
+      "paths": [
+        ".cache/telegram/BOO_n_K_er.json"
+      ],
+      "note": "подборки статей 23.10 — Книжный бункер, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "детективы и триллеры"
+    },
+    {
+      "username": "greenlampbooks",
+      "paths": [
+        ".cache/telegram/greenlampbooks.json"
+      ],
+      "note": "подборки статей 23.10 — Greenlampbooks, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books"
+    },
+    {
+      "username": "prochitalanapisala",
+      "paths": [
+        ".cache/telegram/prochitalanapisala.json"
+      ],
+      "note": "подборки статей 23.10 — Прочитала и написала, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); МИФ: 30 каналов для книголюбов (2018) (2018); Мел: каналы о книгах (2016); Сергей Капличный: литературные каналы (2016); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книжный блог"
+    },
+    {
+      "username": "biggakniga",
+      "paths": [
+        ".cache/telegram/biggakniga.json"
+      ],
+      "note": "подборки статей 23.10 — Толще твиттера, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "литературная критика"
+    },
+    {
+      "username": "bookninja",
+      "paths": [
+        ".cache/telegram/bookninja.json"
+      ],
+      "note": "подборки статей 23.10 — Литература и жизнь, книги: Т—Ж: 20 телеграм-каналов о книгах (2026); МИФ: 30 каналов для книголюбов (2021) (2021); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книжные новости и заметки"
+    },
+    {
+      "username": "knigkamartishka",
+      "paths": [
+        ".cache/telegram/knigkamartishka.json"
+      ],
+      "note": "подборки статей 23.10 — Канал Мартышки, книги: МИФ: 30 каналов для книголюбов (2021) (2021); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "knigochervivost",
+      "paths": [
+        ".cache/telegram/knigochervivost.json"
+      ],
+      "note": "подборки статей 23.10 — Книгочервивость, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "впечатления от чтения"
+    },
+    {
+      "username": "readwomanread",
+      "paths": [
+        ".cache/telegram/readwomanread.json"
+      ],
+      "note": "подборки статей 23.10 — Женщина пишет, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "женский нон-фикшн"
+    },
+    {
+      "username": "books_reviews",
+      "paths": [
+        ".cache/telegram/books_reviews.json"
+      ],
+      "note": "подборки статей 23.10 — Books_reviews, книги: МИФ: 30 каналов для книголюбов (2021) (2021); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "рецензии и книжные новости"
+    },
+    {
+      "username": "milchin",
+      "paths": [
+        ".cache/telegram/milchin.json"
+      ],
+      "note": "подборки статей 23.10 — Canal du Midi, книги: Т—Ж: 20 телеграм-каналов о книгах (2026); МИФ: 30 каналов для книголюбов (2021) (2021); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книжная критика"
+    },
+    {
+      "username": "mrdarcyandballs",
+      "paths": [
+        ".cache/telegram/mrdarcyandballs.json"
+      ],
+      "note": "подборки статей 23.10 — Мистер Дарси и бал, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); BURO.: каналы о книгах (2023)",
+      "category": "books",
+      "sub": "книги на английском"
+    },
+    {
+      "username": "sapiton",
+      "paths": [
+        ".cache/telegram/sapiton.json"
+      ],
+      "note": "подборки статей 23.10 — Booker, книги: МИФ: 30 каналов для книголюбов (2018) (2018); Мел: каналы о книгах (2016); Сергей Капличный: литературные каналы (2016); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книжный блог"
+    },
+    {
+      "username": "tolkodetskie",
+      "paths": [
+        ".cache/telegram/tolkodetskie.json"
+      ],
+      "note": "подборки статей 23.10 — Только детские книги читать, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023); МИФ: 30 каналов для книголюбов (2018) (2018); Сергей Капличный: литературные каналы (2016); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "cultpop",
+      "paths": [
+        ".cache/telegram/cultpop.json"
+      ],
+      "note": "подборки статей 23.10 — Cultpop, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "media",
+      "sub": "литература"
+    },
+    {
+      "username": "dochitalatut",
+      "paths": [
+        ".cache/telegram/dochitalatut.json"
+      ],
+      "note": "подборки статей 23.10 — Постоянная читательница, книги: Т—Ж: 20 телеграм-каналов о книгах (2026); BURO.: каналы о книгах (2023); Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "обзоры новинок"
+    },
+    {
+      "username": "dramedy",
+      "paths": [
+        ".cache/telegram/dramedy.json"
+      ],
+      "note": "подборки статей 23.10 — Dramedy, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); Мел: каналы о книгах (2016)",
+      "category": "books",
+      "sub": "антиутопии и современная проза"
+    },
+    {
+      "username": "fantasy_sf",
+      "paths": [
+        ".cache/telegram/fantasy_sf.json"
+      ],
+      "note": "подборки статей 23.10 — Фантастика, смешанное: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "фантастика"
+    },
+    {
+      "username": "forevernotes",
+      "paths": [
+        ".cache/telegram/forevernotes.json"
+      ],
+      "note": "подборки статей 23.10 — Записи и выписки, книги: МИФ: 30 каналов для книголюбов (2021) (2021); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "заметки о литературе"
+    },
+    {
+      "username": "knigsovet",
+      "paths": [
+        ".cache/telegram/knigsovet.json"
+      ],
+      "note": "подборки статей 23.10 — KNIGSOVET, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023)",
+      "category": "books",
+      "sub": "нон-фикшн"
+    },
+    {
+      "username": "landscapewithbooks",
+      "paths": [
+        ".cache/telegram/landscapewithbooks.json"
+      ],
+      "note": "подборки статей 23.10 — Мамлыга WB, книги: Т—Ж: 20 телеграм-каналов о книгах (2026); Собака.ru: книжные каналы (2024); Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books"
+    },
+    {
+      "username": "myunpublished",
+      "paths": [
+        ".cache/telegram/myunpublished.json"
+      ],
+      "note": "подборки статей 23.10 — Unpublished, смешанное: МИФ: 30 каналов для книголюбов (2021) (2021); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книги и сериалы"
+    },
+    {
+      "username": "ryba_lotsman",
+      "paths": [
+        ".cache/telegram/ryba_lotsman.json"
+      ],
+      "note": "подборки статей 23.10 — Рыба Лоцман, книги: Т—Ж: 20 телеграм-каналов о книгах (2026); МИФ: 30 каналов для книголюбов (2021) (2021); vc.ru: 15 каналов для тех, кто любит книги (2023)",
+      "category": "books",
+      "sub": "литературная критика"
+    },
+    {
+      "username": "book_inspiration",
+      "paths": [
+        ".cache/telegram/book_inspiration.json"
+      ],
+      "note": "подборки статей 23.10 — Book Inspiration, смешанное: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книги и кино"
+    },
+    {
+      "username": "bookngrill",
+      "paths": [
+        ".cache/telegram/bookngrill.json"
+      ],
+      "note": "подборки статей 23.10 — Книгижарь, книги: LiveLib / НВ: 25 каналов о книгах (2018); страница канала «Книгижарь» (2026)",
+      "category": "books",
+      "sub": "книжные новости"
+    },
+    {
+      "username": "bookswithklishin",
+      "paths": [
+        ".cache/telegram/bookswithklishin.json"
+      ],
+      "note": "подборки статей 23.10 — ReadMe.txt, книги: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "русская классика"
+    },
+    {
+      "username": "chitaem_detkam_channel",
+      "paths": [
+        ".cache/telegram/chitaem_detkam_channel.json"
+      ],
+      "note": "подборки статей 23.10 — Читаем деткам, книги: Мел: каналы о книгах (2016); LiveLib / НВ: 25 каналов о книгах (2018)"
+    },
+    {
+      "username": "Dumai",
+      "paths": [
+        ".cache/telegram/Dumai.json"
+      ],
+      "note": "подборки статей 23.10 — Что читать, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "редкие книги и эссе"
+    },
+    {
+      "username": "frekenbook",
+      "paths": [
+        ".cache/telegram/frekenbook.json"
+      ],
+      "note": "подборки статей 23.10 — О чем думает Фрекен Бук?, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "myliterarychannel",
+      "paths": [
+        ".cache/telegram/myliterarychannel.json"
+      ],
+      "note": "подборки статей 23.10 — Внеклассное чтение, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)"
+    },
+    {
+      "username": "Sense_catcher",
+      "paths": [
+        ".cache/telegram/Sense_catcher.json"
+      ],
+      "note": "подборки статей 23.10 — Библиотечная крыса, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книги и библиотеки"
+    },
+    {
+      "username": "wordyworld",
+      "paths": [
+        ".cache/telegram/wordyworld.json"
+      ],
+      "note": "подборки статей 23.10 — Важные вещи, книги: МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books"
+    },
+    {
+      "username": "bookranger",
+      "paths": [
+        ".cache/telegram/bookranger.json"
+      ],
+      "note": "подборки статей 23.10 — книжный странник | дина озерова, книги: Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books",
+      "sub": "книжный блог, премии"
+    },
+    {
+      "username": "books_shmooks",
+      "paths": [
+        ".cache/telegram/books_shmooks.json"
+      ],
+      "note": "подборки статей 23.10 — Книжки и котики, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "booksinmyhands",
+      "paths": [
+        ".cache/telegram/booksinmyhands.json"
+      ],
+      "note": "подборки статей 23.10 — Books in my hands | Книги в моих руках, книги: Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books",
+      "sub": "книжный блог"
+    },
+    {
+      "username": "boooooks",
+      "paths": [
+        ".cache/telegram/boooooks.json"
+      ],
+      "note": "подборки статей 23.10 — boooooks, книги: Сергей Капличный: литературные каналы (2016)",
+      "category": "books",
+      "sub": "рецензии и новинки"
+    },
+    {
+      "username": "chitaem_detkam",
+      "paths": [
+        ".cache/telegram/chitaem_detkam.json"
+      ],
+      "note": "подборки статей 23.10 — Читаем деткам, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "deaddinos",
+      "paths": [
+        ".cache/telegram/deaddinos.json"
+      ],
+      "note": "подборки статей 23.10 — Библиотека вымерших динозавров, смешанное: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "эссе и обзоры новинок"
+    },
+    {
+      "username": "falter_stories",
+      "paths": [
+        ".cache/telegram/falter_stories.json"
+      ],
+      "note": "подборки статей 23.10 — Фальтер, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "media",
+      "sub": "литература"
+    },
+    {
+      "username": "gorky_media",
+      "paths": [
+        ".cache/telegram/gorky_media.json"
+      ],
+      "note": "подборки статей 23.10 — Горький, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "media",
+      "sub": "литература и нон-фикшн"
+    },
+    {
+      "username": "grownups_not",
+      "paths": [
+        ".cache/telegram/grownups_not.json"
+      ],
+      "note": "подборки статей 23.10 — Grownups_Not_Only, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "детская литература"
+    },
+    {
+      "username": "helloskaplichniy",
+      "paths": [
+        ".cache/telegram/helloskaplichniy.json"
+      ],
+      "note": "подборки статей 23.10 — канал Сергея Капличного, книги: Сергей Капличный: литературные каналы (2016)",
+      "category": "books"
+    },
+    {
+      "username": "kanal_Na",
+      "paths": [
+        ".cache/telegram/kanal_Na.json"
+      ],
+      "note": "подборки статей 23.10 — Канал На. О книгах, книги: страница канала «Канал На. О книгах» (2020)",
+      "category": "books",
+      "sub": "рецензии на прочитанное"
+    },
+    {
+      "username": "katrin_lit",
+      "paths": [
+        ".cache/telegram/katrin_lit.json"
+      ],
+      "note": "подборки статей 23.10 — Читай. Смотри. Твори, смешанное: МИФ: 30 каналов для книголюбов (2021) (2021)",
+      "category": "books",
+      "sub": "книги, театр, кино"
+    },
+    {
+      "username": "knigagid",
+      "paths": [
+        ".cache/telegram/knigagid.json"
+      ],
+      "note": "подборки статей 23.10 — Книжная активистка, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "современная русская проза"
+    },
+    {
+      "username": "ladylibra_1410",
+      "paths": [
+        ".cache/telegram/ladylibra_1410.json"
+      ],
+      "note": "подборки статей 23.10 — Lady Libra, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "современная литература"
+    },
+    {
+      "username": "librarybody",
+      "paths": [
+        ".cache/telegram/librarybody.json"
+      ],
+      "note": "подборки статей 23.10 — library body, книги: Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "библиотеки Петербурга"
+    },
+    {
+      "username": "literaturno",
+      "paths": [
+        ".cache/telegram/literaturno.json"
+      ],
+      "note": "подборки статей 23.10 — Литературно, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "media",
+      "sub": "литература"
+    },
+    {
+      "username": "liubov_vsesilna",
+      "paths": [
+        ".cache/telegram/liubov_vsesilna.json"
+      ],
+      "note": "подборки статей 23.10 — Совет да Любовь, книги: Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "книжный бизнес"
+    },
+    {
+      "username": "marcellus_live",
+      "paths": [
+        ".cache/telegram/marcellus_live.json"
+      ],
+      "note": "подборки статей 23.10 — Марселизация, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books"
+    },
+    {
+      "username": "moho_lit",
+      "paths": [
+        ".cache/telegram/moho_lit.json"
+      ],
+      "note": "подборки статей 23.10 — Мохолит, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "современная русская проза"
+    },
+    {
+      "username": "neznaycanal",
+      "paths": [
+        ".cache/telegram/neznaycanal.json"
+      ],
+      "note": "подборки статей 23.10 — Незнайка, книги: Мел: каналы о книгах (2016)",
+      "category": "books",
+      "sub": "детские книги"
+    },
+    {
+      "username": "ohmybooks",
+      "paths": [
+        ".cache/telegram/ohmybooks.json"
+      ],
+      "note": "подборки статей 23.10 — АННА ПОПОВА, книги: BURO.: каналы о книгах (2023)",
+      "category": "books"
+    },
+    {
+      "username": "olyabooks",
+      "paths": [
+        ".cache/telegram/olyabooks.json"
+      ],
+      "note": "подборки статей 23.10 — Оля и ее библиотека, книги: LiveLib / НВ: 25 каналов о книгах (2018)",
+      "category": "books"
+    },
+    {
+      "username": "onazhedevochka",
+      "paths": [
+        ".cache/telegram/onazhedevochka.json"
+      ],
+      "note": "подборки статей 23.10 — Она же девочка, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books"
+    },
+    {
+      "username": "pandemoniumofthesun",
+      "paths": [
+        ".cache/telegram/pandemoniumofthesun.json"
+      ],
+      "note": "подборки статей 23.10 — pandemonium of the sun, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "сложная проза"
+    },
+    {
+      "username": "parslivres",
+      "paths": [
+        ".cache/telegram/parslivres.json"
+      ],
+      "note": "подборки статей 23.10 — Парс и фоны, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "книжный ютубер"
+    },
+    {
+      "username": "polka_academy",
+      "paths": [
+        ".cache/telegram/polka_academy.json"
+      ],
+      "note": "подборки статей 23.10 — Полка, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "media",
+      "sub": "русская литература"
+    },
+    {
+      "username": "popsciencecat",
+      "paths": [
+        ".cache/telegram/popsciencecat.json"
+      ],
+      "note": "подборки статей 23.10 — Научкот // PopScienceCat, книги: LiveLib / НВ: 25 каналов о книгах (2018)",
+      "category": "books",
+      "sub": "научпоп"
+    },
+    {
+      "username": "rembodlery",
+      "paths": [
+        ".cache/telegram/rembodlery.json"
+      ],
+      "note": "подборки статей 23.10 — Рембодлер, книги: Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books",
+      "sub": "литературный трендвотчинг"
+    },
+    {
+      "username": "snakesplusladders",
+      "paths": [
+        ".cache/telegram/snakesplusladders.json"
+      ],
+      "note": "подборки статей 23.10 — Змеи и лестницы, книги: Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "англоязычные романы"
+    },
+    {
+      "username": "SpeculativeFiction",
+      "paths": [
+        ".cache/telegram/SpeculativeFiction.json"
+      ],
+      "note": "подборки статей 23.10 — speculative_fiction, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "фантастика"
+    },
+    {
+      "username": "stoner_watching_you",
+      "paths": [
+        ".cache/telegram/stoner_watching_you.json"
+      ],
+      "note": "подборки статей 23.10 — Стоунер, книги: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "рецензии на прозу"
+    },
+    {
+      "username": "UmiGame",
+      "paths": [
+        ".cache/telegram/UmiGame.json"
+      ],
+      "note": "подборки статей 23.10 — Заметки панк-редактора, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books"
+    },
+    {
+      "username": "vamchtetsam",
+      "paths": [
+        ".cache/telegram/vamchtetsam.json"
+      ],
+      "note": "подборки статей 23.10 — Вам, чтецам, книги: МИФ: 30 каналов для книголюбов (2021) (2021)",
+      "category": "books"
+    },
+    {
+      "username": "yashernet",
+      "paths": [
+        ".cache/telegram/yashernet.json"
+      ],
+      "note": "подборки статей 23.10 — Yashernet, книги: Т—Ж: 20 телеграм-каналов о книгах (2026)"
+    },
+    {
+      "username": "zhutkoye",
+      "paths": [
+        ".cache/telegram/zhutkoye.json"
+      ],
+      "note": "подборки статей 23.10 — Жуткое, книги: Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "хоррор в литературе"
+    },
+    {
+      "username": "kinoprotebya",
+      "paths": [
+        ".cache/telegram/kinoprotebya.json"
+      ],
+      "note": "подборки статей 23.10 — кино про тебя, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Т—Ж: каналы о кино (2024); BURO.: каналы о кино (2024)",
+      "category": "news",
+      "sub": "российское кино, фестивали"
+    },
+    {
+      "username": "cg_diary",
+      "paths": [
+        ".cache/telegram/cg_diary.json"
+      ],
+      "note": "подборки статей 23.10 — CG дневничок, кино, проверить: Стратегия: топ-30 каналов о кино (2025); Т—Ж: каналы о кино (2024)",
+      "category": "creator",
+      "sub": "VFX"
+    },
+    {
+      "username": "davay_esche",
+      "paths": [
+        ".cache/telegram/davay_esche.json"
+      ],
+      "note": "подборки статей 23.10 — Давай еще одну серию?, сериалы, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "news",
+      "sub": "сериалы"
+    },
+    {
+      "username": "kino_gurus",
+      "paths": [
+        ".cache/telegram/kino_gurus.json"
+      ],
+      "note": "подборки статей 23.10 — Kinoguru, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Т—Ж: каналы о кино (2024)"
+    },
+    {
+      "username": "Kinohkaa",
+      "paths": [
+        ".cache/telegram/Kinohkaa.json"
+      ],
+      "note": "подборки статей 23.10 — Киношка, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "memes",
+      "sub": "факты и детали"
+    },
+    {
+      "username": "kinomanies",
+      "paths": [
+        ".cache/telegram/kinomanies.json"
+      ],
+      "note": "подборки статей 23.10 — Киноманы фильмы сериалы, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); theGirl: каналы с фильмами и сериалами (2022)",
+      "category": "news",
+      "sub": "звёзды"
+    },
+    {
+      "username": "kinometro",
+      "paths": [
+        ".cache/telegram/kinometro.json"
+      ],
+      "note": "подборки статей 23.10 — Бюллетень кинопрокатчика, кино, проверить: Стратегия: топ-30 каналов о кино (2025); BURO.: каналы о кино (2024)",
+      "category": "industry",
+      "sub": "кинопрокат, аналитика"
+    },
+    {
+      "username": "kinoserial",
+      "paths": [
+        ".cache/telegram/kinoserial.json"
+      ],
+      "note": "подборки статей 23.10 — Кино и сериалы, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); iHoops: пять каналов о кино и сериалах (2017)"
+    },
+    {
+      "username": "MovieGuide_x",
+      "paths": [
+        ".cache/telegram/MovieGuide_x.json"
+      ],
+      "note": "подборки статей 23.10 — Movie Guide, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)"
+    },
+    {
+      "username": "stcenarium",
+      "paths": [
+        ".cache/telegram/stcenarium.json"
+      ],
+      "note": "подборки статей 23.10 — Сценариум, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022); Стратегия: топ-30 каналов о кино (2025)",
+      "category": "industry",
+      "sub": "сценаристам"
+    },
+    {
+      "username": "streamingverse",
+      "paths": [
+        ".cache/telegram/streamingverse.json"
+      ],
+      "note": "подборки статей 23.10 — Into the streaming-verse, кино, проверить: PEOPLETALK: на какие каналы о кино подписаться (2025); Т—Ж: каналы о кино (2024)",
+      "category": "news",
+      "sub": "инсайды индустрии"
+    },
+    {
+      "username": "aboutmoviez",
+      "paths": [
+        ".cache/telegram/aboutmoviez.json"
+      ],
+      "note": "подборки статей 23.10 — Всё о кино | Пикабу, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news"
+    },
+    {
+      "username": "alperina",
+      "paths": [
+        ".cache/telegram/alperina.json"
+      ],
+      "note": "подборки статей 23.10 — Alperina, кино, проверить: PEOPLETALK: на какие каналы о кино подписаться (2025)",
+      "category": "critic",
+      "sub": "индустрия и фестивали"
+    },
+    {
+      "username": "Anonhownow",
+      "paths": [
+        ".cache/telegram/Anonhownow.json"
+      ],
+      "note": "подборки статей 23.10 — синефил Тарковского, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "arthauz",
+      "paths": [
+        ".cache/telegram/arthauz.json"
+      ],
+      "note": "подборки статей 23.10 — Артхаус и Нетленка. Авторское кино, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "арт-хаус, короткие обзоры"
+    },
+    {
+      "username": "arts_creen",
+      "paths": [
+        ".cache/telegram/arts_creen.json"
+      ],
+      "note": "подборки статей 23.10 — arts_creen, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "critic",
+      "sub": "киноязык и визуал"
+    },
+    {
+      "username": "backstage_moscow",
+      "paths": [
+        ".cache/telegram/backstage_moscow.json"
+      ],
+      "note": "подборки статей 23.10 — Кино в Москве. Бэкстейдж, кино, проверить: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "news",
+      "sub": "индустрия и светская хроника"
+    },
+    {
+      "username": "chego_posmotret",
+      "paths": [
+        ".cache/telegram/chego_posmotret.json"
+      ],
+      "note": "подборки статей 23.10 — chego_posmotret, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "picks",
+      "sub": "карточки с оценками"
+    },
+    {
+      "username": "chukchukpalanik",
+      "paths": [
+        ".cache/telegram/chukchukpalanik.json"
+      ],
+      "note": "подборки статей 23.10 — ЧАК-ЧАК ПАЛАНИК, кино, проверить: BURO.: каналы о кино (2024)"
+    },
+    {
+      "username": "cinemasha",
+      "paths": [
+        ".cache/telegram/cinemasha.json"
+      ],
+      "note": "подборки статей 23.10 — Cinemasha, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic"
+    },
+    {
+      "username": "couchexperts",
+      "paths": [
+        ".cache/telegram/couchexperts.json"
+      ],
+      "note": "подборки статей 23.10 — Первый ряд, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news",
+      "sub": "новинки с комментариями"
+    },
+    {
+      "username": "dailytropes",
+      "paths": [
+        ".cache/telegram/dailytropes.json"
+      ],
+      "note": "подборки статей 23.10 — Discriminant (Daily Tropes), кино, проверить: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "critic",
+      "sub": "видеоэссе, кинотеория"
+    },
+    {
+      "username": "darling_advice",
+      "paths": [
+        ".cache/telegram/darling_advice.json"
+      ],
+      "note": "подборки статей 23.10 — Дорогая Рекомендация, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "короткие рекомендации"
+    },
+    {
+      "username": "dontworryimkate",
+      "paths": [
+        ".cache/telegram/dontworryimkate.json"
+      ],
+      "note": "подборки статей 23.10 — Don’t worry, I’m Kate, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "ershovfilm",
+      "paths": [
+        ".cache/telegram/ershovfilm.json"
+      ],
+      "note": "подборки статей 23.10 — Я видел свечение экрана, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "critic"
+    },
+    {
+      "username": "FedorovichVV",
+      "paths": [
+        ".cache/telegram/FedorovichVV.json"
+      ],
+      "note": "подборки статей 23.10 — Fedorovich, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "creator",
+      "sub": "сериалы"
+    },
+    {
+      "username": "fixitinpost",
+      "paths": [
+        ".cache/telegram/fixitinpost.json"
+      ],
+      "note": "подборки статей 23.10 — На посте поправим, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "gorod_kino",
+      "paths": [
+        ".cache/telegram/gorod_kino.json"
+      ],
+      "note": "подборки статей 23.10 — gorod_kino, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "news",
+      "sub": "трейлеры и даты выхода"
+    },
+    {
+      "username": "guljantv",
+      "paths": [
+        ".cache/telegram/guljantv.json"
+      ],
+      "note": "подборки статей 23.10 — Guljan toktogul, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "creator",
+      "sub": "сценарное мастерство"
+    },
+    {
+      "username": "gurukino",
+      "paths": [
+        ".cache/telegram/gurukino.json"
+      ],
+      "note": "подборки статей 23.10 — Кингуру, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic"
+    },
+    {
+      "username": "italcinema",
+      "paths": [
+        ".cache/telegram/italcinema.json"
+      ],
+      "note": "подборки статей 23.10 — Итальянское кино, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "studio",
+      "sub": "итальянское кино"
+    },
+    {
+      "username": "jump_cut",
+      "paths": [
+        ".cache/telegram/jump_cut.json"
+      ],
+      "note": "подборки статей 23.10 — JUMPСUT | МОНТАЖКА, кино, проверить: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "creator",
+      "sub": "монтаж трейлеров"
+    },
+    {
+      "username": "kino_i_golubi",
+      "paths": [
+        ".cache/telegram/kino_i_golubi.json"
+      ],
+      "note": "подборки статей 23.10 — Кино и голуби, кино, проверить: Стратегия: топ-30 каналов о кино (2025)",
+      "category": "memes",
+      "sub": "советское кино"
+    },
+    {
+      "username": "kinofridayx",
+      "paths": [
+        ".cache/telegram/kinofridayx.json"
+      ],
+      "note": "подборки статей 23.10 — kinofridayx, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "picks",
+      "sub": "триллеры"
+    },
+    {
+      "username": "KinoReporter",
+      "paths": [
+        ".cache/telegram/KinoReporter.json"
+      ],
+      "note": "подборки статей 23.10 — Еще то Кино, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "media"
+    },
+    {
+      "username": "kinotv",
+      "paths": [
+        ".cache/telegram/kinotv.json"
+      ],
+      "note": "подборки статей 23.10 — КИНОТВ, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "media"
+    },
+    {
+      "username": "kinotvnews",
+      "paths": [
+        ".cache/telegram/kinotvnews.json"
+      ],
+      "note": "подборки статей 23.10 — КИНОТВ, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "media"
+    },
+    {
+      "username": "lastmag",
+      "paths": [
+        ".cache/telegram/lastmag.json"
+      ],
+      "note": "подборки статей 23.10 — Фильмы и сериалы, сериалы, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "picks",
+      "sub": "сериалы"
+    },
+    {
+      "username": "LazyEditor",
+      "paths": [
+        ".cache/telegram/LazyEditor.json"
+      ],
+      "note": "подборки статей 23.10 — Lazy Editor, кино, проверить: PEOPLETALK: на какие каналы о кино подписаться (2025)",
+      "category": "critic"
+    },
+    {
+      "username": "makacos",
+      "paths": [
+        ".cache/telegram/makacos.json"
+      ],
+      "note": "подборки статей 23.10 — СЕРИАЛЬНЫЕ МАКАКИ, сериалы, проверить: iHoops: пять каналов о кино и сериалах (2017)",
+      "category": "news",
+      "sub": "сериалы"
+    },
+    {
+      "username": "movieblogteam",
+      "paths": [
+        ".cache/telegram/movieblogteam.json"
+      ],
+      "note": "подборки статей 23.10 — MovieBlog, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news"
+    },
+    {
+      "username": "multfest",
+      "paths": [
+        ".cache/telegram/multfest.json"
+      ],
+      "note": "подборки статей 23.10 — БФМ. Анимация и не только, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "festival",
+      "sub": "анимация"
+    },
+    {
+      "username": "ne_kinokritik",
+      "paths": [
+        ".cache/telegram/ne_kinokritik.json"
+      ],
+      "note": "подборки статей 23.10 — Некинокритик, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news"
+    },
+    {
+      "username": "netflixandchilll",
+      "paths": [
+        ".cache/telegram/netflixandchilll.json"
+      ],
+      "note": "подборки статей 23.10 — NETFLIX & CHILLL, сериалы, проверить: BURO.: каналы о кино (2024)",
+      "category": "news",
+      "sub": "сериалы"
+    },
+    {
+      "username": "obsessed_with_cinema",
+      "paths": [
+        ".cache/telegram/obsessed_with_cinema.json"
+      ],
+      "note": "подборки статей 23.10 — Obsessed with cinema, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "picks",
+      "sub": "арт-хаус"
+    },
+    {
+      "username": "PathOfMisanthrope",
+      "paths": [
+        ".cache/telegram/PathOfMisanthrope.json"
+      ],
+      "note": "подборки статей 23.10 — Соляноторий, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "penpenwork",
+      "paths": [
+        ".cache/telegram/penpenwork.json"
+      ],
+      "note": "подборки статей 23.10 — Покебол с предсказаниями, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "anime",
+      "sub": "обзоры и новости"
+    },
+    {
+      "username": "pluggedin",
+      "paths": [
+        ".cache/telegram/pluggedin.json"
+      ],
+      "note": "подборки статей 23.10 — Plugged In | Новости и инсайды, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news",
+      "sub": "кино и игры"
+    },
+    {
+      "username": "podpivko",
+      "paths": [
+        ".cache/telegram/podpivko.json"
+      ],
+      "note": "подборки статей 23.10 — под пивко, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "rkvt_2020",
+      "paths": [
+        ".cache/telegram/rkvt_2020.json"
+      ],
+      "note": "подборки статей 23.10 — Русское кино в топе, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "news",
+      "sub": "российское кино"
+    },
+    {
+      "username": "scifinews",
+      "paths": [
+        ".cache/telegram/scifinews.json"
+      ],
+      "note": "подборки статей 23.10 — Sci-Fi-News | Кино и жизнь, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "сериалы и новинки"
+    },
+    {
+      "username": "showgraphic",
+      "paths": [
+        ".cache/telegram/showgraphic.json"
+      ],
+      "note": "подборки статей 23.10 — Showgraphic, сериалы, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "news",
+      "sub": "сериалы"
+    },
+    {
+      "username": "sndkgram",
+      "paths": [
+        ".cache/telegram/sndkgram.json"
+      ],
+      "note": "подборки статей 23.10 — sndk, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "the_bingewatcher",
+      "paths": [
+        ".cache/telegram/the_bingewatcher.json"
+      ],
+      "note": "подборки статей 23.10 — the bingewatcher, кино, проверить: PEOPLETALK: на какие каналы о кино подписаться (2025)",
+      "category": "critic",
+      "sub": "сериалы"
+    },
+    {
+      "username": "themovieblogteam",
+      "paths": [
+        ".cache/telegram/themovieblogteam.json"
+      ],
+      "note": "подборки статей 23.10 — MovieBlog 🎥, кино, проверить: страница канала MovieBlog (2026)",
+      "category": "news"
+    },
+    {
+      "username": "thriller_tyt",
+      "paths": [
+        ".cache/telegram/thriller_tyt.json"
+      ],
+      "note": "подборки статей 23.10 — thriller_tyt, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "триллеры"
+    },
+    {
+      "username": "tomcruisepidor",
+      "paths": [
+        ".cache/telegram/tomcruisepidor.json"
+      ],
+      "note": "подборки статей 23.10 — Киноблог \"Фак ю, Спилберг, кино, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)"
+    },
+    {
+      "username": "vasilieva_balabanova",
+      "paths": [
+        ".cache/telegram/vasilieva_balabanova.json"
+      ],
+      "note": "подборки статей 23.10 — vasilieva_balabanova, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "creator"
+    },
+    {
+      "username": "xfromouterspace",
+      "paths": [
+        ".cache/telegram/xfromouterspace.json"
+      ],
+      "note": "подборки статей 23.10 — From outer space, кино, проверить: Т—Ж: каналы о кино (2024)",
+      "category": "critic",
+      "sub": "редкие хорроры, VHS"
+    },
+    {
+      "username": "papawillcall",
+      "paths": [
+        ".cache/telegram/papawillcall.json"
+      ],
+      "note": "подборки статей 23.10 — Хемингуэй позвонит, книги, проверить: МИФ: 30 каналов для книголюбов (2021) (2021); bukva.info (Читай Быстро): 40+ каналов о книгах (2023); vc.ru: 15 каналов для тех, кто любит книги (2023); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018); Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "books",
+      "sub": "писательское мастерство"
+    },
+    {
+      "username": "kakieknigi",
+      "paths": [
+        ".cache/telegram/kakieknigi.json"
+      ],
+      "note": "подборки статей 23.10 — Монологи книготорговки, книги, проверить: МИФ: 30 каналов для книголюбов (2021) (2021); МИФ: 30 каналов для книголюбов (2018) (2018); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книжный магазин, байки"
+    },
+    {
+      "username": "redaktorr",
+      "paths": [
+        ".cache/telegram/redaktorr.json"
+      ],
+      "note": "подборки статей 23.10 — Редактор Р., книги, проверить: МИФ: 30 каналов для книголюбов (2018) (2018); Мел: каналы о книгах (2016); LiveLib / НВ: 25 каналов о книгах (2018); LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "книгоиздание изнутри"
+    },
+    {
+      "username": "izdaniya",
+      "paths": [
+        ".cache/telegram/izdaniya.json"
+      ],
+      "note": "подборки статей 23.10 — Подписные издания, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026); BURO.: каналы о книгах (2023)",
+      "category": "books",
+      "sub": "книжный магазин, Петербург"
+    },
+    {
+      "username": "knijky",
+      "paths": [
+        ".cache/telegram/knijky.json"
+      ],
+      "note": "подборки статей 23.10 — Уютная Библиотека, книги, проверить: tlgrm.ru: каталог «Литература» (2026); bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "аннотации классики"
+    },
+    {
+      "username": "vilebedeva",
+      "paths": [
+        ".cache/telegram/vilebedeva.json"
+      ],
+      "note": "подборки статей 23.10 — Vilebedeva, книги, проверить: МИФ: 30 каналов для книголюбов (2021) (2021); Сергей Капличный: литературные каналы (2016)",
+      "category": "books",
+      "sub": "книжный дизайн"
+    },
+    {
+      "username": "aaacover",
+      "paths": [
+        ".cache/telegram/aaacover.json"
+      ],
+      "note": "подборки статей 23.10 — Заверни в газетку, книги, проверить: LiveLib / НВ: 25 каналов о книгах (2018)",
+      "category": "books",
+      "sub": "книжные обложки"
+    },
+    {
+      "username": "abookforzombies",
+      "paths": [
+        ".cache/telegram/abookforzombies.json"
+      ],
+      "note": "подборки статей 23.10 — abookforzombies, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "цитаты и библиотеки"
+    },
+    {
+      "username": "angrybooks",
+      "paths": [
+        ".cache/telegram/angrybooks.json"
+      ],
+      "note": "подборки статей 23.10 — angrybooks, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books"
+    },
+    {
+      "username": "angrypublisher",
+      "paths": [
+        ".cache/telegram/angrypublisher.json"
+      ],
+      "note": "подборки статей 23.10 — Вредный издатель, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "industry",
+      "sub": "книжный рынок"
+    },
+    {
+      "username": "annasapho",
+      "paths": [
+        ".cache/telegram/annasapho.json"
+      ],
+      "note": "подборки статей 23.10 — annasapho, книги, проверить: страница канала «Книгижарь» (2026)",
+      "category": "books",
+      "sub": "писательница о чтении"
+    },
+    {
+      "username": "bookclubreading",
+      "paths": [
+        ".cache/telegram/bookclubreading.json"
+      ],
+      "note": "подборки статей 23.10 — bookclubreading, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "книжный клуб"
+    },
+    {
+      "username": "bookmaniacclub",
+      "paths": [
+        ".cache/telegram/bookmaniacclub.json"
+      ],
+      "note": "подборки статей 23.10 — bookmaniacclub, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "книжные новости и мемы"
+    },
+    {
+      "username": "bookmate_ru",
+      "paths": [
+        ".cache/telegram/bookmate_ru.json"
+      ],
+      "note": "подборки статей 23.10 — Канал редакции Букмейта, книги, проверить: МИФ: 30 каналов для книголюбов (2021) (2021)",
+      "category": "books",
+      "sub": "редакция Букмейта"
+    },
+    {
+      "username": "booksnastyaa",
+      "paths": [
+        ".cache/telegram/booksnastyaa.json"
+      ],
+      "note": "подборки статей 23.10 — booksnastyaa, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "книжный блог"
+    },
+    {
+      "username": "cheriksofttv",
+      "paths": [
+        ".cache/telegram/cheriksofttv.json"
+      ],
+      "note": "подборки статей 23.10 — cheriksofttv, книги, проверить: страница канала «Книгижарь» (2026)"
+    },
+    {
+      "username": "cooleach_timetravel",
+      "paths": [
+        ".cache/telegram/cooleach_timetravel.json"
+      ],
+      "note": "подборки статей 23.10 — Канал Кулича, книги, проверить: страница канала «Книгижарь» (2026)",
+      "category": "other",
+      "sub": "ретро-находки"
+    },
+    {
+      "username": "dbooks",
+      "paths": [
+        ".cache/telegram/dbooks.json"
+      ],
+      "note": "подборки статей 23.10 — Книги для дизайнеров, книги, проверить: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "книги для дизайнеров"
+    },
+    {
+      "username": "filmy_knigy_for_mood",
+      "paths": [
+        ".cache/telegram/filmy_knigy_for_mood.json"
+      ],
+      "note": "подборки статей 23.10 — Рекомендации Loove_mood, смешанное, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "picks",
+      "sub": "кино и книги"
+    },
+    {
+      "username": "glagol_tg",
+      "paths": [
+        ".cache/telegram/glagol_tg.json"
+      ],
+      "note": "подборки статей 23.10 — glagol_tg, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "поэзия"
+    },
+    {
+      "username": "heresy_hub",
+      "paths": [
+        ".cache/telegram/heresy_hub.json"
+      ],
+      "note": "подборки статей 23.10 — В целом цензура то, что нужно, позволяет понять…, книги, проверить: страница канала «Книгижарь» (2026)",
+      "category": "books",
+      "sub": "хоррор и тёмное фэнтези"
+    },
+    {
+      "username": "knistavka",
+      "paths": [
+        ".cache/telegram/knistavka.json"
+      ],
+      "note": "подборки статей 23.10 — Книставка, книги, проверить: tlgrm.ru: каталог «Литература» (2026)",
+      "category": "books",
+      "sub": "книжные новости"
+    },
+    {
+      "username": "krylovme",
+      "paths": [
+        ".cache/telegram/krylovme.json"
+      ],
+      "note": "подборки статей 23.10 — KRYLOV, смешанное, проверить: tlgrm.ru: каталог «Литература» (2026)",
+      "category": "books",
+      "sub": "книжные новости и экранизации"
+    },
+    {
+      "username": "litagents",
+      "paths": [
+        ".cache/telegram/litagents.json"
+      ],
+      "note": "подборки статей 23.10 — Литагенты существуют, книги, проверить: МИФ: 30 каналов для книголюбов (2021) (2021)",
+      "category": "industry",
+      "sub": "литагентство"
+    },
+    {
+      "username": "literaryflex",
+      "paths": [
+        ".cache/telegram/literaryflex.json"
+      ],
+      "note": "подборки статей 23.10 — literaryflex, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books"
+    },
+    {
+      "username": "literatura_iskusstvo",
+      "paths": [
+        ".cache/telegram/literatura_iskusstvo.json"
+      ],
+      "note": "подборки статей 23.10 — Литератор, книги, проверить: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "факты о писателях"
+    },
+    {
+      "username": "livelib_official",
+      "paths": [
+        ".cache/telegram/livelib_official.json"
+      ],
+      "note": "подборки статей 23.10 — LiveLib | Лайвлиб, книги, проверить: tlgrm.ru: каталог «Литература» (2026)",
+      "category": "books",
+      "sub": "сервис LiveLib"
+    },
+    {
+      "username": "mamarnazi",
+      "paths": [
+        ".cache/telegram/mamarnazi.json"
+      ],
+      "note": "подборки статей 23.10 — mamarnazi, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "детская литература"
+    },
+    {
+      "username": "maniac_book",
+      "paths": [
+        ".cache/telegram/maniac_book.json"
+      ],
+      "note": "подборки статей 23.10 — Книжный маньяк, книги, проверить: bukva.info (Читай Быстро): 40+ каналов о книгах (2023)",
+      "category": "books",
+      "sub": "цитаты и подборки"
+    },
+    {
+      "username": "moiponidelnik",
+      "paths": [
+        ".cache/telegram/moiponidelnik.json"
+      ],
+      "note": "подборки статей 23.10 — Понедельник, книги, проверить: LiveLib / НВ: 25 каналов о книгах (2018)"
+    },
+    {
+      "username": "obrpk",
+      "paths": [
+        ".cache/telegram/obrpk.json"
+      ],
+      "note": "подборки статей 23.10 — Общество распространения полезных книг, книги, проверить: tlgrm.ru: каталог «Литература» (2026)",
+      "category": "books",
+      "sub": "старые книги, оцифровка"
+    },
+    {
+      "username": "onlybooks11",
+      "paths": [
+        ".cache/telegram/onlybooks11.json"
+      ],
+      "note": "подборки статей 23.10 — Евгения Якушеваhttps://t.me/onlybooks11 Подписывайся 🤗0, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)"
+    },
+    {
+      "username": "ophilologia",
+      "paths": [
+        ".cache/telegram/ophilologia.json"
+      ],
+      "note": "подборки статей 23.10 — ophilologia, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)"
+    },
+    {
+      "username": "palomeheart",
+      "paths": [
+        ".cache/telegram/palomeheart.json"
+      ],
+      "note": "подборки статей 23.10 — Pal o me heart, книги, проверить: LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "квир- и англоязычная проза"
+    },
+    {
+      "username": "podnovisad",
+      "paths": [
+        ".cache/telegram/podnovisad.json"
+      ],
+      "note": "подборки статей 23.10 — Наш канал «Игры, бизнес, книги, книги, проверить: Вечерний Нови-Сад: 6 дружелюбных книжных каналов (2024)",
+      "category": "podcast",
+      "sub": "книжный подкаст «Корешки»"
+    },
+    {
+      "username": "redchamber",
+      "paths": [
+        ".cache/telegram/redchamber.json"
+      ],
+      "note": "подборки статей 23.10 — Red Chamber, смешанное, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "critic",
+      "sub": "азиатское кино"
+    },
+    {
+      "username": "sashaandleo",
+      "paths": [
+        ".cache/telegram/sashaandleo.json"
+      ],
+      "note": "подборки статей 23.10 — САША И ЛЕВ, книги, проверить: LiveLib / НВ: 25 каналов о книгах (2018)",
+      "category": "books",
+      "sub": "литературные новости"
+    },
+    {
+      "username": "soilwriter",
+      "paths": [
+        ".cache/telegram/soilwriter.json"
+      ],
+      "note": "подборки статей 23.10 — Секир завидует, книги, проверить: Собака.ru: книжные каналы (2024)",
+      "category": "books",
+      "sub": "канал писателя"
+    },
+    {
+      "username": "suchstuff",
+      "paths": [
+        ".cache/telegram/suchstuff.json"
+      ],
+      "note": "подборки статей 23.10 — устойчивые призраки вещей, книги, проверить: страница канала «Книгижарь» (2026)",
+      "category": "books",
+      "sub": "филология"
+    },
+    {
+      "username": "theloudplace",
+      "paths": [
+        ".cache/telegram/theloudplace.json"
+      ],
+      "note": "подборки статей 23.10 — Раккун Сити, смешанное, проверить: ИнфоСелекция: 150+ лучших Telegram-каналов о кино (2022)",
+      "category": "other",
+      "sub": "игры"
+    },
+    {
+      "username": "theodstavec",
+      "paths": [
+        ".cache/telegram/theodstavec.json"
+      ],
+      "note": "подборки статей 23.10 — The Odstavec | О литературе и около неё, книги, проверить: LiveLib / НВ: 25 каналов о книгах (2018)"
+    },
+    {
+      "username": "twotalkgirls",
+      "paths": [
+        ".cache/telegram/twotalkgirls.json"
+      ],
+      "note": "подборки статей 23.10 — 2 talk girls, книги, проверить: LiveLib / МИФ: 30 каналов для книголюбов (2018)",
+      "category": "books",
+      "sub": "буктьюб"
+    },
+    {
+      "username": "ulybka_ulbq",
+      "paths": [
+        ".cache/telegram/ulybka_ulbq.json"
+      ],
+      "note": "подборки статей 23.10 — ulybka_ulbq, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books"
+    },
+    {
+      "username": "vsesvobodny",
+      "paths": [
+        ".cache/telegram/vsesvobodny.json"
+      ],
+      "note": "подборки статей 23.10 — Все свободны, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "books",
+      "sub": "книжный магазин"
+    },
+    {
+      "username": "words_and_money",
+      "paths": [
+        ".cache/telegram/words_and_money.json"
+      ],
+      "note": "подборки статей 23.10 — Слова и деньги, книги, проверить: Т—Ж: 20 телеграм-каналов о книгах (2026)",
+      "category": "industry",
+      "sub": "книжный рынок"
+    },
+    {
+      "username": "melphere",
+      "paths": [
+        ".cache/telegram/melphere.json"
+      ],
+      "note": "каталог telega.in 23.10 — МЕЛП, синефилия/авторское: длинные авторские рецензии ведущего «Кино Огонь»",
+      "category": "critic"
+    },
+    {
+      "username": "andreytarkovsky",
+      "paths": [
+        ".cache/telegram/andreytarkovsky.json"
+      ],
+      "note": "каталог telega.in 23.10 — TARKOVSKY, синефилия/авторское: канал о Тарковском, вдумчивая аудитория, маленький",
+      "category": "fandom",
+      "sub": "Андрей Тарковский"
+    },
+    {
+      "username": "kinoogon_official",
+      "paths": [
+        ".cache/telegram/kinoogon_official.json"
+      ],
+      "note": "каталог telega.in 23.10 — Кино Огонь, синефилия/авторское: «Кино Огонь»: рейтинги и разговоры о кино",
+      "category": "media",
+      "sub": "подкасты и рейтинги"
+    },
+    {
+      "username": "seriesman",
+      "paths": [
+        ".cache/telegram/seriesman.json"
+      ],
+      "note": "каталог telega.in 23.10 — Серийный Человек, сериалы: авторские обзоры сериалов, сильный охват",
+      "category": "critic",
+      "sub": "сериалы"
+    },
+    {
+      "username": "serialsxbooks",
+      "paths": [
+        ".cache/telegram/serialsxbooks.json"
+      ],
+      "note": "каталог telega.in 23.10 — SERIALSxBOOKS | про сериалы и книги, что посмотреть: автор советует сериалы и книги, подборки месяца",
+      "category": "critic",
+      "sub": "сериалы и книги"
+    },
+    {
+      "username": "book_movie_guide_kino",
+      "paths": [
+        ".cache/telegram/book_movie_guide_kino.json"
+      ],
+      "note": "каталог telega.in 23.10 — Book_movie_guide_kino, что посмотреть: сериалы и трукрайм от автора, женская аудитория",
+      "category": "picks",
+      "sub": "сериалы, трукрайм"
+    },
+    {
+      "username": "coolbutrewrite",
+      "paths": [
+        ".cache/telegram/coolbutrewrite.json"
+      ],
+      "note": "каталог telega.in 23.10 — Круто, но надо переписать!, синефилия/авторское: блог сценариста, советует сериалы, маленький",
+      "category": "creator",
+      "sub": "сценарист"
+    },
+    {
+      "username": "vintage_90s",
+      "paths": [
+        ".cache/telegram/vintage_90s.json"
+      ],
+      "note": "каталог telega.in 23.10 — vintage 90`s, синефилия/авторское: авторский канал о кино 90-х, женская аудитория",
+      "category": "memes",
+      "sub": "кино 90-х"
+    },
+    {
+      "username": "Age_of_Cinemaa",
+      "paths": [
+        ".cache/telegram/Age_of_Cinemaa.json"
+      ],
+      "note": "каталог telega.in 23.10 — Age Of Cinema, синефилия/авторское: кинокритик (Forbes, Правила жизни), фестивали",
+      "category": "critic",
+      "sub": "кинокритик, фестивали"
+    },
+    {
+      "username": "cinsolite",
+      "paths": [
+        ".cache/telegram/cinsolite.json"
+      ],
+      "note": "каталог telega.in 23.10 — Cinema insolite, синефилия/авторское: авторский кинодневник, азиатское и жанровое кино",
+      "category": "critic",
+      "sub": "азиатское и жанровое"
+    },
+    {
+      "username": "cinebest",
+      "paths": [
+        ".cache/telegram/cinebest.json"
+      ],
+      "note": "каталог telega.in 23.10 — Уголок киномана, синефилия/авторское: авторский о кино и домашнем кинотеатре, тексты в картинках",
+      "category": "critic",
+      "sub": "кино и домашний кинотеатр"
+    },
+    {
+      "username": "belosnewka_kino",
+      "paths": [
+        ".cache/telegram/belosnewka_kino.json"
+      ],
+      "note": "каталог telega.in 23.10 — БЕЛОСНЕЖКИНО КИНО, что посмотреть: личные отзывы о новинках, женская аудитория",
+      "category": "critic",
+      "sub": "любительские отзывы"
+    },
+    {
+      "username": "seen_themovie",
+      "paths": [
+        ".cache/telegram/seen_themovie.json"
+      ],
+      "note": "каталог telega.in 23.10 — И видел я фильм, синефилия/авторское: авторские отзывы о новинках и классике",
+      "category": "critic",
+      "sub": "отзывы и новости"
+    },
+    {
+      "username": "drunk_cinema",
+      "paths": [
+        ".cache/telegram/drunk_cinema.json"
+      ],
+      "note": "каталог telega.in 23.10 — love, truth and cinema, синефилия/авторское: авторский блог: Маккуин, Мэнголд, хороший охват",
+      "category": "critic",
+      "sub": "авторский блог"
+    },
+    {
+      "username": "dldpone",
+      "paths": [
+        ".cache/telegram/dldpone.json"
+      ],
+      "note": "каталог telega.in 23.10 — Давай лучше дома посмотрим, что посмотреть: короткие описания фильмов с оценками для выбора",
+      "category": "picks"
+    },
+    {
+      "username": "nonlinearstory",
+      "paths": [
+        ".cache/telegram/nonlinearstory.json"
+      ],
+      "note": "каталог telega.in 23.10 — Нелинейно, синефилия/авторское: артхаус и фестивали, думающая аудитория, маленький",
+      "category": "critic",
+      "sub": "арт-хаус"
+    },
+    {
+      "username": "otpisalso",
+      "paths": [
+        ".cache/telegram/otpisalso.json"
+      ],
+      "note": "каталог telega.in 23.10 — Киновед в штатском, синефилия/авторское: кинокритик в отставке, авторские тексты, маленький охват",
+      "category": "news"
+    },
+    {
+      "username": "kammotor",
+      "paths": [
+        ".cache/telegram/kammotor.json"
+      ],
+      "note": "каталог telega.in 23.10 — Камера, Мотор!, синефилия/авторское: что посмотреть, дни рождения, новости"
+    },
+    {
+      "username": "filmovaya",
+      "paths": [
+        ".cache/telegram/filmovaya.json"
+      ],
+      "note": "каталог telega.in 23.10 — давай посмотрим?, что посмотреть: подборки и рекомендации, 95% женщины",
+      "category": "picks",
+      "sub": "мультфильмы, женская аудитория"
+    },
+    {
+      "username": "phenomenamovies",
+      "paths": [
+        ".cache/telegram/phenomenamovies.json"
+      ],
+      "note": "каталог telega.in 23.10 — Phenomena — Фильмы и сериалы, что посмотреть: авторские подборки фильмов и сериалов, охват слабый",
+      "category": "picks"
+    },
+    {
+      "username": "kinopavlorama",
+      "paths": [
+        ".cache/telegram/kinopavlorama.json"
+      ],
+      "note": "каталог telega.in 23.10 — Не смотрел, но осуждаю!, синефилия/авторское: кинокритик Павел Цапюк, ежедневные рекомендации",
+      "category": "critic"
+    },
+    {
+      "username": "uzhasarium",
+      "paths": [
+        ".cache/telegram/uzhasarium.json"
+      ],
+      "note": "каталог telega.in 23.10 — Ужасариум, синефилия/авторское: хоррор-рассказы, обзоры фильмов и книг",
+      "category": "news",
+      "sub": "хоррор"
+    },
+    {
+      "username": "stupidthough",
+      "paths": [
+        ".cache/telegram/stupidthough.json"
+      ],
+      "note": "каталог telega.in 23.10 — Кино (не) для всех, синефилия/авторское: подборки, рецензии, размышления о кино",
+      "category": "critic",
+      "sub": "кино и сериалы"
+    },
+    {
+      "username": "beforethenight",
+      "paths": [
+        ".cache/telegram/beforethenight.json"
+      ],
+      "note": "каталог telega.in 23.10 — before your night 18+, синефилия/авторское: авторские обзоры забытых фильмов с цитатами",
+      "category": "critic",
+      "sub": "забытые фильмы, цитаты"
+    },
+    {
+      "username": "need2watch",
+      "paths": [
+        ".cache/telegram/need2watch.json"
+      ],
+      "note": "каталог telega.in 23.10 — надо глянуть., синефилия/авторское: авторский о кино, марафоны и рекомендации",
+      "category": "critic"
+    },
+    {
+      "username": "later_watch",
+      "paths": [
+        ".cache/telegram/later_watch.json"
+      ],
+      "note": "каталог telega.in 23.10 — ПОТОМ ПОСМОТРЮ | ФИЛЬМЫ И СЕРИАЛЫ, что посмотреть: ежедневные обзоры и подборки «что пропустили»",
+      "category": "picks"
+    },
+    {
+      "username": "filmcolors",
+      "paths": [
+        ".cache/telegram/filmcolors.json"
+      ],
+      "note": "каталог telega.in 23.10 — 🎬 Кино в красках, синефилия/авторское: киноэстетика и короткие рецензии, маленький охват",
+      "category": "critic",
+      "sub": "киноэстетика"
+    },
+    {
+      "username": "chanelbyag",
+      "paths": [
+        ".cache/telegram/chanelbyag.json"
+      ],
+      "note": "каталог telega.in 23.10 — By A.G. | кинематограф, синефилия/авторское: артхаус и фестивальное кино, охват крошечный",
+      "category": "critic",
+      "sub": "артхаус"
+    },
+    {
+      "username": "AnyaPictures",
+      "paths": [
+        ".cache/telegram/AnyaPictures.json"
+      ],
+      "note": "каталог telega.in 23.10 — Anya Pictures, что посмотреть: впечатления о фильмах и сериалах, женская аудитория",
+      "category": "picks",
+      "sub": "женская аудитория"
+    },
+    {
+      "username": "Aluareads",
+      "paths": [
+        ".cache/telegram/Aluareads.json"
+      ],
+      "note": "каталог telega.in 23.10 — Алуа читает, книги: авторский блог/литература: книжный блогер с YouTube, высокий охват",
+      "category": "books",
+      "sub": "книжный клуб, классика"
+    },
+    {
+      "username": "lilya_storygirl",
+      "paths": [
+        ".cache/telegram/lilya_storygirl.json"
+      ],
+      "note": "каталог telega.in 23.10 — Лиля Шеламова, книги: обзоры и рекомендации: научная фантастика: рецензии и подборки, мужчины 30+"
+    },
+    {
+      "username": "alibiderchii",
+      "paths": [
+        ".cache/telegram/alibiderchii.json"
+      ],
+      "note": "каталог telega.in 23.10 — Vodka.Kniga.Balalaika, книги: авторский блог/литература: авторский блог о литературе и кино с YouTube",
+      "category": "books",
+      "sub": "книги и кино, лайфстайл"
+    },
+    {
+      "username": "alinabookstar",
+      "paths": [
+        ".cache/telegram/alinabookstar.json"
+      ],
+      "note": "каталог telega.in 23.10 — Алина Букстар | блогер лайфстайл и книги - жца, книги: авторский блог/литература: книжный блогер (YouTube 100 тыс.), женская аудитория",
+      "category": "books",
+      "sub": "лайфстайл и книги"
+    },
+    {
+      "username": "irenedrama",
+      "paths": [
+        ".cache/telegram/irenedrama.json"
+      ],
+      "note": "каталог telega.in 23.10 — Кризис драмы, книги: авторский блог/литература: авторский о книгах и книжном бизнесе",
+      "category": "books",
+      "sub": "книжный бизнес"
+    },
+    {
+      "username": "cmxtk",
+      "paths": [
+        ".cache/telegram/cmxtk.json"
+      ],
+      "note": "каталог telega.in 23.10 — Комиксотека • Подкаст «Искусство №9», книги: обзоры и рекомендации: комиксы: новинки, подкаст, сообщество",
+      "category": "books",
+      "sub": "комиксы + подкаст"
+    },
+    {
+      "username": "book_movie_guide",
+      "paths": [
+        ".cache/telegram/book_movie_guide.json"
+      ],
+      "note": "каталог telega.in 23.10 — Book_movie_guide, книги: обзоры и рекомендации: отзывы на книги, совместные чтения, женская аудитория",
+      "category": "books",
+      "sub": "ромфант и фанфики"
+    },
+    {
+      "username": "abbbooks",
+      "paths": [
+        ".cache/telegram/abbbooks.json"
+      ],
+      "note": "каталог telega.in 23.10 — Александра Бекренева, книги: авторский блог/литература: авторский канал об интеллектуальной литературе",
+      "category": "books",
+      "sub": "интеллектуальная литература"
+    },
+    {
+      "username": "fantasy_jedi",
+      "paths": [
+        ".cache/telegram/fantasy_jedi.json"
+      ],
+      "note": "каталог telega.in 23.10 — Джедай из Шира: фантастика и фэнтези, книги: обзоры и рекомендации: авторские обзоры фантастики: книги, фильмы, сериалы",
+      "category": "books",
+      "sub": "фантастика и фэнтези"
+    },
+    {
+      "username": "mezhdy_str",
+      "paths": [
+        ".cache/telegram/mezhdy_str.json"
+      ],
+      "note": "каталог telega.in 23.10 — Между строк, книги: обзоры и рекомендации: обзоры книг и факты о писателях, маленький",
+      "category": "books"
+    },
+    {
+      "username": "vom2020a",
+      "paths": [
+        ".cache/telegram/vom2020a.json"
+      ],
+      "note": "каталог telega.in 23.10 — Читательский дневник, книги: обзоры и рекомендации: читательский дневник с отзывами, маленький",
+      "category": "books"
+    },
+    {
+      "username": "kotarubooks",
+      "paths": [
+        ".cache/telegram/kotarubooks.json"
+      ],
+      "note": "каталог telega.in 23.10 — Kotaru, книги: обзоры и рекомендации: отзывы о книгах и лайфстайл, женская аудитория",
+      "category": "books",
+      "sub": "отзывы и лайфстайл"
+    },
+    {
+      "username": "yaseychaschitayu",
+      "paths": [
+        ".cache/telegram/yaseychaschitayu.json"
+      ],
+      "note": "каталог telega.in 23.10 — Я сейчас читаю 📚, книги: обзоры и рекомендации: рецензии читателей, охват 3%",
+      "category": "books"
+    },
+    {
+      "username": "tam_takoy_suzhet",
+      "paths": [
+        ".cache/telegram/tam_takoy_suzhet.json"
+      ],
+      "note": "каталог telega.in 23.10 — Там такой сюжет...📚😍, книги: авторский блог/литература: личный блог о прочитанном, крошечный охват",
+      "category": "books",
+      "sub": "книги и дорамы"
+    },
+    {
+      "username": "bookssshelff",
+      "paths": [
+        ".cache/telegram/bookssshelff.json"
+      ],
+      "note": "каталог telega.in 23.10 — книжная полка, книги: авторский блог/литература: читательский дневник, маленький",
+      "category": "books",
+      "sub": "читательский дневник"
+    },
+    {
+      "username": "katwhatsup",
+      "paths": [
+        ".cache/telegram/katwhatsup.json"
+      ],
+      "note": "каталог telega.in 23.10 — ✨Катя: кино и книги✨, книги: авторский блог/литература: блог о книгах и подборки кино, крошечный охват",
+      "category": "books",
+      "sub": "книжный блог"
+    },
+    {
+      "username": "knizist",
+      "paths": [
+        ".cache/telegram/knizist.json"
+      ],
+      "note": "каталог telega.in 23.10 — Книжист, книги: авторский блог/литература: о литературе: факты, разборы произведений",
+      "category": "books",
+      "sub": "цитаты и о литературе"
+    },
+    {
+      "username": "yuliasvetlichnaya",
+      "paths": [
+        ".cache/telegram/yuliasvetlichnaya.json"
+      ],
+      "note": "каталог telega.in 23.10 — Юлия Светличная | книги и жизнь, книги: авторский блог/литература: личный блог о прочитанном: Мураками и др.",
+      "category": "books"
+    },
+    {
+      "username": "bar_books",
+      "paths": [
+        ".cache/telegram/bar_books.json"
+      ],
+      "note": "каталог telega.in 23.10 — Книжный бар | Отнюдь, книги: обзоры и рекомендации: подборки и рекомендации книг, охват крошечный",
+      "category": "books",
+      "sub": "подборки и квизы"
+    },
+    {
+      "username": "tiempo_de_libro",
+      "paths": [
+        ".cache/telegram/tiempo_de_libro.json"
+      ],
+      "note": "каталог telega.in 23.10 — Книжный кофе-брейк 📚☕️, книги: авторский блог/литература: личные отзывы о книгах, крошечный охват",
+      "category": "books"
+    },
+    {
+      "username": "pereverzevvaleriy",
+      "paths": [
+        ".cache/telegram/pereverzevvaleriy.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Валерий Переверзев (Q107170093, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "DmitryRudovskiy",
+      "paths": [
+        ".cache/telegram/DmitryRudovskiy.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Рудовский, Дмитрий Олегович (Q107179867, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "kvataniya",
+      "paths": [
+        ".cache/telegram/kvataniya.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Ладо Кватания (Q112989540, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "mikita_frank0",
+      "paths": [
+        ".cache/telegram/mikita_frank0.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Микита Франко (Q113406382, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "films74",
+      "paths": [
+        ".cache/telegram/films74.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Станислав Олегович Иванов (Q116790582, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "myrekfilm",
+      "paths": [
+        ".cache/telegram/myrekfilm.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Мирослав Слабошпицкий (Q12153531, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "ermolov21",
+      "paths": [
+        ".cache/telegram/ermolov21.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Илья Игоревич Ермолов (Q123456388, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "feliksumarov",
+      "paths": [
+        ".cache/telegram/feliksumarov.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Феликс Умаров (Q124153764, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "EtoBorisAkunin",
+      "paths": [
+        ".cache/telegram/EtoBorisAkunin.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Борис Акунин (Q125663, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "tanica_glu",
+      "paths": [
+        ".cache/telegram/tanica_glu.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Глущенко Татьяна Константиновна (Q126680280, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "MariaMakhanko",
+      "paths": [
+        ".cache/telegram/MariaMakhanko.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Мария Дмитриевна Маханько (Q13218078, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "KutsenkoGosha",
+      "paths": [
+        ".cache/telegram/KutsenkoGosha.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гоша Куценко (Q1385036, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "eternalautisma",
+      "paths": [
+        ".cache/telegram/eternalautisma.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Никита Миклушов (Q141447467, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "alexander_rodnyansky",
+      "paths": [
+        ".cache/telegram/alexander_rodnyansky.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Роднянский (Q1433134, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "PavelDrozdovDir",
+      "paths": [
+        ".cache/telegram/PavelDrozdovDir.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Дроздов, Павел Валерьевич (Q15066037, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "screenspiration",
+      "paths": [
+        ".cache/telegram/screenspiration.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Идлис, Юлия Борисовна (Q15067375, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "evodolazkin",
+      "paths": [
+        ".cache/telegram/evodolazkin.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Евгений Германович Водолазкин (Q17094091, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "Yurybykovchanel",
+      "paths": [
+        ".cache/telegram/Yurybykovchanel.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Юрий Анатольевич Быков (Q17582593, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "KirillandhisFriends",
+      "paths": [
+        ".cache/telegram/KirillandhisFriends.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Кирилл Серебренников (Q1974774, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "egor_beroev",
+      "paths": [
+        ".cache/telegram/egor_beroev.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Егор Вадимович Бероев (Q1975389, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "IgorSukachev",
+      "paths": [
+        ".cache/telegram/IgorSukachev.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гарик Сукачёв (Q1981460, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "nikishov17",
+      "paths": [
+        ".cache/telegram/nikishov17.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Никишов, Евгений Владимирович (Q19844128, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "dzhigurda27",
+      "paths": [
+        ".cache/telegram/dzhigurda27.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Никита Джигурда (Q2026869, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "tairtairtair",
+      "paths": [
+        ".cache/telegram/tairtairtair.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Таир Мамедов (Q2035141, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "alexpetrukhin",
+      "paths": [
+        ".cache/telegram/alexpetrukhin.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Алексей Алексеевич Петрухин (Q21148877, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "charusha",
+      "paths": [
+        ".cache/telegram/charusha.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Даша Чаруша (Q21642381, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "dmibykov",
+      "paths": [
+        ".cache/telegram/dmibykov.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Дмитрий Быков (Q2210595, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "tinakarolofficial",
+      "paths": [
+        ".cache/telegram/tinakarolofficial.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Тина Кароль (Q229065, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "mihail_efremov",
+      "paths": [
+        ".cache/telegram/mihail_efremov.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Михаил Олегович Ефремов (Q2373179, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "NaishullerLive",
+      "paths": [
+        ".cache/telegram/NaishullerLive.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Илья Найшуллер (Q23867507, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "garikmartirosian_official",
+      "paths": [
+        ".cache/telegram/garikmartirosian_official.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гарик Мартиросян (Q2389088, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "vidowsov100500",
+      "paths": [
+        ".cache/telegram/vidowsov100500.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Макс +100500 (Q24350455, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "aaDudarau",
+      "paths": [
+        ".cache/telegram/aaDudarau.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Алексей Ануфриевич Дударев (Q2494542, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "zadornov_m",
+      "paths": [
+        ".cache/telegram/zadornov_m.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Михаил Николаевич Задорнов (Q2622688, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "lpetranovskaya",
+      "paths": [
+        ".cache/telegram/lpetranovskaya.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Людмила Владимировна Петрановская (Q26255645, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "renatalitvinova",
+      "paths": [
+        ".cache/telegram/renatalitvinova.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Рената Муратовна Литвинова (Q2627377, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "guskov_aleksei",
+      "paths": [
+        ".cache/telegram/guskov_aleksei.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Алексей Геннадьевич Гуськов (Q2704999, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "TatyanaTolstaya",
+      "paths": [
+        ".cache/telegram/TatyanaTolstaya.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Татьяна Толстая (Q274342, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "klimshipenko",
+      "paths": [
+        ".cache/telegram/klimshipenko.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Клим Алексеевич Шипенко (Q27990623, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "alexchadoff",
+      "paths": [
+        ".cache/telegram/alexchadoff.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Алексей Чадов (Q2832626, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "dg_cast",
+      "paths": [
+        ".cache/telegram/dg_cast.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Дмитрий Алексеевич Глуховский (Q283408, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "e_grigorev",
+      "paths": [
+        ".cache/telegram/e_grigorev.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Евгений Александрович Григорьев (Q28497410, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "danilakozlovsky_official",
+      "paths": [
+        ".cache/telegram/danilakozlovsky_official.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Данила Козловский (Q3015088, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "bekmambetovtimur",
+      "paths": [
+        ".cache/telegram/bekmambetovtimur.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Тимур Бекмамбетов (Q344854, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "svetlakov77",
+      "paths": [
+        ".cache/telegram/svetlakov77.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Сергей Светлаков (Q3479732, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "slepakovsemyon",
+      "paths": [
+        ".cache/telegram/slepakovsemyon.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Семён Слепаков (Q3718842, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "lleodnevnik",
+      "paths": [
+        ".cache/telegram/lleodnevnik.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Леонид Александрович Каганов (Q3950902, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "sarikandreasyan",
+      "paths": [
+        ".cache/telegram/sarikandreasyan.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Сарик Андреасян (Q4065391, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "lyubovarkus",
+      "paths": [
+        ".cache/telegram/lyubovarkus.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Аркус, Любовь Юрьевна (Q4069490, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "bahrambaghirzadeh",
+      "paths": [
+        ".cache/telegram/bahrambaghirzadeh.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Бахрам Ариф оглы Багирзаде (Q4074774, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "konstantinbogomolov",
+      "paths": [
+        ".cache/telegram/konstantinbogomolov.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Константин Богомолов (Q4089615, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "vadimgalygin_live",
+      "paths": [
+        ".cache/telegram/vadimgalygin_live.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Вадим Павлович Галыгин (Q4132834, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "kinogonch",
+      "paths": [
+        ".cache/telegram/kinogonch.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гончуков, Арсений Михайлович (Q4143306, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "telegavr",
+      "paths": [
+        ".cache/telegram/telegavr.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гавр Гордеев (Q4143810, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "garrigordon41",
+      "paths": [
+        ".cache/telegram/garrigordon41.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гарри Борисович Гордон (Q4143889, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "drabkin",
+      "paths": [
+        ".cache/telegram/drabkin.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Драбкин, Артём Владимирович (Q4167457, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "DDragunsky",
+      "paths": [
+        ".cache/telegram/DDragunsky.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Денис Викторович Драгунский (Q4167541, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "sdruzhinina_official",
+      "paths": [
+        ".cache/telegram/sdruzhinina_official.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Светлана Дружинина (Q4168820, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "ZhigunovSergey",
+      "paths": [
+        ".cache/telegram/ZhigunovSergey.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Сергей Жигунов (Q4180064, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "karimov_films",
+      "paths": [
+        ".cache/telegram/karimov_films.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Каримов, Роман Леонидович (Q4215049, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "vladimirvkozlov",
+      "paths": [
+        ".cache/telegram/vladimirvkozlov.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Владимир Владимирович Козлов (Q4226717, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "nezlobtelega",
+      "paths": [
+        ".cache/telegram/nezlobtelega.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Незлобин (Q4316314, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "nurmamedia",
+      "paths": [
+        ".cache/telegram/nurmamedia.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Нурмамед, Сергей Евгеньевич (Q4328136, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "ZaVse",
+      "paths": [
+        ".cache/telegram/ZaVse.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Алёна Полунина (Q4370993, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "popov_astro",
+      "paths": [
+        ".cache/telegram/popov_astro.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Попов, Сергей Борисович (Q4372608, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "arthur_pirozhkov1",
+      "paths": [
+        ".cache/telegram/arthur_pirozhkov1.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Ревва (Q4391645, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "slapovsky_xronos",
+      "paths": [
+        ".cache/telegram/slapovsky_xronos.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Слаповский, Алексей Иванович (Q4423186, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "zversky_kvaccount",
+      "paths": [
+        ".cache/telegram/zversky_kvaccount.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Старобинец, Анна Альфредовна (Q4440094, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "lab_ugl",
+      "paths": [
+        ".cache/telegram/lab_ugl.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Углицких, Наталья Анатольевна (Q4468935, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "ekibastuz_band",
+      "paths": [
+        ".cache/telegram/ekibastuz_band.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Сергеевич Устюгов (Q4478696, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "garbul",
+      "paths": [
+        ".cache/telegram/garbul.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Гарик Харламов (Q4495971, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "germanicaislove",
+      "paths": [
+        ".cache/telegram/germanicaislove.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Валерия Гай Александровна Германика (Q468621, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "yunnamorits",
+      "paths": [
+        ".cache/telegram/yunnamorits.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Юнна Петровна Мориц (Q521687, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "lukyanenko_post",
+      "paths": [
+        ".cache/telegram/lukyanenko_post.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Сергей Васильевич Лукьяненко (Q52224, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "jaadukiichadi0000",
+      "paths": [
+        ".cache/telegram/jaadukiichadi0000.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Михайлов, Роман Валерьевич (Q53848600, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "sokurov_spb",
+      "paths": [
+        ".cache/telegram/sokurov_spb.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Сокуров (Q55172, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "nikitabsg",
+      "paths": [
+        ".cache/telegram/nikitabsg.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Никита Михалков (Q55207, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "A_Konchalovsky",
+      "paths": [
+        ".cache/telegram/A_Konchalovsky.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Андрей Кончаловский (Q55208, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "malovichko_oleg",
+      "paths": [
+        ".cache/telegram/malovichko_oleg.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Олег Александрович Маловичко (Q56420868, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "ptuxerman",
+      "paths": [
+        ".cache/telegram/ptuxerman.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Антон Юрьевич Птушкин (Q59546236, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "i_bachurin",
+      "paths": [
+        ".cache/telegram/i_bachurin.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Бачурин, Илья Викторович (Q65172842, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "TsypkinTheRealOne",
+      "paths": [
+        ".cache/telegram/TsypkinTheRealOne.json"
+      ],
+      "category": "creator",
+      "note": "канал автора 24.10 — Александр Евгеньевич Цыпкин (Q97314104, Wikidata P3789); может оказаться личным аккаунтом"
+    }
   ]
 }

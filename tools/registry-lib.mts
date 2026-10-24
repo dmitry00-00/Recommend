@@ -90,7 +90,9 @@ function objectLine(line: string): { obj: Record<string, unknown>; comment?: str
 
 const lit = (v: unknown): string => {
   // с апострофом — в двойных кавычках, как пишет регистрация каналов: "Why It's Great"
-  if (typeof v === 'string') return v.includes("'") && !v.includes('"') ? JSON.stringify(v) : `'${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+  // 24.10: переводы строки и прочие управляющие — экранами \uXXXX: сырой \n из реестра рвал запись на две строки, и
+  // sources.ts переставал разбираться (и сборщиками, и parseSources); в обычных значениях их нет — файл байт в байт тот же
+  if (typeof v === 'string') return v.includes("'") && !v.includes('"') ? JSON.stringify(v) : `'${v.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/[\u0000-\u001f\u2028\u2029]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`)}'`;
   if (Array.isArray(v)) return `[${v.map(lit).join(', ')}]`;
   if (typeof v === 'number' || typeof v === 'boolean') return String(v);
   throw new Error(`sources.ts: не умею записать ${JSON.stringify(v)}`);

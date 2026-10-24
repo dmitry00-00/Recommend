@@ -19,9 +19,41 @@ export function withRef(param: string, userId: string): string {
 
 export const stripRef = (param: string): string => param.replace(TAIL, '');
 
-/** Новый участник: записать, кто привёл (себя не считаем, неизвестный код — мимо) и откуда пришёл. Один раз. */
-export async function noteInvite(db: D1Database, userId: string, startParam?: string): Promise<void> {
-  const tail = startParam ? TAIL.exec(startParam)?.[0] : undefined;
+/** Хвост меток из /start в личке (23.10, рекламная кампания): ссылка `t.me/<бот>?start=--s<метка>` приходит боту текстом
+ *  `/start --s<метка>`, а участник заводится только при входе в приложение — поэтому хвост надо донести до кнопок ответа
+ *  (worker/startPicks.ts), иначе вход запишется меткой кнопки `--sstart`. Нет хвоста — undefined. */
+export function startTail(text: string | undefined): string | undefined {
+  const payload = /^\/start(?:@[A-Za-z0-9_]+)?\s+([A-Za-z0-9_-]{1,64})\s*$/.exec(text?.trim() ?? '')?.[1];
+  return payload ? TAIL.exec(payload)?.[0] : undefined;
+}
+
+/** Метка из /start живёт неделю (24.10, рекламная кампания): человек пришёл по `?start=--s<метка>`, а приложение открыл
+ *  не кнопкой ответа, а кнопкой меню бота — тогда `start_param` пуст, и метку берём из таблицы `start_mark`. */
+export const START_MARK_TTL = 7 * 864e5;
+
+/** /start с хвостом в личке (worker/startPicks.ts): запомнить хвост за номером Telegram, последний /start перезаписывает.
+ *  Уже заведённому участнику не пишем — источник записывается только при заведении (noteInvite). */
+export async function rememberStart(db: D1Database, tgId: number, tail: string, now = Date.now()): Promise<void> {
+  if (TAIL.exec(tail)?.[0] !== tail) return;
+  await db.prepare(`INSERT OR REPLACE INTO start_mark (tg_id, tail, at) SELECT ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM user WHERE tg_id = ?)`)
+    .bind(tgId, tail, new Date(now).toISOString(), tgId).run();
+}
+
+/** Хвост из /start этого номера, если не старше недели; строка снимается в любом случае — участник заводится один раз. */
+async function takeStart(db: D1Database, tgId: number, now: number): Promise<string | undefined> {
+  const row = await db.prepare('SELECT tail, at FROM start_mark WHERE tg_id = ?').bind(tgId).first<{ tail: string; at: string }>();
+  if (!row) return undefined;
+  await db.prepare('DELETE FROM start_mark WHERE tg_id = ?').bind(tgId).run();
+  return now - Date.parse(row.at) <= START_MARK_TTL ? TAIL.exec(row.tail)?.[0] : undefined;
+}
+
+/** Новый участник: записать, кто привёл (себя не считаем, неизвестный код — мимо) и откуда пришёл. Один раз.
+ *  24.10: метки источника в `start_param` нет — берём хвост из /start этого номера (start_mark); код из `start_param`
+ *  важнее кода из /start (первое совпадение `--r` ниже). */
+export async function noteInvite(db: D1Database, userId: string, startParam?: string, tgId?: number, now = Date.now()): Promise<void> {
+  let tail = startParam ? TAIL.exec(startParam)?.[0] : undefined;
+  const mark = tgId != null ? await takeStart(db, tgId, now) : undefined;
+  if (mark && !/--s[a-z0-9_]/.test(tail ?? '')) tail = (tail ?? '') + mark;
   if (!tail) return;
   const ref = /--r([0-9a-f]{16})/.exec(tail)?.[1];
   const source = /--s([a-z0-9_]{1,24})/.exec(tail)?.[1];

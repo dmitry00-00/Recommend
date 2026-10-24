@@ -87,6 +87,26 @@ export const voiceDictionary: VoiceEntry[] = [
   { id: 'terminatarkovsky', title: 'Terminatarkovsky', short: 'Terminatarkovsky', role: 'author', telegram: 'terminatarkovsky' },
   { id: 'cutthechat', title: 'Cut The Chat', short: 'Cut The Chat', role: 'author', telegram: 'CutTheChat' },
 
+  // Партнёры «страница автора» (24.10, .cache/outreach/partners-2310.md): каталог telega.in, история —
+  // через шлюз. handle — в регистре реестра (tools/telegram-channels.json): ключ `tg:` сравнивается
+  // с учётом регистра. YouTube «Кино Огонь» (МЕЛП) и «Серийный Человек» сюда не привязаны: там
+  // tier 'review', и команда «Кино Огонь» — не один МЕЛП.
+  { id: 'darlingadvice', title: 'Дорогая Рекомендация', short: 'Дорогая Рекомендация', role: 'author', telegram: 'darling_advice' },
+  { id: 'melp', title: 'МЕЛП', short: 'МЕЛП', role: 'author', telegram: 'melphere' },
+  { id: 'drunkcinema', title: 'love, truth and cinema', short: 'love, truth and cinema', role: 'author', telegram: 'drunk_cinema' },
+  { id: 'seriesman', title: 'Серийный Человек', short: 'Серийный Человек', role: 'author', telegram: 'seriesman' },
+  { id: 'cinemagraphie', title: 'Cinemagraphie', short: 'Cinemagraphie', role: 'author', telegram: 'cinemagraphie' },
+  { id: 'cinsolite', title: 'Cinema insolite', short: 'Cinema insolite', role: 'author', telegram: 'cinsolite' },
+  { id: 'retsenzent', title: 'Рецензент', short: 'Рецензент', role: 'author', telegram: 'kipunk' },
+  { id: 'fantasyjedi', title: 'Джедай из Шира', short: 'Джедай из Шира', role: 'author', telegram: 'fantasy_jedi' },
+  { id: 'serialsxbooks', title: 'SERIALSxBOOKS', short: 'SERIALSxBOOKS', role: 'author', telegram: 'serialsxbooks' },
+  { id: 'ageofcinema', title: 'Age Of Cinema', short: 'Age Of Cinema', role: 'author', telegram: 'Age_of_Cinemaa' },
+  { id: 'beforethenight', title: 'before your night', short: 'before your night', role: 'author', telegram: 'beforethenight' },
+  { id: 'vintage90s', title: 'vintage 90’s', short: 'vintage 90’s', role: 'author', telegram: 'vintage_90s' },
+  { id: 'cinefiles', title: 'cine/files', short: 'cine/files', role: 'author', telegram: 'cinefiles_txt' },
+  { id: 'filmoclub', title: 'КИНО CLUB', short: 'КИНО CLUB', role: 'author', telegram: 'filmoclub' },
+  { id: 'nonlinear', title: 'Нелинейно', short: 'Нелинейно', role: 'author', telegram: 'nonlinearstory' },
+
   // --- площадки: пишут о своих премьерах, среди разборов не показываются ---
   {
     id: 'kinopoisk', title: 'Кинопоиск', short: 'Кинопоиск', role: 'platform',

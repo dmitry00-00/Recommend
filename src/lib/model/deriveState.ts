@@ -8,6 +8,7 @@ import type {
   Register, RegisterAffinity, StateHistoryPoint, WorkCard,
 } from '@/types/tmdf';
 import { operationKeys } from '@/lib/operations';
+import { EXPERIMENTS } from '@/lib/model/experiments';
 
 export interface RatedEntry extends JourneyEntryData {
   rating?: 1 | 2 | 3 | 4 | 5;
@@ -136,6 +137,49 @@ export function deriveRegisterTaste(
   return out.sort((a, b) => b.affinity - a.affinity);
 }
 
+/** Вкус по регистру — по оценкам (опыт `registerByRating`, 23.10). Почему: сродство «по выбору» с тем, как человек
+ *  оценивает фильмы регистра, почти не связано (корреляция 0,08 по разбору .cache/eval/why-2026-10-22.md, п. 4) — часто
+ *  смотреть не значит любить. Здесь сродство — средняя z-оценка человека у фильмов регистра: z в его же шкале (сколько его
+ *  разбросов от его среднего), сжатая к нулю псевдосчётом `k` (три фильма — почти догадка, сто — уверенно) и растянутая
+ *  `gain` до привычного размаха −1…+1, на который смотрят registerFit/leadRegister/likesRegister (±0,25 — порог «любит»).
+ *  Регистр без оценок (только в присланном списке) — из вкуса по выбору, ослабленным `fill`: иначе он получил бы чужой
+ *  штраф −0,2 «незнакомого». Оценок с регистрами меньше `min` — вкус по выбору целиком: z на малом числе — шум. */
+export interface RegisterByRatingOptions { k: number; gain: number; fill: number; blend: number; min: number }
+export const REGISTER_BY_RATING: RegisterByRatingOptions = { k: 8, gain: 2, fill: 0.5, blend: 0, min: 8 };
+
+export function deriveRegisterTasteByRating(
+  seen: { registers?: Register[]; rating?: number; raw?: number }[],
+  base: Partial<Record<Register, number>>,
+  scale: RatingScale = defaultScale,
+  o: RegisterByRatingOptions = REGISTER_BY_RATING,
+): RegisterAffinity[] {
+  const byChoice = deriveRegisterTaste(seen, base, scale);
+  // оценка в десятибалльной шкале: своя, иначе приведённая 1–5 (у части источников только звёзды)
+  const rated = seen.flatMap((w) => {
+    const v = w.raw ?? (w.rating != null ? w.rating * 2 : undefined);
+    return v == null ? [] : [{ v, registers: w.registers ?? [] }];
+  });
+  if (rated.filter((w) => w.registers.length).length < o.min) return byChoice;
+  const m = rated.reduce((s, w) => s + w.v, 0) / rated.length;
+  const sd = Math.sqrt(rated.reduce((s, w) => s + (w.v - m) ** 2, 0) / rated.length);
+  if (!sd) return byChoice;
+  const sum: Partial<Record<Register, number>> = {};
+  const counts: Partial<Record<Register, number>> = {};
+  for (const w of rated) for (const r of w.registers) {
+    sum[r] = (sum[r] ?? 0) + (w.v - m) / sd;
+    counts[r] = (counts[r] ?? 0) + 1;
+  }
+  const choice = new Map(byChoice.map((t) => [t.register, t]));
+  const out: RegisterAffinity[] = [];
+  for (const r of Object.keys(counts) as Register[]) {
+    const n = counts[r] ?? 0;
+    const byRating = o.gain * (sum[r] ?? 0) / (n + o.k);
+    out.push({ register: r, affinity: round1(clamp(byRating + o.blend * (choice.get(r)?.affinity ?? 0), -1, 1)), n });
+  }
+  for (const t of byChoice) if (!(t.register in counts)) out.push({ ...t, affinity: round1(o.fill * t.affinity) });
+  return out.sort((a, b) => b.affinity - a.affinity);
+}
+
 export interface DeriveOptions {
   /** что участник видел сверх дневника — например, список, присланный текстом: дат и оценок нет */
   alsoSeen?: WorkCard[];
@@ -155,7 +199,7 @@ export function deriveState(userId: string, entries: RatedEntry[], asOf: ISODate
   const comfort = weightedQuantile(done.map((e) => ({ value: e.work.complexityLevel, weight: scale.weight(e.raw, e.rating) })), 0.7);
   const literate = loved.filter((e) => e.work.complexityLevel >= 6 || e.work.isNicheMasterpiece).length / Math.max(1, loved.length);
   const registerTaste = taste?.base
-    ? deriveRegisterTaste(
+    ? (EXPERIMENTS.registerByRating ? deriveRegisterTasteByRating : deriveRegisterTaste)(
         [...entries.filter((e) => e.status === 'finished').map((e) => ({ registers: e.work.registers, rating: e.rating, raw: e.raw })),
           ...(taste.alsoSeen ?? []).map((w) => ({ registers: w.registers }))],
         taste.base,

@@ -12,6 +12,8 @@ import { opLoad } from './deriveState';
 import { isSeries, isShortSeries, seriesHours } from '@/lib/media';
 import { fameExcluded, famePenalty, type DimFamous } from './fame';
 import { afterwordBonus, deriveWorthProfile, type AfterwordInput } from './worth';
+import { EXPERIMENTS } from './experiments';
+import { twoStageSort, type TwoStageInputs } from './candidates';
 
 export interface Candidate {
   work: WorkCard;
@@ -45,7 +47,25 @@ export interface RecommendOptions {
   /** наклон «только это» (19.10): пул уже отобран — если ограничения разнообразия (не больше двух на ведущую операцию и
    *  регистр) оставили ленту короче `limit`, добрать лучшими из отобранного */
   fill?: boolean;
+  /** «как фильм оценили другие» (23.10, опыт consensus): мера около −1…1 (src/lib/model/consensus.ts) и её вес; нет меры — 0 */
+  consensus?: { of: (work: WorkCard) => number | undefined; weight: number };
+  /** «похожие фильмы» (23.10, src/lib/model/itemSim.ts): мера около −1…1 — средняя z-оценка человека по похожим, что он
+   *  оценил; undefined — фильма нет в таблице или похожего он не оценил. В счёт пока идёт только при опыте learnedBlend,
+   *  и вес тогда — из LEARNED_B */
+  itemSim?: { of: (work: WorkCard) => number | undefined; weight: number };
+  /** подбор в два шага (23.10, опыт twoStage, candidates.ts): числа источников отбора сверх того, что выше, и квоты */
+  twoStage?: TwoStageInputs;
+  /** сколько у человека оценок, по которым считается его z для itemSim (23.10, опыт shortHistory): по ним — поправка
+   *  r(n) к весам LEARNED_B. Нет поля — поправки нет */
+  rated?: number;
+  /** EASE (24.10, опыт ease при learnedBlend; src/lib/model/ease.ts, GET /api/ease): счёт фильма «что посмотрит» (bin) и «что
+   *  понравится» (like) с сервера; undefined — фильма нет в таблице (мало оценивших или нет в X). Есть поле — счёт ленты
+   *  по весам LEARNED_E, нет — прежний LEARNED_B */
+  ease?: { bin: (work: WorkCard) => number | undefined; like: (work: WorkCard) => number | undefined };
 }
+/** Сколько громких (известность 2–3) пускать в шестёрку при засветке пределом (опыт fameCap): мягко — два, сильно — один
+ *  (третий уровень при «сильно» не идёт вовсе, как и раньше). */
+const FAME_CAP: Record<'off' | 'soft' | 'strong', number> = { off: Infinity, soft: 2, strong: 1 };
 /** Надбавка к счёту за видимый разбор: мала против разницы в уровне и операциях — разбор
  *  выбирает между близкими по силе, а не тянет вверх неподходящее. */
 export const ESSAY_BONUS = 0.04;
@@ -126,11 +146,23 @@ export function registerFit(state: CognitiveState, work: WorkCard): number {
   return Math.min(1, Math.max(0, 0.5 + Math.max(...hits) / 2));
 }
 
+/** Уровень кривой (23.10, опыт levelCurve, разбор .cache/eval/why-2026-10-22.md п. 5): прежний levelFit симметричен,
+ *  а любимое у 26 из 35 человек сложнее нелюбимого (в среднем на 0,44 уровня) — сложнее цели не хуже, чем ровно в цель.
+ *  Поэтому при опыте уровень — монотонная кривая: до `cap` выше цели (комфорт + шаг по силе) растёт с наклоном 1/`slope`,
+ *  дальше — потолок 1. opFit насыщен (у 40% спрятанного ровно 1) и ничего не добавляет, его вес отдан уровню и регистру.
+ *  «Полегче» (low) остаётся прежним: там «сложнее» как раз мимо. Счёт по-прежнему 0…1 — лента режет по 0.3. */
+export const LEVEL_CURVE = { cap: 0, slope: 4 };
+export const CURVE_WEIGHTS: ScoreWeights = { level: 0.6, ops: 0, register: 0.4 };
+function levelFitOf(level: number, target: number, energy: Energy): number {
+  if (!EXPERIMENTS.levelCurve || energy === 'low') return Math.max(0, 1 - Math.abs(level - target) / 3);
+  return Math.max(0, Math.min(1, 1 + Math.min(level - target - LEVEL_CURVE.cap, 0) / LEVEL_CURVE.slope));
+}
+
 /** Оценка кандидата: 0 — мимо, ~1 — ровно то. */
-export function scoreCandidate(state: CognitiveState, work: WorkCard, energy: Energy, weights: ScoreWeights = SCORE_WEIGHTS): number {
+export function scoreCandidate(state: CognitiveState, work: WorkCard, energy: Energy, weights: ScoreWeights = EXPERIMENTS.levelCurve ? CURVE_WEIGHTS : SCORE_WEIGHTS): number {
   if (!work.complexityLevel || !work.primaryOperations.length) return 0;
   const target = state.complexityComfort + ENERGY_STEP[energy];
-  const levelFit = Math.max(0, 1 - Math.abs(work.complexityLevel - target) / 3);
+  const levelFit = levelFitOf(work.complexityLevel, target, energy);
   // операции: нагрузка чуть выше уровня участника — лучше всего; сильно выше — хуже; ниже — нейтрально
   let opFit = 0;
   let weight = 0;
@@ -222,6 +254,137 @@ const WHY_NOW: Record<Energy, string> = {
 const likesRegister = (state: CognitiveState, work: WorkCard): boolean =>
   (work.registers ?? []).some((r) => (state.registerTaste?.find((t) => t.register === r)?.affinity ?? 0) >= 0.25);
 
+/** Полный счёт кандидата в ленте — один на ленту и замер (tools/taste-eval.mts, 23.10): уровень и операции, разбор,
+ *  якорь вкуса, засветка топами, послесловия, наклон. Правка счёта здесь сразу видна и в замере. */
+export function fullScore(state: CognitiveState, c: Candidate, energy: Energy, options: RecommendOptions = {}, worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined): number {
+  // обученный счёт (23.10, опыт learnedBlend) — своя сумма своих частей; без опыта ниже всё прежнее
+  if (EXPERIMENTS.learnedBlend) return learnedScore(state, c, energy, options, worth);
+  const p = scoreParts(state, c, energy, options, worth);
+  // порядок сложения — прежний: счёт тот же до последнего знака
+  return p.content + p.essay + p.anchor - p.famePenalty + p.consensus + p.worth + p.boost;
+}
+
+/** Слагаемые полного счёта (23.10, выгрузка замера tools/taste-dump.mts → перебор весов tools/taste-tune.mts): fullScore —
+ *  ровно их сумма, поэтому разложение не разойдётся с лентой. Каждое — уже с весом, как идёт в сумму; famePenalty
+ *  вычитается. Нет опции — 0. При опыте learnedBlend fullScore — learnedScore (его части — learnedParts), а здесь прежнее
+ *  разложение: выгрузка берёт из него сырые части для обучения. */
+export interface ScoreParts { content: number; essay: number; anchor: number; famePenalty: number; consensus: number; worth: number; boost: number }
+export function scoreParts(state: CognitiveState, c: Candidate, energy: Energy, options: RecommendOptions = {}, worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined): ScoreParts {
+  return {
+    content: scoreCandidate(state, c.work, energy),
+    essay: c.essays ? ESSAY_BONUS : 0,
+    anchor: options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0,
+    // засветка топами пределом в шестёрке (опыт fameCap) — тогда в счёте её нет: штраф ставил любимое ниже нелюбимого
+    famePenalty: options.fame && !EXPERIMENTS.fameCap ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0,
+    consensus: options.consensus?.weight ? options.consensus.weight * (options.consensus.of(c.work) ?? 0) : 0,
+    worth: worth ? afterwordBonus(worth, c.work) : 0,
+    boost: options.boost ? options.boost.weight * options.boost.fit(c.work) : 0,
+  };
+}
+
+/** Доли scoreCandidate до весов (23.10, та же выгрузка): близость уровня, операций и регистра 0…1 и остаток (ниша, сильная
+ *  сторона, минус время сериала и тяжесть). Считает сам scoreCandidate с единичными весами — второй копии формулы нет:
+ *  scoreCandidate = (Σ вес·доля) / Σ весов + остаток. Нет разметки (счёт 0) — undefined. */
+export function contentParts(state: CognitiveState, work: WorkCard, energy: Energy): { level: number; ops: number; register: number; rest: number } | undefined {
+  if (!work.complexityLevel || !work.primaryOperations.length) return undefined;
+  const register = registerFit(state, work);
+  const rest = scoreCandidate(state, work, energy, { level: 0, ops: 0, register: 1 }) - register;
+  return {
+    level: scoreCandidate(state, work, energy, { level: 1, ops: 0, register: 0 }) - rest,
+    ops: scoreCandidate(state, work, energy, { level: 0, ops: 1, register: 0 }) - rest,
+    register, rest,
+  };
+}
+
+/** Обученный счёт ленты (23.10, опыт learnedBlend, решение владельца): веса — tools/taste-tune.mts --train b по выгрузке
+ *  frozen (104 истории, флаги по умолчанию; .cache/eval/tune-2026-10-23-final-frozen.md, «Обучение b»). Цель b — спрятанное
+ *  любимое против всего пула («найти любимое во всём пуле», ближе к hit@K): на чужих частях hit@150 18% против 3% у прежних
+ *  весов. Шкала — content = 1 (столбец «в ленте»). Части — ровно те, что пишет выгрузка (learnedParts ↔ tools/taste-dump.mts):
+ *  нет значения — 0 и свой вес из `missing`, как в тюнере. Год в обучении шёл как есть, а вклад у него заметный
+ *  (стандартизованный 0,13 — как у разбора), поэтому здесь он центрирован средним годом пула выгрузки (1996,4; нет года —
+ *  как средний), и сдвиг к порогу 0.3 пересчитан: −2,615 + 0,0018566 · 1996,4 = 1,0912 — для фильмов с годом счёт тот же.
+ *  worth и boost в выгрузке не менялись (послесловий и наклона у историй замера нет) — им прежний вес 1.
+ *  Поменялись части счёта, пул или флаги — перегенерировать: taste-dump → dump-add-itemsim → taste-tune --train b. */
+export const LEARNED_B = {
+  content: 1, essay: 8.3197, anchor: -2.9387, register: 0.07456, level: 0.15286, ops: -0.53277,
+  fame: 0.18827, famePenalty: 0.58603, consensus: 0.32626, itemSim: 0.683, year: 0.0018566, loud: -0.040604,
+  worth: 1, boost: 1,
+  missing: { register: -0.10146, level: -0.10146, ops: -0.10146, consensus: -0.47693, itemSim: -0.50081 } as Partial<Record<string, number>>,
+  yearMean: 1996.4,
+  shift: 1.0912,
+};
+/** Обученный счёт с EASE (24.10, опыт ease при learnedBlend, решение владельца): тот же taste-tune --train b, но на выгрузке
+ *  frozen-lr-feed со столбцами easeBin и easeLike (tools/dump-add-ease.mts: bin и like, λ 200, minRaters 3; .cache/eval/
+ *  tune-2026-10-24-learned-ease.md, «Обучение b»): на чужих частях hit@150 30% против 18% у LEARNED_B; почти весь вклад —
+ *  easeBin (стандартизованный 0,42 — как у fame), у easeLike 0,01. Веса — заново все, не только EASE: обучались вместе.
+ *  Шкала — content = 1. Год центрирован, как у LEARNED_B: пул выгрузки тот же (frozen, средний год 1996,4), сдвиг к порогу
+ *  0.3 пересчитан: 0,12045 + 0,00050848 · 1996,4 = 1,1356. У easeBin и easeLike «нет значения» обучилось поровну (они
+ *  пустые в одних местах) — вместе −1,368. Работает, только когда таблица EASE пришла (options.ease); нет её — LEARNED_B. */
+export const LEARNED_E = {
+  content: 1, essay: 7.3227, anchor: -8.5866, register: 1.0273, level: 1.0132, ops: -0.48896,
+  fame: 0.83126, famePenalty: -18.329, consensus: 0.97007, itemSim: 1.034, year: 0.00050848, loud: -0.34593,
+  easeBin: 10.861, easeLike: 0.6036,
+  worth: 1, boost: 1,
+  missing: { register: -0.081154, level: -0.081154, ops: -0.081154, consensus: 0.09068, itemSim: -0.4379, easeBin: -0.68402, easeLike: -0.68402 } as Partial<Record<string, number>>,
+  yearMean: 1996.4,
+  shift: 1.1356,
+};
+export type LearnedPart = Exclude<keyof typeof LEARNED_E, 'missing' | 'yearMean' | 'shift'>;
+type LearnedWeights = Record<LearnedPart, number> & { missing: Partial<Record<string, number>>; yearMean: number; shift: number };
+/** LEARNED_B с нулями у EASE: частей easeBin/easeLike без таблицы нет (undefined), веса им не нужны — счёт побитно прежний */
+const LEARNED_B_W: LearnedWeights = { ...LEARNED_B, easeBin: 0, easeLike: 0 };
+/** веса обученного счёта: с таблицей EASE (опыт ease) — LEARNED_E, иначе LEARNED_B */
+const learnedWeights = (options: RecommendOptions): LearnedWeights => (EXPERIMENTS.ease && options.ease ? LEARNED_E : LEARNED_B_W);
+/** Части обученного счёта: число — значение, null — нет значения (0 + вес «нет значения»), undefined — источника нет вовсе
+ *  (таблица не пришла, у человека нет оценок): тогда части нет ни у одного фильма — порядок тот же, а порог 0.3 не съеден.
+ *  famePenalty — сам штраф засветки при любом опыте (fameCap его из счёта не убирает: вес обученный). */
+export function learnedParts(state: CognitiveState, c: Candidate, energy: Energy, options: RecommendOptions = {}, worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined): Record<LearnedPart, number | null | undefined> {
+  const w = c.work, cp = contentParts(state, w, energy);
+  const fame = options.fame?.level(w);
+  const W = learnedWeights(options), ease = EXPERIMENTS.ease ? options.ease : undefined;
+  return {
+    content: scoreCandidate(state, w, energy),
+    essay: c.essays ? ESSAY_BONUS : 0,
+    anchor: options.content?.weight ? options.content.weight * options.content.fit(w) : 0,
+    register: cp?.register ?? null, level: cp?.level ?? null, ops: cp?.ops ?? null,
+    fame: fame ?? 0,
+    famePenalty: options.fame ? famePenalty(fame, options.fame.mode, state.mediaLiteracy) : 0,
+    consensus: options.consensus ? options.consensus.of(w) ?? null : undefined,
+    itemSim: options.itemSim ? options.itemSim.of(w) ?? null : undefined,
+    year: w.year != null ? w.year - W.yearMean : null,
+    loud: (fame ?? 0) >= 2 ? 1 : 0,
+    worth: worth ? afterwordBonus(worth, w) : 0,
+    boost: options.boost ? options.boost.weight * options.boost.fit(w) : 0,
+    // EASE (опыт ease) — последними: без таблицы их нет, и порядок сложения прежних частей тот же
+    easeBin: ease ? ease.bin(w) ?? null : undefined,
+    easeLike: ease ? ease.like(w) ?? null : undefined,
+  };
+}
+/** Короткая история (23.10, опыт shortHistory; .cache/eval/cold-start-2310.md, «3. Обученный счёт ленты»): LEARNED_B обучен,
+ *  когда у человека видно медиану n̄ = 186 оценок. На 5–40 оценках itemSim шумный, а вес у него вдвое больше, чем у consensus:
+ *  эта часть счёта проигрывала одному consensus 0,02–0,08 AUC. Поправка — множитель r(n) = min(1, [n/(n+k)] / [n̄/(n̄+k)])
+ *  к весу itemSim и к его «нет значения» (иначе «нет похожих» штрафует у новичка почти всё): n = 5 → 0,07, 20 → 0,26,
+ *  40 → 0,44, 100 → 0,77, от 186 — 1 (прежний счёт). boostConsensus — второй вариант (мерить отдельно: с ним растёт
+ *  малоизвестное): вес consensus × (2 − r(n)), его «нет значения» прежнее. */
+export const SHORT_HISTORY = { nTrain: 186, k: 100, boostConsensus: false };
+export const shortHistoryR = (n: number): number =>
+  Math.min(1, (n / (n + SHORT_HISTORY.k)) / (SHORT_HISTORY.nTrain / (SHORT_HISTORY.nTrain + SHORT_HISTORY.k)));
+export function learnedScore(state: CognitiveState, c: Candidate, energy: Energy, options: RecommendOptions = {}, worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined): number {
+  const p = learnedParts(state, c, energy, options, worth);
+  // без опыта (или без числа оценок) множители — ровно 1, и счёт побитно прежний: ветки ниже их не трогают
+  const r = EXPERIMENTS.shortHistory && options.rated != null ? shortHistoryR(options.rated) : 1;
+  const W = learnedWeights(options);
+  let s = W.shift;
+  for (const k of Object.keys(p) as LearnedPart[]) {
+    const x = p[k];
+    if (x === undefined) continue;
+    if (r !== 1 && k === 'itemSim') { s += x === null ? (W.missing.itemSim ?? 0) * r : W.itemSim * r * x; continue; }
+    if (r !== 1 && k === 'consensus' && SHORT_HISTORY.boostConsensus && x !== null) { s += W.consensus * (2 - r) * x; continue; }
+    s += x === null ? W.missing[k] ?? 0 : W[k] * x;
+  }
+  return s;
+}
+
 /** Слейт: лучшие по оценке, разные первые операции — и разные регистры. Второе появилось,
  *  когда вкус пошёл в оценку: без ограничения слейт схлопывался в один регистр (четыре
  *  детектива подряд), а это уже не подбор, а эхо. Поэтому не больше двух на регистр и хотя бы
@@ -229,29 +392,37 @@ const likesRegister = (state: CognitiveState, work: WorkCard): boolean =>
 export function recommend(state: CognitiveState, candidates: Candidate[], energy: Energy, limit = 6, createdAt = '', options: RecommendOptions = {}): Recommendation[] {
   const maxSeries = options.maxSeries ?? 1;
   const worth = options.afterwords ? deriveWorthProfile(options.afterwords) : undefined;
-  const scored = candidates
+  const all = candidates
     // новичку в сериалах — только короткий вход
     .filter((c) => !options.seriesNovice || !isSeries(c.work) || isShortSeries(c.work))
     .filter((c) => !options.fame || !fameExcluded(options.fame.level(c.work), options.fame.mode))
-    .map((c) => ({ c, score: scoreCandidate(state, c.work, energy) + (c.essays ? ESSAY_BONUS : 0)
-      + (options.content?.weight ? options.content.weight * options.content.fit(c.work) : 0)
-      - (options.fame ? famePenalty(options.fame.level(c.work), options.fame.mode, state.mediaLiteracy) : 0)
-      + (worth ? afterwordBonus(worth, c.work) : 0)
-      + (options.boost ? options.boost.weight * options.boost.fit(c.work) : 0) }))
-    .filter((x) => x.score > 0.3)
-    .sort((a, b) => b.score - a.score);
+    .map((c) => ({ c, score: fullScore(state, c, energy, options, worth) }));
+  // подбор в два шага (23.10, опыт twoStage, candidates.ts; квоты TWO_STAGE_FEED): порядок пула — twoStageOrder, как в замере
+  // (tools/taste-eval.mts): отобранные по счёту, за ними остальные по счёту; пул не урезан. Отбор — по всему пулу, порог 0.3 —
+  // после: он только вынимает слабое, не меняя порядка (отобранное ниже порога не показывается и квоту не освобождает). Дальше
+  // всё прежнее: разнообразие, предел громких, «другой язык» и разборы вперёд идут по этому порядку
+  const scored = EXPERIMENTS.twoStage
+    ? twoStageSort(all, options).filter((x) => x.score > 0.3)
+    : all.filter((x) => x.score > 0.3).sort((a, b) => b.score - a.score);
   const picked: typeof scored = [];
   const seenLead = new Map<CognitiveOperation, number>();
   const seenRegister = new Map<Register, number>();
   let series = 0;
+  // громких в шестёрке — не больше предела (опыт fameCap): засветка топами пределом, а не штрафом; и при обученном счёте
+  // (learnedBlend, 23.10): он громкое поднимает, предел держит шестёрку от «что смотрят все» (при «мягко» — два)
+  const cap = (EXPERIMENTS.fameCap || EXPERIMENTS.learnedBlend) && options.fame ? FAME_CAP[options.fame.mode] : Infinity;
+  const loud = (w: WorkCard) => (options.fame?.level(w) ?? 0) >= 2;
+  let louds = 0;
   for (const x of scored) {
     if (isSeries(x.c.work) && series >= maxSeries) continue;
+    if (louds >= cap && loud(x.c.work)) continue;
     const lead = x.c.work.primaryOperations[0]?.op;
     if (lead && (seenLead.get(lead) ?? 0) >= 2) continue;
     const regs = x.c.work.registers ?? [];
     if (regs.length && regs.every((r) => (seenRegister.get(r) ?? 0) >= 2)) continue;
     picked.push(x);
     if (isSeries(x.c.work)) series += 1;
+    if (loud(x.c.work)) louds += 1;
     if (lead) seenLead.set(lead, (seenLead.get(lead) ?? 0) + 1);
     regs.forEach((r) => seenRegister.set(r, (seenRegister.get(r) ?? 0) + 1));
     if (picked.length >= limit) break;

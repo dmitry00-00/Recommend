@@ -11,7 +11,7 @@ import { publicPage } from './pages';
 import { adminDigest, followDigest, forgetReference, getFollows, noteFresh, putFollow } from './follow';
 import { getInbox, getRegistry, getRegistryLog, getRegistryVersion, getSources, postInbox, postInboxResult, postRegistry } from './registry';
 import { newId, newToken, tokenHash, verifyInitData } from './auth';
-import type { D1Database, Env, OwnerSeed, UserSeed } from './env';
+import type { D1Database, Env, OwnerSeed } from './env';
 import { useBot } from './env';
 import { migrate } from './migrate';
 import { canonCard, canonWork } from './workAliases';
@@ -19,11 +19,14 @@ import { setSlimCards, slimCardText } from './retention';
 import { getFunnel, noteVisit, postEvent } from './funnel';
 import { getGrowth, seedingRoute } from './growthRoute';
 import { deleteAccount } from './account';
-import { noteInvite } from './invite';
+import { applyUserSeed, getSeedOwners, putUserSeed } from './userSeed';
+import { noteInvite, START_MARK_TTL } from './invite';
 import { togetherRoute } from './together';
 import { putTasteTop } from './togetherPick';
 import { probe } from './probe';
 import { forgetTrailers, getTrailers } from './trailers';
+import { getNeighbors, type NeighborEnv } from './neighbors';
+import { getEase, type EaseEnv } from './ease';
 // сервер bothost сбрасывает проверку колонок после восстановления базы из копии (server/backup.js)
 export { forgetMigrations } from './migrate';
 // 18.10 (аудит скорости, волна 3): сервер bothost прогоняет миграции и долгую работу с базой в отдельном потоке
@@ -111,7 +114,8 @@ async function postSession(req: Request, env: Env): Promise<Response> {
       await db.prepare('INSERT INTO user (id, tg_id, username, first_name, created_at, seen_at) VALUES (?, ?, ?, ?, ?, ?)')
         .bind(id, tg.id, tg.username ?? null, tg.first_name ?? null, now(), now()).run();
       // новый участник пришёл по чьей-то ссылке (ЗП-37) — запомнить, кто привёл
-      await noteInvite(db, id, check.startParam);
+      // 24.10: без метки в start_param — хвост из /start этого номера (start_mark, worker/invite.ts)
+      await noteInvite(db, id, check.startParam, tg.id);
     }
     const owner = isOwner(env, tg.username, tg.id);
     if (owner && env.OWNER_SEED) await seedOwner(db, id, env.OWNER_SEED);
@@ -186,60 +190,7 @@ async function seedOwner(db: D1Database, userId: string, seed: OwnerSeed): Promi
   if (statements.length) await db.batch(statements);
 }
 
-/** Ник → имя файла присланного списка. Ник Telegram: латиница, цифры, подчёркивание. */
-const seedKey = (username: string): string | undefined =>
-  /^[A-Za-z0-9_]{3,40}$/.test(username) ? `seed--${username.toLowerCase()}.json` : undefined;
-
-/** Присланный список просмотренного (UserSeed) ложится в профиль при входе участника — по
- *  разу на версию списка. Добавляет, не перетирая: что участник уже отметил или снял сам,
- *  остаётся как есть. */
-async function applyUserSeed(db: D1Database, env: Env, userId: string): Promise<void> {
-  if (!env.REFERENCE) return;
-  const row = await db.prepare('SELECT username FROM user WHERE id = ?').bind(userId).first<{ username: string | null }>();
-  const key = row?.username ? seedKey(row.username) : undefined;
-  if (!key) return;
-  const object = await env.REFERENCE.get(key);
-  if (!object) return;
-  // список привязан к нику; кто займёт освободившийся ник, чужую историю не получит (ХБ, 16.10): первый аккаунт, которому
-  // список лёг, запоминается отметкой `nick:<ник>`, другим он больше не кладётся
-  const bind = `nick:${row!.username!.toLowerCase()}`;
-  const other = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE seed = ? AND user_id <> ?').bind(bind, userId).first();
-  if (other) return;
-  // привязку ставим сразу, ещё до проверки версии: у тех, кому список лёг до 16.10, её не было
-  await db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, bind, now()).run();
-  const seed = JSON.parse(await new Response(object.body).text()) as UserSeed;
-  const mark = `user:${seed.version}`;
-  const done = await db.prepare('SELECT 1 AS x FROM seed_applied WHERE user_id = ? AND seed = ?').bind(userId, mark).first();
-  if (done) return;
-  const at = Date.parse(now());
-  const stamp = (i: number) => new Date(at - (i + 1) * 1000).toISOString();
-  await db.batch([
-    ...seed.watched.map((w, i) => db.prepare(
-      'INSERT OR IGNORE INTO watched (user_id, work_id, state, work, tmdb, imdb, at) VALUES (?, ?, \'watched\', ?, ?, ?, ?)',
-    ).bind(userId, canonWork(w.workId), slimCardText(JSON.stringify(canonCard(w.work, canonWork(w.workId)))), w.tmdb ?? null, w.imdb ?? null, stamp(i))),
-    ...(seed.ratings ?? []).map((r) => db.prepare(
-      'INSERT OR IGNORE INTO rating (user_id, work_id, rating, raw, work, at) VALUES (?, ?, ?, ?, ?, ?)',
-    ).bind(userId, canonWork(r.workId), r.rating, r.raw ?? null, r.work ? slimCardText(JSON.stringify(canonCard(r.work, canonWork(r.workId)))) : null, new Date(at).toISOString())),
-    db.prepare('INSERT OR IGNORE INTO seed_applied (user_id, seed, at) VALUES (?, ?, ?)').bind(userId, mark, now()),
-  ]);
-}
-
-/** Положить присланный список участника (только сборщик владельца, по токену). */
-async function putUserSeed(req: Request, env: Env, username: string): Promise<Response> {
-  const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('Authorization') ?? '')?.[1];
-  if (!env.ADMIN_TOKEN || !token || !sameToken(token, env.ADMIN_TOKEN)) return json({ error: 'unauthorized' }, 401);
-  const key = seedKey(username);
-  if (!key) return json({ error: 'bad_username' }, 400);
-  if (!env.REFERENCE) return json({ error: 'no_reference_bucket' }, 500);
-  const text = await req.text();
-  let seed: UserSeed;
-  try { seed = JSON.parse(text) as UserSeed; } catch { return json({ error: 'bad_json' }, 400); }
-  if (!seed.version || !Array.isArray(seed.watched)) return json({ error: 'bad_seed' }, 400);
-  await env.REFERENCE.put(key, text);
-  // уже заходил — сразу скажем, разложится ли при следующем входе
-  const known = await env.DB.prepare('SELECT 1 AS x FROM user WHERE lower(username) = ?').bind(username.toLowerCase()).first();
-  return json({ ok: true, username, watched: seed.watched.length, ratings: seed.ratings?.length ?? 0, known: Boolean(known) });
-}
+// присланный список участника (seed--<ник>.json): кому выдавать и публикация — worker/userSeed.ts (24.10)
 
 /** Оценка уже виденного: 1–5 или null — снять. Карточку кладём рядом, как у отметки. */
 async function putRating(req: Request, user: User, db: D1Database, rawId: string): Promise<Response> {
@@ -270,6 +221,9 @@ type AfterRow = { worth: number | null; pace: string | null; hook: string | null
 const afterwordOf = (r: AfterRow) => ({
   ...(r.worth != null ? { worth: r.worth } : {}), ...(r.pace ? { pace: r.pace } : {}), ...(r.hook ? { hook: r.hook } : {}), at: r.at,
 });
+
+/** Путь с %-кодом: битая последовательность (%E0%A4%A) — 400, а не 500 (24.10, аудит безопасности) */
+const decodePath = (s: string): string | null => { try { return decodeURIComponent(s); } catch { return null; } };
 
 async function putAfterword(req: Request, user: User, db: D1Database, rawId: string): Promise<Response> {
   let workId: string;
@@ -999,7 +953,9 @@ export default {
     if (exportPath && req.method === 'GET') return withHead(await getExport(env.DB, exportPath[1]), head);
     // присланный участником список просмотренного: только запись, наружу не раздаётся
     const seedPath = /^\/api\/admin\/seed\/([A-Za-z0-9_]+)$/.exec(path);
-    if (seedPath && req.method === 'PUT') return withHead(await putUserSeed(req, env, seedPath[1]), head);
+    if (seedPath && req.method === 'PUT') return withHead(adminOk(req, env) ? await putUserSeed(req, env, seedPath[1]) : json({ error: 'unauthorized' }, 401), head);
+    // 24.10: чьи списки за какими номерами и кому отказано (worker/userSeed.ts) — для пульта
+    if (path === '/api/admin/seed-owners' && req.method === 'GET') return withHead(adminOk(req, env) ? await getSeedOwners(env.DB) : json({ error: 'unauthorized' }, 401), head);
     // очередь заявок — владельцу по тому же токену, что и справочники
     if (path === '/api/admin/suggestions' && req.method === 'GET') return withHead(await getSuggestions(req, env), head);
     if (path === '/api/admin/work-issues' && req.method === 'GET') return withHead(await getWorkIssues(req, env), head);
@@ -1051,16 +1007,16 @@ export default {
       if (path === '/api/import' && req.method === 'POST') return postImport(req, user, env.DB);
       if (path === '/api/export' && req.method === 'POST') return postExport(req, user, env.DB);
       const importPath = /^\/api\/import\/([^/]+)$/.exec(path);
-      if (importPath && req.method === 'DELETE') return deleteImport(user, env.DB, decodeURIComponent(importPath[1]));
+      if (importPath && req.method === 'DELETE') { const id = decodePath(importPath[1]); return id == null ? json({ error: 'bad_work' }, 400) : deleteImport(user, env.DB, id); }
       if (path === '/api/verdict' && req.method === 'PUT') return putVerdict(req, user, env.DB);
       if (path === '/api/suggestion' && req.method === 'POST') return postSuggestion(req, user, env.DB);
       if (path === '/api/work-issue' && req.method === 'POST') return postWorkIssue(req, user, env.DB);
       if (path === '/api/journal/start' && req.method === 'POST') return postStart(req, user, env.DB);
       if (path === '/api/journal/plan' && req.method === 'POST') return postPlan(req, user, env.DB);
       const unstart = /^\/api\/journal\/([^/]+)\/unstart$/.exec(path);
-      if (unstart && req.method === 'POST') return postUnstart(req, user, env.DB, decodeURIComponent(unstart[1]));
+      if (unstart && req.method === 'POST') { const id = decodePath(unstart[1]); return id == null ? json({ error: 'bad_work' }, 400) : postUnstart(req, user, env.DB, id); }
       const plan = /^\/api\/journal\/([^/]+)\/plan$/.exec(path);
-      if (plan && req.method === 'DELETE') return deletePlan(user, env.DB, decodeURIComponent(plan[1]));
+      if (plan && req.method === 'DELETE') { const id = decodePath(plan[1]); return id == null ? json({ error: 'bad_work' }, 400) : deletePlan(user, env.DB, id); }
       if (path === '/api/impressions' && req.method === 'POST') return postImpressions(req, user, env.DB);
       if (path === '/api/open' && req.method === 'POST') return postOpen(req, user, env.DB);
       const dwellPath = /^\/api\/open\/([A-Za-z0-9_-]{1,64})\/dwell$/.exec(path);
@@ -1086,6 +1042,10 @@ export default {
 
       // верхушка вкуса для подбора «вместе» в боте (19.10, worker/togetherPick.ts)
       if (path === '/api/taste-top' && req.method === 'PUT') return putTasteTop(req, user.id, env);
+      // соседи по вкусу (23.10, worker/neighbors.ts): итог по фильму без имён и чужих оценок; без NEIGHBORS=1 — 404
+      if (path === '/api/neighbors' && req.method === 'GET') return getNeighbors(user.id, env as NeighborEnv);
+      // EASE обученному счёту ленты (24.10, worker/ease.ts): счёт по фильму без чужих оценок; без EASE=1 — 404
+      if (path === '/api/ease' && req.method === 'GET') return getEase(user.id, env as EaseEnv);
       // выбор компанией (ЗП-11, 07.10)
       if (path.startsWith('/api/together')) {
         const r = await togetherRoute(req, path, user.id, env);
@@ -1093,20 +1053,20 @@ export default {
       }
 
       const rating = /^\/api\/rating\/(.+)$/.exec(path);
-      if (rating && req.method === 'PUT') return putRating(req, user, env.DB, decodeURIComponent(rating[1]));
+      if (rating && req.method === 'PUT') { const id = decodePath(rating[1]); return id == null ? json({ error: 'bad_work' }, 400) : putRating(req, user, env.DB, id); }
 
       // послесловие к просмотренному (17.10)
       const afterword = /^\/api\/afterword\/(.+)$/.exec(path);
       if (afterword && req.method === 'PUT') return putAfterword(req, user, env.DB, afterword[1]);
 
       const watched = /^\/api\/watched\/(.+)$/.exec(path);
-      if (watched && req.method === 'PUT') return putWatched(req, user, env.DB, decodeURIComponent(watched[1]));
+      if (watched && req.method === 'PUT') { const id = decodePath(watched[1]); return id == null ? json({ error: 'bad_work' }, 400) : putWatched(req, user, env.DB, id); }
 
       const progress = /^\/api\/journal\/([^/]+)\/progress$/.exec(path);
-      if (progress && req.method === 'POST') return postProgress(req, user, env.DB, decodeURIComponent(progress[1]));
+      if (progress && req.method === 'POST') { const id = decodePath(progress[1]); return id == null ? json({ error: 'bad_work' }, 400) : postProgress(req, user, env.DB, id); }
 
       const checkin = /^\/api\/journal\/([^/]+)\/checkin$/.exec(path);
-      if (checkin && req.method === 'POST') return postCheckIn(req, user, env.DB, decodeURIComponent(checkin[1]));
+      if (checkin && req.method === 'POST') { const id = decodePath(checkin[1]); return id == null ? json({ error: 'bad_work' }, 400) : postCheckIn(req, user, env.DB, id); }
 
 
       return json({ error: 'not_found' }, 404);
@@ -1124,6 +1084,9 @@ export default {
     // принятые апдейты Telegram (17.10): повтор приходит за минуты, двух суток с запасом
     await env.DB.prepare('DELETE FROM tg_update WHERE at < ?').bind(new Date(Date.now() - 2 * 864e5).toISOString()).run()
       .catch((err) => console.error('tg_update:', err));
+    // метки из /start (24.10): не дождались входа в приложение за неделю — не нужны
+    await env.DB.prepare('DELETE FROM start_mark WHERE at < ?').bind(new Date(Date.now() - START_MARK_TTL).toISOString()).run()
+      .catch((err) => console.error('start_mark:', err));
     const r = await followDigest(env);
     if (r.users || r.stopped || r.pausedUntil) console.log(`подписки: ${JSON.stringify(r)}`);
   },

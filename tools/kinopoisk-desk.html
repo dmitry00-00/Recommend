@@ -50,6 +50,10 @@
   tr:last-child td { border-bottom: 0; }
   td.num { font-variant-numeric: tabular-nums; }
   .table-wrap { overflow-x: auto; }
+  #bulk textarea { width: 100%; min-height: 120px; font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); resize: vertical; }
+  .chip { display: inline-block; padding: 1px 8px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px; margin: 1px 4px 1px 0; }
+  #queue a { color: var(--accent); }
+  .chip.tg { border-color: var(--accent); color: var(--accent); }
   #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 14px; display: none; max-width: 90vw; }
 </style>
 <link rel="stylesheet" href="/shell.css">
@@ -61,10 +65,29 @@
   <p class="sub">Страницы профилей → профили участников на сервере. Файлы разбираются здесь, на этом компьютере, и никуда не уходят — на сервер попадает только список фильмов с оценками.</p>
   <p id="env" class="warn"></p>
 
+  <div id="bulk" style="margin-bottom:16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel)">
+    <p style="margin:0 0 4px"><b>Добавить профили списком</b></p>
+    <p class="muted" style="margin:0 0 8px">Ссылки на профили Кинопоиска, по одной на строку (можно вставить как есть, с лишним текстом). Канал — на той же строке: <code>@канал</code> или <code>t.me/канал</code>. Профили встают в очередь помощника; перед оценками он смотрит страницу профиля и выписывает контакты — они видны ниже, в «Очереди помощника».</p>
+    <textarea id="bulkText" placeholder="@kinochannel https://www.kinopoisk.ru/user/1234567/&#10;https://www.kinopoisk.ru/user/nickname/movies/voted-watched/"></textarea>
+    <div class="bar"><span id="bulkInfo" class="muted"></span><span class="spacer"></span><button id="bulkAdd" class="primary">В очередь</button></div>
+  </div>
+
   <div id="drop">
     <p><b>Перетащите сюда страницы «Оценки и просмотры»</b> — файлы или целые папки, можно сразу от нескольких людей.</p>
     <p class="muted">Кинопоиск → профиль → Оценки и просмотры → «Сохранить как» на каждой странице. Подойдут и старые страницы «Оценки», и CSV конвертера.</p>
     <p><button id="pick">Выбрать файлы…</button> <input id="file" type="file" multiple accept=".html,.htm,.csv,.txt" hidden></p>
+  </div>
+
+  <div id="helper" style="margin-top:16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel)">
+    <p style="margin:0 0 8px"><b>Помощник: все страницы оценок одним файлом</b></p>
+    <ol style="margin:0;padding-left:20px;line-height:1.6">
+      <li>Один раз: включите панель закладок (⌘⇧B) и перетащите туда эту кнопку →
+        <a id="bm" href="#" style="display:inline-block;padding:3px 10px;border-radius:8px;background:#e6a23c;color:#1c1a17;font-weight:600;text-decoration:none">КП → пульт</a></li>
+      <li>Откройте на Кинопоиске профиль человека → «Оценки и просмотры» (адрес вида kinopoisk.ru/user/…/movies/voted-watched/).</li>
+      <li>Нажмите закладку «КП → пульт». В углу появится окошко: помощник сам листает страницы — по 3–6 секунд на страницу.</li>
+      <li>Когда напишет «Готово», в «Загрузках» будет файл <code>kp-….html</code> — перетащите его сюда.</li>
+    </ol>
+    <p class="muted" style="margin:8px 0 0">Если Кинопоиск покажет капчу, помощник остановится и сохранит собранное. Пройдите капчу и нажмите закладку снова — продолжит с того же места.</p>
   </div>
 
   <div class="bar">
@@ -73,6 +96,11 @@
     <button id="publishAll" class="primary">Отправить все собранные</button>
   </div>
   <div id="groups"></div>
+
+  <h2>Очередь помощника</h2>
+  <div class="bar" style="margin:0 0 8px"><span id="qCounts" class="muted"></span><span class="spacer"></span>
+    <label class="muted"><input type="checkbox" id="qOnlyContacts"> только с контактами</label></div>
+  <div class="table-wrap"><table id="queue"></table></div>
 
   <h2>Уже собрано (seeds/)</h2>
   <div class="table-wrap"><table id="seeds"></table></div>
@@ -252,10 +280,58 @@ window.addEventListener('drop', async (e) => {
   upload(files);
 });
 $('#pick').onclick = () => $('#file').click();
+fetch('helper.js').then((r) => r.text()).then((code) => { $('#bm').href = `javascript:${encodeURIComponent(code)}`; });
+$('#bm').onclick = (e) => { e.preventDefault(); toast('Перетащите кнопку на панель закладок, а нажимайте уже на Кинопоиске'); };
 $('#file').onchange = (e) => { upload([...e.target.files]); e.target.value = ''; };
+
+// ─── профили списком и очередь помощника (23.10, tools/kp-profiles.mts) ─────────
+const KP_LINK = /kinopoisk\.ru\/user\/[\w.-]+/gi;
+$('#bulkText').oninput = () => {
+  const n = ($('#bulkText').value.match(KP_LINK) || []).length;
+  $('#bulkInfo').textContent = n ? `ссылок на профили: ${n}` : '';
+};
+$('#bulkAdd').onclick = async () => {
+  const text = $('#bulkText').value;
+  if (!KP_LINK.test(text)) return toast('Нет ссылок вида kinopoisk.ru/user/…');
+  KP_LINK.lastIndex = 0;
+  const r = await post('api/profiles', { text });
+  if (r.error) return;
+  const parts = [`добавлено ${r.added.length}`];
+  if (r.channelSet.length) parts.push(`дописан канал ${r.channelSet.length}`);
+  if (r.already.length) parts.push(`уже были ${r.already.length}`);
+  if (r.bad.length) parts.push(`строк без ссылки ${r.bad.length}`);
+  toast(parts.join(' · '));
+  $('#bulkText').value = ''; $('#bulkInfo').textContent = '';
+  renderQueue(r.profiles);
+};
+let profiles = { rows: [], counts: {} };
+function contactCell(c) {
+  if (!c) return '<span class="muted">—</span>';
+  const tg = c.tg.map((x) => `<a class="chip tg" href="https://t.me/${esc(x)}" target="_blank" rel="noopener">@${esc(x)}</a>`);
+  const at = c.mentions.map((x) => `<span class="chip" title="упомянут на странице — проверить, что это Telegram">@${esc(x)}</span>`);
+  const links = c.links.map((x) => `<a class="chip" href="https://${esc(x)}" target="_blank" rel="noopener">${esc(x.replace(/\/$/, ''))}</a>`);
+  return [...tg, ...at, ...links].join('') || '<span class="muted">не указаны</span>';
+}
+function renderQueue(p) {
+  if (p) profiles = p;
+  const c = profiles.counts;
+  $('#qCounts').textContent = Object.entries(c).map(([k, v]) => `${k} ${v}`).join(' · ');
+  const only = $('#qOnlyContacts').checked;
+  const rows = profiles.rows.filter((r) => !only || r.contacts?.tg.length || r.contacts?.mentions.length || r.contacts?.links.length);
+  $('#queue').innerHTML = `<tr><th>Профиль</th><th>Канал</th><th>Помощник</th><th>Контакты</th><th>Откуда</th></tr>` + rows.map((r) => `<tr>
+    <td><a href="https://www.kinopoisk.ru/user/${esc(r.id)}/" target="_blank" rel="noopener">${esc(r.id)}</a>${r.contacts?.title ? `<div class="muted">${esc(r.contacts.title.replace(/\s*[—|-].*$/, ''))}</div>` : ''}</td>
+    <td>${r.channel ? `@${esc(r.channel)}` : '<span class="muted">—</span>'}</td>
+    <td title="${esc(r.note ?? '')}">${esc(r.state)}</td>
+    <td>${r.checked ? contactCell(r.contacts) : '<span class="muted">не смотрели</span>'}</td>
+    <td class="muted">${esc(r.from)}</td></tr>`).join('');
+}
+$('#qOnlyContacts').onchange = () => renderQueue();
+async function refreshQueue() { try { renderQueue(await (await fetch('api/profiles')).json()); } catch { /* сервер закрыли */ } }
 
 refresh();
 setInterval(refresh, 1000);
+refreshQueue();
+setInterval(refreshQueue, 15000);
 </script>
 </body>
 </html>

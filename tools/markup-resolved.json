@@ -1,6 +1,6 @@
 {
  "//": "Ролик → произведение для названий, вписанных в таблицу без года. Пишет tools/resolve-markup-films.mts, читает tools/import-markup.py. sure: false — выбор из тёзок по дате ролика, стоит проверить.",
- "updated": "2026-10-21",
+ "updated": "2026-10-23",
  "videos": {
   "_3gNe43hFA0": {
    "typed": "mr. robot",
@@ -66,6 +66,12 @@
    "typed": "Интерстеллар",
    "key": "tmdb:157336",
    "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "_of_6DZxj0g": {
+   "typed": "The Cuckoo's Curse (2023)",
+   "key": "tmdb:1064801",
+   "label": "The Cuckoo's Curse (2023)",
    "sure": true
   },
   "_p2kCAy5Mqw": {
@@ -308,6 +314,12 @@
    "label": "Восхождение Юпитер (2015)",
    "sure": true
   },
+  "0HixcpUD4ww": {
+   "typed": "In the Mouth of Madness (1994)",
+   "key": "tmdb:2654",
+   "label": "В Устах Безумия (1994)",
+   "sure": true
+  },
   "0HVhta2yCDI": {
    "typed": "Шан Чи и легенда десяти колец",
    "key": "tmdb:566525",
@@ -396,6 +408,12 @@
    "typed": "супербобровы",
    "key": "tmdb:387938",
    "label": "Супербобровы (2016)",
+   "sure": true
+  },
+  "1B_Y6iNVmM4": {
+   "typed": "I Am a Hero (2015)",
+   "key": "tmdb:276624",
+   "label": "I Am a Hero (2015)",
    "sure": true
   },
   "1b-dW_k3kCU": {
@@ -1382,6 +1400,12 @@
    "label": "Игра престолов (сериал, 2011)",
    "sure": true
   },
+  "AnwEomsJ-q4": {
+   "typed": "In the Mouth of Madness (1994)",
+   "key": "tmdb:2654",
+   "label": "В Устах Безумия (1994)",
+   "sure": true
+  },
   "AOb0o3ESBw8": {
    "typed": "БОЛЬШОЙ И ДОБРЫЙ ВЕЛИКАН",
    "key": "tmdb:267935",
@@ -1531,6 +1555,12 @@
    "key": "tmdb:20871",
    "label": "Джентльмены удачи (1971)",
    "sure": false
+  },
+  "bGC3F-NiWfA": {
+   "typed": "We're All Going to the World's Fair (2021)",
+   "key": "tmdb:776501",
+   "label": "Мы все идем на всемирную выставку (2021)",
+   "sure": true
   },
   "bh2saAkGJ7c": {
    "typed": "Стражи галактики 3",
@@ -2162,6 +2192,12 @@
    "label": "Чужой против Хищника (2004)",
    "sure": true
   },
+  "DWB6H0EZwlM": {
+   "typed": "I Am a Hero (2015)",
+   "key": "tmdb:276624",
+   "label": "I Am a Hero (2015)",
+   "sure": true
+  },
   "dytToOlopiA": {
    "typed": "Бэтмен против супермена",
    "key": "tmdb:209112",
@@ -2646,6 +2682,12 @@
    "typed": "sos дед мороз",
    "key": "tmdb:371777",
    "label": "SOS, Дед Мороз, или Всё сбудется! (2015)",
+   "sure": true
+  },
+  "fYExfRgNQCQ": {
+   "typed": "The Cuckoo's Curse (2023)",
+   "key": "tmdb:1064801",
+   "label": "The Cuckoo's Curse (2023)",
    "sure": true
   },
   "fyqz09pF-TA": {
@@ -3350,6 +3392,12 @@
    "label": "Чужой (1979)",
    "sure": false
   },
+  "j1gmNE_B9yM": {
+   "typed": "In the Mouth of Madness (1994)",
+   "key": "tmdb:2654",
+   "label": "В Устах Безумия (1994)",
+   "sure": true
+  },
   "j2MCtdoPFxs": {
    "typed": "довод",
    "key": "tmdb:577922",
@@ -4040,6 +4088,12 @@
    "label": "Дом Дракона (сериал, 2022)",
    "sure": true
   },
+  "MdtX1GTMucg": {
+   "typed": "The Cuckoo's Curse (2023)",
+   "key": "tmdb:1064801",
+   "label": "The Cuckoo's Curse (2023)",
+   "sure": true
+  },
   "MhExPoz3frI": {
    "typed": "рикер 2",
    "key": "tmdb:18616",
@@ -4550,6 +4604,12 @@
    "label": "Терминатор: Генезис (2015)",
    "sure": true
   },
+  "OF_ok1TTlW8": {
+   "typed": "Noroi: The Curse (2005)",
+   "key": "tmdb:21506",
+   "label": "The Curse (2005)",
+   "sure": true
+  },
   "ofptQW91CZQ": {
    "typed": "фантастические твари и где они обитают",
    "key": "tmdb:259316",
@@ -5054,6 +5114,12 @@
    "label": "Мумия (1999)",
    "sure": false
   },
+  "qvR_f6U7ZYU": {
+   "typed": "A Dark Song (2016)",
+   "key": "tmdb:409297",
+   "label": "Песнь тьмы (2016)",
+   "sure": true
+  },
   "qX2Vtpq36rE": {
    "typed": "оно 2017",
    "key": "tmdb:346364",
@@ -5389,6 +5455,12 @@
    "key": "imdb:tt11737520",
    "label": "One Piece. Большой куш (сериал, 2023)",
    "sure": false
+  },
+  "SnUruoJZsfE": {
+   "typed": "I Am a Hero (2015)",
+   "key": "tmdb:276624",
+   "label": "I Am a Hero (2015)",
+   "sure": true
   },
   "SP_JV7HVz-4": {
    "typed": "дуэль",
@@ -5936,6 +6008,12 @@
    "label": "Трансформеры 5: Последний Рыцарь (2017)",
    "sure": true
   },
+  "Vf4sXqwCeSI": {
+   "typed": "In the Mouth of Madness (1994)",
+   "key": "tmdb:2654",
+   "label": "В Устах Безумия (1994)",
+   "sure": true
+  },
   "VFIkPiqYcCw": {
    "typed": "премия",
    "key": "tmdb:275054",
@@ -6018,6 +6096,12 @@
    "typed": "Интерстеллар",
    "key": "tmdb:157336",
    "label": "Интерстеллар (2014)",
+   "sure": true
+  },
+  "vpr_f34YT4M": {
+   "typed": "Noroi: The Curse (2005)",
+   "key": "tmdb:21506",
+   "label": "The Curse (2005)",
    "sure": true
   },
   "VQvx9JKwO4s": {
@@ -6636,6 +6720,12 @@
    "typed": "ТАЧКИ 3",
    "key": "tmdb:260514",
    "label": "Тачки 3 (2017)",
+   "sure": true
+  },
+  "YRZnWp7I2lE": {
+   "typed": "In the Mouth of Madness (1994)",
+   "key": "tmdb:2654",
+   "label": "В Устах Безумия (1994)",
    "sure": true
   },
   "YSWF91QxmnA": {

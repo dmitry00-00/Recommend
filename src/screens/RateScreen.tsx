@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { ID, WorkCard } from '@/types/tmdf';
 import { getQuickDeck, getRatingDeck, rateWork, type RatingDeck } from '@/api';
 import { Button, ErrorState, RatingWheel, Skeleton, useToast } from '@/components';
@@ -10,7 +10,7 @@ import { leadName } from '@/lib/credits';
 import { WorkThumb } from '@/components/WorkThumb';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
-import { useFeature } from '@/lib/flags';
+import { useBooks, useFeature } from '@/lib/flags';
 import { saveSettings, useSettings } from '@/lib/settingsStore';
 import { TASTE_SHELVES } from '@/lib/model/taste';
 import { usePortion } from '@/hooks/usePortion';
@@ -65,17 +65,23 @@ export function RateScreen() {
     else if (scrolled && top < 8) setScrolled(false);
   };
   const compact = scrolled || ratedHere;
-  // ряд книг (11.10): за тем же флагом, что лента книг
-  const booksOn = useFeature('readShelf');
+  // ряд книг (11.10): за тем же флагом, что лента книг; с 23.10 — и тем, кто пришёл по книжной ссылке (useBooks)
+  const booksOn = useBooks();
+  // книжный вход (23.10, флаг bookEntry): пришёл по книжной ссылке (`?books=1`, App.tsx) или выбрал ленту книг — ряд книг
+  // первым и ручной колодой (src/mocks/bookRatingDeck.ts), кино и сериалы свёрнуты, тексты про книги
+  const [query] = useSearchParams();
+  const feedKindNow = useSettings()?.feedKind;
+  const bookFirst = useFeature('bookEntry') && (feedKindNow === 'book' || query.get('books') === '1');
+  const [filmsOpen, setFilmsOpen] = useState(false);
 
   useEffect(() => {
     let alive = true;
     setFailed(false);
     // новому человеку — снимок колоды сразу (РР-5), полная — следом; поставленное на снимке не теряется
     getQuickDeck().then((q) => { if (alive && q) setDeck((d) => d ?? q); }).catch(() => undefined);
-    getRatingDeck({ books: booksOn }).then((d) => alive && setDeck((prev) => (prev ? keepMarks(d, prev) : d))).catch(() => alive && setFailed(true));
+    getRatingDeck({ books: booksOn || bookFirst, handBooks: bookFirst }).then((d) => alive && setDeck((prev) => (prev ? keepMarks(d, prev) : d))).catch(() => alive && setFailed(true));
     return () => { alive = false; };
-  }, [attempt, booksOn]);
+  }, [attempt, booksOn, bookFirst]);
 
   const toldQueued = useRef(false);
   const rate = (id: ID, value: Score | null) => {
@@ -116,7 +122,8 @@ export function RateScreen() {
   // фильмов в колоде у тяжёлого участника — тысячи (всё его «Отмеченное» первым): порциями, ряды сериалов и книг —
   // целиком, они по 24
   const films = deck ? settledLast(deck.items) : [];
-  const { limit, sentinel } = usePortion({ total: films.length, root: mainRef, memory: 'rate', ready: deck != null });
+  // свёрнутое кино при книжном входе (23.10) — пустой список: раскрыли — число меняется, и метка порций встаёт на место
+  const { limit, sentinel } = usePortion({ total: bookFirst && !filmsOpen ? 0 : films.length, root: mainRef, memory: 'rate', ready: deck != null });
 
   // полки вкуса (ЗП-45, шаг 1): выбор сохраняется сразу, колода перестраивается — своё вперёд
   const picksOn = useFeature('tastePicks');
@@ -127,7 +134,7 @@ export function RateScreen() {
     tap();
     setSavingPicks(true);
     saveSettings({ tasteShelves: picks.includes(id) ? picks.filter((x) => x !== id) : [...picks, id] })
-      .then(() => getRatingDeck({ books: booksOn }))
+      .then(() => getRatingDeck({ books: booksOn || bookFirst, handBooks: bookFirst }))
       .then((d) => setDeck(d))
       .catch(() => toast({ text: ui.rate.saveError }))
       .finally(() => setSavingPicks(false));
@@ -142,8 +149,8 @@ export function RateScreen() {
   return (
     <main className="tm-shell__main tm-search tm-rate" ref={mainRef} onScroll={onScroll}>
       <div className={cx('tm-rate__head', compact && 'tm-rate__head--min')}>
-        <h1 className={cx('tm-title-3 tm-rate__title', compact && 'tm-sr')}>{ui.rate.title}</h1>
-        {compact ? null : <p className="tm-body-sm tm-rate__lead">{ui.rate.lead}</p>}
+        <h1 className={cx('tm-title-3 tm-rate__title', compact && 'tm-sr')}>{bookFirst ? ui.rate.titleBooks : ui.rate.title}</h1>
+        {compact ? null : <p className="tm-body-sm tm-rate__lead">{bookFirst ? ui.rate.leadBooks : ui.rate.lead}</p>}
         {deck ? (
           <div className="tm-rate__bar">
             <span className="tm-rate__meter" aria-hidden="true">
@@ -163,7 +170,7 @@ export function RateScreen() {
 
       {/* ряд книг внизу, под сотней фильмов: читателю — короткий путь к нему. С 17.10 — под шапкой, а не в ней:
           липкой шапке хватает счётчика */}
-      {deck?.books?.length ? (
+      {deck?.books?.length && !bookFirst ? (
         <p className="tm-caption tm-rate__jump">
           {ui.rate.booksJumpLead}{' '}
           <button type="button" className="tm-coldstart__link tm-rate__jumpbtn"
@@ -207,6 +214,23 @@ export function RateScreen() {
         </div>
       ) : null}
 
+      {/* книжный вход (23.10): ряд книг — первым; пока он не пришёл (снимок колоды — одни фильмы, книги ждут справочник), —
+          заготовки, а не пустота */}
+      {bookFirst && deck ? (
+        deck.books?.length ? <BookRow books={deck.books} skipped={skipped} onRate={onRate} onSkip={onSkip} title={false} /> : (
+          <div aria-busy="true">
+            <span className="tm-sr">{ui.actions.loading}</span>
+            {[0, 1, 2, 3].map((i) => <Skeleton key={i} kind="block" style={{ height: 72, marginTop: i ? 8 : 0 }} />)}
+          </div>
+        )
+      ) : null}
+      {bookFirst && deck && !filmsOpen ? (
+        <div className="tm-rate__series">
+          <Button variant="secondary" onClick={() => { tap(); setFilmsOpen(true); }}>{ui.rate.filmsMore}</Button>
+          <p className="tm-caption tm-rate__lead">{ui.rate.filmsMoreLead}</p>
+        </div>
+      ) : null}
+      {bookFirst && !filmsOpen ? null : (<>
       <ul className="tm-search__list">
         {/* оценённое уходит вниз (ТВ-9): иначе следующее касание попадает в ту же строку; оценку
             можно поменять и там */}
@@ -229,21 +253,31 @@ export function RateScreen() {
           </ul>
         </section>
       ) : null}
+      </>)}
       {/* книги — своим рядом (11.10): кто больше читает, чем смотрит, соберёт первую ленту и по ним */}
-      {deck?.books?.length ? (
-        <section className="tm-rate__series" id="tm-rate-books">
-          <h2 className="tm-title-3 tm-rate__title">{ui.rate.booksTitle}</h2>
-          <p className="tm-body-sm tm-rate__lead">{ui.rate.booksLead}</p>
-          <ul className="tm-search__list">
-            {settledLast(deck.books).map(({ work, rating }) => (
-              <RateRow key={work.id} work={work} rating={rating as Score | undefined}
-                       off={skipped.has(work.id) && !rating} onRate={onRate} onSkip={onSkip} />
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      {deck?.books?.length && !bookFirst ? <BookRow books={deck.books} skipped={skipped} onRate={onRate} onSkip={onSkip} title /> : null}
       {deck ? <p className="tm-caption tm-search__hint">{ui.rate.hint}</p> : null}
     </main>
+  );
+}
+
+/** Ряд книг (11.10): под фильмами и сериалами — с заголовком; при книжном входе (23.10) — первым, под шапкой «Оцените то,
+ *  что читали», без своего заголовка. */
+function BookRow({ books, skipped, onRate, onSkip, title }: {
+  books: RatingDeck['items']; skipped: Set<ID>; title: boolean;
+  onRate: (id: ID, value: Score | null) => void; onSkip: (id: ID, on: boolean) => void;
+}) {
+  return (
+    <section className={cx(title && 'tm-rate__series')} id="tm-rate-books">
+      {title ? <h2 className="tm-title-3 tm-rate__title">{ui.rate.booksTitle}</h2> : null}
+      {title ? <p className="tm-body-sm tm-rate__lead">{ui.rate.booksLead}</p> : null}
+      <ul className="tm-search__list">
+        {settledLast(books).map(({ work, rating }) => (
+          <RateRow key={work.id} work={work} rating={rating as Score | undefined}
+                   off={skipped.has(work.id) && !rating} onRate={onRate} onSkip={onSkip} />
+        ))}
+      </ul>
+    </section>
   );
 }
 

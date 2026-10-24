@@ -84,9 +84,11 @@ function AdminOnly({ children }: { children: ReactNode }) {
 
 /** Функция эталона (10.10): в минимальной редакции экрана нет — по старой ссылке уводим в ленту.
  *  До загрузки настроек не решаем: админ с прямой ссылкой не должен вылететь в ленту. */
-function Gate({ f, children }: { f: Feature; children: ReactNode }) {
+function Gate({ f, or, children }: { f: Feature; or?: Feature; children: ReactNode }) {
   const loaded = useSettings() != null;
-  const on = useFeature(f);
+  // `or` (23.10): второй флаг, которого тоже хватает, — страница автора открыта при `voicePage` или `pages`
+  const alt = useFeature(or ?? f);
+  const on = useFeature(f) || alt;
   useEffect(() => { void loadSettings(); }, []);
   if (!loaded) return <ScreenLoading />;
   return on ? <>{children}</> : <Navigate to="/today" replace />;
@@ -116,10 +118,10 @@ export const routes: RouteObject[] = [
   { path: '/search', element: <Gate f="search"><SearchScreen /></Gate> },
   { path: '/mood', element: <MoodRedirect /> },
   { path: '/rate', element: <RateScreen /> },
-  { path: '/voice/:id', element: <Gate f="pages"><Loading><VoiceScreen /></Loading></Gate> },
+  { path: '/voice/:id', element: <Gate f="voicePage" or="pages"><Loading><VoiceScreen /></Loading></Gate> },
   { path: '/works/:id', element: <WorkScreen /> },
   { path: '/open/:param', element: <OpenSharedScreen /> },
-  { path: '/person/:id', element: <Gate f="pages"><PersonScreen /></Gate> },
+  { path: '/person/:id', element: <Gate f="personChannel" or="pages"><PersonScreen /></Gate> },
   { path: '/universe/:id', element: <Gate f="pages"><UniverseScreen /></Gate> },
   { path: '/character/:id', element: <Gate f="pages"><CharacterScreen /></Gate> },
   { path: '/stats/:kind/:id', element: <AdminOnly><StatsScreen /></AdminOnly> },
@@ -133,7 +135,7 @@ export const routes: RouteObject[] = [
   { path: '/settings', element: <SettingsScreen /> },
   // какая подписка подходит (15.10): по планам и ленте — по очереди, пара, каждая площадка
   { path: '/subscriptions', element: <Gate f="subscriptions"><Loading><SubscriptionPlanScreen /></Loading></Gate> },
-  // документы (ЗП-5): /legal/rules — как работает подбор, /legal/privacy — политика данных
+  // документы (ЗП-5): /legal/rules — как работает подбор, /legal/privacy — политика данных, /legal/consent — согласие (24.10)
   { path: '/legal/:doc', element: <LegalScreen /> },
   // выбор компанией (ЗП-11): /together — собрать десятку, /together/:id — голосовать и итог
   { path: '/together', element: <Gate f="together"><TogetherScreen /></Gate> },

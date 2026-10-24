@@ -323,6 +323,21 @@ CREATE INDEX IF NOT EXISTS seeding_label ON seeding(label);
 CREATE TABLE IF NOT EXISTS tg_update (update_id INTEGER PRIMARY KEY, at TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS tg_update_at ON tg_update(at);
 
+-- 24.10, рекламная кампания: хвост `--s<метка>`/`--r<код>` из /start в личке (worker/startPicks.ts) за номером Telegram —
+-- для того, кто откроет приложение кнопкой меню бота, без start_param. Берётся и снимается при заведении участника
+-- (worker/invite.ts, noteInvite), живёт неделю; старше чистит периодический тик (worker/index.ts, scheduled)
+CREATE TABLE IF NOT EXISTS start_mark (tg_id INTEGER PRIMARY KEY, tail TEXT NOT NULL, at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS start_mark_at ON start_mark(at);
+
+-- 24.10, аудит безопасности: присланный список (seed--<ник>.json) — за номером Telegram, а не за первым вошедшим под
+-- ником (worker/userSeed.ts). Без колонки user_id: удаление аккаунта (worker/account.ts) строку не стирает, а ставит
+-- deleted_at — список не выдаётся и публикация под ником отклоняется, пока владелец не снимет запрет (`release=1`).
+-- tg_id NULL — привязки ещё нет (первая выдача её поставит). seed_refusal — кому под чужим ником не выдали, для пульта
+CREATE TABLE IF NOT EXISTS seed_owner (nick TEXT PRIMARY KEY, tg_id INTEGER, at TEXT NOT NULL, deleted_at TEXT);
+CREATE INDEX IF NOT EXISTS seed_owner_tg ON seed_owner(tg_id);
+CREATE TABLE IF NOT EXISTS seed_refusal (nick TEXT NOT NULL, tg_id INTEGER NOT NULL, reason TEXT NOT NULL, n INTEGER NOT NULL,
+  first_at TEXT NOT NULL, at TEXT NOT NULL, PRIMARY KEY (nick, tg_id));
+
 -- 17.10, аудит отказов п. 8: замки периодических работ (сводка подписок, worker/follow.ts). locked_at '' — свободно,
 -- захват — UPDATE … WHERE locked_at < now−30 мин; until — не начинать раньше (пауза по 429 от Telegram)
 CREATE TABLE IF NOT EXISTS job_lock (name TEXT PRIMARY KEY, locked_at TEXT NOT NULL DEFAULT '', until TEXT NOT NULL DEFAULT '');

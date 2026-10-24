@@ -12,7 +12,7 @@ import { WorkThumb } from '@/components/WorkThumb';
 import ui, { language } from '@/i18n';
 import { isSeries } from '@/lib/media';
 import { useDiary } from '@/lib/settingsStore';
-import { useFeature } from '@/lib/flags';
+import { useBooks, useFeature } from '@/lib/flags';
 import { WorkCardSheet } from './WorkCardSheet';
 import { TrailerChip } from '@/components/InlineTrailer';
 import { TrailerSheet } from '@/components/TrailerSheet';
@@ -50,7 +50,7 @@ export function SearchScreen() {
   // нечего — там и так то, что человек назвал
   const [reg, setReg] = useState<Register | null>(null);
   // кино или книги в своём списке (11.10) — как в архиве, за флагом книг
-  const booksOn = useFeature('readShelf');
+  const booksOn = useBooks(); // книги: readShelf или книжный вход (23.10, src/lib/flags.ts)
   // страница записи дневника (/journal/:id) — за своим флагом
   const diaryPages = useFeature('diary');
   const [kind, setKind] = useState<FeedKind | null>(null);

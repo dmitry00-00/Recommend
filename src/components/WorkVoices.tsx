@@ -71,11 +71,11 @@ function OutletIcon({ kind }: { kind: 'youtube' | 'telegram' | 'chat' }) {
 /** Строка выходов автора: где его ещё читать и смотреть. Всегда на одном месте и в одну
  *  строку — даже когда выход один, иначе блок ниже прыгает при переключении автора. */
 function Outlets({ voice, extra, items = [], workTitle }: { voice: Voice; extra?: React.ReactNode; items?: ExternalAnalysis[]; workTitle?: string }) {
-  // страница голоса — функция эталона (10.10)
-  const pages = useFeature('pages');
+  // страница голоса — функция эталона (10.10); с 24.10 открывается и своим флагом voicePage (партнёрства с авторами)
+  const pages = useFeature('pages'), voicePage = useFeature('voicePage');
   return (
     <p className="tm-voice__outlets">
-      {pages && knownVoice(voice.id) ? (
+      {(pages || voicePage) && knownVoice(voice.id) ? (
         <Link className="tm-voice__chip tm-voice__chip--own" to={`/voice/${voice.id}`}>{ui.voices.allWorks}</Link>
       ) : null}
       {voice.outlets.map((o) => {
@@ -373,7 +373,7 @@ const FEEDS: Feed[] = ['youtube', 'telegram'];
 const PAGE = 10;
 
 /** Материал ленты вместе с автором: карточке нужны имя и аватар канала. */
-interface FeedItem { a: ExternalAnalysis; voice: Voice }
+export interface FeedItem { a: ExternalAnalysis; voice: Voice }
 
 /** Лента из групп по авторам — по кругу: первый материал каждого автора, потом второй… Порядок
  *  авторов и материалов внутри — из groupByVoice (сначала подтверждённое, потом свежее). Подряд
@@ -442,7 +442,7 @@ function FeedVideo({ item, spoilerLevel, shelves }: { item: FeedItem; spoilerLev
 /** Пост в ленте: канал и дата, ниже начало поста (или заголовок статьи) — до четырёх строк.
  *  Картинка — только если она у поста есть: пустой серый кадр под текстом только врал бы.
  *  «Комментарии» — у каналов с обсуждением (ТВ-5б); спойлерный пост закрыт целиком (ТВ-5в). */
-function FeedPost({ item, spoilerLevel, shelves }: { item: FeedItem; spoilerLevel?: SpoilerLevel; shelves: boolean }) {
+export function FeedPost({ item, spoilerLevel, shelves }: { item: FeedItem; spoilerLevel?: SpoilerLevel; shelves: boolean }) {
   const { a, voice } = item;
   const blocked = spoilerLevel != null && a.spoilerLevel > spoilerLevel;
   const noteOpen = useNoteOpen();

@@ -34,6 +34,12 @@ export interface VoiceSource {
    *  «массовое внимание к фильму» идут только `medium: 'film'` (значение по умолчанию).
    *  Денис Чужой и bookspace — книги, поправка владельца 26.09. */
   medium?: 'film' | 'book';
+  /** категория канала (24.10, слово владельца: продвижение, сотрудничество и страницы — по виду канала;
+   *  .cache/outreach/channel-categories-2410.md): критик, автор фильмов, студия, онлайн-кинотеатр и т. д. */
+  category?: 'critic' | 'creator' | 'studio' | 'service' | 'cinema' | 'club' | 'festival' | 'fandom' | 'podcast' | 'media'
+    | 'news' | 'picks' | 'memes' | 'books' | 'publisher' | 'anime' | 'industry' | 'pirate' | 'other';
+  /** уточнение категории одной строкой: жанр, эпоха, регион («хоррор», «советское кино») */
+  sub?: string;
   /** канал подборок «что посмотреть» (владелец, 30.09): ролик — список фильмов, а не разговор об
    *  одном. Ярус — обзор (массовое внимание, в приложении не показываем); сборники индекс разборов
    *  и так отсеивает по названию. Ценность — сам список: какие фильмы советуют смотреть; разбирать
@@ -53,9 +59,9 @@ export interface VoiceSource {
 }
 
 export const sources: VoiceSource[] = [
-  { id: 'src-chtozapersonazh', title: 'Что за персонаж?', handle: 'chtozapersonazh', platform: 'telegram', url: 'https://t.me/chtozapersonazh', role: 'voice', kind: 'channel' },
-  { id: 'src-episodesfilm', title: 'ЭПИЗОДЫ', handle: 'episodesfilm', platform: 'telegram', url: 'https://t.me/episodesfilm', role: 'voice', kind: 'channel' },
-  { id: 'src-elcinemanew', title: 'elcinema', handle: 'elcinemanew', platform: 'telegram', url: 'https://t.me/elcinemanew', role: 'voice', kind: 'channel' },
+  { id: 'src-chtozapersonazh', title: 'Что за персонаж?', handle: 'chtozapersonazh', platform: 'telegram', url: 'https://t.me/chtozapersonazh', role: 'voice', kind: 'channel', category: 'critic', sub: 'разборы персонажей' },
+  { id: 'src-episodesfilm', title: 'ЭПИЗОДЫ', handle: 'episodesfilm', platform: 'telegram', url: 'https://t.me/episodesfilm', role: 'voice', kind: 'channel', category: 'critic', sub: 'российское кино и сериалы' },
+  { id: 'src-elcinemanew', title: 'elcinema', handle: 'elcinemanew', platform: 'telegram', url: 'https://t.me/elcinemanew', role: 'voice', kind: 'channel', category: 'critic', sub: 'видеоразборы, YouTube' },
   { id: 'src-nukedie', title: 'Nuke', handle: 'nukedie', platform: 'telegram', url: 'https://t.me/nukedie', role: 'voice', kind: 'channel' },
   { id: 'src-nuke', title: 'Nuke', handle: 'nukegovnuke', platform: 'youtube', url: 'https://youtube.com/@nukegovnuke', role: 'voice', kind: 'channel', tier: 'essay' },
   // Прислан владельцем 23.09: Дима Кунгуров, длинные разборы «почти документалки», 55 роликов.
@@ -111,21 +117,22 @@ export const sources: VoiceSource[] = [
   { id: 'src-filologofrus', title: 'Филолог всея Руси', handle: 'filologofrus', platform: 'telegram', url: 'https://t.me/filologofrus', role: 'voice', kind: 'channel', medium: 'book' },
   { id: 'src-poetische', title: 'Филолог всея Руси', handle: 'poetische', platform: 'youtube', url: 'https://www.youtube.com/@poetische', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
   { id: 'src-logovofilologa', title: 'Логово Филолога', handle: 'logovofilologa', platform: 'telegram', url: 'https://t.me/logovofilologa', role: 'voice', kind: 'channel', medium: 'book' },
+  { id: 'src-kira-whattoread', title: 'Кира, что почитать?', handle: 'Kira_whattoread', platform: 'telegram', url: 'https://t.me/Kira_whattoread', role: 'voice', kind: 'channel', medium: 'book', category: 'books', sub: 'книжный клуб' },
   // Прислан владельцем 25.09: книги.
   { id: 'src-bookspace', title: 'bookspace', handle: 'anya.bookspace', platform: 'youtube', url: 'https://www.youtube.com/@anya.bookspace', role: 'voice', kind: 'channel', tier: 'review', medium: 'book' },
   { id: 'src-yaumamyfilolog', title: 'Я у мамы филолог', handle: 'ya_u_mamy_filolog', platform: 'youtube', url: 'https://www.youtube.com/@ya_u_mamy_filolog', role: 'voice', kind: 'channel', tier: 'essay', medium: 'book' },
   // Места, где о кино говорят (список владельца, 22.09): часть — каналы, часть — чаты.
   // Вид не выясняли: у чата нет публичного превью, поэтому пока ведём в само место, а не в
   // поиск по нему. Кто из них чат — размечает кураторская (или владелец одной строкой).
-  { id: 'src-a-researcher', title: 'a_researcher', handle: 'a_researcher', platform: 'telegram', url: 'https://t.me/a_researcher', role: 'place', kind: 'unknown' },
-  { id: 'src-cinemaholics', title: 'Cinemaholics', handle: 'cinemaholicsofficial', platform: 'telegram', url: 'https://t.me/cinemaholicsofficial', role: 'place', kind: 'unknown' },
-  { id: 'src-kinopoisk', title: 'Кинопоиск', handle: 'kinopoisk', platform: 'telegram', url: 'https://t.me/kinopoisk', role: 'place', kind: 'channel' },
+  { id: 'src-a-researcher', title: 'a_researcher', handle: 'a_researcher', platform: 'telegram', url: 'https://t.me/a_researcher', role: 'place', kind: 'unknown', category: 'critic', sub: 'эссе о кино и сериалах' },
+  { id: 'src-cinemaholics', title: 'Cinemaholics', handle: 'cinemaholicsofficial', platform: 'telegram', url: 'https://t.me/cinemaholicsofficial', role: 'place', kind: 'unknown', category: 'media', sub: 'новости и кадры' },
+  { id: 'src-kinopoisk', title: 'Кинопоиск', handle: 'kinopoisk', platform: 'telegram', url: 'https://t.me/kinopoisk', role: 'place', kind: 'channel', category: 'service' },
   { id: 'src-cutthechat', title: 'CutTheChat', handle: 'CutTheChat', platform: 'telegram', url: 'https://t.me/CutTheChat', role: 'place', kind: 'unknown' },
-  { id: 'src-lazarenko', title: 'LazarenkoFantasy', handle: 'LazarenkoFantasy', platform: 'telegram', url: 'https://t.me/LazarenkoFantasy', role: 'place', kind: 'unknown' },
-  { id: 'src-cinemysterium', title: 'cinemysterium', handle: 'cinemysterium', platform: 'telegram', url: 'https://t.me/cinemysterium', role: 'place', kind: 'unknown' },
-  { id: 'src-cinema1909', title: 'cinema1909', handle: 'cinema1909', platform: 'telegram', url: 'https://t.me/cinema1909', role: 'place', kind: 'unknown' },
-  { id: 'src-lifeisscarier', title: 'LifeIsScarier', handle: 'LifeIsScarier', platform: 'telegram', url: 'https://t.me/LifeIsScarier', role: 'place', kind: 'unknown' },
-  { id: 'src-alarm-cassettes', title: 'alarm_cassettes', handle: 'alarm_cassettes', platform: 'telegram', url: 'https://t.me/alarm_cassettes', role: 'place', kind: 'unknown' },
+  { id: 'src-lazarenko', title: 'LazarenkoFantasy', handle: 'LazarenkoFantasy', platform: 'telegram', url: 'https://t.me/LazarenkoFantasy', role: 'place', kind: 'unknown', category: 'books', sub: 'писательница фэнтези' },
+  { id: 'src-cinemysterium', title: 'cinemysterium', handle: 'cinemysterium', platform: 'telegram', url: 'https://t.me/cinemysterium', role: 'place', kind: 'unknown', category: 'critic', sub: 'хоррор, мрачное кино' },
+  { id: 'src-cinema1909', title: 'cinema1909', handle: 'cinema1909', platform: 'telegram', url: 'https://t.me/cinema1909', role: 'place', kind: 'unknown', category: 'cinema', sub: 'Москва, Художественный' },
+  { id: 'src-lifeisscarier', title: 'LifeIsScarier', handle: 'LifeIsScarier', platform: 'telegram', url: 'https://t.me/LifeIsScarier', role: 'place', kind: 'unknown', category: 'critic', sub: 'хоррор' },
+  { id: 'src-alarm-cassettes', title: 'alarm_cassettes', handle: 'alarm_cassettes', platform: 'telegram', url: 'https://t.me/alarm_cassettes', role: 'place', kind: 'unknown', category: 'critic', sub: 'хоррор' },
   // ── каналы из пульта ссылок: tools/links-desk.mts дописывает сюда ──
   { id: 'src-plastic-raven2159', title: 'Plastic_RAVEn', handle: 'plastic_raven2159', platform: 'youtube', url: 'https://www.youtube.com/@plastic_raven2159', role: 'voice', kind: 'channel', tier: 'review' },
   { id: 'src-ivangeroi', title: 'ПОСЛЕДНИЙ КИНОГЕРОЙ', handle: 'ivangeroi', platform: 'youtube', url: 'https://www.youtube.com/@ivangeroi', role: 'voice', kind: 'channel', tier: 'essay' },
@@ -883,9 +890,9 @@ export const sources: VoiceSource[] = [
   // ── тонкие рубрики (ТВ-3д, 06.10, «все сильные» — владелец): кандидаты по ссылкам из постов и описаний
   //    наших роликов (scratchpad channels-candidates). Каналы не о кино целиком (Комолов, Исаев) —
   //    проверить точность во вкладке «Каналы» после первого обхода и снять, если шумят ──
-  { id: 'src-iron-wind', title: 'Алексей Исаев', handle: 'iron_wind', platform: 'telegram', url: 'https://t.me/iron_wind', role: 'voice', kind: 'channel', tier: 'essay' },
-  { id: 'src-avtorskayakomnata', title: 'Авторская комната', handle: 'avtorskayakomnata', platform: 'telegram', url: 'https://t.me/avtorskayakomnata', role: 'voice', kind: 'channel', tier: 'essay' },
-  { id: 'src-piratskiyhronist', title: 'Пиратский хронист', handle: 'PiratskiyHronist', platform: 'telegram', url: 'https://t.me/PiratskiyHronist', role: 'voice', kind: 'channel', tier: 'essay' },
+  { id: 'src-iron-wind', title: 'Алексей Исаев', handle: 'iron_wind', platform: 'telegram', url: 'https://t.me/iron_wind', role: 'voice', kind: 'channel', tier: 'essay', category: 'other', sub: 'военная история' },
+  { id: 'src-avtorskayakomnata', title: 'Авторская комната', handle: 'avtorskayakomnata', platform: 'telegram', url: 'https://t.me/avtorskayakomnata', role: 'voice', kind: 'channel', tier: 'essay', category: 'podcast', sub: 'сценаристы' },
+  { id: 'src-piratskiyhronist', title: 'Пиратский хронист', handle: 'PiratskiyHronist', platform: 'telegram', url: 'https://t.me/PiratskiyHronist', role: 'voice', kind: 'channel', tier: 'essay', category: 'other', sub: 'история' },
   { id: 'src-komolov', title: 'Олег Комолов', handle: 'UC4Cap1xVy2waDXfzM5ka6lg', platform: 'youtube', url: 'https://www.youtube.com/channel/UC4Cap1xVy2waDXfzM5ka6lg', role: 'voice', kind: 'channel', tier: 'essay' },
   { id: 'src-faust21', title: 'Faust 21 Century', handle: 'Faust21century', platform: 'youtube', url: 'https://www.youtube.com/@Faust21century', role: 'voice', kind: 'channel', tier: 'essay' },
   { id: 'src-chernichkina', title: 'Маруся Черничкина', handle: 'chernichkina.marusya', platform: 'youtube', url: 'https://www.youtube.com/@chernichkina.marusya', role: 'voice', kind: 'channel', tier: 'essay' },
@@ -1403,6 +1410,27 @@ export const sources: VoiceSource[] = [
   { id: 'src-yt-austinburke', title: 'Austin Burke', handle: 'austinburke', platform: 'youtube', url: 'https://www.youtube.com/@austinburke', role: 'voice', kind: 'channel', tier: 'review', language: 'en' }, // из формы 09.10: рецензии новинок кино и сериалов, тир-листы; прислан: 2020 Film Festival Movie Tier List
   { id: 'src-yt-mrsundaymovies', title: 'Mr Sunday Movies', handle: 'mrsundaymovies', platform: 'youtube', url: 'https://www.youtube.com/@mrsundaymovies', role: 'voice', kind: 'channel', tier: 'review', language: 'en' }, // из формы 09.10: юмористические обзоры фильмов и франшиз; прислан: Ranking Every Spider-Man Universe - A Tier List
   { id: 'src-yt-thelostriverdrivein', title: 'The Lost River Drive-In', handle: 'thelostriverdrivein', platform: 'youtube', url: 'https://www.youtube.com/@thelostriverdrivein', role: 'voice', kind: 'channel', tier: 'review', via: 'links', language: 'en' }, // из формы 09.10: факты и истории хоррор-фильмов; прислан: John Carpenter’s Movies Tier List | The Greatest Of All Time???
+  // книжные каналы каталога telega.in (23.10, .cache/outreach/telega-book-sources.mts)
+  { id: 'src-tg-aluareads', title: 'Алуа читает', handle: 'Aluareads', platform: 'telegram', url: 'https://t.me/Aluareads', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'книжный клуб, классика' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-lilya-storygirl', title: 'Лиля Шеламова', handle: 'lilya_storygirl', platform: 'telegram', url: 'https://t.me/lilya_storygirl', role: 'voice', kind: 'channel', tier: 'review', medium: 'book' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-alibiderchii', title: 'Vodka.Kniga.Balalaika', handle: 'alibiderchii', platform: 'telegram', url: 'https://t.me/alibiderchii', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'книги и кино, лайфстайл' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-alinabookstar', title: 'Алина Букстар | блогер лайфстайл и книги - жца', handle: 'alinabookstar', platform: 'telegram', url: 'https://t.me/alinabookstar', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'лайфстайл и книги' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-irenedrama', title: 'Кризис драмы', handle: 'irenedrama', platform: 'telegram', url: 'https://t.me/irenedrama', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'книжный бизнес' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-cmxtk', title: 'Комиксотека • Подкаст «Искусство №9»', handle: 'cmxtk', platform: 'telegram', url: 'https://t.me/cmxtk', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'комиксы + подкаст' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-book-movie-guide', title: 'Book_movie_guide', handle: 'book_movie_guide', platform: 'telegram', url: 'https://t.me/book_movie_guide', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'ромфант и фанфики' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-abbbooks', title: 'Александра Бекренева', handle: 'abbbooks', platform: 'telegram', url: 'https://t.me/abbbooks', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'интеллектуальная литература' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-fantasy-jedi', title: 'Джедай из Шира: фантастика и фэнтези', handle: 'fantasy_jedi', platform: 'telegram', url: 'https://t.me/fantasy_jedi', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'фантастика и фэнтези' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-mezhdy-str', title: 'Между строк', handle: 'mezhdy_str', platform: 'telegram', url: 'https://t.me/mezhdy_str', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-vom2020a', title: 'Читательский дневник', handle: 'vom2020a', platform: 'telegram', url: 'https://t.me/vom2020a', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-kotarubooks', title: 'Kotaru', handle: 'kotarubooks', platform: 'telegram', url: 'https://t.me/kotarubooks', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'отзывы и лайфстайл' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-yaseychaschitayu', title: 'Я сейчас читаю 📚', handle: 'yaseychaschitayu', platform: 'telegram', url: 'https://t.me/yaseychaschitayu', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-tam-takoy-suzhet', title: 'Там такой сюжет...📚😍', handle: 'tam_takoy_suzhet', platform: 'telegram', url: 'https://t.me/tam_takoy_suzhet', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'книги и дорамы' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-bookssshelff', title: 'книжная полка', handle: 'bookssshelff', platform: 'telegram', url: 'https://t.me/bookssshelff', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'читательский дневник' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-katwhatsup', title: '✨Катя: кино и книги✨', handle: 'katwhatsup', platform: 'telegram', url: 'https://t.me/katwhatsup', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'книжный блог' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-knizist', title: 'Книжист', handle: 'knizist', platform: 'telegram', url: 'https://t.me/knizist', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'цитаты и о литературе' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-yuliasvetlichnaya', title: 'Юлия Светличная | книги и жизнь', handle: 'yuliasvetlichnaya', platform: 'telegram', url: 'https://t.me/yuliasvetlichnaya', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-bar-books', title: 'Книжный бар | Отнюдь', handle: 'bar_books', platform: 'telegram', url: 'https://t.me/bar_books', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books', sub: 'подборки и квизы' }, // каталог telega.in 23.10: книжный канал
+  { id: 'src-tg-tiempo-de-libro', title: 'Книжный кофе-брейк 📚☕️', handle: 'tiempo_de_libro', platform: 'telegram', url: 'https://t.me/tiempo_de_libro', role: 'voice', kind: 'channel', tier: 'review', medium: 'book', category: 'books' }, // каталог telega.in 23.10: книжный канал
 ];
 
 /** Каналы реестра с сервера (06.10): правда о реестре — в базе приложения (worker/registry.ts, GET
