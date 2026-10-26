@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCharacter, getSettings, type CharacterPage } from '@/api';
 import type { SpoilerLevel, WorkCard } from '@/types/tmdf';
-import { BackLink, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
+import { BackLink, Button, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
+import { appLink, tap, webApp } from '@/lib/telegram';
 import { useMechanics } from '@/lib/settingsStore';
 import { WorkThumb } from '@/components/WorkThumb';
 import { HERO_ID } from '@/components/ShareButton';
 import { Face } from '@/components/Face';
 import { OpenContext } from '@/lib/openContext';
+import { swapWorks } from '@/lib/swapWorks';
 import ui from '@/i18n';
 import { titleOf } from '@/lib/format';
 
@@ -30,11 +32,19 @@ export function CharacterScreen() {
     let alive = true;
     setData(null);
     setFailed(false);
-    getCharacter(id).then((c) => alive && setData(c)).catch(() => alive && setFailed(true));
+    // обложки TMDb — следом (25.10): страница не ждёт их до 6 с; пришли раньше страницы — подставятся в неё
+    let page: CharacterPage | undefined | null = null;
+    let got: Map<string, WorkCard> | undefined;
+    const show = () => { if (alive && page !== null) setData(page && got ? swapWorks(page, got) : page); };
+    getCharacter(id, (g) => { got = g; show(); })
+      .then((c) => { page = c; show(); }).catch(() => alive && setFailed(true));
     return () => { alive = false; };
   }, [id, attempt]);
 
   const counts = data?.byKind.map((g) => ui.universe.count(g.kind, g.works.length)).join(' · ');
+  // сторис — только в Telegram 7.8+ (25.10)
+  const wa = webApp();
+  const story = wa?.shareToStory && wa.isVersionAtLeast('7.8') ? wa.shareToStory.bind(wa) : undefined;
   const shownAbove = new Set([data?.first?.id, data?.startWith?.work.id].filter((x): x is string => Boolean(x)));
 
   return (
@@ -69,6 +79,14 @@ export function CharacterScreen() {
               <FollowButton target={HERO_ID.test(data.id) ? { kind: 'character', ref: data.id, title: data.name } : undefined} />
               <ShareButton hero={{ id: data.id, name: data.name, ...(data.image?.url ? { image: data.image.url } : {}),
                 ...(data.byKind.length ? { where: data.byKind.flatMap((k) => k.works).slice(0, 3).map((w) => titleOf(w.work)).join(', ') } : {}) }} />
+              {/* «В сторис» (25.10, Bot API 7.8): лицо героя, «Шерлок Холмс — 14 версий» и ссылка на страницу (видна у Premium) */}
+              {story && data.image?.url?.startsWith('https://') && HERO_ID.test(data.id) ? (
+                <Button size="sm" variant="quiet" onClick={() => {
+                  tap();
+                  story(data.image!.url, { text: ui.share.storyText(data.name, data.byKind.reduce((n, k) => n + k.works.length, 0)),
+                    widget_link: { url: appLink(`h-${data.id}`), name: ui.share.storyLink } });
+                }}>{ui.share.story}</Button>
+              ) : null}
             </div>
           </header>
 
@@ -79,7 +97,8 @@ export function CharacterScreen() {
               <ul className="tm-hero__castrow">
                 {data.cast.map((c) => (
                   <li key={c.actor}>
-                    <button type="button" className="tm-hero__castitem" onClick={() => navigate(`/works/${c.work.id}`)}>
+                    {/* актёр с каналом в Telegram (25.10) — на его страницу (роли и канал), остальные — в карточку фильма */}
+                    <button type="button" className="tm-hero__castitem" onClick={() => navigate(c.person ? `/person/${c.person}` : `/works/${c.work.id}`)}>
                       <Face src={c.image} name={c.actor} />
                       <span className="tm-hero__castname">{c.actor}</span>
                       <span className="tm-caption">{ui.hero.castWork(titleOf(c.work), c.work.year || undefined)}</span>

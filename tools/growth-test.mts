@@ -70,14 +70,15 @@ assert.equal(wilson(0, 0).share, null);
 assert.deepEqual(g.sources.map((s) => s.source), ['kinoman', 'invited', 'organic', 'empty']);
 const [kino, inv, org, empty] = g.sources;
 assert.equal(kino.joined, 2); assert.equal(kino.activation.n, 1); assert.equal(kino.activation.of, 2);
-assert.equal(kino.d1.n, 1); assert.equal(kino.d1.of, 2);     // A вернулся на 1-й день, B — нет
-assert.equal(kino.d7.n, 1); assert.equal(kino.d7.of, 2);     // A был на 7-й день
+// удержание — от активации и только у активированных (25.10): B ленты не получил — в основание не идёт
+assert.equal(kino.d1.n, 1); assert.equal(kino.d1.of, 1);     // A вернулся на 1-й день
+assert.equal(kino.d7.n, 1); assert.equal(kino.d7.of, 1);     // A был на 7-й день
 assert.equal(kino.d30.of, 0); assert.equal(kino.d30.share, null); // 30-й день ещё не прошёл
 assert.equal(kino.cost, 3000); assert.equal(kino.perJoined, 1500); assert.equal(kino.perActivated, 3000); assert.equal(kino.perD7, 3000);
 assert.equal(kino.posts, 1); assert.deepEqual(kino.channels, ['Киноман']); assert.equal(kino.lastPost, day(-25));
 assert.equal(inv.joined, 1); assert.equal(inv.activation.n, 1); assert.equal(inv.d1.n, 1); assert.equal(inv.d7.of, 0);
 assert.equal(org.joined, 1); assert.equal(org.activation.n, 0);   // лента через два дня — не активация
-assert.equal(org.d1.n, 1); assert.equal(org.d7.n, 1); assert.equal(org.d30.n, 1); assert.equal(org.d30.of, 1);
+assert.equal(org.d1.of, 0); assert.equal(org.d7.of, 0); assert.equal(org.d30.of, 0); // D не активирован — в удержание не идёт
 assert.equal(empty.joined, 0); assert.equal(empty.cost, 1000); assert.equal(empty.perJoined, null);
 
 // недели: двенадцать, последняя кончается сегодня — новые C, активные C, D, E, вернувшиеся D и E, поделились дважды
@@ -109,6 +110,14 @@ assert.deepEqual(g.virality.inline, { polls: 2, voters: 5, outsiders: 3 });
 // сводка: новых за 30 дней — 3, активных — 5, WAU — 3, потрачено за 90 дней — 4 000
 assert.equal(g.summary.joined30, 3); assert.equal(g.summary.active30, 5); assert.equal(g.summary.wau, 3); assert.equal(g.summary.spend90, 4000);
 assert.deepEqual(g.internal, { owner: 1, testers: 2 });
+
+// история по дням (25.10): от первого входа (E, 100 дней назад) до сегодня, без пропусков; итоги — все пятеро
+assert.equal(g.history.length, 101); assert.equal(g.history[0].day, day(-100)); assert.equal(g.history.at(-1)!.day, day(0));
+assert.deepEqual(g.history.find((h) => h.day === day(-20)), { day: day(-20), joined: 2, activated: 1, seeded: 2, invited: 0, organic: 0 });
+assert.deepEqual(g.history.find((h) => h.day === day(-5)), { day: day(-5), joined: 1, activated: 1, seeded: 0, invited: 1, organic: 0 });
+assert.equal(g.history.reduce((a, h) => a + h.joined, 0), 5);
+assert.deepEqual(g.totals, { joined: 5, activated: 2 }); // D — лента через два дня
+assert.equal(g.watch30, null); // старые строки без watch30
 
 // ── рекламная кампания (23.10): метка доживает до user.source при всех видах ссылок
 {
@@ -264,7 +273,7 @@ assert.deepEqual(g.internal, { owner: 1, testers: 2 });
   assert.deepEqual(c.channels.map((x) => x.channel), ['tg_a', 'tg_b']);
   const [ca, cb] = c.channels;
   assert.deepEqual(ca.labels, ['tg_a', 'tg_a_v']); assert.equal(ca.joined, 4); assert.equal(ca.activation.n, 2); assert.equal(ca.activation.of, 4);
-  assert.equal(ca.d1.n, 1); assert.equal(ca.d1.of, 3);           // a3 вошёл вчера — его 1-й день ещё не прошёл
+  assert.equal(ca.d1.n, 1); assert.equal(ca.d1.of, 1);           // в основании — активированные: a1; у a3 1-й день ещё не прошёл
   assert.equal(ca.d7.of, 0); assert.equal(ca.perD7, null);
   assert.equal(ca.cost, 2000); assert.equal(ca.reach, 1000); close(ca.openRate, 0.004, 1e-9); assert.equal(ca.perReach, 2);
   assert.equal(ca.perJoined, 500); assert.equal(ca.perActivated, 1000);

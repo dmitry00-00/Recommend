@@ -5280,12 +5280,39 @@
       "note": "канал автора 24.10 — Олег Александрович Маловичко (Q56420868, Wikidata P3789); может оказаться личным аккаунтом"
     },
     {
+      "username": "podkasti_audioknigi",
+      "category": "books",
+      "sub": "аудиокниги и подкасты, рекламная сеть (ссылки на Литрес, Ozon)",
+      "note": "владелец 24.10 — 85 тыс. подписчиков, рекламная сеть expert-book.pro",
+      "paths": [
+        ".cache/telegram/podkasti_audioknigi.json"
+      ]
+    },
+    {
+      "username": "literatura_knigi",
+      "category": "books",
+      "sub": "личный блог о книгах и фильмах",
+      "note": "владелец 24.10 — «Вы только почитайте», ~400 подписчиков",
+      "paths": [
+        ".cache/telegram/literatura_knigi.json"
+      ]
+    },
+    {
       "username": "ptuxerman",
       "paths": [
         ".cache/telegram/ptuxerman.json"
       ],
       "category": "creator",
       "note": "канал автора 24.10 — Антон Юрьевич Птушкин (Q59546236, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "aknigiclub",
+      "category": "pirate",
+      "sub": "аудиокниги akniga.org",
+      "note": "владелец 24.10 — канал сайта akniga.org (аудиокниги без явных лицензий): сигнал интереса, не партнёр и не «где слушать»",
+      "paths": [
+        ".cache/telegram/aknigiclub.json"
+      ]
     },
     {
       "username": "i_bachurin",
@@ -5302,6 +5329,3165 @@
       ],
       "category": "creator",
       "note": "канал автора 24.10 — Александр Евгеньевич Цыпкин (Q97314104, Wikidata P3789); может оказаться личным аккаунтом"
+    },
+    {
+      "username": "audioknigiosn",
+      "category": "pirate",
+      "sub": "аудиокниги файлами: фэнтези, попаданцы, LitRPG",
+      "note": "владелец 24.10 — раздаёт аудиокниги файлами, ~9 тыс. подписчиков",
+      "paths": [
+        ".cache/telegram/audioknigiosn.json"
+      ]
+    },
+    {
+      "username": "kvuhe",
+      "category": "pirate",
+      "sub": "аудиокниги knigavuhe.org",
+      "note": "владелец 24.10 — канал сайта knigavuhe.org; публичной страницы t.me/s нет",
+      "paths": [
+        ".cache/telegram/kvuhe.json"
+      ]
+    },
+    {
+      "username": "chitalnya5",
+      "category": "books",
+      "sub": "чтец: аудиокниги и рассказы в своём прочтении, только доступное по авторским правам (Александр Большешальский)",
+      "note": "владелец 24.10 — «Читальня номер 5», YouTube @alexbalsh и @kniga_v_uhe; читает то, что доступно по авторским правам (со слов владельца) — годится как источник «послушать» и партнёр; публичной страницы t.me/s нет",
+      "paths": [
+        ".cache/telegram/chitalnya5.json"
+      ]
+    },
+    {
+      "username": "diktor",
+      "category": "books",
+      "sub": "чтец: диктор Павел Константиновский, озвучивает книги независимых авторов",
+      "note": "поиск чтецов 24.10 (архив шлюза, упоминание в постах @papawillcall) — «Диктор Павел Константиновский | Запись аудиокниг», 847 подписчиков: сам озвучивает по заказу авторов (договор), диктор Эксмо/Bombora/Книгиум, работы на Литрес (рассказ «Благодетели» — шорт-лист премии «Инженеры слова»); пишет о создании аудиокниг; сайт https://knigastudio.ru; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/diktor.json"
+      ]
+    },
+    {
+      "username": "dictor_ksenia78",
+      "category": "books",
+      "sub": "чтец: диктор Ксения Кобзева (СПб), озвучка на заказ",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @diktor) — «ДИКТОР КСЕНИЯ КОБЗЕВА»: диктор и чтец, член Союза дикторов, «заказ озвучивания»; озвучивает книги авторов (упомянута у @diktor); превью t.me/s закрыто; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/dictor_ksenia78.json"
+      ]
+    },
+    {
+      "username": "Marina_Darinova",
+      "category": "books",
+      "sub": "чтец: Марина Даринова, исполнитель аудиокниг (Литрес, Яндекс Книги, Строки)",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @diktor) — «Марина Даринова 🎙 [озвучиваю]», 76 подписчиков: исполнитель аудиокниг по договору с издательствами/авторами: страница чтеца на Литрес и Яндекс Книгах, Rutube; маленький канал; сайт https://www.litres.ru/author/marina-darinova/; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/Marina_Darinova.json"
+      ]
+    },
+    {
+      "username": "rostovabooks",
+      "category": "books",
+      "sub": "чтец: Наталья Ростова, автор и чтец (Литрес)",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @Marina_Darinova) — «И ЧТЕЦ, И ЖНЕЦ», 325 подписчиков: автор и чтец, страницы чтеца и автора на Литрес, «озвучить книгу»; аудиокниги АСТ/Яндекс Книги в её исполнении; сайт https://litres.ru/pages/biblio_authors/?subject=32604553; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/rostovabooks.json"
+      ]
+    },
+    {
+      "username": "gala_nechaeva",
+      "category": "books",
+      "sub": "чтец: Галина Нечаева, актриса озвучания (аудиорассказы «Прочитано», ССК)",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @v_stile_prochitano) — «Галина Нечаева | VOICE», 217 подписчиков: сама читает: аудиорассказы проекта «Прочитано» (с авторами), «Самой страшной книги» (#ССКаудио), сказки для бренда; Щукинское, реклама; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/gala_nechaeva.json"
+      ]
+    },
+    {
+      "username": "exclusive_libris",
+      "category": "books",
+      "sub": "чтец: Ex_Libris, «голос из книг», читает для авторов",
+      "note": "поиск чтецов 24.10 (архив шлюза, упоминание в постах @papawillcall) — «𝔈𝔵_𝔏𝔦𝔟𝔯𝔦𝔰 | Аудио-Литература🎙», 530 подписчиков: чтец, «Для авторов» — озвучка по заказу; автор канала «Хемингуэй позвонит» благодарит за «альтернативную озвучку» своей книги; превью t.me/s закрыто — что именно читает, не видно; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/exclusive_libris.json"
+      ]
+    },
+    {
+      "username": "Marina_Mir717",
+      "category": "books",
+      "sub": "чтец: Марина Мир, стихи и проза (классика)",
+      "note": "поиск чтецов 24.10 (архив шлюза, упоминание в постах @glagol_tg) — «Марина Мир», ~1.3 тыс. подписчиков: «Чтец. Стихи и проза»; по посту канала glagol_tg — читает классику; превью t.me/s закрыто; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/Marina_Mir717.json"
+      ]
+    },
+    {
+      "username": "Vimbo_audiobooks",
+      "category": "books",
+      "sub": "студия аудиокниг: аудиоиздательство ВИМБО (Литрес, Яндекс Книги)",
+      "note": "поиск чтецов 24.10 (архив шлюза, упоминание в постах @ladylibra_1410) — «Аудио Издательство ВИМБО», ~1.7 тыс. подписчиков: аудиоиздательство с лицензиями издательств (Булгаков, Замировская, Исакова как чтец), ссылки на Литрес/WB Books; сайт https://vimbo.ru; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/Vimbo_audiobooks.json"
+      ]
+    },
+    {
+      "username": "catchersound",
+      "category": "books",
+      "sub": "студия аудиокниг: Catcher sound — аудиокниги и аудиосериалы",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @diktor) — «Catcher sound», ~7.2 тыс. подписчиков: студия записи аудиокниг и аудиосериалов (Литрес, Яндекс Книги, Apple Books) по договорам с авторами/издательствами; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/catchersound.json"
+      ]
+    },
+    {
+      "username": "bombora_digital",
+      "category": "books",
+      "sub": "студия аудиокниг: цифровое направление издательства Бомбора (Эксмо)",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @diktor) — «О! Цифровые книги?», ~4.5 тыс. подписчиков: аудиокниги издательства в авторской и дикторской озвучке, ссылки на Литрес/Яндекс Книги; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/bombora_digital.json"
+      ]
+    },
+    {
+      "username": "CCKhorror",
+      "category": "books",
+      "sub": "студия аудиокниг: «Самая страшная книга» — своя озвучка рассказов (#ССКаудио)",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @gala_nechaeva) — «Самая страшная книга 💀 ССК Official 🔞», ~2.3 тыс. подписчиков: официальный канал книжной серии ужасов, выкладывает аудиоверсии своих рассказов (YouTube, Rutube, VK) — права у проекта; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/CCKhorror.json"
+      ]
+    },
+    {
+      "username": "v_stile_prochitano",
+      "category": "books",
+      "sub": "студия аудиокниг: «Прочитано» — аудиорассказы современных авторов",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @diktor) — ««Прочитано»», ~4.5 тыс. подписчиков: онлайн-библиотека и сборники рассказов, присланных авторами; аудиорассказы читает Галина Нечаева (Яндекс Музыка, Mave, Spotify); сайт https://prochitano.ru; кандидат в «послушать» и партнёры",
+      "paths": [
+        ".cache/telegram/v_stile_prochitano.json"
+      ]
+    },
+    {
+      "username": "my_science_fiction",
+      "category": "pirate",
+      "sub": "аудиокниги файлами: попаданцы, LitRPG (чужие записи)",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Мои книги», ~1.9 тыс. подписчиков: выкладывает файлами чужие профессиональные записи (Олег Троицкий, Александр Надеев…) современных авторов, просит донаты; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/my_science_fiction.json"
+      ]
+    },
+    {
+      "username": "audioknigiosn2",
+      "category": "pirate",
+      "sub": "резерв канала аудиокниг файлами @audioknigiosn",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @audioknigiosn) — «резерв @audioknigiosn», ~1.3 тыс. подписчиков: запасной канал «на случай блокировки» раздачи @audioknigiosn; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/audioknigiosn2.json"
+      ]
+    },
+    {
+      "username": "ruaudiob00ks",
+      "category": "pirate",
+      "sub": "аудиокниги файлами: фэнтези, попаданцы",
+      "note": "поиск чтецов 24.10 (ссылка со страницы проверенного канала @audioknigiosn) — «Аудиокниги. фэнтези, попаднцы», ~10.8 тыс. подписчиков: тот же админ, что у @audioknigiosn; превью закрыто; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/ruaudiob00ks.json"
+      ]
+    },
+    {
+      "username": "audio_freebook",
+      "category": "pirate",
+      "sub": "бесплатные аудиокниги файлами",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Аудиокниги | Книги», ~23.7 тыс. подписчиков: «аудиокниги великих писателей в душевной озвучке», почта «по вопросам авторских прав»; свой чтец не указан, превью закрыто; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/audio_freebook.json"
+      ]
+    },
+    {
+      "username": "audio_performance",
+      "category": "pirate",
+      "sub": "аудиоспектакли файлами",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Аудиоспектакли», ~13.4 тыс. подписчиков: «общедоступная фонотека… для информационных, учебных целей» — типичная оговорка раздачи; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/audio_performance.json"
+      ]
+    },
+    {
+      "username": "audio_detective",
+      "category": "pirate",
+      "sub": "аудиокниги-детективы файлами (вероятно)",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Аудиокниги | Детективы», ~5.6 тыс. подписчиков: подборка детективов без своего чтеца, превью закрыто; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/audio_detective.json"
+      ]
+    },
+    {
+      "username": "audbook1",
+      "category": "pirate",
+      "sub": "аудиокниги-фантастика файлами (вероятно)",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «ФанТастик📚🎧 Полка фантастика», ~9.9 тыс. подписчиков: просит переводы на карту, превью закрыто, своего чтеца нет; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/audbook1.json"
+      ]
+    },
+    {
+      "username": "flibustabooks",
+      "category": "pirate",
+      "sub": "книги и аудиокниги под маркой Флибусты",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Книги Флибуста 📕 Аудиокниги», ~154 тыс. подписчиков: канал под маркой Флибусты, 154 тыс.; сейчас в ленте цитаты; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/flibustabooks.json"
+      ]
+    },
+    {
+      "username": "flibusta_anglysky",
+      "category": "pirate",
+      "sub": "книги и аудиокниги файлами",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Книги | Аудиокниги», ~367.4 тыс. подписчиков: 367 тыс., навигация по файлам в закрепе, превью закрыто; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/flibusta_anglysky.json"
+      ]
+    },
+    {
+      "username": "skachat_chitat_besplatno",
+      "category": "pirate",
+      "sub": "книги и аудиокниги под маркой Флибусты",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Книги и Аудиокниги | Флибуста», ~89.3 тыс. подписчиков: «Книги и Аудиокниги | Флибуста», превью закрыто; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/skachat_chitat_besplatno.json"
+      ]
+    },
+    {
+      "username": "English_Books_TG",
+      "category": "pirate",
+      "sub": "книги и аудиокниги на английском файлами",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Книги на Английском | Аудиокниги», ~45.5 тыс. подписчиков: файлы скрыты в превью (17 пропусков), рекламная сеть; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/English_Books_TG.json"
+      ]
+    },
+    {
+      "username": "BiblioLib",
+      "category": "pirate",
+      "sub": "переводы и озвучка эзотерики без лицензии",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «Александрийская библиотека», ~4.2 тыс. подписчиков: переводит и озвучивает книги Дэвида Айка и др. — без прав; ещё и эзотерика (своя категория); не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/BiblioLib.json"
+      ]
+    },
+    {
+      "username": "melodybooks",
+      "category": "pirate",
+      "sub": "аудиокниги файлами (вероятно)",
+      "note": "поиск чтецов 24.10 (каталог telega.in) — «МЕЛОДИЯ КНИГ», ~13.1 тыс. подписчиков: «Аудио и книги для души», переливали из группы ВК, превью закрыто, своего чтеца нет; не партнёр и не «где послушать»",
+      "paths": [
+        ".cache/telegram/melodybooks.json"
+      ]
+    },
+    {
+      "username": "audiobooks_4u",
+      "category": "pirate",
+      "sub": "аудиокниги из «личной коллекции» (ссылки на archive.org): романы",
+      "note": "владелец 24.10 — пиратский; ~480 подписчиков, Бакман, Таунсенд, Рэнд",
+      "paths": [
+        ".cache/telegram/audiobooks_4u.json"
+      ]
+    },
+    {
+      "username": "VoiceofBooks",
+      "category": "pirate",
+      "sub": "аудиокниги файлами в чужом исполнении",
+      "note": "владелец 24.10 — пиратский; «Голос Книг», ~2,5 тыс. подписчиков",
+      "paths": [
+        ".cache/telegram/VoiceofBooks.json"
+      ]
+    },
+    {
+      "username": "audiobooks_English",
+      "category": "pirate",
+      "sub": "аудиокниги на английском файлами (издательские записи)",
+      "note": "проверка 24.10 по t.me/s: ~24 тыс., ежедневно чужие изданные записи (Чайковски, Берроуз, Теннант) — пиратский",
+      "paths": [
+        ".cache/telegram/audiobooks_English.json"
+      ]
+    },
+    {
+      "username": "skazkinanoc",
+      "category": "books",
+      "sub": "чтец: короткие аудиорассказы (Никита Король)",
+      "note": "проверка 24.10: «Аудиокниги и рассказы | Никита Король» — свои короткие рассказы и чтения, реклама; публичной страницы t.me/s нет — что читает и с какими правами, не проверено",
+      "paths": [
+        ".cache/telegram/skazkinanoc.json"
+      ]
+    },
+    {
+      "username": "escapefromnechitown",
+      "category": "books",
+      "sub": "стример читает книги вслух (Саддамушка), записи и Boosty",
+      "note": "проверка 24.10: «Побег из нечитуна» — записи чтения стримера, Boosty saddamushkatv; голос свой, права на тексты не проверены — не «послушать», возможен как голос; t.me/s нет",
+      "paths": [
+        ".cache/telegram/escapefromnechitown.json"
+      ]
+    },
+    {
+      "username": "books_afisha",
+      "category": "books",
+      "sub": "афиша книжных мероприятий: клубы, совместные чтения, презентации",
+      "note": "список владельца 24.10 — «Book's дайджест», ~1 тыс.; Москва, издательства (Альпина, Читай-город)",
+      "paths": [
+        ".cache/telegram/books_afisha.json"
+      ]
+    },
+    {
+      "username": "Odessa_141",
+      "category": "pirate",
+      "sub": "аудиокниги файлами (вероятно)",
+      "note": "список владельца 24.10 — «Аудиокниги на любой вкус»; t.me/s нет, вердикт по описанию",
+      "paths": [
+        ".cache/telegram/Odessa_141.json"
+      ]
+    },
+    {
+      "username": "bookcup1",
+      "category": "books",
+      "sub": "книжный блог «Книжная чашка историй»",
+      "note": "список владельца 24.10; t.me/s нет — содержание не проверено",
+      "paths": [
+        ".cache/telegram/bookcup1.json"
+      ]
+    },
+    {
+      "username": "audioknigaonlineru",
+      "category": "pirate",
+      "sub": "аудиокниги сайта audioknigaonline.ru",
+      "note": "список владельца 24.10 — ~1,5 тыс.; чужие записи (в т. ч. «Коты-воители») — не «послушать»",
+      "paths": [
+        ".cache/telegram/audioknigaonlineru.json"
+      ]
+    },
+    {
+      "username": "read_judge",
+      "category": "books",
+      "sub": "личный блог: ромфант, фэнтези, дарк в оригинале",
+      "note": "список владельца 24.10 — READ&JUDGE, ~150",
+      "paths": [
+        ".cache/telegram/read_judge.json"
+      ]
+    },
+    {
+      "username": "thebestAudioBookSany",
+      "category": "pirate",
+      "sub": "аудиокниги файлами в чужом исполнении",
+      "note": "список владельца 24.10 — «Лучшие Аудиокниги», ~430; «Улисс», ССК Darker 2026 — чужие записи",
+      "paths": [
+        ".cache/telegram/thebestAudioBookSany.json"
+      ]
+    },
+    {
+      "username": "niraribook",
+      "category": "books",
+      "sub": "писательница: свои книги (Author.Today), книжный блог",
+      "note": "список владельца 24.10 — «Нира из книжного мира», ~1 тыс.",
+      "paths": [
+        ".cache/telegram/niraribook.json"
+      ]
+    },
+    {
+      "username": "lorisbook",
+      "category": "books",
+      "sub": "личный блог: отзывы, ромфант 18+",
+      "note": "список владельца 24.10 — ~720; рекламу и сотрудничество не берёт",
+      "paths": [
+        ".cache/telegram/lorisbook.json"
+      ]
+    },
+    {
+      "username": "litrespartners",
+      "category": "service",
+      "sub": "партнёрская программа Литрес: офферы, новинки, акции",
+      "note": "список владельца 24.10 — ~660; для партнёрских ссылок «купить/послушать» (CPA через advcake), бот @Litres_partners_official_bot",
+      "paths": [
+        ".cache/telegram/litrespartners.json"
+      ]
+    },
+    {
+      "username": "callmeishmaele",
+      "category": "books",
+      "sub": "личный блог о книгах и музыке",
+      "note": "список владельца 24.10 — «Полумёртвый книголюб», ~420",
+      "paths": [
+        ".cache/telegram/callmeishmaele.json"
+      ]
+    },
+    {
+      "username": "Jahongir_books",
+      "category": "books",
+      "sub": "саморазвитие: цитаты, книги и аудиокниги (возможно файлами)",
+      "note": "список владельца 24.10 — ~380; психология, философия",
+      "paths": [
+        ".cache/telegram/Jahongir_books.json"
+      ]
+    },
+    {
+      "username": "curlyreaderkat",
+      "category": "books",
+      "sub": "личный блог: отзывы, дарк-романы, ромэнтези 18+",
+      "note": "список владельца 24.10 — ~210",
+      "paths": [
+        ".cache/telegram/curlyreaderkat.json"
+      ]
+    },
+    {
+      "username": "bookstokk",
+      "category": "books",
+      "sub": "книжный блог с рекламой (зарегистрирован в РКН)",
+      "note": "список владельца 24.10 — «лучше с книгами», ~13,5 тыс.; прайс t.me/bookkons — кандидат в посевы книжного входа",
+      "paths": [
+        ".cache/telegram/bookstokk.json"
+      ]
+    },
+    {
+      "username": "eggmcguffin",
+      "paths": [
+        ".cache/telegram/eggmcguffin.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Егор Абраменко (Q99196536)"
+    },
+    {
+      "username": "aagranovich",
+      "paths": [
+        ".cache/telegram/aagranovich.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Алексей Агранович (Q28124116)"
+    },
+    {
+      "username": "letsplayfilms",
+      "paths": [
+        ".cache/telegram/letsplayfilms.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Кирилл Алёхин, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "stepanburnashev",
+      "paths": [
+        ".cache/telegram/stepanburnashev.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Степан Бурнашев, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "dazedandamazed",
+      "paths": [
+        ".cache/telegram/dazedandamazed.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Полина Варфоломеева, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "NormalnoeKino",
+      "paths": [
+        ".cache/telegram/NormalnoeKino.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Александр Гаврилов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "etika_teoretika",
+      "paths": [
+        ".cache/telegram/etika_teoretika.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Владимир Гасанов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "agonch",
+      "paths": [
+        ".cache/telegram/agonch.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Арсений Гончуков (Q4143306)"
+    },
+    {
+      "username": "gorobetsmark",
+      "paths": [
+        ".cache/telegram/gorobetsmark.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Марк Горобец, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "dreamongreenlight",
+      "paths": [
+        ".cache/telegram/dreamongreenlight.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Денис Данилов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "atikaktam",
+      "paths": [
+        ".cache/telegram/atikaktam.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Григорий Добрыгин (Q981292)"
+    },
+    {
+      "username": "vozhy_dovzhy",
+      "paths": [
+        ".cache/telegram/vozhy_dovzhy.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Стас Довжик (Q4164016)"
+    },
+    {
+      "username": "adilkhunter",
+      "paths": [
+        ".cache/telegram/adilkhunter.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Адильхан Ержанов (Q59185728)"
+    },
+    {
+      "username": "karenzakharov",
+      "paths": [
+        ".cache/telegram/karenzakharov.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Карен Захаров (Q20510766)"
+    },
+    {
+      "username": "leshazotov",
+      "paths": [
+        ".cache/telegram/leshazotov.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Алексей Зотов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "odinilyin",
+      "paths": [
+        ".cache/telegram/odinilyin.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Сергей Ильин (Q124771088)"
+    },
+    {
+      "username": "dkdirecting",
+      "paths": [
+        ".cache/telegram/dkdirecting.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Дмитрий Киселёв (Q4222061)"
+    },
+    {
+      "username": "budetkino",
+      "paths": [
+        ".cache/telegram/budetkino.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Яна Климова-Юсупова, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "filkorshunov",
+      "paths": [
+        ".cache/telegram/filkorshunov.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Филипп Коршунов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "lavrslav",
+      "paths": [
+        ".cache/telegram/lavrslav.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Вячеслав Лавров, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "maralesmisha",
+      "paths": [
+        ".cache/telegram/maralesmisha.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Михаил Малинин, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "pokatitri",
+      "paths": [
+        ".cache/telegram/pokatitri.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Евгений Марьян, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "oksanamafa",
+      "paths": [
+        ".cache/telegram/oksanamafa.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Оксана Мафагел, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "melikyananna",
+      "paths": [
+        ".cache/telegram/melikyananna.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Анна Меликян (Q4289477)"
+    },
+    {
+      "username": "mirohina_a",
+      "paths": [
+        ".cache/telegram/mirohina_a.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Аня Мирохина, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "kinodreamkino",
+      "paths": [
+        ".cache/telegram/kinodreamkino.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Эдуард Пальмов, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "methodPaushu",
+      "paths": [
+        ".cache/telegram/methodPaushu.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Руслан Паушу, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "ratushnaya",
+      "paths": [
+        ".cache/telegram/ratushnaya.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Ксения Ратушная (Q106651270)"
+    },
+    {
+      "username": "anton_rival",
+      "paths": [
+        ".cache/telegram/anton_rival.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Антон Риваль, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "romariosafin",
+      "paths": [
+        ".cache/telegram/romariosafin.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Роман Сафин, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "semichevmisha",
+      "paths": [
+        ".cache/telegram/semichevmisha.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Миша Семичев, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "contemporaryfilm",
+      "paths": [
+        ".cache/telegram/contemporaryfilm.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Иван Твердовский (Q18408276)"
+    },
+    {
+      "username": "katya_telegina",
+      "paths": [
+        ".cache/telegram/katya_telegina.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Катя Телегина, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "olenjon_official",
+      "paths": [
+        ".cache/telegram/olenjon_official.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Олег Трофим (Q84599463)"
+    },
+    {
+      "username": "channel_hant",
+      "paths": [
+        ".cache/telegram/channel_hant.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Александр Хант (Q65143054)"
+    },
+    {
+      "username": "leragermanica",
+      "paths": [
+        ".cache/telegram/leragermanica.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Валерия Гай Германика (Q468621)"
+    },
+    {
+      "username": "nikitakarikhrezh",
+      "paths": [
+        ".cache/telegram/nikitakarikhrezh.json"
+      ],
+      "category": "creator",
+      "sub": "режиссёр",
+      "note": "канал человека, список владельца 25.10 — Никита Карих, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "sanyabortichsanya",
+      "paths": [
+        ".cache/telegram/sanyabortichsanya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал человека, список владельца 25.10 — Александра Бортич (Q18907601)"
+    },
+    {
+      "username": "zapiskiaktera",
+      "paths": [
+        ".cache/telegram/zapiskiaktera.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал человека, список владельца 25.10 — Сергей Марочкин, страницы у нас нет — для счёта"
+    },
+    {
+      "username": "nik_kologrivyy",
+      "paths": [
+        ".cache/telegram/nik_kologrivyy.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал человека, список владельца 25.10 — Никита Кологривый (Q123194690)"
+    },
+    {
+      "username": "cabernetcinema",
+      "paths": [
+        ".cache/telegram/cabernetcinema.json"
+      ],
+      "category": "critic",
+      "sub": "новинки и сериалы",
+      "note": "список владельца 25.10 — «Cabernet Cinemá»"
+    },
+    {
+      "username": "rodionokino",
+      "paths": [
+        ".cache/telegram/rodionokino.json"
+      ],
+      "category": "critic",
+      "sub": "режиссёр пишет о кино",
+      "note": "список владельца 25.10 — «Родион о кино»"
+    },
+    {
+      "username": "Film_hedgehog",
+      "paths": [
+        ".cache/telegram/Film_hedgehog.json"
+      ],
+      "category": "critic",
+      "sub": "анонимный, с иголками",
+      "note": "список владельца 25.10 — «Кино_Ёж»"
+    },
+    {
+      "username": "apicatpongkino",
+      "paths": [
+        ".cache/telegram/apicatpongkino.json"
+      ],
+      "category": "critic",
+      "sub": "кинолекторий, Урал",
+      "note": "список владельца 25.10 — «Кинолекторий им. Апичатпонга Вирасетакула»"
+    },
+    {
+      "username": "ClanOfScript",
+      "paths": [
+        ".cache/telegram/ClanOfScript.json"
+      ],
+      "category": "critic",
+      "sub": "три сценариста о кино",
+      "note": "список владельца 25.10 — «Поэпизодный клан»"
+    },
+    {
+      "username": "heroines_journey",
+      "paths": [
+        ".cache/telegram/heroines_journey.json"
+      ],
+      "category": "critic",
+      "sub": "сценаристка о женщинах в кино, подкаст",
+      "note": "список владельца 25.10 — «Путь героини»"
+    },
+    {
+      "username": "kinoreel",
+      "paths": [
+        ".cache/telegram/kinoreel.json"
+      ],
+      "category": "news",
+      "sub": "мировое и отечественное кино: кастинги, премьеры, фестивали",
+      "note": "список владельца 25.10 — «KinoReel»"
+    },
+    {
+      "username": "sovet_kino",
+      "paths": [
+        ".cache/telegram/sovet_kino.json"
+      ],
+      "category": "picks",
+      "sub": "советское кино",
+      "note": "список владельца 25.10 — «СОВЕТСКОЕ КИНО»"
+    },
+    {
+      "username": "filmres",
+      "paths": [
+        ".cache/telegram/filmres.json"
+      ],
+      "category": "industry",
+      "sub": "Новости кинопроизводства: запуски, питчинги",
+      "note": "список владельца 25.10 — «Новости кинопроизводства»"
+    },
+    {
+      "username": "iamshowrunner",
+      "paths": [
+        ".cache/telegram/iamshowrunner.json"
+      ],
+      "category": "industry",
+      "sub": "продюсеры, фестивали",
+      "note": "список владельца 25.10 — «ШОУРАННЕР»"
+    },
+    {
+      "username": "moviestart_ru",
+      "paths": [
+        ".cache/telegram/moviestart_ru.json"
+      ],
+      "category": "industry",
+      "sub": "фестивали, конкурсы, питчинги",
+      "note": "список владельца 25.10 — «MovieStart.ru»"
+    },
+    {
+      "username": "pitchingi",
+      "paths": [
+        ".cache/telegram/pitchingi.json"
+      ],
+      "category": "industry",
+      "sub": "питчинги; посты платные",
+      "note": "список владельца 25.10 — «Питчинги»"
+    },
+    {
+      "username": "callbackhere",
+      "paths": [
+        ".cache/telegram/callbackhere.json"
+      ],
+      "category": "industry",
+      "sub": "новости киноиндустрии",
+      "note": "список владельца 25.10 — «Вызывной»"
+    },
+    {
+      "username": "vodott",
+      "paths": [
+        ".cache/telegram/vodott.json"
+      ],
+      "category": "industry",
+      "sub": "рынок VOD и OTT",
+      "note": "список владельца 25.10 — «VODоворOTT»"
+    },
+    {
+      "username": "sonic_lee",
+      "paths": [
+        ".cache/telegram/sonic_lee.json"
+      ],
+      "category": "industry",
+      "sub": "продюсер о продакшене",
+      "note": "список владельца 25.10 — «Выходит продюсер»"
+    },
+    {
+      "username": "LAHollyweed",
+      "paths": [
+        ".cache/telegram/LAHollyweed.json"
+      ],
+      "category": "industry",
+      "sub": "креативный продюсер, сценаристка",
+      "note": "список владельца 25.10 — «Hollyweed»"
+    },
+    {
+      "username": "ksenyaboletskaya",
+      "paths": [
+        ".cache/telegram/ksenyaboletskaya.json"
+      ],
+      "category": "industry",
+      "sub": "индустрия, Яндекс",
+      "note": "список владельца 25.10 — «Boletskaya»"
+    },
+    {
+      "username": "cameratopor",
+      "paths": [
+        ".cache/telegram/cameratopor.json"
+      ],
+      "category": "media",
+      "sub": "про медиа",
+      "note": "список владельца 25.10 — «Камера, топор!»"
+    },
+    {
+      "username": "Vaaasha_Masha",
+      "paths": [
+        ".cache/telegram/Vaaasha_Masha.json"
+      ],
+      "category": "media",
+      "sub": "редактор «Медиа и Культура», Ведомости",
+      "note": "список владельца 25.10 — «Маша и Медиа»"
+    },
+    {
+      "username": "arinab1973",
+      "paths": [
+        ".cache/telegram/arinab1973.json"
+      ],
+      "category": "media",
+      "sub": "телекритик, телевидение",
+      "note": "список владельца 25.10 — «Арина Бородина»"
+    },
+    {
+      "username": "olgaorlova",
+      "paths": [
+        ".cache/telegram/olgaorlova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Орлова (Q1048435, Wikidata P3789; ролей у нас 2), 173K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "VitaliyaKornienko",
+      "paths": [
+        ".cache/telegram/VitaliyaKornienko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виталия Корниенко (Q105277726, Wikidata P3789; ролей у нас 10), 43.3K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "babenkovatanucha",
+      "paths": [
+        ".cache/telegram/babenkovatanucha.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Татьяна Бабенкова (Q106765908, Wikidata P3789; ролей у нас 3), 5.38K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "galustyanmichael",
+      "paths": [
+        ".cache/telegram/galustyanmichael.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Михаил Галустян (Q1074254, Wikidata P3789; ролей у нас 17), 25.7K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "korolevastar",
+      "paths": [
+        ".cache/telegram/korolevastar.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Наташа Королёва (Q1076041, Wikidata P3789; ролей у нас 1), 11.8K подписчиков, последний пост 2026-10-13"
+    },
+    {
+      "username": "vershinin_daniil",
+      "paths": [
+        ".cache/telegram/vershinin_daniil.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Даниил Вершинин (Q108654450, Wikidata P3789; ролей у нас 1), 2.96K подписчиков, последний пост 2026-10-10"
+    },
+    {
+      "username": "thekonoplyov",
+      "paths": [
+        ".cache/telegram/thekonoplyov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владислав Коноплёв (Q108816684, Wikidata P3789; ролей у нас 2), 10.3K подписчиков, последний пост 2026-07-09"
+    },
+    {
+      "username": "nastitasti",
+      "paths": [
+        ".cache/telegram/nastitasti.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анастасия Красовская (Q109406168, Wikidata P3789; ролей у нас 6), 10.5K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "vaneckavanushka",
+      "paths": [
+        ".cache/telegram/vaneckavanushka.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ваня Дмитриенко (Q113331799, Wikidata P3789; ролей у нас 1), 163K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "petrnatarov",
+      "paths": [
+        ".cache/telegram/petrnatarov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Пётр Натаров (Q116373890, Wikidata P3789; ролей у нас 1), 11.3K подписчиков, последний пост 2026-10-09"
+    },
+    {
+      "username": "plotnikovkostya",
+      "paths": [
+        ".cache/telegram/plotnikovkostya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Константин Плотников (Q118109579, Wikidata P3789; ролей у нас 2), 5.32K подписчиков, последний пост 2026-10-11"
+    },
+    {
+      "username": "evasmirnovalove",
+      "paths": [
+        ".cache/telegram/evasmirnovalove.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Смирнова, Ева Дмитриевна (Q123004730, Wikidata P3789; ролей у нас 4), 22.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "real_ruzil",
+      "paths": [
+        ".cache/telegram/real_ruzil.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Рузиль Минекаев (Q123508788, Wikidata P3789; ролей у нас 5), 158K подписчиков, последний пост 2026-04-25"
+    },
+    {
+      "username": "iminlovewleo",
+      "paths": [
+        ".cache/telegram/iminlovewleo.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Леон Кемстач (Q123600775, Wikidata P3789; ролей у нас 1), 143K подписчиков, последний пост 2026-10-13"
+    },
+    {
+      "username": "officialannaperesild",
+      "paths": [
+        ".cache/telegram/officialannaperesild.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Пересильд (Q123631132, Wikidata P3789; ролей у нас 3), 179K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "bazykinae",
+      "paths": [
+        ".cache/telegram/bazykinae.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Базыкина, Елизавета Сергеевна (Q123696907, Wikidata P3789; ролей у нас 2), 65.7K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "zullev",
+      "paths": [
+        ".cache/telegram/zullev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лев Зулькарнаев (Q124071985, Wikidata P3789; ролей у нас 4), 50.6K подписчиков, последний пост 2026-10-16"
+    },
+    {
+      "username": "andreymaksimof",
+      "paths": [
+        ".cache/telegram/andreymaksimof.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Максимов (Q124296739, Wikidata P3789; ролей у нас 4), 26.3K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "polly_denisova",
+      "paths": [
+        ".cache/telegram/polly_denisova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Денисова, Полина Андреевна (Q124752085, Wikidata P3789; ролей у нас 2), 88.5K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "teplovaksenia",
+      "paths": [
+        ".cache/telegram/teplovaksenia.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ксения Теплова (Q124758802, Wikidata P3789; ролей у нас 1), 1.66K подписчиков, последний пост 2026-08-31"
+    },
+    {
+      "username": "nyushateam",
+      "paths": [
+        ".cache/telegram/nyushateam.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Нюша (Q125666, Wikidata P3789; ролей у нас 1), 59 подписчиков, последний пост 2024-01-13"
+    },
+    {
+      "username": "aysanemxonyusupova",
+      "paths": [
+        ".cache/telegram/aysanemxonyusupova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Айсанем Юсупова (Q128801638, Wikidata P3789; ролей у нас 1), 395 подписчиков, последний пост 2026-09-26"
+    },
+    {
+      "username": "skopeykin",
+      "paths": [
+        ".cache/telegram/skopeykin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Слава Копейкин (Q130631906, Wikidata P3789; ролей у нас 2), 107K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "vlad_prokhorov",
+      "paths": [
+        ".cache/telegram/vlad_prokhorov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владислав Прохоров (Q131305612, Wikidata P3789; ролей у нас 1), 4.45K подписчиков, последний пост 2026-10-14"
+    },
+    {
+      "username": "jeleznyak_official",
+      "paths": [
+        ".cache/telegram/jeleznyak_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Олеся Железняк (Q13218020, Wikidata P3789; ролей у нас 10), 10.1K подписчиков, последний пост 2026-10-14"
+    },
+    {
+      "username": "polinamax_actress",
+      "paths": [
+        ".cache/telegram/polinamax_actress.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Полина Максимова (Q13218075, Wikidata P3789; ролей у нас 7), 6.27K подписчиков, последний пост 2026-10-11"
+    },
+    {
+      "username": "Fanderafandera",
+      "paths": [
+        ".cache/telegram/Fanderafandera.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Оксана Фандера (Q13218094, Wikidata P3789; ролей у нас 11), 16.9K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "koteljniklive",
+      "paths": [
+        ".cache/telegram/koteljniklive.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ефим Шифрин (Q1342277, Wikidata P3789; ролей у нас 4), 3.03K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "kaygetz",
+      "paths": [
+        ".cache/telegram/kaygetz.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Кай Гетц (Q134474443, Wikidata P3789; ролей у нас 1), 3.51K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "ilia_makar",
+      "paths": [
+        ".cache/telegram/ilia_makar.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Илья Макаров (Q134617188, Wikidata P3789; ролей у нас 1), 28.8K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "KarinaKagra",
+      "paths": [
+        ".cache/telegram/KarinaKagra.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Каграманян, Карина Романовна (Q136366538, Wikidata P3789; ролей у нас 4), 12.4K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "files_zhuravlya",
+      "paths": [
+        ".cache/telegram/files_zhuravlya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дмитрий Журавлёв (Q137844208, Wikidata P3789; ролей у нас 1), 178K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "agrippinasteklova",
+      "paths": [
+        ".cache/telegram/agrippinasteklova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Агриппина Стеклова (Q15076127, Wikidata P3789; ролей у нас 10), 185 подписчиков, последний пост 2025-08-10"
+    },
+    {
+      "username": "g_g_smirnov",
+      "paths": [
+        ".cache/telegram/g_g_smirnov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Смирнов, Геннадий Геннадьевич (Q15077227, Wikidata P3789; ролей у нас 5), 2.46K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "Parshoota",
+      "paths": [
+        ".cache/telegram/Parshoota.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Паршута (Q15078987, Wikidata P3789; ролей у нас 2), 18.9K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "irinsaltykova",
+      "paths": [
+        ".cache/telegram/irinsaltykova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ирина Салтыкова (Q1527800, Wikidata P3789; ролей у нас 1), 2.01K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "olgakuzminaofficial",
+      "paths": [
+        ".cache/telegram/olgakuzminaofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Кузьмина (Q15921344, Wikidata P3789; ролей у нас 4), 12.4K подписчиков, последний пост 2026-10-18"
+    },
+    {
+      "username": "marinakravets_official",
+      "paths": [
+        ".cache/telegram/marinakravets_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Марина Кравец (Q16594051, Wikidata P3789; ролей у нас 6), 27.4K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "lykovmatvey",
+      "paths": [
+        ".cache/telegram/lykovmatvey.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Матвей Лыков (Q16663791, Wikidata P3789; ролей у нас 4), 35.5K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "nadyadorofeevaaa",
+      "paths": [
+        ".cache/telegram/nadyadorofeevaaa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Надя Дорофеева (Q16698229, Wikidata P3789; ролей у нас 2), 1.29K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "lizavetaboyarskaya",
+      "paths": [
+        ".cache/telegram/lizavetaboyarskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елизавета Боярская (Q167548, Wikidata P3789; ролей у нас 18), 18.1K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "SychevActor",
+      "paths": [
+        ".cache/telegram/SychevActor.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Сычев (Q17371703, Wikidata P3789; ролей у нас 15), 10.6K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "lenaborsheva",
+      "paths": [
+        ".cache/telegram/lenaborsheva.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елена Борщёва (Q18084450, Wikidata P3789; ролей у нас 1), 1.22K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "sashakulikova2505",
+      "paths": [
+        ".cache/telegram/sashakulikova2505.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Куликова, Александра Андреевна (Q18244611, Wikidata P3789; ролей у нас 7), 392 подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "baskovnikolay",
+      "paths": [
+        ".cache/telegram/baskovnikolay.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Николай Басков (Q194917, Wikidata P3789; ролей у нас 4), 23.9K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "adomogarov_official",
+      "paths": [
+        ".cache/telegram/adomogarov_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Александр Домогаров (Q1958241, Wikidata P3789; ролей у нас 20), 4.57K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "annakovalchukTG313",
+      "paths": [
+        ".cache/telegram/annakovalchukTG313.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Ковальчук (Q1968459, Wikidata P3789; ролей у нас 5), 8.16K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "todorenkoregina",
+      "paths": [
+        ".cache/telegram/todorenkoregina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Регина Тодоренко (Q19694388, Wikidata P3789; ролей у нас 2), 97.8K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "lolitamilyavskaya",
+      "paths": [
+        ".cache/telegram/lolitamilyavskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лолита Милявская (Q1972714, Wikidata P3789; ролей у нас 2), 52.6K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "olga_budina",
+      "paths": [
+        ".cache/telegram/olga_budina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Будина (Q1977596, Wikidata P3789; ролей у нас 8), 17.5K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "dfuytddxhiiiikbf",
+      "paths": [
+        ".cache/telegram/dfuytddxhiiiikbf.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Старшова, Екатерина Игоревна (Q1996546, Wikidata P3789; ролей у нас 3), 337 подписчиков, последний пост 2024-12-29"
+    },
+    {
+      "username": "annapeskova",
+      "paths": [
+        ".cache/telegram/annapeskova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Пескова (Q20165468, Wikidata P3789; ролей у нас 1), 1.2K подписчиков, последний пост 2026-10-15"
+    },
+    {
+      "username": "egorkreed",
+      "paths": [
+        ".cache/telegram/egorkreed.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Егор Крид (Q20483301, Wikidata P3789; ролей у нас 1), 730K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "pvolya",
+      "paths": [
+        ".cache/telegram/pvolya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Павел Воля (Q2064926, Wikidata P3789; ролей у нас 11), 106K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "meladze_official",
+      "paths": [
+        ".cache/telegram/meladze_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валерий Меладзе (Q2086086, Wikidata P3789; ролей у нас 2), 15.6K подписчиков, последний пост 2026-10-02"
+    },
+    {
+      "username": "Chepurchenko",
+      "paths": [
+        ".cache/telegram/Chepurchenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Чепурченко, Вячеслав Юрьевич (Q21117610, Wikidata P3789; ролей у нас 7), 11.6K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "m1r0slavakarpovich",
+      "paths": [
+        ".cache/telegram/m1r0slavakarpovich.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мирослава Карпович (Q2115673, Wikidata P3789; ролей у нас 8), 5.67K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "azabraza84",
+      "paths": [
+        ".cache/telegram/azabraza84.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Азамат Мусагалиев (Q21952634, Wikidata P3789; ролей у нас 3), 108K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "ekaterina_klimova_official",
+      "paths": [
+        ".cache/telegram/ekaterina_klimova_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Климова (Q2213598, Wikidata P3789; ролей у нас 18), 23.8K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "juliatopolnitskaya",
+      "paths": [
+        ".cache/telegram/juliatopolnitskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Топольницкая (Q22226875, Wikidata P3789; ролей у нас 4), 2.08K подписчиков, последний пост 2026-09-19"
+    },
+    {
+      "username": "andrey_makarevich",
+      "paths": [
+        ".cache/telegram/andrey_makarevich.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Макаревич (Q2227698, Wikidata P3789; ролей у нас 3), 15.5K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "ms804",
+      "paths": [
+        ".cache/telegram/ms804.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Майя Санса (Q2249919, Wikidata P3789; ролей у нас 9), 106 подписчиков, последний пост 2026-10-16"
+    },
+    {
+      "username": "GORBACHEVAGORBACHEVA",
+      "paths": [
+        ".cache/telegram/GORBACHEVAGORBACHEVA.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ирина Горбачёва (Q22687764, Wikidata P3789; ролей у нас 10), 25.2K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "secretanna",
+      "paths": [
+        ".cache/telegram/secretanna.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Седокова (Q2350283, Wikidata P3789; ролей у нас 2), 49.5K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "asivaeva",
+      "paths": [
+        ".cache/telegram/asivaeva.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сиваева, Анастасия Сергеевна (Q2362602, Wikidata P3789; ролей у нас 2), 1.05K подписчиков, последний пост 2025-12-03"
+    },
+    {
+      "username": "pivovarov_home",
+      "paths": [
+        ".cache/telegram/pivovarov_home.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Артём Пивоваров (Q23656293, Wikidata P3789; ролей у нас 1), 10.3K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "anilorak",
+      "paths": [
+        ".cache/telegram/anilorak.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ани Лорак (Q237081, Wikidata P3789; ролей у нас 1), 11.8K подписчиков, последний пост 2026-10-07"
+    },
+    {
+      "username": "trodriguez_official",
+      "paths": [
+        ".cache/telegram/trodriguez_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Тимур Родригез (Q2394275, Wikidata P3789; ролей у нас 1), 6.37K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "lukyanfamily",
+      "paths": [
+        ".cache/telegram/lukyanfamily.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лукьянчикова, Ксения Эдуардовна (Q24009733, Wikidata P3789; ролей у нас 1), 7.62K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "vladimir_vinokur",
+      "paths": [
+        ".cache/telegram/vladimir_vinokur.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Винокур (Q2452298, Wikidata P3789; ролей у нас 2), 2.32K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "dolinaofficial",
+      "paths": [
+        ".cache/telegram/dolinaofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лариса Долина (Q2509356, Wikidata P3789; ролей у нас 4), 8.77K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "Vladimir_Etush",
+      "paths": [
+        ".cache/telegram/Vladimir_Etush.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Этуш (Q2545982, Wikidata P3789; ролей у нас 21), 19 подписчиков, последний пост 2026-07-30"
+    },
+    {
+      "username": "googoosh",
+      "paths": [
+        ".cache/telegram/googoosh.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Гугуш (Q255233, Wikidata P3789; ролей у нас 1), 18.6K подписчиков, последний пост 2026-02-21"
+    },
+    {
+      "username": "okpochepa",
+      "paths": [
+        ".cache/telegram/okpochepa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Оксана Почепа (Q2595507, Wikidata P3789; ролей у нас 1), 2.31K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "utiashevaliasan",
+      "paths": [
+        ".cache/telegram/utiashevaliasan.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ляйсан Утяшева (Q2631542, Wikidata P3789; ролей у нас 2), 83.9K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "borismoiseev",
+      "paths": [
+        ".cache/telegram/borismoiseev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Борис Моисеев (Q2631734, Wikidata P3789; ролей у нас 1), 259 подписчиков, последний пост 2026-08-21"
+    },
+    {
+      "username": "yuliasnigir",
+      "paths": [
+        ".cache/telegram/yuliasnigir.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Снигирь (Q2642325, Wikidata P3789; ролей у нас 24), 7.78K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "kartynkobra",
+      "paths": [
+        ".cache/telegram/kartynkobra.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Картункова (Q26904119, Wikidata P3789; ролей у нас 6), 30.7K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "alsouofficial",
+      "paths": [
+        ".cache/telegram/alsouofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алсу (Q270951, Wikidata P3789; ролей у нас 1), 22K подписчиков, последний пост 2026-02-06"
+    },
+    {
+      "username": "annsemenovich",
+      "paths": [
+        ".cache/telegram/annsemenovich.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Семенович (Q274362, Wikidata P3789; ролей у нас 5), 26.7K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "ipushlove",
+      "paths": [
+        ".cache/telegram/ipushlove.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Любовь Аксёнова (Q27927396, Wikidata P3789; ролей у нас 18), 49.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "gorbunovoleksiy",
+      "paths": [
+        ".cache/telegram/gorbunovoleksiy.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алексей Горбунов (Q2834347, Wikidata P3789; ролей у нас 33), 303 подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "sashaspilberg",
+      "paths": [
+        ".cache/telegram/sashaspilberg.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Саша Спилберг (Q28466359, Wikidata P3789; ролей у нас 2), 40.9K подписчиков, последний пост 2026-10-16"
+    },
+    {
+      "username": "orbakaite_k_telegram",
+      "paths": [
+        ".cache/telegram/orbakaite_k_telegram.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Кристина Орбакайте (Q285330, Wikidata P3789; ролей у нас 17), 20.7K подписчиков, последний пост 2026-09-18"
+    },
+    {
+      "username": "yankovskiyivan",
+      "paths": [
+        ".cache/telegram/yankovskiyivan.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Иван Янковский (Q28760362, Wikidata P3789; ролей у нас 18), 17.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "actorkirillzaitsev",
+      "paths": [
+        ".cache/telegram/actorkirillzaitsev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Кирилл Зайцев (Q29962140, Wikidata P3789; ролей у нас 12), 2.09K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "valeriyaofficial",
+      "paths": [
+        ".cache/telegram/valeriyaofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валерия (Q302484, Wikidata P3789; ролей у нас 1), 24.3K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "mr_dnagiev",
+      "paths": [
+        ".cache/telegram/mr_dnagiev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дмитрий Нагиев (Q3033167, Wikidata P3789; ролей у нас 28), 15.8K подписчиков, последний пост 2025-09-06"
+    },
+    {
+      "username": "alexsparrow_official",
+      "paths": [
+        ".cache/telegram/alexsparrow_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алексей Воробьёв (Q315181, Wikidata P3789; ролей у нас 9), 17.7K подписчиков, последний пост 2026-09-22"
+    },
+    {
+      "username": "vysotskayaofficial",
+      "paths": [
+        ".cache/telegram/vysotskayaofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Высоцкая (Q3154160, Wikidata P3789; ролей у нас 9), 61.9K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "myporoshinax",
+      "paths": [
+        ".cache/telegram/myporoshinax.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мария Порошина (Q3291006, Wikidata P3789; ролей у нас 5), 402 подписчиков, последний пост 2026-10-13"
+    },
+    {
+      "username": "valera_leontiev_official",
+      "paths": [
+        ".cache/telegram/valera_leontiev_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валерий Леонтьев (Q32927, Wikidata P3789; ролей у нас 3), 5.36K подписчиков, последний пост 2026-03-19"
+    },
+    {
+      "username": "bochkarevalive",
+      "paths": [
+        ".cache/telegram/bochkarevalive.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Наталья Бочкарёва (Q3298278, Wikidata P3789; ролей у нас 2), 1.83K подписчиков, последний пост 2024-11-24"
+    },
+    {
+      "username": "yaglychv",
+      "paths": [
+        ".cache/telegram/yaglychv.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Яглыч (Q3561880, Wikidata P3789; ролей у нас 14), 360 подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "anfisavist",
+      "paths": [
+        ".cache/telegram/anfisavist.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Вистингаузен, Анфиса Владимировна (Q3660833, Wikidata P3789; ролей у нас 3), 2.72K подписчиков, последний пост 2026-03-16"
+    },
+    {
+      "username": "laninaalina",
+      "paths": [
+        ".cache/telegram/laninaalina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алина Ланина (Q37358039, Wikidata P3789; ролей у нас 2), 16.8K подписчиков, последний пост 2026-09-29"
+    },
+    {
+      "username": "lazarev_official",
+      "paths": [
+        ".cache/telegram/lazarev_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сергей Лазарев (Q381884, Wikidata P3789; ролей у нас 1), 143K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "alexandraursuliak",
+      "paths": [
+        ".cache/telegram/alexandraursuliak.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Урсуляк, Александра Сергеевна (Q3930231, Wikidata P3789; ролей у нас 5), 2.39K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "nogganobasta",
+      "paths": [
+        ".cache/telegram/nogganobasta.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Баста (Q3986754, Wikidata P3789; ролей у нас 3), 140K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "MaksimAverin",
+      "paths": [
+        ".cache/telegram/MaksimAverin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Максим Аверин (Q4055642, Wikidata P3789; ролей у нас 6), 22.9K подписчиков, последний пост 2026-10-13"
+    },
+    {
+      "username": "ksenialferova",
+      "paths": [
+        ".cache/telegram/ksenialferova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ксения Алфёрова (Q4063162, Wikidata P3789; ролей у нас 3), 11.6K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "ealehin",
+      "paths": [
+        ".cache/telegram/ealehin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алёхин, Евгений Игоревич (Q4063786, Wikidata P3789; ролей у нас 2), 17.1K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "karina_andolenko",
+      "paths": [
+        ".cache/telegram/karina_andolenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Карина Андоленко (Q4065355, Wikidata P3789; ролей у нас 5), 6.58K подписчиков, последний пост 2026-10-12"
+    },
+    {
+      "username": "LizaArzamasova",
+      "paths": [
+        ".cache/telegram/LizaArzamasova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елизавета Арзамасова (Q4069145, Wikidata P3789; ролей у нас 12), 23K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "alena_babenko",
+      "paths": [
+        ".cache/telegram/alena_babenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алёна Бабенко (Q4074272, Wikidata P3789; ролей у нас 17), 3.01K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "banshikova_anna",
+      "paths": [
+        ".cache/telegram/banshikova_anna.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Банщикова (Q4077498, Wikidata P3789; ролей у нас 4), 13.2K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "batrtimur",
+      "paths": [
+        ".cache/telegram/batrtimur.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Тимур Батрутдинов (Q4079472, Wikidata P3789; ролей у нас 10), 10.5K подписчиков, последний пост 2026-10-13"
+    },
+    {
+      "username": "bezrukova_telegram",
+      "paths": [
+        ".cache/telegram/bezrukova_telegram.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ирина Безрукова (Q4081017, Wikidata P3789; ролей у нас 6), 7.82K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "ZoyaRudolfovnaBerber",
+      "paths": [
+        ".cache/telegram/ZoyaRudolfovnaBerber.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Зоя Бербер (Q4083939, Wikidata P3789; ролей у нас 7), 6.6K подписчиков, последний пост 2026-10-10"
+    },
+    {
+      "username": "filippblednyy",
+      "paths": [
+        ".cache/telegram/filippblednyy.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Филипп Бледный (Q4088058, Wikidata P3789; ролей у нас 6), 30.8K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "bledans_v_obraze",
+      "paths": [
+        ".cache/telegram/bledans_v_obraze.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Эвелина Блёданс (Q4088503, Wikidata P3789; ролей у нас 4), 7.1K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "st_bondarenko",
+      "paths": [
+        ".cache/telegram/st_bondarenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Станислав Бондаренко (Q4093222, Wikidata P3789; ролей у нас 4), 18.6K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "byzovahouse",
+      "paths": [
+        ".cache/telegram/byzovahouse.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Бузова (Q4098374, Wikidata P3789; ролей у нас 6), 403K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "sergeyburunovofficial",
+      "paths": [
+        ".cache/telegram/sergeyburunovofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сергей Бурунов (Q4099923, Wikidata P3789; ролей у нас 32), 62.7K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "ElenaValushkina",
+      "paths": [
+        ".cache/telegram/ElenaValushkina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валюшкина, Елена Викторовна (Q4103145, Wikidata P3789; ролей у нас 11), 11.6K подписчиков, последний пост 2026-09-04"
+    },
+    {
+      "username": "VarnavaEkaterina",
+      "paths": [
+        ".cache/telegram/VarnavaEkaterina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Варнава (Q4103922, Wikidata P3789; ролей у нас 2), 25.2K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "volkovawolka1",
+      "paths": [
+        ".cache/telegram/volkovawolka1.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Волкова Екатерина Юрьевна (Q4123371, Wikidata P3789; ролей у нас 6), 7.91K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "ekaterinavolkovaactress",
+      "paths": [
+        ".cache/telegram/ekaterinavolkovaactress.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Волкова (Q4123377, Wikidata P3789; ролей у нас 1), 50.7K подписчиков, последний пост 2026-10-17"
+    },
+    {
+      "username": "vulichenko",
+      "paths": [
+        ".cache/telegram/vulichenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Вуличенко (Q4128305, Wikidata P3789; ролей у нас 3), 4.55K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "gagara1987official",
+      "paths": [
+        ".cache/telegram/gagara1987official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Полина Гагарина (Q4131386, Wikidata P3789; ролей у нас 1), 55.1K подписчиков, последний пост 2026-10-11"
+    },
+    {
+      "username": "glinnikov1st",
+      "paths": [
+        ".cache/telegram/glinnikov1st.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Илья Глинников (Q4139828, Wikidata P3789; ролей у нас 3), 1.54K подписчиков, последний пост 2026-01-02"
+    },
+    {
+      "username": "gogunsky_v",
+      "paths": [
+        ".cache/telegram/gogunsky_v.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виталий Гогунский (Q4141079, Wikidata P3789; ролей у нас 5), 4.09K подписчиков, последний пост 2026-10-18"
+    },
+    {
+      "username": "mashagorban",
+      "paths": [
+        ".cache/telegram/mashagorban.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мария Горбань (Q4143504, Wikidata P3789; ролей у нас 3), 26.6K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "alicegworldpublic",
+      "paths": [
+        ".cache/telegram/alicegworldpublic.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алиса Гребенщикова (Q4148281, Wikidata P3789; ролей у нас 5), 359 подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "appolonov_ag",
+      "paths": [
+        ".cache/telegram/appolonov_ag.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Григорьев-Апполонов (Q4149339, Wikidata P3789; ролей у нас 1), 13.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "lyankagryu",
+      "paths": [
+        ".cache/telegram/lyankagryu.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лянка Грыу (Q4151002, Wikidata P3789; ролей у нас 5), 3.17K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "larisaguzeevaof",
+      "paths": [
+        ".cache/telegram/larisaguzeevaof.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Лариса Гузеева (Q4151703, Wikidata P3789; ролей у нас 14), 31.2K подписчиков, последний пост 2026-10-10"
+    },
+    {
+      "username": "olga_dibtseva",
+      "paths": [
+        ".cache/telegram/olga_dibtseva.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Дибцева (Q4161202, Wikidata P3789; ролей у нас 3), 3.53K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "nikolaydobrynun_official",
+      "paths": [
+        ".cache/telegram/nikolaydobrynun_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Николай Добрынин (Q4163864, Wikidata P3789; ролей у нас 9), 2.8K подписчиков, последний пост 2026-09-18"
+    },
+    {
+      "username": "dominick_jocker",
+      "paths": [
+        ".cache/telegram/dominick_jocker.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Доминик Джокер (Q4165856, Wikidata P3789; ролей у нас 1), 593 подписчиков, последний пост 2026-10-17"
+    },
+    {
+      "username": "daniladunaev",
+      "paths": [
+        ".cache/telegram/daniladunaev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Данила Дунаев (Q4170680, Wikidata P3789; ролей у нас 2), 10.6K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "epifania69",
+      "paths": [
+        ".cache/telegram/epifania69.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Епифанцев (Q4176078, Wikidata P3789; ролей у нас 22), 25.6K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "efremovefremov",
+      "paths": [
+        ".cache/telegram/efremovefremov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Никита Ефремов (Q4177512, Wikidata P3789; ролей у нас 17), 5.28K подписчиков, последний пост 2026-09-01"
+    },
+    {
+      "username": "singer_jasmin",
+      "paths": [
+        ".cache/telegram/singer_jasmin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Жасмин (Q4178347, Wikidata P3789; ролей у нас 1), 7K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "askzap",
+      "paths": [
+        ".cache/telegram/askzap.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Аскольд Запашный (Q4186648, Wikidata P3789; ролей у нас 1), 5.88K подписчиков, последний пост 2026-09-09"
+    },
+    {
+      "username": "zapashnyru",
+      "paths": [
+        ".cache/telegram/zapashnyru.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Эдгард Запашный (Q4186654, Wikidata P3789; ролей у нас 1), 37.3K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "artistkaivanova",
+      "paths": [
+        ".cache/telegram/artistkaivanova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Светлана Иванова (Q4196443, Wikidata P3789; ролей у нас 17), 12.2K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "ingailm",
+      "paths": [
+        ".cache/telegram/ingailm.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ильм, Инга Валерьевна (Q4199899, Wikidata P3789; ролей у нас 3), 479 подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "VikaIsakova1210",
+      "paths": [
+        ".cache/telegram/VikaIsakova1210.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виктория Исакова (Q4203655, Wikidata P3789; ролей у нас 24), 22.9K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "irklimova",
+      "paths": [
+        ".cache/telegram/irklimova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Климова, Ирина Михайловна (Q4223755, Wikidata P3789; ролей у нас 1), 4.62K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "denisklyaver",
+      "paths": [
+        ".cache/telegram/denisklyaver.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Денис Клявер (Q4224524, Wikidata P3789; ролей у нас 1), 2.96K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "juliakovalchuk82",
+      "paths": [
+        ".cache/telegram/juliakovalchuk82.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Ковальчук (Q4225546, Wikidata P3789; ролей у нас 1), 11.1K подписчиков, последний пост 2025-11-29"
+    },
+    {
+      "username": "kolesnikov1983",
+      "paths": [
+        ".cache/telegram/kolesnikov1983.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Колесников, Иван Сергеевич (Q4227772, Wikidata P3789; ролей у нас 8), 4.48K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "yurikolokolnikovofficial",
+      "paths": [
+        ".cache/telegram/yurikolokolnikovofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юрий Колокольников (Q4228271, Wikidata P3789; ролей у нас 35), 5.25K подписчиков, последний пост 2026-10-10"
+    },
+    {
+      "username": "klavdiyakorshunova",
+      "paths": [
+        ".cache/telegram/klavdiyakorshunova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Клавдия Коршунова (Q4234603, Wikidata P3789; ролей у нас 5), 136 подписчиков, последний пост 2026-10-12"
+    },
+    {
+      "username": "kostyushkin_team",
+      "paths": [
+        ".cache/telegram/kostyushkin_team.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Станислав Костюшкин (Q4235710, Wikidata P3789; ролей у нас 2), 8.74K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "mashakrava",
+      "paths": [
+        ".cache/telegram/mashakrava.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мария Кравченко (Q4237365, Wikidata P3789; ролей у нас 3), 4.61K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "Ev_Kryukova",
+      "paths": [
+        ".cache/telegram/Ev_Kryukova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Крюкова, Евгения Владиславовна (Q4243146, Wikidata P3789; ролей у нас 6), 2.59K подписчиков, последний пост 2023-04-25"
+    },
+    {
+      "username": "D_E_Ksenofontova_O_R",
+      "paths": [
+        ".cache/telegram/D_E_Ksenofontova_O_R.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елена Ксенофонтова (Q4243333, Wikidata P3789; ролей у нас 4), 190 подписчиков, последний пост 2023-11-21"
+    },
+    {
+      "username": "the_yana_poplavskaya",
+      "paths": [
+        ".cache/telegram/the_yana_poplavskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Поплавская, Яна Евгеньевна (Q4244813, Wikidata P3789; ролей у нас 3), 169K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "vvvsevolodkuznetsov",
+      "paths": [
+        ".cache/telegram/vvvsevolodkuznetsov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Всеволод Кузнецов (Q4244963, Wikidata P3789; ролей у нас 1), 2.9K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "romankurtsyn",
+      "paths": [
+        ".cache/telegram/romankurtsyn.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Роман Курцын (Q4249008, Wikidata P3789; ролей у нас 21), 3.24K подписчиков, последний пост 2022-08-31"
+    },
+    {
+      "username": "ZhenyaPallna",
+      "paths": [
+        ".cache/telegram/ZhenyaPallna.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ксения Лаврова-Глинка (Q4252239, Wikidata P3789; ролей у нас 5), 3K подписчиков, последний пост 2026-06-17"
+    },
+    {
+      "username": "Valerie_Lanskaya",
+      "paths": [
+        ".cache/telegram/Valerie_Lanskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валерия Ланская (Q4253994, Wikidata P3789; ролей у нас 4), 2.63K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "sergeylarinchannel",
+      "paths": [
+        ".cache/telegram/sergeylarinchannel.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ларин, Сергей Викторович (Q4254526, Wikidata P3789; ролей у нас 2), 48 подписчиков, последний пост 2025-04-04"
+    },
+    {
+      "username": "LegchilovaAA",
+      "paths": [
+        ".cache/telegram/LegchilovaAA.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Легчилова, Анна Александровна (Q4257029, Wikidata P3789; ролей у нас 1), 786 подписчиков, последний пост 2026-02-09"
+    },
+    {
+      "username": "olgalomonosovaa",
+      "paths": [
+        ".cache/telegram/olgalomonosovaa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ольга Ломоносова (Q4266335, Wikidata P3789; ролей у нас 6), 1.47K подписчиков, последний пост 2026-09-24"
+    },
+    {
+      "username": "sergeymazaev",
+      "paths": [
+        ".cache/telegram/sergeymazaev.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сергей Мазаев (Q4274443, Wikidata P3789; ролей у нас 4), 1.09K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "talesoftales",
+      "paths": [
+        ".cache/telegram/talesoftales.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Иван Макаревич (Q4275255, Wikidata P3789; ролей у нас 9), 879 подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "vmalenko",
+      "paths": [
+        ".cache/telegram/vmalenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Маленко, Владислав Валерьевич (Q4277646, Wikidata P3789; ролей у нас 1), 15K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "Mamaev_Mikhail",
+      "paths": [
+        ".cache/telegram/Mamaev_Mikhail.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Михаил Мамаев (Q4279738, Wikidata P3789; ролей у нас 4), 4.31K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "manucharovofficial",
+      "paths": [
+        ".cache/telegram/manucharovofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Вячеслав Манучаров (Q4280756, Wikidata P3789; ролей у нас 3), 14K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "melnikovanedsh",
+      "paths": [
+        ".cache/telegram/melnikovanedsh.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дарья Мельникова (Q4289914, Wikidata P3789; ролей у нас 12), 6.92K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "bilanofficial",
+      "paths": [
+        ".cache/telegram/bilanofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дима Билан (Q42904, Wikidata P3789; ролей у нас 4), 72.2K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "JuliaMenshovaJulia",
+      "paths": [
+        ".cache/telegram/JuliaMenshovaJulia.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Меньшова (Q4290663, Wikidata P3789; ролей у нас 2), 356K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "dartmill",
+      "paths": [
+        ".cache/telegram/dartmill.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Миллер, Дмитрий Артурович (Q4293487, Wikidata P3789; ролей у нас 6), 3.19K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "aleksandraakiselevaa",
+      "paths": [
+        ".cache/telegram/aleksandraakiselevaa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Киселёва, Александра Александровна (Q42946417, Wikidata P3789; ролей у нас 1), 3.57K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "annamikhalkova",
+      "paths": [
+        ".cache/telegram/annamikhalkova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Михалкова (Q4297949, Wikidata P3789; ролей у нас 36), 698 подписчиков, последний пост 2026-09-10"
+    },
+    {
+      "username": "mikheevaalla",
+      "paths": [
+        ".cache/telegram/mikheevaalla.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алла Михеева (Q4298089, Wikidata P3789; ролей у нас 2), 4.18K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "daria_moroz_actress",
+      "paths": [
+        ".cache/telegram/daria_moroz_actress.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дарья Мороз (Q4302852, Wikidata P3789; ролей у нас 14), 7.1K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "AgataMucenieceLife",
+      "paths": [
+        ".cache/telegram/AgataMucenieceLife.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Агата Муцениеце (Q4309026, Wikidata P3789; ролей у нас 4), 65.3K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "ianinidze",
+      "paths": [
+        ".cache/telegram/ianinidze.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Ия Нинидзе (Q4321437, Wikidata P3789; ролей у нас 5), 82 подписчиков, последний пост 2024-02-03"
+    },
+    {
+      "username": "oleshkoaleksandr",
+      "paths": [
+        ".cache/telegram/oleshkoaleksandr.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Александр Олешко (Q4333716, Wikidata P3789; ролей у нас 10), 4.96K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "TG_KUCHERA",
+      "paths": [
+        ".cache/telegram/TG_KUCHERA.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Оскар Кучера (Q4337966, Wikidata P3789; ролей у нас 4), 59.2K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "panfilov_officialgroup",
+      "paths": [
+        ".cache/telegram/panfilov_officialgroup.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Никита Панфилов (Q4344390, Wikidata P3789; ролей у нас 5), 3.91K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "s_permyakova",
+      "paths": [
+        ".cache/telegram/s_permyakova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Пермякова, Светлана Юрьевна (Q4351593, Wikidata P3789; ролей у нас 4), 7.72K подписчиков, последний пост 2026-09-01"
+    },
+    {
+      "username": "sashapetrov_tg",
+      "paths": [
+        ".cache/telegram/sashapetrov_tg.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Александр Петров (Q4360641, Wikidata P3789; ролей у нас 39), 10.7K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "daryapoverennova",
+      "paths": [
+        ".cache/telegram/daryapoverennova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дарья Повереннова (Q4366361, Wikidata P3789; ролей у нас 3), 2.17K подписчиков, последний пост 2024-04-09"
+    },
+    {
+      "username": "podkaminskaya_elena_official",
+      "paths": [
+        ".cache/telegram/podkaminskaya_elena_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елена Подкаминская (Q4367628, Wikidata P3789; ролей у нас 6), 13.3K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "poluninink",
+      "paths": [
+        ".cache/telegram/poluninink.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сергей Полунин (Q4370991, Wikidata P3789; ролей у нас 5), 184 подписчиков, последний пост 2026-05-13"
+    },
+    {
+      "username": "vladimirpresnyakov",
+      "paths": [
+        ".cache/telegram/vladimirpresnyakov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Владимир Пресняков-младший (Q4377453, Wikidata P3789; ролей у нас 2), 11.6K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "asmusk",
+      "paths": [
+        ".cache/telegram/asmusk.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Кристина Асмус (Q438799, Wikidata P3789; ролей у нас 17), 27.8K подписчиков, последний пост 2026-07-20"
+    },
+    {
+      "username": "AlexandraRebenok",
+      "paths": [
+        ".cache/telegram/AlexandraRebenok.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Александра Ребенок (Q4391556, Wikidata P3789; ролей у нас 7), 3.85K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "rozhkov_official",
+      "paths": [
+        ".cache/telegram/rozhkov_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Рожков (Q4396300, Wikidata P3789; ролей у нас 3), 4.96K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "rubvalya",
+      "paths": [
+        ".cache/telegram/rubvalya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Валентина Рубцова (Q4399190, Wikidata P3789; ролей у нас 7), 3.6K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "anya_ranetka",
+      "paths": [
+        ".cache/telegram/anya_ranetka.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Руднева, Анна Олеговна (Q4399500, Wikidata P3789; ролей у нас 1), 11.1K подписчиков, последний пост 2026-10-20"
+    },
+    {
+      "username": "rudovanatalove",
+      "paths": [
+        ".cache/telegram/rudovanatalove.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Наталья Рудова (Q4399708, Wikidata P3789; ролей у нас 6), 48.7K подписчиков, последний пост 2026-10-15"
+    },
+    {
+      "username": "samburskayan",
+      "paths": [
+        ".cache/telegram/samburskayan.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Настасья Самбурская (Q4406527, Wikidata P3789; ролей у нас 9), 34.7K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "alika_smekhova",
+      "paths": [
+        ".cache/telegram/alika_smekhova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алика Смехова (Q4424483, Wikidata P3789; ролей у нас 8), 3.14K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "stixia1",
+      "paths": [
+        ".cache/telegram/stixia1.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Светлана Смирнова-Марцинкевич (Q4424820, Wikidata P3789; ролей у нас 6), 425 подписчиков, последний пост 2026-03-08"
+    },
+    {
+      "username": "andreysokolovas",
+      "paths": [
+        ".cache/telegram/andreysokolovas.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Соколов (Q4427091, Wikidata P3789; ролей у нас 13), 80 подписчиков, последний пост 2026-09-06"
+    },
+    {
+      "username": "LateNightUrgant",
+      "paths": [
+        ".cache/telegram/LateNightUrgant.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Иван Ургант (Q442830, Wikidata P3789; ролей у нас 14), 208K подписчиков, последний пост 2026-09-25"
+    },
+    {
+      "username": "vera_sot_tot_lem",
+      "paths": [
+        ".cache/telegram/vera_sot_tot_lem.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Вера Сотникова (Q4429859, Wikidata P3789; ролей у нас 8), 701 подписчиков, последний пост 2023-01-12"
+    },
+    {
+      "username": "maryanaspivak",
+      "paths": [
+        ".cache/telegram/maryanaspivak.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Марьяна Спивак (Q4431170, Wikidata P3789; ролей у нас 9), 1.17K подписчиков, последний пост 2026-09-21"
+    },
+    {
+      "username": "SatiSpivakova",
+      "paths": [
+        ".cache/telegram/SatiSpivakova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сати Спивакова (Q4431180, Wikidata P3789; ролей у нас 1), 19.3K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "starshenbaum_anna",
+      "paths": [
+        ".cache/telegram/starshenbaum_anna.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Старшенбаум (Q4440852, Wikidata P3789; ролей у нас 5), 1.35K подписчиков, последний пост 2022-08-10"
+    },
+    {
+      "username": "strizhenovaekaterina",
+      "paths": [
+        ".cache/telegram/strizhenovaekaterina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Стриженова (Q4443979, Wikidata P3789; ролей у нас 6), 13.6K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "yanina_studilina",
+      "paths": [
+        ".cache/telegram/yanina_studilina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Студилина, Янина Сергеевна (Q4444563, Wikidata P3789; ролей у нас 5), 6.77K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "olesya_sudzilovskaya_official",
+      "paths": [
+        ".cache/telegram/olesya_sudzilovskaya_official.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Олеся Судзиловская (Q4445421, Wikidata P3789; ролей у нас 11), 9.62K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "Victoria_Tar",
+      "paths": [
+        ".cache/telegram/Victoria_Tar.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виктория Тарасова (Q4451709, Wikidata P3789; ролей у нас 3), 2.02K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "QryaProDucktion",
+      "paths": [
+        ".cache/telegram/QryaProDucktion.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Василий Уткин (Q4478881, Wikidata P3789; ролей у нас 2), 63.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "antonkhabarov1981",
+      "paths": [
+        ".cache/telegram/antonkhabarov1981.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Антон Хабаров (Q4494315, Wikidata P3789; ролей у нас 4), 17.5K подписчиков, последний пост 2026-10-21"
+    },
+    {
+      "username": "khilkevich_anna",
+      "paths": [
+        ".cache/telegram/khilkevich_anna.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Хилькевич (Q4497619, Wikidata P3789; ролей у нас 10), 119K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "natalya_andreychenko",
+      "paths": [
+        ".cache/telegram/natalya_andreychenko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Наталья Андрейченко (Q449925, Wikidata P3789; ролей у нас 12), 1.58K подписчиков, последний пост 2024-12-21"
+    },
+    {
+      "username": "anyachipovskaia",
+      "paths": [
+        ".cache/telegram/anyachipovskaia.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Анна Чиповская (Q4516120, Wikidata P3789; ролей у нас 15), 9.38K подписчиков, последний пост 2026-02-15"
+    },
+    {
+      "username": "AntonShagin",
+      "paths": [
+        ".cache/telegram/AntonShagin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Шагин Антон Александрович (Q4519307, Wikidata P3789; ролей у нас 13), 8.57K подписчиков, последний пост 2026-10-19"
+    },
+    {
+      "username": "denis_shvedov",
+      "paths": [
+        ".cache/telegram/denis_shvedov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Денис Шведов (Q4521700, Wikidata P3789; ролей у нас 12), 2.83K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "katerinashpitsa",
+      "paths": [
+        ".cache/telegram/katerinashpitsa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Шпица (Q4526492, Wikidata P3789; ролей у нас 12), 8.08K подписчиков, последний пост 2026-10-17"
+    },
+    {
+      "username": "mariashukshina",
+      "paths": [
+        ".cache/telegram/mariashukshina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мария Шукшина (Q4527472, Wikidata P3789; ролей у нас 10), 152K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "nShukina",
+      "paths": [
+        ".cache/telegram/nShukina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Щукина, Наталья Юрьевна (Q4529198, Wikidata P3789; ролей у нас 7), 5 подписчиков, последний пост 2024-09-23"
+    },
+    {
+      "username": "daryayurgenss",
+      "paths": [
+        ".cache/telegram/daryayurgenss.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юргенс, Дарья Георгиевна (Q4534785, Wikidata P3789; ролей у нас 3), 641 подписчиков, последний пост 2026-03-08"
+    },
+    {
+      "username": "yarushinstas",
+      "paths": [
+        ".cache/telegram/yarushinstas.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Станислав Ярушин (Q4539048, Wikidata P3789; ролей у нас 5), 18.1K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "violanofficial",
+      "paths": [
+        ".cache/telegram/violanofficial.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виоланте Плачидо (Q455945, Wikidata P3789; ролей у нас 5), 50 подписчиков, последний пост 2024-12-30"
+    },
+    {
+      "username": "vtolstoganova",
+      "paths": [
+        ".cache/telegram/vtolstoganova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виктория Толстоганова (Q464275, Wikidata P3789; ролей у нас 20), 1.31K подписчиков, последний пост 2026-05-01"
+    },
+    {
+      "username": "yuliasavicheva",
+      "paths": [
+        ".cache/telegram/yuliasavicheva.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юлия Савичева (Q466411, Wikidata P3789; ролей у нас 1), 12.7K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "sv_bezrukov",
+      "paths": [
+        ".cache/telegram/sv_bezrukov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сергей Безруков (Q473580, Wikidata P3789; ролей у нас 43), 56.9K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "official_kirkorov",
+      "paths": [
+        ".cache/telegram/official_kirkorov.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Филипп Киркоров (Q494596, Wikidata P3789; ролей у нас 13), 5.87K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "matveev_wlove",
+      "paths": [
+        ".cache/telegram/matveev_wlove.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Максим Матвеев (Q500404, Wikidata P3789; ролей у нас 20), 17.9K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "AndreyMerzlikin73",
+      "paths": [
+        ".cache/telegram/AndreyMerzlikin73.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Андрей Мерзликин (Q502070, Wikidata P3789; ролей у нас 44), 10.5K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "Maryanaro",
+      "paths": [
+        ".cache/telegram/Maryanaro.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Марьяна Ро (Q50414326, Wikidata P3789; ролей у нас 1), 136K подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "shevchuk_yuriy",
+      "paths": [
+        ".cache/telegram/shevchuk_yuriy.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Юрий Шевчук (Q51094, Wikidata P3789; ролей у нас 3), 1.55K подписчиков, последний пост 2026-10-18"
+    },
+    {
+      "username": "msboyarskiy",
+      "paths": [
+        ".cache/telegram/msboyarskiy.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Михаил Боярский (Q544641, Wikidata P3789; ролей у нас 27), 1.93K подписчиков, последний пост 2025-12-26"
+    },
+    {
+      "username": "Miguel_Noguera",
+      "paths": [
+        ".cache/telegram/Miguel_Noguera.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Miguel Noguera (Q5489701, Wikidata P3789; ролей у нас 1), 570 подписчиков, последний пост 2026-10-07"
+    },
+    {
+      "username": "sever_elena73",
+      "paths": [
+        ".cache/telegram/sever_elena73.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Елена Север (Q55106499, Wikidata P3789; ролей у нас 2), 765 подписчиков, последний пост 2026-10-24"
+    },
+    {
+      "username": "maximgalkinru",
+      "paths": [
+        ".cache/telegram/maximgalkinru.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Максим Галкин (Q559485, Wikidata P3789; ролей у нас 2), 242K подписчиков, последний пост 2025-02-10"
+    },
+    {
+      "username": "KerinMax",
+      "paths": [
+        ".cache/telegram/KerinMax.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Керин, Максим Евгеньевич (Q56112158, Wikidata P3789; ролей у нас 4), 386 подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "pabloderevyanko",
+      "paths": [
+        ".cache/telegram/pabloderevyanko.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Павел Деревянко (Q593332, Wikidata P3789; ролей у нас 33), 4.58K подписчиков, последний пост 2026-09-29"
+    },
+    {
+      "username": "sobolevtelegram",
+      "paths": [
+        ".cache/telegram/sobolevtelegram.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Илья Соболев (Q59421777, Wikidata P3789; ролей у нас 2), 48.4K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "iliukhinaa",
+      "paths": [
+        ".cache/telegram/iliukhinaa.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Мария Ильюхина (Q62019068, Wikidata P3789; ролей у нас 1), 18.7K подписчиков, последний пост 2026-08-11"
+    },
+    {
+      "username": "yana_koshkina_live",
+      "paths": [
+        ".cache/telegram/yana_koshkina_live.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Яна Кошкина (Q62126398, Wikidata P3789; ролей у нас 2), 26.2K подписчиков, последний пост 2026-10-15"
+    },
+    {
+      "username": "kavilo4ka",
+      "paths": [
+        ".cache/telegram/kavilo4ka.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Екатерина Вилкова (Q631058, Wikidata P3789; ролей у нас 23), 13.9K подписчиков, последний пост 2026-05-05"
+    },
+    {
+      "username": "MilosBikovic",
+      "paths": [
+        ".cache/telegram/MilosBikovic.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Милош Бикович (Q6860580, Wikidata P3789; ролей у нас 19), 24.9K подписчиков, последний пост 2026-09-04"
+    },
+    {
+      "username": "KaribidisDemis",
+      "paths": [
+        ".cache/telegram/KaribidisDemis.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Демис Карибидис (Q69044794, Wikidata P3789; ролей у нас 4), 16.8K подписчиков, последний пост 2026-10-22"
+    },
+    {
+      "username": "margarita_abroskina",
+      "paths": [
+        ".cache/telegram/margarita_abroskina.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Маргарита Аброськина (Q69427009, Wikidata P3789; ролей у нас 1), 1.72K подписчиков, последний пост 2026-09-01"
+    },
+    {
+      "username": "agaluckova",
+      "paths": [
+        ".cache/telegram/agaluckova.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Виктория Агалакова (Q73492792, Wikidata P3789; ролей у нас 1), 1.23K подписчиков, последний пост 2026-08-31"
+    },
+    {
+      "username": "saaberabar",
+      "paths": [
+        ".cache/telegram/saaberabar.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Сабер Аббар (Q7396039, Wikidata P3789; ролей у нас 3), 14.2K подписчиков, последний пост 2026-04-22"
+    },
+    {
+      "username": "dianapozharskaya",
+      "paths": [
+        ".cache/telegram/dianapozharskaya.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Диана Пожарская (Q90810378, Wikidata P3789; ролей у нас 4), 1.16K подписчиков, последний пост 2024-11-25"
+    },
+    {
+      "username": "zara_music",
+      "paths": [
+        ".cache/telegram/zara_music.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Зара (Q946406, Wikidata P3789; ролей у нас 2), 13.6K подписчиков, последний пост 2026-10-25"
+    },
+    {
+      "username": "PetrosyanLive",
+      "paths": [
+        ".cache/telegram/PetrosyanLive.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Евгений Петросян (Q952032, Wikidata P3789; ролей у нас 1), 1.65K подписчиков, последний пост 2026-08-07"
+    },
+    {
+      "username": "lesha_lukin",
+      "paths": [
+        ".cache/telegram/lesha_lukin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Алексей Лукин (Q97183466, Wikidata P3789; ролей у нас 6), 10.3K подписчиков, последний пост 2026-09-02"
+    },
+    {
+      "username": "tigrankeosayan",
+      "paths": [
+        ".cache/telegram/tigrankeosayan.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Тигран Кеосаян (Q1142513, Wikidata P3789; ролей у нас 2), 25.7K подписчиков, последний пост 2024-12-19"
+    },
+    {
+      "username": "Ohlobistin",
+      "paths": [
+        ".cache/telegram/Ohlobistin.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Иван Охлобыстин (Q140738, Wikidata P3789; ролей у нас 30), 69.3K подписчиков, последний пост 2026-10-23"
+    },
+    {
+      "username": "BurlyaevTV",
+      "paths": [
+        ".cache/telegram/BurlyaevTV.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Николай Бурляев (Q1964825, Wikidata P3789; ролей у нас 27), 1.09K подписчиков, последний пост 2026-06-14"
+    },
+    {
+      "username": "aaschwarzenegger",
+      "paths": [
+        ".cache/telegram/aaschwarzenegger.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Арнольд Шварцнеггер (Q2685, Wikidata P3789; ролей у нас 55), 26.3K подписчиков, последний пост 2023-01-31"
+    },
+    {
+      "username": "Pevtsov_Moscow",
+      "paths": [
+        ".cache/telegram/Pevtsov_Moscow.json"
+      ],
+      "category": "creator",
+      "sub": "актёр",
+      "note": "канал актёра 25.10 — Дмитрий Певцов (Q3400285, Wikidata P3789; ролей у нас 23), 9.27K подписчиков, последний пост 2026-10-25"
     }
   ]
 }

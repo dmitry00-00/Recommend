@@ -78,7 +78,7 @@ li .who{font-weight:600}li .meta{color:var(--muted);font-size:14px}footer{margin
 </style>
 </head>
 <body><main>
-<header class="site"><a href="/">${SITE}</a> — подбор фильмов на шаг сложнее того, что вы любите, и разборы к ним</header>
+<header class="site"><a href="/">${SITE}</a> — подбор фильмов за пределами привычного и разборы к ним</header>
 ${o.body}
 <footer>Ролики и посты принадлежат их авторам; здесь — только ссылки. Подбор под ваш вкус — в мини-приложении Telegram.</footer>
 </main></body></html>`;

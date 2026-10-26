@@ -43,6 +43,9 @@ export interface GrowthRows {
   seeding: SeedingRow[];
   /** сколько внутренних исключено (0 — считали со всеми) */
   internal: { owner: number; testers: number };
+  /** «где смотреть» за 30 дней (25.10, вкладка «Путь»): пар «человек — фильм» с открытой карточкой, из них с нажатым
+   *  «Смотреть», и нажатия по площадке (`detail` события watch) — ступени к сервисам меряются ими */
+  watch30?: { cards: number; cardsWithWatch: number; byPlatform: { platform: string | null; n: number }[] };
 }
 
 const MSK_MS = 3 * 3600e3;
@@ -85,13 +88,15 @@ export function computeGrowth(r: GrowthRows) {
     const day = dayOf(u.created_at);
     const feed = feedAt.get(u.id);
     const days = visitsBy.get(u.id) ?? [];
+    const activated = feed != null && feed <= created + DAY_MS;
+    // удержание — от активации (день первой ленты), как в worker/metrics.ts и порогах STRATEGY (25.10; было — от входа)
+    const actDay = activated ? new Date(feed!).toISOString().slice(0, 10) : day;
     return {
-      ...u, day, created,
-      activated: feed != null && feed <= created + DAY_MS,
-      /** вернулся в k-й день или позже */
-      back: (k: number) => days.some((d) => d >= addDays(day, k)),
-      /** k-й день уже прошёл — когорта годится в основание */
-      due: (k: number) => addDays(day, k) <= yesterday,
+      ...u, day, created, activated,
+      /** вернулся в k-й день от активации или позже */
+      back: (k: number) => days.some((d) => d >= addDays(actDay, k)),
+      /** активирован и k-й день уже прошёл — человек годится в основание */
+      due: (k: number) => activated && addDays(actDay, k) <= yesterday,
     };
   });
   type U = (typeof users)[number];
@@ -175,6 +180,20 @@ export function computeGrowth(r: GrowthRows) {
     together: r.together, inline: r.inline,
   };
 
+  // ── история по дням (25.10, вкладка «Путь»): новые за день от первого входа до сегодня — по источнику и активации;
+  //    накопленную кривую строит пульт
+  const firstDay = users.reduce<string | null>((a, u) => (a == null || u.day < a ? u.day : a), null);
+  const history: { day: string; joined: number; activated: number; seeded: number; invited: number; organic: number }[] = [];
+  if (firstDay) {
+    const byDay = new Map<string, U[]>();
+    for (const u of users) byDay.set(u.day, [...(byDay.get(u.day) ?? []), u]);
+    for (let d = firstDay; d <= today; d = addDays(d, 1)) {
+      const xs = byDay.get(d) ?? [];
+      history.push({ day: d, joined: xs.length, activated: xs.filter((u) => u.activated).length, seeded: xs.filter((u) => u.source).length,
+        invited: xs.filter((u) => !u.source && u.invited_by).length, organic: xs.filter((u) => !u.source && !u.invited_by).length });
+    }
+  }
+
   const all30 = group(fresh30);
   return {
     period: { from90, from30, today },
@@ -182,7 +201,9 @@ export function computeGrowth(r: GrowthRows) {
     summary: { joined30: all30.joined, activation30: all30.activation, d7: all30.d7, d30: all30.d30,
       wau: weeks.at(-1)?.active ?? 0, active30: active30.size,
       spend90: r.seeding.filter((s) => s.price != null && (s.posted_at ?? today) >= from90).reduce((a, s) => a + (s.price ?? 0), 0) },
-    sources, weeks, onboarding, virality,
+    sources, weeks, onboarding, virality, history,
+    totals: { joined: users.length, activated: users.filter((u) => u.activated).length },
+    watch30: r.watch30 ?? null,
     /** входы по меткам за 90 дней (23.10, рекламная кампания: посты, приход по часам за 48 ч, «≥ 10 оценок и лента» —
      *  считает пульт, tools/growth-desk.mts): без id; d1/d7 — null, пока день не прошёл; rated — оценок в первые сутки */
     arrivals: fresh90.filter((u) => u.source).map((u) => ({ source: u.source!, at: u.created_at, activated: u.activated,

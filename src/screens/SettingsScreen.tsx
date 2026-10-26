@@ -101,7 +101,8 @@ function FollowsSection() {
       .catch(() => toast({ text: F.error }))
       .finally(() => setBusy(false));
   };
-  const to = (f: Follow) => (f.kind === 'character' ? `/character/${f.ref}` : `/open/w-${f.ref.replace(':', '_')}`);
+  const to = (f: Follow) => (f.kind === 'character' ? `/character/${f.ref}` : f.kind === 'person' ? `/person/${f.ref}`
+    : f.kind === 'universe' ? `/universe/${f.ref}` : `/open/w-${f.ref.replace(':', '_')}`);
   return (
     <section className="tm-settings__section">
       <SettingHead title={F.title} note={ui.settings.followsShort} more={F.text} />

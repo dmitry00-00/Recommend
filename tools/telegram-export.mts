@@ -38,6 +38,22 @@ export interface Post {
   preview?: { url: string; site?: string; title?: string };
   /** переслано из другого канала — тогда автор поста не наш канал */
   forwardedFrom?: string;
+  /** медиа поста без байтов (25.10, tg-gateway): вид, длительность, у аудио — исполнитель и название */
+  media?: PostMedia;
+  /** кнопки под постом (25.10) — отдельно от `links`: генераторы на кнопки не рассчитаны; донаты бывают только там */
+  buttons?: PostLink[];
+}
+
+/** Медиа поста из шлюза (25.10): `kind` — video, round, audio, voice, photo, image, gif, sticker, document, poll, paid… */
+export interface PostMedia {
+  kind: string; duration?: number; size?: number; mime?: string; w?: number; h?: number; streaming?: boolean;
+  performer?: string; title?: string; file_name?: string; stars?: number;
+}
+
+/** Сведения о канале из шлюза (25.10, раз в неделю): описание, закреп, подписчики, платные реакции */
+export interface ChannelInfo {
+  about?: string; pinnedId?: number; subscribers?: number; at: string;
+  linkedChat?: boolean; paidReactions?: boolean; reactions?: string; stories?: boolean;
 }
 
 /** Хэштеги поста: у каналов это рубрики («#спгс», «#тревожныйсмотр», «#постердня»), и

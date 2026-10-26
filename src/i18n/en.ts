@@ -734,7 +734,7 @@ export const en: Strings = {
   "normKeep": (median: number) => `Keep ${median}`,
   "coldText": (needed: number) => `The feed is built around your taste, and we don't know anything about it yet. Rate at least ${needed} films you've already seen — and your first recommendations will appear.`,
   "coldProgress": (rated: number, needed: number) => `Rated ${rated} of ${needed}.`,
-  "landingTitle": "A feed of films one step beyond what you're used to",
+  "landingTitle": "A feed of films you wouldn't have found on your own",
   "landingText": (left: number) => `Each film comes with reviews by authors who talked about it. Mark ${left} ${left === 1 ? 'film' : 'films'} you've seen and we'll build your feed.`,
   "landingThis": "This one counts too — mark it above.",
   "landingAction": "Build my feed",
@@ -742,8 +742,8 @@ export const en: Strings = {
   "coldMore": "Keep rating",
   "general": (rated: number, needed: number) => `For now the feed is general: ${rated} of ${needed} rated. A few more ratings and it becomes yours.`,
   "generalRate": "Rate more",
-  "introTitle": "Not what to watch, but what will shift your view",
-  "introText": "We pick films and books not by taste, but one step harder than usual — and attach breakdowns from creators who've talked about each one.",
+  "introTitle": "Not what everyone is watching",
+  "introText": "We pick films and books from your history, beyond your usual — and attach breakdowns from creators who've talked about each one.",
   "coldImport": "Paste a list of what you've watched",
   "coldImportHint": "Titles one per line, or an export from Letterboxd, IMDb, Goodreads — what you've watched won't show up in the feed, and ratings will sharpen your taste.",
   "early": "This is an early version. If something's unclear or broken, write to me — I answer myself.",
@@ -881,6 +881,11 @@ export const en: Strings = {
   "label": "Share card",
   "text": (title: string, year?: number) => `“${title}”${year ? ` (${year})` : ''} — see what creators are saying about it`,
   "heroText": (name: string) => `${name} — every version across films, series and books, plus breakdowns about them`,
+  "story": "To story", // 25.10
+  "storyText": (name: string, n: number) => `${name} — ${n} ${n === 1 ? 'version' : 'versions'} on screen and in books`,
+  "storyLink": "Open character",
+  "personText": (name: string) => `${name} — works, where to start and breakdowns`, // 25.10
+  "universeText": (title: string) => `${title} — the whole lineup in order and where to start`, // 25.10
   "copied": "Link copied",
   "sent": "Sent",
   "failed": "Couldn't share — please try again",
@@ -952,6 +957,8 @@ export const en: Strings = {
   "startNear": (level: number) => `Level ${level} — a little above your usual: there's room to grow here, but it's still approachable.`,
   "startEntry": (level: number) => `Level ${level} — the most accessible way in among what we've annotated.`,
   "worksTitle": "Works",
+  "actingTitle": "Roles", // актёр с каналом в Telegram (25.10)
+  "acting": (n: number) => `roles: ${n}`,
   "level": (n: number) => `level ${n}`,
   "unmarked": "not annotated",
   "seen": "seen",
@@ -980,6 +987,21 @@ export const en: Strings = {
   "focus": "main focus",
   "share": (s: number) => `${Math.round(s * 100)}%`,
   "shareText": (name: string) => `${name} — all of their breakdowns of films and series`, // link to the creator page (23.10)
+  "support": "Support the creator", // панель донатов (25.10, флаг support)
+  "supportNote": "Links come from the creator's own channel: support goes to them directly, we take nothing from it.",
+  "subscribe": "Subscribe", // канал автора в Telegram главной кнопкой (25.10, Telegram first)
+  "openPost": "post ↗", // разбор — сразу в пост, где родной плеер
+  /* карточка аудиоканала (25.10) */
+  "audioCount": (n: number, reader?: string) => `${n} ${n === 1 ? 'recording' : 'recordings'}${reader ? ` · read by ${reader}` : ''}`,
+  "audioFresh": "Latest",
+  "audioByAuthor": "By author",
+  "audioAll": "all",
+  "audioWhole": "full novel",
+  "audioParts": (n: number) => `${n} parts`,
+  "audioMinutes": (m: number) => (m >= 60 ? `${Math.floor(m / 60)} h ${m % 60 ? `${m % 60} min` : ''}`.trim() : `${m} min`),
+  "audioBook": "book",
+  "audioNote": "Recordings open in Telegram — they play there, in the background and in a row.",
+  "audioCycle": (c: string) => `«${c}» series`,
   "back": "‹ Back"
 },
   /* разборы по авторам в карточке: строка авторов, материал, посты в Telegram */
@@ -1033,6 +1055,7 @@ export const en: Strings = {
     "toggleText": "Pre-release trial: breakdowns by lens — meaning, facts, sins, book vs film… Reviews appear on their own shelves. Other members don't see the shelves.",
   },
   voices: {
+  "tgMedia": (k: 'video' | 'round' | 'audio', min?: number) => `${k === 'audio' ? '🎧 audio' : k === 'round' ? '▶ video note' : '▶ video'} in Telegram${min ? ` · ${min} min` : ''}`, // 25.10
   "title": "Who broke it down",
   "suggestLink": "Know a breakdown that's missing here?",
   "talk": "Discussed on Telegram",
@@ -1102,7 +1125,7 @@ export const en: Strings = {
     "text": "Once a day, after 10 a.m., the bot sends a single message: what's new about the characters and works you follow. Breakdowns with spoilers come without a title.",
     "empty": "None yet. Tap “Follow” on a character or work page.",
     "remove": "Remove",
-    "kind": { "work": "work", "character": "character" } as Record<'work' | 'character', string>,
+    "kind": { "work": "work", "character": "character", "person": "person", "universe": "universe" } as Record<'work' | 'character' | 'person' | 'universe', string>,
   },
   // тестеры (ТВ-3в, 06.10): список ведёт админ в настройках
   testers: {
@@ -1588,7 +1611,7 @@ export const en: Strings = {
   social: {
   "write": "Message the author",
   "share": "Invite a friend",
-  "shareText": "Picks films and books not by taste, but one step beyond what you’re used to — with creators’ breakdowns",
+  "shareText": "Picks films and books beyond your usual — with creators’ breakdowns",
   "title": "Feedback",
   "text": "Early version: if something’s unclear, broken, or you’d like it different — write to us. And if you like it — invite a friend."
 },

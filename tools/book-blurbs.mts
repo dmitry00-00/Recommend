@@ -51,10 +51,15 @@ async function summary(url: string): Promise<string | undefined> {
   const m = /^https:\/\/(ru|en)\.wikipedia\.org\/wiki\/(.+)$/.exec(url);
   if (!m) return undefined;
   const r = await fetch(`https://${m[1]}.wikipedia.org/api/rest_v1/page/summary/${m[2]}`, { headers: { 'User-Agent': UA } }).catch(() => undefined);
-  const j = r?.ok ? await r.json().catch(() => undefined) as { extract?: string; type?: string } | undefined : undefined;
+  const j = r?.ok ? await r.json().catch(() => undefined) as { extract?: string; type?: string; titles?: { canonical?: string } } | undefined : undefined;
+  // перенаправление на чужую статью (26.10): у рассказа ссылка «Author!_Author!_(short_story)» ведёт на «Isaac_Asimov»,
+  // «…Clapham_Cook_(short_story)» — на сборник «Poirot's_Early_Cases»; описание автора или сборника — не описание вещи.
+  // Переименование («X_(novel)» → «X») — то же название, его оставляем
+  const base = (x: string) => decodeURIComponent(x).replace(/_/g, ' ').replace(/\s*\([^)]*\)\s*$/, '').toLocaleLowerCase();
+  const moved = j?.titles?.canonical && !base(j.titles.canonical).includes(base(m[2]));
   // страница-неоднозначность — не описание книги
   // знаки ударения русской Википедии («Вокру́г Луны́») — для словаря, не для описания
-  const t = j?.type === 'disambiguation' ? undefined : j?.extract?.replace(/\u0301/g, '').trim() || undefined;
+  const t = j?.type === 'disambiguation' || moved ? undefined : j?.extract?.replace(/\u0301/g, '').trim() || undefined;
   writeFileSync(file, JSON.stringify({ t }));
   await sleep(150);
   return t;

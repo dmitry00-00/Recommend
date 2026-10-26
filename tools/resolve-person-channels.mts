@@ -9,6 +9,7 @@
 // Сверх Wikidata — разметка каналов соседним агентом (.cache/outreach/channel-categories-2410.json, категория creator):
 // канал, у которого там указан элемент Wikidata человека (поле q/wikidata/person), добавляется, если у человека в
 // Wikidata канала нет. Остальные creator-каналы без элемента — в .cache/person-channels-unmatched.json, свести руками.
+// И списки владельца — tools/curated-channels.json (25.10, подборка каналов режиссёров «Новостей кинопроизводства»).
 // P3789 — имя в Telegram, а не обязательно канал (бывает личный аккаунт): `known` — канал есть в наших выемках или
 // реестре источников (это точно канал), остальные показываются той же ссылкой t.me.
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -16,21 +17,7 @@ import { readCache, sleep, sparql, writeCache } from './wikidata-lib.mts';
 import { people, workCredits } from './credits-all.mts';
 import { sources } from '../src/mocks/sources.ts';
 import { sourceCandidates } from '../src/mocks/sourcesAuto.ts';
-
-// политики и медиаперсоны, чей канал — политика и новости, а не их работы (24.10, слово владельца «исключить»):
-// блок «канал автора» их не показывает, посты не собираются. Писатели, режиссёры, комики и блогеры остаются,
-// даже если высказываются публично. Новых — дописывать сюда.
-const EXCLUDE: Record<string, string> = {
-  Q155979: 'Навальный', Q15850: 'Турчинов', Q3874799: 'Зеленский', Q2121094: 'Мединский', Q319121: 'Алекс Джонс',
-  Q4419809: 'Симоньян', Q1530559: 'Прилепин', Q295537: 'Лимонов', Q287099: 'Собчак', Q4213414: 'Кара-Мурза',
-  Q4312139: 'Назаров', Q4417025: 'Сергейцев', Q96486596: 'Зарубин', Q114670075: 'Курников', Q1978790: 'Невзоров',
-  Q2624119: 'Ястржембский', Q1142513: 'Кеосаян', Q4371811: 'Понасенков', Q4379252: 'Притула', Q4451931: 'Тарбаев',
-  Q2470718: 'Вячорка', Q1964825: 'Бурляев', Q4136019: 'Герасимов', Q140738: 'Охлобыстин', Q4362393: 'Пивоваров',
-  Q1960651: 'Парфёнов', Q89544720: 'Солодников', Q4293956: 'Минаев',
-};
-
-// имя в Telegram без публичного канала (24.10: у t.me/s нет превью — личный аккаунт или закрыто): ссылку не показываем
-const NO_CHANNEL = new Set(['protancychat', 'michael_zhvanetsky', 'mamonovofficial', 'dyuzhev_d']);
+import { EXCLUDE, NO_CHANNEL } from './person-exclude.mts';
 
 const FRESH = process.argv.includes('--fresh');
 const DRY = process.argv.includes('--dry');
@@ -83,6 +70,20 @@ if (existsSync(CATS)) {
   console.error(`разметка каналов: creator с элементом человека ${Object.keys(extra).length}, без элемента ${unmatched.length}`);
 } else console.error(`разметки каналов (${CATS}) ещё нет — только Wikidata`);
 
+// списки владельца (25.10, tools/curated-channels.json): канал человека с элементом — к его странице, если в
+// Wikidata канала нет; `main` — главнее канала из Wikidata (тот заброшен, `stale` — убрать); `gone` — имени больше нет
+interface Curated { h: string; n: string; q?: string; t?: string; role: string; main?: 1; stale?: 1; gone?: 1 }
+const curated = (JSON.parse(readFileSync('tools/curated-channels.json', 'utf8')) as { people: Curated[] }).people;
+const stale = new Set(curated.filter((c) => c.stale || c.gone).map((c) => c.h.toLowerCase()));
+const curatedTitle = new Map(curated.filter((c) => c.t).map((c) => [c.h.toLowerCase(), c.t!]));
+const listed: Record<string, { main: string[]; rest: string[] }> = {};
+for (const c of curated) {
+  if (!c.q || c.stale || c.gone || !HANDLE.test(c.h)) continue;
+  const x = listed[c.q] ??= { main: [], rest: [] };
+  (c.main ? x.main : x.rest).push(c.h);
+}
+console.error(`списки владельца: с элементом ${Object.keys(listed).length}, из них со страницей ${Object.keys(listed).filter((q) => wanted.has(q)).length}`);
+
 // канал точно канал: есть выемка, он в реестре источников или среди кандидатов; имя — оттуда же
 const titleOf = (h: string): { t?: string; known: boolean } => {
   const low = h.toLowerCase();
@@ -93,14 +94,16 @@ const titleOf = (h: string): { t?: string; known: boolean } => {
     try { return { t: (JSON.parse(readFileSync(path, 'utf8')) as { name?: string }).name, known: true }; } catch { /* битая выемка */ }
   }
   const cand = sourceCandidates.find((c) => c.handle?.toLowerCase() === low);
-  return cand ? { t: cand.title, known: true } : { known: false };
+  return cand ? { t: cand.title, known: true } : { t: curatedTitle.get(low), known: false };
 };
 
 export interface PersonChannel { h: string; t?: string; known?: 1 }
 const out: Record<string, PersonChannel> = {};
 for (const q of [...wanted].sort()) {
   if (q in EXCLUDE) continue;
-  const handles = (cache[q]?.length ? cache[q] : extra[q] ? [extra[q]] : []).filter((h) => !NO_CHANNEL.has(h.toLowerCase()));
+  const wd = cache[q]?.length ? cache[q] : extra[q] ? [extra[q]] : [];
+  const handles = [...new Set([...(listed[q]?.main ?? []), ...wd, ...(listed[q]?.rest ?? [])])]
+    .filter((h) => !NO_CHANNEL.has(h.toLowerCase()) && !stale.has(h.toLowerCase()));
   if (!handles.length) continue;
   // несколько имён — первым то, что мы знаем как канал
   const h = handles.find((x) => titleOf(x).known) ?? handles[0];
@@ -115,7 +118,7 @@ if (!DRY) {
   writeFileSync('.cache/person-channels-unmatched.json', JSON.stringify(unmatched, null, 1));
   writeFileSync(new URL('../src/mocks/personChannels.ts', import.meta.url),
     `// Сгенерировано tools/resolve-person-channels.mts — руками не править. Автор (элемент Wikidata) → его Telegram:
-// h — имя в Telegram (P3789 Wikidata или разметка каналов creator), t — название канала, known — канал есть в наших
+// h — имя в Telegram (P3789 Wikidata, разметка каналов creator или списки владельца), t — название канала, known — канал есть в наших
 // выемках или реестре источников. Грузится лениво, со страницей автора (24.10).
 export interface PersonChannel { h: string; t?: string; known?: 1 }
 

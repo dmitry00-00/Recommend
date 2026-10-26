@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getSettings, getUniverse, type UniverseMember, type UniversePage } from '@/api';
+import { followOfWorks, getSettings, getUniverse, type UniverseMember, type UniversePage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
-import { BackLink, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
+import { BackLink, DiscussionLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
 import { cx } from '@/lib/cx';
 import { onExternalClick } from '@/lib/telegram';
 import { useMechanics, useRole } from '@/lib/settingsStore';
@@ -56,6 +56,11 @@ export function UniverseScreen() {
             <p className="tm-label tm-universe__kind">{ui.universe.kind[data.kind] ?? ui.universe.kind.other}</p>
             <h1 className="tm-title-2">{data.title}</h1>
             <p className="tm-caption">{counts}</p>
+            {/* «Поделиться» и «Следить» (25.10): следить — новые разборы произведений вселенной в сводке от бота */}
+            <p className="tm-row tm-row--gap-2 tm-person__actions">
+              <FollowButton target={followOfWorks('universe', data.id, data.title, data.byKind.flatMap((g) => g.members.flatMap((m) => (m.work ? [m.work] : []))))} />
+              <ShareButton page={{ kind: 'universe', id: data.id, title: data.title, ...(counts ? { about: counts } : {}) }} />
+            </p>
             {admin ? (
               <p className="tm-voice__outlets tm-work__statslink">
                 <Link className="tm-voice__chip" to={`/stats/universe/${data.id}`}>{ui.stats.link}</Link>
@@ -122,8 +127,9 @@ export function UniverseScreen() {
                   <a key={w} className="tm-voice__chip" href={w} target="_blank" rel="noreferrer noopener" onClick={onExternalClick(w)}>{wikiName(w)}</a>
                 ))}
               </p>
-              {data.sources.api.length ? (
-                <p className="tm-caption tm-work__note">{ui.universe.apis(data.sources.api.map((a) => `${new URL(a.url).host} — ${a.what}`).join('; '))}</p>
+              {/* откуда собран состав (API) — служебное, только админу (25.10, аудит карточек) */}
+              {admin && data.sources.api.length ? (
+                <p className="tm-caption tm-work__note">{ui.universe.apis(data.sources.api.map((a) => `${hostOf(a.url)} — ${a.what}`).join('; '))}</p>
               ) : null}
             </section>
           ) : null}
@@ -134,9 +140,13 @@ export function UniverseScreen() {
   );
 }
 
+/** хост адреса; битый адрес в справочнике не роняет страницу (25.10: `new URL` без проверки бросал) */
+const hostOf = (url: string): string => { try { return new URL(url).host; } catch { return url; } };
+
 /** «starwars.fandom.com/ru» → «starwars · вики (ru)»: адрес короче и понятнее ссылки целиком. */
 function wikiName(url: string): string {
-  const u = new URL(url);
+  let u: URL;
+  try { u = new URL(url); } catch { return url; }
   const name = u.host.replace(/\.fandom\.com$/, '').replace(/^www\./, '');
   const lang = u.pathname.replace(/^\/|\/$/g, '');
   return `${name}${lang && lang.length <= 3 ? ` (${lang})` : ''}`;

@@ -28,7 +28,8 @@ const HOUR_MSK = 10;
 interface Analysis { id: string; title: string; author: string; platform: string; url: string; spoilerLevel?: number; publishedAt?: string; unverified?: boolean; tier?: string }
 interface Hero { n: string; works: string[]; own?: string; other?: string }
 interface Fresh { url: string; key: string; title: string; author: string; platform: string; spoiler: number; tier: string | null; lens: string | null; at: string }
-interface FollowRow { user_id: string; kind: 'work' | 'character'; ref: string; keys: string; title: string; at: string }
+// 'person' и 'universe' (25.10): человек и вселенная — набором ключей своих произведений, сверка как у произведения
+interface FollowRow { user_id: string; kind: 'work' | 'character' | 'person' | 'universe'; ref: string; keys: string; title: string; at: string }
 
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const iso = (d = new Date()) => d.toISOString();
@@ -91,18 +92,21 @@ export async function getFollows(userId: string, env: Env): Promise<Response> {
  *  разборов (`tmdb:155`) и другие ключи той же карточки, по которым к ней приходят разборы. */
 export async function putFollow(req: Request, userId: string, env: Env): Promise<Response> {
   const b = (await req.json().catch(() => ({}))) as { kind?: string; ref?: string; keys?: unknown; title?: string; on?: boolean };
-  const kind = b.kind === 'work' || b.kind === 'character' ? b.kind : undefined;
+  const kind = (['work', 'character', 'person', 'universe'] as const).find((k) => k === b.kind);
   const ref = typeof b.ref === 'string' ? b.ref.trim() : '';
-  if (!kind || !(kind === 'character' ? /^(Q\d{1,12}|aoiaf-\d{1,6})$/.test(ref) : WORK_KEY.test(ref))) return json({ error: 'bad_follow' }, 400);
+  const refOk = kind === 'character' ? /^(Q\d{1,12}|aoiaf-\d{1,6})$/.test(ref) : kind === 'person' || kind === 'universe' ? /^Q\d{1,12}$/.test(ref) : WORK_KEY.test(ref);
+  if (!kind || !refOk) return json({ error: 'bad_follow' }, 400);
   if (b.on === false) {
     await env.DB.prepare('DELETE FROM follow WHERE user_id = ? AND kind = ? AND ref = ?').bind(userId, kind, ref).run();
     return getFollows(userId, env);
   }
   const title = typeof b.title === 'string' ? b.title.trim().slice(0, 120) : '';
   if (!title) return json({ error: 'bad_follow' }, 400);
-  const keys = kind === 'work'
-    ? [...new Set([ref, ...(Array.isArray(b.keys) ? b.keys : []).filter((k): k is string => typeof k === 'string' && WORK_KEY.test(k))])].slice(0, 8)
-    : [];
+  const given = (Array.isArray(b.keys) ? b.keys : []).filter((k): k is string => typeof k === 'string' && WORK_KEY.test(k));
+  const keys = kind === 'work' ? [...new Set([ref, ...given])].slice(0, 8)
+    // человек и вселенная — ключи их произведений (у вселенной их сотни): потолок 200
+    : kind === 'person' || kind === 'universe' ? [...new Set(given)].slice(0, 200) : [];
+  if ((kind === 'person' || kind === 'universe') && !keys.length) return json({ error: 'bad_follow' }, 400);
   const count = await env.DB.prepare('SELECT COUNT(*) AS n FROM follow WHERE user_id = ?').bind(userId).first<{ n: number }>();
   if ((count?.n ?? 0) >= MAX_FOLLOWS) return json({ error: 'too_many' }, 400);
   await env.DB.batch([
@@ -122,19 +126,20 @@ const DIGEST = {
   ru: {
     spoiler: 'разбор со спойлерами', seasonHead: 'Вышел новый сезон', season: (n: number) => `${n} сезон`, watched: ' — вы досмотрели прежние',
     essaysHead: 'Новые разборы по вашим подпискам', more: (n: number) => `— и ещё ${n}`, moreFollows: (n: number) => `И ещё подписок с новинками: ${n}.`,
-    hint: 'Подписки — кнопка «Следить» на странице героя или произведения.', q: (t: string) => `«${t}»`,
+    hint: 'Подписки — кнопка «Следить» на странице героя, произведения, человека или вселенной.', q: (t: string) => `«${t}»`,
   },
   en: {
     spoiler: 'an essay with spoilers', seasonHead: 'A new season is out', season: (n: number) => `season ${n}`, watched: ' — you finished the earlier ones',
     essaysHead: 'New essays on what you follow', more: (n: number) => `— and ${n} more`, moreFollows: (n: number) => `More follows with news: ${n}.`,
-    hint: 'To follow, tap “Follow” on a character or title page.', q: (t: string) => `“${t}”`,
+    hint: 'To follow, tap “Follow” on a character, title, person or universe page.', q: (t: string) => `“${t}”`,
   },
 } as const;
-const paramOf = (f: Pick<FollowRow, 'kind' | 'ref'>) => (f.kind === 'character' ? `h-${f.ref}` : `w-${f.ref.replace(':', '_')}`);
+const paramOf = (f: Pick<FollowRow, 'kind' | 'ref'>) => (f.kind === 'character' ? `h-${f.ref}` : f.kind === 'person' ? `p-${f.ref}`
+  : f.kind === 'universe' ? `u-${f.ref}` : `w-${f.ref.replace(':', '_')}`);
 
 /** Совпадения одной подписки среди свежего. */
 export function matchFollow(f: Pick<FollowRow, 'kind' | 'ref' | 'keys'>, fresh: Fresh[], heroes: Record<string, Hero>): Fresh[] {
-  if (f.kind === 'work') {
+  if (f.kind === 'work' || f.kind === 'person' || f.kind === 'universe') {
     const keys = new Set(f.keys.split(',').filter(Boolean));
     return fresh.filter((x) => keys.has(x.key) && x.tier !== 'review');
   }

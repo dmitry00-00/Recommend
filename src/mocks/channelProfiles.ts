@@ -1,4 +1,4 @@
-// Сгенерировано tools/channel-profile.mts (2026-10-24): о каких вселенных и людях говорит канал.
+// Сгенерировано tools/channel-profile.mts (2026-10-26): о каких вселенных и людях говорит канал.
 // Ключ — название канала, как у разбора (author). Доля — от всего, что о канале известно; непроверенные
 // привязки идут с весом 0,25. Не править руками — перегенерировать.
 export const channelProfiles: Record<string, { n: number; top: { id: string; kind: 'universe' | 'person'; title: string; share: number }[]; focus: string[] }> = {
@@ -105,7 +105,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Heavy Spoilers": {
-  "n": 927.5,
+  "n": 928.5,
   "top": [
    {
     "id": "Q642878",
@@ -195,7 +195,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "New Rockstars": {
-  "n": 596.8,
+  "n": 597,
   "top": [
    {
     "id": "Q642878",
@@ -279,7 +279,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Рэй Стич": {
-  "n": 33.3,
+  "n": 33.5,
   "top": [
    {
     "id": "Q860608",
@@ -303,12 +303,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Павел Усачёв": {
-  "n": 28,
+  "n": 27.8,
   "top": [
    {
     "id": "Q462",
     "kind": "universe",
-    "share": 0.21,
+    "share": 0.22,
     "title": "Звёздные войны"
    },
    {
@@ -435,7 +435,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "FilmSpeak": {
-  "n": 209.5,
+  "n": 207.5,
   "top": [
    {
     "id": "Q642878",
@@ -495,7 +495,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Thomas Thorogood": {
-  "n": 51.3,
+  "n": 52.3,
   "top": [
    {
     "id": "Q125679809",
@@ -507,7 +507,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "WeWatchedAMovie": {
-  "n": 564.3,
+  "n": 563.3,
   "top": [
    {
     "id": "Q2296698",
@@ -555,7 +555,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Что Посмотреть": {
-  "n": 129,
+  "n": 128,
   "top": [
    {
     "id": "Q45875",
@@ -573,30 +573,30 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Сергей Романов ": {
-  "n": 13.3,
+  "n": 11.8,
   "top": [
    {
     "id": "Q41148",
     "kind": "person",
-    "share": 0.08,
+    "share": 0.09,
     "title": "Мартин Скорсезе"
    },
    {
     "id": "Q380000",
     "kind": "person",
-    "share": 0.08,
+    "share": 0.09,
     "title": "Юрий Карлович Олеша"
    }
   ],
   "focus": []
  },
  "Культпросвет": {
-  "n": 41.3,
+  "n": 42.3,
   "top": [
    {
     "id": "Q726024",
     "kind": "person",
-    "share": 0.22,
+    "share": 0.21,
     "title": "Винсент Уорд"
    }
   ],
@@ -627,7 +627,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Disparu": {
-  "n": 184.3,
+  "n": 183.3,
   "top": [
    {
     "id": "Q462",
@@ -657,7 +657,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Уголок Акра": {
-  "n": 103.8,
+  "n": 103.5,
   "top": [
    {
     "id": "Q642878",
@@ -669,7 +669,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "ЧЕРНЫЙ КАБИНЕТ": {
-  "n": 92.5,
+  "n": 92.3,
   "top": [
    {
     "id": "Q22126305",
@@ -711,7 +711,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Cut The Crap": {
-  "n": 143.8,
+  "n": 143.5,
   "top": [
    {
     "id": "Q642878",
@@ -771,12 +771,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Телеканал КИНОТВ": {
-  "n": 78.3,
+  "n": 78.5,
   "top": [
    {
     "id": "Q313566",
     "kind": "person",
-    "share": 0.12,
+    "share": 0.11,
     "title": "Александр Пэйн"
    }
   ],
@@ -869,7 +869,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Gigatun": {
-  "n": 156.5,
+  "n": 157.5,
   "top": [
    {
     "id": "Q1152150",
@@ -947,7 +947,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Звездный Капитан": {
-  "n": 136,
+  "n": 135.8,
   "top": [
    {
     "id": "Q219124",
@@ -1121,30 +1121,30 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Простые числа": {
-  "n": 11.8,
+  "n": 12.3,
   "top": [
    {
     "id": "Q48724847",
     "kind": "universe",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Бегущий по лезвию"
    },
    {
     "id": "Q56005",
     "kind": "person",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Ридли Скотт"
    },
    {
     "id": "Q55260",
     "kind": "person",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Дэвид Лин"
    },
    {
     "id": "Q23822013",
     "kind": "person",
-    "share": 0.09,
+    "share": 0.08,
     "title": "Дрю Хэриот"
    }
   ],
@@ -1385,7 +1385,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Lucas Blue": {
-  "n": 75.8,
+  "n": 76,
   "top": [
    {
     "id": "Q25191",
@@ -1603,7 +1603,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "The Kino Corner": {
-  "n": 25,
+  "n": 24,
   "top": [
    {
     "id": "Q1152150",
@@ -2085,31 +2085,19 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Я у мамы филолог": {
-  "n": 6,
+  "n": 7,
   "top": [
    {
     "id": "Q133730",
     "kind": "person",
-    "share": 0.33,
+    "share": 0.29,
     "title": "Ларс фон Триер"
    },
    {
     "id": "Q54864392",
     "kind": "person",
-    "share": 0.17,
+    "share": 0.14,
     "title": "Ари Астер"
-   },
-   {
-    "id": "Q4980477",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Брайан Вудс"
-   },
-   {
-    "id": "Q16198467",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Скотт Бек"
    }
   ],
   "focus": []
@@ -2463,7 +2451,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Цифровая история": {
-  "n": 70.8,
+  "n": 70.5,
   "top": [
    {
     "id": "Q7024302",
@@ -2729,7 +2717,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Ася Занегина": {
-  "n": 36,
+  "n": 36.3,
   "top": [
    {
     "id": "Q56094",
@@ -3097,7 +3085,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Елизавета Корабельникова": {
-  "n": 6,
+  "n": 5.8,
   "top": [
    {
     "id": "Q55424",
@@ -3114,14 +3102,14 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q192762",
     "kind": "person",
-    "share": 0.08,
+    "share": 0.09,
     "title": "Даррен Аронофски"
    }
   ],
   "focus": []
  },
  "Quentin Translatin": {
-  "n": 54.5,
+  "n": 54.8,
   "top": [
    {
     "id": "Q193628",
@@ -3260,6 +3248,30 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "bookspace": {
+  "n": 5,
+  "top": [
+   {
+    "id": "Q5410773",
+    "kind": "universe",
+    "share": 0.2,
+    "title": "Волшебный мир Гарри Поттера"
+   },
+   {
+    "id": "Q312988",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Дэвид Йейтс"
+   },
+   {
+    "id": "Q234403",
+    "kind": "person",
+    "share": 0.2,
+    "title": "Робин Хобб"
+   }
+  ],
+  "focus": []
+ },
  "Вышел за хлебом": {
   "n": 15.3,
   "top": [
@@ -3303,7 +3315,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "СмыслКадра": {
-  "n": 22.3,
+  "n": 23.3,
   "top": [
    {
     "id": "Q2352966",
@@ -3314,14 +3326,20 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q3177580",
     "kind": "universe",
-    "share": 0.18,
+    "share": 0.17,
     "title": "Ходячие мертвецы"
    },
    {
     "id": "Q295445",
     "kind": "person",
-    "share": 0.18,
+    "share": 0.17,
     "title": "Фрэнк Дарабонт"
+   },
+   {
+    "id": "Q45875",
+    "kind": "universe",
+    "share": 0.14,
+    "title": "Песнь льда и огня"
    },
    {
     "id": "Q336075",
@@ -3334,12 +3352,6 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
     "kind": "person",
     "share": 0.11,
     "title": "Эван Голдберг"
-   },
-   {
-    "id": "Q45875",
-    "kind": "universe",
-    "share": 0.1,
-    "title": "Песнь льда и огня"
    }
   ],
   "focus": []
@@ -3561,7 +3573,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Rae Cinema": {
-  "n": 45.3,
+  "n": 46.3,
   "top": [
    {
     "id": "Q7836302",
@@ -3591,7 +3603,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "ЧИТАЙ КНИГИ": {
-  "n": 15,
+  "n": 15.3,
   "top": [
    {
     "id": "Q234403",
@@ -3602,7 +3614,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q428755",
     "kind": "person",
-    "share": 0.12,
+    "share": 0.11,
     "title": "Стивен Эриксон"
    },
    {
@@ -3879,37 +3891,37 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Movie Facts RU": {
-  "n": 104.3,
+  "n": 105.3,
   "top": [
    {
     "id": "Q45875",
     "kind": "universe",
-    "share": 0.67,
+    "share": 0.68,
     "title": "Песнь льда и огня"
    },
    {
     "id": "Q15228",
     "kind": "universe",
-    "share": 0.24,
+    "share": 0.23,
     "title": "Властелин колец"
+   },
+   {
+    "id": "Q503997",
+    "kind": "person",
+    "share": 0.23,
+    "title": "Дэвид Бениофф"
+   },
+   {
+    "id": "Q1151388",
+    "kind": "person",
+    "share": 0.23,
+    "title": "Д. Б. Уайс"
    },
    {
     "id": "Q315441",
     "kind": "person",
     "share": 0.23,
     "title": "Ральф Бакши"
-   },
-   {
-    "id": "Q503997",
-    "kind": "person",
-    "share": 0.22,
-    "title": "Дэвид Бениофф"
-   },
-   {
-    "id": "Q1151388",
-    "kind": "person",
-    "share": 0.22,
-    "title": "Д. Б. Уайс"
    },
    {
     "id": "Q181677",
@@ -4424,7 +4436,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Культас": {
-  "n": 37.3,
+  "n": 37,
   "top": [
    {
     "id": "Q642878",
@@ -4486,7 +4498,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Quinn The GM": {
-  "n": 160,
+  "n": 161,
   "top": [
    {
     "id": "Q45875",
@@ -4606,12 +4618,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "David Lightbringer": {
-  "n": 278.3,
+  "n": 275.3,
   "top": [
    {
     "id": "Q45875",
     "kind": "universe",
-    "share": 0.92,
+    "share": 0.93,
     "title": "Песнь льда и огня"
    },
    {
@@ -5092,7 +5104,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Jack Saint": {
-  "n": 7.5,
+  "n": 7.8,
   "top": [
    {
     "id": "Q446960",
@@ -5476,42 +5488,42 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Kaskar": {
-  "n": 6.8,
+  "n": 7.5,
   "top": [
    {
     "id": "Q2081372",
     "kind": "universe",
-    "share": 0.44,
+    "share": 0.4,
     "title": "Кунг-фу панда"
    },
    {
     "id": "Q642878",
     "kind": "universe",
-    "share": 0.33,
+    "share": 0.4,
     "title": "Кинематографическая вселенная Marvel"
    },
    {
     "id": "Q220751",
     "kind": "person",
-    "share": 0.3,
+    "share": 0.27,
     "title": "Брайан Сингер"
    },
    {
     "id": "Q1900331",
     "kind": "person",
-    "share": 0.22,
+    "share": 0.2,
     "title": "Марк Осборн"
    },
    {
     "id": "Q6263287",
     "kind": "person",
-    "share": 0.22,
+    "share": 0.2,
     "title": "Джон Стивенсон"
    },
    {
     "id": "Q5264979",
     "kind": "universe",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Гадкий я"
    }
   ],
@@ -5712,48 +5724,36 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Nikonorov": {
-  "n": 10.5,
+  "n": 10.8,
   "top": [
    {
     "id": "Q312101",
     "kind": "person",
-    "share": 0.1,
+    "share": 0.09,
     "title": "Анджей Сапковский"
    },
    {
     "id": "Q515421",
     "kind": "person",
-    "share": 0.1,
+    "share": 0.09,
     "title": "Джо Аберкромби"
    },
    {
     "id": "Q166351",
     "kind": "person",
-    "share": 0.1,
+    "share": 0.09,
     "title": "Роберт Джордан"
    }
   ],
   "focus": []
  },
- "Sergey ProjektPo": {
-  "n": 51.5,
-  "top": [
-   {
-    "id": "Q515421",
-    "kind": "person",
-    "share": 0.08,
-    "title": "Джо Аберкромби"
-   }
-  ],
-  "focus": []
- },
  "Главы Герои": {
-  "n": 10.8,
+  "n": 11,
   "top": [
    {
     "id": "Q39829",
     "kind": "person",
-    "share": 0.56,
+    "share": 0.55,
     "title": "Стивен Кинг"
    }
   ],
@@ -5774,12 +5774,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Marikorne": {
-  "n": 18.3,
+  "n": 19,
   "top": [
    {
     "id": "Q34660",
     "kind": "person",
-    "share": 0.38,
+    "share": 0.37,
     "title": "Джоан Роулинг"
    },
    {
@@ -5791,49 +5791,49 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
    {
     "id": "Q457608",
     "kind": "person",
-    "share": 0.17,
+    "share": 0.16,
     "title": "Брендон Сандерсон"
    },
    {
     "id": "Q166351",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.15,
     "title": "Роберт Джордан"
    }
   ],
   "focus": []
  },
  "АННУШКА": {
-  "n": 8,
+  "n": 9,
   "top": [
    {
     "id": "Q428755",
     "kind": "person",
-    "share": 0.25,
+    "share": 0.22,
     "title": "Стивен Эриксон"
    },
    {
     "id": "Q39829",
     "kind": "person",
-    "share": 0.19,
+    "share": 0.17,
     "title": "Стивен Кинг"
    },
    {
     "id": "Q34660",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.11,
     "title": "Джоан Роулинг"
    },
    {
     "id": "Q53411010",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.11,
     "title": "Ребекка Ф. Куанг"
    },
    {
     "id": "Q2598859",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.11,
     "title": "Роберт Маккаммон"
    }
   ],
@@ -5938,18 +5938,18 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Daniel Greene": {
-  "n": 135,
+  "n": 145.3,
   "top": [
    {
     "id": "Q166351",
     "kind": "person",
-    "share": 0.21,
+    "share": 0.19,
     "title": "Роберт Джордан"
    },
    {
     "id": "Q457608",
     "kind": "person",
-    "share": 0.2,
+    "share": 0.19,
     "title": "Брендон Сандерсон"
    }
   ],
@@ -5980,7 +5980,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Книжные обзоры": {
-  "n": 30.5,
+  "n": 32.8,
   "top": [
    {
     "id": "Q39829",
@@ -6184,16 +6184,18 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Книжный разрез": {
-  "n": 11.5,
+  "n": 12.5,
   "top": [
    {
     "id": "Q166351",
     "kind": "person",
-    "share": 0.97,
+    "share": 0.89,
     "title": "Роберт Джордан"
    }
   ],
-  "focus": []
+  "focus": [
+   "Q166351"
+  ]
  },
  "For Book": {
   "n": 6.3,
@@ -6208,36 +6210,18 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Редактура или жизнь": {
-  "n": 15,
+  "n": 15.3,
   "top": [
    {
     "id": "Q34660",
     "kind": "person",
-    "share": 0.68,
+    "share": 0.67,
     "title": "Джоан Роулинг"
    }
   ],
   "focus": [
    "Q34660"
   ]
- },
- "Рас-сказки": {
-  "n": 11.3,
-  "top": [
-   {
-    "id": "Q166351",
-    "kind": "person",
-    "share": 0.39,
-    "title": "Роберт Джордан"
-   },
-   {
-    "id": "Q234403",
-    "kind": "person",
-    "share": 0.27,
-    "title": "Робин Хобб"
-   }
-  ],
-  "focus": []
  },
  "БоЛьшоЙ ТоМ": {
   "n": 5.3,
@@ -6257,8 +6241,26 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "Рас-сказки": {
+  "n": 11.3,
+  "top": [
+   {
+    "id": "Q166351",
+    "kind": "person",
+    "share": 0.39,
+    "title": "Роберт Джордан"
+   },
+   {
+    "id": "Q234403",
+    "kind": "person",
+    "share": 0.27,
+    "title": "Робин Хобб"
+   }
+  ],
+  "focus": []
+ },
  "dushnila andrey (прорассказ)": {
-  "n": 33.3,
+  "n": 33.5,
   "top": [
    {
     "id": "Q52224",
@@ -6276,54 +6278,54 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "katie is reading": {
-  "n": 6.5,
+  "n": 7.8,
   "top": [
    {
     "id": "Q2427544",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Нора Джемисин"
    },
    {
     "id": "Q234403",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Робин Хобб"
    },
    {
     "id": "Q457608",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Брендон Сандерсон"
    },
    {
     "id": "Q27063770",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Sabaa Tahir"
    },
    {
     "id": "Q55756656",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Шеннон Чакраборти"
    },
    {
     "id": "Q514546",
     "kind": "person",
-    "share": 0.15,
+    "share": 0.13,
     "title": "Патрик Ротфусс"
    }
   ],
   "focus": []
  },
  "Tristan and the Classics": {
-  "n": 17.5,
+  "n": 17.8,
   "top": [
    {
     "id": "Q5686",
     "kind": "person",
-    "share": 0.19,
+    "share": 0.18,
     "title": "Чарльз Диккенс"
    }
   ],
@@ -6348,24 +6350,24 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "* e m m i e *": {
-  "n": 7.8,
+  "n": 8.3,
   "top": [
    {
     "id": "Q5686",
     "kind": "person",
-    "share": 0.42,
+    "share": 0.39,
     "title": "Чарльз Диккенс"
    },
    {
     "id": "Q38337",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.15,
     "title": "Александр Дюма"
    },
    {
     "id": "Q35064",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.12,
     "title": "Агата Кристи"
    }
   ],
@@ -6497,6 +6499,42 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ],
   "focus": []
  },
+ "A Clockwork Reader": {
+  "n": 7.8,
+  "top": [
+   {
+    "id": "Q5410773",
+    "kind": "universe",
+    "share": 0.13,
+    "title": "Волшебный мир Гарри Поттера"
+   },
+   {
+    "id": "Q312988",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Дэвид Йейтс"
+   },
+   {
+    "id": "Q27063770",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Sabaa Tahir"
+   },
+   {
+    "id": "Q18209683",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Ли Бардуго"
+   },
+   {
+    "id": "Q1354608",
+    "kind": "person",
+    "share": 0.13,
+    "title": "Эрин Моргенштерн"
+   }
+  ],
+  "focus": []
+ },
  "Скрытый смысл песен и фильмов": {
   "n": 5,
   "top": [
@@ -6534,24 +6572,24 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "Like or Hate this Book": {
-  "n": 6,
+  "n": 6.3,
   "top": [
    {
     "id": "Q210059",
     "kind": "person",
-    "share": 0.33,
+    "share": 0.32,
     "title": "Нил Гейман"
    },
    {
     "id": "Q186317",
     "kind": "person",
-    "share": 0.17,
+    "share": 0.16,
     "title": "Стиг Ларссон"
    },
    {
     "id": "Q39829",
     "kind": "person",
-    "share": 0.13,
+    "share": 0.12,
     "title": "Стивен Кинг"
    }
   ],

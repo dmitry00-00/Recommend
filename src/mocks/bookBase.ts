@@ -3176,26 +3176,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2349576",
-    "type": "book",
-    "title": "Quiet Days in Clichy",
-    "year": 1956,
-    "creators": [
-      "Генри Миллер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/876757-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2349576",
-      "openLibrary": "OL261864W"
-    }
-  },
-  {
     "id": "b-wd1811417",
     "type": "book",
     "title": "Особое мнение",
@@ -6148,6 +6128,27 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd756866",
+    "type": "book",
+    "title": "Парк юрского периода",
+    "originalTitle": "Jurassic Park",
+    "year": 1990,
+    "creators": [
+      "Майкл Крайтон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12882940-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q756866",
+      "openLibrary": "OL46881W"
+    }
+  },
+  {
     "id": "b-wd1751870",
     "type": "book",
     "title": "Игра престолов",
@@ -6391,6 +6392,2331 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd428581",
+    "type": "book",
+    "title": "Обладать",
+    "originalTitle": "Possession",
+    "year": 1990,
+    "creators": [
+      "Антония Сьюзен Байетт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q428581",
+      "openLibrary": "OL115647W"
+    }
+  },
+  {
+    "id": "b-wd3205703",
+    "type": "book",
+    "title": "Остров Сахалин",
+    "originalTitle": "Sakhalin Island",
+    "year": 1893,
+    "creators": [
+      "Антон Павлович Чехов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3205703"
+    }
+  },
+  {
+    "id": "b-wd849701",
+    "type": "book",
+    "title": "К востоку от рая",
+    "originalTitle": "East of Eden",
+    "year": 1952,
+    "creators": [
+      "Джон Стейнбек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q849701",
+      "openLibrary": "OL23166W"
+    }
+  },
+  {
+    "id": "b-wd107920499",
+    "type": "book",
+    "title": "Тёмная материя",
+    "originalTitle": "Dark Matter",
+    "year": 2016,
+    "creators": [
+      "Блейк Крауч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7436634-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107920499",
+      "openLibrary": "OL17358795W"
+    }
+  },
+  {
+    "id": "b-wd1648409",
+    "type": "book",
+    "title": "Манхэттен",
+    "originalTitle": "Manhattan Transfer",
+    "year": 1925,
+    "creators": [
+      "Джон Дос Пассос"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1648409",
+      "openLibrary": "OL1217994W"
+    }
+  },
+  {
+    "id": "b-wd1218321",
+    "type": "book",
+    "title": "Тайная история",
+    "originalTitle": "The Secret History",
+    "year": 1992,
+    "creators": [
+      "Донна Тартт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/744854-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1218321",
+      "openLibrary": "OL4321141W"
+    }
+  },
+  {
+    "id": "b-wd2037865",
+    "type": "book",
+    "title": "Дьявол носит Prada",
+    "originalTitle": "The Devil Wears Prada",
+    "year": 2003,
+    "creators": [
+      "Лорен Вайсбергер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2037865",
+      "openLibrary": "OL15137662W"
+    }
+  },
+  {
+    "id": "b-wd858384",
+    "type": "book",
+    "title": "Monster",
+    "year": 0,
+    "creators": [
+      "Наоки Урасава"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q858384"
+    }
+  },
+  {
+    "id": "b-wd4398917",
+    "type": "book",
+    "title": "Ртуть",
+    "originalTitle": "Quicksilver",
+    "year": 2003,
+    "creators": [
+      "Нил Стивенсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4398917",
+      "openLibrary": "OL38495W"
+    }
+  },
+  {
+    "id": "b-wd1629456",
+    "type": "book",
+    "title": "Орландо",
+    "originalTitle": "Orlando: A Biography",
+    "year": 1928,
+    "creators": [
+      "Вирджиния Вулф"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1629456",
+      "openLibrary": "OL39360W"
+    }
+  },
+  {
+    "id": "b-wd836841",
+    "type": "book",
+    "title": "Игра в бисер",
+    "originalTitle": "The Glass Bead Game",
+    "year": 1943,
+    "creators": [
+      "Герман Гессе"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q836841",
+      "openLibrary": "OL872781W"
+    }
+  },
+  {
+    "id": "b-wd649409",
+    "type": "book",
+    "title": "Тэсс из рода д’Эрбервиллей",
+    "originalTitle": "Tess of the d'Urbervilles",
+    "year": 1891,
+    "creators": [
+      "Томас Харди"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13109386-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q649409",
+      "openLibrary": "OL44927W"
+    }
+  },
+  {
+    "id": "b-wd192649",
+    "type": "book",
+    "title": "Красное и чёрное",
+    "originalTitle": "The Red and the Black",
+    "year": 1830,
+    "creators": [
+      "Стендаль"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q192649",
+      "openLibrary": "OL733370W"
+    }
+  },
+  {
+    "id": "b-wd22162553",
+    "type": "book",
+    "title": "Гарри Поттер и методы рационального мышления",
+    "originalTitle": "Harry Potter and the Methods of Rationality",
+    "year": 2015,
+    "creators": [
+      "Элиезер Юдковский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22162553"
+    }
+  },
+  {
+    "id": "b-wd1212828",
+    "type": "book",
+    "title": "Дар",
+    "originalTitle": "The Gift",
+    "year": 1938,
+    "creators": [
+      "Владимир Владимирович Набоков",
+      "Владимир Владимирович Набоков"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1212828",
+      "openLibrary": "OL626985W"
+    }
+  },
+  {
+    "id": "b-wd11279562",
+    "type": "book",
+    "title": "На игле",
+    "originalTitle": "Trainspotting",
+    "year": 1993,
+    "creators": [
+      "Ирвин Уэлш"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6673876-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11279562",
+      "openLibrary": "OL816271W"
+    }
+  },
+  {
+    "id": "b-wd11835640",
+    "type": "book",
+    "title": "Ведьмак",
+    "originalTitle": "The Witcher",
+    "year": 1986,
+    "creators": [
+      "Анджей Сапковский"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10693418-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11835640",
+      "openLibrary": "OL24228298W"
+    }
+  },
+  {
+    "id": "b-wd47008389",
+    "type": "book",
+    "title": "Жестокий принц",
+    "originalTitle": "The Cruel Prince",
+    "year": 2018,
+    "creators": [
+      "Холли Блэк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q47008389",
+      "openLibrary": "OL17850410W"
+    }
+  },
+  {
+    "id": "b-wd23763076",
+    "type": "book",
+    "title": "Шестёрка воронов",
+    "originalTitle": "Six of Crows",
+    "year": 2015,
+    "creators": [
+      "Ли Бардуго"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12667417-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q23763076",
+      "openLibrary": "OL17332479W"
+    }
+  },
+  {
+    "id": "b-wd3792783",
+    "type": "book",
+    "title": "Книга потерянных вещей",
+    "originalTitle": "The Book of Lost Things",
+    "year": 2006,
+    "creators": [
+      "Джон Коннолли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3792783",
+      "openLibrary": "OL15682790W"
+    }
+  },
+  {
+    "id": "b-wd11340979",
+    "type": "book",
+    "title": "Поезд убийц",
+    "originalTitle": "Bullet Train",
+    "year": 2010,
+    "creators": [
+      "Котаро Исака"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11340979",
+      "openLibrary": "OL24375262W"
+    }
+  },
+  {
+    "id": "b-wd124362037",
+    "type": "book",
+    "title": "Внутри убийцы",
+    "originalTitle": "A Killer’s Mind",
+    "year": 2018,
+    "creators": [
+      "Майк Омер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124362037"
+    }
+  },
+  {
+    "id": "b-wd183883",
+    "type": "book",
+    "title": "Над пропастью во ржи",
+    "originalTitle": "The Catcher in the Rye",
+    "year": 1951,
+    "creators": [
+      "Джером Дэвид Сэлинджер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9273490-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q183883",
+      "openLibrary": "OL3335245W"
+    }
+  },
+  {
+    "id": "b-wd4101761",
+    "type": "book",
+    "title": "В окопах Сталинграда",
+    "year": 1946,
+    "creators": [
+      "Виктор Платонович Некрасов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4101761"
+    }
+  },
+  {
+    "id": "b-wd202009",
+    "type": "book",
+    "title": "451 градус по Фаренгейту",
+    "originalTitle": "Fahrenheit 451",
+    "year": 1953,
+    "creators": [
+      "Рэй Брэдбери"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12993656-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q202009",
+      "openLibrary": "OL103200W"
+    }
+  },
+  {
+    "id": "b-wd842074",
+    "type": "book",
+    "title": "Обломов",
+    "originalTitle": "Oblomov",
+    "year": 1859,
+    "creators": [
+      "Иван Александрович Гончаров"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10901872-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q842074",
+      "openLibrary": "OL8551795W"
+    }
+  },
+  {
+    "id": "b-wd650949",
+    "type": "book",
+    "title": "Когда Спящий проснётся",
+    "originalTitle": "The Sleeper Awakes",
+    "year": 1899,
+    "creators": [
+      "Герберт Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/574886-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q650949",
+      "openLibrary": "OL52151W"
+    }
+  },
+  {
+    "id": "b-wd147787",
+    "type": "book",
+    "title": "Анна Каренина",
+    "originalTitle": "Anna Karenina",
+    "year": 1877,
+    "creators": [
+      "Лев Николаевич Толстой"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q147787",
+      "openLibrary": "OL267096W"
+    }
+  },
+  {
+    "id": "b-wd955910",
+    "type": "book",
+    "title": "Трое в лодке, не считая собаки",
+    "originalTitle": "Three Men in a Boat",
+    "year": 1889,
+    "creators": [
+      "Джером Клапка Джером"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q955910",
+      "openLibrary": "OL16051161W"
+    }
+  },
+  {
+    "id": "b-wd1198506",
+    "type": "book",
+    "title": "Медный всадник",
+    "originalTitle": "The Bronze Horseman",
+    "year": 1837,
+    "creators": [
+      "Александр Сергеевич Пушкин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1198506"
+    }
+  },
+  {
+    "id": "b-wd289387",
+    "type": "book",
+    "title": "Петербургские повести",
+    "originalTitle": "Petersburg Tales",
+    "year": 1843,
+    "creators": [
+      "Николай Васильевич Гоголь"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q289387",
+      "openLibrary": "OL15676791W"
+    }
+  },
+  {
+    "id": "b-wd2467206",
+    "type": "book",
+    "title": "Петербург",
+    "originalTitle": "Petersburg",
+    "year": 1913,
+    "creators": [
+      "Андрей Белый"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2467206"
+    }
+  },
+  {
+    "id": "b-wd1219874",
+    "type": "book",
+    "title": "Белая гвардия",
+    "originalTitle": "The White Guard",
+    "year": 1925,
+    "creators": [
+      "Михаил Афанасьевич Булгаков"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1219874",
+      "openLibrary": "OL260421W"
+    }
+  },
+  {
+    "id": "b-wd50948",
+    "type": "book",
+    "title": "Евгений Онегин",
+    "originalTitle": "Eugene Onegin",
+    "year": 1825,
+    "creators": [
+      "Александр Сергеевич Пушкин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11365660-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q50948",
+      "openLibrary": "OL623236W"
+    }
+  },
+  {
+    "id": "b-wd1396889",
+    "type": "book",
+    "title": "Скотный двор",
+    "originalTitle": "Animal Farm",
+    "year": 1945,
+    "creators": [
+      "Джордж Оруэлл"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11261770-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1396889",
+      "openLibrary": "OL1168210W"
+    }
+  },
+  {
+    "id": "b-wd883305",
+    "type": "book",
+    "title": "Холодный дом",
+    "originalTitle": "Bleak House",
+    "year": 1853,
+    "creators": [
+      "Чарльз Диккенс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q883305",
+      "openLibrary": "OL14868510W"
+    }
+  },
+  {
+    "id": "b-wd829934",
+    "type": "book",
+    "title": "Остаток дня",
+    "originalTitle": "The Remains of the Day",
+    "year": 1989,
+    "creators": [
+      "Кадзуо Исигуро"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q829934",
+      "openLibrary": "OL59048W"
+    }
+  },
+  {
+    "id": "b-wd1212672",
+    "type": "book",
+    "title": "Женщина в белом",
+    "originalTitle": "The Woman in White",
+    "year": 1860,
+    "creators": [
+      "Уилки Коллинз"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1212672",
+      "openLibrary": "OL176045W"
+    }
+  },
+  {
+    "id": "b-wd1195989",
+    "type": "book",
+    "title": "Имя ветра",
+    "originalTitle": "The Name of the Wind",
+    "year": 2007,
+    "creators": [
+      "Патрик Ротфусс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11480483-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1195989",
+      "openLibrary": "OL9772092W"
+    }
+  },
+  {
+    "id": "b-wd17111624",
+    "type": "book",
+    "title": "Марсианин",
+    "originalTitle": "The Martian",
+    "year": 2011,
+    "creators": [
+      "Энди Вейер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17111624"
+    }
+  },
+  {
+    "id": "b-wd10594892",
+    "type": "book",
+    "title": "Ночной цирк",
+    "originalTitle": "The Night Circus",
+    "year": 2011,
+    "creators": [
+      "Эрин Моргенштерн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q10594892",
+      "openLibrary": "OL16086747W"
+    }
+  },
+  {
+    "id": "b-wd14548336",
+    "type": "book",
+    "title": "Океан в конце дороги",
+    "originalTitle": "The Ocean at the End of the Lane",
+    "year": 2013,
+    "creators": [
+      "Нил Гейман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7258156-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q14548336",
+      "openLibrary": "OL16804661W"
+    }
+  },
+  {
+    "id": "b-wd125372196",
+    "type": "book",
+    "title": "Вафельное сердце",
+    "originalTitle": "Waffle Hearts",
+    "year": 0,
+    "creators": [
+      "Мария Парр"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q125372196"
+    }
+  },
+  {
+    "id": "b-wd326909",
+    "type": "book",
+    "title": "Будденброки",
+    "originalTitle": "Buddenbrooks",
+    "year": 1901,
+    "creators": [
+      "Томас Манн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8244437-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q326909",
+      "openLibrary": "OL14867081W"
+    }
+  },
+  {
+    "id": "b-wd20709044",
+    "type": "book",
+    "title": "Маленькая жизнь",
+    "originalTitle": "A Little Life",
+    "year": 2015,
+    "creators": [
+      "Ханья Янагихара"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20709044",
+      "openLibrary": "OL17370186W"
+    }
+  },
+  {
+    "id": "b-wd2252950",
+    "type": "book",
+    "title": "Кондуит и Швамбрания",
+    "originalTitle": "Conduit and Shvambrania",
+    "year": 1931,
+    "creators": [
+      "Лев Абрамович Кассиль"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2252950"
+    }
+  },
+  {
+    "id": "b-wd289815",
+    "type": "book",
+    "title": "Пнин",
+    "originalTitle": "Pnin",
+    "year": 1957,
+    "creators": [
+      "Владимир Владимирович Набоков"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q289815",
+      "openLibrary": "OL627082W"
+    }
+  },
+  {
+    "id": "b-wd117745027",
+    "type": "book",
+    "title": "Если все кошки в мире исчезнут",
+    "originalTitle": "If Cats Disappeared from the World",
+    "year": 2012,
+    "creators": [
+      "Гэнки Кавамура"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q117745027",
+      "openLibrary": "OL19966730W"
+    }
+  },
+  {
+    "id": "b-wd65063529",
+    "type": "book",
+    "title": "Там, где раки поют",
+    "originalTitle": "Where the Crawdads Sing",
+    "year": 2018,
+    "creators": [
+      "Делия Оуэнс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65063529",
+      "openLibrary": "OL18766691W"
+    }
+  },
+  {
+    "id": "b-wd22815069",
+    "type": "book",
+    "title": "Вторая жизнь Уве",
+    "originalTitle": "A Man Called Ove",
+    "year": 2012,
+    "creators": [
+      "Фредрик Бакман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22815069",
+      "openLibrary": "OL16793865W"
+    }
+  },
+  {
+    "id": "b-wd189378",
+    "type": "book",
+    "title": "Сумерки",
+    "originalTitle": "Twilight",
+    "year": 2005,
+    "creators": [
+      "Стефани Майер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q189378",
+      "openLibrary": "OL5720023W"
+    }
+  },
+  {
+    "id": "b-wd612836",
+    "type": "book",
+    "title": "Ярмарка тщеславия",
+    "originalTitle": "Vanity Fair",
+    "year": 1848,
+    "creators": [
+      "Уильям Мейкпис Теккерей"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/417329-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q612836",
+      "openLibrary": "OL16313W"
+    }
+  },
+  {
+    "id": "b-wd339761",
+    "type": "book",
+    "title": "Милый друг",
+    "originalTitle": "Bel-Ami",
+    "year": 1885,
+    "creators": [
+      "Ги де Мопассан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/997432-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q339761",
+      "openLibrary": "OL24154963W"
+    }
+  },
+  {
+    "id": "b-wd151883",
+    "type": "book",
+    "title": "Страдания юного Вертера",
+    "originalTitle": "The Sorrows of Young Werther",
+    "year": 1774,
+    "creators": [
+      "Иоганн Вольфганг фон Гёте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q151883",
+      "openLibrary": "OL52556W"
+    }
+  },
+  {
+    "id": "b-wd6511",
+    "type": "book",
+    "title": "Улисс",
+    "originalTitle": "Ulysses",
+    "year": 1922,
+    "creators": [
+      "Джеймс Джойс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13136548-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6511",
+      "openLibrary": "OL86344W"
+    }
+  },
+  {
+    "id": "b-wd460583",
+    "type": "book",
+    "title": "Посмертные записки Пиквикского клуба",
+    "originalTitle": "The Pickwick Papers",
+    "year": 1836,
+    "creators": [
+      "Чарльз Диккенс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q460583",
+      "openLibrary": "OL8763776W"
+    }
+  },
+  {
+    "id": "b-wd457977",
+    "type": "book",
+    "title": "О мышах и людях",
+    "originalTitle": "Of Mice and Men",
+    "year": 1937,
+    "creators": [
+      "Джон Стейнбек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q457977",
+      "openLibrary": "OL23204W"
+    }
+  },
+  {
+    "id": "b-wd743180",
+    "type": "book",
+    "title": "В дороге",
+    "originalTitle": "On the Road",
+    "year": 1957,
+    "creators": [
+      "Джек Керуак"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q743180",
+      "openLibrary": "OL65941W"
+    }
+  },
+  {
+    "id": "b-wd1195350",
+    "type": "book",
+    "title": "Волхв",
+    "originalTitle": "The Magus",
+    "year": 1965,
+    "creators": [
+      "Джон Роберт Фаулз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/5424278-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1195350",
+      "openLibrary": "OL15028W"
+    }
+  },
+  {
+    "id": "b-wd98178602",
+    "type": "book",
+    "title": "Атомные привычки",
+    "originalTitle": "Atomic Habits",
+    "year": 2018,
+    "creators": [
+      "Джеймс Клир"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q98178602",
+      "openLibrary": "OL17930368W"
+    }
+  },
+  {
+    "id": "b-wd311449",
+    "type": "book",
+    "title": "Чтец",
+    "originalTitle": "The Reader",
+    "year": 1995,
+    "creators": [
+      "Бернхард Шлинк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q311449",
+      "openLibrary": "OL14871157W"
+    }
+  },
+  {
+    "id": "b-wd60972265",
+    "type": "book",
+    "title": "Петровы в гриппе и вокруг него",
+    "year": 2016,
+    "creators": [
+      "Алексей Сальников"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60972265",
+      "openLibrary": "OL19738736W"
+    }
+  },
+  {
+    "id": "b-wd600461",
+    "type": "book",
+    "title": "Белые ночи",
+    "originalTitle": "White Nights",
+    "year": 1848,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q600461",
+      "openLibrary": "OL166952W"
+    }
+  },
+  {
+    "id": "b-wd695116",
+    "type": "book",
+    "title": "Записки из подполья",
+    "originalTitle": "Notes from Underground",
+    "year": 1864,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q695116",
+      "openLibrary": "OL24767320W"
+    }
+  },
+  {
+    "id": "b-wd210784",
+    "type": "book",
+    "title": "Идиот",
+    "originalTitle": "The Idiot",
+    "year": 1869,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q210784",
+      "openLibrary": "OL166973W"
+    }
+  },
+  {
+    "id": "b-wd136377586",
+    "type": "book",
+    "title": "Сорока на виселице",
+    "year": 2025,
+    "creators": [
+      "Эдуард Веркин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q136377586"
+    }
+  },
+  {
+    "id": "b-wd20657314",
+    "type": "book",
+    "title": "До встречи с тобой",
+    "originalTitle": "Me Before You",
+    "year": 2016,
+    "creators": [
+      "Джоджо Мойес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14419339-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20657314",
+      "openLibrary": "OL28353073W"
+    }
+  },
+  {
+    "id": "b-wd135515",
+    "type": "book",
+    "title": "Шум и ярость",
+    "originalTitle": "The Sound and the Fury",
+    "year": 1929,
+    "creators": [
+      "Уильям Фолкнер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8292212-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q135515",
+      "openLibrary": "OL82932W"
+    }
+  },
+  {
+    "id": "b-wd43361",
+    "type": "book",
+    "title": "Гарри Поттер и философский камень",
+    "originalTitle": "Harry Potter and the Philosopher's Stone",
+    "year": 1997,
+    "creators": [
+      "Джоан Роулинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q43361",
+      "openLibrary": "OL82563W"
+    }
+  },
+  {
+    "id": "b-wd326914",
+    "type": "book",
+    "title": "Приключения Тома Сойера",
+    "originalTitle": "The Adventures of Tom Sawyer",
+    "year": 1876,
+    "creators": [
+      "Марк Твен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q326914",
+      "openLibrary": "OL53919W"
+    }
+  },
+  {
+    "id": "b-wd83799",
+    "type": "book",
+    "title": "Мы",
+    "originalTitle": "We",
+    "year": 1924,
+    "creators": [
+      "Евгений Иванович Замятин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q83799",
+      "openLibrary": "OL10216W"
+    }
+  },
+  {
+    "id": "b-wd3235393",
+    "type": "book",
+    "title": "Половина жёлтого солнца",
+    "originalTitle": "Half of a Yellow Sun",
+    "year": 2006,
+    "creators": [
+      "Чимаманда Нгози Адичи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8472660-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3235393",
+      "openLibrary": "OL5731542W"
+    }
+  },
+  {
+    "id": "b-wd1621457",
+    "type": "book",
+    "title": "Эмпайр Фоллз",
+    "originalTitle": "Empire Falls",
+    "year": 2001,
+    "creators": [
+      "Ричард Руссо"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1621457",
+      "openLibrary": "OL3351636W"
+    }
+  },
+  {
+    "id": "b-wd3230588",
+    "type": "book",
+    "title": "Годы",
+    "originalTitle": "The Years",
+    "year": 2008,
+    "creators": [
+      "Анни Эрно"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3230588",
+      "openLibrary": "OL102389W"
+    }
+  },
+  {
+    "id": "b-wd14321296",
+    "type": "book",
+    "title": "Москва и москвичи",
+    "originalTitle": "Moscow and Moscovites",
+    "year": 1926,
+    "creators": [
+      "Владимир Алексеевич Гиляровский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q14321296"
+    }
+  },
+  {
+    "id": "b-wd7797601",
+    "type": "book",
+    "title": "Три любви (роман)",
+    "originalTitle": "Three Loves",
+    "year": 1932,
+    "creators": [
+      "Арчибалд Кронин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13859865-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7797601",
+      "openLibrary": "OL4189785W"
+    }
+  },
+  {
+    "id": "b-wd2619167",
+    "type": "book",
+    "title": "Дочь священника",
+    "originalTitle": "A Clergyman's Daughter",
+    "year": 1935,
+    "creators": [
+      "Джордж Оруэлл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2619167",
+      "openLibrary": "OL1168017W"
+    }
+  },
+  {
+    "id": "b-wd1115619",
+    "type": "book",
+    "title": "Ход королевы",
+    "originalTitle": "The Queen's Gambit",
+    "year": 1983,
+    "creators": [
+      "Уолтер Тевис"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1115619",
+      "openLibrary": "OL83884W"
+    }
+  },
+  {
+    "id": "b-wd27321",
+    "type": "book",
+    "title": "Один день Ивана Денисовича",
+    "originalTitle": "One Day in the Life of Ivan Denisovich",
+    "year": 1962,
+    "creators": [
+      "Александр Исаевич Солженицын"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27321",
+      "openLibrary": "OL24305476W"
+    }
+  },
+  {
+    "id": "b-wd1771810",
+    "type": "book",
+    "title": "Волшебник Земноморья",
+    "originalTitle": "A Wizard of Earthsea",
+    "year": 1968,
+    "creators": [
+      "Урсула Крёбер Ле Гуин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13617691-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1771810",
+      "openLibrary": "OL59852W"
+    }
+  },
+  {
+    "id": "b-wd2311434",
+    "type": "book",
+    "title": "Капитан Алатристе",
+    "originalTitle": "The Captain Alatriste",
+    "year": 1996,
+    "creators": [
+      "Артуро Перес-Реверте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2311434"
+    }
+  },
+  {
+    "id": "b-wd18117395",
+    "type": "book",
+    "title": "Обитель",
+    "originalTitle": "The Monastery (Prilepin novel)",
+    "year": 2014,
+    "creators": [
+      "Захар Прилепин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18117395"
+    }
+  },
+  {
+    "id": "b-wd913576",
+    "type": "book",
+    "title": "Безнадёга",
+    "originalTitle": "Desperation",
+    "year": 1996,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q913576",
+      "openLibrary": "OL81611W"
+    }
+  },
+  {
+    "id": "b-wd916423",
+    "type": "book",
+    "title": "Метро 2033",
+    "originalTitle": "Metro 2033",
+    "year": 2007,
+    "creators": [
+      "Дмитрий Алексеевич Глуховский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q916423"
+    }
+  },
+  {
+    "id": "b-wd130581281",
+    "type": "book",
+    "title": "По орбите",
+    "originalTitle": "Orbital",
+    "year": 2024,
+    "creators": [
+      "Саманта Харви"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130581281",
+      "openLibrary": "OL35708581W"
+    }
+  },
+  {
+    "id": "b-wd97662445",
+    "type": "book",
+    "title": "Нечего бояться",
+    "originalTitle": "Nothing to Be Frightened Of",
+    "year": 0,
+    "creators": [
+      "Джулиан Барнс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97662445"
+    }
+  },
+  {
+    "id": "b-wd124668781",
+    "type": "book",
+    "title": "F20",
+    "year": 2016,
+    "creators": [
+      "Анна Козлова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124668781",
+      "openLibrary": "OL19727174W"
+    }
+  },
+  {
+    "id": "b-wd3213985",
+    "type": "book",
+    "title": "Правда о деле Гарри Квеберта",
+    "originalTitle": "The Truth About the Harry Quebert Affair",
+    "year": 2012,
+    "creators": [
+      "Жоэль Диккер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3213985"
+    }
+  },
+  {
+    "id": "b-wd75840",
+    "type": "book",
+    "title": "Тихий Дон",
+    "originalTitle": "And Quiet Flows the Don",
+    "year": 1928,
+    "creators": [
+      "Михаил Александрович Шолохов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/298085-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q75840",
+      "openLibrary": "OL8067216W"
+    }
+  },
+  {
+    "id": "b-wd97207036",
+    "type": "book",
+    "title": "Просто Маса",
+    "originalTitle": "Just Masa",
+    "year": 2020,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97207036"
+    }
+  },
+  {
+    "id": "b-wd48953388",
+    "type": "book",
+    "title": "Не прощаюсь",
+    "originalTitle": "Not Saying Goodbye",
+    "year": 2018,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q48953388"
+    }
+  },
+  {
+    "id": "b-wd2631397",
+    "type": "book",
+    "title": "Азазель",
+    "originalTitle": "The Winter Queen",
+    "year": 1998,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2631397",
+      "openLibrary": "OL28769629W"
+    }
+  },
+  {
+    "id": "b-wd1886719",
+    "type": "book",
+    "title": "Турецкий гамбит",
+    "originalTitle": "The Turkish Gambit",
+    "year": 1998,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1886719",
+      "openLibrary": "OL8423433W"
+    }
+  },
+  {
+    "id": "b-wd646231",
+    "type": "book",
+    "title": "Другие голоса, другие комнаты",
+    "originalTitle": "Other Voices, Other Rooms",
+    "year": 1948,
+    "creators": [
+      "Трумен Капоте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q646231",
+      "openLibrary": "OL1992206W"
+    }
+  },
+  {
+    "id": "b-wd122335031",
+    "type": "book",
+    "title": "Путешествие в Элевсин",
+    "originalTitle": "Journey to Eleusis",
+    "year": 2023,
+    "creators": [
+      "Виктор Пелевин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q122335031"
+    }
+  },
+  {
+    "id": "b-wd131676089",
+    "type": "book",
+    "title": "Вредные советы",
+    "originalTitle": "Bad Advice",
+    "year": 1990,
+    "creators": [
+      "Григорий Бенционович Остер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131676089"
+    }
+  },
+  {
+    "id": "b-wd99434216",
+    "type": "book",
+    "title": "Пиранези",
+    "originalTitle": "Piranesi",
+    "year": 2020,
+    "creators": [
+      "Сюзанна Кларк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10226290-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q99434216",
+      "openLibrary": "OL20893680W"
+    }
+  },
+  {
+    "id": "b-wd85810391",
+    "type": "book",
+    "title": "Сны поездов",
+    "originalTitle": "Train Dreams",
+    "year": 2011,
+    "creators": [
+      "Денис Джонсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85810391",
+      "openLibrary": "OL15916948W"
+    }
+  },
+  {
+    "id": "b-wd2008211",
+    "type": "book",
+    "title": "Левая рука тьмы",
+    "originalTitle": "The Left Hand of Darkness",
+    "year": 1969,
+    "creators": [
+      "Урсула Крёбер Ле Гуин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10618463-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2008211",
+      "openLibrary": "OL59864W"
+    }
+  },
+  {
+    "id": "b-wd967268",
+    "type": "book",
+    "title": "Последний единорог",
+    "originalTitle": "The Last Unicorn",
+    "year": 1968,
+    "creators": [
+      "Питер Бигл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q967268",
+      "openLibrary": "OL26459W"
+    }
+  },
+  {
+    "id": "b-wd268100",
+    "type": "book",
+    "title": "Рождённый туманом",
+    "originalTitle": "Mistborn",
+    "year": 2006,
+    "creators": [
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11329782-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q268100",
+      "openLibrary": "OL16044142W"
+    }
+  },
+  {
+    "id": "b-wd435722",
+    "type": "book",
+    "title": "Под куполом",
+    "originalTitle": "Under the Dome",
+    "year": 2009,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14651549-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q435722",
+      "openLibrary": "OL14917748W"
+    }
+  },
+  {
+    "id": "b-wd2511839",
+    "type": "book",
+    "title": "Сын солдата",
+    "originalTitle": "Soldier Son Trilogy",
+    "year": 0,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2511839"
+    }
+  },
+  {
+    "id": "b-wd951587",
+    "type": "book",
+    "title": "Не отпускай меня",
+    "originalTitle": "Never Let Me Go",
+    "year": 2005,
+    "creators": [
+      "Кадзуо Исигуро"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q951587",
+      "openLibrary": "OL59038W"
+    }
+  },
+  {
+    "id": "b-wd816016",
+    "type": "book",
+    "title": "Игра Эндера",
+    "originalTitle": "Ender's Game",
+    "year": 1985,
+    "creators": [
+      "Орсон Скотт Кард"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q816016",
+      "openLibrary": "OL49488W"
+    }
+  },
+  {
+    "id": "b-wd1143215",
+    "type": "book",
+    "title": "Вокзал потерянных снов",
+    "originalTitle": "Perdido Street Station",
+    "year": 2000,
+    "creators": [
+      "Чайна Мьевиль"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6375226-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1143215",
+      "openLibrary": "OL8718786W"
+    }
+  },
+  {
+    "id": "b-wd4470",
+    "type": "book",
+    "title": "Колесо Времени",
+    "originalTitle": "The Wheel of Time",
+    "year": 1990,
+    "creators": [
+      "Брендон Сандерсон",
+      "Роберт Джордан"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4470"
+    }
+  },
+  {
+    "id": "b-wd3819311",
+    "type": "book",
+    "title": "Призрак дома на холме",
+    "originalTitle": "The Haunting of Hill House",
+    "year": 1959,
+    "creators": [
+      "Шерли Джексон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3819311",
+      "openLibrary": "OL4614184W"
+    }
+  },
+  {
+    "id": "b-wd3107329",
+    "type": "book",
+    "title": "Автостопом по галактике",
+    "originalTitle": "The Hitchhiker's Guide to the Galaxy",
+    "year": 1979,
+    "creators": [
+      "Дуглас Адамс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12986869-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3107329",
+      "openLibrary": "OL20666020W"
+    }
+  },
+  {
+    "id": "b-wd4339349",
+    "type": "book",
+    "title": "Отблески Этерны",
+    "originalTitle": "Reflections of Eterna",
+    "year": 0,
+    "creators": [
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4339349"
+    }
+  },
+  {
+    "id": "b-wd2463643",
+    "type": "book",
+    "title": "Дорога шамана",
+    "originalTitle": "Shaman's Crossing",
+    "year": 2005,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2463643"
+    }
+  },
+  {
+    "id": "b-wd2301398",
+    "type": "book",
+    "title": "Спин",
+    "originalTitle": "Spin",
+    "year": 2005,
+    "creators": [
+      "Роберт Чарльз Уилсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6632328-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2301398",
+      "openLibrary": "OL14951012W"
+    }
+  },
+  {
+    "id": "b-wd4410246",
+    "type": "book",
+    "title": "Свет в окошке",
+    "year": 0,
+    "creators": [
+      "Святослав Владимирович Логинов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4410246"
+    }
+  },
+  {
+    "id": "b-wd136100420",
+    "type": "book",
+    "title": "Колдун Российской империи",
+    "originalTitle": "The Sorcerer of the Russian Empire",
+    "year": 0,
+    "creators": [
+      "Виктор Дашкевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q136100420"
+    }
+  },
+  {
+    "id": "b-wd1053330",
+    "type": "book",
+    "title": "Хроники Амбера",
+    "originalTitle": "The Chronicles of Amber",
+    "year": 1970,
+    "creators": [
+      "Роджер Желязны"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6202443-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1053330",
+      "openLibrary": "OL11018807W"
+    }
+  },
+  {
+    "id": "b-wd3225913",
+    "type": "book",
+    "title": "Князь пустоты",
+    "originalTitle": "Prince of Nothing",
+    "year": 2006,
+    "creators": [
+      "Ричард Скотт Бэккер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/851199-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3225913",
+      "openLibrary": "OL5726535W"
+    }
+  },
+  {
+    "id": "b-wd1798059",
+    "type": "book",
+    "title": "Гиперион",
+    "originalTitle": "Hyperion",
+    "year": 1989,
+    "creators": [
+      "Дэн Симмонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/380332-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1798059",
+      "openLibrary": "OL1963268W"
+    }
+  },
+  {
+    "id": "b-wd17625679",
+    "type": "book",
+    "title": "Дорога запустения",
+    "originalTitle": "Desolation Road",
+    "year": 1988,
+    "creators": [
+      "Иен Макдональд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7094707-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17625679",
+      "openLibrary": "OL2929183W"
+    }
+  },
+  {
+    "id": "b-wd191949",
+    "type": "book",
+    "title": "О, дивный новый мир",
+    "originalTitle": "Brave New World",
+    "year": 1932,
+    "creators": [
+      "Олдос Хаксли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8231823-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q191949",
+      "openLibrary": "OL64365W"
+    }
+  },
+  {
+    "id": "b-wd111915309",
+    "type": "book",
+    "title": "Хозяева джиннов",
+    "originalTitle": "A Master of Djinn",
+    "year": 2021,
+    "creators": [
+      "Ф. Джели Кларк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10457293-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111915309",
+      "openLibrary": "OL38722146W"
+    }
+  },
+  {
     "id": "b-wd108380516",
     "type": "book",
     "title": "Происхождение языка: Факты, исследования, гипотезы",
@@ -6405,6 +8731,2003 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q108380516"
+    }
+  },
+  {
+    "id": "b-wd223688",
+    "type": "book",
+    "title": "Игрок",
+    "originalTitle": "The Gambler",
+    "year": 1867,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9412633-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q223688",
+      "openLibrary": "OL166884W"
+    }
+  },
+  {
+    "id": "b-wd183157",
+    "type": "book",
+    "title": "Братья Карамазовы",
+    "originalTitle": "The Brothers Karamazov",
+    "year": 1880,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q183157",
+      "openLibrary": "OL10432709W"
+    }
+  },
+  {
+    "id": "b-wd1195862",
+    "type": "book",
+    "title": "Понедельник начинается в субботу",
+    "originalTitle": "Monday Begins on Saturday",
+    "year": 1965,
+    "creators": [
+      "братья Стругацкие",
+      "Аркадий Натанович Стругацкий",
+      "Борис Натанович Стругацкий"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7533820-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1195862",
+      "openLibrary": "OL17415602W"
+    }
+  },
+  {
+    "id": "b-wd4374404",
+    "type": "book",
+    "title": "Посёлок",
+    "originalTitle": "Those Who Survive",
+    "year": 1980,
+    "creators": [
+      "Кир Булычёв"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1717769-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4374404",
+      "openLibrary": "OL28601058W"
+    }
+  },
+  {
+    "id": "b-wd12404113",
+    "type": "book",
+    "title": "Волоколамское шоссе",
+    "originalTitle": "Volokolamsk Highway",
+    "year": 1945,
+    "creators": [
+      "Александр Альфредович Бек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q12404113"
+    }
+  },
+  {
+    "id": "b-wd217073",
+    "type": "book",
+    "title": "Степной волк",
+    "originalTitle": "Steppenwolf",
+    "year": 1927,
+    "creators": [
+      "Герман Гессе"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q217073",
+      "openLibrary": "OL872773W"
+    }
+  },
+  {
+    "id": "b-wd2345826",
+    "type": "book",
+    "title": "Санькя",
+    "originalTitle": "Sankya",
+    "year": 2006,
+    "creators": [
+      "Захар Прилепин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2345826",
+      "openLibrary": "OL20702990W"
+    }
+  },
+  {
+    "id": "b-wd1304748",
+    "type": "book",
+    "title": "Жук в муравейнике",
+    "originalTitle": "Beetle in the Anthill",
+    "year": 1979,
+    "creators": [
+      "братья Стругацкие"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1304748",
+      "openLibrary": "OL11312281W"
+    }
+  },
+  {
+    "id": "b-wd1198166",
+    "type": "book",
+    "title": "Волшебник Изумрудного города",
+    "originalTitle": "The Wizard of the Emerald City",
+    "year": 1939,
+    "creators": [
+      "Александр Мелентьевич Волков"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1198166"
+    }
+  },
+  {
+    "id": "b-wd185118",
+    "type": "book",
+    "title": "Остров сокровищ",
+    "originalTitle": "Treasure Island",
+    "year": 1883,
+    "creators": [
+      "Роберт Льюис Стивенсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q185118",
+      "openLibrary": "OL24034W"
+    }
+  },
+  {
+    "id": "b-wd402673",
+    "type": "book",
+    "title": "Шинель",
+    "originalTitle": "The Overcoat",
+    "year": 1842,
+    "creators": [
+      "Николай Васильевич Гоголь"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q402673"
+    }
+  },
+  {
+    "id": "b-wd126390804",
+    "type": "book",
+    "title": "Рассвет жатвы",
+    "originalTitle": "Sunrise on the Reaping",
+    "year": 2025,
+    "creators": [
+      "Сьюзен Коллинз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14847912-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q126390804",
+      "openLibrary": "OL42360848W"
+    }
+  },
+  {
+    "id": "b-wd1541914",
+    "type": "book",
+    "title": "Рассказ служанки",
+    "originalTitle": "The Handmaid's Tale",
+    "year": 1985,
+    "creators": [
+      "Маргарет Этвуд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8231851-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1541914",
+      "openLibrary": "OL675783W"
+    }
+  },
+  {
+    "id": "b-wd320372",
+    "type": "book",
+    "title": "Чума",
+    "originalTitle": "The Plague",
+    "year": 1947,
+    "creators": [
+      "Альбер Камю"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q320372",
+      "openLibrary": "OL1230715W"
+    }
+  },
+  {
+    "id": "b-wd1304649",
+    "type": "book",
+    "title": "Герой нашего времени",
+    "originalTitle": "A Hero of Our Time",
+    "year": 1840,
+    "creators": [
+      "Михаил Юрьевич Лермонтов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1304649"
+    }
+  },
+  {
+    "id": "b-wd83186",
+    "type": "book",
+    "title": "Ромео и Джульетта",
+    "originalTitle": "Romeo and Juliet",
+    "year": 0,
+    "creators": [
+      "Уильям Шекспир"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q83186",
+      "openLibrary": "OL17931780W"
+    }
+  },
+  {
+    "id": "b-wd1199211",
+    "type": "book",
+    "title": "Мелкий бес",
+    "originalTitle": "The Petty Demon",
+    "year": 1905,
+    "creators": [
+      "Фёдор Сологуб"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1199211"
+    }
+  },
+  {
+    "id": "b-wd1886814",
+    "type": "book",
+    "title": "Дневник памяти",
+    "originalTitle": "The Notebook",
+    "year": 1996,
+    "creators": [
+      "Николас Спаркс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1886814"
+    }
+  },
+  {
+    "id": "b-wd105395137",
+    "type": "book",
+    "title": "Женщины Лазаря",
+    "year": 2011,
+    "creators": [
+      "Марина Львовна Степнова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105395137"
+    }
+  },
+  {
+    "id": "b-wd4537523",
+    "type": "book",
+    "title": "Яма",
+    "originalTitle": "The Pit",
+    "year": 1909,
+    "creators": [
+      "Александр Иванович Куприн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4537523"
+    }
+  },
+  {
+    "id": "b-wd1168267",
+    "type": "book",
+    "title": "Дом духов",
+    "originalTitle": "The House of the Spirits",
+    "year": 1982,
+    "creators": [
+      "Исабель Альенде"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1168267",
+      "openLibrary": "OL1905255W"
+    }
+  },
+  {
+    "id": "b-wd1091079",
+    "type": "book",
+    "title": "Как читать книги",
+    "year": 1940,
+    "creators": [
+      "Чарльз Ван Дорен",
+      "Мортимер Адлер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1091079"
+    }
+  },
+  {
+    "id": "b-wd943712",
+    "type": "book",
+    "title": "Чужестранка",
+    "originalTitle": "Outlander",
+    "year": 1991,
+    "creators": [
+      "Диана Гэблдон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q943712",
+      "openLibrary": "OL3261155W"
+    }
+  },
+  {
+    "id": "b-wd13424700",
+    "type": "book",
+    "title": "Скорбь Сатаны",
+    "originalTitle": "The Sorrows of Satan",
+    "year": 1895,
+    "creators": [
+      "Мария Корелли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q13424700",
+      "openLibrary": "OL1487943W"
+    }
+  },
+  {
+    "id": "b-wd180736",
+    "type": "book",
+    "title": "Отверженные",
+    "originalTitle": "Les Misérables",
+    "year": 1862,
+    "creators": [
+      "Виктор Гюго"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q180736",
+      "openLibrary": "OL1063588W"
+    }
+  },
+  {
+    "id": "b-wd837283",
+    "type": "book",
+    "title": "Бойцовский клуб",
+    "originalTitle": "Fight Club",
+    "year": 1996,
+    "creators": [
+      "Чак Паланик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q837283",
+      "openLibrary": "OL18941W"
+    }
+  },
+  {
+    "id": "b-wd110269198",
+    "type": "book",
+    "title": "Гипотеза любви",
+    "originalTitle": "The Love Hypothesis",
+    "year": 0,
+    "creators": [
+      "Али Хейзелвуд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110269198",
+      "openLibrary": "OL24178205W"
+    }
+  },
+  {
+    "id": "b-wd176470",
+    "type": "book",
+    "title": "Интервью с вампиром",
+    "originalTitle": "Interview with the Vampire",
+    "year": 1976,
+    "creators": [
+      "Энн Райс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8401488-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q176470",
+      "openLibrary": "OL77826W"
+    }
+  },
+  {
+    "id": "b-wd637839",
+    "type": "book",
+    "title": "Бегущий за ветром",
+    "originalTitle": "The Kite Runner",
+    "year": 2003,
+    "creators": [
+      "Халед Хоссейни"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q637839",
+      "openLibrary": "OL16049475W"
+    }
+  },
+  {
+    "id": "b-wd104881034",
+    "type": "book",
+    "title": "Клуб убийств по четвергам",
+    "originalTitle": "The Thursday Murder Club",
+    "year": 2020,
+    "creators": [
+      "Ричард Осман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q104881034",
+      "openLibrary": "OL20878311W"
+    }
+  },
+  {
+    "id": "b-wd2882166",
+    "type": "book",
+    "title": "Настройщик",
+    "originalTitle": "The Piano Tuner",
+    "year": 2002,
+    "creators": [
+      "Дэниел Мейсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2882166",
+      "openLibrary": "OL5956196W"
+    }
+  },
+  {
+    "id": "b-wd4763360",
+    "type": "book",
+    "title": "Угол покоя",
+    "originalTitle": "Angle of Repose",
+    "year": 1971,
+    "creators": [
+      "Уоллес Стегнер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4763360",
+      "openLibrary": "OL478213W"
+    }
+  },
+  {
+    "id": "b-wd60751088",
+    "type": "book",
+    "title": "Зимний солдат",
+    "originalTitle": "The Winter Soldier",
+    "year": 2018,
+    "creators": [
+      "Дэниел Мейсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60751088"
+    }
+  },
+  {
+    "id": "b-wd1093537",
+    "type": "book",
+    "title": "Звёзды смотрят вниз",
+    "originalTitle": "The Stars Look Down",
+    "year": 1935,
+    "creators": [
+      "Арчибалд Кронин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8291139-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1093537",
+      "openLibrary": "OL4189807W"
+    }
+  },
+  {
+    "id": "b-wd19363462",
+    "type": "book",
+    "title": "Погребённый великан",
+    "originalTitle": "The Buried Giant",
+    "year": 2015,
+    "creators": [
+      "Кадзуо Исигуро"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12602978-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19363462",
+      "openLibrary": "OL17333499W"
+    }
+  },
+  {
+    "id": "b-wd4658878",
+    "type": "book",
+    "title": "Сердце бури",
+    "originalTitle": "A Place of Greater Safety",
+    "year": 1992,
+    "creators": [
+      "Хилари Мантел"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4658878",
+      "openLibrary": "OL464517W"
+    }
+  },
+  {
+    "id": "b-wd3986014",
+    "type": "book",
+    "title": "Кровь и железо",
+    "originalTitle": "The Blade Itself",
+    "year": 2006,
+    "creators": [
+      "Джо Аберкромби"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14543422-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3986014",
+      "openLibrary": "OL8400950W"
+    }
+  },
+  {
+    "id": "b-wd112072533",
+    "type": "book",
+    "title": "Сказка",
+    "originalTitle": "Fairy Tale",
+    "year": 2022,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q112072533",
+      "openLibrary": "OL27589863W"
+    }
+  },
+  {
+    "id": "b-wd5223358",
+    "type": "book",
+    "title": "Тёмные тайны",
+    "originalTitle": "Dark Places",
+    "year": 2009,
+    "creators": [
+      "Гиллиан Флинн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5223358",
+      "openLibrary": "OL5842017W"
+    }
+  },
+  {
+    "id": "b-wd163027",
+    "type": "book",
+    "title": "Сказки братьев Гримм",
+    "originalTitle": "Grimms' fairy tales",
+    "year": 1812,
+    "creators": [
+      "Якоб Гримм",
+      "Вильгельм Гримм",
+      "братья Гримм"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11639412-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q163027",
+      "openLibrary": "OL45361W"
+    }
+  },
+  {
+    "id": "b-wd137053017",
+    "type": "book",
+    "title": "Невьянская башня",
+    "year": 2025,
+    "creators": [
+      "Алексей Викторович Иванов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q137053017"
+    }
+  },
+  {
+    "id": "b-wd114761914",
+    "type": "book",
+    "title": "Доверие",
+    "originalTitle": "Trust",
+    "year": 2022,
+    "creators": [
+      "Эрнан Диас"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q114761914",
+      "openLibrary": "OL25916696W"
+    }
+  },
+  {
+    "id": "b-wd48797122",
+    "type": "book",
+    "title": "Одна история",
+    "originalTitle": "The Only Story",
+    "year": 2018,
+    "creators": [
+      "Джулиан Барнс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q48797122"
+    }
+  },
+  {
+    "id": "b-wd85807008",
+    "type": "book",
+    "title": "Голландский дом",
+    "originalTitle": "The Dutch House",
+    "year": 2019,
+    "creators": [
+      "Энн Пэтчетт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85807008"
+    }
+  },
+  {
+    "id": "b-wd94076022",
+    "type": "book",
+    "title": "Памяти памяти",
+    "originalTitle": "In Memory of Memory",
+    "year": 2017,
+    "creators": [
+      "Мария Михайловна Степанова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q94076022"
+    }
+  },
+  {
+    "id": "b-wd50377310",
+    "type": "book",
+    "title": "Контур",
+    "originalTitle": "Outline",
+    "year": 2014,
+    "creators": [
+      "Рейчел Каск"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q50377310"
+    }
+  },
+  {
+    "id": "b-wd1213085",
+    "type": "book",
+    "title": "Под стеклянным колпаком",
+    "originalTitle": "The Bell Jar",
+    "year": 1963,
+    "creators": [
+      "Сильвия Плат"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1213085",
+      "openLibrary": "OL1865528W"
+    }
+  },
+  {
+    "id": "b-wd25338",
+    "type": "book",
+    "title": "Маленький принц",
+    "originalTitle": "The Little Prince",
+    "year": 1943,
+    "creators": [
+      "Антуан де Сент-Экзюпери"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q25338",
+      "openLibrary": "OL10264W"
+    }
+  },
+  {
+    "id": "b-wd1212765",
+    "type": "book",
+    "title": "Святилище",
+    "originalTitle": "Sanctuary",
+    "year": 1931,
+    "creators": [
+      "Уильям Фолкнер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1212765",
+      "openLibrary": "OL82925W"
+    }
+  },
+  {
+    "id": "b-wd170583",
+    "type": "book",
+    "title": "Гордость и предубеждение",
+    "originalTitle": "Pride and Prejudice",
+    "year": 1813,
+    "creators": [
+      "Джейн Остин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q170583",
+      "openLibrary": "OL66554W"
+    }
+  },
+  {
+    "id": "b-wd274744",
+    "type": "book",
+    "title": "Чувство и чувствительность",
+    "originalTitle": "Sense and Sensibility",
+    "year": 1811,
+    "creators": [
+      "Джейн Остин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q274744",
+      "openLibrary": "OL66512W"
+    }
+  },
+  {
+    "id": "b-wd10909686",
+    "type": "book",
+    "title": "Токийский Зодиак",
+    "originalTitle": "The Tokyo Zodiac Murders",
+    "year": 1981,
+    "creators": [
+      "Содзи Симада"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q10909686",
+      "openLibrary": "OL31661285W"
+    }
+  },
+  {
+    "id": "b-wd19843206",
+    "type": "book",
+    "title": "Девушка в поезде",
+    "originalTitle": "The Girl on the Train",
+    "year": 2015,
+    "creators": [
+      "Пола Хокинс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19843206",
+      "openLibrary": "OL17112428W"
+    }
+  },
+  {
+    "id": "b-wd223131",
+    "type": "book",
+    "title": "Этюд в багровых тонах",
+    "originalTitle": "A Study in Scarlet",
+    "year": 1887,
+    "creators": [
+      "Артур Конан Дойл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q223131",
+      "openLibrary": "OL262496W"
+    }
+  },
+  {
+    "id": "b-wd658288",
+    "type": "book",
+    "title": "Тошнота",
+    "originalTitle": "Nausea",
+    "year": 1938,
+    "creators": [
+      "Жан-Поль Сартр"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q658288",
+      "openLibrary": "OL1161171W"
+    }
+  },
+  {
+    "id": "b-wd99769227",
+    "type": "book",
+    "title": "Тёмные аллеи",
+    "originalTitle": "Dark Avenues",
+    "year": 1977,
+    "creators": [
+      "Иван Алексеевич Бунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q99769227",
+      "openLibrary": "OL603283W"
+    }
+  },
+  {
+    "id": "b-wd464921",
+    "type": "book",
+    "title": "Триумфальная арка",
+    "originalTitle": "Arch of Triumph",
+    "year": 1945,
+    "creators": [
+      "Эрих Мария Ремарк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q464921"
+    }
+  },
+  {
+    "id": "b-wd1132408",
+    "type": "book",
+    "title": "Полковнику никто не пишет",
+    "originalTitle": "No One Writes to the Colonel",
+    "year": 1961,
+    "creators": [
+      "Габриель Гарсиа Маркес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6786365-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1132408",
+      "openLibrary": "OL468851W"
+    }
+  },
+  {
+    "id": "b-wd3882128",
+    "type": "book",
+    "title": "Тени в раю",
+    "originalTitle": "Shadows in Paradise",
+    "year": 1971,
+    "creators": [
+      "Эрих Мария Ремарк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3882128"
+    }
+  },
+  {
+    "id": "b-wd1168105",
+    "type": "book",
+    "title": "Тайна Эдвина Друда",
+    "originalTitle": "The Mystery of Edwin Drood",
+    "year": 1870,
+    "creators": [
+      "Чарльз Диккенс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1168105",
+      "openLibrary": "OL8763148W"
+    }
+  },
+  {
+    "id": "b-wd837934",
+    "type": "book",
+    "title": "Цветы для Элджернона",
+    "originalTitle": "Flowers for Algernon",
+    "year": 1959,
+    "creators": [
+      "Дэниел Киз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12947700-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q837934",
+      "openLibrary": "OL515754W"
+    }
+  },
+  {
+    "id": "b-wd1216940",
+    "type": "book",
+    "title": "День триффидов",
+    "originalTitle": "The Day of the Triffids",
+    "year": 1951,
+    "creators": [
+      "Джон Уиндем"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/535027-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1216940",
+      "openLibrary": "OL1911336W"
+    }
+  },
+  {
+    "id": "b-wd1257081",
+    "type": "book",
+    "title": "Три товарища",
+    "originalTitle": "Three Comrades",
+    "year": 1936,
+    "creators": [
+      "Эрих Мария Ремарк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/4700943-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1257081",
+      "openLibrary": "OL1209320W"
+    }
+  },
+  {
+    "id": "b-wd1630805",
+    "type": "book",
+    "title": "Отель",
+    "originalTitle": "Hotel",
+    "year": 1965,
+    "creators": [
+      "Артур Хейли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/271746-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1630805",
+      "openLibrary": "OL2475096W"
+    }
+  },
+  {
+    "id": "b-wd606465",
+    "type": "book",
+    "title": "Поющие в терновнике",
+    "originalTitle": "The Thorn Birds",
+    "year": 1977,
+    "creators": [
+      "Колин Маккалоу"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8293225-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q606465",
+      "openLibrary": "OL1882556W"
+    }
+  },
+  {
+    "id": "b-wd2373810",
+    "type": "book",
+    "title": "Шантарам",
+    "originalTitle": "Shantaram",
+    "year": 2003,
+    "creators": [
+      "Грегори Дэвид Робертс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6788945-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2373810",
+      "openLibrary": "OL19061442W"
+    }
+  },
+  {
+    "id": "b-wd4375133",
+    "type": "book",
+    "title": "Похороните меня за плинтусом",
+    "year": 1996,
+    "creators": [
+      "Павел Владимирович Санаев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4375133"
+    }
+  },
+  {
+    "id": "b-wd62879",
+    "type": "book",
+    "title": "Рождественская песнь в прозе",
+    "originalTitle": "A Christmas Carol",
+    "year": 1843,
+    "creators": [
+      "Чарльз Диккенс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q62879",
+      "openLibrary": "OL14868696W"
+    }
+  },
+  {
+    "id": "b-wd193417",
+    "type": "book",
+    "title": "Госпожа Бовари",
+    "originalTitle": "Madame Bovary",
+    "year": 1857,
+    "creators": [
+      "Гюстав Флобер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q193417",
+      "openLibrary": "OL893707W"
+    }
+  },
+  {
+    "id": "b-wd4146406",
+    "type": "book",
+    "title": "Господин из Сан-Франциско",
+    "originalTitle": "The Gentleman from San Francisco",
+    "year": 1915,
+    "creators": [
+      "Иван Алексеевич Бунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4146406"
+    }
+  },
+  {
+    "id": "b-wd2855327",
+    "type": "book",
+    "title": "Смерть по объявлению",
+    "originalTitle": "Murder Must Advertise",
+    "year": 1933,
+    "creators": [
+      "Дороти Ли Сэйерс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2855327"
+    }
+  },
+  {
+    "id": "b-wd2364488",
+    "type": "book",
+    "title": "Город перестановок",
+    "originalTitle": "Permutation City",
+    "year": 1994,
+    "creators": [
+      "Грег Иган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1000639-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2364488",
+      "openLibrary": "OL115336W"
+    }
+  },
+  {
+    "id": "b-wd1170644",
+    "type": "book",
+    "title": "Видоизменённый углерод",
+    "originalTitle": "Altered Carbon",
+    "year": 2002,
+    "creators": [
+      "Ричард Морган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13223488-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1170644",
+      "openLibrary": "OL8698136W"
+    }
+  },
+  {
+    "id": "b-wd6303649",
+    "type": "book",
+    "title": "Квантовый вор",
+    "originalTitle": "The Quantum Thief",
+    "year": 2010,
+    "creators": [
+      "Ханну Раяниеми"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6303649",
+      "openLibrary": "OL17699438W"
+    }
+  },
+  {
+    "id": "b-wd2300209",
+    "type": "book",
+    "title": "Аччелерандо",
+    "originalTitle": "Accelerando",
+    "year": 2005,
+    "creators": [
+      "Чарльз Стросс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/284259-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2300209",
+      "openLibrary": "OL2465670W"
+    }
+  },
+  {
+    "id": "b-wd1114499",
+    "type": "book",
+    "title": "Пасынки Вселенной",
+    "originalTitle": "Orphans of the Sky",
+    "year": 1963,
+    "creators": [
+      "Роберт Хайнлайн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14631626-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1114499",
+      "openLibrary": "OL59738W"
+    }
+  },
+  {
+    "id": "b-wd7715400",
+    "type": "book",
+    "title": "Баллада о Бете-2",
+    "originalTitle": "The Ballad of Beta-2",
+    "year": 1965,
+    "creators": [
+      "Сэмюэль Дилэни"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6958584-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7715400",
+      "openLibrary": "OL16039304W"
+    }
+  },
+  {
+    "id": "b-wd62604562",
+    "type": "book",
+    "title": "Революция в стоп-кадрах",
+    "originalTitle": "The Freeze-Frame Revolution",
+    "year": 2018,
+    "creators": [
+      "Питер Уоттс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8474622-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q62604562",
+      "openLibrary": "OL19359160W"
+    }
+  },
+  {
+    "id": "b-wd4369077",
+    "type": "book",
+    "title": "Поколение, достигшее цели",
+    "originalTitle": "Target Generation",
+    "year": 1953,
+    "creators": [
+      "Клиффорд Дональд Саймак"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4369077"
+    }
+  },
+  {
+    "id": "b-wd649267",
+    "type": "book",
+    "title": "Механическое пианино",
+    "originalTitle": "Player Piano",
+    "year": 1952,
+    "creators": [
+      "Курт Воннегут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/280246-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q649267",
+      "openLibrary": "OL98484W"
+    }
+  },
+  {
+    "id": "b-wd662029",
+    "type": "book",
+    "title": "Нейромант",
+    "originalTitle": "Neuromancer",
+    "year": 1984,
+    "creators": [
+      "Уильям Гибсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/283860-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q662029",
+      "openLibrary": "OL27258W"
+    }
+  },
+  {
+    "id": "b-wd3006092",
+    "type": "book",
+    "title": "Создатель звёзд",
+    "originalTitle": "Star Maker",
+    "year": 1937,
+    "creators": [
+      "Уильям Олаф Стэплдон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/911107-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3006092",
+      "openLibrary": "OL3290759W"
+    }
+  },
+  {
+    "id": "b-wd212194",
+    "type": "book",
+    "title": "Волны гасят ветер",
+    "originalTitle": "The Time Wanderers",
+    "year": 1987,
+    "creators": [
+      "братья Стругацкие"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q212194",
+      "openLibrary": "OL11457371W"
+    }
+  },
+  {
+    "id": "b-wd3294969",
+    "type": "book",
+    "title": "Красный Марс",
+    "originalTitle": "Red Mars",
+    "year": 1992,
+    "creators": [
+      "Ким Стенли Робинсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3294969",
+      "openLibrary": "OL81672W"
+    }
+  },
+  {
+    "id": "b-wd3457259",
+    "type": "book",
+    "title": "Два капитана",
+    "originalTitle": "The Two Captains",
+    "year": 1940,
+    "creators": [
+      "Вениамин Александрович Каверин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3457259"
+    }
+  },
+  {
+    "id": "b-wd2511421",
+    "type": "book",
+    "title": "Ложная слепота",
+    "originalTitle": "Blindsight",
+    "year": 2006,
+    "creators": [
+      "Питер Уоттс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/524560-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2511421",
+      "openLibrary": "OL8514692W"
+    }
+  },
+  {
+    "id": "b-wd627333",
+    "type": "book",
+    "title": "Машина времени",
+    "originalTitle": "The Time Machine",
+    "year": 1895,
+    "creators": [
+      "Герберт Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9009316-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q627333",
+      "openLibrary": "OL52267W"
+    }
+  },
+  {
+    "id": "b-wd848612",
+    "type": "book",
+    "title": "Янки из Коннектикута при дворе короля Артура",
+    "originalTitle": "A Connecticut Yankee in King Arthur's Court",
+    "year": 1889,
+    "creators": [
+      "Марк Твен"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9168732-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q848612",
+      "openLibrary": "OL54031W"
+    }
+  },
+  {
+    "id": "b-wd65073040",
+    "type": "book",
+    "title": "Семь смертей Эвелины Хардкасл",
+    "originalTitle": "The Seven Deaths of Evelyn Hardcastle",
+    "year": 2018,
+    "creators": [
+      "Стюарт Тёртон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65073040",
+      "openLibrary": "OL17929039W"
+    }
+  },
+  {
+    "id": "b-wd6877267",
+    "type": "book",
+    "title": "Дом странных детей",
+    "originalTitle": "Miss Peregrine's Home of Peculiar Children",
+    "year": 2011,
+    "creators": [
+      "Ренсом Риггз"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6877267",
+      "openLibrary": "OL16151508W"
+    }
+  },
+  {
+    "id": "b-wd4266986",
+    "type": "book",
+    "title": "Лорд с планеты Земля",
+    "originalTitle": "A Lord from Planet Earth",
+    "year": 1996,
+    "creators": [
+      "Сергей Васильевич Лукьяненко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4266986"
+    }
+  },
+  {
+    "id": "b-wd5226593",
+    "type": "book",
+    "title": "Фантастическая сага",
+    "originalTitle": "The Technicolor Time Machine",
+    "year": 1967,
+    "creators": [
+      "Гарри Гаррисон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5226593",
+      "openLibrary": "OL467162W"
+    }
+  },
+  {
+    "id": "b-wd4392787",
+    "type": "book",
+    "title": "Река Хронос",
+    "originalTitle": "River Chronos",
+    "year": 0,
+    "creators": [
+      "Кир Булычёв"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4392787"
+    }
+  },
+  {
+    "id": "b-wd18393778",
+    "type": "book",
+    "title": "Алое восстание",
+    "originalTitle": "Red Rising",
+    "year": 2014,
+    "creators": [
+      "Пирс Браун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7316188-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18393778",
+      "openLibrary": "OL17076473W"
+    }
+  },
+  {
+    "id": "b-wd24082770",
+    "type": "book",
+    "title": "Вегетарианка",
+    "originalTitle": "The Vegetarian",
+    "year": 2007,
+    "creators": [
+      "Хан Ган"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24082770",
+      "openLibrary": "OL17334243W"
+    }
+  },
+  {
+    "id": "b-wd42530022",
+    "type": "book",
+    "title": "Зачем мы спим",
+    "originalTitle": "Why We Sleep",
+    "year": 0,
+    "creators": [
+      "Мэттью Уолкер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q42530022",
+      "openLibrary": "OL20168133W"
+    }
+  },
+  {
+    "id": "b-wd523076",
+    "type": "book",
+    "title": "Маленькие женщины",
+    "originalTitle": "Little Women",
+    "year": 1868,
+    "creators": [
+      "Луиза Мей Олкотт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q523076",
+      "openLibrary": "OL29983W"
+    }
+  },
+  {
+    "id": "b-wd1062365",
+    "type": "book",
+    "title": "Голод",
+    "originalTitle": "Hunger",
+    "year": 1890,
+    "creators": [
+      "Кнут Гамсун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14634050-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1062365",
+      "openLibrary": "OL573193W"
+    }
+  },
+  {
+    "id": "b-wd107012688",
+    "type": "book",
+    "title": "Доктор Гарин",
+    "originalTitle": "Doctor Garin",
+    "year": 2021,
+    "creators": [
+      "Владимир Георгиевич Сорокин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107012688"
+    }
+  },
+  {
+    "id": "b-wd67105106",
+    "type": "book",
+    "title": "Кишот",
+    "originalTitle": "Quichotte",
+    "year": 2019,
+    "creators": [
+      "Салман Рушди"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q67105106",
+      "openLibrary": "OL20121030W"
+    }
+  },
+  {
+    "id": "b-wd108063656",
+    "type": "book",
+    "title": "Хромые кони",
+    "originalTitle": "Slow Horses",
+    "year": 2010,
+    "creators": [
+      "Mick Herron"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108063656",
+      "openLibrary": "OL18630860W"
+    }
+  },
+  {
+    "id": "b-wd741222",
+    "type": "book",
+    "title": "Свидание с Рамой",
+    "originalTitle": "Rendezvous with Rama",
+    "year": 1973,
+    "creators": [
+      "Артур Чарльз Кларк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13472608-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q741222",
+      "openLibrary": "OL17417W"
+    }
+  },
+  {
+    "id": "b-wd105473555",
+    "type": "book",
+    "title": "Билли Саммерс",
+    "originalTitle": "Billy Summers",
+    "year": 2021,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105473555",
+      "openLibrary": "OL24229351W"
     }
   },
   {
@@ -6429,6 +10752,622 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd15222347",
+    "type": "book",
+    "title": "Мистер Мерседес",
+    "originalTitle": "Mr. Mercedes",
+    "year": 2014,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15222347",
+      "openLibrary": "OL16820059W"
+    }
+  },
+  {
+    "id": "b-wd751348",
+    "type": "book",
+    "title": "Норвежский лес",
+    "originalTitle": "Norwegian Wood",
+    "year": 1987,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q751348",
+      "openLibrary": "OL2625517W"
+    }
+  },
+  {
+    "id": "b-wd7723889",
+    "type": "book",
+    "title": "Хорошо быть тихоней",
+    "originalTitle": "The Perks of Being a Wallflower",
+    "year": 1999,
+    "creators": [
+      "Стивен Чбоски"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7723889",
+      "openLibrary": "OL875437W"
+    }
+  },
+  {
+    "id": "b-wd5581570",
+    "type": "book",
+    "title": "Исчезнувшая",
+    "originalTitle": "Gone Girl",
+    "year": 2012,
+    "creators": [
+      "Гиллиан Флинн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5581570"
+    }
+  },
+  {
+    "id": "b-wd82630",
+    "type": "book",
+    "title": "Улитка на склоне",
+    "originalTitle": "Snail on the Slope",
+    "year": 1971,
+    "creators": [
+      "братья Стругацкие",
+      "Аркадий Натанович Стругацкий",
+      "Борис Натанович Стругацкий"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q82630",
+      "openLibrary": "OL15545674W"
+    }
+  },
+  {
+    "id": "b-wd1148938",
+    "type": "book",
+    "title": "Мартовские иды",
+    "originalTitle": "The Ides of March",
+    "year": 1948,
+    "creators": [
+      "Торнтон Уайлдер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1148938",
+      "openLibrary": "OL482892W"
+    }
+  },
+  {
+    "id": "b-wd892456",
+    "type": "book",
+    "title": "Прах Анджелы",
+    "originalTitle": "Angela's Ashes",
+    "year": 1996,
+    "creators": [
+      "Фрэнк Маккорт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q892456",
+      "openLibrary": "OL27634W"
+    }
+  },
+  {
+    "id": "b-wd961566",
+    "type": "book",
+    "title": "Осень патриарха",
+    "originalTitle": "The Autumn of the Patriarch",
+    "year": 1975,
+    "creators": [
+      "Габриель Гарсиа Маркес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15114341-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q961566",
+      "openLibrary": "OL274503W"
+    }
+  },
+  {
+    "id": "b-wd634288",
+    "type": "book",
+    "title": "Благоволительницы",
+    "originalTitle": "The Kindly Ones",
+    "year": 2006,
+    "creators": [
+      "Джонатан Литтелл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q634288",
+      "openLibrary": "OL8165095W"
+    }
+  },
+  {
+    "id": "b-wd2426986",
+    "type": "book",
+    "title": "Овод",
+    "originalTitle": "The Gadfly",
+    "year": 1897,
+    "creators": [
+      "Этель Лилиан Войнич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2426986"
+    }
+  },
+  {
+    "id": "b-wd208622",
+    "type": "book",
+    "title": "Похождения бравого солдата Швейка",
+    "originalTitle": "The Good Soldier Švejk",
+    "year": 1921,
+    "creators": [
+      "Ярослав Гашек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q208622",
+      "openLibrary": "OL835204W"
+    }
+  },
+  {
+    "id": "b-wd364565",
+    "type": "book",
+    "title": "Стена",
+    "originalTitle": "The Wall",
+    "year": 1963,
+    "creators": [
+      "Марлен Хаусхофер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q364565",
+      "openLibrary": "OL2756289W"
+    }
+  },
+  {
+    "id": "b-wd373536",
+    "type": "book",
+    "title": "Чайка по имени Джонатан Ливингстон",
+    "originalTitle": "Jonathan Livingston Seagull",
+    "year": 1970,
+    "creators": [
+      "Ричард Бах"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q373536",
+      "openLibrary": "OL62107W"
+    }
+  },
+  {
+    "id": "b-wd860577",
+    "type": "book",
+    "title": "Демиан",
+    "originalTitle": "Demian",
+    "year": 1919,
+    "creators": [
+      "Герман Гессе"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12569297-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q860577",
+      "openLibrary": "OL872981W"
+    }
+  },
+  {
+    "id": "b-wd45192",
+    "type": "book",
+    "title": "Собака Баскервилей",
+    "originalTitle": "The Hound of the Baskervilles",
+    "year": 1902,
+    "creators": [
+      "Артур Конан Дойл"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q45192",
+      "openLibrary": "OL262454W"
+    }
+  },
+  {
+    "id": "b-wd15005",
+    "type": "book",
+    "title": "Горе от ума",
+    "originalTitle": "Woe from Wit",
+    "year": 1825,
+    "creators": [
+      "Александр Сергеевич Грибоедов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15005"
+    }
+  },
+  {
+    "id": "b-wd5381437",
+    "type": "book",
+    "title": "Зависть",
+    "originalTitle": "Envy",
+    "year": 1927,
+    "creators": [
+      "Юрий Карлович Олеша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5381437"
+    }
+  },
+  {
+    "id": "b-wd41567",
+    "type": "book",
+    "title": "Гамлет",
+    "originalTitle": "Hamlet",
+    "year": 1602,
+    "creators": [
+      "Уильям Шекспир"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q41567",
+      "openLibrary": "OL9170454W"
+    }
+  },
+  {
+    "id": "b-wd1424555",
+    "type": "book",
+    "title": "Шоколад",
+    "originalTitle": "Chocolat",
+    "year": 1999,
+    "creators": [
+      "Джоанн Харрис"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1424555"
+    }
+  },
+  {
+    "id": "b-wd15080194",
+    "type": "book",
+    "title": "Щегол",
+    "originalTitle": "The Goldfinch",
+    "year": 2013,
+    "creators": [
+      "Донна Тартт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8771366-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15080194",
+      "openLibrary": "OL16809803W"
+    }
+  },
+  {
+    "id": "b-wd124988940",
+    "type": "book",
+    "title": "Комьюнити",
+    "year": 2012,
+    "creators": [
+      "Алексей Викторович Иванов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124988940"
+    }
+  },
+  {
+    "id": "b-wd18921080",
+    "type": "book",
+    "title": "Вонгозеро",
+    "originalTitle": "Vongorezo",
+    "year": 2011,
+    "creators": [
+      "Яна Вагнер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18921080"
+    }
+  },
+  {
+    "id": "b-wd1102212",
+    "type": "book",
+    "title": "Дневник мага",
+    "originalTitle": "The Pilgrimage",
+    "year": 1987,
+    "creators": [
+      "Пауло Коэльо"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1102212",
+      "openLibrary": "OL796580W"
+    }
+  },
+  {
+    "id": "b-wd55360383",
+    "type": "book",
+    "title": "Нормальные люди",
+    "originalTitle": "Normal People",
+    "year": 2018,
+    "creators": [
+      "Салли Руни"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55360383",
+      "openLibrary": "OL20150260W"
+    }
+  },
+  {
+    "id": "b-wd923551",
+    "type": "book",
+    "title": "Полная иллюминация",
+    "originalTitle": "Everything Is Illuminated",
+    "year": 2002,
+    "creators": [
+      "Джонатан Сафран Фоер",
+      "Ганс Нильссон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q923551",
+      "openLibrary": "OL5738260W"
+    }
+  },
+  {
+    "id": "b-wd1140295",
+    "type": "book",
+    "title": "Дорога",
+    "originalTitle": "The Road",
+    "year": 2006,
+    "creators": [
+      "Кормак Маккарти"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/198120-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1140295",
+      "openLibrary": "OL40886W"
+    }
+  },
+  {
+    "id": "b-wd483034",
+    "type": "book",
+    "title": "Жизнь и удивительные приключения Робинзона Крузо",
+    "originalTitle": "Robinson Crusoe",
+    "year": 1719,
+    "creators": [
+      "Даниель Дефо"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q483034",
+      "openLibrary": "OL411904W"
+    }
+  },
+  {
+    "id": "b-wd487364",
+    "type": "book",
+    "title": "Анафем",
+    "originalTitle": "Anathem",
+    "year": 2008,
+    "creators": [
+      "Нил Стивенсон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q487364",
+      "openLibrary": "OL14911626W"
+    }
+  },
+  {
+    "id": "b-wd2565443",
+    "type": "book",
+    "title": "Мы — живые",
+    "originalTitle": "We the Living",
+    "year": 1936,
+    "creators": [
+      "Айн Рэнд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2565443"
+    }
+  },
+  {
+    "id": "b-wd785580",
+    "type": "book",
+    "title": "Нос",
+    "originalTitle": "The Nose",
+    "year": 1836,
+    "creators": [
+      "Николай Васильевич Гоголь"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1826768-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q785580",
+      "openLibrary": "OL8791626W"
+    }
+  },
+  {
+    "id": "b-wd119803356",
+    "type": "book",
+    "title": "Йеллоуфейс",
+    "originalTitle": "Yellowface",
+    "year": 2023,
+    "creators": [
+      "Ребекка Ф. Куанг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13195421-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q119803356",
+      "openLibrary": "OL29050559W"
+    }
+  },
+  {
+    "id": "b-wd374098",
+    "type": "book",
+    "title": "Атлант расправил плечи",
+    "originalTitle": "Atlas Shrugged",
+    "year": 1957,
+    "creators": [
+      "Айн Рэнд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/362277-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q374098",
+      "openLibrary": "OL731735W"
+    }
+  },
+  {
     "id": "b-wd483412",
     "type": "book",
     "title": "Хроники Нарнии",
@@ -6450,15 +11389,34 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd627333",
+    "id": "b-wd217352",
     "type": "book",
-    "title": "Машина времени",
-    "originalTitle": "The Time Machine",
-    "year": 1895,
+    "title": "Странная история доктора Джекила и мистера Хайда",
+    "originalTitle": "Strange Case of Dr Jekyll and Mr Hyde",
+    "year": 1886,
     "creators": [
-      "Герберт Уэллс"
+      "Роберт Льюис Стивенсон"
     ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/9009316-L.jpg",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q217352",
+      "openLibrary": "OL24160W"
+    }
+  },
+  {
+    "id": "b-wd874381",
+    "type": "book",
+    "title": "Момо",
+    "originalTitle": "Momo",
+    "year": 1973,
+    "creators": [
+      "Михаэль Энде"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8574580-L.jpg",
     "imageSource": "open_library",
     "primaryOperations": [],
     "complexityLevel": 0,
@@ -6466,8 +11424,1111 @@ export const bookBase: WorkCard[] = [
     "barriers": [],
     "isNicheMasterpiece": false,
     "externalIds": {
-      "wikidata": "Q627333",
-      "openLibrary": "OL52267W"
+      "wikidata": "Q874381",
+      "openLibrary": "OL2271626W"
+    }
+  },
+  {
+    "id": "b-wd172850",
+    "type": "book",
+    "title": "Имя розы",
+    "originalTitle": "The Name of the Rose",
+    "year": 1980,
+    "creators": [
+      "Умберто Эко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q172850",
+      "openLibrary": "OL8996439W"
+    }
+  },
+  {
+    "id": "b-wd2498251",
+    "type": "book",
+    "title": "Замок Броуди",
+    "originalTitle": "Hatter's Castle",
+    "year": 1931,
+    "creators": [
+      "Арчибалд Кронин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14600400-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2498251",
+      "openLibrary": "OL4189796W"
+    }
+  },
+  {
+    "id": "b-wd52910",
+    "type": "book",
+    "title": "Тень ветра",
+    "originalTitle": "The Shadow of the Wind",
+    "year": 2001,
+    "creators": [
+      "Карлос Руис Сафон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q52910",
+      "openLibrary": "OL8476949W"
+    }
+  },
+  {
+    "id": "b-wd4052755",
+    "type": "book",
+    "title": "Vita Nostra",
+    "year": 2007,
+    "creators": [
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4052755",
+      "openLibrary": "OL24763053W"
+    }
+  },
+  {
+    "id": "b-wd65926496",
+    "type": "book",
+    "title": "Институт",
+    "originalTitle": "The Institute",
+    "year": 2019,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65926496",
+      "openLibrary": "OL20129841W"
+    }
+  },
+  {
+    "id": "b-wd2756027",
+    "type": "book",
+    "title": "Тонкая работа",
+    "originalTitle": "Fingersmith",
+    "year": 2002,
+    "creators": [
+      "Сара Уотерс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2756027",
+      "openLibrary": "OL35581651W"
+    }
+  },
+  {
+    "id": "b-wd2621164",
+    "type": "book",
+    "title": "Одиссея капитана Блада",
+    "originalTitle": "Captain Blood",
+    "year": 1922,
+    "creators": [
+      "Рафаэль Сабатини"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/250370-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2621164",
+      "openLibrary": "OL8070950W"
+    }
+  },
+  {
+    "id": "b-wd430514",
+    "type": "book",
+    "title": "Американские боги",
+    "originalTitle": "American Gods",
+    "year": 2001,
+    "creators": [
+      "Нил Гейман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8494659-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q430514",
+      "openLibrary": "OL679360W"
+    }
+  },
+  {
+    "id": "b-wd3823252",
+    "type": "book",
+    "title": "Смерть сердца",
+    "originalTitle": "The Death of the Heart",
+    "year": 1938,
+    "creators": [
+      "Элизабет Боуэн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3823252"
+    }
+  },
+  {
+    "id": "b-wd21065522",
+    "type": "book",
+    "title": "Новая Луна",
+    "originalTitle": "Luna: New Moon",
+    "year": 2015,
+    "creators": [
+      "Иен Макдональд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21065522",
+      "openLibrary": "OL20474762W"
+    }
+  },
+  {
+    "id": "b-wd18003129",
+    "type": "book",
+    "title": "Герман",
+    "year": 1988,
+    "creators": [
+      "Ларс Соби Кристенсен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18003129"
+    }
+  },
+  {
+    "id": "b-wd2342159",
+    "type": "book",
+    "title": "Богатый папа, бедный папа",
+    "originalTitle": "Rich Dad Poor Dad",
+    "year": 1997,
+    "creators": [
+      "Роберт Кийосаки",
+      "Шэрон Лектер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8315603-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2342159",
+      "openLibrary": "OL2010879W"
+    }
+  },
+  {
+    "id": "b-wd2604087",
+    "type": "book",
+    "title": "Аэропорт",
+    "originalTitle": "Airport",
+    "year": 1968,
+    "creators": [
+      "Артур Хейли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/271730-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2604087",
+      "openLibrary": "OL16054905W"
+    }
+  },
+  {
+    "id": "b-wd53828903",
+    "type": "book",
+    "title": "Отказ всех систем",
+    "originalTitle": "All Systems Red",
+    "year": 2017,
+    "creators": [
+      "Марта Уэллс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q53828903",
+      "openLibrary": "OL17914663W"
+    }
+  },
+  {
+    "id": "b-wd2247404",
+    "type": "book",
+    "title": "Снеговик",
+    "originalTitle": "The Snowman",
+    "year": 2007,
+    "creators": [
+      "Ю Несбё"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2247404",
+      "openLibrary": "OL5939023W"
+    }
+  },
+  {
+    "id": "b-wd28841909",
+    "type": "book",
+    "title": "Линкольн в бардо",
+    "originalTitle": "Lincoln in the Bardo",
+    "year": 2017,
+    "creators": [
+      "Джордж Сондерс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q28841909",
+      "openLibrary": "OL17635834W"
+    }
+  },
+  {
+    "id": "b-wd466852",
+    "type": "book",
+    "title": "Под сетью",
+    "originalTitle": "Under the Net",
+    "year": 1954,
+    "creators": [
+      "Айрис Мёрдок"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q466852",
+      "openLibrary": "OL1326346W"
+    }
+  },
+  {
+    "id": "b-wd21427286",
+    "type": "book",
+    "title": "Безумно богатые азиаты",
+    "originalTitle": "Crazy Rich Asians",
+    "year": 2013,
+    "creators": [
+      "Кевин Кван"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21427286",
+      "openLibrary": "OL17924837W"
+    }
+  },
+  {
+    "id": "b-wd27957817",
+    "type": "book",
+    "title": "Подземная железная дорога",
+    "originalTitle": "The Underground Railroad",
+    "year": 2016,
+    "creators": [
+      "Колсон Уайтхед"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27957817",
+      "openLibrary": "OL25034040W"
+    }
+  },
+  {
+    "id": "b-wd2661615",
+    "type": "book",
+    "title": "Есть, молиться, любить",
+    "originalTitle": "Eat, Pray, Love",
+    "year": 2006,
+    "creators": [
+      "Элизабет Гилберт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2661615",
+      "openLibrary": "OL41815W"
+    }
+  },
+  {
+    "id": "b-wd4250991",
+    "type": "book",
+    "title": "Кысь",
+    "originalTitle": "The Slynx",
+    "year": 2000,
+    "creators": [
+      "Татьяна Толстая"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/393374-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4250991",
+      "openLibrary": "OL985265W"
+    }
+  },
+  {
+    "id": "b-wd2467862",
+    "type": "book",
+    "title": "Муму",
+    "originalTitle": "Mumu",
+    "year": 1854,
+    "creators": [
+      "Иван Сергеевич Тургенев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2467862"
+    }
+  },
+  {
+    "id": "b-wd3339145",
+    "type": "book",
+    "title": "Вечерние новости",
+    "originalTitle": "The Evening News",
+    "year": 1990,
+    "creators": [
+      "Артур Хейли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3339145"
+    }
+  },
+  {
+    "id": "b-wd7766706",
+    "type": "book",
+    "title": "Архив Буресвета",
+    "originalTitle": "The Stormlight Archive",
+    "year": 2010,
+    "creators": [
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8494963-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7766706",
+      "openLibrary": "OL19369957W"
+    }
+  },
+  {
+    "id": "b-wd30917136",
+    "type": "book",
+    "title": "В открытое небо",
+    "originalTitle": "The Prince of the Skies",
+    "year": 2017,
+    "creators": [
+      "Антонио Итурбе"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30917136"
+    }
+  },
+  {
+    "id": "b-wd1538984",
+    "type": "book",
+    "title": "Правила виноделов",
+    "originalTitle": "The Cider House Rules",
+    "year": 1985,
+    "creators": [
+      "Джон Уинслоу Ирвинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1538984",
+      "openLibrary": "OL8026340W"
+    }
+  },
+  {
+    "id": "b-wd4338869",
+    "type": "book",
+    "title": "Остров погибших кораблей",
+    "originalTitle": "The Shipwreck Island",
+    "year": 1927,
+    "creators": [
+      "Александр Романович Беляев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4338869"
+    }
+  },
+  {
+    "id": "b-wd835739",
+    "type": "book",
+    "title": "Куджо",
+    "originalTitle": "Cujo",
+    "year": 1981,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q835739",
+      "openLibrary": "OL81610W"
+    }
+  },
+  {
+    "id": "b-wd898795",
+    "type": "book",
+    "title": "Дама с камелиями",
+    "originalTitle": "The Lady of the Camellias",
+    "year": 1848,
+    "creators": [
+      "Александр Дюма-сын"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q898795"
+    }
+  },
+  {
+    "id": "b-wd133853228",
+    "type": "book",
+    "title": "На бензоколонке только девушки",
+    "originalTitle": "The All-Girl Filling Station's Last Reunion",
+    "year": 0,
+    "creators": [
+      "Фэнни Флэгг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133853228"
+    }
+  },
+  {
+    "id": "b-wd2655348",
+    "type": "book",
+    "title": "Судьба человека",
+    "originalTitle": "Fate of a Man",
+    "year": 1956,
+    "creators": [
+      "Михаил Александрович Шолохов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2655348"
+    }
+  },
+  {
+    "id": "b-wd16828766",
+    "type": "book",
+    "title": "Вызовите акушерку",
+    "originalTitle": "Call the Midwife",
+    "year": 2002,
+    "creators": [
+      "Дженифер Уорт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16828766",
+      "openLibrary": "OL20084438W"
+    }
+  },
+  {
+    "id": "b-wd2659564",
+    "type": "book",
+    "title": "Монах",
+    "originalTitle": "The Monk",
+    "year": 1796,
+    "creators": [
+      "Мэтью Грегори Льюис"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2659564"
+    }
+  },
+  {
+    "id": "b-wd4225002",
+    "type": "book",
+    "title": "Князь Серебряный",
+    "originalTitle": "Prince Serebrenni",
+    "year": 1862,
+    "creators": [
+      "Алексей Константинович Толстой"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4225002"
+    }
+  },
+  {
+    "id": "b-wd106814534",
+    "type": "book",
+    "title": "Полночная библиотека",
+    "originalTitle": "The Midnight Library",
+    "year": 2020,
+    "creators": [
+      "Мэтт Хейг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10313767-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q106814534",
+      "openLibrary": "OL20965973W"
+    }
+  },
+  {
+    "id": "b-wd577607",
+    "type": "book",
+    "title": "Финансист",
+    "originalTitle": "The Financier",
+    "year": 1912,
+    "creators": [
+      "Теодор Драйзер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8293120-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q577607",
+      "openLibrary": "OL100237W"
+    }
+  },
+  {
+    "id": "b-wd1249472",
+    "type": "book",
+    "title": "Богач, бедняк",
+    "originalTitle": "Rich Man, Poor Man",
+    "year": 1970,
+    "creators": [
+      "Ирвин Шоу"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6796908-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1249472",
+      "openLibrary": "OL20885924W"
+    }
+  },
+  {
+    "id": "b-wd61114292",
+    "type": "book",
+    "title": "Магия утра",
+    "originalTitle": "The Miracle Morning",
+    "year": 0,
+    "creators": [
+      "Хэл Элрод"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q61114292"
+    }
+  },
+  {
+    "id": "b-wd8337",
+    "type": "book",
+    "title": "Гарри Поттер",
+    "year": 1997,
+    "creators": [
+      "Джоан Роулинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q8337"
+    }
+  },
+  {
+    "id": "b-wd123173584",
+    "type": "book",
+    "title": "Отель с привидениями",
+    "year": 0,
+    "creators": [
+      "Уилки Коллинз"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123173584"
+    }
+  },
+  {
+    "id": "b-wd785974",
+    "type": "book",
+    "title": "Музей невинности",
+    "originalTitle": "The Museum of Innocence",
+    "year": 2008,
+    "creators": [
+      "Орхан Памук"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q785974"
+    }
+  },
+  {
+    "id": "b-wd60851073",
+    "type": "book",
+    "title": "Хлеб по водам",
+    "originalTitle": "Bread Upon the Waters",
+    "year": 1981,
+    "creators": [
+      "Ирвин Шоу"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60851073"
+    }
+  },
+  {
+    "id": "b-wd4101809",
+    "type": "book",
+    "title": "В списках не значился",
+    "year": 1974,
+    "creators": [
+      "Борис Львович Васильев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4101809"
+    }
+  },
+  {
+    "id": "b-wd814765",
+    "type": "book",
+    "title": "Ангел для сестры",
+    "originalTitle": "My Sister's Keeper",
+    "year": 2004,
+    "creators": [
+      "Джоди Пиколт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q814765",
+      "openLibrary": "OL891923W"
+    }
+  },
+  {
+    "id": "b-wd1286961",
+    "type": "book",
+    "title": "Сестра Керри",
+    "originalTitle": "Sister Carrie",
+    "year": 1900,
+    "creators": [
+      "Теодор Драйзер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1286961",
+      "openLibrary": "OL100203W"
+    }
+  },
+  {
+    "id": "b-wd22263533",
+    "type": "book",
+    "title": "Моя гениальная подруга",
+    "originalTitle": "My Brilliant Friend",
+    "year": 2011,
+    "creators": [
+      "Елена Ферранте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22263533",
+      "openLibrary": "OL20751002W"
+    }
+  },
+  {
+    "id": "b-wd120790558",
+    "type": "book",
+    "title": "Тайный дневник Верити",
+    "originalTitle": "Verity",
+    "year": 2018,
+    "creators": [
+      "Коллин Хувер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120790558",
+      "openLibrary": "OL20068530W"
+    }
+  },
+  {
+    "id": "b-wd785255",
+    "type": "book",
+    "title": "Затерянный мир",
+    "originalTitle": "The Lost World",
+    "year": 1912,
+    "creators": [
+      "Артур Конан Дойл"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8231444-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q785255",
+      "openLibrary": "OL262460W"
+    }
+  },
+  {
+    "id": "b-wd11927566",
+    "type": "book",
+    "title": "Я исповедуюсь",
+    "originalTitle": "Confessions",
+    "year": 2011,
+    "creators": [
+      "Жауме Кабре"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11927566",
+      "openLibrary": "OL16110233W"
+    }
+  },
+  {
+    "id": "b-wd2020094",
+    "type": "book",
+    "title": "Королева Марго",
+    "originalTitle": "La Reine Margot",
+    "year": 1845,
+    "creators": [
+      "Александр Дюма"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2020094",
+      "openLibrary": "OL36839W"
+    }
+  },
+  {
+    "id": "b-wd25750",
+    "type": "book",
+    "title": "Свободное место",
+    "originalTitle": "The Casual Vacancy",
+    "year": 2012,
+    "creators": [
+      "Джоан Роулинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q25750",
+      "openLibrary": "OL17657015W"
+    }
+  },
+  {
+    "id": "b-wd771376",
+    "type": "book",
+    "title": "Отец Сергий",
+    "originalTitle": "Father Sergius",
+    "year": 1911,
+    "creators": [
+      "Лев Николаевич Толстой"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q771376"
+    }
+  },
+  {
+    "id": "b-wd477823",
+    "type": "book",
+    "title": "Три сестры",
+    "originalTitle": "Three Sisters",
+    "year": 1901,
+    "creators": [
+      "Антон Павлович Чехов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q477823",
+      "openLibrary": "OL55532W"
+    }
+  },
+  {
+    "id": "b-wd1214091",
+    "type": "book",
+    "title": "Крейцерова соната",
+    "originalTitle": "The Kreutzer Sonata",
+    "year": 1889,
+    "creators": [
+      "Лев Николаевич Толстой"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1214091",
+      "openLibrary": "OL15698345W"
+    }
+  },
+  {
+    "id": "b-wd466412",
+    "type": "book",
+    "title": "К югу от границы, на запад от солнца",
+    "originalTitle": "South of the Border, West of the Sun",
+    "year": 1992,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q466412",
+      "openLibrary": "OL2625514W"
+    }
+  },
+  {
+    "id": "b-wd892658",
+    "type": "book",
+    "title": "Здравствуй, грусть!",
+    "originalTitle": "Bonjour tristesse",
+    "year": 1954,
+    "creators": [
+      "Франсуаза Саган"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q892658",
+      "openLibrary": "OL584333W"
+    }
+  },
+  {
+    "id": "b-wd767189",
+    "type": "book",
+    "title": "Смилла и её чувство снега",
+    "originalTitle": "Smilla's Sense of Snow",
+    "year": 1992,
+    "creators": [
+      "Питер Хёг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q767189",
+      "openLibrary": "OL15694918W"
+    }
+  },
+  {
+    "id": "b-OL38058194W",
+    "type": "book",
+    "title": "Лисьи броды",
+    "year": 2022,
+    "creators": [
+      "Анна Старобинец"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14625556-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "openLibrary": "OL38058194W"
     }
   },
   {
@@ -6513,27 +12574,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2498251",
-    "type": "book",
-    "title": "Замок Броуди",
-    "originalTitle": "Hatter's Castle",
-    "year": 1931,
-    "creators": [
-      "Арчибалд Кронин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14600400-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2498251",
-      "openLibrary": "OL4189796W"
-    }
-  },
-  {
     "id": "b-OL37418911W",
     "type": "book",
     "title": "Из замка в замок",
@@ -6548,46 +12588,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "openLibrary": "OL37418911W"
-    }
-  },
-  {
-    "id": "b-wd961566",
-    "type": "book",
-    "title": "Осень патриарха",
-    "originalTitle": "The Autumn of the Patriarch",
-    "year": 1975,
-    "creators": [
-      "Габриель Гарсиа Маркес"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/15114341-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q961566",
-      "openLibrary": "OL274503W"
-    }
-  },
-  {
-    "id": "b-wd767189",
-    "type": "book",
-    "title": "Смилла и её чувство снега",
-    "originalTitle": "Smilla's Sense of Snow",
-    "year": 1992,
-    "creators": [
-      "Питер Хёг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q767189",
-      "openLibrary": "OL15694918W"
     }
   },
   {
@@ -6696,25 +12696,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd52910",
-    "type": "book",
-    "title": "Тень ветра",
-    "originalTitle": "The Shadow of the Wind",
-    "year": 2001,
-    "creators": [
-      "Карлос Руис Сафон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q52910",
-      "openLibrary": "OL8476949W"
-    }
-  },
-  {
     "id": "b-wd25519313",
     "type": "book",
     "title": "Святой и страшный аромат",
@@ -6751,27 +12732,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4065101",
       "openLibrary": "OL3416282W"
-    }
-  },
-  {
-    "id": "b-wd430514",
-    "type": "book",
-    "title": "Американские боги",
-    "originalTitle": "American Gods",
-    "year": 2001,
-    "creators": [
-      "Нил Гейман"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8494659-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q430514",
-      "openLibrary": "OL679360W"
     }
   },
   {
@@ -6817,25 +12777,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd24082770",
-    "type": "book",
-    "title": "Вегетарианка",
-    "originalTitle": "The Vegetarian",
-    "year": 2007,
-    "creators": [
-      "Хан Ган"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q24082770",
-      "openLibrary": "OL17334243W"
-    }
-  },
-  {
     "id": "b-wd2657795",
     "type": "book",
     "title": "Вулфхолл",
@@ -6873,27 +12814,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1198633",
       "openLibrary": "OL16253351W"
-    }
-  },
-  {
-    "id": "b-wd2621164",
-    "type": "book",
-    "title": "Одиссея капитана Блада",
-    "originalTitle": "Captain Blood",
-    "year": 1922,
-    "creators": [
-      "Рафаэль Сабатини"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/250370-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2621164",
-      "openLibrary": "OL8070950W"
     }
   },
   {
@@ -7023,153 +12943,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1195350",
-    "type": "book",
-    "title": "Волхв",
-    "originalTitle": "The Magus",
-    "year": 1965,
-    "creators": [
-      "Джон Роберт Фаулз"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/5424278-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1195350",
-      "openLibrary": "OL15028W"
-    }
-  },
-  {
-    "id": "b-wd1093537",
-    "type": "book",
-    "title": "Звёзды смотрят вниз",
-    "originalTitle": "The Stars Look Down",
-    "year": 1935,
-    "creators": [
-      "Арчибалд Кронин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8291139-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1093537",
-      "openLibrary": "OL4189807W"
-    }
-  },
-  {
-    "id": "b-wd19363462",
-    "type": "book",
-    "title": "Погребённый великан",
-    "originalTitle": "The Buried Giant",
-    "year": 2015,
-    "creators": [
-      "Кадзуо Исигуро"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12602978-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q19363462",
-      "openLibrary": "OL17333499W"
-    }
-  },
-  {
-    "id": "b-wd874381",
-    "type": "book",
-    "title": "Момо",
-    "originalTitle": "Momo",
-    "year": 1973,
-    "creators": [
-      "Михаэль Энде"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8574580-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q874381",
-      "openLibrary": "OL2271626W"
-    }
-  },
-  {
-    "id": "b-wd1798059",
-    "type": "book",
-    "title": "Гиперион",
-    "originalTitle": "Hyperion",
-    "year": 1989,
-    "creators": [
-      "Дэн Симмонс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/380332-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1798059",
-      "openLibrary": "OL1963268W"
-    }
-  },
-  {
-    "id": "b-wd2364488",
-    "type": "book",
-    "title": "Город перестановок",
-    "originalTitle": "Permutation City",
-    "year": 1994,
-    "creators": [
-      "Грег Иган"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/1000639-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2364488",
-      "openLibrary": "OL115336W"
-    }
-  },
-  {
-    "id": "b-wd3225913",
-    "type": "book",
-    "title": "Князь пустоты",
-    "originalTitle": "Prince of Nothing",
-    "year": 2006,
-    "creators": [
-      "Ричард Скотт Бэккер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/851199-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3225913",
-      "openLibrary": "OL5726535W"
-    }
-  },
-  {
     "id": "b-wd1195112",
     "type": "book",
     "title": "Король в жёлтом",
@@ -7230,27 +13003,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7720276",
       "openLibrary": "OL17079383W"
-    }
-  },
-  {
-    "id": "b-wd1771810",
-    "type": "book",
-    "title": "Волшебник Земноморья",
-    "originalTitle": "A Wizard of Earthsea",
-    "year": 1968,
-    "creators": [
-      "Урсула Крёбер Ле Гуин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13617691-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1771810",
-      "openLibrary": "OL59852W"
     }
   },
   {
@@ -7317,25 +13069,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4470",
-    "type": "book",
-    "title": "Колесо Времени",
-    "originalTitle": "The Wheel of Time",
-    "year": 1990,
-    "creators": [
-      "Брендон Сандерсон",
-      "Роберт Джордан"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4470"
-    }
-  },
-  {
     "id": "b-wd17060438",
     "type": "book",
     "title": "Душа императора",
@@ -7392,67 +13125,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q85797066",
       "openLibrary": "OL24154052W"
-    }
-  },
-  {
-    "id": "b-wd135515",
-    "type": "book",
-    "title": "Шум и ярость",
-    "originalTitle": "The Sound and the Fury",
-    "year": 1929,
-    "creators": [
-      "Уильям Фолкнер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8292212-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q135515",
-      "openLibrary": "OL82932W"
-    }
-  },
-  {
-    "id": "b-wd147787",
-    "type": "book",
-    "title": "Анна Каренина",
-    "originalTitle": "Anna Karenina",
-    "year": 1877,
-    "creators": [
-      "Лев Николаевич Толстой"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q147787",
-      "openLibrary": "OL267096W"
-    }
-  },
-  {
-    "id": "b-wd606465",
-    "type": "book",
-    "title": "Поющие в терновнике",
-    "originalTitle": "The Thorn Birds",
-    "year": 1977,
-    "creators": [
-      "Колин Маккалоу"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8293225-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q606465",
-      "openLibrary": "OL1882556W"
     }
   },
   {
@@ -7559,27 +13231,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1195989",
-    "type": "book",
-    "title": "Имя ветра",
-    "originalTitle": "The Name of the Wind",
-    "year": 2007,
-    "creators": [
-      "Патрик Ротфусс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/11480483-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1195989",
-      "openLibrary": "OL9772092W"
-    }
-  },
-  {
     "id": "b-wd3028014",
     "type": "book",
     "title": "Дилвиш Проклятый",
@@ -7598,25 +13249,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q3028014",
       "openLibrary": "OL13966W"
-    }
-  },
-  {
-    "id": "b-wd466412",
-    "type": "book",
-    "title": "К югу от границы, на запад от солнца",
-    "originalTitle": "South of the Border, West of the Sun",
-    "year": 1992,
-    "creators": [
-      "Харуки Мураками"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q466412",
-      "openLibrary": "OL2625514W"
     }
   },
   {
@@ -7681,25 +13313,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3230588",
-    "type": "book",
-    "title": "Годы",
-    "originalTitle": "The Years",
-    "year": 2008,
-    "creators": [
-      "Анни Эрно"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3230588",
-      "openLibrary": "OL102389W"
-    }
-  },
-  {
     "id": "b-wd12411055",
     "type": "book",
     "title": "Sapiens: Краткая история человечества",
@@ -7758,66 +13371,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1062365",
-    "type": "book",
-    "title": "Голод",
-    "originalTitle": "Hunger",
-    "year": 1890,
-    "creators": [
-      "Кнут Гамсун"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14634050-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1062365",
-      "openLibrary": "OL573193W"
-    }
-  },
-  {
-    "id": "b-wd4339349",
-    "type": "book",
-    "title": "Отблески Этерны",
-    "originalTitle": "Reflections of Eterna",
-    "year": 0,
-    "creators": [
-      "Вера Камша"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4339349"
-    }
-  },
-  {
-    "id": "b-wd4250991",
-    "type": "book",
-    "title": "Кысь",
-    "originalTitle": "The Slynx",
-    "year": 2000,
-    "creators": [
-      "Татьяна Толстая"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/393374-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4250991",
-      "openLibrary": "OL985265W"
-    }
-  },
-  {
     "id": "b-wd7718420",
     "type": "book",
     "title": "Чёрная Призма",
@@ -7857,27 +13410,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q5823898",
       "openLibrary": "OL24232061W"
-    }
-  },
-  {
-    "id": "b-wd374098",
-    "type": "book",
-    "title": "Атлант расправил плечи",
-    "originalTitle": "Atlas Shrugged",
-    "year": 1957,
-    "creators": [
-      "Айн Рэнд"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/362277-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q374098",
-      "openLibrary": "OL731735W"
     }
   },
   {
@@ -7921,25 +13453,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd11340979",
-    "type": "book",
-    "title": "Поезд убийц",
-    "originalTitle": "Bullet Train",
-    "year": 2010,
-    "creators": [
-      "Котаро Исака"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q11340979",
-      "openLibrary": "OL24375262W"
-    }
-  },
-  {
     "id": "b-wd245265",
     "type": "book",
     "title": "Бог как иллюзия",
@@ -7958,45 +13471,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q245265",
       "openLibrary": "OL1966505W"
-    }
-  },
-  {
-    "id": "b-wd848612",
-    "type": "book",
-    "title": "Янки из Коннектикута при дворе короля Артура",
-    "originalTitle": "A Connecticut Yankee in King Arthur's Court",
-    "year": 1889,
-    "creators": [
-      "Марк Твен"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/9168732-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q848612",
-      "openLibrary": "OL54031W"
-    }
-  },
-  {
-    "id": "b-wd4266986",
-    "type": "book",
-    "title": "Лорд с планеты Земля",
-    "originalTitle": "A Lord from Planet Earth",
-    "year": 1996,
-    "creators": [
-      "Сергей Васильевич Лукьяненко"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4266986"
     }
   },
   {
@@ -8200,27 +13674,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd176470",
-    "type": "book",
-    "title": "Интервью с вампиром",
-    "originalTitle": "Interview with the Vampire",
-    "year": 1976,
-    "creators": [
-      "Энн Райс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8401488-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q176470",
-      "openLibrary": "OL77826W"
-    }
-  },
-  {
     "id": "b-wd441055",
     "type": "book",
     "title": "Сады луны",
@@ -8239,25 +13692,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q441055",
       "openLibrary": "OL5734771W"
-    }
-  },
-  {
-    "id": "b-wd2345826",
-    "type": "book",
-    "title": "Санькя",
-    "originalTitle": "Sankya",
-    "year": 2006,
-    "creators": [
-      "Захар Прилепин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2345826",
-      "openLibrary": "OL20702990W"
     }
   },
   {
@@ -8293,48 +13727,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q105987648"
-    }
-  },
-  {
-    "id": "b-wd2511421",
-    "type": "book",
-    "title": "Ложная слепота",
-    "originalTitle": "Blindsight",
-    "year": 2006,
-    "creators": [
-      "Питер Уоттс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/524560-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2511421",
-      "openLibrary": "OL8514692W"
-    }
-  },
-  {
-    "id": "b-wd11279562",
-    "type": "book",
-    "title": "На игле",
-    "originalTitle": "Trainspotting",
-    "year": 1993,
-    "creators": [
-      "Ирвин Уэлш"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6673876-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q11279562",
-      "openLibrary": "OL816271W"
     }
   },
   {
@@ -8480,46 +13872,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1541914",
-    "type": "book",
-    "title": "Рассказ служанки",
-    "originalTitle": "The Handmaid's Tale",
-    "year": 1985,
-    "creators": [
-      "Маргарет Этвуд"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8231851-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1541914",
-      "openLibrary": "OL675783W"
-    }
-  },
-  {
-    "id": "b-wd83799",
-    "type": "book",
-    "title": "Мы",
-    "originalTitle": "We",
-    "year": 1924,
-    "creators": [
-      "Евгений Иванович Замятин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q83799",
-      "openLibrary": "OL10216W"
-    }
-  },
-  {
     "id": "b-wd1722517",
     "type": "book",
     "title": "Каллокаин",
@@ -8538,69 +13890,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1722517",
       "openLibrary": "OL1265023W"
-    }
-  },
-  {
-    "id": "b-wd191949",
-    "type": "book",
-    "title": "О, дивный новый мир",
-    "originalTitle": "Brave New World",
-    "year": 1932,
-    "creators": [
-      "Олдос Хаксли"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8231823-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q191949",
-      "openLibrary": "OL64365W"
-    }
-  },
-  {
-    "id": "b-wd202009",
-    "type": "book",
-    "title": "451 градус по Фаренгейту",
-    "originalTitle": "Fahrenheit 451",
-    "year": 1953,
-    "creators": [
-      "Рэй Брэдбери"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12993656-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q202009",
-      "openLibrary": "OL103200W"
-    }
-  },
-  {
-    "id": "b-wd1140295",
-    "type": "book",
-    "title": "Дорога",
-    "originalTitle": "The Road",
-    "year": 2006,
-    "creators": [
-      "Кормак Маккарти"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/198120-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1140295",
-      "openLibrary": "OL40886W"
     }
   },
   {
@@ -8747,47 +14036,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd50948",
-    "type": "book",
-    "title": "Евгений Онегин",
-    "originalTitle": "Eugene Onegin",
-    "year": 1825,
-    "creators": [
-      "Александр Сергеевич Пушкин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/11365660-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q50948",
-      "openLibrary": "OL623236W"
-    }
-  },
-  {
-    "id": "b-wd1212828",
-    "type": "book",
-    "title": "Дар",
-    "originalTitle": "The Gift",
-    "year": 1938,
-    "creators": [
-      "Владимир Владимирович Набоков",
-      "Владимир Владимирович Набоков"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1212828",
-      "openLibrary": "OL626985W"
-    }
-  },
-  {
     "id": "b-wd2332901",
     "type": "book",
     "title": "Приглашение на казнь",
@@ -8804,27 +14052,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2332901",
       "openLibrary": "OL16273321W"
-    }
-  },
-  {
-    "id": "b-wd6511",
-    "type": "book",
-    "title": "Улисс",
-    "originalTitle": "Ulysses",
-    "year": 1922,
-    "creators": [
-      "Джеймс Джойс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13136548-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q6511",
-      "openLibrary": "OL86344W"
     }
   },
   {
@@ -8884,27 +14111,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4691050",
       "openLibrary": "OL455919W"
-    }
-  },
-  {
-    "id": "b-wd75840",
-    "type": "book",
-    "title": "Тихий Дон",
-    "originalTitle": "And Quiet Flows the Don",
-    "year": 1928,
-    "creators": [
-      "Михаил Александрович Шолохов"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/298085-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q75840",
-      "openLibrary": "OL8067216W"
     }
   },
   {
@@ -9010,27 +14216,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd15080194",
-    "type": "book",
-    "title": "Щегол",
-    "originalTitle": "The Goldfinch",
-    "year": 2013,
-    "creators": [
-      "Донна Тартт"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8771366-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q15080194",
-      "openLibrary": "OL16809803W"
-    }
-  },
-  {
     "id": "b-wd115966015",
     "type": "book",
     "title": "Локон с Изумрудного моря",
@@ -9049,27 +14234,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q115966015",
       "openLibrary": "OL28687656W"
-    }
-  },
-  {
-    "id": "b-wd1630805",
-    "type": "book",
-    "title": "Отель",
-    "originalTitle": "Hotel",
-    "year": 1965,
-    "creators": [
-      "Артур Хейли"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/271746-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1630805",
-      "openLibrary": "OL2475096W"
     }
   },
   {
@@ -9233,27 +14397,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2498822",
       "openLibrary": "OL2707183W"
-    }
-  },
-  {
-    "id": "b-wd435722",
-    "type": "book",
-    "title": "Под куполом",
-    "originalTitle": "Under the Dome",
-    "year": 2009,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14651549-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q435722",
-      "openLibrary": "OL14917748W"
     }
   },
   {
@@ -9704,25 +14847,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd6877267",
-    "type": "book",
-    "title": "Дом странных детей",
-    "originalTitle": "Miss Peregrine's Home of Peculiar Children",
-    "year": 2011,
-    "creators": [
-      "Ренсом Риггз"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q6877267",
-      "openLibrary": "OL16151508W"
-    }
-  },
-  {
     "id": "b-wd2769345",
     "type": "book",
     "title": "Миссия Шута",
@@ -9848,27 +14972,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2604087",
-    "type": "book",
-    "title": "Аэропорт",
-    "originalTitle": "Airport",
-    "year": 1968,
-    "creators": [
-      "Артур Хейли"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/271730-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2604087",
-      "openLibrary": "OL16054905W"
-    }
-  },
-  {
     "id": "b-wd5120404",
     "type": "book",
     "title": "КиберЗолушка",
@@ -9929,27 +15032,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q466288",
       "openLibrary": "OL81629W"
-    }
-  },
-  {
-    "id": "b-wd20657314",
-    "type": "book",
-    "title": "До встречи с тобой",
-    "originalTitle": "Me Before You",
-    "year": 2016,
-    "creators": [
-      "Джоджо Мойес"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14419339-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q20657314",
-      "openLibrary": "OL28353073W"
     }
   },
   {
@@ -10029,27 +15111,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd14548336",
-    "type": "book",
-    "title": "Океан в конце дороги",
-    "originalTitle": "The Ocean at the End of the Lane",
-    "year": 2013,
-    "creators": [
-      "Нил Гейман"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7258156-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q14548336",
-      "openLibrary": "OL16804661W"
-    }
-  },
-  {
     "id": "b-wd930666",
     "type": "book",
     "title": "Девочка, которая любила Тома Гордона",
@@ -10071,23 +15132,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4375133",
-    "type": "book",
-    "title": "Похороните меня за плинтусом",
-    "year": 1996,
-    "creators": [
-      "Павел Владимирович Санаев"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4375133"
-    }
-  },
-  {
     "id": "b-wd786363",
     "type": "book",
     "title": "Как писать книги",
@@ -10106,25 +15150,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q786363",
       "openLibrary": "OL81601W"
-    }
-  },
-  {
-    "id": "b-wd22815069",
-    "type": "book",
-    "title": "Вторая жизнь Уве",
-    "originalTitle": "A Man Called Ove",
-    "year": 2012,
-    "creators": [
-      "Фредрик Бакман"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q22815069",
-      "openLibrary": "OL16793865W"
     }
   },
   {
@@ -10180,48 +15205,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q108087806"
-    }
-  },
-  {
-    "id": "b-wd612836",
-    "type": "book",
-    "title": "Ярмарка тщеславия",
-    "originalTitle": "Vanity Fair",
-    "year": 1848,
-    "creators": [
-      "Уильям Мейкпис Теккерей"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/417329-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q612836",
-      "openLibrary": "OL16313W"
-    }
-  },
-  {
-    "id": "b-wd1249472",
-    "type": "book",
-    "title": "Богач, бедняк",
-    "originalTitle": "Rich Man, Poor Man",
-    "year": 1970,
-    "creators": [
-      "Ирвин Шоу"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6796908-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1249472",
-      "openLibrary": "OL20885924W"
     }
   },
   {
@@ -10328,63 +15311,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1168267",
-    "type": "book",
-    "title": "Дом духов",
-    "originalTitle": "The House of the Spirits",
-    "year": 1982,
-    "creators": [
-      "Исабель Альенде"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1168267",
-      "openLibrary": "OL1905255W"
-    }
-  },
-  {
-    "id": "b-wd105395137",
-    "type": "book",
-    "title": "Женщины Лазаря",
-    "year": 2011,
-    "creators": [
-      "Марина Львовна Степнова"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q105395137"
-    }
-  },
-  {
-    "id": "b-wd3107329",
-    "type": "book",
-    "title": "Автостопом по галактике",
-    "originalTitle": "The Hitchhiker's Guide to the Galaxy",
-    "year": 1979,
-    "creators": [
-      "Дуглас Адамс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12986869-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3107329",
-      "openLibrary": "OL20666020W"
-    }
-  },
-  {
     "id": "b-wd40205",
     "type": "book",
     "title": "Облачный атлас",
@@ -10403,27 +15329,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q40205",
       "openLibrary": "OL28773233W"
-    }
-  },
-  {
-    "id": "b-wd326909",
-    "type": "book",
-    "title": "Будденброки",
-    "originalTitle": "Buddenbrooks",
-    "year": 1901,
-    "creators": [
-      "Томас Манн"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8244437-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q326909",
-      "openLibrary": "OL14867081W"
     }
   },
   {
@@ -10547,24 +15452,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd131676089",
-    "type": "book",
-    "title": "Вредные советы",
-    "originalTitle": "Bad Advice",
-    "year": 1990,
-    "creators": [
-      "Григорий Бенционович Остер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q131676089"
-    }
-  },
-  {
     "id": "b-wd1217507",
     "type": "book",
     "title": "Вчерашний мир",
@@ -10583,27 +15470,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1217507",
       "openLibrary": "OL9079322W"
-    }
-  },
-  {
-    "id": "b-wd4374404",
-    "type": "book",
-    "title": "Посёлок",
-    "originalTitle": "Those Who Survive",
-    "year": 1980,
-    "creators": [
-      "Кир Булычёв"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/1717769-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4374404",
-      "openLibrary": "OL28601058W"
     }
   },
   {
@@ -10747,24 +15613,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2603401",
       "openLibrary": "OL10695417W"
-    }
-  },
-  {
-    "id": "b-wd1199211",
-    "type": "book",
-    "title": "Мелкий бес",
-    "originalTitle": "The Petty Demon",
-    "year": 1905,
-    "creators": [
-      "Фёдор Сологуб"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1199211"
     }
   },
   {
@@ -10989,24 +15837,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd107012688",
-    "type": "book",
-    "title": "Доктор Гарин",
-    "originalTitle": "Doctor Garin",
-    "year": 2021,
-    "creators": [
-      "Владимир Георгиевич Сорокин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q107012688"
-    }
-  },
-  {
     "id": "b-wd3213079",
     "type": "book",
     "title": "Метель",
@@ -11083,27 +15913,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd785580",
-    "type": "book",
-    "title": "Нос",
-    "originalTitle": "The Nose",
-    "year": 1836,
-    "creators": [
-      "Николай Васильевич Гоголь"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/1826768-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q785580",
-      "openLibrary": "OL8791626W"
-    }
-  },
-  {
     "id": "b-wd20791164",
     "type": "book",
     "title": "Пейзаж, нарисованный чаем",
@@ -11167,48 +15976,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd183883",
-    "type": "book",
-    "title": "Над пропастью во ржи",
-    "originalTitle": "The Catcher in the Rye",
-    "year": 1951,
-    "creators": [
-      "Джером Дэвид Сэлинджер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/9273490-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q183883",
-      "openLibrary": "OL3335245W"
-    }
-  },
-  {
-    "id": "b-wd649267",
-    "type": "book",
-    "title": "Механическое пианино",
-    "originalTitle": "Player Piano",
-    "year": 1952,
-    "creators": [
-      "Курт Воннегут"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/280246-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q649267",
-      "openLibrary": "OL98484W"
-    }
-  },
-  {
     "id": "b-wd4525053",
     "type": "book",
     "title": "Школа для дураков",
@@ -11228,27 +15995,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1132408",
-    "type": "book",
-    "title": "Полковнику никто не пишет",
-    "originalTitle": "No One Writes to the Colonel",
-    "year": 1961,
-    "creators": [
-      "Габриель Гарсиа Маркес"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6786365-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1132408",
-      "openLibrary": "OL468851W"
-    }
-  },
-  {
     "id": "b-wd645906",
     "type": "book",
     "title": "Пена дней",
@@ -11265,27 +16011,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q645906",
       "openLibrary": "OL708597W"
-    }
-  },
-  {
-    "id": "b-wd860577",
-    "type": "book",
-    "title": "Демиан",
-    "originalTitle": "Demian",
-    "year": 1919,
-    "creators": [
-      "Герман Гессе"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12569297-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q860577",
-      "openLibrary": "OL872981W"
     }
   },
   {
@@ -11385,49 +16110,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2342159",
-    "type": "book",
-    "title": "Богатый папа, бедный папа",
-    "originalTitle": "Rich Dad Poor Dad",
-    "year": 1997,
-    "creators": [
-      "Роберт Кийосаки",
-      "Шэрон Лектер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8315603-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2342159",
-      "openLibrary": "OL2010879W"
-    }
-  },
-  {
-    "id": "b-wd107920499",
-    "type": "book",
-    "title": "Тёмная материя",
-    "originalTitle": "Dark Matter",
-    "year": 2016,
-    "creators": [
-      "Блейк Крауч"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7436634-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q107920499",
-      "openLibrary": "OL17358795W"
-    }
-  },
-  {
     "id": "b-wd2634129",
     "type": "book",
     "title": "Алая чума",
@@ -11490,27 +16172,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q3794130",
       "openLibrary": "OL15738124W"
-    }
-  },
-  {
-    "id": "b-wd7766706",
-    "type": "book",
-    "title": "Архив Буресвета",
-    "originalTitle": "The Stormlight Archive",
-    "year": 2010,
-    "creators": [
-      "Брендон Сандерсон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8494963-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q7766706",
-      "openLibrary": "OL19369957W"
     }
   },
   {
@@ -11577,27 +16238,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd99434216",
-    "type": "book",
-    "title": "Пиранези",
-    "originalTitle": "Piranesi",
-    "year": 2020,
-    "creators": [
-      "Сюзанна Кларк"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10226290-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q99434216",
-      "openLibrary": "OL20893680W"
-    }
-  },
-  {
     "id": "b-wd60811948",
     "type": "book",
     "title": "Сердца четырёх",
@@ -11616,27 +16256,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q60811948",
       "openLibrary": "OL26133345W"
-    }
-  },
-  {
-    "id": "b-wd1257081",
-    "type": "book",
-    "title": "Три товарища",
-    "originalTitle": "Three Comrades",
-    "year": 1936,
-    "creators": [
-      "Эрих Мария Ремарк"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/4700943-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1257081",
-      "openLibrary": "OL1209320W"
     }
   },
   {
@@ -11703,27 +16322,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2373810",
-    "type": "book",
-    "title": "Шантарам",
-    "originalTitle": "Shantaram",
-    "year": 2003,
-    "creators": [
-      "Грегори Дэвид Робертс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6788945-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2373810",
-      "openLibrary": "OL19061442W"
-    }
-  },
-  {
     "id": "b-wd103411",
     "type": "book",
     "title": "V — значит вендетта",
@@ -11745,48 +16343,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1396889",
-    "type": "book",
-    "title": "Скотный двор",
-    "originalTitle": "Animal Farm",
-    "year": 1945,
-    "creators": [
-      "Джордж Оруэлл"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/11261770-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1396889",
-      "openLibrary": "OL1168210W"
-    }
-  },
-  {
-    "id": "b-wd1216940",
-    "type": "book",
-    "title": "День триффидов",
-    "originalTitle": "The Day of the Triffids",
-    "year": 1951,
-    "creators": [
-      "Джон Уиндем"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/535027-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1216940",
-      "openLibrary": "OL1911336W"
-    }
-  },
-  {
     "id": "b-wd18237922",
     "type": "book",
     "title": "Географ глобус пропил",
@@ -11802,27 +16358,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q18237922"
-    }
-  },
-  {
-    "id": "b-wd837934",
-    "type": "book",
-    "title": "Цветы для Элджернона",
-    "originalTitle": "Flowers for Algernon",
-    "year": 1959,
-    "creators": [
-      "Дэниел Киз"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12947700-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q837934",
-      "openLibrary": "OL515754W"
     }
   },
   {
@@ -11918,27 +16453,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q4072223"
-    }
-  },
-  {
-    "id": "b-wd7715400",
-    "type": "book",
-    "title": "Баллада о Бете-2",
-    "originalTitle": "The Ballad of Beta-2",
-    "year": 1965,
-    "creators": [
-      "Сэмюэль Дилэни"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6958584-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q7715400",
-      "openLibrary": "OL16039304W"
     }
   },
   {
@@ -12177,41 +16691,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q7767006"
-    }
-  },
-  {
-    "id": "b-wd4410246",
-    "type": "book",
-    "title": "Свет в окошке",
-    "year": 0,
-    "creators": [
-      "Святослав Владимирович Логинов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4410246"
-    }
-  },
-  {
-    "id": "b-wd4369077",
-    "type": "book",
-    "title": "Поколение, достигшее цели",
-    "originalTitle": "Target Generation",
-    "year": 1953,
-    "creators": [
-      "Клиффорд Дональд Саймак"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4369077"
     }
   },
   {
@@ -12713,27 +17192,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd106814534",
-    "type": "book",
-    "title": "Полночная библиотека",
-    "originalTitle": "The Midnight Library",
-    "year": 2020,
-    "creators": [
-      "Мэтт Хейг"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10313767-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q106814534",
-      "openLibrary": "OL20965973W"
-    }
-  },
-  {
     "id": "b-wd1623320",
     "type": "book",
     "title": "Опрокинутый мир",
@@ -12791,27 +17249,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q1974419"
-    }
-  },
-  {
-    "id": "b-wd1170644",
-    "type": "book",
-    "title": "Видоизменённый углерод",
-    "originalTitle": "Altered Carbon",
-    "year": 2002,
-    "creators": [
-      "Ричард Морган"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13223488-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1170644",
-      "openLibrary": "OL8698136W"
     }
   },
   {
@@ -12873,27 +17310,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd650949",
-    "type": "book",
-    "title": "Когда Спящий проснётся",
-    "originalTitle": "The Sleeper Awakes",
-    "year": 1899,
-    "creators": [
-      "Герберт Уэллс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/574886-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q650949",
-      "openLibrary": "OL52151W"
-    }
-  },
-  {
     "id": "b-wd15094120",
     "type": "book",
     "title": "Враг мой",
@@ -12912,27 +17328,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q15094120",
       "openLibrary": "OL2893599W"
-    }
-  },
-  {
-    "id": "b-wd785255",
-    "type": "book",
-    "title": "Затерянный мир",
-    "originalTitle": "The Lost World",
-    "year": 1912,
-    "creators": [
-      "Артур Конан Дойл"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8231444-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q785255",
-      "openLibrary": "OL262460W"
     }
   },
   {
@@ -13062,24 +17457,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3457259",
-    "type": "book",
-    "title": "Два капитана",
-    "originalTitle": "The Two Captains",
-    "year": 1940,
-    "creators": [
-      "Вениамин Александрович Каверин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3457259"
-    }
-  },
-  {
     "id": "b-wd60748857",
     "type": "book",
     "title": "Продавец обуви",
@@ -13135,24 +17512,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q4340242"
-    }
-  },
-  {
-    "id": "b-wd4338869",
-    "type": "book",
-    "title": "Остров погибших кораблей",
-    "originalTitle": "The Shipwreck Island",
-    "year": 1927,
-    "creators": [
-      "Александр Романович Беляев"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4338869"
     }
   },
   {
@@ -13216,27 +17575,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q206400",
       "openLibrary": "OL259002W"
-    }
-  },
-  {
-    "id": "b-wd842074",
-    "type": "book",
-    "title": "Обломов",
-    "originalTitle": "Oblomov",
-    "year": 1859,
-    "creators": [
-      "Иван Александрович Гончаров"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10901872-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q842074",
-      "openLibrary": "OL8551795W"
     }
   },
   {
@@ -13410,27 +17748,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2301398",
-    "type": "book",
-    "title": "Спин",
-    "originalTitle": "Spin",
-    "year": 2005,
-    "creators": [
-      "Роберт Чарльз Уилсон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6632328-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2301398",
-      "openLibrary": "OL14951012W"
-    }
-  },
-  {
     "id": "b-wd51680582",
     "type": "book",
     "title": "Первая жертва",
@@ -13473,29 +17790,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1195862",
-    "type": "book",
-    "title": "Понедельник начинается в субботу",
-    "originalTitle": "Monday Begins on Saturday",
-    "year": 1965,
-    "creators": [
-      "братья Стругацкие",
-      "Аркадий Натанович Стругацкий",
-      "Борис Натанович Стругацкий"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7533820-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1195862",
-      "openLibrary": "OL17415602W"
-    }
-  },
-  {
     "id": "b-wd2637037",
     "type": "book",
     "title": "Смок Беллью",
@@ -13535,27 +17829,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2384854",
       "openLibrary": "OL27256W"
-    }
-  },
-  {
-    "id": "b-wd662029",
-    "type": "book",
-    "title": "Нейромант",
-    "originalTitle": "Neuromancer",
-    "year": 1984,
-    "creators": [
-      "Уильям Гибсон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/283860-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q662029",
-      "openLibrary": "OL27258W"
     }
   },
   {
@@ -13782,27 +18055,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1143215",
-    "type": "book",
-    "title": "Вокзал потерянных снов",
-    "originalTitle": "Perdido Street Station",
-    "year": 2000,
-    "creators": [
-      "Чайна Мьевиль"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6375226-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1143215",
-      "openLibrary": "OL8718786W"
-    }
-  },
-  {
     "id": "b-wd7920028",
     "type": "book",
     "title": "Подземный Венисс",
@@ -13821,27 +18073,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7920028",
       "openLibrary": "OL2538227W"
-    }
-  },
-  {
-    "id": "b-wd741222",
-    "type": "book",
-    "title": "Свидание с Рамой",
-    "originalTitle": "Rendezvous with Rama",
-    "year": 1973,
-    "creators": [
-      "Артур Чарльз Кларк"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13472608-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q741222",
-      "openLibrary": "OL17417W"
     }
   },
   {
@@ -13948,27 +18179,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q538390",
       "openLibrary": "OL63069W"
-    }
-  },
-  {
-    "id": "b-wd223688",
-    "type": "book",
-    "title": "Игрок",
-    "originalTitle": "The Gambler",
-    "year": 1867,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/9412633-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q223688",
-      "openLibrary": "OL166884W"
     }
   },
   {
@@ -14176,27 +18386,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd577607",
-    "type": "book",
-    "title": "Финансист",
-    "originalTitle": "The Financier",
-    "year": 1912,
-    "creators": [
-      "Теодор Драйзер"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8293120-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q577607",
-      "openLibrary": "OL100237W"
-    }
-  },
-  {
     "id": "b-wd109942294",
     "type": "book",
     "title": "Стальное Сердце",
@@ -14295,27 +18484,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2722309",
       "openLibrary": "OL56834W"
-    }
-  },
-  {
-    "id": "b-wd17625679",
-    "type": "book",
-    "title": "Дорога запустения",
-    "originalTitle": "Desolation Road",
-    "year": 1988,
-    "creators": [
-      "Иен Макдональд"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7094707-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q17625679",
-      "openLibrary": "OL2929183W"
     }
   },
   {
@@ -14476,27 +18644,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4240572",
       "openLibrary": "OL19849810W"
-    }
-  },
-  {
-    "id": "b-wd11835640",
-    "type": "book",
-    "title": "Ведьмак",
-    "originalTitle": "The Witcher",
-    "year": 1986,
-    "creators": [
-      "Анджей Сапковский"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10693418-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q11835640",
-      "openLibrary": "OL24228298W"
     }
   },
   {
@@ -14688,27 +18835,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3006092",
-    "type": "book",
-    "title": "Создатель звёзд",
-    "originalTitle": "Star Maker",
-    "year": 1937,
-    "creators": [
-      "Уильям Олаф Стэплдон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/911107-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3006092",
-      "openLibrary": "OL3290759W"
-    }
-  },
-  {
     "id": "b-wd843400",
     "type": "book",
     "title": "Мор, ученик Смерти",
@@ -14793,27 +18919,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd111915309",
-    "type": "book",
-    "title": "Хозяева джиннов",
-    "originalTitle": "A Master of Djinn",
-    "year": 2021,
-    "creators": [
-      "Ф. Джели Кларк"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10457293-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q111915309",
-      "openLibrary": "OL38722146W"
-    }
-  },
-  {
     "id": "b-wd565638",
     "type": "book",
     "title": "Крошка Доррит",
@@ -14893,27 +18998,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1114499",
-    "type": "book",
-    "title": "Пасынки Вселенной",
-    "originalTitle": "Orphans of the Sky",
-    "year": 1963,
-    "creators": [
-      "Роберт Хайнлайн"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14631626-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1114499",
-      "openLibrary": "OL59738W"
-    }
-  },
-  {
     "id": "b-wd3998819",
     "type": "book",
     "title": "Пограничная трилогия",
@@ -14953,24 +19037,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q117769710",
       "openLibrary": "OL29239190W"
-    }
-  },
-  {
-    "id": "b-wd4392787",
-    "type": "book",
-    "title": "Река Хронос",
-    "originalTitle": "River Chronos",
-    "year": 0,
-    "creators": [
-      "Кир Булычёв"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4392787"
     }
   },
   {
@@ -15058,27 +19124,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1053330",
-    "type": "book",
-    "title": "Хроники Амбера",
-    "originalTitle": "The Chronicles of Amber",
-    "year": 1970,
-    "creators": [
-      "Роджер Желязны"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/6202443-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1053330",
-      "openLibrary": "OL11018807W"
-    }
-  },
-  {
     "id": "b-wd7734091",
     "type": "book",
     "title": "Друсс-Легенда",
@@ -15138,27 +19183,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q88898423",
       "openLibrary": "OL20693749W"
-    }
-  },
-  {
-    "id": "b-wd339761",
-    "type": "book",
-    "title": "Милый друг",
-    "originalTitle": "Bel-Ami",
-    "year": 1885,
-    "creators": [
-      "Ги де Мопассан"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/997432-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q339761",
-      "openLibrary": "OL24154963W"
     }
   },
   {
@@ -15424,27 +19448,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2008211",
-    "type": "book",
-    "title": "Левая рука тьмы",
-    "originalTitle": "The Left Hand of Darkness",
-    "year": 1969,
-    "creators": [
-      "Урсула Крёбер Ле Гуин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/10618463-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2008211",
-      "openLibrary": "OL59864W"
-    }
-  },
-  {
     "id": "b-wd5317020",
     "type": "book",
     "title": "Пыль грёз",
@@ -15671,27 +19674,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd62604562",
-    "type": "book",
-    "title": "Революция в стоп-кадрах",
-    "originalTitle": "The Freeze-Frame Revolution",
-    "year": 2018,
-    "creators": [
-      "Питер Уоттс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8474622-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q62604562",
-      "openLibrary": "OL19359160W"
-    }
-  },
-  {
     "id": "b-wd3824879",
     "type": "book",
     "title": "Молот и крест",
@@ -15858,27 +19840,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2659853",
       "openLibrary": "OL1933639W"
-    }
-  },
-  {
-    "id": "b-wd2300209",
-    "type": "book",
-    "title": "Аччелерандо",
-    "originalTitle": "Accelerando",
-    "year": 2005,
-    "creators": [
-      "Чарльз Стросс"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/284259-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2300209",
-      "openLibrary": "OL2465670W"
     }
   },
   {
@@ -16161,27 +20122,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3986014",
-    "type": "book",
-    "title": "Кровь и железо",
-    "originalTitle": "The Blade Itself",
-    "year": 2006,
-    "creators": [
-      "Джо Аберкромби"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14543422-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3986014",
-      "openLibrary": "OL8400950W"
-    }
-  },
-  {
     "id": "b-wd123876782",
     "type": "book",
     "title": "Империя травы",
@@ -16305,27 +20245,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q692201",
       "openLibrary": "OL14868308W"
-    }
-  },
-  {
-    "id": "b-wd82630",
-    "type": "book",
-    "title": "Улитка на склоне",
-    "originalTitle": "Snail on the Slope",
-    "year": 1971,
-    "creators": [
-      "братья Стругацкие",
-      "Аркадий Натанович Стругацкий",
-      "Борис Натанович Стругацкий"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q82630",
-      "openLibrary": "OL15545674W"
     }
   },
   {
@@ -16747,25 +20666,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd217073",
-    "type": "book",
-    "title": "Степной волк",
-    "originalTitle": "Steppenwolf",
-    "year": 1927,
-    "creators": [
-      "Герман Гессе"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q217073",
-      "openLibrary": "OL872773W"
-    }
-  },
-  {
     "id": "b-wd55663976",
     "type": "book",
     "title": "Ночной портье",
@@ -16781,80 +20681,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q55663976"
-    }
-  },
-  {
-    "id": "b-wd14321296",
-    "type": "book",
-    "title": "Москва и москвичи",
-    "originalTitle": "Moscow and Moscovites",
-    "year": 1926,
-    "creators": [
-      "Владимир Алексеевич Гиляровский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q14321296"
-    }
-  },
-  {
-    "id": "b-wd658288",
-    "type": "book",
-    "title": "Тошнота",
-    "originalTitle": "Nausea",
-    "year": 1938,
-    "creators": [
-      "Жан-Поль Сартр"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q658288",
-      "openLibrary": "OL1161171W"
-    }
-  },
-  {
-    "id": "b-wd320372",
-    "type": "book",
-    "title": "Чума",
-    "originalTitle": "The Plague",
-    "year": 1947,
-    "creators": [
-      "Альбер Камю"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q320372",
-      "openLibrary": "OL1230715W"
-    }
-  },
-  {
-    "id": "b-wd2426986",
-    "type": "book",
-    "title": "Овод",
-    "originalTitle": "The Gadfly",
-    "year": 1897,
-    "creators": [
-      "Этель Лилиан Войнич"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2426986"
     }
   },
   {
@@ -16874,25 +20700,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q96381934",
       "openLibrary": "OL20663157W"
-    }
-  },
-  {
-    "id": "b-wd428581",
-    "type": "book",
-    "title": "Обладать",
-    "originalTitle": "Possession",
-    "year": 1990,
-    "creators": [
-      "Антония Сьюзен Байетт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q428581",
-      "openLibrary": "OL115647W"
     }
   },
   {
@@ -16952,44 +20759,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd373536",
-    "type": "book",
-    "title": "Чайка по имени Джонатан Ливингстон",
-    "originalTitle": "Jonathan Livingston Seagull",
-    "year": 1970,
-    "creators": [
-      "Ричард Бах"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q373536",
-      "openLibrary": "OL62107W"
-    }
-  },
-  {
-    "id": "b-wd210784",
-    "type": "book",
-    "title": "Идиот",
-    "originalTitle": "The Idiot",
-    "year": 1869,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q210784",
-      "openLibrary": "OL166973W"
-    }
-  },
-  {
     "id": "b-wd637200",
     "type": "book",
     "title": "Пигмалион",
@@ -17027,25 +20796,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2037865",
-    "type": "book",
-    "title": "Дьявол носит Prada",
-    "originalTitle": "The Devil Wears Prada",
-    "year": 2003,
-    "creators": [
-      "Лорен Вайсбергер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2037865",
-      "openLibrary": "OL15137662W"
-    }
-  },
-  {
     "id": "b-wd134734010",
     "type": "book",
     "title": "Огненная кровь",
@@ -17079,41 +20829,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q7620415"
-    }
-  },
-  {
-    "id": "b-wd4101809",
-    "type": "book",
-    "title": "В списках не значился",
-    "year": 1974,
-    "creators": [
-      "Борис Львович Васильев"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4101809"
-    }
-  },
-  {
-    "id": "b-wd1424555",
-    "type": "book",
-    "title": "Шоколад",
-    "originalTitle": "Chocolat",
-    "year": 1999,
-    "creators": [
-      "Джоанн Харрис"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1424555"
     }
   },
   {
@@ -17210,25 +20925,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2661615",
-    "type": "book",
-    "title": "Есть, молиться, любить",
-    "originalTitle": "Eat, Pray, Love",
-    "year": 2006,
-    "creators": [
-      "Элизабет Гилберт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2661615",
-      "openLibrary": "OL41815W"
-    }
-  },
-  {
     "id": "b-wd174596",
     "type": "book",
     "title": "Моби Дик",
@@ -17245,25 +20941,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q174596",
       "openLibrary": "OL21501229W"
-    }
-  },
-  {
-    "id": "b-wd172850",
-    "type": "book",
-    "title": "Имя розы",
-    "originalTitle": "The Name of the Rose",
-    "year": 1980,
-    "creators": [
-      "Умберто Эко"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q172850",
-      "openLibrary": "OL8996439W"
     }
   },
   {
@@ -17302,25 +20979,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q282814",
       "openLibrary": "OL893508W"
-    }
-  },
-  {
-    "id": "b-wd3294969",
-    "type": "book",
-    "title": "Красный Марс",
-    "originalTitle": "Red Mars",
-    "year": 1992,
-    "creators": [
-      "Ким Стенли Робинсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3294969",
-      "openLibrary": "OL81672W"
     }
   },
   {
@@ -17516,25 +21174,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4052755",
-    "type": "book",
-    "title": "Vita Nostra",
-    "year": 2007,
-    "creators": [
-      "Марина Дяченко-Ширшова",
-      "Сергей Дяченко"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4052755",
-      "openLibrary": "OL24763053W"
-    }
-  },
-  {
     "id": "b-wd102036201",
     "type": "book",
     "title": "Министерство будущего",
@@ -17592,46 +21231,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd65073040",
-    "type": "book",
-    "title": "Семь смертей Эвелины Хардкасл",
-    "originalTitle": "The Seven Deaths of Evelyn Hardcastle",
-    "year": 2018,
-    "creators": [
-      "Стюарт Тёртон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q65073040",
-      "openLibrary": "OL17929039W"
-    }
-  },
-  {
-    "id": "b-wd268100",
-    "type": "book",
-    "title": "Рождённый туманом",
-    "originalTitle": "Mistborn",
-    "year": 2006,
-    "creators": [
-      "Брендон Сандерсон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/11329782-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q268100",
-      "openLibrary": "OL16044142W"
-    }
-  },
-  {
     "id": "b-wd28451667",
     "type": "book",
     "title": "Белый песок",
@@ -17685,44 +21284,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q612688"
-    }
-  },
-  {
-    "id": "b-wd2631397",
-    "type": "book",
-    "title": "Азазель",
-    "originalTitle": "The Winter Queen",
-    "year": 1998,
-    "creators": [
-      "Борис Акунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2631397",
-      "openLibrary": "OL28769629W"
-    }
-  },
-  {
-    "id": "b-wd189378",
-    "type": "book",
-    "title": "Сумерки",
-    "originalTitle": "Twilight",
-    "year": 2005,
-    "creators": [
-      "Стефани Майер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q189378",
-      "openLibrary": "OL5720023W"
     }
   },
   {
@@ -17889,25 +21450,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q185449",
       "openLibrary": "OL5819895W"
-    }
-  },
-  {
-    "id": "b-wd943712",
-    "type": "book",
-    "title": "Чужестранка",
-    "originalTitle": "Outlander",
-    "year": 1991,
-    "creators": [
-      "Диана Гэблдон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q943712",
-      "openLibrary": "OL3261155W"
     }
   },
   {
@@ -18176,24 +21718,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd22162553",
-    "type": "book",
-    "title": "Гарри Поттер и методы рационального мышления",
-    "originalTitle": "Harry Potter and the Methods of Rationality",
-    "year": 2015,
-    "creators": [
-      "Элиезер Юдковский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q22162553"
-    }
-  },
-  {
     "id": "b-wd2512889",
     "type": "book",
     "title": "Сага о Видящих",
@@ -18364,24 +21888,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2565443",
-    "type": "book",
-    "title": "Мы — живые",
-    "originalTitle": "We the Living",
-    "year": 1936,
-    "creators": [
-      "Айн Рэнд"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2565443"
-    }
-  },
-  {
     "id": "b-wd4113582",
     "type": "book",
     "title": "Власть несбывшегося",
@@ -18397,27 +21903,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4113582",
       "openLibrary": "OL16500956W"
-    }
-  },
-  {
-    "id": "b-wd23763076",
-    "type": "book",
-    "title": "Шестёрка воронов",
-    "originalTitle": "Six of Crows",
-    "year": 2015,
-    "creators": [
-      "Ли Бардуго"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12667417-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q23763076",
-      "openLibrary": "OL17332479W"
     }
   },
   {
@@ -18461,25 +21946,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1621457",
-    "type": "book",
-    "title": "Эмпайр Фоллз",
-    "originalTitle": "Empire Falls",
-    "year": 2001,
-    "creators": [
-      "Ричард Руссо"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1621457",
-      "openLibrary": "OL3351636W"
-    }
-  },
-  {
     "id": "b-wd4228990",
     "type": "book",
     "title": "Кольцо Тьмы",
@@ -18515,25 +21981,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1115619",
-    "type": "book",
-    "title": "Ход королевы",
-    "originalTitle": "The Queen's Gambit",
-    "year": 1983,
-    "creators": [
-      "Уолтер Тевис"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1115619",
-      "openLibrary": "OL83884W"
-    }
-  },
-  {
     "id": "b-wd11678",
     "type": "book",
     "title": "Голодные игры",
@@ -18550,46 +21997,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q11678",
       "openLibrary": "OL5735363W"
-    }
-  },
-  {
-    "id": "b-wd55360383",
-    "type": "book",
-    "title": "Нормальные люди",
-    "originalTitle": "Normal People",
-    "year": 2018,
-    "creators": [
-      "Салли Руни"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q55360383",
-      "openLibrary": "OL20150260W"
-    }
-  },
-  {
-    "id": "b-wd649409",
-    "type": "book",
-    "title": "Тэсс из рода д’Эрбервиллей",
-    "originalTitle": "Tess of the d'Urbervilles",
-    "year": 1891,
-    "creators": [
-      "Томас Харди"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13109386-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q649409",
-      "openLibrary": "OL44927W"
     }
   },
   {
@@ -18722,25 +22129,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q421621"
-    }
-  },
-  {
-    "id": "b-wd816016",
-    "type": "book",
-    "title": "Игра Эндера",
-    "originalTitle": "Ender's Game",
-    "year": 1985,
-    "creators": [
-      "Орсон Скотт Кард"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q816016",
-      "openLibrary": "OL49488W"
     }
   },
   {
@@ -18972,25 +22360,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd646231",
-    "type": "book",
-    "title": "Другие голоса, другие комнаты",
-    "originalTitle": "Other Voices, Other Rooms",
-    "year": 1948,
-    "creators": [
-      "Трумен Капоте"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q646231",
-      "openLibrary": "OL1992206W"
-    }
-  },
-  {
     "id": "b-wd1823273",
     "type": "book",
     "title": "Свет в августе",
@@ -19007,25 +22376,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1823273",
       "openLibrary": "OL82931W"
-    }
-  },
-  {
-    "id": "b-wd600461",
-    "type": "book",
-    "title": "Белые ночи",
-    "originalTitle": "White Nights",
-    "year": 1848,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q600461",
-      "openLibrary": "OL166952W"
     }
   },
   {
@@ -19048,24 +22398,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1304649",
-    "type": "book",
-    "title": "Герой нашего времени",
-    "originalTitle": "A Hero of Our Time",
-    "year": 1840,
-    "creators": [
-      "Михаил Юрьевич Лермонтов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1304649"
-    }
-  },
-  {
     "id": "b-wd936276",
     "type": "book",
     "title": "Ветер в ивах",
@@ -19082,42 +22414,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q936276",
       "openLibrary": "OL16312108W"
-    }
-  },
-  {
-    "id": "b-wd123173584",
-    "type": "book",
-    "title": "Отель с привидениями",
-    "year": 0,
-    "creators": [
-      "Уилки Коллинз"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q123173584"
-    }
-  },
-  {
-    "id": "b-wd5226593",
-    "type": "book",
-    "title": "Фантастическая сага",
-    "originalTitle": "The Technicolor Time Machine",
-    "year": 1967,
-    "creators": [
-      "Гарри Гаррисон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q5226593",
-      "openLibrary": "OL467162W"
     }
   },
   {
@@ -19155,25 +22451,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7087170",
       "openLibrary": "OL26963W"
-    }
-  },
-  {
-    "id": "b-wd460583",
-    "type": "book",
-    "title": "Посмертные записки Пиквикского клуба",
-    "originalTitle": "The Pickwick Papers",
-    "year": 1836,
-    "creators": [
-      "Чарльз Диккенс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q460583",
-      "openLibrary": "OL8763776W"
     }
   },
   {
@@ -19295,44 +22572,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd837283",
-    "type": "book",
-    "title": "Бойцовский клуб",
-    "originalTitle": "Fight Club",
-    "year": 1996,
-    "creators": [
-      "Чак Паланик"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q837283",
-      "openLibrary": "OL18941W"
-    }
-  },
-  {
-    "id": "b-wd695116",
-    "type": "book",
-    "title": "Записки из подполья",
-    "originalTitle": "Notes from Underground",
-    "year": 1864,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q695116",
-      "openLibrary": "OL24767320W"
-    }
-  },
-  {
     "id": "b-wd19915515",
     "type": "book",
     "title": "Норма",
@@ -19370,25 +22609,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd62879",
-    "type": "book",
-    "title": "Рождественская песнь в прозе",
-    "originalTitle": "A Christmas Carol",
-    "year": 1843,
-    "creators": [
-      "Чарльз Диккенс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q62879",
-      "openLibrary": "OL14868696W"
-    }
-  },
-  {
     "id": "b-wd925723",
     "type": "book",
     "title": "Санта-Хрякус",
@@ -19405,24 +22625,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q925723",
       "openLibrary": "OL453662W"
-    }
-  },
-  {
-    "id": "b-wd4225002",
-    "type": "book",
-    "title": "Князь Серебряный",
-    "originalTitle": "Prince Serebrenni",
-    "year": 1862,
-    "creators": [
-      "Алексей Константинович Толстой"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4225002"
     }
   },
   {
@@ -19718,42 +22920,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd487364",
-    "type": "book",
-    "title": "Анафем",
-    "originalTitle": "Anathem",
-    "year": 2008,
-    "creators": [
-      "Нил Стивенсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q487364",
-      "openLibrary": "OL14911626W"
-    }
-  },
-  {
-    "id": "b-wd136377586",
-    "type": "book",
-    "title": "Сорока на виселице",
-    "year": 2025,
-    "creators": [
-      "Эдуард Веркин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q136377586"
-    }
-  },
-  {
     "id": "b-wd140527",
     "type": "book",
     "title": "Три мушкетёра",
@@ -19904,24 +23070,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3205703",
-    "type": "book",
-    "title": "Остров Сахалин",
-    "originalTitle": "Sakhalin Island",
-    "year": 1893,
-    "creators": [
-      "Антон Павлович Чехов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3205703"
-    }
-  },
-  {
     "id": "b-wd7745634",
     "type": "book",
     "title": "Последняя колония",
@@ -20067,42 +23215,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd17111624",
-    "type": "book",
-    "title": "Марсианин",
-    "originalTitle": "The Martian",
-    "year": 2011,
-    "creators": [
-      "Энди Вейер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q17111624"
-    }
-  },
-  {
-    "id": "b-wd916423",
-    "type": "book",
-    "title": "Метро 2033",
-    "originalTitle": "Metro 2033",
-    "year": 2007,
-    "creators": [
-      "Дмитрий Алексеевич Глуховский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q916423"
-    }
-  },
-  {
     "id": "b-wd757660",
     "type": "book",
     "title": "Страна багровых туч",
@@ -20195,25 +23307,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1213085",
-    "type": "book",
-    "title": "Под стеклянным колпаком",
-    "originalTitle": "The Bell Jar",
-    "year": 1963,
-    "creators": [
-      "Сильвия Плат"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1213085",
-      "openLibrary": "OL1865528W"
-    }
-  },
-  {
     "id": "b-wd213167",
     "type": "book",
     "title": "Перси Джексон и Олимпийцы",
@@ -20285,45 +23378,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1501991",
       "openLibrary": "OL16061037W"
-    }
-  },
-  {
-    "id": "b-wd60972265",
-    "type": "book",
-    "title": "Петровы в гриппе и вокруг него",
-    "year": 2016,
-    "creators": [
-      "Алексей Сальников"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q60972265",
-      "openLibrary": "OL19738736W"
-    }
-  },
-  {
-    "id": "b-wd1218321",
-    "type": "book",
-    "title": "Тайная история",
-    "originalTitle": "The Secret History",
-    "year": 1992,
-    "creators": [
-      "Донна Тартт"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/744854-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1218321",
-      "openLibrary": "OL4321141W"
     }
   },
   {
@@ -21033,44 +24087,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd15222347",
-    "type": "book",
-    "title": "Мистер Мерседес",
-    "originalTitle": "Mr. Mercedes",
-    "year": 2014,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q15222347",
-      "openLibrary": "OL16820059W"
-    }
-  },
-  {
-    "id": "b-wd120790558",
-    "type": "book",
-    "title": "Тайный дневник Верити",
-    "originalTitle": "Verity",
-    "year": 2018,
-    "creators": [
-      "Коллин Хувер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q120790558",
-      "openLibrary": "OL20068530W"
-    }
-  },
-  {
     "id": "b-wd308918",
     "type": "book",
     "title": "Повесть о двух городах",
@@ -21145,25 +24161,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd98178602",
-    "type": "book",
-    "title": "Атомные привычки",
-    "originalTitle": "Atomic Habits",
-    "year": 2018,
-    "creators": [
-      "Джеймс Клир"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q98178602",
-      "openLibrary": "OL17930368W"
-    }
-  },
-  {
     "id": "b-wd2600527",
     "type": "book",
     "title": "Невидимки",
@@ -21199,61 +24196,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q61958157",
       "openLibrary": "OL19989002W"
-    }
-  },
-  {
-    "id": "b-wd25750",
-    "type": "book",
-    "title": "Свободное место",
-    "originalTitle": "The Casual Vacancy",
-    "year": 2012,
-    "creators": [
-      "Джоан Роулинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q25750",
-      "openLibrary": "OL17657015W"
-    }
-  },
-  {
-    "id": "b-wd114761914",
-    "type": "book",
-    "title": "Доверие",
-    "originalTitle": "Trust",
-    "year": 2022,
-    "creators": [
-      "Эрнан Диас"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q114761914",
-      "openLibrary": "OL25916696W"
-    }
-  },
-  {
-    "id": "b-wd137053017",
-    "type": "book",
-    "title": "Невьянская башня",
-    "year": 2025,
-    "creators": [
-      "Алексей Викторович Иванов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q137053017"
     }
   },
   {
@@ -21295,27 +24237,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3235393",
-    "type": "book",
-    "title": "Половина жёлтого солнца",
-    "originalTitle": "Half of a Yellow Sun",
-    "year": 2006,
-    "creators": [
-      "Чимаманда Нгози Адичи"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8472660-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3235393",
-      "openLibrary": "OL5731542W"
-    }
-  },
-  {
     "id": "b-wd224965",
     "type": "book",
     "title": "Гримус",
@@ -21331,25 +24252,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q224965"
-    }
-  },
-  {
-    "id": "b-wd130581281",
-    "type": "book",
-    "title": "По орбите",
-    "originalTitle": "Orbital",
-    "year": 2024,
-    "creators": [
-      "Саманта Харви"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q130581281",
-      "openLibrary": "OL35708581W"
     }
   },
   {
@@ -21409,25 +24311,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd22263533",
-    "type": "book",
-    "title": "Моя гениальная подруга",
-    "originalTitle": "My Brilliant Friend",
-    "year": 2011,
-    "creators": [
-      "Елена Ферранте"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q22263533",
-      "openLibrary": "OL20751002W"
-    }
-  },
-  {
     "id": "b-wd1619595",
     "type": "book",
     "title": "Долина кукол",
@@ -21462,25 +24345,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q2743377"
-    }
-  },
-  {
-    "id": "b-wd21427286",
-    "type": "book",
-    "title": "Безумно богатые азиаты",
-    "originalTitle": "Crazy Rich Asians",
-    "year": 2013,
-    "creators": [
-      "Кевин Кван"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q21427286",
-      "openLibrary": "OL17924837W"
     }
   },
   {
@@ -21554,44 +24418,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q3203802",
       "openLibrary": "OL2497610W"
-    }
-  },
-  {
-    "id": "b-wd212194",
-    "type": "book",
-    "title": "Волны гасят ветер",
-    "originalTitle": "The Time Wanderers",
-    "year": 1987,
-    "creators": [
-      "братья Стругацкие"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q212194",
-      "openLibrary": "OL11457371W"
-    }
-  },
-  {
-    "id": "b-wd1304748",
-    "type": "book",
-    "title": "Жук в муравейнике",
-    "originalTitle": "Beetle in the Anthill",
-    "year": 1979,
-    "creators": [
-      "братья Стругацкие"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1304748",
-      "openLibrary": "OL11312281W"
     }
   },
   {
@@ -21742,25 +24568,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd193417",
-    "type": "book",
-    "title": "Госпожа Бовари",
-    "originalTitle": "Madame Bovary",
-    "year": 1857,
-    "creators": [
-      "Гюстав Флобер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q193417",
-      "openLibrary": "OL893707W"
-    }
-  },
-  {
     "id": "b-wd472031",
     "type": "book",
     "title": "Остров накануне",
@@ -21891,42 +24698,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q111281407",
       "openLibrary": "OL24139894W"
-    }
-  },
-  {
-    "id": "b-wd4398917",
-    "type": "book",
-    "title": "Ртуть",
-    "originalTitle": "Quicksilver",
-    "year": 2003,
-    "creators": [
-      "Нил Стивенсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4398917",
-      "openLibrary": "OL38495W"
-    }
-  },
-  {
-    "id": "b-wd8337",
-    "type": "book",
-    "title": "Гарри Поттер",
-    "year": 1997,
-    "creators": [
-      "Джоан Роулинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q8337"
     }
   },
   {
@@ -22080,25 +24851,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd457977",
-    "type": "book",
-    "title": "О мышах и людях",
-    "originalTitle": "Of Mice and Men",
-    "year": 1937,
-    "creators": [
-      "Джон Стейнбек"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q457977",
-      "openLibrary": "OL23204W"
-    }
-  },
-  {
     "id": "b-wd130283",
     "type": "book",
     "title": "Макбет",
@@ -22173,25 +24925,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1928866",
       "openLibrary": "OL1888050W"
-    }
-  },
-  {
-    "id": "b-wd13424700",
-    "type": "book",
-    "title": "Скорбь Сатаны",
-    "originalTitle": "The Sorrows of Satan",
-    "year": 1895,
-    "creators": [
-      "Мария Корелли"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q13424700",
-      "openLibrary": "OL1487943W"
     }
   },
   {
@@ -22363,44 +25096,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd6303649",
-    "type": "book",
-    "title": "Квантовый вор",
-    "originalTitle": "The Quantum Thief",
-    "year": 2010,
-    "creators": [
-      "Ханну Раяниеми"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q6303649",
-      "openLibrary": "OL17699438W"
-    }
-  },
-  {
-    "id": "b-wd83186",
-    "type": "book",
-    "title": "Ромео и Джульетта",
-    "originalTitle": "Romeo and Juliet",
-    "year": 0,
-    "creators": [
-      "Уильям Шекспир"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q83186",
-      "openLibrary": "OL17931780W"
-    }
-  },
-  {
     "id": "b-wd1212133",
     "type": "book",
     "title": "Элегантность ёжика",
@@ -22535,43 +25230,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd97662445",
-    "type": "book",
-    "title": "Нечего бояться",
-    "originalTitle": "Nothing to Be Frightened Of",
-    "year": 0,
-    "creators": [
-      "Джулиан Барнс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q97662445"
-    }
-  },
-  {
-    "id": "b-wd10594892",
-    "type": "book",
-    "title": "Ночной цирк",
-    "originalTitle": "The Night Circus",
-    "year": 2011,
-    "creators": [
-      "Эрин Моргенштерн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q10594892",
-      "openLibrary": "OL16086747W"
-    }
-  },
-  {
     "id": "b-wd47598",
     "type": "book",
     "title": "Гарри Поттер и узник Азкабана",
@@ -22625,25 +25283,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q7769855"
-    }
-  },
-  {
-    "id": "b-wd53828903",
-    "type": "book",
-    "title": "Отказ всех систем",
-    "originalTitle": "All Systems Red",
-    "year": 2017,
-    "creators": [
-      "Марта Уэллс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q53828903",
-      "openLibrary": "OL17914663W"
     }
   },
   {
@@ -22779,27 +25418,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd119803356",
-    "type": "book",
-    "title": "Йеллоуфейс",
-    "originalTitle": "Yellowface",
-    "year": 2023,
-    "creators": [
-      "Ребекка Ф. Куанг"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13195421-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q119803356",
-      "openLibrary": "OL29050559W"
-    }
-  },
-  {
     "id": "b-wd3736382",
     "type": "book",
     "title": "Дом Солнц",
@@ -22835,25 +25453,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2920685",
       "openLibrary": "OL15844727W"
-    }
-  },
-  {
-    "id": "b-wd523076",
-    "type": "book",
-    "title": "Маленькие женщины",
-    "originalTitle": "Little Women",
-    "year": 1868,
-    "creators": [
-      "Луиза Мей Олкотт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q523076",
-      "openLibrary": "OL29983W"
     }
   },
   {
@@ -22969,27 +25568,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q2382904"
-    }
-  },
-  {
-    "id": "b-wd18393778",
-    "type": "book",
-    "title": "Алое восстание",
-    "originalTitle": "Red Rising",
-    "year": 2014,
-    "creators": [
-      "Пирс Браун"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7316188-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q18393778",
-      "openLibrary": "OL17076473W"
     }
   },
   {
@@ -23125,43 +25703,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2918491",
       "openLibrary": "OL11930W"
-    }
-  },
-  {
-    "id": "b-OL38058194W",
-    "type": "book",
-    "title": "Лисьи броды",
-    "year": 2022,
-    "creators": [
-      "Анна Старобинец"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14625556-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "openLibrary": "OL38058194W"
-    }
-  },
-  {
-    "id": "b-wd94076022",
-    "type": "book",
-    "title": "Памяти памяти",
-    "originalTitle": "In Memory of Memory",
-    "year": 2017,
-    "creators": [
-      "Мария Михайловна Степанова"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q94076022"
     }
   },
   {
@@ -23315,24 +25856,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd771376",
-    "type": "book",
-    "title": "Отец Сергий",
-    "originalTitle": "Father Sergius",
-    "year": 1911,
-    "creators": [
-      "Лев Николаевич Толстой"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q771376"
-    }
-  },
-  {
     "id": "b-wd86440",
     "type": "book",
     "title": "Буря",
@@ -23463,25 +25986,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q19702759",
       "openLibrary": "OL15444852W"
-    }
-  },
-  {
-    "id": "b-wd967268",
-    "type": "book",
-    "title": "Последний единорог",
-    "originalTitle": "The Last Unicorn",
-    "year": 1968,
-    "creators": [
-      "Питер Бигл"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q967268",
-      "openLibrary": "OL26459W"
     }
   },
   {
@@ -23659,25 +26163,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd47008389",
-    "type": "book",
-    "title": "Жестокий принц",
-    "originalTitle": "The Cruel Prince",
-    "year": 2018,
-    "creators": [
-      "Холли Блэк"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q47008389",
-      "openLibrary": "OL17850410W"
-    }
-  },
-  {
     "id": "b-wd2383856",
     "type": "book",
     "title": "Правда",
@@ -23694,24 +26179,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2383856",
       "openLibrary": "OL453693W"
-    }
-  },
-  {
-    "id": "b-wd4537523",
-    "type": "book",
-    "title": "Яма",
-    "originalTitle": "The Pit",
-    "year": 1909,
-    "creators": [
-      "Александр Иванович Куприн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4537523"
     }
   },
   {
@@ -23751,44 +26218,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q1473417"
-    }
-  },
-  {
-    "id": "b-wd67105106",
-    "type": "book",
-    "title": "Кишот",
-    "originalTitle": "Quichotte",
-    "year": 2019,
-    "creators": [
-      "Салман Рушди"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q67105106",
-      "openLibrary": "OL20121030W"
-    }
-  },
-  {
-    "id": "b-wd892658",
-    "type": "book",
-    "title": "Здравствуй, грусть!",
-    "originalTitle": "Bonjour tristesse",
-    "year": 1954,
-    "creators": [
-      "Франсуаза Саган"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q892658",
-      "openLibrary": "OL584333W"
     }
   },
   {
@@ -23871,29 +26300,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd163027",
-    "type": "book",
-    "title": "Сказки братьев Гримм",
-    "originalTitle": "Grimms' fairy tales",
-    "year": 1812,
-    "creators": [
-      "Якоб Гримм",
-      "Вильгельм Гримм",
-      "братья Гримм"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/11639412-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q163027",
-      "openLibrary": "OL45361W"
-    }
-  },
-  {
     "id": "b-wd2882585",
     "type": "book",
     "title": "Менялы",
@@ -23948,23 +26354,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7742008",
       "openLibrary": "OL16846W"
-    }
-  },
-  {
-    "id": "b-wd858384",
-    "type": "book",
-    "title": "Monster",
-    "year": 0,
-    "creators": [
-      "Наоки Урасава"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q858384"
     }
   },
   {
@@ -24075,25 +26464,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q479086",
       "openLibrary": "OL14858712W"
-    }
-  },
-  {
-    "id": "b-wd110269198",
-    "type": "book",
-    "title": "Гипотеза любви",
-    "originalTitle": "The Love Hypothesis",
-    "year": 0,
-    "creators": [
-      "Али Хейзелвуд"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q110269198",
-      "openLibrary": "OL24178205W"
     }
   },
   {
@@ -24358,44 +26728,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4658878",
-    "type": "book",
-    "title": "Сердце бури",
-    "originalTitle": "A Place of Greater Safety",
-    "year": 1992,
-    "creators": [
-      "Хилари Мантел"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4658878",
-      "openLibrary": "OL464517W"
-    }
-  },
-  {
-    "id": "b-wd466852",
-    "type": "book",
-    "title": "Под сетью",
-    "originalTitle": "Under the Net",
-    "year": 1954,
-    "creators": [
-      "Айрис Мёрдок"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q466852",
-      "openLibrary": "OL1326346W"
-    }
-  },
-  {
     "id": "b-wd115152087",
     "type": "book",
     "title": "Элизабет Финч",
@@ -24525,24 +26857,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q3210421",
       "openLibrary": "OL2712946W"
-    }
-  },
-  {
-    "id": "b-wd85807008",
-    "type": "book",
-    "title": "Голландский дом",
-    "originalTitle": "The Dutch House",
-    "year": 2019,
-    "creators": [
-      "Энн Пэтчетт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q85807008"
     }
   },
   {
@@ -24750,25 +27064,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd108063656",
-    "type": "book",
-    "title": "Хромые кони",
-    "originalTitle": "Slow Horses",
-    "year": 2010,
-    "creators": [
-      "Mick Herron"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q108063656",
-      "openLibrary": "OL18630860W"
-    }
-  },
-  {
     "id": "b-wd126740629",
     "type": "book",
     "title": "Огнепад",
@@ -24897,24 +27192,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2568639",
       "openLibrary": "OL15381128W"
-    }
-  },
-  {
-    "id": "b-wd3882128",
-    "type": "book",
-    "title": "Тени в раю",
-    "originalTitle": "Shadows in Paradise",
-    "year": 1971,
-    "creators": [
-      "Эрих Мария Ремарк"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3882128"
     }
   },
   {
@@ -25085,24 +27362,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q437791",
       "openLibrary": "OL8996438W"
-    }
-  },
-  {
-    "id": "b-wd3213985",
-    "type": "book",
-    "title": "Правда о деле Гарри Квеберта",
-    "originalTitle": "The Truth About the Harry Quebert Affair",
-    "year": 2012,
-    "creators": [
-      "Жоэль Диккер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3213985"
     }
   },
   {
@@ -25295,25 +27554,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1212672",
-    "type": "book",
-    "title": "Женщина в белом",
-    "originalTitle": "The Woman in White",
-    "year": 1860,
-    "creators": [
-      "Уилки Коллинз"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1212672",
-      "openLibrary": "OL176045W"
-    }
-  },
-  {
     "id": "b-wd4424419",
     "type": "book",
     "title": "Смерть ради смерти",
@@ -25384,24 +27624,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd50377310",
-    "type": "book",
-    "title": "Контур",
-    "originalTitle": "Outline",
-    "year": 2014,
-    "creators": [
-      "Рейчел Каск"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q50377310"
-    }
-  },
-  {
     "id": "b-wd2453239",
     "type": "book",
     "title": "Жёны и дочери",
@@ -25437,25 +27659,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q56418944",
       "openLibrary": "OL19145737W"
-    }
-  },
-  {
-    "id": "b-wd1286961",
-    "type": "book",
-    "title": "Сестра Керри",
-    "originalTitle": "Sister Carrie",
-    "year": 1900,
-    "creators": [
-      "Теодор Драйзер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1286961",
-      "openLibrary": "OL100203W"
     }
   },
   {
@@ -25797,24 +28000,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1091079",
-    "type": "book",
-    "title": "Как читать книги",
-    "year": 1940,
-    "creators": [
-      "Чарльз Ван Дорен",
-      "Мортимер Адлер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1091079"
-    }
-  },
-  {
     "id": "b-wd30728694",
     "type": "book",
     "title": "Когда выходит отшельник",
@@ -25963,24 +28148,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2252950",
-    "type": "book",
-    "title": "Кондуит и Швамбрания",
-    "originalTitle": "Conduit and Shvambrania",
-    "year": 1931,
-    "creators": [
-      "Лев Абрамович Кассиль"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2252950"
-    }
-  },
-  {
     "id": "b-wd30030695",
     "type": "book",
     "title": "Королевские милости",
@@ -25997,24 +28164,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q30030695",
       "openLibrary": "OL19831623W"
-    }
-  },
-  {
-    "id": "b-wd124362037",
-    "type": "book",
-    "title": "Внутри убийцы",
-    "originalTitle": "A Killer’s Mind",
-    "year": 2018,
-    "creators": [
-      "Майк Омер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q124362037"
     }
   },
   {
@@ -26130,25 +28279,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd883305",
-    "type": "book",
-    "title": "Холодный дом",
-    "originalTitle": "Bleak House",
-    "year": 1853,
-    "creators": [
-      "Чарльз Диккенс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q883305",
-      "openLibrary": "OL14868510W"
-    }
-  },
-  {
     "id": "b-wd50809636",
     "type": "book",
     "title": "Центральная станция",
@@ -26241,24 +28371,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7532913",
       "openLibrary": "OL14853099W"
-    }
-  },
-  {
-    "id": "b-wd97207036",
-    "type": "book",
-    "title": "Просто Маса",
-    "originalTitle": "Just Masa",
-    "year": 2020,
-    "creators": [
-      "Борис Акунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q97207036"
     }
   },
   {
@@ -26432,42 +28544,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd48797122",
-    "type": "book",
-    "title": "Одна история",
-    "originalTitle": "The Only Story",
-    "year": 2018,
-    "creators": [
-      "Джулиан Барнс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q48797122"
-    }
-  },
-  {
-    "id": "b-wd48953388",
-    "type": "book",
-    "title": "Не прощаюсь",
-    "originalTitle": "Not Saying Goodbye",
-    "year": 2018,
-    "creators": [
-      "Борис Акунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q48953388"
-    }
-  },
-  {
     "id": "b-wd595950",
     "type": "book",
     "title": "Смертные машины",
@@ -26503,25 +28579,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q60742713",
       "openLibrary": "OL19743686W"
-    }
-  },
-  {
-    "id": "b-wd21065522",
-    "type": "book",
-    "title": "Новая Луна",
-    "originalTitle": "Luna: New Moon",
-    "year": 2015,
-    "creators": [
-      "Иен Макдональд"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q21065522",
-      "openLibrary": "OL20474762W"
     }
   },
   {
@@ -26748,62 +28805,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2467206",
-    "type": "book",
-    "title": "Петербург",
-    "originalTitle": "Petersburg",
-    "year": 1913,
-    "creators": [
-      "Андрей Белый"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2467206"
-    }
-  },
-  {
-    "id": "b-wd170583",
-    "type": "book",
-    "title": "Гордость и предубеждение",
-    "originalTitle": "Pride and Prejudice",
-    "year": 1813,
-    "creators": [
-      "Джейн Остин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q170583",
-      "openLibrary": "OL66554W"
-    }
-  },
-  {
-    "id": "b-wd117745027",
-    "type": "book",
-    "title": "Если все кошки в мире исчезнут",
-    "originalTitle": "If Cats Disappeared from the World",
-    "year": 2012,
-    "creators": [
-      "Гэнки Кавамура"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q117745027",
-      "openLibrary": "OL19966730W"
-    }
-  },
-  {
     "id": "b-wd56025774",
     "type": "book",
     "title": "Повелитель гномов",
@@ -26899,24 +28900,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2659564",
-    "type": "book",
-    "title": "Монах",
-    "originalTitle": "The Monk",
-    "year": 1796,
-    "creators": [
-      "Мэтью Грегори Льюис"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2659564"
-    }
-  },
-  {
     "id": "b-wd979609",
     "type": "book",
     "title": "Жизнь и судьба",
@@ -26936,25 +28919,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2619167",
-    "type": "book",
-    "title": "Дочь священника",
-    "originalTitle": "A Clergyman's Daughter",
-    "year": 1935,
-    "creators": [
-      "Джордж Оруэлл"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2619167",
-      "openLibrary": "OL1168017W"
-    }
-  },
-  {
     "id": "b-wd100997892",
     "type": "book",
     "title": "Шагги Бейн",
@@ -26971,43 +28935,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q100997892",
       "openLibrary": "OL20645179W"
-    }
-  },
-  {
-    "id": "b-wd60751088",
-    "type": "book",
-    "title": "Зимний солдат",
-    "originalTitle": "The Winter Soldier",
-    "year": 2018,
-    "creators": [
-      "Дэниел Мейсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q60751088"
-    }
-  },
-  {
-    "id": "b-wd2882166",
-    "type": "book",
-    "title": "Настройщик",
-    "originalTitle": "The Piano Tuner",
-    "year": 2002,
-    "creators": [
-      "Дэниел Мейсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2882166",
-      "openLibrary": "OL5956196W"
     }
   },
   {
@@ -27329,25 +29256,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4763360",
-    "type": "book",
-    "title": "Угол покоя",
-    "originalTitle": "Angle of Repose",
-    "year": 1971,
-    "creators": [
-      "Уоллес Стегнер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4763360",
-      "openLibrary": "OL478213W"
-    }
-  },
-  {
     "id": "b-wd7997840",
     "type": "book",
     "title": "Почему одни страны богатые, а другие бедные",
@@ -27383,24 +29291,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q4465580"
-    }
-  },
-  {
-    "id": "b-wd2467862",
-    "type": "book",
-    "title": "Муму",
-    "originalTitle": "Mumu",
-    "year": 1854,
-    "creators": [
-      "Иван Сергеевич Тургенев"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2467862"
     }
   },
   {
@@ -27455,25 +29345,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q140075152"
-    }
-  },
-  {
-    "id": "b-wd634288",
-    "type": "book",
-    "title": "Благоволительницы",
-    "originalTitle": "The Kindly Ones",
-    "year": 2006,
-    "creators": [
-      "Джонатан Литтелл"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q634288",
-      "openLibrary": "OL8165095W"
     }
   },
   {
@@ -27586,25 +29457,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd20709044",
-    "type": "book",
-    "title": "Маленькая жизнь",
-    "originalTitle": "A Little Life",
-    "year": 2015,
-    "creators": [
-      "Ханья Янагихара"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q20709044",
-      "openLibrary": "OL17370186W"
-    }
-  },
-  {
     "id": "b-wd24255697",
     "type": "book",
     "title": "Люди среди деревьев",
@@ -27621,25 +29473,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q24255697",
       "openLibrary": "OL19111131W"
-    }
-  },
-  {
-    "id": "b-wd637839",
-    "type": "book",
-    "title": "Бегущий за ветром",
-    "originalTitle": "The Kite Runner",
-    "year": 2003,
-    "creators": [
-      "Халед Хоссейни"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q637839",
-      "openLibrary": "OL16049475W"
     }
   },
   {
@@ -27825,23 +29658,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd4101761",
-    "type": "book",
-    "title": "В окопах Сталинграда",
-    "year": 1946,
-    "creators": [
-      "Виктор Платонович Некрасов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4101761"
-    }
-  },
-  {
     "id": "b-wd282181",
     "type": "book",
     "title": "Иосиф и его братья",
@@ -27858,24 +29674,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q282181",
       "openLibrary": "OL14867079W"
-    }
-  },
-  {
-    "id": "b-wd18117395",
-    "type": "book",
-    "title": "Обитель",
-    "originalTitle": "The Monastery (Prilepin novel)",
-    "year": 2014,
-    "creators": [
-      "Захар Прилепин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q18117395"
     }
   },
   {
@@ -27915,24 +29713,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd15005",
-    "type": "book",
-    "title": "Горе от ума",
-    "originalTitle": "Woe from Wit",
-    "year": 1825,
-    "creators": [
-      "Александр Сергеевич Грибоедов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q15005"
-    }
-  },
-  {
     "id": "b-wd4411712",
     "type": "book",
     "title": "Священная книга оборотня",
@@ -27949,25 +29729,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4411712",
       "openLibrary": "OL24793039W"
-    }
-  },
-  {
-    "id": "b-wd25338",
-    "type": "book",
-    "title": "Маленький принц",
-    "originalTitle": "The Little Prince",
-    "year": 1943,
-    "creators": [
-      "Антуан де Сент-Экзюпери"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q25338",
-      "openLibrary": "OL10264W"
     }
   },
   {
@@ -28155,43 +29916,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd122335031",
-    "type": "book",
-    "title": "Путешествие в Элевсин",
-    "originalTitle": "Journey to Eleusis",
-    "year": 2023,
-    "creators": [
-      "Виктор Пелевин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q122335031"
-    }
-  },
-  {
-    "id": "b-wd955910",
-    "type": "book",
-    "title": "Трое в лодке, не считая собаки",
-    "originalTitle": "Three Men in a Boat",
-    "year": 1889,
-    "creators": [
-      "Джером Клапка Джером"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q955910",
-      "openLibrary": "OL16051161W"
-    }
-  },
-  {
     "id": "b-wd479895",
     "type": "book",
     "title": "Вдох-выдох",
@@ -28211,44 +29935,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd185118",
-    "type": "book",
-    "title": "Остров сокровищ",
-    "originalTitle": "Treasure Island",
-    "year": 1883,
-    "creators": [
-      "Роберт Льюис Стивенсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q185118",
-      "openLibrary": "OL24034W"
-    }
-  },
-  {
-    "id": "b-wd289815",
-    "type": "book",
-    "title": "Пнин",
-    "originalTitle": "Pnin",
-    "year": 1957,
-    "creators": [
-      "Владимир Владимирович Набоков"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q289815",
-      "openLibrary": "OL627082W"
-    }
-  },
-  {
     "id": "b-wd1979886",
     "type": "book",
     "title": "Подвиг",
@@ -28264,25 +29950,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q1979886"
-    }
-  },
-  {
-    "id": "b-wd183157",
-    "type": "book",
-    "title": "Братья Карамазовы",
-    "originalTitle": "The Brothers Karamazov",
-    "year": 1880,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q183157",
-      "openLibrary": "OL10432709W"
     }
   },
   {
@@ -28934,25 +30601,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd326914",
-    "type": "book",
-    "title": "Приключения Тома Сойера",
-    "originalTitle": "The Adventures of Tom Sawyer",
-    "year": 1876,
-    "creators": [
-      "Марк Твен"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q326914",
-      "openLibrary": "OL53919W"
-    }
-  },
-  {
     "id": "b-wd113157669",
     "type": "book",
     "title": "За далью — даль",
@@ -29022,43 +30670,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q1171416"
-    }
-  },
-  {
-    "id": "b-wd1198506",
-    "type": "book",
-    "title": "Медный всадник",
-    "originalTitle": "The Bronze Horseman",
-    "year": 1837,
-    "creators": [
-      "Александр Сергеевич Пушкин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1198506"
-    }
-  },
-  {
-    "id": "b-wd289387",
-    "type": "book",
-    "title": "Петербургские повести",
-    "originalTitle": "Petersburg Tales",
-    "year": 1843,
-    "creators": [
-      "Николай Васильевич Гоголь"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q289387",
-      "openLibrary": "OL15676791W"
     }
   },
   {
@@ -29173,24 +30784,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd18921080",
-    "type": "book",
-    "title": "Вонгозеро",
-    "originalTitle": "Vongorezo",
-    "year": 2011,
-    "creators": [
-      "Яна Вагнер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q18921080"
-    }
-  },
-  {
     "id": "b-OL28603326W",
     "type": "book",
     "title": "Живые люди",
@@ -29207,24 +30800,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "openLibrary": "OL28603326W"
-    }
-  },
-  {
-    "id": "b-wd1886814",
-    "type": "book",
-    "title": "Дневник памяти",
-    "originalTitle": "The Notebook",
-    "year": 1996,
-    "creators": [
-      "Николас Спаркс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1886814"
     }
   },
   {
@@ -29302,25 +30877,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd836841",
-    "type": "book",
-    "title": "Игра в бисер",
-    "originalTitle": "The Glass Bead Game",
-    "year": 1943,
-    "creators": [
-      "Герман Гессе"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q836841",
-      "openLibrary": "OL872781W"
-    }
-  },
-  {
     "id": "b-wd4112511",
     "type": "book",
     "title": "Витя Малеев в школе и дома",
@@ -29390,62 +30946,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q2631206"
-    }
-  },
-  {
-    "id": "b-wd208622",
-    "type": "book",
-    "title": "Похождения бравого солдата Швейка",
-    "originalTitle": "The Good Soldier Švejk",
-    "year": 1921,
-    "creators": [
-      "Ярослав Гашек"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q208622",
-      "openLibrary": "OL835204W"
-    }
-  },
-  {
-    "id": "b-wd5381437",
-    "type": "book",
-    "title": "Зависть",
-    "originalTitle": "Envy",
-    "year": 1927,
-    "creators": [
-      "Юрий Карлович Олеша"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q5381437"
-    }
-  },
-  {
-    "id": "b-wd151883",
-    "type": "book",
-    "title": "Страдания юного Вертера",
-    "originalTitle": "The Sorrows of Young Werther",
-    "year": 1774,
-    "creators": [
-      "Иоганн Вольфганг фон Гёте"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q151883",
-      "openLibrary": "OL52556W"
     }
   },
   {
@@ -29538,25 +31038,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q3549564"
-    }
-  },
-  {
-    "id": "b-wd483034",
-    "type": "book",
-    "title": "Жизнь и удивительные приключения Робинзона Крузо",
-    "originalTitle": "Robinson Crusoe",
-    "year": 1719,
-    "creators": [
-      "Даниель Дефо"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q483034",
-      "openLibrary": "OL411904W"
     }
   },
   {
@@ -29959,25 +31440,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd829934",
-    "type": "book",
-    "title": "Остаток дня",
-    "originalTitle": "The Remains of the Day",
-    "year": 1989,
-    "creators": [
-      "Кадзуо Исигуро"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q829934",
-      "openLibrary": "OL59048W"
-    }
-  },
-  {
     "id": "b-wd4390421",
     "type": "book",
     "title": "Рассказы о Родине",
@@ -30161,25 +31623,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3819311",
-    "type": "book",
-    "title": "Призрак дома на холме",
-    "originalTitle": "The Haunting of Hill House",
-    "year": 1959,
-    "creators": [
-      "Шерли Джексон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3819311",
-      "openLibrary": "OL4614184W"
-    }
-  },
-  {
     "id": "b-wd7771985",
     "type": "book",
     "title": "Упырь",
@@ -30308,60 +31751,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2655348",
-    "type": "book",
-    "title": "Судьба человека",
-    "originalTitle": "Fate of a Man",
-    "year": 1956,
-    "creators": [
-      "Михаил Александрович Шолохов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2655348"
-    }
-  },
-  {
-    "id": "b-wd4146406",
-    "type": "book",
-    "title": "Господин из Сан-Франциско",
-    "originalTitle": "The Gentleman from San Francisco",
-    "year": 1915,
-    "creators": [
-      "Иван Алексеевич Бунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q4146406"
-    }
-  },
-  {
-    "id": "b-wd402673",
-    "type": "book",
-    "title": "Шинель",
-    "originalTitle": "The Overcoat",
-    "year": 1842,
-    "creators": [
-      "Николай Васильевич Гоголь"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q402673"
-    }
-  },
-  {
     "id": "b-wd81689",
     "type": "book",
     "title": "Код да Винчи",
@@ -30416,25 +31805,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q80817",
       "openLibrary": "OL82548W"
-    }
-  },
-  {
-    "id": "b-wd43361",
-    "type": "book",
-    "title": "Гарри Поттер и философский камень",
-    "originalTitle": "Harry Potter and the Philosopher's Stone",
-    "year": 1997,
-    "creators": [
-      "Джоан Роулинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q43361",
-      "openLibrary": "OL82563W"
     }
   },
   {
@@ -30528,25 +31898,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2759196",
       "openLibrary": "OL14990655W"
-    }
-  },
-  {
-    "id": "b-wd814765",
-    "type": "book",
-    "title": "Ангел для сестры",
-    "originalTitle": "My Sister's Keeper",
-    "year": 2004,
-    "creators": [
-      "Джоди Пиколт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q814765",
-      "openLibrary": "OL891923W"
     }
   },
   {
@@ -30679,25 +32030,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd105473555",
-    "type": "book",
-    "title": "Билли Саммерс",
-    "originalTitle": "Billy Summers",
-    "year": 2021,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q105473555",
-      "openLibrary": "OL24229351W"
-    }
-  },
-  {
     "id": "b-wd114498084",
     "type": "book",
     "title": "Золото бунта",
@@ -30827,25 +32159,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd104881034",
-    "type": "book",
-    "title": "Клуб убийств по четвергам",
-    "originalTitle": "The Thursday Murder Club",
-    "year": 2020,
-    "creators": [
-      "Ричард Осман"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q104881034",
-      "openLibrary": "OL20878311W"
-    }
-  },
-  {
     "id": "b-wd25207192",
     "type": "book",
     "title": "Номер 11",
@@ -30880,43 +32193,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q133828648"
-    }
-  },
-  {
-    "id": "b-wd41567",
-    "type": "book",
-    "title": "Гамлет",
-    "originalTitle": "Hamlet",
-    "year": 1602,
-    "creators": [
-      "Уильям Шекспир"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q41567",
-      "openLibrary": "OL9170454W"
-    }
-  },
-  {
-    "id": "b-wd30917136",
-    "type": "book",
-    "title": "В открытое небо",
-    "originalTitle": "The Prince of the Skies",
-    "year": 2017,
-    "creators": [
-      "Антонио Итурбе"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q30917136"
     }
   },
   {
@@ -31197,25 +32473,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd65063529",
-    "type": "book",
-    "title": "Там, где раки поют",
-    "originalTitle": "Where the Crawdads Sing",
-    "year": 2018,
-    "creators": [
-      "Делия Оуэнс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q65063529",
-      "openLibrary": "OL18766691W"
-    }
-  },
-  {
     "id": "b-wd4363805",
     "type": "book",
     "title": "Письмовник",
@@ -31344,25 +32601,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd192649",
-    "type": "book",
-    "title": "Красное и чёрное",
-    "originalTitle": "The Red and the Black",
-    "year": 1830,
-    "creators": [
-      "Стендаль"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q192649",
-      "openLibrary": "OL733370W"
-    }
-  },
-  {
     "id": "b-wd16979586",
     "type": "book",
     "title": "Сила привычки. Почему мы живем и работаем именно так, а не иначе",
@@ -31379,25 +32617,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q16979586",
       "openLibrary": "OL16015154W"
-    }
-  },
-  {
-    "id": "b-wd849701",
-    "type": "book",
-    "title": "К востоку от рая",
-    "originalTitle": "East of Eden",
-    "year": 1952,
-    "creators": [
-      "Джон Стейнбек"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q849701",
-      "openLibrary": "OL23166W"
     }
   },
   {
@@ -31475,25 +32694,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd364565",
-    "type": "book",
-    "title": "Стена",
-    "originalTitle": "The Wall",
-    "year": 1963,
-    "creators": [
-      "Марлен Хаусхофер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q364565",
-      "openLibrary": "OL2756289W"
-    }
-  },
-  {
     "id": "b-wd107140953",
     "type": "book",
     "title": "Неловкий вечер",
@@ -31548,25 +32748,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1052268",
       "openLibrary": "OL20781257W"
-    }
-  },
-  {
-    "id": "b-wd65926496",
-    "type": "book",
-    "title": "Институт",
-    "originalTitle": "The Institute",
-    "year": 2019,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q65926496",
-      "openLibrary": "OL20129841W"
     }
   },
   {
@@ -31737,25 +32918,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q3273493"
-    }
-  },
-  {
-    "id": "b-wd951587",
-    "type": "book",
-    "title": "Не отпускай меня",
-    "originalTitle": "Never Let Me Go",
-    "year": 2005,
-    "creators": [
-      "Кадзуо Исигуро"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q951587",
-      "openLibrary": "OL59038W"
     }
   },
   {
@@ -31946,25 +33108,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd751348",
-    "type": "book",
-    "title": "Норвежский лес",
-    "originalTitle": "Norwegian Wood",
-    "year": 1987,
-    "creators": [
-      "Харуки Мураками"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q751348",
-      "openLibrary": "OL2625517W"
-    }
-  },
-  {
     "id": "b-wd914181",
     "type": "book",
     "title": "Письма в Древний Китай",
@@ -32072,42 +33215,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q26195918",
       "openLibrary": "OL34705932W"
-    }
-  },
-  {
-    "id": "b-wd2311434",
-    "type": "book",
-    "title": "Капитан Алатристе",
-    "originalTitle": "The Captain Alatriste",
-    "year": 1996,
-    "creators": [
-      "Артуро Перес-Реверте"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2311434"
-    }
-  },
-  {
-    "id": "b-wd3823252",
-    "type": "book",
-    "title": "Смерть сердца",
-    "originalTitle": "The Death of the Heart",
-    "year": 1938,
-    "creators": [
-      "Элизабет Боуэн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3823252"
     }
   },
   {
@@ -32240,23 +33347,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd124988940",
-    "type": "book",
-    "title": "Комьюнити",
-    "year": 2012,
-    "creators": [
-      "Алексей Викторович Иванов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q124988940"
-    }
-  },
-  {
     "id": "b-wd2107910",
     "type": "book",
     "title": "Цена нелюбви",
@@ -32290,24 +33380,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q60851953"
-    }
-  },
-  {
-    "id": "b-wd12404113",
-    "type": "book",
-    "title": "Волоколамское шоссе",
-    "originalTitle": "Volokolamsk Highway",
-    "year": 1945,
-    "creators": [
-      "Александр Альфредович Бек"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q12404113"
     }
   },
   {
@@ -32435,24 +33507,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q4272263"
-    }
-  },
-  {
-    "id": "b-wd60851073",
-    "type": "book",
-    "title": "Хлеб по водам",
-    "originalTitle": "Bread Upon the Waters",
-    "year": 1981,
-    "creators": [
-      "Ирвин Шоу"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q60851073"
     }
   },
   {
@@ -32794,24 +33848,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd125372196",
-    "type": "book",
-    "title": "Вафельное сердце",
-    "originalTitle": "Waffle Hearts",
-    "year": 0,
-    "creators": [
-      "Мария Парр"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q125372196"
-    }
-  },
-  {
     "id": "b-wd3024815",
     "type": "book",
     "title": "Медовый траур",
@@ -32904,24 +33940,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd3339145",
-    "type": "book",
-    "title": "Вечерние новости",
-    "originalTitle": "The Evening News",
-    "year": 1990,
-    "creators": [
-      "Артур Хейли"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3339145"
-    }
-  },
-  {
     "id": "b-wd4203837",
     "type": "book",
     "title": "Искатели неба",
@@ -32959,25 +33977,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd42530022",
-    "type": "book",
-    "title": "Зачем мы спим",
-    "originalTitle": "Why We Sleep",
-    "year": 0,
-    "creators": [
-      "Мэттью Уолкер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q42530022",
-      "openLibrary": "OL20168133W"
-    }
-  },
-  {
     "id": "b-wd4447766",
     "type": "book",
     "title": "Счастливая",
@@ -33012,25 +34011,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q21008482"
-    }
-  },
-  {
-    "id": "b-wd10909686",
-    "type": "book",
-    "title": "Токийский Зодиак",
-    "originalTitle": "The Tokyo Zodiac Murders",
-    "year": 1981,
-    "creators": [
-      "Содзи Симада"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q10909686",
-      "openLibrary": "OL31661285W"
     }
   },
   {
@@ -33146,25 +34126,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd16828766",
-    "type": "book",
-    "title": "Вызовите акушерку",
-    "originalTitle": "Call the Midwife",
-    "year": 2002,
-    "creators": [
-      "Дженифер Уорт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q16828766",
-      "openLibrary": "OL20084438W"
-    }
-  },
-  {
     "id": "b-wd4063612",
     "type": "book",
     "title": "Альтист Данилов",
@@ -33276,25 +34237,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1538984",
-    "type": "book",
-    "title": "Правила виноделов",
-    "originalTitle": "The Cider House Rules",
-    "year": 1985,
-    "creators": [
-      "Джон Уинслоу Ирвинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1538984",
-      "openLibrary": "OL8026340W"
-    }
-  },
-  {
     "id": "b-OL24703693W",
     "type": "book",
     "title": "Не ной",
@@ -33330,25 +34272,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q7768906",
       "openLibrary": "OL15568668W"
-    }
-  },
-  {
-    "id": "b-wd913576",
-    "type": "book",
-    "title": "Безнадёга",
-    "originalTitle": "Desperation",
-    "year": 1996,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q913576",
-      "openLibrary": "OL81611W"
     }
   },
   {
@@ -33388,25 +34311,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q113367324"
-    }
-  },
-  {
-    "id": "b-wd27321",
-    "type": "book",
-    "title": "Один день Ивана Денисовича",
-    "originalTitle": "One Day in the Life of Ivan Denisovich",
-    "year": 1962,
-    "creators": [
-      "Александр Исаевич Солженицын"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q27321",
-      "openLibrary": "OL24305476W"
     }
   },
   {
@@ -33462,42 +34366,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q110235812"
-    }
-  },
-  {
-    "id": "b-wd61114292",
-    "type": "book",
-    "title": "Магия утра",
-    "originalTitle": "The Miracle Morning",
-    "year": 0,
-    "creators": [
-      "Хэл Элрод"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q61114292"
-    }
-  },
-  {
-    "id": "b-wd124668781",
-    "type": "book",
-    "title": "F20",
-    "year": 2016,
-    "creators": [
-      "Анна Козлова"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q124668781",
-      "openLibrary": "OL19727174W"
     }
   },
   {
@@ -33577,25 +34445,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2247404",
-    "type": "book",
-    "title": "Снеговик",
-    "originalTitle": "The Snowman",
-    "year": 2007,
-    "creators": [
-      "Ю Несбё"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2247404",
-      "openLibrary": "OL5939023W"
-    }
-  },
-  {
     "id": "b-wd102076464",
     "type": "book",
     "title": "Лексикон",
@@ -33669,63 +34518,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd11927566",
-    "type": "book",
-    "title": "Я исповедуюсь",
-    "originalTitle": "Confessions",
-    "year": 2011,
-    "creators": [
-      "Жауме Кабре"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q11927566",
-      "openLibrary": "OL16110233W"
-    }
-  },
-  {
-    "id": "b-wd19843206",
-    "type": "book",
-    "title": "Девушка в поезде",
-    "originalTitle": "The Girl on the Train",
-    "year": 2015,
-    "creators": [
-      "Пола Хокинс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q19843206",
-      "openLibrary": "OL17112428W"
-    }
-  },
-  {
-    "id": "b-wd5223358",
-    "type": "book",
-    "title": "Тёмные тайны",
-    "originalTitle": "Dark Places",
-    "year": 2009,
-    "creators": [
-      "Гиллиан Флинн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q5223358",
-      "openLibrary": "OL5842017W"
-    }
-  },
-  {
     "id": "b-wd16837095",
     "type": "book",
     "title": "Стирание",
@@ -33741,25 +34533,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q16837095"
-    }
-  },
-  {
-    "id": "b-wd27957817",
-    "type": "book",
-    "title": "Подземная железная дорога",
-    "originalTitle": "The Underground Railroad",
-    "year": 2016,
-    "creators": [
-      "Колсон Уайтхед"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q27957817",
-      "openLibrary": "OL25034040W"
     }
   },
   {
@@ -33779,102 +34552,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q56277009",
       "openLibrary": "OL19074847W"
-    }
-  },
-  {
-    "id": "b-wd785974",
-    "type": "book",
-    "title": "Музей невинности",
-    "originalTitle": "The Museum of Innocence",
-    "year": 2008,
-    "creators": [
-      "Орхан Памук"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q785974"
-    }
-  },
-  {
-    "id": "b-wd85810391",
-    "type": "book",
-    "title": "Сны поездов",
-    "originalTitle": "Train Dreams",
-    "year": 2011,
-    "creators": [
-      "Денис Джонсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q85810391",
-      "openLibrary": "OL15916948W"
-    }
-  },
-  {
-    "id": "b-wd923551",
-    "type": "book",
-    "title": "Полная иллюминация",
-    "originalTitle": "Everything Is Illuminated",
-    "year": 2002,
-    "creators": [
-      "Джонатан Сафран Фоер",
-      "Ганс Нильссон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q923551",
-      "openLibrary": "OL5738260W"
-    }
-  },
-  {
-    "id": "b-wd136100420",
-    "type": "book",
-    "title": "Колдун Российской империи",
-    "originalTitle": "The Sorcerer of the Russian Empire",
-    "year": 0,
-    "creators": [
-      "Виктор Дашкевич"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q136100420"
-    }
-  },
-  {
-    "id": "b-wd126390804",
-    "type": "book",
-    "title": "Рассвет жатвы",
-    "originalTitle": "Sunrise on the Reaping",
-    "year": 2025,
-    "creators": [
-      "Сьюзен Коллинз"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/14847912-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q126390804",
-      "openLibrary": "OL42360848W"
     }
   },
   {
@@ -34028,24 +34705,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd5581570",
-    "type": "book",
-    "title": "Исчезнувшая",
-    "originalTitle": "Gone Girl",
-    "year": 2012,
-    "creators": [
-      "Гиллиан Флинн"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q5581570"
-    }
-  },
-  {
     "id": "b-wd16927702",
     "type": "book",
     "title": "Не бойся действовать",
@@ -34139,23 +34798,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd18003129",
-    "type": "book",
-    "title": "Герман",
-    "year": 1988,
-    "creators": [
-      "Ларс Соби Кристенсен"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q18003129"
-    }
-  },
-  {
     "id": "b-wd1211138",
     "type": "book",
     "title": "Глаза тьмы",
@@ -34172,25 +34814,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1211138",
       "openLibrary": "OL497178W"
-    }
-  },
-  {
-    "id": "b-wd1648409",
-    "type": "book",
-    "title": "Манхэттен",
-    "originalTitle": "Manhattan Transfer",
-    "year": 1925,
-    "creators": [
-      "Джон Дос Пассос"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1648409",
-      "openLibrary": "OL1217994W"
     }
   },
   {
@@ -34269,25 +34892,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd99769227",
-    "type": "book",
-    "title": "Тёмные аллеи",
-    "originalTitle": "Dark Avenues",
-    "year": 1977,
-    "creators": [
-      "Иван Алексеевич Бунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q99769227",
-      "openLibrary": "OL603283W"
-    }
-  },
-  {
     "id": "b-wd1171231",
     "type": "book",
     "title": "Золотой телёнок",
@@ -34304,60 +34908,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1171231",
       "openLibrary": "OL2196440W"
-    }
-  },
-  {
-    "id": "b-wd1198166",
-    "type": "book",
-    "title": "Волшебник Изумрудного города",
-    "originalTitle": "The Wizard of the Emerald City",
-    "year": 1939,
-    "creators": [
-      "Александр Мелентьевич Волков"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1198166"
-    }
-  },
-  {
-    "id": "b-wd464921",
-    "type": "book",
-    "title": "Триумфальная арка",
-    "originalTitle": "Arch of Triumph",
-    "year": 1945,
-    "creators": [
-      "Эрих Мария Ремарк"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q464921"
-    }
-  },
-  {
-    "id": "b-wd2511839",
-    "type": "book",
-    "title": "Сын солдата",
-    "originalTitle": "Soldier Son Trilogy",
-    "year": 0,
-    "creators": [
-      "Робин Хобб"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2511839"
     }
   },
   {
@@ -34396,25 +34946,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q21160951",
       "openLibrary": "OL16607146W"
-    }
-  },
-  {
-    "id": "b-wd311449",
-    "type": "book",
-    "title": "Чтец",
-    "originalTitle": "The Reader",
-    "year": 1995,
-    "creators": [
-      "Бернхард Шлинк"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q311449",
-      "openLibrary": "OL14871157W"
     }
   },
   {
@@ -35035,27 +35566,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd7797601",
-    "type": "book",
-    "title": "Три любви (роман)",
-    "originalTitle": "Three Loves",
-    "year": 1932,
-    "creators": [
-      "Арчибалд Кронин"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/13859865-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q7797601",
-      "openLibrary": "OL4189785W"
-    }
-  },
-  {
     "id": "b-wd2446697",
     "type": "book",
     "title": "Пока я жива",
@@ -35110,25 +35620,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q55663170",
       "openLibrary": "OL16049831W"
-    }
-  },
-  {
-    "id": "b-wd3792783",
-    "type": "book",
-    "title": "Книга потерянных вещей",
-    "originalTitle": "The Book of Lost Things",
-    "year": 2006,
-    "creators": [
-      "Джон Коннолли"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q3792783",
-      "openLibrary": "OL15682790W"
     }
   },
   {
@@ -35393,25 +35884,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1212765",
-    "type": "book",
-    "title": "Святилище",
-    "originalTitle": "Sanctuary",
-    "year": 1931,
-    "creators": [
-      "Уильям Фолкнер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1212765",
-      "openLibrary": "OL82925W"
-    }
-  },
-  {
     "id": "b-wd2447088",
     "type": "book",
     "title": "Призраки",
@@ -35501,63 +35973,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1792726",
       "openLibrary": "OL20341137W"
-    }
-  },
-  {
-    "id": "b-wd7723889",
-    "type": "book",
-    "title": "Хорошо быть тихоней",
-    "originalTitle": "The Perks of Being a Wallflower",
-    "year": 1999,
-    "creators": [
-      "Стивен Чбоски"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q7723889",
-      "openLibrary": "OL875437W"
-    }
-  },
-  {
-    "id": "b-wd112072533",
-    "type": "book",
-    "title": "Сказка",
-    "originalTitle": "Fairy Tale",
-    "year": 2022,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q112072533",
-      "openLibrary": "OL27589863W"
-    }
-  },
-  {
-    "id": "b-wd180736",
-    "type": "book",
-    "title": "Отверженные",
-    "originalTitle": "Les Misérables",
-    "year": 1862,
-    "creators": [
-      "Виктор Гюго"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q180736",
-      "openLibrary": "OL1063588W"
     }
   },
   {
@@ -35897,44 +36312,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2756027",
-    "type": "book",
-    "title": "Тонкая работа",
-    "originalTitle": "Fingersmith",
-    "year": 2002,
-    "creators": [
-      "Сара Уотерс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2756027",
-      "openLibrary": "OL35581651W"
-    }
-  },
-  {
-    "id": "b-wd743180",
-    "type": "book",
-    "title": "В дороге",
-    "originalTitle": "On the Road",
-    "year": 1957,
-    "creators": [
-      "Джек Керуак"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q743180",
-      "openLibrary": "OL65941W"
-    }
-  },
-  {
     "id": "b-wd85806847",
     "type": "book",
     "title": "Копенгагенская трилогия",
@@ -36041,25 +36418,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q3643591"
-    }
-  },
-  {
-    "id": "b-wd274744",
-    "type": "book",
-    "title": "Чувство и чувствительность",
-    "originalTitle": "Sense and Sensibility",
-    "year": 1811,
-    "creators": [
-      "Джейн Остин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q274744",
-      "openLibrary": "OL66512W"
     }
   },
   {
@@ -36400,25 +36758,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1886719",
-    "type": "book",
-    "title": "Турецкий гамбит",
-    "originalTitle": "The Turkish Gambit",
-    "year": 1998,
-    "creators": [
-      "Борис Акунин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1886719",
-      "openLibrary": "OL8423433W"
-    }
-  },
-  {
     "id": "b-wd135165",
     "type": "book",
     "title": "Умирающий свет",
@@ -36491,44 +36830,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4738955",
       "openLibrary": "OL9079417W"
-    }
-  },
-  {
-    "id": "b-wd1219874",
-    "type": "book",
-    "title": "Белая гвардия",
-    "originalTitle": "The White Guard",
-    "year": 1925,
-    "creators": [
-      "Михаил Афанасьевич Булгаков"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1219874",
-      "openLibrary": "OL260421W"
-    }
-  },
-  {
-    "id": "b-wd45192",
-    "type": "book",
-    "title": "Собака Баскервилей",
-    "originalTitle": "The Hound of the Baskervilles",
-    "year": 1902,
-    "creators": [
-      "Артур Конан Дойл"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q45192",
-      "openLibrary": "OL262454W"
     }
   },
   {
@@ -36642,25 +36943,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1629456",
-    "type": "book",
-    "title": "Орландо",
-    "originalTitle": "Orlando: A Biography",
-    "year": 1928,
-    "creators": [
-      "Вирджиния Вулф"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1629456",
-      "openLibrary": "OL39360W"
-    }
-  },
-  {
     "id": "b-wd7765253",
     "type": "book",
     "title": "Песня жаворонка",
@@ -36715,25 +36997,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2109932",
       "openLibrary": "OL77829W"
-    }
-  },
-  {
-    "id": "b-wd1148938",
-    "type": "book",
-    "title": "Мартовские иды",
-    "originalTitle": "The Ides of March",
-    "year": 1948,
-    "creators": [
-      "Торнтон Уайлдер"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1148938",
-      "openLibrary": "OL482892W"
     }
   },
   {
@@ -37385,43 +37648,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2463643",
-    "type": "book",
-    "title": "Дорога шамана",
-    "originalTitle": "Shaman's Crossing",
-    "year": 2005,
-    "creators": [
-      "Робин Хобб"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2463643"
-    }
-  },
-  {
-    "id": "b-wd892456",
-    "type": "book",
-    "title": "Прах Анджелы",
-    "originalTitle": "Angela's Ashes",
-    "year": 1996,
-    "creators": [
-      "Фрэнк Маккорт"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q892456",
-      "openLibrary": "OL27634W"
-    }
-  },
-  {
     "id": "b-wd7738761",
     "type": "book",
     "title": "Дочь палача",
@@ -37648,25 +37874,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1102212",
-    "type": "book",
-    "title": "Дневник мага",
-    "originalTitle": "The Pilgrimage",
-    "year": 1987,
-    "creators": [
-      "Пауло Коэльо"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1102212",
-      "openLibrary": "OL796580W"
-    }
-  },
-  {
     "id": "b-wd3822825",
     "type": "book",
     "title": "Книжная лавка",
@@ -37762,24 +37969,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd898795",
-    "type": "book",
-    "title": "Дама с камелиями",
-    "originalTitle": "The Lady of the Camellias",
-    "year": 1848,
-    "creators": [
-      "Александр Дюма-сын"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q898795"
-    }
-  },
-  {
     "id": "b-wd61064573",
     "type": "book",
     "title": "Ученица",
@@ -37796,25 +37985,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q61064573",
       "openLibrary": "OL18139176W"
-    }
-  },
-  {
-    "id": "b-wd223131",
-    "type": "book",
-    "title": "Этюд в багровых тонах",
-    "originalTitle": "A Study in Scarlet",
-    "year": 1887,
-    "creators": [
-      "Артур Конан Дойл"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q223131",
-      "openLibrary": "OL262496W"
     }
   },
   {
@@ -38134,25 +38304,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2020094",
-    "type": "book",
-    "title": "Королева Марго",
-    "originalTitle": "La Reine Margot",
-    "year": 1845,
-    "creators": [
-      "Александр Дюма"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2020094",
-      "openLibrary": "OL36839W"
-    }
-  },
-  {
     "id": "b-wd17006023",
     "type": "book",
     "title": "Рапунцель",
@@ -38342,25 +38493,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd28841909",
-    "type": "book",
-    "title": "Линкольн в бардо",
-    "originalTitle": "Lincoln in the Bardo",
-    "year": 2017,
-    "creators": [
-      "Джордж Сондерс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q28841909",
-      "openLibrary": "OL17635834W"
-    }
-  },
-  {
     "id": "b-wd3222372",
     "type": "book",
     "title": "Хорошие жёны",
@@ -38528,25 +38660,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1168105",
-    "type": "book",
-    "title": "Тайна Эдвина Друда",
-    "originalTitle": "The Mystery of Edwin Drood",
-    "year": 1870,
-    "creators": [
-      "Чарльз Диккенс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1168105",
-      "openLibrary": "OL8763148W"
-    }
-  },
-  {
     "id": "b-wd278208",
     "type": "book",
     "title": "Уловка-22",
@@ -38618,25 +38731,6 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q98924016"
-    }
-  },
-  {
-    "id": "b-wd1214091",
-    "type": "book",
-    "title": "Крейцерова соната",
-    "originalTitle": "The Kreutzer Sonata",
-    "year": 1889,
-    "creators": [
-      "Лев Николаевич Толстой"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1214091",
-      "openLibrary": "OL15698345W"
     }
   },
   {
@@ -38866,24 +38960,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd133853228",
-    "type": "book",
-    "title": "На бензоколонке только девушки",
-    "originalTitle": "The All-Girl Filling Station's Last Reunion",
-    "year": 0,
-    "creators": [
-      "Фэнни Флэгг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q133853228"
-    }
-  },
-  {
     "id": "b-wd1211868",
     "type": "book",
     "title": "Хирург",
@@ -39107,43 +39183,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd217352",
-    "type": "book",
-    "title": "Странная история доктора Джекила и мистера Хайда",
-    "originalTitle": "Strange Case of Dr Jekyll and Mr Hyde",
-    "year": 1886,
-    "creators": [
-      "Роберт Льюис Стивенсон"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q217352",
-      "openLibrary": "OL24160W"
-    }
-  },
-  {
-    "id": "b-wd2855327",
-    "type": "book",
-    "title": "Смерть по объявлению",
-    "originalTitle": "Murder Must Advertise",
-    "year": 1933,
-    "creators": [
-      "Дороти Ли Сэйерс"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2855327"
-    }
-  },
-  {
     "id": "b-wd27536725",
     "type": "book",
     "title": "Элегия Хиллбилли",
@@ -39178,44 +39217,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q251076",
       "openLibrary": "OL471832W"
-    }
-  },
-  {
-    "id": "b-wd835739",
-    "type": "book",
-    "title": "Куджо",
-    "originalTitle": "Cujo",
-    "year": 1981,
-    "creators": [
-      "Стивен Кинг"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q835739",
-      "openLibrary": "OL81610W"
-    }
-  },
-  {
-    "id": "b-wd477823",
-    "type": "book",
-    "title": "Три сестры",
-    "originalTitle": "Three Sisters",
-    "year": 1901,
-    "creators": [
-      "Антон Павлович Чехов"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q477823",
-      "openLibrary": "OL55532W"
     }
   },
   {
@@ -39308,6 +39309,1379 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1410482",
       "openLibrary": "OL59728W"
+    }
+  },
+  {
+    "id": "b-wd140044409",
+    "type": "book",
+    "title": "Феномен исчезновения",
+    "originalTitle": "Disappearing Act",
+    "year": 1953,
+    "creators": [
+      "Альфред Бестер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140044409"
+    }
+  },
+  {
+    "id": "b-wd17177516",
+    "type": "book",
+    "title": "Авгиевы конюшни",
+    "originalTitle": "The Augean Stables",
+    "year": 1940,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17177516"
+    }
+  },
+  {
+    "id": "b-wd17633160",
+    "type": "book",
+    "title": "Стимфалийские птицы",
+    "originalTitle": "The Stymphalean Birds",
+    "year": 1939,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17633160"
+    }
+  },
+  {
+    "id": "b-wd1303491",
+    "type": "book",
+    "title": "Убийственный Фаренгейт",
+    "originalTitle": "Fondly Fahrenheit",
+    "year": 1954,
+    "creators": [
+      "Альфред Бестер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1303491"
+    }
+  },
+  {
+    "id": "b-wd3824663",
+    "type": "book",
+    "title": "Фер-де-Ланс",
+    "originalTitle": "Fer-de-Lance",
+    "year": 1934,
+    "creators": [
+      "Рекс Стаут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/5350362-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3824663",
+      "openLibrary": "OL137445W"
+    }
+  },
+  {
+    "id": "b-wd3822742",
+    "type": "book",
+    "title": "Лига перепуганных мужчин",
+    "originalTitle": "The League of Frightened Men",
+    "year": 1935,
+    "creators": [
+      "Рекс Стаут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/463173-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3822742",
+      "openLibrary": "OL137513W"
+    }
+  },
+  {
+    "id": "b-wd3772163",
+    "type": "book",
+    "title": "Цивилизация статуса",
+    "originalTitle": "The Status Civilization",
+    "year": 1960,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/5201240-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3772163",
+      "openLibrary": "OL1932396W"
+    }
+  },
+  {
+    "id": "b-wd3999752",
+    "type": "book",
+    "title": "Слишком много клиентов",
+    "originalTitle": "Too Many Clients",
+    "year": 1960,
+    "creators": [
+      "Рекс Стаут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/463219-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3999752",
+      "openLibrary": "OL137480W"
+    }
+  },
+  {
+    "id": "b-wd15091019",
+    "type": "book",
+    "title": "Оживший покойник",
+    "originalTitle": "Man Alive",
+    "year": 1947,
+    "creators": [
+      "Рекс Стаут"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15091019"
+    }
+  },
+  {
+    "id": "b-wd1120699",
+    "type": "book",
+    "title": "Координаты чудес",
+    "originalTitle": "Dimension of Miracles",
+    "year": 1968,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10129648-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1120699",
+      "openLibrary": "OL20869505W"
+    }
+  },
+  {
+    "id": "b-wd6875402",
+    "type": "book",
+    "title": "Неудачник",
+    "originalTitle": "Misfit",
+    "year": 1939,
+    "creators": [
+      "Роберт Хайнлайн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6875402",
+      "openLibrary": "OL24167236W"
+    }
+  },
+  {
+    "id": "b-wd3208772",
+    "type": "book",
+    "title": "Дама под вуалью",
+    "originalTitle": "The Veiled Lady",
+    "year": 1923,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14586374-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3208772",
+      "openLibrary": "OL472373W"
+    }
+  },
+  {
+    "id": "b-wd2872379",
+    "type": "book",
+    "title": "Автора! Автора!",
+    "originalTitle": "Author! Author!",
+    "year": 1964,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11393874-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2872379",
+      "openLibrary": "OL20654651W"
+    }
+  },
+  {
+    "id": "b-wd5018114",
+    "type": "book",
+    "title": "Кэл",
+    "originalTitle": "Cal",
+    "year": 1990,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5018114"
+    }
+  },
+  {
+    "id": "b-wd3202178",
+    "type": "book",
+    "title": "Квартира на четвёртом этаже",
+    "originalTitle": "The Third Floor Flat",
+    "year": 1979,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11153628-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3202178",
+      "openLibrary": "OL472677W"
+    }
+  },
+  {
+    "id": "b-wd16654310",
+    "type": "book",
+    "title": "Сон",
+    "originalTitle": "The Dream",
+    "year": 1938,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10230386-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16654310",
+      "openLibrary": "OL472219W"
+    }
+  },
+  {
+    "id": "b-wd11716256",
+    "type": "book",
+    "title": "Что в садике растёт у Мэри?",
+    "originalTitle": "How Does Your Garden Grow?",
+    "year": 1979,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11716256",
+      "openLibrary": "OL27443224W"
+    }
+  },
+  {
+    "id": "b-wd21190269",
+    "type": "book",
+    "title": "Уродливый мальчуган",
+    "originalTitle": "The Ugly Little Boy",
+    "year": 1958,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10832359-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21190269",
+      "openLibrary": "OL46195W"
+    }
+  },
+  {
+    "id": "b-wd3413928",
+    "type": "book",
+    "title": "Да будет свет!",
+    "originalTitle": "\"Let There Be Light\"",
+    "year": 1940,
+    "creators": [
+      "Роберт Хайнлайн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3413928"
+    }
+  },
+  {
+    "id": "b-wd3223440",
+    "type": "book",
+    "title": "Осиное гнездо",
+    "originalTitle": "Wasps' Nest",
+    "year": 1928,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3223440",
+      "openLibrary": "OL27443232W"
+    }
+  },
+  {
+    "id": "b-wd21116172",
+    "type": "book",
+    "title": "Gorgon Planet",
+    "year": 1954,
+    "creators": [
+      "Роберт Силверберг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21116172"
+    }
+  },
+  {
+    "id": "b-wd133269959",
+    "type": "book",
+    "title": "Большая глубина",
+    "originalTitle": "The Deep Range",
+    "year": 1955,
+    "creators": [
+      "Артур Чарльз Кларк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12134736-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133269959",
+      "openLibrary": "OL14931522W"
+    }
+  },
+  {
+    "id": "b-wd17353190",
+    "type": "book",
+    "title": "Мегрэ и инспектор-недотёпа",
+    "originalTitle": "Maigret and the Surly Inspector",
+    "year": 1947,
+    "creators": [
+      "Жорж Сименон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17353190"
+    }
+  },
+  {
+    "id": "b-wd11088222",
+    "type": "book",
+    "title": "Retreat From Earth",
+    "year": 1938,
+    "creators": [
+      "Артур Чарльз Кларк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11088222"
+    }
+  },
+  {
+    "id": "b-wd3352268",
+    "type": "book",
+    "title": "Бедняков не убивают",
+    "originalTitle": "Death of a Nobody",
+    "year": 1947,
+    "creators": [
+      "Жорж Сименон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3352268"
+    }
+  },
+  {
+    "id": "b-wd654817",
+    "type": "book",
+    "title": "Улица Пигаль",
+    "originalTitle": "Maigret in Rue Pigalle",
+    "year": 1936,
+    "creators": [
+      "Жорж Сименон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q654817"
+    }
+  },
+  {
+    "id": "b-wd16651073",
+    "type": "book",
+    "title": "Плимутский экспресс",
+    "originalTitle": "The Plymouth Express",
+    "year": 1979,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11153507-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16651073",
+      "openLibrary": "OL24522866W"
+    }
+  },
+  {
+    "id": "b-wd17174468",
+    "type": "book",
+    "title": "Исчезновение Клэпемской кухарки",
+    "originalTitle": "The Adventure of the Clapham Cook",
+    "year": 1923,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17174468",
+      "openLibrary": "OL27443212W"
+    }
+  },
+  {
+    "id": "b-wd17175596",
+    "type": "book",
+    "title": "Пленение Цербера",
+    "originalTitle": "The Capture of Cerberus",
+    "year": 1947,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13885159-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17175596",
+      "openLibrary": "OL15331473W"
+    }
+  },
+  {
+    "id": "b-wd266867",
+    "type": "book",
+    "title": "The Little Black Bag",
+    "year": 1950,
+    "creators": [
+      "Сирил Корнблат"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q266867"
+    }
+  },
+  {
+    "id": "b-wd4000825",
+    "type": "book",
+    "title": "Все грехи мира",
+    "originalTitle": "All the Troubles of the World",
+    "year": 1958,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10618283-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4000825",
+      "openLibrary": "OL14958914W"
+    }
+  },
+  {
+    "id": "b-wd19973866",
+    "type": "book",
+    "title": "Звуки",
+    "originalTitle": "Noise",
+    "year": 1952,
+    "creators": [
+      "Джек Вэнс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19973866"
+    }
+  },
+  {
+    "id": "b-wd467818",
+    "type": "book",
+    "title": "Риск",
+    "originalTitle": "Risk",
+    "year": 1955,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13145590-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q467818",
+      "openLibrary": "OL8348562W"
+    }
+  },
+  {
+    "id": "b-wd2886142",
+    "type": "book",
+    "title": "Night Call, Collect",
+    "year": 1949,
+    "creators": [
+      "Рэй Брэдбери"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2886142",
+      "openLibrary": "OL103143W"
+    }
+  },
+  {
+    "id": "b-wd17632154",
+    "type": "book",
+    "title": "The Love Detectives",
+    "year": 2001,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/683168-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17632154",
+      "openLibrary": "OL471962W"
+    }
+  },
+  {
+    "id": "b-wd113480576",
+    "type": "book",
+    "title": "Come into My Cellar",
+    "year": 1962,
+    "creators": [
+      "Рэй Брэдбери"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113480576"
+    }
+  },
+  {
+    "id": "b-wd17353986",
+    "type": "book",
+    "title": "Have You Got Everything You Want?",
+    "year": 1967,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17353986",
+      "openLibrary": "OL27443334W"
+    }
+  },
+  {
+    "id": "b-wd17036573",
+    "type": "book",
+    "title": "Что, если...",
+    "originalTitle": "What If—",
+    "year": 1952,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17036573"
+    }
+  },
+  {
+    "id": "b-wd7316920",
+    "type": "book",
+    "title": "Retreat Syndrome",
+    "year": 1965,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7316920"
+    }
+  },
+  {
+    "id": "b-wd140052982",
+    "type": "book",
+    "title": "Thunder and Roses",
+    "year": 1957,
+    "creators": [
+      "Теодор Старджон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/777404-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140052982",
+      "openLibrary": "OL10587267W"
+    }
+  },
+  {
+    "id": "b-wd140050824",
+    "type": "book",
+    "title": "Искусники планеты Ксанаду",
+    "originalTitle": "The Skills of Xanadu",
+    "year": 1956,
+    "creators": [
+      "Теодор Старджон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140050824"
+    }
+  },
+  {
+    "id": "b-wd4659345",
+    "type": "book",
+    "title": "Летающая тарелка одиночества",
+    "originalTitle": "A Saucer of Loneliness",
+    "year": 1953,
+    "creators": [
+      "Теодор Старджон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/777506-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4659345",
+      "openLibrary": "OL14868300W"
+    }
+  },
+  {
+    "id": "b-wd716005",
+    "type": "book",
+    "title": "Будете довольны",
+    "originalTitle": "Satisfaction Guaranteed",
+    "year": 1951,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13145590-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q716005",
+      "openLibrary": "OL8348562W"
+    }
+  },
+  {
+    "id": "b-wd831556",
+    "type": "book",
+    "title": "Зеркальное отражение",
+    "originalTitle": "Mirror Image",
+    "year": 1972,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7024705-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q831556",
+      "openLibrary": "OL16492161W"
+    }
+  },
+  {
+    "id": "b-wd3823792",
+    "type": "book",
+    "title": "The Girl in the Train",
+    "year": 1924,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3823792",
+      "openLibrary": "OL27443340W"
+    }
+  },
+  {
+    "id": "b-wd17636625",
+    "type": "book",
+    "title": "Коттедж «Филомела»",
+    "originalTitle": "Philomel Cottage",
+    "year": 1924,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13222165-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17636625",
+      "openLibrary": "OL472169W"
+    }
+  },
+  {
+    "id": "b-wd16654047",
+    "type": "book",
+    "title": "Тайна испанского сундука",
+    "originalTitle": "The Mystery of the Spanish Chest",
+    "year": 1969,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12105119-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16654047",
+      "openLibrary": "OL26147873W"
+    }
+  },
+  {
+    "id": "b-wd17640266",
+    "type": "book",
+    "title": "The Sign in the Sky",
+    "year": 1969,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17640266",
+      "openLibrary": "OL27443322W"
+    }
+  },
+  {
+    "id": "b-wd3204335",
+    "type": "book",
+    "title": "Невероятная кража",
+    "originalTitle": "The Incredible Theft",
+    "year": 1961,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13672954-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3204335",
+      "openLibrary": "OL472574W"
+    }
+  },
+  {
+    "id": "b-wd19678877",
+    "type": "book",
+    "title": "The Cosmic Poachers",
+    "year": 1953,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19678877"
+    }
+  },
+  {
+    "id": "b-wd30766225",
+    "type": "book",
+    "title": "Potential",
+    "year": 0,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30766225"
+    }
+  },
+  {
+    "id": "b-wd7741978",
+    "type": "book",
+    "title": "Бесконечность",
+    "originalTitle": "The Infinites",
+    "year": 1953,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7741978"
+    }
+  },
+  {
+    "id": "b-wd3793263",
+    "type": "book",
+    "title": "Swan Song",
+    "year": 1934,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3793263",
+      "openLibrary": "OL27443343W"
+    }
+  },
+  {
+    "id": "b-wd30766217",
+    "type": "book",
+    "title": "Дипломатическая неприкосновенность",
+    "originalTitle": "Diplomatic Immunity",
+    "year": 2021,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30766217",
+      "openLibrary": "OL35753070W"
+    }
+  },
+  {
+    "id": "b-wd831807",
+    "type": "book",
+    "title": "Заминка на праздновании Трехсотлетия",
+    "originalTitle": "The Tercentenary Incident",
+    "year": 1976,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q831807"
+    }
+  },
+  {
+    "id": "b-wd1249132",
+    "type": "book",
+    "title": "Неумолимое уравнение",
+    "originalTitle": "The Cold Equations",
+    "year": 1954,
+    "creators": [
+      "Том Годуин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/479162-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1249132",
+      "openLibrary": "OL5960920W"
+    }
+  },
+  {
+    "id": "b-wd7757806",
+    "type": "book",
+    "title": "Портативная звезда",
+    "originalTitle": "The Portable Star",
+    "year": 0,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7757806"
+    }
+  },
+  {
+    "id": "b-wd17632757",
+    "type": "book",
+    "title": "Причуда Гриншоу",
+    "originalTitle": "Greenshaw's Folly",
+    "year": 1956,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17632757",
+      "openLibrary": "OL27443234W"
+    }
+  },
+  {
+    "id": "b-wd7595719",
+    "type": "book",
+    "title": "Стабильность",
+    "originalTitle": "Stability",
+    "year": 1987,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7595719"
+    }
+  },
+  {
+    "id": "b-wd7747673",
+    "type": "book",
+    "title": "Маленькая революция",
+    "originalTitle": "The Little Movement",
+    "year": 1952,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7747673"
+    }
+  },
+  {
+    "id": "b-wd17054610",
+    "type": "book",
+    "title": "S.O.S.",
+    "year": 1971,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17054610",
+      "openLibrary": "OL27443247W"
+    }
+  },
+  {
+    "id": "b-wd7093251",
+    "type": "book",
+    "title": "Один шаг от Земли",
+    "originalTitle": "One Step from Earth",
+    "year": 1970,
+    "creators": [
+      "Гарри Гаррисон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8211478-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7093251",
+      "openLibrary": "OL467276W"
+    }
+  },
+  {
+    "id": "b-wd16654388",
+    "type": "book",
+    "title": "Неудачник",
+    "originalTitle": "The Under Dog",
+    "year": 1962,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12855106-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16654388",
+      "openLibrary": "OL472135W"
+    }
+  },
+  {
+    "id": "b-wd131472158",
+    "type": "book",
+    "title": "The Quijote Robot",
+    "year": 2001,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131472158"
+    }
+  },
+  {
+    "id": "b-wd50946221",
+    "type": "book",
+    "title": "Paradox Lost",
+    "year": 1943,
+    "creators": [
+      "Фредерик Браун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/4495744-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q50946221",
+      "openLibrary": "OL7480592W"
+    }
+  },
+  {
+    "id": "b-wd17640267",
+    "type": "book",
+    "title": "The Soul of the Croupier",
+    "year": 1969,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17640267",
+      "openLibrary": "OL27443323W"
+    }
+  },
+  {
+    "id": "b-wd17154343",
+    "type": "book",
+    "title": "The Face of Helen",
+    "year": 1969,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17154343"
+    }
+  },
+  {
+    "id": "b-wd17354372",
+    "type": "book",
+    "title": "Рассказ о взволнованной даме",
+    "originalTitle": "The Case of the Distressed Lady",
+    "year": 1967,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17354372",
+      "openLibrary": "OL27443330W"
+    }
+  },
+  {
+    "id": "b-wd7302267",
+    "type": "book",
+    "title": "Recall Mechanism",
+    "year": 1959,
+    "creators": [
+      "Филип Дик"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7302267"
+    }
+  },
+  {
+    "id": "b-wd3823434",
+    "type": "book",
+    "title": "The Golden Ball",
+    "year": 1934,
+    "creators": [
+      "Агата Кристи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3823434",
+      "openLibrary": "OL472513W"
+    }
+  },
+  {
+    "id": "b-wd17021079",
+    "type": "book",
+    "title": "The World Well Lost",
+    "year": 1953,
+    "creators": [
+      "Теодор Старджон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17021079"
+    }
+  },
+  {
+    "id": "b-wd15526685",
+    "type": "book",
+    "title": "Оружие",
+    "originalTitle": "The Weapon",
+    "year": 1981,
+    "creators": [
+      "Айзек Азимов"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15155257-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15526685",
+      "openLibrary": "OL20654648W"
     }
   },
   {
@@ -39879,6 +41253,9838 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1472204",
       "openLibrary": "OL81600W"
+    }
+  },
+  {
+    "id": "b-wd4402130",
+    "type": "book",
+    "title": "Рыцари сорока островов",
+    "originalTitle": "Knights of Forty Islands",
+    "year": 1990,
+    "creators": [
+      "Сергей Васильевич Лукьяненко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4402130",
+      "openLibrary": "OL9973356W"
+    }
+  },
+  {
+    "id": "b-wd29344605",
+    "type": "book",
+    "title": "Крушение империи (роман)",
+    "originalTitle": "The Collapsing Empire",
+    "year": 2017,
+    "creators": [
+      "Джон Скальци"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8443364-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q29344605",
+      "openLibrary": "OL20734480W"
+    }
+  },
+  {
+    "id": "b-wd105722561",
+    "type": "book",
+    "title": "Пустошь, что зовётся миром",
+    "originalTitle": "A Desolation Called Peace",
+    "year": 2021,
+    "creators": [
+      "Аркади Мартин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10718806-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105722561",
+      "openLibrary": "OL20832939W"
+    }
+  },
+  {
+    "id": "b-wd108749605",
+    "type": "book",
+    "title": "Хороших девочек не убивают",
+    "originalTitle": "A Good Girl's Guide to Murder",
+    "year": 2019,
+    "creators": [
+      "Холли Джексон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13156188-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108749605",
+      "openLibrary": "OL20646061W"
+    }
+  },
+  {
+    "id": "b-wd1723053",
+    "type": "book",
+    "title": "Суббота",
+    "originalTitle": "Saturday",
+    "year": 2005,
+    "creators": [
+      "Иэн Макьюэн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11280683-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1723053",
+      "openLibrary": "OL1855945W"
+    }
+  },
+  {
+    "id": "b-wd48963066",
+    "type": "book",
+    "title": "Текст",
+    "originalTitle": "Text",
+    "year": 2017,
+    "creators": [
+      "Дмитрий Алексеевич Глуховский"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14587936-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q48963066",
+      "openLibrary": "OL19718012W"
+    }
+  },
+  {
+    "id": "b-wd115526836",
+    "type": "book",
+    "title": "Demon Copperhead",
+    "year": 2022,
+    "creators": [
+      "Барбара Кингсолвер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13141227-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115526836",
+      "openLibrary": "OL27052926W"
+    }
+  },
+  {
+    "id": "b-wd3521397",
+    "type": "book",
+    "title": "Интегральные деревья",
+    "originalTitle": "The Integral Trees",
+    "year": 1984,
+    "creators": [
+      "Ларри Нивен"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6675722-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3521397",
+      "openLibrary": "OL510446W"
+    }
+  },
+  {
+    "id": "b-wd20856830",
+    "type": "book",
+    "title": "Аврора",
+    "originalTitle": "Aurora",
+    "year": 2015,
+    "creators": [
+      "Ким Стенли Робинсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7425787-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20856830",
+      "openLibrary": "OL17346803W"
+    }
+  },
+  {
+    "id": "b-wd4208462",
+    "type": "book",
+    "title": "Казус Кукоцкого",
+    "originalTitle": "The Kukotsky Enigma",
+    "year": 2000,
+    "creators": [
+      "Улицкая, Людмила Евгеньевна"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14295811-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4208462",
+      "openLibrary": "OL20035186W"
+    }
+  },
+  {
+    "id": "b-wd94292018",
+    "type": "book",
+    "title": "Всё закончится на нас",
+    "originalTitle": "It Ends with Us",
+    "year": 2016,
+    "creators": [
+      "Коллин Хувер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10473609-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q94292018",
+      "openLibrary": "OL18020194W"
+    }
+  },
+  {
+    "id": "b-wd4291690",
+    "type": "book",
+    "title": "Метель",
+    "originalTitle": "The Blizzard",
+    "year": 2010,
+    "creators": [
+      "Владимир Георгиевич Сорокин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10305046-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4291690",
+      "openLibrary": "OL20015503W"
+    }
+  },
+  {
+    "id": "b-wd60969361",
+    "type": "book",
+    "title": "Медвежий угол",
+    "originalTitle": "Beartown",
+    "year": 2016,
+    "creators": [
+      "Фредрик Бакман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11202500-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60969361",
+      "openLibrary": "OL20654696W"
+    }
+  },
+  {
+    "id": "b-wd16271764",
+    "type": "book",
+    "title": "Библиотекарь",
+    "originalTitle": "The Librarian",
+    "year": 2007,
+    "creators": [
+      "Михаил Юрьевич Елизаров"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10600680-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16271764",
+      "openLibrary": "OL20020507W"
+    }
+  },
+  {
+    "id": "b-wd120998494",
+    "type": "book",
+    "title": "Холли",
+    "originalTitle": "Holly",
+    "year": 2023,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14655773-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120998494",
+      "openLibrary": "OL34057778W"
+    }
+  },
+  {
+    "id": "b-wd3205839",
+    "type": "book",
+    "title": "Яйцо дракона",
+    "originalTitle": "Dragon's Egg",
+    "year": 1980,
+    "creators": [
+      "Роберт Л. Форвард"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/209771-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3205839",
+      "openLibrary": "OL84296W"
+    }
+  },
+  {
+    "id": "b-wd17630294",
+    "type": "book",
+    "title": "Здесь обитают призраки",
+    "originalTitle": "This House Is Haunted",
+    "year": 2013,
+    "creators": [
+      "Джон Бойн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10813446-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17630294",
+      "openLibrary": "OL16820698W"
+    }
+  },
+  {
+    "id": "b-wd55392119",
+    "type": "book",
+    "title": "Хижина на краю света",
+    "originalTitle": "The Cabin at the End of the World",
+    "year": 2018,
+    "creators": [
+      "Пол Тремблей"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55392119",
+      "openLibrary": "OL19742707W"
+    }
+  },
+  {
+    "id": "b-wd25218724",
+    "type": "book",
+    "title": "Соловей",
+    "originalTitle": "The Nightingale",
+    "year": 2015,
+    "creators": [
+      "Кристин Ханна"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8314147-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q25218724",
+      "openLibrary": "OL17116910W"
+    }
+  },
+  {
+    "id": "b-wd4025942",
+    "type": "book",
+    "title": "Empire V",
+    "year": 2006,
+    "creators": [
+      "Виктор Пелевин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/5371525-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4025942",
+      "openLibrary": "OL15286571W"
+    }
+  },
+  {
+    "id": "b-wd4334882",
+    "type": "book",
+    "title": "Они сражались за Родину",
+    "originalTitle": "They Fought for their Country",
+    "year": 1959,
+    "creators": [
+      "Михаил Александрович Шолохов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4334882",
+      "openLibrary": "OL326243W"
+    }
+  },
+  {
+    "id": "b-wd124435017",
+    "type": "book",
+    "title": "Witch King",
+    "year": 2023,
+    "creators": [
+      "Марта Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13773363-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124435017",
+      "openLibrary": "OL28764208W"
+    }
+  },
+  {
+    "id": "b-wd1136864",
+    "type": "book",
+    "title": "Когда Ницше плакал",
+    "originalTitle": "When Nietzsche Wept",
+    "year": 2007,
+    "creators": [
+      "Ирвин Дэвид Ялом"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/34307-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1136864",
+      "openLibrary": "OL34712993W"
+    }
+  },
+  {
+    "id": "b-wd2655574",
+    "type": "book",
+    "title": "Умирающая Земля",
+    "originalTitle": "The Dying Earth",
+    "year": 1950,
+    "creators": [
+      "Джек Вэнс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/183396-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2655574",
+      "openLibrary": "OL2071447W"
+    }
+  },
+  {
+    "id": "b-wd7718935",
+    "type": "book",
+    "title": "Челн на миллион лет",
+    "originalTitle": "The Boat of a Million Years",
+    "year": 1989,
+    "creators": [
+      "Пол Уильям Андерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/524448-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7718935",
+      "openLibrary": "OL90528W"
+    }
+  },
+  {
+    "id": "b-wd66134812",
+    "type": "book",
+    "title": "Время ураганов",
+    "originalTitle": "Hurricane Season",
+    "year": 2017,
+    "creators": [
+      "Фернанда Мельчор"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q66134812",
+      "openLibrary": "OL17792692W"
+    }
+  },
+  {
+    "id": "b-wd30131633",
+    "type": "book",
+    "title": "Children of Time",
+    "year": 2015,
+    "creators": [
+      "Adrian Tchaikovsky"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8264706-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30131633",
+      "openLibrary": "OL17373843W"
+    }
+  },
+  {
+    "id": "b-wd105334407",
+    "type": "book",
+    "title": "Зимняя дорога",
+    "originalTitle": "The Winter Road",
+    "year": 2015,
+    "creators": [
+      "Леонид Абрамович Юзефович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105334407"
+    }
+  },
+  {
+    "id": "b-wd17000766",
+    "type": "book",
+    "title": "Врата Абаддона",
+    "originalTitle": "Abaddon's Gate",
+    "year": 2013,
+    "creators": [
+      "Дэниел Абрахам",
+      "Джеймс Кори",
+      "Тай Френк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17000766",
+      "openLibrary": "OL20702460W"
+    }
+  },
+  {
+    "id": "b-wd111079755",
+    "type": "book",
+    "title": "Дом у озера",
+    "originalTitle": "The Lake House",
+    "year": 2015,
+    "creators": [
+      "Кейт Мортон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8470441-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111079755",
+      "openLibrary": "OL19356226W"
+    }
+  },
+  {
+    "id": "b-wd131196861",
+    "type": "book",
+    "title": "Вегетация",
+    "year": 2024,
+    "creators": [
+      "Алексей Викторович Иванов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131196861"
+    }
+  },
+  {
+    "id": "b-wd1769466",
+    "type": "book",
+    "title": "Экспедиция «Тяготение»",
+    "originalTitle": "Mission of Gravity",
+    "year": 1953,
+    "creators": [
+      "Хол Клемент"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8328577-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1769466",
+      "openLibrary": "OL60884W"
+    }
+  },
+  {
+    "id": "b-wd99838669",
+    "type": "book",
+    "title": "Mexican Gothic",
+    "year": 2020,
+    "creators": [
+      "Silvia Moreno-Garcia"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q99838669",
+      "openLibrary": "OL44174827W"
+    }
+  },
+  {
+    "id": "b-wd28135786",
+    "type": "book",
+    "title": "Сила (роман)",
+    "originalTitle": "The Power",
+    "year": 2016,
+    "creators": [
+      "Наоми Алдерман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7892681-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q28135786",
+      "openLibrary": "OL17607742W"
+    }
+  },
+  {
+    "id": "b-wd23712215",
+    "type": "book",
+    "title": "Астронавты в лохмотьях",
+    "originalTitle": "The Ragged Astronauts",
+    "year": 1986,
+    "creators": [
+      "Боб Шоу"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q23712215"
+    }
+  },
+  {
+    "id": "b-wd95075560",
+    "type": "book",
+    "title": "The City We Became",
+    "year": 2020,
+    "creators": [
+      "Нора Джемисин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q95075560",
+      "openLibrary": "OL20656799W"
+    }
+  },
+  {
+    "id": "b-wd108439991",
+    "type": "book",
+    "title": "Замешательство (роман)",
+    "originalTitle": "Bewilderment",
+    "year": 2021,
+    "creators": [
+      "Ричард Пауэрс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11973940-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108439991",
+      "openLibrary": "OL24235084W"
+    }
+  },
+  {
+    "id": "b-wd17226623",
+    "type": "book",
+    "title": "Мужчины без женщин",
+    "year": 2014,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17226623"
+    }
+  },
+  {
+    "id": "b-wd19973579",
+    "type": "book",
+    "title": "Лавр",
+    "originalTitle": "Laurus",
+    "year": 2012,
+    "creators": [
+      "Евгений Германович Водолазкин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19973579",
+      "openLibrary": "OL20010459W"
+    }
+  },
+  {
+    "id": "b-wd124618227",
+    "type": "book",
+    "title": "Финист — ясный сокол",
+    "year": 2019,
+    "creators": [
+      "Андрей Викторович Рубанов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124618227"
+    }
+  },
+  {
+    "id": "b-wd105515854",
+    "type": "book",
+    "title": "Дни Савелия",
+    "originalTitle": "Savely's Days",
+    "year": 2018,
+    "creators": [
+      "Служитель, Григорий Михайлович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105515854"
+    }
+  },
+  {
+    "id": "b-wd120261544",
+    "type": "book",
+    "title": "Калечина-Малечина",
+    "year": 2018,
+    "creators": [
+      "Некрасова, Евгения Игоревна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120261544"
+    }
+  },
+  {
+    "id": "b-wd116225249",
+    "type": "book",
+    "title": "Уроки химии",
+    "originalTitle": "Lessons in Chemistry",
+    "year": 2022,
+    "creators": [
+      "Бонни Гармус"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12725772-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q116225249",
+      "openLibrary": "OL25344431W"
+    }
+  },
+  {
+    "id": "b-wd4110254",
+    "type": "book",
+    "title": "Вечный хлеб",
+    "originalTitle": "Eternal Bread",
+    "year": 1928,
+    "creators": [
+      "Александр Романович Беляев"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4110254"
+    }
+  },
+  {
+    "id": "b-wd4368239",
+    "type": "book",
+    "title": "Подробности жизни Никиты Воронцова",
+    "originalTitle": "The details of Nikita Vorontsov's life",
+    "year": 1984,
+    "creators": [
+      "Борис Натанович Стругацкий",
+      "Аркадий Натанович Стругацкий"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4368239"
+    }
+  },
+  {
+    "id": "b-wd4230102",
+    "type": "book",
+    "title": "Компромисс",
+    "originalTitle": "The Compromise",
+    "year": 1981,
+    "creators": [
+      "Сергей Донатович Довлатов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4230102",
+      "openLibrary": "OL2413929W"
+    }
+  },
+  {
+    "id": "b-wd2239658",
+    "type": "book",
+    "title": "Ночевала тучка золотая",
+    "year": 1987,
+    "creators": [
+      "Приставкин, Анатолий Игнатьевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2239658"
+    }
+  },
+  {
+    "id": "b-wd16666906",
+    "type": "book",
+    "title": "Красное на красном",
+    "year": 2004,
+    "creators": [
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16666906"
+    }
+  },
+  {
+    "id": "b-wd123452043",
+    "type": "book",
+    "title": "Железное пламя",
+    "originalTitle": "Iron Flame",
+    "year": 2023,
+    "creators": [
+      "Ребекка Яррос"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14405746-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123452043",
+      "openLibrary": "OL34028551W"
+    }
+  },
+  {
+    "id": "b-wd65120204",
+    "type": "book",
+    "title": "В её глазах",
+    "originalTitle": "Behind Her Eyes",
+    "year": 2017,
+    "creators": [
+      "Sarah Pinborough"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9254137-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65120204",
+      "openLibrary": "OL20043519W"
+    }
+  },
+  {
+    "id": "b-wd2376433",
+    "type": "book",
+    "title": "Цифровой, или Brevis est",
+    "originalTitle": "Digital, or Brevis Est",
+    "year": 2009,
+    "creators": [
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2376433"
+    }
+  },
+  {
+    "id": "b-wd4179964",
+    "type": "book",
+    "title": "Живые и мёртвые",
+    "originalTitle": "Dead and Alive",
+    "year": 1959,
+    "creators": [
+      "Константин Михайлович Симонов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4179964"
+    }
+  },
+  {
+    "id": "b-wd44391460",
+    "type": "book",
+    "title": "Заводная ракета",
+    "originalTitle": "The Clockwork Rocket",
+    "year": 2011,
+    "creators": [
+      "Грег Иган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7610425-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q44391460",
+      "openLibrary": "OL17454086W"
+    }
+  },
+  {
+    "id": "b-wd3795708",
+    "type": "book",
+    "title": "Скрижали судьбы",
+    "originalTitle": "The Secret Scripture",
+    "year": 2008,
+    "creators": [
+      "Себастьян Барри"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6968893-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3795708",
+      "openLibrary": "OL17743973W"
+    }
+  },
+  {
+    "id": "b-wd4233767",
+    "type": "book",
+    "title": "Королевство кривых зеркал",
+    "originalTitle": "The Kingdom of Crooked Mirrors",
+    "year": 1951,
+    "creators": [
+      "Губарев, Виталий Георгиевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4233767"
+    }
+  },
+  {
+    "id": "b-wd17065596",
+    "type": "book",
+    "title": "Зачем звать их обратно с небес?",
+    "originalTitle": "Why Call Them Back from Heaven?",
+    "year": 1967,
+    "creators": [
+      "Клиффорд Дональд Саймак"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8238667-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17065596",
+      "openLibrary": "OL4088376W"
+    }
+  },
+  {
+    "id": "b-wd4074305",
+    "type": "book",
+    "title": "Бабий Яр",
+    "originalTitle": "Babi Yar: A Document in the Form of a Novel",
+    "year": 1966,
+    "creators": [
+      "Анатолий Васильевич Кузнецов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4074305"
+    }
+  },
+  {
+    "id": "b-wd7738446",
+    "type": "book",
+    "title": "Клуб любителей книг и пирогов из картофельных очистков",
+    "originalTitle": "The Guernsey Literary and Potato Peel Pie Society",
+    "year": 2008,
+    "creators": [
+      "Мэри Энн Шеффер",
+      "Энни Бэрроуз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14859218-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7738446",
+      "openLibrary": "OL9334372W"
+    }
+  },
+  {
+    "id": "b-wd26234196",
+    "type": "book",
+    "title": "Живи и помни",
+    "originalTitle": "Live and Remember",
+    "year": 1974,
+    "creators": [
+      "Валентин Григорьевич Распутин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26234196"
+    }
+  },
+  {
+    "id": "b-wd17512402",
+    "type": "book",
+    "title": "The Bone Clocks",
+    "year": 2014,
+    "creators": [
+      "Дэвид Митчелл"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7322373-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17512402",
+      "openLibrary": "OL17078738W"
+    }
+  },
+  {
+    "id": "b-wd21189971",
+    "type": "book",
+    "title": "The Song of Achilles",
+    "year": 2011,
+    "creators": [
+      "Мадлен Миллер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7098465-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21189971",
+      "openLibrary": "OL16509148W"
+    }
+  },
+  {
+    "id": "b-wd3592822",
+    "type": "book",
+    "title": "Эволюция",
+    "originalTitle": "Evolution",
+    "year": 2002,
+    "creators": [
+      "Стивен Бакстер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1287002-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3592822",
+      "openLibrary": "OL72843W"
+    }
+  },
+  {
+    "id": "b-wd111169273",
+    "type": "book",
+    "title": "The Jasmine Throne",
+    "year": 2021,
+    "creators": [
+      "Tasha Suri"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10550413-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111169273",
+      "openLibrary": "OL24151326W"
+    }
+  },
+  {
+    "id": "b-wd20967566",
+    "type": "book",
+    "title": "Уголёк в пепле",
+    "originalTitle": "An Ember in the Ashes",
+    "year": 2015,
+    "creators": [
+      "Sabaa Tahir"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14559692-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20967566",
+      "openLibrary": "OL17786115W"
+    }
+  },
+  {
+    "id": "b-wd97159947",
+    "type": "book",
+    "title": "Возвращение в Египет",
+    "year": 2013,
+    "creators": [
+      "Шаров, Владимир Александрович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97159947"
+    }
+  },
+  {
+    "id": "b-wd113547477",
+    "type": "book",
+    "title": "Малая Глуша",
+    "originalTitle": "Malaya Glusha",
+    "year": 2008,
+    "creators": [
+      "Мария Семёновна Галина"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113547477"
+    }
+  },
+  {
+    "id": "b-wd120261514",
+    "type": "book",
+    "title": "Завод «Свобода»",
+    "year": 2013,
+    "creators": [
+      "Букша, Ксения Сергеевна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120261514"
+    }
+  },
+  {
+    "id": "b-wd785109",
+    "type": "book",
+    "title": "Меланхолия сопротивления",
+    "originalTitle": "The Melancholy of Resistance",
+    "year": 1989,
+    "creators": [
+      "Ласло Краснахоркаи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q785109",
+      "openLibrary": "OL3428973W"
+    }
+  },
+  {
+    "id": "b-wd3435184",
+    "type": "book",
+    "title": "Тайная жизнь пчёл",
+    "originalTitle": "The Secret Life of Bees",
+    "year": 2002,
+    "creators": [
+      "Сью Монк Кидд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/402759-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3435184",
+      "openLibrary": "OL2941508W"
+    }
+  },
+  {
+    "id": "b-wd2335394",
+    "type": "book",
+    "title": "Дракон Его Величества",
+    "originalTitle": "His Majesty's Dragon",
+    "year": 2006,
+    "creators": [
+      "Наоми Новик"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8191809-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2335394",
+      "openLibrary": "OL22453117W"
+    }
+  },
+  {
+    "id": "b-wd85808003",
+    "type": "book",
+    "title": "The Nickel Boys",
+    "year": 2019,
+    "creators": [
+      "Колсон Уайтхед"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85808003",
+      "openLibrary": "OL20892052W"
+    }
+  },
+  {
+    "id": "b-wd94669772",
+    "type": "book",
+    "title": "Девять совсем незнакомых людей (роман)",
+    "originalTitle": "Nine Perfect Strangers",
+    "year": 2018,
+    "creators": [
+      "Лиана Мориарти"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9331101-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q94669772",
+      "openLibrary": "OL19761911W"
+    }
+  },
+  {
+    "id": "b-wd1090238",
+    "type": "book",
+    "title": "Время, назад",
+    "originalTitle": "Counter-Clock World",
+    "year": 1967,
+    "creators": [
+      "Филип Дик"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/3111404-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1090238",
+      "openLibrary": "OL2172429W"
+    }
+  },
+  {
+    "id": "b-wd18393840",
+    "type": "book",
+    "title": "Меч Лета",
+    "originalTitle": "The Sword of Summer",
+    "year": 2015,
+    "creators": [
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13012106-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18393840",
+      "openLibrary": "OL17181541W"
+    }
+  },
+  {
+    "id": "b-wd28312032",
+    "type": "book",
+    "title": "Сердце того, что было утеряно",
+    "originalTitle": "The Heart of What Was Lost",
+    "year": 2017,
+    "creators": [
+      "Тэд Уильямс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q28312032"
+    }
+  },
+  {
+    "id": "b-wd113127544",
+    "type": "book",
+    "title": "Моё сердце — бензопила",
+    "originalTitle": "My Heart Is a Chainsaw",
+    "year": 2021,
+    "creators": [
+      "Стивен Грэм Джонс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113127544",
+      "openLibrary": "OL24151366W"
+    }
+  },
+  {
+    "id": "b-wd24255737",
+    "type": "book",
+    "title": "Эхопраксия",
+    "originalTitle": "Echopraxia",
+    "year": 2014,
+    "creators": [
+      "Питер Уоттс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8457790-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24255737",
+      "openLibrary": "OL19982983W"
+    }
+  },
+  {
+    "id": "b-wd1653370",
+    "type": "book",
+    "title": "Шрам",
+    "year": 1996,
+    "creators": [
+      "Марина и Сергей Дяченко",
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1653370"
+    }
+  },
+  {
+    "id": "b-wd4381971",
+    "type": "book",
+    "title": "Профессия: ведьма",
+    "year": 2003,
+    "creators": [
+      "Ольга Николаевна Громыко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4381971"
+    }
+  },
+  {
+    "id": "b-wd97172055",
+    "type": "book",
+    "title": "Красный крест",
+    "originalTitle": "Red Crosses",
+    "year": 2017,
+    "creators": [
+      "Саша Филипенко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97172055"
+    }
+  },
+  {
+    "id": "b-wd4137467",
+    "type": "book",
+    "title": "Герой должен быть один",
+    "year": 1996,
+    "creators": [
+      "Генри Лайон Олди"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4137467"
+    }
+  },
+  {
+    "id": "b-wd1213440",
+    "type": "book",
+    "title": "Иствикские ведьмы",
+    "originalTitle": "The Witches of Eastwick",
+    "year": 1984,
+    "creators": [
+      "Джон Апдайк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1213440",
+      "openLibrary": "OL463831W"
+    }
+  },
+  {
+    "id": "b-wd3400534",
+    "type": "book",
+    "title": "Корабль-бродяга",
+    "originalTitle": "Rogue Ship",
+    "year": 1965,
+    "creators": [
+      "Альфред ван Вогт"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3400534",
+      "openLibrary": "OL15345933W"
+    }
+  },
+  {
+    "id": "b-wd131428612",
+    "type": "book",
+    "title": "Три смерти Бена Бакстера",
+    "originalTitle": "The Deaths of Ben Baxter",
+    "year": 1957,
+    "creators": [
+      "Роберт Шекли"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131428612"
+    }
+  },
+  {
+    "id": "b-wd124338899",
+    "type": "book",
+    "title": "What Moves the Dead",
+    "year": 2022,
+    "creators": [
+      "Урсула Вернон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124338899"
+    }
+  },
+  {
+    "id": "b-wd60754469",
+    "type": "book",
+    "title": "Вилка, ведьма и дракон",
+    "originalTitle": "The Fork, the Witch, and the Worm",
+    "year": 2018,
+    "creators": [
+      "Кристофер Паолини"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8784482-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60754469",
+      "openLibrary": "OL19680664W"
+    }
+  },
+  {
+    "id": "b-wd7759981",
+    "type": "book",
+    "title": "Спаситель",
+    "originalTitle": "The Redeemer",
+    "year": 2005,
+    "creators": [
+      "Ю Несбё"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7995952-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7759981",
+      "openLibrary": "OL15945670W"
+    }
+  },
+  {
+    "id": "b-wd7738870",
+    "type": "book",
+    "title": "Похититель",
+    "originalTitle": "The Hard Way",
+    "year": 2006,
+    "creators": [
+      "Ли Чайлд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14425111-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7738870",
+      "openLibrary": "OL52940W"
+    }
+  },
+  {
+    "id": "b-wd43336631",
+    "type": "book",
+    "title": "Происхождение",
+    "originalTitle": "Provenance",
+    "year": 2017,
+    "creators": [
+      "Энн Леки"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8316894-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q43336631",
+      "openLibrary": "OL18149680W"
+    }
+  },
+  {
+    "id": "b-wd48977465",
+    "type": "book",
+    "title": "И повсюду тлеют пожары",
+    "originalTitle": "Little Fires Everywhere",
+    "year": 2017,
+    "creators": [
+      "Селест Нг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8111914-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q48977465",
+      "openLibrary": "OL17821431W"
+    }
+  },
+  {
+    "id": "b-wd7767247",
+    "type": "book",
+    "title": "Летняя книга",
+    "originalTitle": "The Summer Book",
+    "year": 1972,
+    "creators": [
+      "Туве Янссон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7767247",
+      "openLibrary": "OL44823056W"
+    }
+  },
+  {
+    "id": "b-wd72730356",
+    "type": "book",
+    "title": "10 минут 38 секунд в этом странном мире",
+    "originalTitle": "10 Minutes 38 Seconds in This Strange World",
+    "year": 2019,
+    "creators": [
+      "Элиф Шафак"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10095953-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q72730356",
+      "openLibrary": "OL24796408W"
+    }
+  },
+  {
+    "id": "b-wd7046568",
+    "type": "book",
+    "title": "Ноктюрны",
+    "originalTitle": "Nocturnes",
+    "year": 2009,
+    "creators": [
+      "Кадзуо Исигуро"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8086079-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7046568",
+      "openLibrary": "OL14875886W"
+    }
+  },
+  {
+    "id": "b-wd3999988",
+    "type": "book",
+    "title": "Цугуми",
+    "originalTitle": "Goodbye Tsugumi",
+    "year": 1989,
+    "creators": [
+      "Банана Ёсимото"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6939410-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3999988",
+      "openLibrary": "OL2637581W"
+    }
+  },
+  {
+    "id": "b-wd3793961",
+    "type": "book",
+    "title": "Сын человеческий",
+    "originalTitle": "Son of Man",
+    "year": 1971,
+    "creators": [
+      "Роберт Силверберг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/380227-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3793961",
+      "openLibrary": "OL16062431W"
+    }
+  },
+  {
+    "id": "b-wd2061695",
+    "type": "book",
+    "title": "Вкус пепла",
+    "originalTitle": "The Stone Cutter",
+    "year": 2005,
+    "creators": [
+      "Камилла Лэкберг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2061695",
+      "openLibrary": "OL19065467W"
+    }
+  },
+  {
+    "id": "b-wd27863945",
+    "type": "book",
+    "title": "Convenience Store Woman",
+    "year": 2016,
+    "creators": [
+      "Саяка Мурата"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9315164-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27863945",
+      "openLibrary": "OL19744024W"
+    }
+  },
+  {
+    "id": "b-wd4237407",
+    "type": "book",
+    "title": "Крадущийся в тени",
+    "year": 2002,
+    "creators": [
+      "Пехов, Алексей Юрьевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4237407"
+    }
+  },
+  {
+    "id": "b-wd11827997",
+    "type": "book",
+    "title": "Веди свой плуг по костям мертвецов",
+    "originalTitle": "Drive Your Plow Over the Bones of the Dead",
+    "year": 2009,
+    "creators": [
+      "Ольга Токарчук"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11827997",
+      "openLibrary": "OL17351965W"
+    }
+  },
+  {
+    "id": "b-wd97516163",
+    "type": "book",
+    "title": "The Silent Patient",
+    "year": 2019,
+    "creators": [
+      "Алекс Михаэлидес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9407338-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97516163",
+      "openLibrary": "OL19096402W"
+    }
+  },
+  {
+    "id": "b-wd83431075",
+    "type": "book",
+    "title": "Trail of Lightning",
+    "year": 2018,
+    "creators": [
+      "Rebecca Roanhorse"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9384029-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q83431075",
+      "openLibrary": "OL19747909W"
+    }
+  },
+  {
+    "id": "b-wd4501246",
+    "type": "book",
+    "title": "Хранитель драконов",
+    "originalTitle": "Dragon Keeper",
+    "year": 2009,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8113171-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4501246",
+      "openLibrary": "OL20807621W"
+    }
+  },
+  {
+    "id": "b-wd54488337",
+    "type": "book",
+    "title": "The Seven Husbands of Evelyn Hugo",
+    "year": 2017,
+    "creators": [
+      "Тейлор Дженкинс Рейд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8354226-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q54488337",
+      "openLibrary": "OL18203673W"
+    }
+  },
+  {
+    "id": "b-wd16835895",
+    "type": "book",
+    "title": "Консолидация",
+    "originalTitle": "Authority",
+    "year": 2014,
+    "creators": [
+      "Джефф Вандермеер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10526739-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16835895",
+      "openLibrary": "OL17453058W"
+    }
+  },
+  {
+    "id": "b-wd20967683",
+    "type": "book",
+    "title": "Red Queen",
+    "year": 2015,
+    "creators": [
+      "Виктория Авеярд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7434883-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20967683",
+      "openLibrary": "OL19761522W"
+    }
+  },
+  {
+    "id": "b-wd107583553",
+    "type": "book",
+    "title": "A Psalm for the Wild-Built",
+    "year": 2021,
+    "creators": [
+      "Becky Chambers"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10476616-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107583553",
+      "openLibrary": "OL22561871W"
+    }
+  },
+  {
+    "id": "b-wd39488500",
+    "type": "book",
+    "title": "After You",
+    "year": 2015,
+    "creators": [
+      "Джоджо Мойес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8118938-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q39488500",
+      "openLibrary": "OL28347181W"
+    }
+  },
+  {
+    "id": "b-wd96409754",
+    "type": "book",
+    "title": "They Both Die at the End",
+    "year": 2017,
+    "creators": [
+      "Адам Сильвера"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9280553-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q96409754",
+      "openLibrary": "OL19713513W"
+    }
+  },
+  {
+    "id": "b-wd110264258",
+    "type": "book",
+    "title": "People We Meet on Vacation",
+    "year": 2021,
+    "creators": [
+      "Emily Henry"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10476782-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110264258",
+      "openLibrary": "OL22563730W"
+    }
+  },
+  {
+    "id": "b-wd7846478",
+    "type": "book",
+    "title": "Проблема с лишайником",
+    "originalTitle": "Trouble with Lichen",
+    "year": 1960,
+    "creators": [
+      "Джон Уиндем"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/93153-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7846478",
+      "openLibrary": "OL1911333W"
+    }
+  },
+  {
+    "id": "b-wd96401397",
+    "type": "book",
+    "title": "Красная сестра",
+    "originalTitle": "Red Sister",
+    "year": 2017,
+    "creators": [
+      "Марк Лоуренс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8500885-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q96401397",
+      "openLibrary": "OL20923185W"
+    }
+  },
+  {
+    "id": "b-wd26158014",
+    "type": "book",
+    "title": "Шум времени",
+    "originalTitle": "The Noise of Time",
+    "year": 2016,
+    "creators": [
+      "Джулиан Барнс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8047093-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26158014",
+      "openLibrary": "OL20912080W"
+    }
+  },
+  {
+    "id": "b-wd2530328",
+    "type": "book",
+    "title": "Башни Полуночи",
+    "originalTitle": "Towers of Midnight",
+    "year": 2010,
+    "creators": [
+      "Роберт Джордан",
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14658162-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2530328",
+      "openLibrary": "OL15414340W"
+    }
+  },
+  {
+    "id": "b-wd115818209",
+    "type": "book",
+    "title": "Завтра, завтра, завтра",
+    "originalTitle": "Tomorrow, and Tomorrow, and Tomorrow",
+    "year": 2022,
+    "creators": [
+      "Гэбриэлль Зевин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12859975-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115818209",
+      "openLibrary": "OL26004554W"
+    }
+  },
+  {
+    "id": "b-wd22222905",
+    "type": "book",
+    "title": "Леди Полночь",
+    "originalTitle": "Lady Midnight",
+    "year": 2016,
+    "creators": [
+      "Кассандра Клэр"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10503897-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22222905",
+      "openLibrary": "OL22943437W"
+    }
+  },
+  {
+    "id": "b-wd5308350",
+    "type": "book",
+    "title": "Друд, или Человек в черном",
+    "originalTitle": "Drood",
+    "year": 2009,
+    "creators": [
+      "Дэн Симмонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6412491-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5308350",
+      "openLibrary": "OL1963255W"
+    }
+  },
+  {
+    "id": "b-wd106581269",
+    "type": "book",
+    "title": "The Starless Sea",
+    "year": 2019,
+    "creators": [
+      "Эрин Моргенштерн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9084503-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q106581269",
+      "openLibrary": "OL20887310W"
+    }
+  },
+  {
+    "id": "b-wd38187",
+    "type": "book",
+    "title": "Ночной дозор",
+    "originalTitle": "The Night Watch",
+    "year": 2006,
+    "creators": [
+      "Сара Уотерс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q38187",
+      "openLibrary": "OL551024W"
+    }
+  },
+  {
+    "id": "b-wd16961985",
+    "type": "book",
+    "title": "Острые предметы",
+    "originalTitle": "Sharp Objects",
+    "year": 2006,
+    "creators": [
+      "Гиллиан Флинн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/167973-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16961985",
+      "openLibrary": "OL5842018W"
+    }
+  },
+  {
+    "id": "b-wd4123501",
+    "type": "book",
+    "title": "Волкодав. Самоцветные горы",
+    "year": 2003,
+    "creators": [
+      "Мария Васильевна Семёнова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4123501"
+    }
+  },
+  {
+    "id": "b-wd15431318",
+    "type": "book",
+    "title": "Тётя Мотя",
+    "year": 2012,
+    "creators": [
+      "Майя Александровна Кучерская"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15431318"
+    }
+  },
+  {
+    "id": "b-wd26877889",
+    "type": "book",
+    "title": "Время женщин",
+    "year": 2009,
+    "creators": [
+      "Чижова, Елена Семёновна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26877889"
+    }
+  },
+  {
+    "id": "b-wd7739260",
+    "type": "book",
+    "title": "Небесные творцы",
+    "originalTitle": "The Heaven Makers",
+    "year": 1967,
+    "creators": [
+      "Фрэнк Герберт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/4988967-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7739260",
+      "openLibrary": "OL34737280W"
+    }
+  },
+  {
+    "id": "b-wd4352956",
+    "type": "book",
+    "title": "Год потопа",
+    "originalTitle": "The Year of the Flood",
+    "year": 2009,
+    "creators": [
+      "Маргарет Этвуд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12816870-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4352956",
+      "openLibrary": "OL675774W"
+    }
+  },
+  {
+    "id": "b-wd113659531",
+    "type": "book",
+    "title": "Медное королевство",
+    "originalTitle": "The Kingdom of Copper",
+    "year": 2019,
+    "creators": [
+      "Шеннон Чакраборти"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113659531"
+    }
+  },
+  {
+    "id": "b-wd115683373",
+    "type": "book",
+    "title": "The House in the Cerulean Sea",
+    "year": 2020,
+    "creators": [
+      "TJ Klune"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9312772-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115683373",
+      "openLibrary": "OL20656224W"
+    }
+  },
+  {
+    "id": "b-wd109172026",
+    "type": "book",
+    "title": "Человек, который умер дважды",
+    "originalTitle": "The Man Who Died Twice",
+    "year": 2021,
+    "creators": [
+      "Ричард Осман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11358314-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q109172026",
+      "openLibrary": "OL25306436W"
+    }
+  },
+  {
+    "id": "b-wd65070068",
+    "type": "book",
+    "title": "Один из нас лжёт",
+    "originalTitle": "One of Us Is Lying",
+    "year": 2017,
+    "creators": [
+      "Karen M. McManus"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12503935-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65070068",
+      "openLibrary": "OL17797857W"
+    }
+  },
+  {
+    "id": "b-wd107389244",
+    "type": "book",
+    "title": "Тёмный оттенок магии",
+    "originalTitle": "A Darker Shade of Magic",
+    "year": 2015,
+    "creators": [
+      "Виктория Шваб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7410930-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107389244",
+      "openLibrary": "OL17332803W"
+    }
+  },
+  {
+    "id": "b-wd121304605",
+    "type": "book",
+    "title": "The Housemaid",
+    "year": 2022,
+    "creators": [
+      "Фрида Мак-Фадден"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15105883-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q121304605",
+      "openLibrary": "OL27729743W"
+    }
+  },
+  {
+    "id": "b-wd135104969",
+    "type": "book",
+    "title": "Katabasis",
+    "year": 2025,
+    "creators": [
+      "Ребекка Ф. Куанг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15117021-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q135104969",
+      "openLibrary": "OL42397860W"
+    }
+  },
+  {
+    "id": "b-wd112274439",
+    "type": "book",
+    "title": "Sea of Tranquility",
+    "year": 2022,
+    "creators": [
+      "Эмили Сент-Джон Мандел"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11465138-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q112274439",
+      "openLibrary": "OL24731706W"
+    }
+  },
+  {
+    "id": "b-wd4298631",
+    "type": "book",
+    "title": "Млава Красная",
+    "year": 2011,
+    "creators": [
+      "Ник Перумов",
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4298631"
+    }
+  },
+  {
+    "id": "b-wd4349972",
+    "type": "book",
+    "title": "Перевал Дятлова (повесть)",
+    "year": 2001,
+    "creators": [
+      "Анна Александровна Матвеева"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4349972"
+    }
+  },
+  {
+    "id": "b-wd131355892",
+    "type": "book",
+    "title": "Храбр",
+    "year": 2007,
+    "creators": [
+      "Олег Игоревич Дивов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131355892"
+    }
+  },
+  {
+    "id": "b-wd140075195",
+    "type": "book",
+    "title": "Горизонтальное положение",
+    "year": 2010,
+    "creators": [
+      "Дмитрий Алексеевич Данилов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140075195"
+    }
+  },
+  {
+    "id": "b-wd105189255",
+    "type": "book",
+    "title": "Спутники",
+    "year": 1946,
+    "creators": [
+      "Вера Фёдоровна Панова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105189255"
+    }
+  },
+  {
+    "id": "b-wd140075196",
+    "type": "book",
+    "title": "Чёртово колесо",
+    "year": 2009,
+    "creators": [
+      "Гиголашвили, Михаил Георгиевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140075196"
+    }
+  },
+  {
+    "id": "b-wd65042675",
+    "type": "book",
+    "title": "The Priory of the Orange Tree",
+    "year": 2019,
+    "creators": [
+      "Samantha Shannon"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8802446-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65042675",
+      "openLibrary": "OL20793353W"
+    }
+  },
+  {
+    "id": "b-wd108437440",
+    "type": "book",
+    "title": "Beautiful World, Where Are You",
+    "year": 2021,
+    "creators": [
+      "Салли Руни"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10550746-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108437440",
+      "openLibrary": "OL24151602W"
+    }
+  },
+  {
+    "id": "b-wd85790651",
+    "type": "book",
+    "title": "On Earth We're Briefly Gorgeous",
+    "year": 2019,
+    "creators": [
+      "Оушен Вуонг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10030425-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85790651",
+      "openLibrary": "OL20783698W"
+    }
+  },
+  {
+    "id": "b-wd136523538",
+    "type": "book",
+    "title": "Радио Молчание",
+    "originalTitle": "Radio Silence",
+    "year": 2016,
+    "creators": [
+      "Элис Осман"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q136523538"
+    }
+  },
+  {
+    "id": "b-wd4517743",
+    "type": "book",
+    "title": "Чужая маска",
+    "year": 1996,
+    "creators": [
+      "Александра Маринина"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4517743",
+      "openLibrary": "OL36900895W"
+    }
+  },
+  {
+    "id": "b-wd4297050",
+    "type": "book",
+    "title": "Мифогенная любовь каст",
+    "year": 1999,
+    "creators": [
+      "Павел Пепперштейн",
+      "Ануфриев, Сергей Александрович"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4297050"
+    }
+  },
+  {
+    "id": "b-wd7490684",
+    "type": "book",
+    "title": "Разрушь меня",
+    "originalTitle": "Shatter Me",
+    "year": 2011,
+    "creators": [
+      "Тахира Мафи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6974992-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7490684",
+      "openLibrary": "OL16014245W"
+    }
+  },
+  {
+    "id": "b-wd2027418",
+    "type": "book",
+    "title": "Громобой",
+    "originalTitle": "Stormbreaker",
+    "year": 2000,
+    "creators": [
+      "Энтони Горовиц"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/5081706-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2027418",
+      "openLibrary": "OL84788W"
+    }
+  },
+  {
+    "id": "b-wd5606694",
+    "type": "book",
+    "title": "Грегор и проклятие теплокровных",
+    "originalTitle": "Gregor and the Curse of the Warmbloods",
+    "year": 2005,
+    "creators": [
+      "Сьюзен Коллинз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8345962-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5606694",
+      "openLibrary": "OL5735361W"
+    }
+  },
+  {
+    "id": "b-wd110689687",
+    "type": "book",
+    "title": "The Dangers of Smoking in Bed",
+    "year": 2009,
+    "creators": [
+      "Мариана Энрикес"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110689687",
+      "openLibrary": "OL17638650W"
+    }
+  },
+  {
+    "id": "b-wd111432741",
+    "type": "book",
+    "title": "Young Mungo",
+    "year": 2022,
+    "creators": [
+      "Дуглас Стюарт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12715939-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111432741",
+      "openLibrary": "OL25345147W"
+    }
+  },
+  {
+    "id": "b-wd5227917",
+    "type": "book",
+    "title": "Daughter of Smoke and Bone",
+    "year": 2011,
+    "creators": [
+      "Лэйни Тейлор"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7064457-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5227917",
+      "openLibrary": "OL16103268W"
+    }
+  },
+  {
+    "id": "b-wd60787653",
+    "type": "book",
+    "title": "Устремлённая в небо",
+    "originalTitle": "Skyward",
+    "year": 2018,
+    "creators": [
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14658323-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60787653",
+      "openLibrary": "OL18191919W"
+    }
+  },
+  {
+    "id": "b-wd30324122",
+    "type": "book",
+    "title": "Железное золото",
+    "originalTitle": "Iron Gold",
+    "year": 2018,
+    "creators": [
+      "Пирс Браун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14511722-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30324122",
+      "openLibrary": "OL19726995W"
+    }
+  },
+  {
+    "id": "b-wd108743629",
+    "type": "book",
+    "title": "Crossroads",
+    "year": 2021,
+    "creators": [
+      "Джонатан Франзен"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10884246-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108743629",
+      "openLibrary": "OL24181730W"
+    }
+  },
+  {
+    "id": "b-wd7304189",
+    "type": "book",
+    "title": "Красная перчатка",
+    "originalTitle": "Red Glove",
+    "year": 2011,
+    "creators": [
+      "Холли Блэк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6716912-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7304189",
+      "openLibrary": "OL15414051W"
+    }
+  },
+  {
+    "id": "b-wd24938321",
+    "type": "book",
+    "title": "The Story of a New Name",
+    "year": 2012,
+    "creators": [
+      "Елена Ферранте"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13518415-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24938321",
+      "openLibrary": "OL16807901W"
+    }
+  },
+  {
+    "id": "b-wd113499454",
+    "type": "book",
+    "title": "The Trees",
+    "year": 2021,
+    "creators": [
+      "Персиваль Эверетт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11137872-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113499454",
+      "openLibrary": "OL24511712W"
+    }
+  },
+  {
+    "id": "b-wd107723126",
+    "type": "book",
+    "title": "The Final Girl Support Group",
+    "year": 2021,
+    "creators": [
+      "Грейди Хендрикс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10653604-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107723126",
+      "openLibrary": "OL24207665W"
+    }
+  },
+  {
+    "id": "b-wd8033746",
+    "type": "book",
+    "title": "Иллюзия",
+    "originalTitle": "Wool",
+    "year": 2012,
+    "creators": [
+      "Хью Хауи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14369537-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q8033746",
+      "openLibrary": "OL29239029W"
+    }
+  },
+  {
+    "id": "b-wd48812052",
+    "type": "book",
+    "title": "Renegades",
+    "year": 2017,
+    "creators": [
+      "Марисса Мейер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9399502-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q48812052",
+      "openLibrary": "OL17867102W"
+    }
+  },
+  {
+    "id": "b-wd118901793",
+    "type": "book",
+    "title": "The Covenant of Water",
+    "year": 2023,
+    "creators": [
+      "Абрахам Вергезе"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13190092-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q118901793",
+      "openLibrary": "OL29192912W"
+    }
+  },
+  {
+    "id": "b-wd30300115",
+    "type": "book",
+    "title": "Посылка",
+    "year": 2016,
+    "creators": [
+      "Себастьян Фитцек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30300115",
+      "openLibrary": "OL20809208W"
+    }
+  },
+  {
+    "id": "b-wd65070501",
+    "type": "book",
+    "title": "The Mister",
+    "year": 2019,
+    "creators": [
+      "Э. Л. Джеймс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10192514-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65070501",
+      "openLibrary": "OL20121625W"
+    }
+  },
+  {
+    "id": "b-wd50097633",
+    "type": "book",
+    "title": "The Disappearance of Stephanie Mailer",
+    "year": 2018,
+    "creators": [
+      "Жоэль Диккер"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q50097633"
+    }
+  },
+  {
+    "id": "b-wd54488402",
+    "type": "book",
+    "title": "Leah on the Offbeat",
+    "year": 2018,
+    "creators": [
+      "Бекки Алберталли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8797665-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q54488402",
+      "openLibrary": "OL19738047W"
+    }
+  },
+  {
+    "id": "b-wd108459514",
+    "type": "book",
+    "title": "Вот идёт Мессия!",
+    "year": 1996,
+    "creators": [
+      "Дина Ильинична Рубина"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108459514"
+    }
+  },
+  {
+    "id": "b-wd4491026",
+    "type": "book",
+    "title": "Флегетон",
+    "year": 2000,
+    "creators": [
+      "Андрей Валентинов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4491026"
+    }
+  },
+  {
+    "id": "b-wd30004748",
+    "type": "book",
+    "title": "В тихом омуте",
+    "originalTitle": "Into the Water",
+    "year": 2017,
+    "creators": [
+      "Пола Хокинс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8047692-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30004748",
+      "openLibrary": "OL17765039W"
+    }
+  },
+  {
+    "id": "b-wd20430977",
+    "type": "book",
+    "title": "Последний довод королей",
+    "originalTitle": "Last Argument of Kings",
+    "year": 2008,
+    "creators": [
+      "Джо Аберкромби"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6901175-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20430977",
+      "openLibrary": "OL8400952W"
+    }
+  },
+  {
+    "id": "b-wd44707008",
+    "type": "book",
+    "title": "Семья Рэдли",
+    "originalTitle": "The Radleys",
+    "year": 2010,
+    "creators": [
+      "Мэтт Хейг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6676204-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q44707008",
+      "openLibrary": "OL14972482W"
+    }
+  },
+  {
+    "id": "b-wd130259113",
+    "type": "book",
+    "title": "A View from the Stars",
+    "year": 2024,
+    "creators": [
+      "Лю Цысинь"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130259113",
+      "openLibrary": "OL37860633W"
+    }
+  },
+  {
+    "id": "b-wd19320992",
+    "type": "book",
+    "title": "The Secrets of Sir Richard Kenworthy",
+    "year": 2015,
+    "creators": [
+      "Джулия Куинн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8367786-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19320992",
+      "openLibrary": "OL18820936W"
+    }
+  },
+  {
+    "id": "b-wd3431829",
+    "type": "book",
+    "title": "The Steel Remains",
+    "year": 2008,
+    "creators": [
+      "Ричард Морган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6670503-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3431829",
+      "openLibrary": "OL5730141W"
+    }
+  },
+  {
+    "id": "b-wd101987009",
+    "type": "book",
+    "title": "Королевство шипов и роз",
+    "originalTitle": "A Court of Thorns and Roses",
+    "year": 2015,
+    "creators": [
+      "Сара Дж. Маас"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15254465-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q101987009",
+      "openLibrary": "OL17352669W"
+    }
+  },
+  {
+    "id": "b-wd7747344",
+    "type": "book",
+    "title": "Мертвые возвращаются?..",
+    "originalTitle": "The Likeness",
+    "year": 2008,
+    "creators": [
+      "Тана Френч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6449351-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7747344",
+      "openLibrary": "OL24256033W"
+    }
+  },
+  {
+    "id": "b-wd98593546",
+    "type": "book",
+    "title": "После падения",
+    "originalTitle": "After We Fell",
+    "year": 2014,
+    "creators": [
+      "Анна Тодд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10547630-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q98593546",
+      "openLibrary": "OL20004815W"
+    }
+  },
+  {
+    "id": "b-wd113367333",
+    "type": "book",
+    "title": "Мiр и Война",
+    "originalTitle": "Peace and War",
+    "year": 2020,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113367333"
+    }
+  },
+  {
+    "id": "b-wd131417718",
+    "type": "book",
+    "title": "Melmoth",
+    "year": 2018,
+    "creators": [
+      "Сара Перри"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12033123-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131417718",
+      "openLibrary": "OL21335891W"
+    }
+  },
+  {
+    "id": "b-wd125360420",
+    "type": "book",
+    "title": "Divine Rivals",
+    "year": 2023,
+    "creators": [
+      "Rebecca Ross"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13268161-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q125360420",
+      "openLibrary": "OL27893158W"
+    }
+  },
+  {
+    "id": "b-wd131466693",
+    "type": "book",
+    "title": "Echo",
+    "year": 2019,
+    "creators": [
+      "Томас Олде Хёвелт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13248764-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131466693",
+      "openLibrary": "OL25444278W"
+    }
+  },
+  {
+    "id": "b-wd119348404",
+    "type": "book",
+    "title": "Bastille vs. the Evil Librarians",
+    "year": 2022,
+    "creators": [
+      "Janci Patterson",
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14838622-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q119348404",
+      "openLibrary": "OL28427593W"
+    }
+  },
+  {
+    "id": "b-wd137822616",
+    "type": "book",
+    "title": "The Familiar",
+    "year": 2024,
+    "creators": [
+      "Ли Бардуго"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14605764-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q137822616",
+      "openLibrary": "OL37568402W"
+    }
+  },
+  {
+    "id": "b-wd132190923",
+    "type": "book",
+    "title": "Заклятие истинной любви",
+    "originalTitle": "A Curse for True Love",
+    "year": 2023,
+    "creators": [
+      "Стефани Гарбер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13124827-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132190923",
+      "openLibrary": "OL33364737W"
+    }
+  },
+  {
+    "id": "b-wd110772685",
+    "type": "book",
+    "title": "To Paradise",
+    "year": 2022,
+    "creators": [
+      "Ханья Янагихара"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11660953-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110772685",
+      "openLibrary": "OL34363614W"
+    }
+  },
+  {
+    "id": "b-wd110677902",
+    "type": "book",
+    "title": "Dark Tales",
+    "year": 2016,
+    "creators": [
+      "Шерли Джексон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8537260-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110677902",
+      "openLibrary": "OL19624286W"
+    }
+  },
+  {
+    "id": "b-wd7745099",
+    "type": "book",
+    "title": "The Ladies of Grace Adieu and Other Stories",
+    "year": 2006,
+    "creators": [
+      "Сюзанна Кларк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/488659-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7745099",
+      "openLibrary": "OL5703425W"
+    }
+  },
+  {
+    "id": "b-wd27890345",
+    "type": "book",
+    "title": "The Good People",
+    "year": 2016,
+    "creators": [
+      "Ханна Кент"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9343983-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27890345",
+      "openLibrary": "OL20674315W"
+    }
+  },
+  {
+    "id": "b-wd55856868",
+    "type": "book",
+    "title": "The Girls",
+    "year": 2016,
+    "creators": [
+      "Эмма Клайн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7435133-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55856868",
+      "openLibrary": "OL17357376W"
+    }
+  },
+  {
+    "id": "b-wd16681699",
+    "type": "book",
+    "title": "After the Crash",
+    "year": 2012,
+    "creators": [
+      "Мишель Бюсси"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10342263-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16681699",
+      "openLibrary": "OL31979341W"
+    }
+  },
+  {
+    "id": "b-wd139550645",
+    "type": "book",
+    "title": "My Inner Ear Quartet",
+    "year": 2024,
+    "creators": [
+      "Ёко Огава"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q139550645"
+    }
+  },
+  {
+    "id": "b-wd114342488",
+    "type": "book",
+    "title": "The Sun and the Star",
+    "year": 2023,
+    "creators": [
+      "Mark Oshiro",
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13348151-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q114342488",
+      "openLibrary": "OL28868481W"
+    }
+  },
+  {
+    "id": "b-wd1825477",
+    "type": "book",
+    "title": "Limit",
+    "year": 2009,
+    "creators": [
+      "Франк Шетцинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10104349-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1825477",
+      "openLibrary": "OL16810217W"
+    }
+  },
+  {
+    "id": "b-wd141429683",
+    "type": "book",
+    "title": "Love, Theoretically",
+    "year": 2023,
+    "creators": [
+      "Али Хейзелвуд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13264824-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q141429683",
+      "openLibrary": "OL28803485W"
+    }
+  },
+  {
+    "id": "b-wd140075176",
+    "type": "book",
+    "title": "Фланёр",
+    "year": 2011,
+    "creators": [
+      "Николай Кононов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140075176"
+    }
+  },
+  {
+    "id": "b-wd132190761",
+    "type": "book",
+    "title": "Blood & Honey",
+    "year": 2020,
+    "creators": [
+      "Shelby Mahurin"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10136462-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132190761",
+      "openLibrary": "OL20831006W"
+    }
+  },
+  {
+    "id": "b-wd17104036",
+    "type": "book",
+    "title": "The Copper Promise",
+    "year": 2014,
+    "creators": [
+      "Jen Williams"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8542520-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17104036",
+      "openLibrary": "OL20911501W"
+    }
+  },
+  {
+    "id": "b-wd102204998",
+    "type": "book",
+    "title": "Shadows",
+    "year": 2012,
+    "creators": [
+      "Дженнифер Арментроут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12063407-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q102204998",
+      "openLibrary": "OL25473850W"
+    }
+  },
+  {
+    "id": "b-wd132863370",
+    "type": "book",
+    "title": "Pines",
+    "year": 2012,
+    "creators": [
+      "Блейк Крауч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10114653-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132863370",
+      "openLibrary": "OL19958266W"
+    }
+  },
+  {
+    "id": "b-wd3506351",
+    "type": "book",
+    "title": "Спектр",
+    "originalTitle": "Spectrum",
+    "year": 2002,
+    "creators": [
+      "Сергей Васильевич Лукьяненко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3506351"
+    }
+  },
+  {
+    "id": "b-wd7736268",
+    "type": "book",
+    "title": "Бригады призраков",
+    "originalTitle": "The Ghost Brigades",
+    "year": 2006,
+    "creators": [
+      "Джон Скальци"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/524706-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7736268",
+      "openLibrary": "OL5734645W"
+    }
+  },
+  {
+    "id": "b-wd128033768",
+    "type": "book",
+    "title": "Rose/House",
+    "year": 2023,
+    "creators": [
+      "Аркади Мартин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15112696-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q128033768",
+      "openLibrary": "OL38652997W"
+    }
+  },
+  {
+    "id": "b-wd18162235",
+    "type": "book",
+    "title": "Закон о детях (роман)",
+    "originalTitle": "The Children Act",
+    "year": 2014,
+    "creators": [
+      "Иэн Макьюэн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7373869-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18162235",
+      "openLibrary": "OL24557331W"
+    }
+  },
+  {
+    "id": "b-wd643846",
+    "type": "book",
+    "title": "Сумерки",
+    "year": 2007,
+    "creators": [
+      "Дмитрий Алексеевич Глуховский"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8004711-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q643846",
+      "openLibrary": "OL20861258W"
+    }
+  },
+  {
+    "id": "b-wd16385711",
+    "type": "book",
+    "title": "Flight Behavior",
+    "year": 2012,
+    "creators": [
+      "Барбара Кингсолвер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8753596-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16385711",
+      "openLibrary": "OL17200210W"
+    }
+  },
+  {
+    "id": "b-wd29832584",
+    "type": "book",
+    "title": "Нью-Йорк 2140",
+    "originalTitle": "New York 2140",
+    "year": 2017,
+    "creators": [
+      "Ким Стенли Робинсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8595447-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q29832584",
+      "openLibrary": "OL17937993W"
+    }
+  },
+  {
+    "id": "b-wd99570398",
+    "type": "book",
+    "title": "Лестница Якова",
+    "originalTitle": "Yakov's Ladder",
+    "year": 2015,
+    "creators": [
+      "Улицкая, Людмила Евгеньевна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q99570398"
+    }
+  },
+  {
+    "id": "b-wd107071877",
+    "type": "book",
+    "title": "Без надежды",
+    "originalTitle": "Hopeless",
+    "year": 2013,
+    "creators": [
+      "Коллин Хувер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10549926-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q107071877",
+      "openLibrary": "OL20564687W"
+    }
+  },
+  {
+    "id": "b-wd16272285",
+    "type": "book",
+    "title": "Теллурия",
+    "originalTitle": "Telluria",
+    "year": 2013,
+    "creators": [
+      "Владимир Георгиевич Сорокин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8624250-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16272285",
+      "openLibrary": "OL19325751W"
+    }
+  },
+  {
+    "id": "b-wd124340735",
+    "type": "book",
+    "title": "The Winners",
+    "year": 2021,
+    "creators": [
+      "Фредрик Бакман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12601197-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124340735",
+      "openLibrary": "OL27278191W"
+    }
+  },
+  {
+    "id": "b-wd100536916",
+    "type": "book",
+    "title": "Земля",
+    "year": 2020,
+    "creators": [
+      "Михаил Юрьевич Елизаров"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q100536916"
+    }
+  },
+  {
+    "id": "b-wd3179522",
+    "type": "book",
+    "title": "Громила",
+    "originalTitle": "Big Driver",
+    "year": 2010,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8588032-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3179522",
+      "openLibrary": "OL19781688W"
+    }
+  },
+  {
+    "id": "b-wd25381096",
+    "type": "book",
+    "title": "История одиночества",
+    "originalTitle": "A History of Loneliness",
+    "year": 2014,
+    "creators": [
+      "Джон Бойн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12720621-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q25381096",
+      "openLibrary": "OL17928093W"
+    }
+  },
+  {
+    "id": "b-wd24521290",
+    "type": "book",
+    "title": "Голова, полная призраков",
+    "originalTitle": "A Head Full of Ghosts",
+    "year": 2015,
+    "creators": [
+      "Пол Тремблей"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24521290"
+    }
+  },
+  {
+    "id": "b-wd125314179",
+    "type": "book",
+    "title": "The Women",
+    "year": 2024,
+    "creators": [
+      "Кристин Ханна"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14631595-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q125314179",
+      "openLibrary": "OL39532337W"
+    }
+  },
+  {
+    "id": "b-wd28666269",
+    "type": "book",
+    "title": "Лампа Мафусаила, или Крайняя битва чекистов с масонами",
+    "originalTitle": "Methuselah's Lamp, or The Last Battle of the Chekists and Masons",
+    "year": 2016,
+    "creators": [
+      "Виктор Пелевин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q28666269"
+    }
+  },
+  {
+    "id": "b-wd89589350",
+    "type": "book",
+    "title": "Облачные дороги",
+    "originalTitle": "The Cloud Roads",
+    "year": 2011,
+    "creators": [
+      "Марта Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6951395-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q89589350",
+      "openLibrary": "OL16165507W"
+    }
+  },
+  {
+    "id": "b-wd641258",
+    "type": "book",
+    "title": "Вечная жизнь",
+    "originalTitle": "To Live Forever",
+    "year": 1956,
+    "creators": [
+      "Джек Вэнс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/478725-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q641258",
+      "openLibrary": "OL2071511W"
+    }
+  },
+  {
+    "id": "b-wd630341",
+    "type": "book",
+    "title": "Три сердца и три льва",
+    "originalTitle": "Three Hearts and Three Lions",
+    "year": 1961,
+    "creators": [
+      "Пол Уильям Андерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/479500-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q630341",
+      "openLibrary": "OL90564W"
+    }
+  },
+  {
+    "id": "b-wd131413456",
+    "type": "book",
+    "title": "City of Last Chances",
+    "year": 2022,
+    "creators": [
+      "Adrian Tchaikovsky"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13509614-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131413456",
+      "openLibrary": "OL27090927W"
+    }
+  },
+  {
+    "id": "b-wd19610145",
+    "type": "book",
+    "title": "Пожар Сиболы",
+    "originalTitle": "Cibola Burn",
+    "year": 2014,
+    "creators": [
+      "Дэниел Абрахам",
+      "Джеймс Кори",
+      "Тай Френк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19610145"
+    }
+  },
+  {
+    "id": "b-wd20502881",
+    "type": "book",
+    "title": "Хранительница тайн",
+    "originalTitle": "The Secret Keeper",
+    "year": 2012,
+    "creators": [
+      "Кейт Мортон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9988102-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20502881",
+      "openLibrary": "OL31955360W"
+    }
+  },
+  {
+    "id": "b-wd122425698",
+    "type": "book",
+    "title": "The Daughter of Doctor Moreau",
+    "year": 2022,
+    "creators": [
+      "Silvia Moreno-Garcia"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q122425698",
+      "openLibrary": "OL43026082W"
+    }
+  },
+  {
+    "id": "b-wd3231338",
+    "type": "book",
+    "title": "Сто тысяч королевств",
+    "originalTitle": "The Hundred Thousand Kingdoms",
+    "year": 2010,
+    "creators": [
+      "Нора Джемисин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7716902-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3231338",
+      "openLibrary": "OL13731150W"
+    }
+  },
+  {
+    "id": "b-wd132451932",
+    "type": "book",
+    "title": "Playground (роман)",
+    "originalTitle": "Playground",
+    "year": 2024,
+    "creators": [
+      "Ричард Пауэрс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14827115-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132451932",
+      "openLibrary": "OL37830316W"
+    }
+  },
+  {
+    "id": "b-wd104520732",
+    "type": "book",
+    "title": "First Person Singular",
+    "year": 2020,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14613371-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q104520732",
+      "openLibrary": "OL44257465W"
+    }
+  },
+  {
+    "id": "b-wd120261546",
+    "type": "book",
+    "title": "Сажайте, и вырастет",
+    "year": 2005,
+    "creators": [
+      "Андрей Викторович Рубанов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120261546"
+    }
+  },
+  {
+    "id": "b-wd4468069",
+    "type": "book",
+    "title": "Тёмная звезда",
+    "year": 2001,
+    "creators": [
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4468069"
+    }
+  },
+  {
+    "id": "b-wd130681191",
+    "type": "book",
+    "title": "Ониксовый шторм",
+    "originalTitle": "Onyx Storm",
+    "year": 2025,
+    "creators": [
+      "Ребекка Яррос"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14826089-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130681191",
+      "openLibrary": "OL41943074W"
+    }
+  },
+  {
+    "id": "b-wd131466682",
+    "type": "book",
+    "title": "Cross Her Heart",
+    "year": 2018,
+    "creators": [
+      "Sarah Pinborough"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10620936-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131466682",
+      "openLibrary": "OL21183766W"
+    }
+  },
+  {
+    "id": "b-wd2370068",
+    "type": "book",
+    "title": "Мигрант, или Brevi finietur",
+    "year": 2010,
+    "creators": [
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2370068"
+    }
+  },
+  {
+    "id": "b-wd3565822",
+    "type": "book",
+    "title": "Диаспора",
+    "originalTitle": "Diaspora",
+    "year": 1997,
+    "creators": [
+      "Грег Иган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1009216-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3565822",
+      "openLibrary": "OL115341W"
+    }
+  },
+  {
+    "id": "b-wd97586026",
+    "type": "book",
+    "title": "Utopia Avenue",
+    "year": 2020,
+    "creators": [
+      "Дэвид Митчелл"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10201756-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97586026",
+      "openLibrary": "OL20748683W"
+    }
+  },
+  {
+    "id": "b-wd64590884",
+    "type": "book",
+    "title": "Circe",
+    "year": 2018,
+    "creators": [
+      "Мадлен Миллер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8739376-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q64590884",
+      "openLibrary": "OL18012166W"
+    }
+  },
+  {
+    "id": "b-wd133844833",
+    "type": "book",
+    "title": "The Oleander Sword",
+    "year": 2022,
+    "creators": [
+      "Tasha Suri"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133844833"
+    }
+  },
+  {
+    "id": "b-wd30641788",
+    "type": "book",
+    "title": "Факел в ночи",
+    "originalTitle": "A Torch Against the Night",
+    "year": 2016,
+    "creators": [
+      "Sabaa Tahir"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8904785-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30641788",
+      "openLibrary": "OL20033776W"
+    }
+  },
+  {
+    "id": "b-wd104190017",
+    "type": "book",
+    "title": "A Deadly Education",
+    "year": 2020,
+    "creators": [
+      "Наоми Новик"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10206042-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q104190017",
+      "openLibrary": "OL20881237W"
+    }
+  },
+  {
+    "id": "b-wd17066538",
+    "type": "book",
+    "title": "Zone One",
+    "year": 2011,
+    "creators": [
+      "Колсон Уайтхед"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6935551-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17066538",
+      "openLibrary": "OL15917217W"
+    }
+  },
+  {
+    "id": "b-wd94973241",
+    "type": "book",
+    "title": "Последняя любовь гипнотизера",
+    "originalTitle": "The Hypnotist's Love Story",
+    "year": 2011,
+    "creators": [
+      "Лиана Мориарти"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9385041-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q94973241",
+      "openLibrary": "OL19329996W"
+    }
+  },
+  {
+    "id": "b-wd25921512",
+    "type": "book",
+    "title": "Молот Тора",
+    "originalTitle": "The Hammer of Thor",
+    "year": 2016,
+    "creators": [
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13774344-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q25921512",
+      "openLibrary": "OL17860071W"
+    }
+  },
+  {
+    "id": "b-wd123851516",
+    "type": "book",
+    "title": "Корона из ведьминого дерева",
+    "originalTitle": "The Witchwood Crown",
+    "year": 2017,
+    "creators": [
+      "Тэд Уильямс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8535729-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123851516",
+      "openLibrary": "OL19622134W"
+    }
+  },
+  {
+    "id": "b-wd118904094",
+    "type": "book",
+    "title": "Не бойся жнеца",
+    "originalTitle": "Don't Fear the Reaper",
+    "year": 2023,
+    "creators": [
+      "Стивен Грэм Джонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13778222-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q118904094",
+      "openLibrary": "OL26663563W"
+    }
+  },
+  {
+    "id": "b-wd46498788",
+    "type": "book",
+    "title": "Beyond the Rift",
+    "year": 2013,
+    "creators": [
+      "Питер Уоттс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8577792-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q46498788",
+      "openLibrary": "OL19708139W"
+    }
+  },
+  {
+    "id": "b-wd1834995",
+    "type": "book",
+    "title": "Ведьмин век",
+    "year": 1997,
+    "creators": [
+      "Марина и Сергей Дяченко",
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1834995"
+    }
+  },
+  {
+    "id": "b-wd4291309",
+    "type": "book",
+    "title": "Мессия очищает диск",
+    "year": 1997,
+    "creators": [
+      "Генри Лайон Олди"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4291309"
+    }
+  },
+  {
+    "id": "b-wd122238085",
+    "type": "book",
+    "title": "Крапива и кость",
+    "originalTitle": "Nettle & Bone",
+    "year": 2022,
+    "creators": [
+      "Урсула Вернон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11135584-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q122238085",
+      "openLibrary": "OL24510090W"
+    }
+  },
+  {
+    "id": "b-wd85809878",
+    "type": "book",
+    "title": "По ту сторону звёзд",
+    "originalTitle": "To Sleep in a Sea of Stars",
+    "year": 2020,
+    "creators": [
+      "Кристофер Паолини"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10419780-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85809878",
+      "openLibrary": "OL20861787W"
+    }
+  },
+  {
+    "id": "b-wd3334725",
+    "type": "book",
+    "title": "Призрак",
+    "originalTitle": "Phantom",
+    "year": 2011,
+    "creators": [
+      "Ю Несбё"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7994259-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3334725",
+      "openLibrary": "OL16129583W"
+    }
+  },
+  {
+    "id": "b-wd7062890",
+    "type": "book",
+    "title": "Нечего терять",
+    "originalTitle": "Nothing to Lose",
+    "year": 2008,
+    "creators": [
+      "Ли Чайлд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15027615-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7062890",
+      "openLibrary": "OL52935W"
+    }
+  },
+  {
+    "id": "b-wd120482895",
+    "type": "book",
+    "title": "Translation State",
+    "year": 2023,
+    "creators": [
+      "Энн Леки"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13240199-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120482895",
+      "openLibrary": "OL31115154W"
+    }
+  },
+  {
+    "id": "b-wd18786543",
+    "type": "book",
+    "title": "Everything I Never Told You",
+    "year": 2014,
+    "creators": [
+      "Селест Нг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7383473-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18786543",
+      "openLibrary": "OL17295077W"
+    }
+  },
+  {
+    "id": "b-wd6065676",
+    "type": "book",
+    "title": "Black Milk",
+    "year": 2007,
+    "creators": [
+      "Элиф Шафак"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12834081-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6065676",
+      "openLibrary": "OL16113974W"
+    }
+  },
+  {
+    "id": "b-wd16653791",
+    "type": "book",
+    "title": "Призрачный маяк",
+    "originalTitle": "The Lost Boy",
+    "year": 2009,
+    "creators": [
+      "Камилла Лэкберг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13087947-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16653791",
+      "openLibrary": "OL24266450W"
+    }
+  },
+  {
+    "id": "b-wd115258132",
+    "type": "book",
+    "title": "Earthlings",
+    "year": 2021,
+    "creators": [
+      "Саяка Мурата"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115258132",
+      "openLibrary": "OL24704322W"
+    }
+  },
+  {
+    "id": "b-wd16272183",
+    "type": "book",
+    "title": "Пересмешник",
+    "year": 2009,
+    "creators": [
+      "Пехов, Алексей Юрьевич"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16272183"
+    }
+  },
+  {
+    "id": "b-wd21076759",
+    "type": "book",
+    "title": "The Books of Jacob",
+    "year": 2014,
+    "creators": [
+      "Ольга Токарчук"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q21076759",
+      "openLibrary": "OL20317821W"
+    }
+  },
+  {
+    "id": "b-wd130612923",
+    "type": "book",
+    "title": "Black Sun",
+    "year": 2020,
+    "creators": [
+      "Rebecca Roanhorse"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10183208-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130612923",
+      "openLibrary": "OL20865716W"
+    }
+  },
+  {
+    "id": "b-wd4037587",
+    "type": "book",
+    "title": "Драконья гавань",
+    "originalTitle": "Dragon Haven",
+    "year": 2010,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6298448-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4037587",
+      "openLibrary": "OL15537760W"
+    }
+  },
+  {
+    "id": "b-wd115683368",
+    "type": "book",
+    "title": "Daisy Jones & the Six",
+    "year": 2019,
+    "creators": [
+      "Тейлор Дженкинс Рейд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8742674-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115683368",
+      "openLibrary": "OL19922194W"
+    }
+  },
+  {
+    "id": "b-wd41663451",
+    "type": "book",
+    "title": "The Long Way to a Small, Angry Planet",
+    "year": 2014,
+    "creators": [
+      "Becky Chambers"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8902659-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q41663451",
+      "openLibrary": "OL17716925W"
+    }
+  },
+  {
+    "id": "b-wd85807259",
+    "type": "book",
+    "title": "The Giver of Stars",
+    "year": 2019,
+    "creators": [
+      "Джоджо Мойес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8847989-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q85807259",
+      "openLibrary": "OL20198127W"
+    }
+  },
+  {
+    "id": "b-wd110130954",
+    "type": "book",
+    "title": "Beach Read",
+    "year": 2020,
+    "creators": [
+      "Emily Henry"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110130954",
+      "openLibrary": "OL20734329W"
+    }
+  },
+  {
+    "id": "b-wd124449127",
+    "type": "book",
+    "title": "The Book That Wouldn't Burn",
+    "year": 2023,
+    "creators": [
+      "Марк Лоуренс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124449127",
+      "openLibrary": "OL28021454W"
+    }
+  },
+  {
+    "id": "b-wd3638345",
+    "type": "book",
+    "title": "Elsewhere",
+    "year": 2005,
+    "creators": [
+      "Гэбриэлль Зевин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1473532-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3638345",
+      "openLibrary": "OL28216663W"
+    }
+  },
+  {
+    "id": "b-wd2758232",
+    "type": "book",
+    "title": "Механический ангел",
+    "originalTitle": "Clockwork Angel",
+    "year": 2010,
+    "creators": [
+      "Кассандра Клэр"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6582736-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2758232",
+      "openLibrary": "OL16552371W"
+    }
+  },
+  {
+    "id": "b-wd11859725",
+    "type": "book",
+    "title": "Флэшбэк",
+    "originalTitle": "Flashback",
+    "year": 2011,
+    "creators": [
+      "Дэн Симмонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8089937-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q11859725",
+      "openLibrary": "OL34574863W"
+    }
+  },
+  {
+    "id": "b-wd4123499",
+    "type": "book",
+    "title": "Волкодав. Знамение пути",
+    "year": 2003,
+    "creators": [
+      "Мария Васильевна Семёнова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4123499"
+    }
+  },
+  {
+    "id": "b-wd4088980",
+    "type": "book",
+    "title": "Бог дождя",
+    "year": 2007,
+    "creators": [
+      "Майя Александровна Кучерская"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4088980"
+    }
+  },
+  {
+    "id": "b-wd16204596",
+    "type": "book",
+    "title": "Беззумный Аддам",
+    "originalTitle": "MaddAddam",
+    "year": 2013,
+    "creators": [
+      "Маргарет Этвуд"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16204596",
+      "openLibrary": "OL17046610W"
+    }
+  },
+  {
+    "id": "b-wd122834958",
+    "type": "book",
+    "title": "The Adventures of Amina al-Sirafi",
+    "year": 2023,
+    "creators": [
+      "Шеннон Чакраборти"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q122834958",
+      "openLibrary": "OL27398871W"
+    }
+  },
+  {
+    "id": "b-wd113753129",
+    "type": "book",
+    "title": "Under the Whispering Door",
+    "year": 2021,
+    "creators": [
+      "TJ Klune"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11943757-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113753129",
+      "openLibrary": "OL20862021W"
+    }
+  },
+  {
+    "id": "b-wd104375062",
+    "type": "book",
+    "title": "Один из нас — следующий",
+    "originalTitle": "One of Us Is Next",
+    "year": 2020,
+    "creators": [
+      "Karen M. McManus"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9255512-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q104375062",
+      "openLibrary": "OL20639427W"
+    }
+  },
+  {
+    "id": "b-wd18788018",
+    "type": "book",
+    "title": "Vicious",
+    "year": 2013,
+    "creators": [
+      "Виктория Шваб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7410937-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18788018",
+      "openLibrary": "OL17332806W"
+    }
+  },
+  {
+    "id": "b-wd127896402",
+    "type": "book",
+    "title": "The Housemaid's Secret",
+    "year": 2023,
+    "creators": [
+      "Фрида Мак-Фадден"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13439869-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q127896402",
+      "openLibrary": "OL34113490W"
+    }
+  },
+  {
+    "id": "b-wd4468150",
+    "type": "book",
+    "title": "Тёрн",
+    "year": 2007,
+    "creators": [
+      "Ник Перумов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4468150"
+    }
+  },
+  {
+    "id": "b-wd138018270",
+    "type": "book",
+    "title": "Выбраковка",
+    "year": 1999,
+    "creators": [
+      "Олег Игоревич Дивов"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q138018270"
+    }
+  },
+  {
+    "id": "b-wd14755067",
+    "type": "book",
+    "title": "Сезон костей",
+    "originalTitle": "The Bone Season",
+    "year": 2013,
+    "creators": [
+      "Samantha Shannon"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7554427-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q14755067",
+      "openLibrary": "OL17662569W"
+    }
+  },
+  {
+    "id": "b-wd131036665",
+    "type": "book",
+    "title": "Intermezzo",
+    "year": 2024,
+    "creators": [
+      "Салли Руни"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15248784-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131036665",
+      "openLibrary": "OL37949460W"
+    }
+  },
+  {
+    "id": "b-wd132168280",
+    "type": "book",
+    "title": "The Emperor of Gladness",
+    "year": 2025,
+    "creators": [
+      "Оушен Вуонг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15146234-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132168280",
+      "openLibrary": "OL42394591W"
+    }
+  },
+  {
+    "id": "b-wd123264048",
+    "type": "book",
+    "title": "Loveless",
+    "year": 2020,
+    "creators": [
+      "Элис Осман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10484915-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123264048",
+      "openLibrary": "OL22670634W"
+    }
+  },
+  {
+    "id": "b-wd8445477",
+    "type": "book",
+    "title": "Украденный сон",
+    "year": 1995,
+    "creators": [
+      "Александра Маринина"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q8445477"
+    }
+  },
+  {
+    "id": "b-wd27132607",
+    "type": "book",
+    "title": "Уничтожь меня",
+    "originalTitle": "Destroy Me",
+    "year": 2012,
+    "creators": [
+      "Тахира Мафи"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27132607"
+    }
+  },
+  {
+    "id": "b-wd723231",
+    "type": "book",
+    "title": "Raven's Gate",
+    "year": 2005,
+    "creators": [
+      "Энтони Горовиц"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q723231",
+      "openLibrary": "OL84772W"
+    }
+  },
+  {
+    "id": "b-wd5606696",
+    "type": "book",
+    "title": "Грегор и тайный знак",
+    "originalTitle": "Gregor and the Marks of Secret",
+    "year": 2006,
+    "creators": [
+      "Сьюзен Коллинз"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5606696",
+      "openLibrary": "OL5735358W"
+    }
+  },
+  {
+    "id": "b-wd105016342",
+    "type": "book",
+    "title": "Our share of the night",
+    "year": 2019,
+    "creators": [
+      "Мариана Энрикес"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105016342",
+      "openLibrary": "OL20901051W"
+    }
+  },
+  {
+    "id": "b-wd5243364",
+    "type": "book",
+    "title": "Days of Blood and Starlight",
+    "year": 2012,
+    "creators": [
+      "Лэйни Тейлор"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7243752-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5243364",
+      "openLibrary": "OL17647602W"
+    }
+  },
+  {
+    "id": "b-wd2832091",
+    "type": "book",
+    "title": "Алькатрас и Пески Рашида",
+    "originalTitle": "Alcatraz Versus the Evil Librarians",
+    "year": 2007,
+    "creators": [
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14658065-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2832091",
+      "openLibrary": "OL5738152W"
+    }
+  },
+  {
+    "id": "b-wd55609029",
+    "type": "book",
+    "title": "Dark Age",
+    "year": 2019,
+    "creators": [
+      "Пирс Браун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8748017-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55609029",
+      "openLibrary": "OL20072759W"
+    }
+  },
+  {
+    "id": "b-wd20899538",
+    "type": "book",
+    "title": "Purity",
+    "year": 2015,
+    "creators": [
+      "Джонатан Франзен"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20899538",
+      "openLibrary": "OL20235693W"
+    }
+  },
+  {
+    "id": "b-wd23763141",
+    "type": "book",
+    "title": "Самая тёмная чаща",
+    "originalTitle": "The Darkest Part of the Forest",
+    "year": 2015,
+    "creators": [
+      "Холли Блэк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8464507-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q23763141",
+      "openLibrary": "OL19352271W"
+    }
+  },
+  {
+    "id": "b-wd55517451",
+    "type": "book",
+    "title": "Those Who Leave and Those Who Stay",
+    "year": 2013,
+    "creators": [
+      "Елена Ферранте"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13518415-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55517451",
+      "openLibrary": "OL32936076W"
+    }
+  },
+  {
+    "id": "b-wd19880555",
+    "type": "book",
+    "title": "Я не Сидни Пуатье",
+    "originalTitle": "I Am Not Sidney Poitier",
+    "year": 2009,
+    "creators": [
+      "Персиваль Эверетт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8328628-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19880555",
+      "openLibrary": "OL15107557W"
+    }
+  },
+  {
+    "id": "b-wd117039305",
+    "type": "book",
+    "title": "How to Sell a Haunted House",
+    "year": 2023,
+    "creators": [
+      "Грейди Хендрикс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13158172-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q117039305",
+      "openLibrary": "OL26666164W"
+    }
+  },
+  {
+    "id": "b-wd19319315",
+    "type": "book",
+    "title": "Смена",
+    "originalTitle": "Shift",
+    "year": 2013,
+    "creators": [
+      "Хью Хауи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11712987-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19319315",
+      "openLibrary": "OL17366206W"
+    }
+  },
+  {
+    "id": "b-wd124520011",
+    "type": "book",
+    "title": "With a Little Luck",
+    "year": 2024,
+    "creators": [
+      "Марисса Мейер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14818323-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124520011",
+      "openLibrary": "OL37588907W"
+    }
+  },
+  {
+    "id": "b-wd30304384",
+    "type": "book",
+    "title": "Инквизитор",
+    "year": 2008,
+    "creators": [
+      "Себастьян Фитцек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30304384"
+    }
+  },
+  {
+    "id": "b-wd97693142",
+    "type": "book",
+    "title": "The Enigma of Room 622",
+    "year": 2020,
+    "creators": [
+      "Жоэль Диккер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14784530-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97693142",
+      "openLibrary": "OL27090838W"
+    }
+  },
+  {
+    "id": "b-wd96390933",
+    "type": "book",
+    "title": "Love, Creekwood",
+    "year": 2020,
+    "creators": [
+      "Бекки Алберталли"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10285476-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q96390933",
+      "openLibrary": "OL20916827W"
+    }
+  },
+  {
+    "id": "b-wd135264602",
+    "type": "book",
+    "title": "The Devils",
+    "year": 2025,
+    "creators": [
+      "Джо Аберкромби"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15229572-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q135264602",
+      "openLibrary": "OL43508633W"
+    }
+  },
+  {
+    "id": "b-wd19364521",
+    "type": "book",
+    "title": "On the Way to the Wedding",
+    "year": 2006,
+    "creators": [
+      "Джулия Куинн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/27790-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19364521",
+      "openLibrary": "OL554614W"
+    }
+  },
+  {
+    "id": "b-wd2905406",
+    "type": "book",
+    "title": "Black Man",
+    "year": 2007,
+    "creators": [
+      "Ричард Морган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/380235-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2905406",
+      "openLibrary": "OL6835839W"
+    }
+  },
+  {
+    "id": "b-wd124623504",
+    "type": "book",
+    "title": "Дом Земли и Крови",
+    "originalTitle": "House of Earth and Blood",
+    "year": 2019,
+    "creators": [
+      "Сара Дж. Маас"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9289603-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124623504",
+      "openLibrary": "OL20650912W"
+    }
+  },
+  {
+    "id": "b-wd5431286",
+    "type": "book",
+    "title": "Faithful Place",
+    "year": 2010,
+    "creators": [
+      "Тана Френч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8372232-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5431286",
+      "openLibrary": "OL15191187W"
+    }
+  },
+  {
+    "id": "b-wd30897556",
+    "type": "book",
+    "title": "После",
+    "originalTitle": "After",
+    "year": 2014,
+    "creators": [
+      "Анна Тодд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14418944-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30897556",
+      "openLibrary": "OL17719508W"
+    }
+  },
+  {
+    "id": "b-wd127648200",
+    "type": "book",
+    "title": "Москва-Синьцзин",
+    "originalTitle": "Moscow-Xinjing",
+    "year": 2024,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q127648200"
+    }
+  },
+  {
+    "id": "b-wd112670536",
+    "type": "book",
+    "title": "You Know How the Story Goes",
+    "year": 2017,
+    "creators": [
+      "Томас Олде Хёвелт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12964281-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q112670536",
+      "openLibrary": "OL25875334W"
+    }
+  },
+  {
+    "id": "b-wd139920714",
+    "type": "book",
+    "title": "The Rock",
+    "year": 1968,
+    "creators": [
+      "Шерли Джексон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q139920714"
+    }
+  },
+  {
+    "id": "b-wd20926163",
+    "type": "book",
+    "title": "Burial Rites",
+    "year": 2013,
+    "creators": [
+      "Ханна Кент"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9030751-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20926163",
+      "openLibrary": "OL20364170W"
+    }
+  },
+  {
+    "id": "b-wd23001689",
+    "type": "book",
+    "title": "Black Waterlilies",
+    "year": 2011,
+    "creators": [
+      "Мишель Бюсси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q23001689",
+      "openLibrary": "OL15960715W"
+    }
+  },
+  {
+    "id": "b-wd135406457",
+    "type": "book",
+    "title": "The Court of the Dead",
+    "year": 2025,
+    "creators": [
+      "Mark Oshiro",
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15126005-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q135406457",
+      "openLibrary": "OL44071772W"
+    }
+  },
+  {
+    "id": "b-wd16054714",
+    "type": "book",
+    "title": "Breaking News",
+    "year": 2014,
+    "creators": [
+      "Франк Шетцинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10122421-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16054714",
+      "openLibrary": "OL20820116W"
+    }
+  },
+  {
+    "id": "b-wd132190823",
+    "type": "book",
+    "title": "Serpent & Dove",
+    "year": 2019,
+    "creators": [
+      "Shelby Mahurin"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10136559-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132190823",
+      "openLibrary": "OL20513413W"
+    }
+  },
+  {
+    "id": "b-wd134702466",
+    "type": "book",
+    "title": "The Bitter Twins",
+    "year": 2018,
+    "creators": [
+      "Jen Williams"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10920187-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134702466",
+      "openLibrary": "OL24385819W"
+    }
+  },
+  {
+    "id": "b-wd108564359",
+    "type": "book",
+    "title": "Из крови и пепла",
+    "originalTitle": "From Blood and Ash",
+    "year": 2020,
+    "creators": [
+      "Дженнифер Арментроут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14105538-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108564359",
+      "openLibrary": "OL27838518W"
+    }
+  },
+  {
+    "id": "b-wd132863372",
+    "type": "book",
+    "title": "Wayward",
+    "year": 2013,
+    "creators": [
+      "Блейк Крауч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9211388-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132863372",
+      "openLibrary": "OL19972303W"
+    }
+  },
+  {
+    "id": "b-wd65126098",
+    "type": "book",
+    "title": "Порог",
+    "originalTitle": "Porog",
+    "year": 2019,
+    "creators": [
+      "Сергей Васильевич Лукьяненко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65126098"
+    }
+  },
+  {
+    "id": "b-wd60749168",
+    "type": "book",
+    "title": "Всепоглощающий огонь (роман)",
+    "originalTitle": "The Consuming Fire",
+    "year": 2018,
+    "creators": [
+      "Джон Скальци"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8788885-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60749168",
+      "openLibrary": "OL20586527W"
+    }
+  },
+  {
+    "id": "b-wd1531861",
+    "type": "book",
+    "title": "Солнечная",
+    "originalTitle": "Solar",
+    "year": 2010,
+    "creators": [
+      "Иэн Макьюэн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6298660-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1531861",
+      "openLibrary": "OL14919749W"
+    }
+  },
+  {
+    "id": "b-wd109403387",
+    "type": "book",
+    "title": "Пост (роман)",
+    "year": 2019,
+    "creators": [
+      "Дмитрий Алексеевич Глуховский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q109403387"
+    }
+  },
+  {
+    "id": "b-wd7745081",
+    "type": "book",
+    "title": "The Lacuna",
+    "year": 2009,
+    "creators": [
+      "Барбара Кингсолвер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6422680-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7745081",
+      "openLibrary": "OL18165170W"
+    }
+  },
+  {
+    "id": "b-wd60741201",
+    "type": "book",
+    "title": "Красная Луна",
+    "originalTitle": "Red Moon",
+    "year": 2018,
+    "creators": [
+      "Ким Стенли Робинсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8290912-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q60741201",
+      "openLibrary": "OL18021954W"
+    }
+  },
+  {
+    "id": "b-wd4154836",
+    "type": "book",
+    "title": "Даниэль Штайн, переводчик",
+    "originalTitle": "Daniel Stein, Interpreter",
+    "year": 2006,
+    "creators": [
+      "Улицкая, Людмила Евгеньевна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4154836"
+    }
+  },
+  {
+    "id": "b-wd115426659",
+    "type": "book",
+    "title": "Все твои совершенства",
+    "originalTitle": "All Your Perfects",
+    "year": 2018,
+    "creators": [
+      "Коллин Хувер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10317914-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115426659",
+      "openLibrary": "OL19747970W"
+    }
+  },
+  {
+    "id": "b-wd30887677",
+    "type": "book",
+    "title": "Манарага",
+    "originalTitle": "Manaraga",
+    "year": 2017,
+    "creators": [
+      "Владимир Георгиевич Сорокин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14418486-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30887677",
+      "openLibrary": "OL19718103W"
+    }
+  },
+  {
+    "id": "b-wd97329243",
+    "type": "book",
+    "title": "Anxious People",
+    "year": 2019,
+    "creators": [
+      "Фредрик Бакман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10087939-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97329243",
+      "openLibrary": "OL21889047W"
+    }
+  },
+  {
+    "id": "b-wd138035791",
+    "type": "book",
+    "title": "Юдоль",
+    "year": 2025,
+    "creators": [
+      "Михаил Юрьевич Елизаров"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q138035791"
+    }
+  },
+  {
+    "id": "b-wd3083972",
+    "type": "book",
+    "title": "1922",
+    "year": 2010,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14655282-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3083972",
+      "openLibrary": "OL19781625W"
+    }
+  },
+  {
+    "id": "b-wd31283069",
+    "type": "book",
+    "title": "Мальчик на вершине горы",
+    "originalTitle": "The Boy at the Top of the Mountain",
+    "year": 2015,
+    "creators": [
+      "Джон Бойн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12715711-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q31283069",
+      "openLibrary": "OL17323728W"
+    }
+  },
+  {
+    "id": "b-wd55394578",
+    "type": "book",
+    "title": "Disappearance at Devil's Rock",
+    "year": 2016,
+    "creators": [
+      "Пол Тремблей"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55394578"
+    }
+  },
+  {
+    "id": "b-wd58277712",
+    "type": "book",
+    "title": "The Great Alone",
+    "year": 2018,
+    "creators": [
+      "Кристин Ханна"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8315368-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q58277712",
+      "openLibrary": "OL18147688W"
+    }
+  },
+  {
+    "id": "b-wd81947151",
+    "type": "book",
+    "title": "Искусство лёгких касаний",
+    "originalTitle": "The Art of Light Touches",
+    "year": 2019,
+    "creators": [
+      "Виктор Пелевин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q81947151"
+    }
+  },
+  {
+    "id": "b-wd56065509",
+    "type": "book",
+    "title": "Искусственное состояние",
+    "originalTitle": "Artificial Condition",
+    "year": 2018,
+    "creators": [
+      "Марта Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10537139-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q56065509",
+      "openLibrary": "OL27481052W"
+    }
+  },
+  {
+    "id": "b-wd115804001",
+    "type": "book",
+    "title": "Children of Ruin",
+    "year": 2019,
+    "creators": [
+      "Adrian Tchaikovsky"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8750923-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115804001",
+      "openLibrary": "OL34970437W"
+    }
+  },
+  {
+    "id": "b-wd19894682",
+    "type": "book",
+    "title": "Игры Немезиды",
+    "originalTitle": "Nemesis Games",
+    "year": 2015,
+    "creators": [
+      "Дэниел Абрахам",
+      "Джеймс Кори",
+      "Тай Френк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19894682",
+      "openLibrary": "OL17755458W"
+    }
+  },
+  {
+    "id": "b-wd77430126",
+    "type": "book",
+    "title": "Gods of Jade and Shadow",
+    "year": 2019,
+    "creators": [
+      "Silvia Moreno-Garcia"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8749009-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q77430126",
+      "openLibrary": "OL20074997W"
+    }
+  },
+  {
+    "id": "b-wd7744372",
+    "type": "book",
+    "title": "The Killing Moon",
+    "year": 2012,
+    "creators": [
+      "Нора Джемисин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7554263-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7744372",
+      "openLibrary": "OL17425966W"
+    }
+  },
+  {
+    "id": "b-wd18151531",
+    "type": "book",
+    "title": "Generosity: An Enhancement",
+    "year": 2009,
+    "creators": [
+      "Ричард Пауэрс"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18151531"
+    }
+  },
+  {
+    "id": "b-wd30608679",
+    "type": "book",
+    "title": "Men Without Women",
+    "year": 2014,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13768905-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30608679",
+      "openLibrary": "OL27311465W"
+    }
+  },
+  {
+    "id": "b-wd4317701",
+    "type": "book",
+    "title": "Несравненное право",
+    "year": 2001,
+    "creators": [
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4317701"
+    }
+  },
+  {
+    "id": "b-wd26964747",
+    "type": "book",
+    "title": "The Death House",
+    "year": 2015,
+    "creators": [
+      "Sarah Pinborough"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10160771-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26964747",
+      "openLibrary": "OL20849532W"
+    }
+  },
+  {
+    "id": "b-wd42186419",
+    "type": "book",
+    "title": "Slade House",
+    "year": 2015,
+    "creators": [
+      "Дэвид Митчелл"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8086093-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q42186419",
+      "openLibrary": "OL17801648W"
+    }
+  },
+  {
+    "id": "b-wd133844845",
+    "type": "book",
+    "title": "The Lotus Empire",
+    "year": 2024,
+    "creators": [
+      "Tasha Suri"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133844845"
+    }
+  },
+  {
+    "id": "b-wd130753629",
+    "type": "book",
+    "title": "Небо после бури",
+    "originalTitle": "A Sky Beyond the Storm",
+    "year": 2020,
+    "creators": [
+      "Sabaa Tahir"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10245264-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130753629",
+      "openLibrary": "OL20904660W"
+    }
+  },
+  {
+    "id": "b-wd2028994",
+    "type": "book",
+    "title": "Нефритовый трон",
+    "originalTitle": "Throne of Jade",
+    "year": 2006,
+    "creators": [
+      "Наоми Новик"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/211936-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2028994",
+      "openLibrary": "OL20986837W"
+    }
+  },
+  {
+    "id": "b-wd98113816",
+    "type": "book",
+    "title": "Harlem Shuffle",
+    "year": 2021,
+    "creators": [
+      "Колсон Уайтхед"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10550695-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q98113816",
+      "openLibrary": "OL25483078W"
+    }
+  },
+  {
+    "id": "b-wd56355385",
+    "type": "book",
+    "title": "Что забыла Алиса",
+    "originalTitle": "What Alice Forgot",
+    "year": 2009,
+    "creators": [
+      "Лиана Мориарти"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12467987-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q56355385",
+      "openLibrary": "OL16665805W"
+    }
+  },
+  {
+    "id": "b-wd54488394",
+    "type": "book",
+    "title": "Испытания Аполлона. Горящий лабиринт",
+    "originalTitle": "The Burning Maze",
+    "year": 2018,
+    "creators": [
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8174272-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q54488394",
+      "openLibrary": "OL17868260W"
+    }
+  },
+  {
+    "id": "b-wd17145730",
+    "type": "book",
+    "title": "Игра теней",
+    "originalTitle": "Shadowplay",
+    "year": 2007,
+    "creators": [
+      "Тэд Уильямс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/503871-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17145730",
+      "openLibrary": "OL2250799W"
+    }
+  },
+  {
+    "id": "b-wd131152482",
+    "type": "book",
+    "title": "Проклятие озёрной ведьмы",
+    "originalTitle": "The Angel of Indian Lake",
+    "year": 2024,
+    "creators": [
+      "Стивен Грэм Джонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14642611-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131152482",
+      "openLibrary": "OL37626812W"
+    }
+  },
+  {
+    "id": "b-wd2156974",
+    "type": "book",
+    "title": "Пандем",
+    "year": 2003,
+    "creators": [
+      "Марина и Сергей Дяченко",
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2156974"
+    }
+  },
+  {
+    "id": "b-wd4518797",
+    "type": "book",
+    "title": "Чёрный Баламут",
+    "year": 1998,
+    "creators": [
+      "Генри Лайон Олди"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4518797"
+    }
+  },
+  {
+    "id": "b-wd133842905",
+    "type": "book",
+    "title": "A Sorceress Comes to Call",
+    "year": 2024,
+    "creators": [
+      "Урсула Вернон"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133842905"
+    }
+  },
+  {
+    "id": "b-wd117050872",
+    "type": "book",
+    "title": "Murtagh",
+    "year": 2023,
+    "creators": [
+      "Кристофер Паолини"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13841845-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q117050872",
+      "openLibrary": "OL34957950W"
+    }
+  },
+  {
+    "id": "b-wd13859327",
+    "type": "book",
+    "title": "Полиция",
+    "originalTitle": "Police",
+    "year": 2013,
+    "creators": [
+      "Ю Несбё"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7957287-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q13859327",
+      "openLibrary": "OL17333314W"
+    }
+  },
+  {
+    "id": "b-wd5581595",
+    "type": "book",
+    "title": "Джек Ричер, или Я уйду завтра",
+    "originalTitle": "Gone Tomorrow",
+    "year": 2009,
+    "creators": [
+      "Ли Чайлд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14425142-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q5581595",
+      "openLibrary": "OL18165974W"
+    }
+  },
+  {
+    "id": "b-wd69566723",
+    "type": "book",
+    "title": "Башня ворона",
+    "originalTitle": "The Raven Tower",
+    "year": 2019,
+    "creators": [
+      "Энн Леки"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8753947-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q69566723",
+      "openLibrary": "OL20084926W"
+    }
+  },
+  {
+    "id": "b-wd115202264",
+    "type": "book",
+    "title": "Our Missing Hearts",
+    "year": 2022,
+    "creators": [
+      "Селест Нг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12945105-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115202264",
+      "openLibrary": "OL27409883W"
+    }
+  },
+  {
+    "id": "b-wd132530973",
+    "type": "book",
+    "title": "There Are Rivers in the Sky",
+    "year": 2024,
+    "creators": [
+      "Элиф Шафак"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14653203-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132530973",
+      "openLibrary": "OL37860936W"
+    }
+  },
+  {
+    "id": "b-wd7713750",
+    "type": "book",
+    "title": "Ангелотворец",
+    "originalTitle": "The Angel Maker's Wife",
+    "year": 2011,
+    "creators": [
+      "Камилла Лэкберг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7713750"
+    }
+  },
+  {
+    "id": "b-wd140033278",
+    "type": "book",
+    "title": "Vanishing World",
+    "year": 2015,
+    "creators": [
+      "Саяка Мурата"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15103419-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140033278",
+      "openLibrary": "OL42426326W"
+    }
+  },
+  {
+    "id": "b-wd124375901",
+    "type": "book",
+    "title": "The Empusium",
+    "year": 2022,
+    "creators": [
+      "Ольга Токарчук"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124375901"
+    }
+  },
+  {
+    "id": "b-wd130612954",
+    "type": "book",
+    "title": "Fevered Star",
+    "year": 2022,
+    "creators": [
+      "Rebecca Roanhorse"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11750093-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130612954",
+      "openLibrary": "OL24862980W"
+    }
+  },
+  {
+    "id": "b-wd17985963",
+    "type": "book",
+    "title": "Кровь драконов",
+    "originalTitle": "Blood of Dragons",
+    "year": 2013,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7284727-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17985963",
+      "openLibrary": "OL21076202W"
+    }
+  },
+  {
+    "id": "b-wd110223711",
+    "type": "book",
+    "title": "Malibu Rising",
+    "year": 2021,
+    "creators": [
+      "Тейлор Дженкинс Рейд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10447065-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110223711",
+      "openLibrary": "OL22135561W"
+    }
+  },
+  {
+    "id": "b-wd43625060",
+    "type": "book",
+    "title": "A Closed and Common Orbit",
+    "year": 2016,
+    "creators": [
+      "Becky Chambers"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8211950-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q43625060",
+      "openLibrary": "OL17897265W"
+    }
+  },
+  {
+    "id": "b-wd133465327",
+    "type": "book",
+    "title": "We All Live Here",
+    "year": 2025,
+    "creators": [
+      "Джоджо Мойес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15146239-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133465327",
+      "openLibrary": "OL42410470W"
+    }
+  },
+  {
+    "id": "b-wd115683145",
+    "type": "book",
+    "title": "Book Lovers",
+    "year": 2022,
+    "creators": [
+      "Emily Henry"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11567819-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115683145",
+      "openLibrary": "OL24801992W"
+    }
+  },
+  {
+    "id": "b-wd105274840",
+    "type": "book",
+    "title": "Принц Терний",
+    "originalTitle": "Prince of Thorns",
+    "year": 2011,
+    "creators": [
+      "Марк Лоуренс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7603832-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q105274840",
+      "openLibrary": "OL17450797W"
+    }
+  },
+  {
+    "id": "b-wd3878113",
+    "type": "book",
+    "title": "Memoirs of a Teenage Amnesiac",
+    "year": 2007,
+    "creators": [
+      "Гэбриэлль Зевин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/1188641-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3878113",
+      "openLibrary": "OL5733681W"
+    }
+  },
+  {
+    "id": "b-wd102036136",
+    "type": "book",
+    "title": "Золотая цепь",
+    "originalTitle": "Chain of Gold",
+    "year": 2020,
+    "creators": [
+      "Кассандра Клэр"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9290977-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q102036136",
+      "openLibrary": "OL20651342W"
+    }
+  },
+  {
+    "id": "b-wd6940441",
+    "type": "book",
+    "title": "Пылающая муза",
+    "originalTitle": "Muse of Fire",
+    "year": 2007,
+    "creators": [
+      "Дэн Симмонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7256779-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6940441",
+      "openLibrary": "OL16803873W"
+    }
+  },
+  {
+    "id": "b-wd4123500",
+    "type": "book",
+    "title": "Волкодав. Право на поединок",
+    "year": 1996,
+    "creators": [
+      "Мария Васильевна Семёнова"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4123500"
+    }
+  },
+  {
+    "id": "b-wd6470478",
+    "type": "book",
+    "title": "Мадам Оракул",
+    "originalTitle": "Lady Oracle",
+    "year": 1976,
+    "creators": [
+      "Маргарет Этвуд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8292939-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6470478",
+      "openLibrary": "OL675716W"
+    }
+  },
+  {
+    "id": "b-wd130426795",
+    "type": "book",
+    "title": "Somewhere Beyond the Sea",
+    "year": 2024,
+    "creators": [
+      "TJ Klune"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130426795",
+      "openLibrary": "OL37573259W"
+    }
+  },
+  {
+    "id": "b-wd108281129",
+    "type": "book",
+    "title": "Тени сгущаются",
+    "originalTitle": "A Gathering of Shadows",
+    "year": 2016,
+    "creators": [
+      "Виктория Шваб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7990183-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108281129",
+      "openLibrary": "OL17714885W"
+    }
+  },
+  {
+    "id": "b-wd131036844",
+    "type": "book",
+    "title": "The Housemaid Is Watching",
+    "year": 2024,
+    "creators": [
+      "Фрида Мак-Фадден"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14633291-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131036844",
+      "openLibrary": "OL37576476W"
+    }
+  },
+  {
+    "id": "b-wd100746480",
+    "type": "book",
+    "title": "Каста мимов",
+    "originalTitle": "The Mime Order",
+    "year": 2015,
+    "creators": [
+      "Samantha Shannon"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8542707-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q100746480",
+      "openLibrary": "OL19634832W"
+    }
+  },
+  {
+    "id": "b-wd111955827",
+    "type": "book",
+    "title": "Nick and Charlie",
+    "year": 2015,
+    "creators": [
+      "Элис Осман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13106994-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111955827",
+      "openLibrary": "OL21679956W"
+    }
+  },
+  {
+    "id": "b-wd4315413",
+    "type": "book",
+    "title": "Не мешайте палачу",
+    "year": 1996,
+    "creators": [
+      "Александра Маринина"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4315413"
+    }
+  },
+  {
+    "id": "b-wd27132670",
+    "type": "book",
+    "title": "Разгадай меня",
+    "originalTitle": "Unravel Me",
+    "year": 2013,
+    "creators": [
+      "Тахира Мафи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12727567-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27132670",
+      "openLibrary": "OL19963111W"
+    }
+  },
+  {
+    "id": "b-wd737941",
+    "type": "book",
+    "title": "Evil Star",
+    "year": 2006,
+    "creators": [
+      "Энтони Горовиц"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/278949-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q737941",
+      "openLibrary": "OL14952310W"
+    }
+  },
+  {
+    "id": "b-wd18275498",
+    "type": "book",
+    "title": "Грегор и код когтя",
+    "originalTitle": "Gregor and the Code of Claw",
+    "year": 2007,
+    "creators": [
+      "Сьюзен Коллинз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8345961-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18275498",
+      "openLibrary": "OL5735344W"
+    }
+  },
+  {
+    "id": "b-wd131401911",
+    "type": "book",
+    "title": "A Sunny Place for Shady People",
+    "year": 2024,
+    "creators": [
+      "Мариана Энрикес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14815417-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131401911",
+      "openLibrary": "OL37760047W"
+    }
+  },
+  {
+    "id": "b-wd24037125",
+    "type": "book",
+    "title": "Dreams of Gods and Monsters",
+    "year": 2014,
+    "creators": [
+      "Лэйни Тейлор"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24037125",
+      "openLibrary": "OL19339995W"
+    }
+  },
+  {
+    "id": "b-wd6030000",
+    "type": "book",
+    "title": "Infinity Blade: Awakening",
+    "year": 2011,
+    "creators": [
+      "Брендон Сандерсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13262227-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q6030000",
+      "openLibrary": "OL19754299W"
+    }
+  },
+  {
+    "id": "b-wd127162192",
+    "type": "book",
+    "title": "Light Bringer",
+    "year": 2023,
+    "creators": [
+      "Пирс Браун"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15157697-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q127162192",
+      "openLibrary": "OL31211701W"
+    }
+  },
+  {
+    "id": "b-wd7911636",
+    "type": "book",
+    "title": "Отважная",
+    "originalTitle": "Valiant: A Modern Tale of Faerie",
+    "year": 2005,
+    "creators": [
+      "Холли Блэк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7911636",
+      "openLibrary": "OL5833929W"
+    }
+  },
+  {
+    "id": "b-wd55517827",
+    "type": "book",
+    "title": "История о пропавшем ребёнке",
+    "originalTitle": "The Story of the Lost Child",
+    "year": 2014,
+    "creators": [
+      "Елена Ферранте"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13518415-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55517827",
+      "openLibrary": "OL17264238W"
+    }
+  },
+  {
+    "id": "b-wd137088894",
+    "type": "book",
+    "title": "Telephone",
+    "year": 2020,
+    "creators": [
+      "Персиваль Эверетт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10281988-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q137088894",
+      "openLibrary": "OL20914620W"
+    }
+  },
+  {
+    "id": "b-wd57459108",
+    "type": "book",
+    "title": "We Sold Our Souls",
+    "year": 2018,
+    "creators": [
+      "Грейди Хендрикс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9248396-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q57459108",
+      "openLibrary": "OL19753352W"
+    }
+  },
+  {
+    "id": "b-wd19319314",
+    "type": "book",
+    "title": "Dust",
+    "year": 2013,
+    "creators": [
+      "Хью Хауи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10054840-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19319314",
+      "openLibrary": "OL17623070W"
+    }
+  },
+  {
+    "id": "b-wd55645190",
+    "type": "book",
+    "title": "Тот, кто виновен",
+    "year": 2015,
+    "creators": [
+      "Себастьян Фитцек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55645190",
+      "openLibrary": "OL20237493W"
+    }
+  },
+  {
+    "id": "b-wd24931646",
+    "type": "book",
+    "title": "The Baltimore Boys",
+    "year": 2015,
+    "creators": [
+      "Жоэль Диккер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8522900-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24931646",
+      "openLibrary": "OL20024448W"
+    }
+  },
+  {
+    "id": "b-wd131414127",
+    "type": "book",
+    "title": "Red Country",
+    "year": 2012,
+    "creators": [
+      "Джо Аберкромби"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14595641-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131414127",
+      "openLibrary": "OL19357923W"
+    }
+  },
+  {
+    "id": "b-wd19364524",
+    "type": "book",
+    "title": "The Secret Diaries of Miss Miranda Cheever",
+    "year": 2007,
+    "creators": [
+      "Джулия Куинн"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19364524",
+      "openLibrary": "OL554616W"
+    }
+  },
+  {
+    "id": "b-wd65119231",
+    "type": "book",
+    "title": "Thin Air",
+    "year": 2018,
+    "creators": [
+      "Ричард Морган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8777612-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65119231",
+      "openLibrary": "OL19761110W"
+    }
+  },
+  {
+    "id": "b-wd101987239",
+    "type": "book",
+    "title": "Королевство гнева и тумана",
+    "originalTitle": "A Court of Mist and Fury",
+    "year": 2016,
+    "creators": [
+      "Сара Дж. Маас"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14315081-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q101987239",
+      "openLibrary": "OL17860744W"
+    }
+  },
+  {
+    "id": "b-wd24521643",
+    "type": "book",
+    "title": "Broken Harbour",
+    "year": 2012,
+    "creators": [
+      "Тана Френч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7580021-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24521643",
+      "openLibrary": "OL17438859W"
+    }
+  },
+  {
+    "id": "b-wd67206374",
+    "type": "book",
+    "title": "После ссоры",
+    "originalTitle": "After We Collided",
+    "year": 2014,
+    "creators": [
+      "Анна Тодд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14426388-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q67206374",
+      "openLibrary": "OL20004814W"
+    }
+  },
+  {
+    "id": "b-wd1966939",
+    "type": "book",
+    "title": "Статский советник",
+    "originalTitle": "The State Counsellor",
+    "year": 1999,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10772786-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1966939",
+      "openLibrary": "OL24275506W"
+    }
+  },
+  {
+    "id": "b-wd20726217",
+    "type": "book",
+    "title": "Death on the Seine",
+    "year": 2008,
+    "creators": [
+      "Мишель Бюсси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20726217"
+    }
+  },
+  {
+    "id": "b-wd134702467",
+    "type": "book",
+    "title": "The Poison Song",
+    "year": 2019,
+    "creators": [
+      "Jen Williams"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12405340-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134702467",
+      "openLibrary": "OL21185495W"
+    }
+  },
+  {
+    "id": "b-wd102204348",
+    "type": "book",
+    "title": "Обсидиан",
+    "originalTitle": "Obsidian",
+    "year": 2011,
+    "creators": [
+      "Дженнифер Арментроут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13107442-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q102204348",
+      "openLibrary": "OL27173156W"
+    }
+  },
+  {
+    "id": "b-wd132863374",
+    "type": "book",
+    "title": "The Last Town",
+    "year": 2014,
+    "creators": [
+      "Блейк Крауч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12538975-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132863374",
+      "openLibrary": "OL20005936W"
+    }
+  },
+  {
+    "id": "b-wd1968842",
+    "type": "book",
+    "title": "Лабиринт отражений",
+    "originalTitle": "Labyrinth of Reflections",
+    "year": 1997,
+    "creators": [
+      "Сергей Васильевич Лукьяненко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1968842"
+    }
+  },
+  {
+    "id": "b-wd96409420",
+    "type": "book",
+    "title": "Разорванное пространство (роман)",
+    "originalTitle": "The Last Emperox",
+    "year": 2020,
+    "creators": [
+      "Джон Скальци"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9423954-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q96409420",
+      "openLibrary": "OL20732627W"
+    }
+  },
+  {
+    "id": "b-wd972609",
+    "type": "book",
+    "title": "Сластёна",
+    "originalTitle": "Sweet Tooth",
+    "year": 2012,
+    "creators": [
+      "Иэн Макьюэн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8113179-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q972609",
+      "openLibrary": "OL16599900W"
+    }
+  },
+  {
+    "id": "b-wd114302370",
+    "type": "book",
+    "title": "Пост. Спастись и сохранить",
+    "originalTitle": "Lent. Save and Preserve",
+    "year": 2021,
+    "creators": [
+      "Дмитрий Алексеевич Глуховский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q114302370"
+    }
+  },
+  {
+    "id": "b-wd15987819",
+    "type": "book",
+    "title": "Galileo's Dream",
+    "year": 2009,
+    "creators": [
+      "Ким Стенли Робинсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6675583-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q15987819",
+      "openLibrary": "OL33031929W"
+    }
+  },
+  {
+    "id": "b-wd3490473",
+    "type": "book",
+    "title": "Сонечка",
+    "originalTitle": "Sonechka",
+    "year": 1992,
+    "creators": [
+      "Улицкая, Людмила Евгеньевна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3490473",
+      "openLibrary": "OL754917W"
+    }
+  },
+  {
+    "id": "b-wd56339698",
+    "type": "book",
+    "title": "Confess",
+    "year": 2015,
+    "creators": [
+      "Коллин Хувер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14418402-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q56339698",
+      "openLibrary": "OL19998163W"
+    }
+  },
+  {
+    "id": "b-wd124927263",
+    "type": "book",
+    "title": "Наследие",
+    "originalTitle": "Legacy",
+    "year": 2023,
+    "creators": [
+      "Владимир Георгиевич Сорокин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q124927263"
+    }
+  },
+  {
+    "id": "b-wd24521605",
+    "type": "book",
+    "title": "My Grandmother Asked Me to Tell You She's Sorry",
+    "year": 2013,
+    "creators": [
+      "Фредрик Бакман"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9723648-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24521605",
+      "openLibrary": "OL27729454W"
+    }
+  },
+  {
+    "id": "b-wd110487140",
+    "type": "book",
+    "title": "Мультики",
+    "year": 2010,
+    "creators": [
+      "Михаил Юрьевич Елизаров"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110487140"
+    }
+  },
+  {
+    "id": "b-wd3179233",
+    "type": "book",
+    "title": "На выгодных условиях",
+    "originalTitle": "Fair Extension",
+    "year": 2012,
+    "creators": [
+      "Стивен Кинг"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3179233"
+    }
+  },
+  {
+    "id": "b-wd18419517",
+    "type": "book",
+    "title": "Абсолютист",
+    "originalTitle": "The Absolutist",
+    "year": 2011,
+    "creators": [
+      "Джон Бойн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12715756-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18419517",
+      "openLibrary": "OL16489797W"
+    }
+  },
+  {
+    "id": "b-wd102079080",
+    "type": "book",
+    "title": "Survivor Song",
+    "year": 2020,
+    "creators": [
+      "Пол Тремблей"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q102079080"
+    }
+  },
+  {
+    "id": "b-wd108906277",
+    "type": "book",
+    "title": "Winter Garden",
+    "year": 2010,
+    "creators": [
+      "Кристин Ханна"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6676454-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108906277",
+      "openLibrary": "OL14954933W"
+    }
+  },
+  {
+    "id": "b-wd4064771",
+    "type": "book",
+    "title": "Ананасная вода для прекрасной дамы",
+    "originalTitle": "Pineapple Water for the Fair Lady",
+    "year": 2010,
+    "creators": [
+      "Виктор Пелевин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4064771"
+    }
+  },
+  {
+    "id": "b-wd136500868",
+    "type": "book",
+    "title": "Queen Demon",
+    "year": 2025,
+    "creators": [
+      "Марта Уэллс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15122791-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q136500868",
+      "openLibrary": "OL42549454W"
+    }
+  },
+  {
+    "id": "b-wd131413457",
+    "type": "book",
+    "title": "House of Open Wounds",
+    "year": 2024,
+    "creators": [
+      "Adrian Tchaikovsky"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131413457"
+    }
+  },
+  {
+    "id": "b-wd22074947",
+    "type": "book",
+    "title": "Пепел Вавилона",
+    "originalTitle": "Babylon's Ashes",
+    "year": 2016,
+    "creators": [
+      "Дэниел Абрахам",
+      "Джеймс Кори",
+      "Тай Френк"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22074947",
+      "openLibrary": "OL19099155W"
+    }
+  },
+  {
+    "id": "b-wd131417827",
+    "type": "book",
+    "title": "The Beautiful Ones",
+    "year": 2017,
+    "creators": [
+      "Silvia Moreno-Garcia"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11880243-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131417827",
+      "openLibrary": "OL19720081W"
+    }
+  },
+  {
+    "id": "b-wd30337352",
+    "type": "book",
+    "title": "Врата Обелиска",
+    "originalTitle": "The Obelisk Gate",
+    "year": 2016,
+    "creators": [
+      "Нора Джемисин"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8138324-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30337352",
+      "openLibrary": "OL17842279W"
+    }
+  },
+  {
+    "id": "b-wd17150892",
+    "type": "book",
+    "title": "Orfeo",
+    "year": 2014,
+    "creators": [
+      "Ричард Пауэрс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10654476-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17150892",
+      "openLibrary": "OL17046891W"
+    }
+  },
+  {
+    "id": "b-wd3235678",
+    "type": "book",
+    "title": "Blind Willow, Sleeping Woman",
+    "year": 2006,
+    "creators": [
+      "Харуки Мураками"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3235678",
+      "openLibrary": "OL29346320W"
+    }
+  },
+  {
+    "id": "b-wd16683855",
+    "type": "book",
+    "title": "От войны до войны",
+    "year": 2005,
+    "creators": [
+      "Вера Камша"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16683855"
+    }
+  },
+  {
+    "id": "b-wd131417719",
+    "type": "book",
+    "title": "A Matter of Blood",
+    "year": 2010,
+    "creators": [
+      "Sarah Pinborough"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7821148-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131417719",
+      "openLibrary": "OL17559783W"
+    }
+  },
+  {
+    "id": "b-wd131445220",
+    "type": "book",
+    "title": "Empire of Sand",
+    "year": 2018,
+    "creators": [
+      "Tasha Suri"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10326961-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131445220",
+      "openLibrary": "OL19765048W"
+    }
+  },
+  {
+    "id": "b-wd108819577",
+    "type": "book",
+    "title": "The Last Graduate",
+    "year": 2021,
+    "creators": [
+      "Наоми Новик"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10468622-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108819577",
+      "openLibrary": "OL25063952W"
+    }
+  },
+  {
+    "id": "b-wd16932848",
+    "type": "book",
+    "title": "Sag Harbor",
+    "year": 2009,
+    "creators": [
+      "Колсон Уайтхед"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6303065-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16932848",
+      "openLibrary": "OL1822527W"
+    }
+  },
+  {
+    "id": "b-wd65515161",
+    "type": "book",
+    "title": "Гробница тирана",
+    "originalTitle": "The Tyrant's Tomb",
+    "year": 2019,
+    "creators": [
+      "Рик Риордан"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8788784-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65515161",
+      "openLibrary": "OL20140593W"
+    }
+  },
+  {
+    "id": "b-wd141056731",
+    "type": "book",
+    "title": "Into the Narrowdark",
+    "year": 2022,
+    "creators": [
+      "Тэд Уильямс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13307691-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q141056731",
+      "openLibrary": "OL26628674W"
+    }
+  },
+  {
+    "id": "b-wd102079264",
+    "type": "book",
+    "title": "Только хорошие индейцы",
+    "originalTitle": "The Only Good Indians",
+    "year": 2020,
+    "creators": [
+      "Стивен Грэм Джонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10299432-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q102079264",
+      "openLibrary": "OL20756942W"
+    }
+  },
+  {
+    "id": "b-wd1582503",
+    "type": "book",
+    "title": "Ритуал",
+    "year": 1996,
+    "creators": [
+      "Марина и Сергей Дяченко",
+      "Марина Дяченко-Ширшова",
+      "Сергей Дяченко"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1582503"
+    }
+  },
+  {
+    "id": "b-wd4384436",
+    "type": "book",
+    "title": "Путь меча",
+    "year": 1999,
+    "creators": [
+      "Генри Лайон Олди"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7359053-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4384436",
+      "openLibrary": "OL9067453W"
+    }
+  },
+  {
+    "id": "b-wd114315623",
+    "type": "book",
+    "title": "A Wizard's Guide to Defensive Baking",
+    "year": 2020,
+    "creators": [
+      "Урсула Вернон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10296774-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q114315623",
+      "openLibrary": "OL20924196W"
+    }
+  },
+  {
+    "id": "b-wd118899774",
+    "type": "book",
+    "title": "Fractal Noise",
+    "year": 2023,
+    "creators": [
+      "Кристофер Паолини"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13480559-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q118899774",
+      "openLibrary": "OL29191055W"
+    }
+  },
+  {
+    "id": "b-wd86667105",
+    "type": "book",
+    "title": "Нож",
+    "originalTitle": "Knife",
+    "year": 2019,
+    "creators": [
+      "Ю Несбё"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8759571-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q86667105",
+      "openLibrary": "OL26414537W"
+    }
+  },
+  {
+    "id": "b-wd8037167",
+    "type": "book",
+    "title": "Джек Ричер, или Это стоит смерти",
+    "originalTitle": "Worth Dying For",
+    "year": 2010,
+    "creators": [
+      "Ли Чайлд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14424674-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q8037167",
+      "openLibrary": "OL15369707W"
+    }
+  },
+  {
+    "id": "b-wd125646687",
+    "type": "book",
+    "title": "Lake of Souls",
+    "year": 2024,
+    "creators": [
+      "Энн Леки"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14797588-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q125646687",
+      "openLibrary": "OL37582213W"
+    }
+  },
+  {
+    "id": "b-wd96381230",
+    "type": "book",
+    "title": "Honour",
+    "year": 2012,
+    "creators": [
+      "Элиф Шафак"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8480369-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q96381230",
+      "openLibrary": "OL19363473W"
+    }
+  },
+  {
+    "id": "b-wd18291690",
+    "type": "book",
+    "title": "Укрощение",
+    "originalTitle": "The Ice Child",
+    "year": 2014,
+    "creators": [
+      "Камилла Лэкберг"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7411363-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q18291690",
+      "openLibrary": "OL36442165W"
+    }
+  },
+  {
+    "id": "b-wd30905554",
+    "type": "book",
+    "title": "Anna in the Tombs of the World",
+    "year": 2006,
+    "creators": [
+      "Ольга Токарчук"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30905554"
+    }
+  },
+  {
+    "id": "b-wd130612967",
+    "type": "book",
+    "title": "Mirrored Heavens",
+    "year": 2024,
+    "creators": [
+      "Rebecca Roanhorse"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14634601-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q130612967",
+      "openLibrary": "OL37625267W"
+    }
+  },
+  {
+    "id": "b-wd16654172",
+    "type": "book",
+    "title": "Своевольная принцесса и Пегий Принц",
+    "originalTitle": "The Willful Princess and the Piebald Prince",
+    "year": 2013,
+    "creators": [
+      "Робин Хобб"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q16654172"
+    }
+  },
+  {
+    "id": "b-wd135268127",
+    "type": "book",
+    "title": "Atmosphere",
+    "year": 2025,
+    "creators": [
+      "Тейлор Дженкинс Рейд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15098710-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q135268127",
+      "openLibrary": "OL42412330W"
+    }
+  },
+  {
+    "id": "b-wd113317364",
+    "type": "book",
+    "title": "A Prayer for the Crown-Shy",
+    "year": 2022,
+    "creators": [
+      "Becky Chambers"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113317364",
+      "openLibrary": "OL25957788W"
+    }
+  },
+  {
+    "id": "b-wd106176481",
+    "type": "book",
+    "title": "The Last Letter from Your Lover",
+    "year": 2010,
+    "creators": [
+      "Джоджо Мойес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7435134-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q106176481",
+      "openLibrary": "OL15942682W"
+    }
+  },
+  {
+    "id": "b-wd120404368",
+    "type": "book",
+    "title": "Happy Place",
+    "year": 2023,
+    "creators": [
+      "Emily Henry"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13233403-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q120404368",
+      "openLibrary": "OL28607665W"
+    }
+  },
+  {
+    "id": "b-wd133041736",
+    "type": "book",
+    "title": "Серая сестра",
+    "originalTitle": "Grey Sister",
+    "year": 2018,
+    "creators": [
+      "Марк Лоуренс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10789626-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q133041736",
+      "openLibrary": "OL24287727W"
+    }
+  },
+  {
+    "id": "b-wd65245832",
+    "type": "book",
+    "title": "Красные свитки магии",
+    "originalTitle": "The Red Scrolls of Magic",
+    "year": 2019,
+    "creators": [
+      "Кассандра Клэр",
+      "Уэсли Чу"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12354726-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q65245832",
+      "openLibrary": "OL20480768W"
+    }
+  },
+  {
+    "id": "b-wd110041968",
+    "type": "book",
+    "title": "The Fifth Heart",
+    "year": 2015,
+    "creators": [
+      "Дэн Симмонс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9441235-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q110041968",
+      "openLibrary": "OL17115829W"
+    }
+  },
+  {
+    "id": "b-wd26158076",
+    "type": "book",
+    "title": "Ведьмино отродье",
+    "originalTitle": "Hag-Seed",
+    "year": 2016,
+    "creators": [
+      "Маргарет Этвуд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12511033-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26158076",
+      "openLibrary": "OL17837368W"
+    }
+  },
+  {
+    "id": "b-wd131863269",
+    "type": "book",
+    "title": "How to Be a Normal Person",
+    "year": 2015,
+    "creators": [
+      "TJ Klune"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10083093-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131863269",
+      "openLibrary": "OL20049169W"
+    }
+  },
+  {
+    "id": "b-wd134517846",
+    "type": "book",
+    "title": "Наш тёмный дуэт",
+    "originalTitle": "Our Dark Duet",
+    "year": 2017,
+    "creators": [
+      "Виктория Шваб"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8845815-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134517846",
+      "openLibrary": "OL17888171W"
+    }
+  },
+  {
+    "id": "b-wd100758836",
+    "type": "book",
+    "title": "Ход королевой",
+    "originalTitle": "The Song Rising",
+    "year": 2017,
+    "creators": [
+      "Samantha Shannon"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8816959-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q100758836",
+      "openLibrary": "OL20170511W"
+    }
+  },
+  {
+    "id": "b-wd4373928",
+    "type": "book",
+    "title": "Посмертный образ",
+    "year": 2003,
+    "creators": [
+      "Александра Маринина"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14357850-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q4373928",
+      "openLibrary": "OL35977626W"
+    }
+  },
+  {
+    "id": "b-wd27132702",
+    "type": "book",
+    "title": "Сломи меня",
+    "originalTitle": "Fracture Me",
+    "year": 2013,
+    "creators": [
+      "Тахира Мафи"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15252569-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27132702",
+      "openLibrary": "OL21786339W"
+    }
+  },
+  {
+    "id": "b-wd167010",
+    "type": "book",
+    "title": "Nightrise",
+    "year": 2007,
+    "creators": [
+      "Энтони Горовиц"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7086946-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q167010",
+      "openLibrary": "OL84770W"
+    }
+  },
+  {
+    "id": "b-wd140998441",
+    "type": "book",
+    "title": "Songs of the Dead",
+    "year": 2026,
+    "creators": [
+      "Брендон Сандерсон",
+      "Peter Orullian"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15237276-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140998441",
+      "openLibrary": "OL45746319W"
+    }
+  },
+  {
+    "id": "b-wd17144498",
+    "type": "book",
+    "title": "Белая кошка",
+    "originalTitle": "White Cat",
+    "year": 2010,
+    "creators": [
+      "Холли Блэк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6376276-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q17144498",
+      "openLibrary": "OL15070470W"
+    }
+  },
+  {
+    "id": "b-wd99165507",
+    "type": "book",
+    "title": "The Lying Life of Adults",
+    "year": 2019,
+    "creators": [
+      "Елена Ферранте"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q99165507",
+      "openLibrary": "OL20884629W"
+    }
+  },
+  {
+    "id": "b-wd97160808",
+    "type": "book",
+    "title": "The Southern Book Club's Guide to Slaying Vampires",
+    "year": 2020,
+    "creators": [
+      "Грейди Хендрикс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/9335125-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97160808",
+      "openLibrary": "OL20667495W"
+    }
+  },
+  {
+    "id": "b-wd56419998",
+    "type": "book",
+    "title": "Ночь вне закона",
+    "year": 2017,
+    "creators": [
+      "Себастьян Фитцек"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q56419998",
+      "openLibrary": "OL20461053W"
+    }
+  },
+  {
+    "id": "b-wd26720444",
+    "type": "book",
+    "title": "The Final Days of our Fathers",
+    "year": 2010,
+    "creators": [
+      "Жоэль Диккер"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13769285-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q26720444",
+      "openLibrary": "OL24709346W"
+    }
+  },
+  {
+    "id": "b-wd134959847",
+    "type": "book",
+    "title": "Sharp Ends",
+    "year": 2016,
+    "creators": [
+      "Джо Аберкромби"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14543433-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134959847",
+      "openLibrary": "OL19346566W"
+    }
+  },
+  {
+    "id": "b-wd132800829",
+    "type": "book",
+    "title": "Ten Things I Love About You",
+    "year": 2010,
+    "creators": [
+      "Джулия Куинн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6389437-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q132800829",
+      "openLibrary": "OL15166159W"
+    }
+  },
+  {
+    "id": "b-wd131417610",
+    "type": "book",
+    "title": "The Dark Defiles",
+    "year": 2014,
+    "creators": [
+      "Ричард Морган"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10367926-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q131417610",
+      "openLibrary": "OL21392222W"
+    }
+  },
+  {
+    "id": "b-wd101987946",
+    "type": "book",
+    "title": "Королевство крыльев и руин",
+    "originalTitle": "A Court of Wings and Ruin",
+    "year": 2017,
+    "creators": [
+      "Сара Дж. Маас"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8506724-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q101987946",
+      "openLibrary": "OL17823218W"
+    }
+  },
+  {
+    "id": "b-wd19364476",
+    "type": "book",
+    "title": "The Secret Place",
+    "year": 2014,
+    "creators": [
+      "Тана Френч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8576317-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19364476",
+      "openLibrary": "OL31765384W"
+    }
+  },
+  {
+    "id": "b-wd114740487",
+    "type": "book",
+    "title": "После — долго и счастливо",
+    "originalTitle": "After Ever Happy",
+    "year": 2015,
+    "creators": [
+      "Анна Тодд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10538442-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q114740487",
+      "openLibrary": "OL20004819W"
+    }
+  },
+  {
+    "id": "b-wd19915575",
+    "type": "book",
+    "title": "Планета Вода",
+    "originalTitle": "Planet Water",
+    "year": 2015,
+    "creators": [
+      "Борис Акунин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19915575"
+    }
+  },
+  {
+    "id": "b-wd24082328",
+    "type": "book",
+    "title": "Time Is the Assassin",
+    "year": 2016,
+    "creators": [
+      "Мишель Бюсси"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24082328",
+      "openLibrary": "OL23017652W"
+    }
+  },
+  {
+    "id": "b-wd134881692",
+    "type": "book",
+    "title": "The Iron Ghost",
+    "year": 2015,
+    "creators": [
+      "Jen Williams"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8527427-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134881692",
+      "openLibrary": "OL19567925W"
+    }
+  },
+  {
+    "id": "b-wd126370908",
+    "type": "book",
+    "title": "A Shadow in the Ember",
+    "year": 2021,
+    "creators": [
+      "Дженнифер Арментроут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14660379-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q126370908",
+      "openLibrary": "OL27838982W"
+    }
+  },
+  {
+    "id": "b-wd115187046",
+    "type": "book",
+    "title": "Upgrade",
+    "year": 2022,
+    "creators": [
+      "Блейк Крауч"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/13236900-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q115187046",
+      "openLibrary": "OL26672478W"
+    }
+  },
+  {
+    "id": "b-wd63965925",
+    "type": "book",
+    "title": "Вычислительные звёзды",
+    "originalTitle": "The Calculating Stars",
+    "year": 2018,
+    "creators": [
+      "Мэри Робинетт Коваль"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/8290909-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q63965925",
+      "openLibrary": "OL18021949W"
+    }
+  },
+  {
+    "id": "b-wd622647",
+    "type": "book",
+    "title": "Зоосити",
+    "originalTitle": "Zoo City",
+    "year": 2010,
+    "creators": [
+      "Лорен Бьюкес"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6667498-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q622647",
+      "openLibrary": "OL15542343W"
+    }
+  },
+  {
+    "id": "b-wd108687101",
+    "type": "book",
+    "title": "Обещание (роман Дэймона Галгута)",
+    "originalTitle": "The Promise",
+    "year": 2021,
+    "creators": [
+      "Дэймон Галгут"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11514543-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q108687101",
+      "openLibrary": "OL24312436W"
+    }
+  },
+  {
+    "id": "b-wd729783",
+    "type": "book",
+    "title": "Искатель",
+    "originalTitle": "Seeker",
+    "year": 2005,
+    "creators": [
+      "Джек Макдевит"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/284292-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q729783",
+      "openLibrary": "OL15105193W"
+    }
+  },
+  {
+    "id": "b-wd29469803",
+    "type": "book",
+    "title": "All the Birds in the Sky",
+    "year": 2016,
+    "creators": [
+      "Чарли Джейн Андерс"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7435137-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q29469803",
+      "openLibrary": "OL17357379W"
+    }
+  },
+  {
+    "id": "b-wd111914387",
+    "type": "book",
+    "title": "Могила из песка",
+    "originalTitle": "Tomb of Sand",
+    "year": 2018,
+    "creators": [
+      "Гитанджали Шри"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q111914387",
+      "openLibrary": "OL27972198W"
+    }
+  },
+  {
+    "id": "b-wd2269230",
+    "type": "book",
+    "title": "Among Others",
+    "year": 2011,
+    "creators": [
+      "Джо Уолтон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6998632-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2269230",
+      "openLibrary": "OL19178386W"
+    }
+  },
+  {
+    "id": "b-wd104880303",
+    "type": "book",
+    "title": "Оставь мир позади",
+    "originalTitle": "Leave the World Behind",
+    "year": 2020,
+    "creators": [
+      "Rumaan Alam"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10096848-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q104880303",
+      "openLibrary": "OL20800247W"
+    }
+  },
+  {
+    "id": "b-wd22075195",
+    "type": "book",
+    "title": "Продажная тварь",
+    "originalTitle": "The Sellout",
+    "year": 2015,
+    "creators": [
+      "Пол Битти"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7897222-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q22075195",
+      "openLibrary": "OL17616758W"
+    }
+  },
+  {
+    "id": "b-wd55627927",
+    "type": "book",
+    "title": "Усама",
+    "originalTitle": "Osama",
+    "year": 2011,
+    "creators": [
+      "Лави Тидхар"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q55627927",
+      "openLibrary": "OL17271445W"
+    }
+  },
+  {
+    "id": "b-wd3272008",
+    "type": "book",
+    "title": "Левиафан",
+    "originalTitle": "Leviathan",
+    "year": 2009,
+    "creators": [
+      "Скотт Вестерфельд"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6253918-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q3272008",
+      "openLibrary": "OL547144W"
+    }
+  },
+  {
+    "id": "b-wd19897982",
+    "type": "book",
+    "title": "Корона пастуха",
+    "originalTitle": "The Shepherd's Crown",
+    "year": 2015,
+    "creators": [
+      "Терри Пратчетт"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14646934-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q19897982",
+      "openLibrary": "OL17321009W"
+    }
+  },
+  {
+    "id": "b-wd79557367",
+    "type": "book",
+    "title": "Гидеон из Девятого дома",
+    "originalTitle": "Gideon the Ninth",
+    "year": 2019,
+    "creators": [
+      "Tamsyn Muir"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10139515-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q79557367",
+      "openLibrary": "OL20128158W"
+    }
+  },
+  {
+    "id": "b-wd30608520",
+    "type": "book",
+    "title": "Страна Лавкрафта",
+    "originalTitle": "Lovecraft Country",
+    "year": 2016,
+    "creators": [
+      "Matt Ruff"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7433971-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q30608520",
+      "openLibrary": "OL17356061W"
+    }
+  },
+  {
+    "id": "b-wd20311908",
+    "type": "book",
+    "title": "Армада",
+    "originalTitle": "Armada",
+    "year": 2015,
+    "creators": [
+      "Эрнест Клайн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7421644-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q20311908",
+      "openLibrary": "OL17343072W"
+    }
+  },
+  {
+    "id": "b-wd97171148",
+    "type": "book",
+    "title": "Второму игроку приготовиться",
+    "originalTitle": "Ready Player Two",
+    "year": 2020,
+    "creators": [
+      "Эрнест Клайн"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/10250001-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q97171148",
+      "openLibrary": "OL20907281W"
+    }
+  },
+  {
+    "id": "b-wd134600232",
+    "type": "book",
+    "title": "Плоть (роман Солоя)",
+    "originalTitle": "Flesh",
+    "year": 2025,
+    "creators": [
+      "Дэвид Солой"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/15110590-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q134600232",
+      "openLibrary": "OL42549900W"
+    }
+  },
+  {
+    "id": "b-wd24870507",
+    "type": "book",
+    "title": "Я опять видела тот же сон",
+    "originalTitle": "I Had That Same Dream Again",
+    "year": 2016,
+    "creators": [
+      "Ёру Сумино"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q24870507",
+      "openLibrary": "OL20903251W"
+    }
+  },
+  {
+    "id": "b-wd27861517",
+    "type": "book",
+    "title": "Библиотека душ",
+    "originalTitle": "Library of Souls",
+    "year": 2015,
+    "creators": [
+      "Ренсом Риггз"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/7993058-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q27861517",
+      "openLibrary": "OL17717265W"
+    }
+  },
+  {
+    "id": "b-wd113742900",
+    "type": "book",
+    "title": "Чернильно-чёрное сердце",
+    "originalTitle": "The Ink Black Heart",
+    "year": 2022,
+    "creators": [
+      "Robert Galbraith"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/12900629-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q113742900",
+      "openLibrary": "OL27411566W"
+    }
+  },
+  {
+    "id": "b-wd123133089",
+    "type": "book",
+    "title": "Увидимся в августе",
+    "originalTitle": "Until August",
+    "year": 2024,
+    "creators": [
+      "Габриель Гарсиа Маркес"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123133089",
+      "openLibrary": "OL44341537W"
+    }
+  },
+  {
+    "id": "b-wd2910027",
+    "type": "book",
+    "title": "Boneshaker",
+    "year": 2009,
+    "creators": [
+      "Cherie Priest"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/6285187-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2910027",
+      "openLibrary": "OL19912818W"
+    }
+  },
+  {
+    "id": "b-wd7751674",
+    "type": "book",
+    "title": "Зеркало и свет",
+    "originalTitle": "The Mirror and the Light",
+    "year": 2020,
+    "creators": [
+      "Хилари Мантел"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/11540576-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q7751674",
+      "openLibrary": "OL20665410W"
     }
   },
   {
@@ -42983,25 +54189,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd466973",
-    "type": "book",
-    "title": "Семь отроков Эфесских",
-    "originalTitle": "Seven Sleepers",
-    "year": 1970,
-    "creators": [],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8598954-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q466973",
-      "openLibrary": "OL18133W"
-    }
-  },
-  {
     "id": "b-wd165068",
     "type": "book",
     "title": "Сказки барда Бидля",
@@ -43615,25 +54802,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd217381",
-    "type": "book",
-    "title": "Краткое славословие",
-    "originalTitle": "Gloria Patri",
-    "year": 1892,
-    "creators": [],
-    "coverUrl": "https://covers.openlibrary.org/b/id/5619790-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q217381",
-      "openLibrary": "OL7703388W"
-    }
-  },
-  {
     "id": "b-wd211006",
     "type": "book",
     "title": "Утраченный символ",
@@ -44003,23 +55171,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd201171",
-    "type": "book",
-    "title": "Агнец Божий",
-    "originalTitle": "Lamb of God",
-    "year": 2009,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q201171",
-      "openLibrary": "OL26532178W"
-    }
-  },
-  {
     "id": "b-wd117293",
     "type": "book",
     "title": "Бедные люди",
@@ -44227,27 +55378,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q674439",
       "openLibrary": "OL15237196W"
-    }
-  },
-  {
-    "id": "b-wd756866",
-    "type": "book",
-    "title": "Парк юрского периода",
-    "originalTitle": "Jurassic Park",
-    "year": 1990,
-    "creators": [
-      "Майкл Крайтон"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/12882940-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q756866",
-      "openLibrary": "OL46881W"
     }
   },
   {
@@ -47260,25 +58390,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1164094",
       "openLibrary": "OL575637W"
-    }
-  },
-  {
-    "id": "b-wd41898",
-    "type": "book",
-    "title": "SATOR",
-    "originalTitle": "Sator Square",
-    "year": 1973,
-    "creators": [],
-    "coverUrl": "https://covers.openlibrary.org/b/id/4886095-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q41898",
-      "openLibrary": "OL6956382W"
     }
   },
   {
@@ -50498,25 +61609,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q847022",
       "openLibrary": "OL20778065W"
-    }
-  },
-  {
-    "id": "b-wd684469",
-    "type": "book",
-    "title": "Лесной царь",
-    "originalTitle": "Der Erlkönig",
-    "year": 1782,
-    "creators": [
-      "Иоганн Вольфганг фон Гёте"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q684469",
-      "openLibrary": "OL45976419W"
     }
   },
   {
@@ -56089,23 +67181,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1188850",
-    "type": "book",
-    "title": "Отцелюбие римлянки",
-    "originalTitle": "Roman Charity",
-    "year": 1795,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1188850",
-      "openLibrary": "OL16808471M"
-    }
-  },
-  {
     "id": "b-wd1239930",
     "type": "book",
     "title": "О, приди к нам, Дух Святой",
@@ -59058,23 +70133,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd1341179",
-    "type": "book",
-    "title": "Герр Маннелиг",
-    "originalTitle": "Herr Mannelig",
-    "year": 2023,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1341179",
-      "openLibrary": "OL35782521W"
-    }
-  },
-  {
     "id": "b-wd1429923",
     "type": "book",
     "title": "Речи Гримнира",
@@ -61460,27 +72518,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2008338",
-    "type": "book",
-    "title": "О, капитан! Мой капитан!",
-    "originalTitle": "O Captain! My Captain!",
-    "year": 1865,
-    "creators": [
-      "Уолт Уитмен"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/7208347-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2008338",
-      "openLibrary": "OL15437161W"
-    }
-  },
-  {
     "id": "b-wd692988",
     "type": "book",
     "title": "Тонио Крёгер",
@@ -62477,24 +73514,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1546735",
       "openLibrary": "OL18628922W"
-    }
-  },
-  {
-    "id": "b-wd1469717",
-    "type": "book",
-    "title": "La donna è mobile",
-    "year": 2002,
-    "creators": [],
-    "coverUrl": "https://covers.openlibrary.org/b/id/3244436-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1469717",
-      "openLibrary": "OL10106401W"
     }
   },
   {
@@ -64803,27 +75822,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q284395",
       "openLibrary": "OL2934591W"
-    }
-  },
-  {
-    "id": "b-wd2316684",
-    "type": "book",
-    "title": "библиография Шерлока Холмса",
-    "originalTitle": "canon of Sherlock Holmes",
-    "year": 1952,
-    "creators": [
-      "Артур Конан Дойл"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/8352435-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2316684",
-      "openLibrary": "OL262490W"
     }
   },
   {
@@ -86144,23 +97142,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd366059",
-    "type": "book",
-    "title": "Адон Олам",
-    "originalTitle": "Adon Olam",
-    "year": 2014,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q366059",
-      "openLibrary": "OL39043734W"
-    }
-  },
-  {
     "id": "b-wd3143624",
     "type": "book",
     "title": "хяку-моногатари",
@@ -90549,23 +101530,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q268796",
       "openLibrary": "OL496770W"
-    }
-  },
-  {
-    "id": "b-wd1982361",
-    "type": "book",
-    "title": "Три ворона",
-    "originalTitle": "The Three Ravens",
-    "year": 2017,
-    "creators": [],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1982361",
-      "openLibrary": "OL44116868W"
     }
   },
   {

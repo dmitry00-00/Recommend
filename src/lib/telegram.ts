@@ -40,6 +40,8 @@ export interface TelegramWebApp {
   openTelegramLink(url: string): void;
   /** Bot API 8.0+: штатный выбор чата для сообщения, подготовленного сервером (savePreparedInlineMessage) */
   shareMessage?(msgId: string, callback?: (sent: boolean) => void): void;
+  /** Bot API 7.8+: сторис с картинкой (https) и подписью; ссылка-виджет видна только у Premium */
+  shareToStory?(mediaUrl: string, params?: { text?: string; widget_link?: { url: string; name?: string } }): void;
   /** Bot API 6.2+: штатное окно с кнопками; ответ — id нажатой кнопки ('' — закрыли) */
   showPopup?(params: { title?: string; message: string; buttons?: { id?: string; type?: 'default' | 'ok' | 'close' | 'cancel' | 'destructive'; text?: string }[] }, callback?: (id: string) => void): void;
   /** Bot API 9.0+: хранилище на устройстве — переживает чистку данных WebView, в отличие от localStorage */

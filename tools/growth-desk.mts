@@ -212,7 +212,7 @@ export function matchSeeding(r: ParsedSeeding, rows: SeedingRow[]): SeedingRow |
 }
 
 const cache = new Map<string, { at: number; body: unknown }>();
-async function data(qs: URLSearchParams, fresh: boolean): Promise<{ code: number; body: unknown }> {
+export async function data(qs: URLSearchParams, fresh: boolean): Promise<{ code: number; body: unknown }> {
   const key = `${qs.get('internal') === '1' ? 1 : 0}${qs.get('tg') === '1' ? 1 : 0}`;
   const hit = cache.get(key);
   if (hit && !fresh && Date.now() - hit.at < 60_000) return { code: 200, body: hit.body };

@@ -262,6 +262,10 @@ for (const { username, path, role } of args) {
         ...where,
         ...(tags.length ? { tags: tags.slice(0, 2) } : {}),
         ...(p.date ? { publishedAt: p.date.slice(0, 10) } : {}),
+        // видео или аудио прямо в посте (25.10, медиа из шлюза) — метка в карточке, длительность — если есть
+        ...(where.platform === 'telegram' && p.media && ['video', 'round', 'audio', 'voice'].includes(p.media.kind)
+          ? { tgMedia: p.media.kind === 'voice' ? 'audio' as const : p.media.kind as 'video' | 'round' | 'audio',
+              ...(p.media.duration && p.media.duration >= 60 ? { durationMinutes: Math.round(p.media.duration / 60) } : {}) } : {}),
         // сезон и серия — по заголовку поста (Е6); в теле их слишком легко спутать с другими
         ...(isSeries(best.work) ? seriesPart(head) : {}),
       },

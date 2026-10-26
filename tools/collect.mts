@@ -78,6 +78,17 @@ if (existsSync(gwPython) && step('история новых каналов (t.me
   step('посты новых каналов', ...tsx('tools/telegram-pull.mts'), { optional: true });
 // у каких каналов включены комментарии — для кнопки «Обсуждение» у поста (ТВ-5б)
 step('комментарии каналов', ...tsx('tools/telegram-comments.mts'), { optional: true });
+// видео-авторы в Telegram (25.10, слово владельца): снимок числа и динамики — по медиа постов из шлюза
+step('видео-авторы в Telegram', ...tsx('tools/telegram-video-watch.mts'), { optional: true });
+// как поддержать автора (25.10, флаг `support`): сервисы донатов из описаний каналов и собственных постов
+step('поддержка авторов', ...tsx('tools/voice-support.mts'), { optional: true });
+// записи аудиоканалов (25.10, карточка аудиоканала): длительность — когда шлюз дописал медиа старых постов
+step('записи аудиоканалов', ...tsx('tools/audio-readings.mts'), { optional: true });
+// каналы соседних тем с тематических страниц telega.in (25.10): раз в месяц, отобранные идут в цены ниже
+step('каналы соседних тем (telega.in, раз в месяц)', ...tsx('tools/ad-catalog.mts'), { optional: true, minutes: 20 });
+// цены рекламы каналов реестра с открытых карточек telega.in (25.10, вкладка «Путь»): каждый канал — не чаще раза в 6 дней,
+// поэтому шаг ежедневный, а запросов — по неделе
+step('цены рекламы (telega.in)', ...tsx('tools/ad-prices.mts'), { optional: true, minutes: 20 });
 
 // 2. Справочник фильмов — раз в неделю или по --expand: это сотни запросов к Wikidata
 const expandMark = join(DIR, 'expand.last');

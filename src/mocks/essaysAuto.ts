@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-essay-index.mts (2026-10-24): разборы, найденные
+// Сгенерировано tools/build-essay-index.mts (2026-10-26): разборы, найденные
 // перебором загрузок тех же каналов, с привязкой по названию. Это догадка, а не разметка:
 // в карточке они идут после присланных вручную, подтверждать их должна кураторская.
 // Не править руками — перегенерировать.
@@ -2932,6 +2932,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Dw1hSSqMlHE/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2018-11-20"
+    },
+    {
+      "id": "yta-I3UdgqyxLlQ",
+      "title": "A NIGHTMARE ON ELM STREET BREAKDOWN! How Freddy Saved New Line & Marvel",
+      "author": "New Rockstars",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=I3UdgqyxLlQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/I3UdgqyxLlQ/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2026-10-24"
     }
   ],
   "tmdb:270303": [
@@ -8692,7 +8706,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-12-07"
     }
   ],
-  "tmdb:1396": [
+  "tmdb:13515": [
     {
       "id": "yta-bGt3hCfZkvY",
       "title": "ЗЕРКАЛО | КИНО СССР | #КИНОЛИКБЕЗ",
@@ -8701,78 +8715,52 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=bGt3hCfZkvY",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "playlist",
+      "unverified": true,
       "previewUrl": "https://i.ytimg.com/vi/bGt3hCfZkvY/hqdefault.jpg",
       "durationMinutes": 41,
       "publishedAt": "2023-12-03"
     },
     {
-      "id": "yta-uKZIjRB8mAg",
-      "title": "#КИНОЛИКБЕЗ : Зеркало",
-      "author": "КИНОЛИКБЕЗ KINOLIKBEZ",
+      "id": "yta-QQVWjiWpyjg",
+      "title": "ТРЕШ ОБЗОР фильма ЗЕРКАЛА (AnimaTES)",
+      "author": "AnimaTES",
       "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=uKZIjRB8mAg",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "previewUrl": "https://i.ytimg.com/vi/uKZIjRB8mAg/hqdefault.jpg",
-      "durationMinutes": 38,
-      "publishedAt": "2023-07-30"
-    },
-    {
-      "id": "yta-XAPqURfa1Nk",
-      "title": "«Зеркало» / предисловие от Антона Долина",
-      "author": "КАРО.АРТ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=XAPqURfa1Nk",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/XAPqURfa1Nk/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2019-07-04"
-    },
-    {
-      "id": "yta-96Aa89AVo7s",
-      "title": "Деконструкция. Александр Шпагин о фильме «Зеркало» (1974)",
-      "author": "Кино-Театр.Ру",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=96Aa89AVo7s",
+      "url": "https://www.youtube.com/watch?v=QQVWjiWpyjg",
       "language": "ru",
       "spoilerLevel": 2,
       "evidence": "year",
       "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/96Aa89AVo7s/hqdefault.jpg",
-      "durationMinutes": 76,
-      "publishedAt": "2022-10-03"
+      "previewUrl": "https://i.ytimg.com/vi/QQVWjiWpyjg/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2019-10-09"
     },
     {
-      "id": "yta-nbzCMXA_QCY",
-      "title": "«Тридцать»: наш любимый фильм фестиваля «Зеркало»",
-      "author": "Телеканал КИНОТВ",
+      "id": "yta-4x0ytJJXIsc",
+      "title": "ЗЕРКАЛА - ТРЕШ ОБЗОР фильма  [ОНИ ПОВСЮДУ]",
+      "author": "Штрих Dog",
       "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=nbzCMXA_QCY",
+      "url": "https://www.youtube.com/watch?v=4x0ytJJXIsc",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/nbzCMXA_QCY/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2019-06-28"
+      "previewUrl": "https://i.ytimg.com/vi/4x0ytJJXIsc/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2022-09-06"
     },
     {
-      "id": "yta-HKefPisYJl0",
-      "title": "XIII-й фестиваль «Зеркало» — итоги",
-      "author": "Телеканал КИНОТВ",
+      "id": "yta-uTr2hXqbXNw",
+      "title": "MIRRORS Movie Review (2008)",
+      "author": "WeWatchedAMovie",
       "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=HKefPisYJl0",
-      "language": "ru",
+      "url": "https://www.youtube.com/watch?v=uTr2hXqbXNw",
+      "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/HKefPisYJl0/hqdefault.jpg",
-      "durationMinutes": 7,
-      "publishedAt": "2019-06-27"
+      "previewUrl": "https://i.ytimg.com/vi/uTr2hXqbXNw/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2023-02-05"
     }
   ],
   "tmdb:83539": [
@@ -9168,6 +9156,76 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/0_Z6ohU1JQ0/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2019-08-27"
+    }
+  ],
+  "tmdb:1396": [
+    {
+      "id": "yta-uKZIjRB8mAg",
+      "title": "#КИНОЛИКБЕЗ : Зеркало",
+      "author": "КИНОЛИКБЕЗ KINOLIKBEZ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=uKZIjRB8mAg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/uKZIjRB8mAg/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2023-07-30"
+    },
+    {
+      "id": "yta-XAPqURfa1Nk",
+      "title": "«Зеркало» / предисловие от Антона Долина",
+      "author": "КАРО.АРТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=XAPqURfa1Nk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/XAPqURfa1Nk/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2019-07-04"
+    },
+    {
+      "id": "yta-96Aa89AVo7s",
+      "title": "Деконструкция. Александр Шпагин о фильме «Зеркало» (1974)",
+      "author": "Кино-Театр.Ру",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=96Aa89AVo7s",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/96Aa89AVo7s/hqdefault.jpg",
+      "durationMinutes": 76,
+      "publishedAt": "2022-10-03"
+    },
+    {
+      "id": "yta-nbzCMXA_QCY",
+      "title": "«Тридцать»: наш любимый фильм фестиваля «Зеркало»",
+      "author": "Телеканал КИНОТВ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=nbzCMXA_QCY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/nbzCMXA_QCY/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2019-06-28"
+    },
+    {
+      "id": "yta-HKefPisYJl0",
+      "title": "XIII-й фестиваль «Зеркало» — итоги",
+      "author": "Телеканал КИНОТВ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=HKefPisYJl0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/HKefPisYJl0/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2019-06-27"
     }
   ],
   "tmdb:2204": [
@@ -10560,20 +10618,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/hV42MwuzIRg/hqdefault.jpg",
       "durationMinutes": 69,
       "publishedAt": "2025-02-03"
-    },
-    {
-      "id": "yta-xx1HYybZDH0",
-      "title": "Долой Дарвина! История отмены теории эволюции / Александр Соколов и Ксения Чепикова",
-      "author": "Цифровая история",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xx1HYybZDH0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xx1HYybZDH0/hqdefault.jpg",
-      "durationMinutes": 45,
-      "publishedAt": "2024-10-08"
     },
     {
       "id": "yta-E_QUhr-WVE4",
@@ -48746,6 +48790,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-23"
     },
     {
+      "id": "yta-OgjZGVj9R6w",
+      "title": "Джейме Ланнистер - что в голове Цареубийцы? | Игра Престолов",
+      "author": "СмыслКадра",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=OgjZGVj9R6w",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "previewUrl": "https://i.ytimg.com/vi/OgjZGVj9R6w/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2026-10-24"
+    },
+    {
       "id": "yta-8bs21MSUJWA",
       "title": "Игра престолов. Эйрис Оболганный. Как Рейгар и Тайвин планировали убить короля. Теория",
       "author": "Nostalgia",
@@ -52454,19 +52511,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-02-07"
     },
     {
-      "id": "yta-Gz7H38F4gl8",
-      "title": "Egg Meets the Gods: Robin Rhysling & The Warrior Explained - A Knight of the Seven Kingdoms - AKOTSK",
-      "author": "David Lightbringer",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Gz7H38F4gl8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "previewUrl": "https://i.ytimg.com/vi/Gz7H38F4gl8/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2026-02-05"
-    },
-    {
       "id": "yta-lkC8mr2FtW4",
       "title": "Aerion vs Dunk, Team Smallfolk and the Class War - A Knight of the Seven Kingdoms S1E3 - AKOTSK",
       "author": "David Lightbringer",
@@ -52512,19 +52556,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "episode": 2
     },
     {
-      "id": "yta-Do5tbnr1zjg",
-      "title": "Dunk the Unlikely Hero, Explained - A Knight of the Seven Kingdoms - AKOTSK",
-      "author": "David Lightbringer",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Do5tbnr1zjg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "previewUrl": "https://i.ytimg.com/vi/Do5tbnr1zjg/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2026-01-24"
-    },
-    {
       "id": "yta-zw6zk_hehjI",
       "title": "The Laughing Storm Explained - Lyonel Baratheon AKOTSK - A Knight of the Seven Kingdoms",
       "author": "David Lightbringer",
@@ -52553,19 +52584,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "episode": 1
     },
     {
-      "id": "yta-S1B0Gqardq0",
-      "title": "The War Before Dunk & Egg - 1st Blackfyre Rebellion - Knight of the Seven Kingdoms - Ice and Fire",
-      "author": "David Lightbringer",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=S1B0Gqardq0",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "channel",
-      "previewUrl": "https://i.ytimg.com/vi/S1B0Gqardq0/hqdefault.jpg",
-      "durationMinutes": 55,
-      "publishedAt": "2026-01-16"
-    },
-    {
       "id": "yta-Yi1gEUaSiWo",
       "title": "Most Interesting & Mysterious Targaryens - A Song of Ice and Fire - Knight of the Seven Kingdoms",
       "author": "David Lightbringer",
@@ -52577,19 +52595,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Yi1gEUaSiWo/hqdefault.jpg",
       "durationMinutes": 206,
       "publishedAt": "2026-01-12"
-    },
-    {
-      "id": "yta-svBXhqJkzXY",
-      "title": "As Brave as Baelor Breakspear Targaryen - Knight of the Seven Kingdoms - AKOTSK",
-      "author": "David Lightbringer",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=svBXhqJkzXY",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "channel",
-      "previewUrl": "https://i.ytimg.com/vi/svBXhqJkzXY/hqdefault.jpg",
-      "durationMinutes": 25,
-      "publishedAt": "2026-01-08"
     },
     {
       "id": "yta-k4duV4RXgDg",
@@ -53222,6 +53227,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-22"
     },
     {
+      "id": "yta-mXogdjWOseg",
+      "title": "Knight of the Seven Kingdoms Season 2 Leaks: Real?",
+      "author": "Preston Jacobs",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=mXogdjWOseg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/mXogdjWOseg/hqdefault.jpg",
+      "durationMinutes": 204,
+      "publishedAt": "2026-10-26",
+      "season": 2
+    },
+    {
       "id": "yta-7QPiaoXg-UI",
       "title": "Accents of the Seven Kingdoms EXPLAINED",
       "author": "Fantasy Haven",
@@ -53299,6 +53318,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/TDoO2cbykb4/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2025-10-10"
+    },
+    {
+      "id": "yta-Do5tbnr1zjg",
+      "title": "Dunk the Unlikely Hero, Explained - A Knight of the Seven Kingdoms - AKOTSK",
+      "author": "David Lightbringer",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Do5tbnr1zjg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/Do5tbnr1zjg/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2026-01-24"
     },
     {
       "id": "yta-gx7mTHlNAVo",
@@ -72884,6 +72916,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-05-27"
     }
   ],
+  "wd:Q30887677": [
+    {
+      "id": "yta-AdcCaox7OMI",
+      "title": "Владимир Сорокин, «Манарага» | Денис Чужой",
+      "author": "Денис Чужой",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=AdcCaox7OMI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/AdcCaox7OMI/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2017-04-04"
+    },
+    {
+      "id": "yta-eLIJuVoYJxo",
+      "title": "«Манарага»: оживление через уничтожение",
+      "author": "Ну и как вы теперь поживаете",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eLIJuVoYJxo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/eLIJuVoYJxo/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2024-08-24"
+    }
+  ],
   "imdb:tt0111958": [
     {
       "id": "yta-b4kVq7iy9cg",
@@ -80299,20 +80361,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-24"
     },
     {
-      "id": "yta-Z5YU_LCBJ0U",
-      "title": "😯The Housemaid Book vs Movie Review🗝",
-      "author": "Why the Book Wins *book vs movie*",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Z5YU_LCBJ0U",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Z5YU_LCBJ0U/hqdefault.jpg",
-      "durationMinutes": 38,
-      "publishedAt": "2025-12-21"
-    },
-    {
       "id": "yta-R5NyxKWwod8",
       "title": "ОБЗОР \"ГОРНИЧНАЯ\" 2025| пособие для абьюзеров и нарциссов",
       "author": "Чабби",
@@ -85238,50 +85286,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-10-04"
     }
   ],
-  "tmdb:51162": [
-    {
-      "id": "yta-ufEl-J04nAI",
-      "title": "ЖУТКИЙ ПЛАГИАТ ВИННИ-ПУХА против ВЕРСИИ СОЮЗМУЛЬТФИЛЬМА - Тайны, ужасы и смена пола!",
-      "author": "Уголок Акра",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ufEl-J04nAI",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ufEl-J04nAI/hqdefault.jpg",
-      "durationMinutes": 17,
-      "publishedAt": "2024-10-07"
-    },
-    {
-      "id": "yta-o-PtxLoFM08",
-      "title": "Alright fine. I'll talk about the Winnie the Pooh horror movie.",
-      "author": "Sheev Talks",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=o-PtxLoFM08",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/o-PtxLoFM08/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2023-03-01"
-    },
-    {
-      "id": "yta-P5TCekVLFj0",
-      "title": "My Feud with Winnie the Pooh is OVER! | What Happened?",
-      "author": "Cody Leach",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=P5TCekVLFj0",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/P5TCekVLFj0/hqdefault.jpg",
-      "durationMinutes": 36,
-      "publishedAt": "2024-03-22"
-    }
-  ],
   "tmdb:535692": [
     {
       "id": "yta-sOvFwOHxbds",
@@ -86272,6 +86276,288 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/JVJTSLwSKZo/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2020-01-23"
+    }
+  ],
+  "tmdb:24428": [
+    {
+      "id": "yta-9xho5vobSkM",
+      "title": "АНИМЕШНЫЕ ТРИ БОГАТЫРЯ? - «НЕВСКИЙ» / Русский ответ \"Мстителям\"!",
+      "author": "Уголок Акра",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=9xho5vobSkM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/9xho5vobSkM/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2024-03-05"
+    },
+    {
+      "id": "yta-cTBXrCotGp8",
+      "title": "ЛЕДИ БАГ И СУПЕР-КОТ ПРИСОЕДИНЯЮТСЯ К \"МСТИТЕЛЯМ\"!!!  (Анимация)",
+      "author": "Уголок Акра",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cTBXrCotGp8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cTBXrCotGp8/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2020-04-30"
+    },
+    {
+      "id": "yta-vfI5CgVMIr8",
+      "title": "AKR - Просто Мнение: х/ф \"Мстители\"",
+      "author": "Уголок Акра",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vfI5CgVMIr8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vfI5CgVMIr8/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2012-05-15"
+    },
+    {
+      "id": "yta-xzK175rik64",
+      "title": "AKR - Обзор на м/с \"Мстители\"",
+      "author": "Уголок Акра",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xzK175rik64",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xzK175rik64/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2012-05-03"
+    },
+    {
+      "id": "yta-qYurgwI1C8Q",
+      "title": "Коротенько: \"Мстители\"",
+      "author": "Chuck Review",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=qYurgwI1C8Q",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/qYurgwI1C8Q/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2012-04-18"
+    },
+    {
+      "id": "yta-clPN2YIRMIY",
+      "title": "МСТИТЕЛИ или ШАУРМА от MARVEL [Ретроспектива]",
+      "author": "SokoL[off] TV",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=clPN2YIRMIY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/clPN2YIRMIY/hqdefault.jpg",
+      "durationMinutes": 37,
+      "publishedAt": "2022-11-14"
+    },
+    {
+      "id": "yta-wPjjKVOZd_I",
+      "title": "Мстители / The Avengers - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильмах Marvel // ДКино",
+      "author": "ДКино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=wPjjKVOZd_I",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/wPjjKVOZd_I/hqdefault.jpg",
+      "durationMinutes": 41,
+      "publishedAt": "2021-03-31"
+    },
+    {
+      "id": "yta-KRHKriapyCU",
+      "title": "МСТИТЕЛИ // КТО БЫ сыграл их в 90е?! // ДКино",
+      "author": "ДКино",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=KRHKriapyCU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/KRHKriapyCU/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-05-09"
+    },
+    {
+      "id": "yta-kHOPFCyTZw0",
+      "title": "Будущее «Мстителей» и всей супергероики: новая эпоха или полный крах?",
+      "author": "Толкователи",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=kHOPFCyTZw0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/kHOPFCyTZw0/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2025-02-28"
+    },
+    {
+      "id": "yta-u5KuJl5qJ2A",
+      "title": "The Avengers - Movie Review by Chris Stuckmann",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=u5KuJl5qJ2A",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/u5KuJl5qJ2A/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2012-04-26"
+    },
+    {
+      "id": "yta-WGgycvaVleE",
+      "title": "THUNDERBOLTS*! Will They Fight The Avengers?!",
+      "author": "New Rockstars",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WGgycvaVleE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WGgycvaVleE/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2025-05-03"
+    },
+    {
+      "id": "yta-0uIZoMA3z9s",
+      "title": "Black Panther T’Challa Funeral: Where Were The Avengers?",
+      "author": "New Rockstars",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0uIZoMA3z9s",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0uIZoMA3z9s/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2022-12-08"
+    },
+    {
+      "id": "yta-PnL-Ex7NIOY",
+      "title": "Мстители - скандалы за кадром. Самый проблемный фильм Marvel?",
+      "author": "Marvel/DC: Geek Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PnL-Ex7NIOY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PnL-Ex7NIOY/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2023-07-25"
+    },
+    {
+      "id": "yta-a6abVsUMX5c",
+      "title": "Мстители - что будет дальше? Разбор нового расписания Marvel!",
+      "author": "Marvel/DC: Geek Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=a6abVsUMX5c",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/a6abVsUMX5c/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-09-09"
+    },
+    {
+      "id": "yta-7m1svDbpPAU",
+      "title": "Мстители - обзор игры. Игровая вселенная родилась?",
+      "author": "Marvel/DC: Geek Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7m1svDbpPAU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7m1svDbpPAU/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-09-07"
+    },
+    {
+      "id": "yta-TqP6vaB75RM",
+      "title": "Дэдпул собирает своих \"Мстителей\". Кто войдет в команду \"Сила Икс\"?",
+      "author": "Marvel/DC: Geek Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=TqP6vaB75RM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/TqP6vaB75RM/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2018-01-23"
+    },
+    {
+      "id": "yta-qckmq1wEeAg",
+      "title": "How Taskmaster Copies The Avengers (Black Widow Villain Explained)",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=qckmq1wEeAg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/qckmq1wEeAg/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2020-03-10"
+    },
+    {
+      "id": "yta-Dcx1LFidmHs",
+      "title": "This Is How The Avengers Can Return",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Dcx1LFidmHs",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Dcx1LFidmHs/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2019-05-08"
+    },
+    {
+      "id": "yta-APVZ0Rx2s9k",
+      "title": "Все грехи фильма \"Мстители\"",
+      "author": "kinomiraru",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=APVZ0Rx2s9k",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/APVZ0Rx2s9k/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2015-04-23"
+    },
+    {
+      "id": "yta-o41nQIUmvrY",
+      "title": "[Плохбастер Шоу] Мстители",
+      "author": "SokoL[off] TV",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=o41nQIUmvrY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/o41nQIUmvrY/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2013-04-13"
     }
   ],
   "tmdb:1179316": [
@@ -89253,6 +89539,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/XpKscNR_AWw/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2021-02-12"
+    },
+    {
+      "id": "yta-SttYzXs3pjM",
+      "title": "ДОВОД Трудности Перевода | Обзор Фильма TENET",
+      "author": "Quentin Translatin",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SttYzXs3pjM",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/SttYzXs3pjM/hqdefault.jpg",
+      "durationMinutes": 24,
+      "publishedAt": "2021-01-17"
     },
     {
       "id": "yta-n1pcsmETUwI",
@@ -97678,232 +97977,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-04-21"
     }
   ],
-  "tmdb:24428": [
-    {
-      "id": "yta-vfI5CgVMIr8",
-      "title": "AKR - Просто Мнение: х/ф \"Мстители\"",
-      "author": "Уголок Акра",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=vfI5CgVMIr8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/vfI5CgVMIr8/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2012-05-15"
-    },
-    {
-      "id": "yta-xzK175rik64",
-      "title": "AKR - Обзор на м/с \"Мстители\"",
-      "author": "Уголок Акра",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xzK175rik64",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xzK175rik64/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2012-05-03"
-    },
-    {
-      "id": "yta-qYurgwI1C8Q",
-      "title": "Коротенько: \"Мстители\"",
-      "author": "Chuck Review",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=qYurgwI1C8Q",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/qYurgwI1C8Q/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2012-04-18"
-    },
-    {
-      "id": "yta-clPN2YIRMIY",
-      "title": "МСТИТЕЛИ или ШАУРМА от MARVEL [Ретроспектива]",
-      "author": "SokoL[off] TV",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=clPN2YIRMIY",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/clPN2YIRMIY/hqdefault.jpg",
-      "durationMinutes": 37,
-      "publishedAt": "2022-11-14"
-    },
-    {
-      "id": "yta-wPjjKVOZd_I",
-      "title": "Мстители / The Avengers - Самые интересные факты - ЧЕГО ВЫ НЕ ЗНАЛИ о фильмах Marvel // ДКино",
-      "author": "ДКино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=wPjjKVOZd_I",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/wPjjKVOZd_I/hqdefault.jpg",
-      "durationMinutes": 41,
-      "publishedAt": "2021-03-31"
-    },
-    {
-      "id": "yta-KRHKriapyCU",
-      "title": "МСТИТЕЛИ // КТО БЫ сыграл их в 90е?! // ДКино",
-      "author": "ДКино",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=KRHKriapyCU",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/KRHKriapyCU/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-05-09"
-    },
-    {
-      "id": "yta-u5KuJl5qJ2A",
-      "title": "The Avengers - Movie Review by Chris Stuckmann",
-      "author": "Chris Stuckmann",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=u5KuJl5qJ2A",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/u5KuJl5qJ2A/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2012-04-26"
-    },
-    {
-      "id": "yta-WGgycvaVleE",
-      "title": "THUNDERBOLTS*! Will They Fight The Avengers?!",
-      "author": "New Rockstars",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WGgycvaVleE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/WGgycvaVleE/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2025-05-03"
-    },
-    {
-      "id": "yta-0uIZoMA3z9s",
-      "title": "Black Panther T’Challa Funeral: Where Were The Avengers?",
-      "author": "New Rockstars",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=0uIZoMA3z9s",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/0uIZoMA3z9s/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2022-12-08"
-    },
-    {
-      "id": "yta-PnL-Ex7NIOY",
-      "title": "Мстители - скандалы за кадром. Самый проблемный фильм Marvel?",
-      "author": "Marvel/DC: Geek Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=PnL-Ex7NIOY",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/PnL-Ex7NIOY/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2023-07-25"
-    },
-    {
-      "id": "yta-a6abVsUMX5c",
-      "title": "Мстители - что будет дальше? Разбор нового расписания Marvel!",
-      "author": "Marvel/DC: Geek Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=a6abVsUMX5c",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/a6abVsUMX5c/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2020-09-09"
-    },
-    {
-      "id": "yta-7m1svDbpPAU",
-      "title": "Мстители - обзор игры. Игровая вселенная родилась?",
-      "author": "Marvel/DC: Geek Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=7m1svDbpPAU",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/7m1svDbpPAU/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2020-09-07"
-    },
-    {
-      "id": "yta-qckmq1wEeAg",
-      "title": "How Taskmaster Copies The Avengers (Black Widow Villain Explained)",
-      "author": "Mr Sunday Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=qckmq1wEeAg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "lore",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/qckmq1wEeAg/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2020-03-10"
-    },
-    {
-      "id": "yta-Dcx1LFidmHs",
-      "title": "This Is How The Avengers Can Return",
-      "author": "Mr Sunday Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Dcx1LFidmHs",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Dcx1LFidmHs/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2019-05-08"
-    },
-    {
-      "id": "yta-APVZ0Rx2s9k",
-      "title": "Все грехи фильма \"Мстители\"",
-      "author": "kinomiraru",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=APVZ0Rx2s9k",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/APVZ0Rx2s9k/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2015-04-23"
-    },
-    {
-      "id": "yta-o41nQIUmvrY",
-      "title": "[Плохбастер Шоу] Мстители",
-      "author": "SokoL[off] TV",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=o41nQIUmvrY",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/o41nQIUmvrY/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2013-04-13"
-    }
-  ],
   "tmdb:49529": [
     {
       "id": "yta-_4ExYIStm34",
@@ -106052,22 +106125,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/J13FB-quIgs/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2019-03-25"
-    }
-  ],
-  "tmdb:10683": [
-    {
-      "id": "yta-H1GzWXWxvII",
-      "title": "Обзор на плохое - Счастья! Здоровья!",
-      "author": "Woodmark",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=H1GzWXWxvII",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/H1GzWXWxvII/hqdefault.jpg",
-      "durationMinutes": 22,
-      "publishedAt": "2019-03-14"
     }
   ],
   "tmdb:551672": [
@@ -114684,20 +114741,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/CIG4rXl1X2U/hqdefault.jpg",
       "durationMinutes": 20,
       "publishedAt": "2019-10-12"
-    },
-    {
-      "id": "yta-L-BPy_HmfJU",
-      "title": "ОТВЕТЫ НА ВОПРОСЫ, РОЗЫГРЫШ PS4PRO И MOVIE AWARDS!",
-      "author": "Cut The Crap",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=L-BPy_HmfJU",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/L-BPy_HmfJU/hqdefault.jpg",
-      "durationMinutes": 187,
-      "publishedAt": "2018-01-10"
     }
   ],
   "tmdb:474350": [
@@ -115287,20 +115330,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-06-13"
     },
     {
-      "id": "yta-t8l-E7Joa3g",
-      "title": "СУПЕРСЕМЕЙКА 2 НЕ СОСЕТ (почти)",
-      "author": "Культас",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=t8l-E7Joa3g",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/t8l-E7Joa3g/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2018-06-15"
-    },
-    {
       "id": "yta-dKjFJbuLUDU",
       "title": "СУПЕРСЕМЕЙКА 2 - НАСТОЛЬКО ХОРОША? (обзор мультфильма)",
       "author": "КИНОКРИТИКА",
@@ -115424,6 +115453,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/wEZBYMpm2ug/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2018-11-10"
+    },
+    {
+      "id": "yta-t8l-E7Joa3g",
+      "title": "СУПЕРСЕМЕЙКА 2 НЕ СОСЕТ (почти)",
+      "author": "Культас",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=t8l-E7Joa3g",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/t8l-E7Joa3g/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2018-06-15"
     }
   ],
   "tmdb:273248": [
@@ -129206,50 +129249,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-01-30"
     }
   ],
-  "imdb:tt0259141": [
-    {
-      "id": "yta-2ysLOcfZFX0",
-      "title": "ПРИКЛЮЧЕНИЯ ДЖЕКИ ЧАНА ХУЖЕ ЧЕМ ВЫ ПОМНИТЕ",
-      "author": "Культас",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=2ysLOcfZFX0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/2ysLOcfZFX0/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2019-01-12"
-    },
-    {
-      "id": "yta-ZNzj-mT0Dgc",
-      "title": "Чупакабра из мультсериала Приключения Джеки Чана (способности, проклятие, фольклор)",
-      "author": "Звездный Капитан",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ZNzj-mT0Dgc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ZNzj-mT0Dgc/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2019-03-01"
-    },
-    {
-      "id": "yta-o9Fy5-uNYjE",
-      "title": "Магия, демоны и кунг-фу: за что мы любили Приключения Джеки Чана в детстве",
-      "author": "Киновешалка",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=o9Fy5-uNYjE",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/o9Fy5-uNYjE/hqdefault.jpg",
-      "durationMinutes": 17,
-      "publishedAt": "2025-06-14"
-    }
-  ],
   "tmdb:360920": [
     {
       "id": "yta-NAbqA6cUjYE",
@@ -135131,49 +135130,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/fx6DT6xQY8M/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2019-11-15"
-    }
-  ],
-  "tmdb:275054": [
-    {
-      "id": "yta-BeuGgLHM3yQ",
-      "title": "№ 78 Чужой: Земля. Новый Хищник. Премия Бриллиантовая бабочка. Кинотеатры всё.",
-      "author": "Павел Усачёв",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=BeuGgLHM3yQ",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/BeuGgLHM3yQ/hqdefault.jpg",
-      "durationMinutes": 48,
-      "publishedAt": "2025-05-02"
-    },
-    {
-      "id": "yta-w_mYYPy_Qd0",
-      "title": "Фильм \"Премия\": предупреждение, которое не услышали | Клим Жуков",
-      "author": "Клим Жуков",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=w_mYYPy_Qd0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/w_mYYPy_Qd0/hqdefault.jpg",
-      "durationMinutes": 91,
-      "publishedAt": "2026-09-08"
-    },
-    {
-      "id": "yta-VFIkPiqYcCw",
-      "title": "Смысл фильма \"Премия\" (1974). Как не быть пешкой?",
-      "author": "Вслушивание",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=VFIkPiqYcCw",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "previewUrl": "https://i.ytimg.com/vi/VFIkPiqYcCw/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2021-08-24"
     }
   ],
   "tmdb:274991": [
@@ -152939,6 +152895,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-09"
     },
     {
+      "id": "yta-voqDcST5BY4",
+      "title": "Why I Always Skip TV Intros",
+      "author": "Quinn The GM",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=voqDcST5BY4",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "previewUrl": "https://i.ytimg.com/vi/voqDcST5BY4/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-10-24"
+    },
+    {
       "id": "yta-7eWZa4p9zPQ",
       "title": "Клим Жуков. Чёрное и белое Дома Дракона: как инклюзивность довела до расизма",
       "author": "Клим Жуков",
@@ -153306,19 +153275,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/UAm55quXPM4/hqdefault.jpg",
       "durationMinutes": 24,
       "publishedAt": "2020-04-19"
-    },
-    {
-      "id": "yta-VdrguGma6uo",
-      "title": "The True Crime Movie That Shocked the World",
-      "author": "The Kino Corner",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=VdrguGma6uo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "previewUrl": "https://i.ytimg.com/vi/VdrguGma6uo/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2026-09-30"
     }
   ],
   "tmdb:188166": [
@@ -153749,22 +153705,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/W19LcqcHDWA/hqdefault.jpg",
       "durationMinutes": 9,
       "publishedAt": "2025-10-24"
-    }
-  ],
-  "imdb:tt11454722": [
-    {
-      "id": "yta-iAVHE92IJ7o",
-      "title": "МАГИЧЕСКАЯ БИТВА - СЁНЭН НОВОГО ПОКОЛЕНИЯ? / Обзор и анализ аниме Jujutsu Kaisen",
-      "author": "ЧЕРНЫЙ КАБИНЕТ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=iAVHE92IJ7o",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/iAVHE92IJ7o/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2021-02-05"
     }
   ],
   "imdb:tt3398228": [
@@ -165136,20 +165076,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/cnQIc6M-PNQ/hqdefault.jpg",
       "durationMinutes": 14,
       "publishedAt": "2020-04-15"
-    },
-    {
-      "id": "yta-s-AcankNVRY",
-      "title": "Iron Gold/Hyperion - REVIEW",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=s-AcankNVRY",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/s-AcankNVRY/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2021-07-15"
     }
   ],
   "wd:Q2364488": [
@@ -165483,848 +165409,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/u77nwL2SFJ0/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2023-05-09"
-    }
-  ],
-  "wd:Q4470": [
-    {
-      "id": "yta-fLt3WCK-12E",
-      "title": "ДОЧИТАЛ КОЛЕСО ВРЕМЕНИ! Том 13. Сандерсон \"Башни Полуночи\", Том 14 \"Память Света\". Лит. подкаст.",
-      "author": "Канал Ламполоджи",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=fLt3WCK-12E",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/fLt3WCK-12E/hqdefault.jpg",
-      "durationMinutes": 46,
-      "publishedAt": "2023-04-18"
-    },
-    {
-      "id": "yta-YpJOwUD1oTo",
-      "title": "The Wheel Of Time || Mega Summary",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=YpJOwUD1oTo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/YpJOwUD1oTo/hqdefault.jpg",
-      "durationMinutes": 667,
-      "publishedAt": "2025-09-18"
-    },
-    {
-      "id": "yta-lxRnWrM7Htg",
-      "title": "The Wheel Of Time Has Been Canceled",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=lxRnWrM7Htg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/lxRnWrM7Htg/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2025-05-23"
-    },
-    {
-      "id": "yta-Afd8-rKUEaw",
-      "title": "How The Wheel of Time Show Changed the Wolfbrothers",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Afd8-rKUEaw",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Afd8-rKUEaw/hqdefault.jpg",
-      "durationMinutes": 29,
-      "publishedAt": "2025-05-08"
-    },
-    {
-      "id": "yta-dA6muAG7MI8",
-      "title": "The Wheel Of Time red carpet premier!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=dA6muAG7MI8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/dA6muAG7MI8/hqdefault.jpg",
-      "durationMinutes": 95,
-      "publishedAt": "2021-11-15"
-    },
-    {
-      "id": "yta-0PevEt0gSKE",
-      "title": "TOP 10 Mat Cauthon Moments - The Wheel Of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=0PevEt0gSKE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/0PevEt0gSKE/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2020-07-27"
-    },
-    {
-      "id": "yta-4x3srPwFc_E",
-      "title": "Why is The Wheel of Time so popular yet so criticized? (RESPONSE)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=4x3srPwFc_E",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/4x3srPwFc_E/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2020-06-08"
-    },
-    {
-      "id": "yta-PNI544Icjgw",
-      "title": "How I'll Review The Wheel Of Time Show! - 2 reviews EVERY episode!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=PNI544Icjgw",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/PNI544Icjgw/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2020-05-18"
-    },
-    {
-      "id": "yta-b3XCoRZSMPU",
-      "title": "Sarah Nakamura Talks The Wheel of Time Show and Series Opinions!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=b3XCoRZSMPU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/b3XCoRZSMPU/hqdefault.jpg",
-      "durationMinutes": 34,
-      "publishedAt": "2020-04-03"
-    },
-    {
-      "id": "yta--AngIZgJ00A",
-      "title": "The BAD Of The Wheel Of Time!😞",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-AngIZgJ00A",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-AngIZgJ00A/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2020-03-05"
-    },
-    {
-      "id": "yta--2v3JncjmBk",
-      "title": "Hardest To Adapt: The Wheel Of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-2v3JncjmBk",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-2v3JncjmBk/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2020-01-25"
-    },
-    {
-      "id": "yta-YzQ3HTHrcpc",
-      "title": "THE WHEEL OF TIME SHOW: Everything We Know!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=YzQ3HTHrcpc",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/YzQ3HTHrcpc/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2020-01-01"
-    },
-    {
-      "id": "yta-onrgNEfZHZ8",
-      "title": "The Wheel Of Time Is Terrifying",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=onrgNEfZHZ8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/onrgNEfZHZ8/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2019-10-15"
-    },
-    {
-      "id": "yta-39V23hfF3iE",
-      "title": "Best Villain In The Wheel Of Time?",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=39V23hfF3iE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/39V23hfF3iE/hqdefault.jpg",
-      "durationMinutes": 22,
-      "publishedAt": "2019-09-21"
-    },
-    {
-      "id": "yta-EIyaC-H89oQ",
-      "title": "Before Reading - The Wheel Of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=EIyaC-H89oQ",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/EIyaC-H89oQ/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-09-17"
-    },
-    {
-      "id": "yta-b2R0R7mqpiI",
-      "title": "What They SHOULD Change For The WHEEL OF TIME Show!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=b2R0R7mqpiI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/b2R0R7mqpiI/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-07-26"
-    },
-    {
-      "id": "yta-WmALNJzkrRk",
-      "title": "Mat Cauthon - How They Should Adapt (The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WmALNJzkrRk",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/WmALNJzkrRk/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2019-07-05"
-    },
-    {
-      "id": "yta-_G3dtwArmWA",
-      "title": "Adapting Moiraine (The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_G3dtwArmWA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_G3dtwArmWA/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2019-06-19"
-    },
-    {
-      "id": "yta-HB0J_EiDgwg",
-      "title": "THE WHEEL OF TIME BOOKS RANKED!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=HB0J_EiDgwg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/HB0J_EiDgwg/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2019-06-17"
-    },
-    {
-      "id": "yta-zryat1779dM",
-      "title": "Adapting Nynaeve Al'Meara - The Wheel of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=zryat1779dM",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/zryat1779dM/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-06-13"
-    },
-    {
-      "id": "yta-cDwliZOClK8",
-      "title": "Why The Wheel Of Time Show Will Be GREAT",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=cDwliZOClK8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/cDwliZOClK8/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-05-13"
-    },
-    {
-      "id": "yta-gqOvOwuoKpI",
-      "title": "What The Wheel of Time TV Show MUST Do Right",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=gqOvOwuoKpI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/gqOvOwuoKpI/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2019-03-28"
-    },
-    {
-      "id": "yta-HVq5izd9sF4",
-      "title": "Why YOU Should Read THE WHEEL OF TIME!",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=HVq5izd9sF4",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/HVq5izd9sF4/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2019-02-28"
-    },
-    {
-      "id": "yta-_pYG0dPc3pU",
-      "title": "The Shadow Rising - Review (The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_pYG0dPc3pU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_pYG0dPc3pU/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2019-01-23"
-    },
-    {
-      "id": "yta-tu6RXwSMc0I",
-      "title": "Casting The Wheel of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=tu6RXwSMc0I",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/tu6RXwSMc0I/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2019-01-13"
-    },
-    {
-      "id": "yta-KZNPZmAUulI",
-      "title": "The Black Tower Conflict - THE WHEEL OF TIME",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=KZNPZmAUulI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/KZNPZmAUulI/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2018-12-20"
-    },
-    {
-      "id": "yta-8_hE54wvBWo",
-      "title": "Tel'Aran'Rhiod Explained - The Wheel of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=8_hE54wvBWo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/8_hE54wvBWo/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2018-10-26"
-    },
-    {
-      "id": "yta-sL8nY7WjaP0",
-      "title": "The Wheel of Time TV Show Article - Response",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=sL8nY7WjaP0",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/sL8nY7WjaP0/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2018-09-06"
-    },
-    {
-      "id": "yta-KnV1eHQtkW8",
-      "title": "Vin VS Mat (Mistborn VS The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=KnV1eHQtkW8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/KnV1eHQtkW8/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2018-08-22"
-    },
-    {
-      "id": "yta-2mbAHHI4HJI",
-      "title": "Cuts The Wheel of Time TV Show Must Make",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=2mbAHHI4HJI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/2mbAHHI4HJI/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2018-08-18"
-    },
-    {
-      "id": "yta-c_N78d5go9c",
-      "title": "The Seanchan - A Culture Examination (The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=c_N78d5go9c",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/c_N78d5go9c/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2018-08-02"
-    },
-    {
-      "id": "yta-hfiqgTW8nws",
-      "title": "The Wheel of Time TV Pilot Review - (Winters Dragon)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=hfiqgTW8nws",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/hfiqgTW8nws/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2018-07-20"
-    },
-    {
-      "id": "yta-z8Voi6nvyFA",
-      "title": "Lan Mandragoran VS Geralt of Rivia (The Wheel of Time VS The Witcher) - Spoiler Free",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=z8Voi6nvyFA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/z8Voi6nvyFA/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2018-06-27"
-    },
-    {
-      "id": "yta-U6rNHvySGck",
-      "title": "The Future of The Wheel of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=U6rNHvySGck",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/U6rNHvySGck/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2018-04-15"
-    },
-    {
-      "id": "yta-3si0_VuJavI",
-      "title": "Moiraine (A Character Examination) -The Wheel of Time",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=3si0_VuJavI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/3si0_VuJavI/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2018-04-10"
-    },
-    {
-      "id": "yta-E0KZY4j7Am8",
-      "title": "RAND AL'THOR & CALLANDOR (The Wheel of Time)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=E0KZY4j7Am8",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/E0KZY4j7Am8/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2018-03-28"
-    },
-    {
-      "id": "yta-TBDxS5_k01w",
-      "title": "THE WHITE AND BLACK TOWER - The Wheel of Time (An Examination)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=TBDxS5_k01w",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/TBDxS5_k01w/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2018-03-09"
-    },
-    {
-      "id": "yta-UBSrinEKHoE",
-      "title": "Perrin Aybara (The Wheel of Time) A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=UBSrinEKHoE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/UBSrinEKHoE/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2018-02-24"
-    },
-    {
-      "id": "yta-PBGjAUWbnIc",
-      "title": "Mat Cauthon (The Wheel of Time) A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=PBGjAUWbnIc",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/PBGjAUWbnIc/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2018-02-23"
-    },
-    {
-      "id": "yta-t-D5wej0OwU",
-      "title": "Ishamael (The Wheel of Time) A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=t-D5wej0OwU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/t-D5wej0OwU/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2018-02-17"
-    },
-    {
-      "id": "yta-6h99cyF0XeE",
-      "title": "Galadedrid Damodred (The Wheel of Time) A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=6h99cyF0XeE",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/6h99cyF0XeE/hqdefault.jpg",
-      "durationMinutes": 7,
-      "publishedAt": "2018-02-16"
-    },
-    {
-      "id": "yta-L93830MwtUI",
-      "title": "Thom Merrilin (The Wheel of Time) A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=L93830MwtUI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/L93830MwtUI/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2018-02-12"
-    },
-    {
-      "id": "yta-PZAXpT6Dtqg",
-      "title": "Rand al’Thor (The Wheel of Time) - A Character Examination",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=PZAXpT6Dtqg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/PZAXpT6Dtqg/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2018-02-09"
-    },
-    {
-      "id": "yta-7sPOARlNwYw",
-      "title": "LET'S SUMMARIZE - TOWERS OF MIDNIGHT (The Wheel of Time Book 13)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=7sPOARlNwYw",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/7sPOARlNwYw/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2017-09-24"
-    },
-    {
-      "id": "yta-_2JemFY6BqI",
-      "title": "LET'S SUMMARIZE - WINTERS HEART (The Wheel of Time Book 9)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_2JemFY6BqI",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_2JemFY6BqI/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2017-09-22"
-    },
-    {
-      "id": "yta-Qrhm4mb0zes",
-      "title": "THE WHEEL OF TIME IS COMING TO TV!!...Will it be good?",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Qrhm4mb0zes",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Qrhm4mb0zes/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2017-05-11"
-    },
-    {
-      "id": "yta-A8JBiwVUs8c",
-      "title": "Let's Review THE WHEEL OF TIME SERIES! (IN-DEPTH)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=A8JBiwVUs8c",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/A8JBiwVUs8c/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2016-06-15"
-    },
-    {
-      "id": "yta-RHCNFaxMy7o",
-      "title": "\"КОЛЕСО ВРЕМЕНИ\"//Обзор цикла (без спойлеров)",
-      "author": "Редактура или жизнь",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=RHCNFaxMy7o",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/RHCNFaxMy7o/hqdefault.jpg",
-      "durationMinutes": 51,
-      "publishedAt": "2025-02-01"
-    },
-    {
-      "id": "yta-jE-vYW_GPSE",
-      "title": "ПЕРЕЧИТЫВАЮ КОЛЕСО ВРЕМЕНИ Дракон возрожденный",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=jE-vYW_GPSE",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/jE-vYW_GPSE/hqdefault.jpg",
-      "durationMinutes": 25,
-      "publishedAt": "2026-02-08"
-    },
-    {
-      "id": "yta-jGL6aZAkPkk",
-      "title": "ЗИМНЕЕ ФЭНТЕЗИ❄️ КОЛЕСО ВРЕМЕНИ финал, новинка от Джо Аберкромби, Меч Кайгена",
-      "author": "Илона The Booklover Chronicle",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=jGL6aZAkPkk",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/jGL6aZAkPkk/hqdefault.jpg",
-      "durationMinutes": 46,
-      "publishedAt": "2025-12-19"
-    },
-    {
-      "id": "yta-2PbWW8MuiaM",
-      "title": "Let's watch the first (terrible) pilot for The Wheel of Time",
-      "author": "Bookborn",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=2PbWW8MuiaM",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/2PbWW8MuiaM/hqdefault.jpg",
-      "durationMinutes": 34,
-      "publishedAt": "2025-10-22"
-    },
-    {
-      "id": "yta-xTyvCk8Rghs",
-      "title": "Колесо Времени 🐉 Нож сновидений || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
-      "author": "Рас-сказки",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xTyvCk8Rghs",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xTyvCk8Rghs/hqdefault.jpg",
-      "durationMinutes": 57,
-      "publishedAt": "2026-02-17"
-    },
-    {
-      "id": "yta-ISrc5Jh-8h0",
-      "title": "Колесо Времени 🐉 Новая весна || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
-      "author": "Рас-сказки",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ISrc5Jh-8h0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ISrc5Jh-8h0/hqdefault.jpg",
-      "durationMinutes": 37,
-      "publishedAt": "2024-05-31"
-    },
-    {
-      "id": "yta-3k5ZX3Q991o",
-      "title": "Колесо Времени 🐉 Сердце зимы || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
-      "author": "Рас-сказки",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=3k5ZX3Q991o",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/3k5ZX3Q991o/hqdefault.jpg",
-      "durationMinutes": 44,
-      "publishedAt": "2023-10-24"
-    },
-    {
-      "id": "yta-1A0nHmZECR8",
-      "title": "Колесо Времени 🐉 Путь кинжалов || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
-      "author": "Рас-сказки",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=1A0nHmZECR8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/1A0nHmZECR8/hqdefault.jpg",
-      "durationMinutes": 38,
-      "publishedAt": "2023-08-11"
-    },
-    {
-      "id": "yta-4PbUeSRs-G4",
-      "title": "Колесо Времени 🐉 Корона Мечей || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
-      "author": "Рас-сказки",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=4PbUeSRs-G4",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/4PbUeSRs-G4/hqdefault.jpg",
-      "durationMinutes": 47,
-      "publishedAt": "2023-04-18"
-    }
-  ],
-  "wd:Q2819819": [
-    {
-      "id": "yta-fLt3WCK-12E",
-      "title": "ДОЧИТАЛ КОЛЕСО ВРЕМЕНИ! Том 13. Сандерсон \"Башни Полуночи\", Том 14 \"Память Света\". Лит. подкаст.",
-      "author": "Канал Ламполоджи",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=fLt3WCK-12E",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/fLt3WCK-12E/hqdefault.jpg",
-      "durationMinutes": 46,
-      "publishedAt": "2023-04-18"
-    },
-    {
-      "id": "yta-WqnYscl7jnM",
-      "title": "After A Memory Of Light",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WqnYscl7jnM",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/WqnYscl7jnM/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2019-11-24"
-    },
-    {
-      "id": "yta-Kpj1u9U_gQU",
-      "title": "LET'S SUMMARIZE - A MEMORY OF LIGHT (The Wheel of Time Book 14)",
-      "author": "Daniel Greene",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Kpj1u9U_gQU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Kpj1u9U_gQU/hqdefault.jpg",
-      "durationMinutes": 22,
-      "publishedAt": "2017-09-25"
-    },
-    {
-      "id": "yta-Zzz3X2sdnps",
-      "title": "СПОЙЛЕРЫ! ПАМЯТЬ СВЕТА - Роберт Джордан, Брендон Сандерсон",
-      "author": "Marikorne",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=Zzz3X2sdnps",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/Zzz3X2sdnps/hqdefault.jpg",
-      "durationMinutes": 109,
-      "publishedAt": "2022-10-13"
     }
   ],
   "wd:Q1659714": [
@@ -168005,6 +167089,35 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-12-14"
     }
   ],
+  "wd:Q16271764": [
+    {
+      "id": "yta-HVX2OFLNlis",
+      "title": "Лит.подкаст. Михаил Елизаров и \"Библиотекарь\".",
+      "author": "Канал Ламполоджи",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=HVX2OFLNlis",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/HVX2OFLNlis/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2020-12-18"
+    },
+    {
+      "id": "yta-sfnHZYsPBWc",
+      "title": "Михаил Елизаров \"Библиотекарь\" | Бе(се)ды с книгами",
+      "author": "Шаман Книг",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sfnHZYsPBWc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sfnHZYsPBWc/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2022-11-27"
+    }
+  ],
   "wd:Q131414130": [
     {
       "id": "yta-qd_5wHopsqE",
@@ -168234,6 +167347,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/RVCY5aHFSG0/hqdefault.jpg",
       "durationMinutes": 27,
       "publishedAt": "2020-08-14"
+    }
+  ],
+  "wd:Q5308350": [
+    {
+      "id": "yta-oyOnZ4JI2ZY",
+      "title": "Литературный подкаст. Дэн Симмонс. Друд, или человек в черном. Как Диккенс превратился в фантастику?",
+      "author": "Канал Ламполоджи",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=oyOnZ4JI2ZY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/oyOnZ4JI2ZY/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2020-06-11"
     }
   ],
   "wd:Q7766302": [
@@ -168911,6 +168039,35 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-11-15"
     }
   ],
+  "wd:Q123133089": [
+    {
+      "id": "yta-eKxpXY9erA8",
+      "title": "Что открывает последняя книга автора о его творчестве? Габриэль Гарсиа Маркес и Увидимся в августе",
+      "author": "Николай Жаринов",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eKxpXY9erA8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/eKxpXY9erA8/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2024-10-23"
+    },
+    {
+      "id": "yta-0XWkVKsf5I0",
+      "title": "Зачем черновик выдают за книгу? Обзор книги «Увидимся в августе» Гарсиа Маркес | Ася Занегина",
+      "author": "Ася Занегина",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0XWkVKsf5I0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0XWkVKsf5I0/hqdefault.jpg",
+      "durationMinutes": 23,
+      "publishedAt": "2024-03-30"
+    }
+  ],
   "tmdb:8321": [
     {
       "id": "yta-YPFCMmbtQQo",
@@ -168964,21 +168121,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/JUA39wXRe6Y/hqdefault.jpg",
       "durationMinutes": 30,
       "publishedAt": "2022-02-23"
-    }
-  ],
-  "wd:Q684469": [
-    {
-      "id": "yta-GyfWd58mCIg",
-      "title": "Почему эта книга должна быть в вашей библиотеке? Мишель Турнье и его Лесной Царь | Николай Жаринов",
-      "author": "Николай Жаринов",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=GyfWd58mCIg",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/GyfWd58mCIg/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2024-07-24"
     }
   ],
   "wd:Q123347158": [
@@ -179791,20 +178933,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/4PXdOnIP4K4/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2018-06-01"
-    },
-    {
-      "id": "yta-moTQqoyAShU",
-      "title": "Sony BACKTRACKS On Horizon Forbidden West PS5 Upgrade Pricing after BACKLASH | Free Upgrade One Off",
-      "author": "Disparu",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=moTQqoyAShU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/moTQqoyAShU/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2021-09-05"
     },
     {
       "id": "yta-1iQLsPPHLEQ",
@@ -197309,119 +196437,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-03-21"
     }
   ],
-  "tmdb:9802": [
-    {
-      "id": "yta-NaYjRrSm178",
-      "title": "[Плохбастер Шоу] Скала",
-      "author": "SokoL[off] TV",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=NaYjRrSm178",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/NaYjRrSm178/hqdefault.jpg",
-      "durationMinutes": 39,
-      "publishedAt": "2016-02-24"
-    },
-    {
-      "id": "yta-22SqaeUfCuA",
-      "title": "DCU Keeping Ezra Miller Flash? Wonder Woman Plans, The Rock, Superman & The New Slate Coming Soon",
-      "author": "Heavy Spoilers",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=22SqaeUfCuA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/22SqaeUfCuA/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2023-01-05"
-    },
-    {
-      "id": "yta-SQ68PCWDa0g",
-      "title": "СКАЛА интересные факты о фильме (1996)",
-      "author": "Серж Лебовски",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=SQ68PCWDa0g",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/SQ68PCWDa0g/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2022-02-12"
-    },
-    {
-      "id": "yta-quyzgEWvWQc",
-      "title": "How Hollywood Ruined The Rock & Kevin Hart",
-      "author": "Movie Overload",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=quyzgEWvWQc",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "previewUrl": "https://i.ytimg.com/vi/quyzgEWvWQc/hqdefault.jpg",
-      "durationMinutes": 39,
-      "publishedAt": "2026-04-28"
-    },
-    {
-      "id": "yta-9gdzlkG2QTQ",
-      "title": "The Rock - Movie Review",
-      "author": "Jeremy Jahns",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=9gdzlkG2QTQ",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/9gdzlkG2QTQ/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2020-06-03"
-    },
-    {
-      "id": "yta-0xOBLRU1zqg",
-      "title": "All My Movies: The Rock (w/ Ben Bateman)",
-      "author": "Dan Murrell",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=0xOBLRU1zqg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/0xOBLRU1zqg/hqdefault.jpg",
-      "durationMinutes": 53,
-      "publishedAt": "2021-06-24"
-    },
-    {
-      "id": "yta-V2TEDTU11bo",
-      "title": "Did The Rock destroy Shazam II?",
-      "author": "Mr Sunday Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=V2TEDTU11bo",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/V2TEDTU11bo/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2023-03-28"
-    },
-    {
-      "id": "yta-7cIiSYesxlM",
-      "title": "Guess The Dwayne \"The Rock\" Johnson Movie By The Savage Review",
-      "author": "Mr Sunday Movies",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=7cIiSYesxlM",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/7cIiSYesxlM/hqdefault.jpg",
-      "durationMinutes": 15,
-      "publishedAt": "2022-10-21"
-    }
-  ],
   "tmdb:1089": [
     {
       "id": "yta-VJgCetxcAHM",
@@ -199786,6 +198801,35 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/LL3ABKD0BHI/hqdefault.jpg",
       "durationMinutes": 22,
       "publishedAt": "2023-05-28"
+    }
+  ],
+  "tmdb:275054": [
+    {
+      "id": "yta-w_mYYPy_Qd0",
+      "title": "Фильм \"Премия\": предупреждение, которое не услышали | Клим Жуков",
+      "author": "Клим Жуков",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=w_mYYPy_Qd0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/w_mYYPy_Qd0/hqdefault.jpg",
+      "durationMinutes": 91,
+      "publishedAt": "2026-09-08"
+    },
+    {
+      "id": "yta-VFIkPiqYcCw",
+      "title": "Смысл фильма \"Премия\" (1974). Как не быть пешкой?",
+      "author": "Вслушивание",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=VFIkPiqYcCw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "previewUrl": "https://i.ytimg.com/vi/VFIkPiqYcCw/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2021-08-24"
     }
   ],
   "tmdb:9946": [
@@ -206637,6 +205681,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-09-13"
     }
   ],
+  "wd:Q16666906": [
+    {
+      "id": "yta-Y3d9C6xdj0M",
+      "title": "Такого от книги не ждёшь😳⚔️ ОТБЛЕСКИ ЭТЕРНЫ, Красное на красном || читательский дневник",
+      "author": "bookspace",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Y3d9C6xdj0M",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Y3d9C6xdj0M/hqdefault.jpg",
+      "durationMinutes": 31,
+      "publishedAt": "2024-08-09"
+    }
+  ],
   "wd:Q1991597": [
     {
       "id": "yta-CK3xn0kSOr8",
@@ -206665,6 +205725,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/asxSOsNnYkQ/hqdefault.jpg",
       "durationMinutes": 28,
       "publishedAt": "2024-05-24"
+    }
+  ],
+  "wd:Q60969361": [
+    {
+      "id": "yta-4SoWf9jYtCA",
+      "title": "Такое я больше НЕ ЧИТАЮ🤬🔥 МЕДВЕЖИЙ УГОЛ 💔 || читательский дневник",
+      "author": "bookspace",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4SoWf9jYtCA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4SoWf9jYtCA/hqdefault.jpg",
+      "durationMinutes": 57,
+      "publishedAt": "2023-09-30"
+    },
+    {
+      "id": "yta-SepSDbvhMv4",
+      "title": "Почему стоит прочитать \"Медвежий Угол\" Ф. Бакмана  - [Дай почитать #02]",
+      "author": "Книжный клуб Екатерины Чижовой",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SepSDbvhMv4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SepSDbvhMv4/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2025-08-05"
     }
   ],
   "wd:Q1626551": [
@@ -207357,6 +206447,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/YvfH5lvB4Z4/hqdefault.jpg",
       "durationMinutes": 48,
       "publishedAt": "2024-11-22"
+    }
+  ],
+  "wd:Q16961985": [
+    {
+      "id": "yta-cGdJomcD9Z4",
+      "title": "ОСТРЫЕ ПРЕДМЕТЫ - Три поколения безумия // Почему они делали ЭТО? - Sharp Objects",
+      "author": "Я у мамы филолог",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cGdJomcD9Z4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "previewUrl": "https://i.ytimg.com/vi/cGdJomcD9Z4/hqdefault.jpg",
+      "durationMinutes": 52,
+      "publishedAt": "2024-07-19"
     }
   ],
   "imdb:tt13649112": [
@@ -212976,20 +212081,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 17,
       "publishedAt": "2021-06-06",
       "season": 2
-    },
-    {
-      "id": "yta-ReHmN_QkWvg",
-      "title": "Sweet Tooth Netflix Series Review",
-      "author": "Austin Burke",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=ReHmN_QkWvg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/ReHmN_QkWvg/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2021-06-03"
     }
   ],
   "imdb:tt9208876": [
@@ -215989,20 +215080,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-27"
     },
     {
-      "id": "yta-k1nSrPD-tSA",
-      "title": "Гор Вербински снял НОВУЮ МАТРИЦУ? Фильм Счастья, веселья, не сдохни. ОБЗОР",
-      "author": "Круги на Луне",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=k1nSrPD-tSA",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "human",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/k1nSrPD-tSA/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2026-03-02"
-    },
-    {
       "id": "yta-LJD8nqstgn0",
       "title": "Good Luck, Have Fun, Don't Die | ENDING EXPLAINED: The Detail Everyone Missed",
       "author": "Bendito Spoiler",
@@ -216085,6 +215162,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/iAF5D9Wc1YM/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2026-03-11"
+    },
+    {
+      "id": "yta-k1nSrPD-tSA",
+      "title": "Гор Вербински снял НОВУЮ МАТРИЦУ? Фильм Счастья, веселья, не сдохни. ОБЗОР",
+      "author": "Круги на Луне",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=k1nSrPD-tSA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/k1nSrPD-tSA/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2026-03-02"
     },
     {
       "id": "yta-qeN5hk0E-Qw",
@@ -223337,6 +222428,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/gpYiroqQ7_Y/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2025-04-22"
+    },
+    {
+      "id": "yta-SeTw4fxonpg",
+      "title": "Гадкая сестра - ТРЕШ обзор на фильм",
+      "author": "кинокаракули",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SeTw4fxonpg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SeTw4fxonpg/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2026-10-24"
     }
   ],
   "tmdb:883": [
@@ -227803,6 +226908,49 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2022-02-10"
     }
   ],
+  "tmdb:728142": [
+    {
+      "id": "yta-DZpxSG0mNkw",
+      "title": "«Один на один» / разговор с Джеймсом Нортоном",
+      "author": "КАРО.АРТ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=DZpxSG0mNkw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/DZpxSG0mNkw/hqdefault.jpg",
+      "durationMinutes": 58,
+      "publishedAt": "2022-01-27"
+    },
+    {
+      "id": "yta-u2OiQRpatYA",
+      "title": "ОДИН НА ОДИН: режиссер Дмитрий Мульков и филолог Чернова Анастасия обсуждают литературу и театр",
+      "author": "ЛИТЦЕНТР",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=u2OiQRpatYA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/u2OiQRpatYA/hqdefault.jpg",
+      "durationMinutes": 36,
+      "publishedAt": "2024-12-12"
+    },
+    {
+      "id": "yta-ZyZ9bjKOCHA",
+      "title": "Интервью Джеймс Нортон о фильме «Один на один», страхе смерти и России",
+      "author": "Телеканал КИНОТВ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZyZ9bjKOCHA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZyZ9bjKOCHA/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2022-02-01"
+    }
+  ],
   "tmdb:735726": [
     {
       "id": "yta-lWYbTzmU4TE",
@@ -229152,20 +228300,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/GI8e9djAO74/hqdefault.jpg",
       "durationMinutes": 31,
       "publishedAt": "2019-09-23"
-    },
-    {
-      "id": "yta-gGc1NWW0tJk",
-      "title": "Дмитрий Быков про новый роман («Вегетация») Алексея Иванова",
-      "author": "Demetrio Albertini",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=gGc1NWW0tJk",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/gGc1NWW0tJk/hqdefault.jpg",
-      "durationMinutes": 6,
-      "publishedAt": "2024-12-13"
     }
   ],
   "tmdb:598474": [
@@ -235158,20 +234292,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/NzCfPA38CHE/hqdefault.jpg",
       "durationMinutes": 14,
       "publishedAt": "2023-03-10"
-    },
-    {
-      "id": "yta-z5c4tvYzeSA",
-      "title": "SCREAM VI Script - Every Difference + Breakdown",
-      "author": "WeWatchedAMovie",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=z5c4tvYzeSA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/z5c4tvYzeSA/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2023-08-17"
     },
     {
       "id": "yta-JgbUf6qAfjE",
@@ -250126,22 +249246,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-08-20"
     }
   ],
-  "tmdb:306821": [
-    {
-      "id": "yta-YxzoT5MFO50",
-      "title": "Подруги глубокий Разбор Почему распались",
-      "author": "Что Посмотреть",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=YxzoT5MFO50",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "channel",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/YxzoT5MFO50/hqdefault.jpg",
-      "durationMinutes": 21,
-      "publishedAt": "2023-05-23"
-    }
-  ],
   "tmdb:665": [
     {
       "id": "yta-8gAJiOE8Fvw",
@@ -251998,20 +251102,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/2XgJE1o_S4I/hqdefault.jpg",
       "durationMinutes": 7,
       "publishedAt": "2026-06-30"
-    },
-    {
-      "id": "yta-puXob4MoJVk",
-      "title": "Про любовь. Михаил Лабковский. Кавер версия.",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=puXob4MoJVk",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/puXob4MoJVk/hqdefault.jpg",
-      "durationMinutes": 29,
-      "publishedAt": "2018-02-11"
     }
   ],
   "wd:Q131676089": [
@@ -263234,6 +262324,119 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-09-12"
     }
   ],
+  "tmdb:9802": [
+    {
+      "id": "yta-22SqaeUfCuA",
+      "title": "DCU Keeping Ezra Miller Flash? Wonder Woman Plans, The Rock, Superman & The New Slate Coming Soon",
+      "author": "Heavy Spoilers",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=22SqaeUfCuA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/22SqaeUfCuA/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2023-01-05"
+    },
+    {
+      "id": "yta-SQ68PCWDa0g",
+      "title": "СКАЛА интересные факты о фильме (1996)",
+      "author": "Серж Лебовски",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SQ68PCWDa0g",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SQ68PCWDa0g/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2022-02-12"
+    },
+    {
+      "id": "yta-quyzgEWvWQc",
+      "title": "How Hollywood Ruined The Rock & Kevin Hart",
+      "author": "Movie Overload",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=quyzgEWvWQc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "previewUrl": "https://i.ytimg.com/vi/quyzgEWvWQc/hqdefault.jpg",
+      "durationMinutes": 39,
+      "publishedAt": "2026-04-28"
+    },
+    {
+      "id": "yta-9gdzlkG2QTQ",
+      "title": "The Rock - Movie Review",
+      "author": "Jeremy Jahns",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=9gdzlkG2QTQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/9gdzlkG2QTQ/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2020-06-03"
+    },
+    {
+      "id": "yta-0xOBLRU1zqg",
+      "title": "All My Movies: The Rock (w/ Ben Bateman)",
+      "author": "Dan Murrell",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0xOBLRU1zqg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0xOBLRU1zqg/hqdefault.jpg",
+      "durationMinutes": 53,
+      "publishedAt": "2021-06-24"
+    },
+    {
+      "id": "yta-V2TEDTU11bo",
+      "title": "Did The Rock destroy Shazam II?",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=V2TEDTU11bo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/V2TEDTU11bo/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2023-03-28"
+    },
+    {
+      "id": "yta-7cIiSYesxlM",
+      "title": "Guess The Dwayne \"The Rock\" Johnson Movie By The Savage Review",
+      "author": "Mr Sunday Movies",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7cIiSYesxlM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7cIiSYesxlM/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2022-10-21"
+    },
+    {
+      "id": "yta-NaYjRrSm178",
+      "title": "[Плохбастер Шоу] Скала",
+      "author": "SokoL[off] TV",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=NaYjRrSm178",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "human",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/NaYjRrSm178/hqdefault.jpg",
+      "durationMinutes": 39,
+      "publishedAt": "2016-02-24"
+    }
+  ],
   "tmdb:593643": [
     {
       "id": "yta-h2ISBcq7FKs",
@@ -266309,7 +265512,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "season": 2
     }
   ],
-  "wd:Q41898": [
+  "tmdb:611651": [
     {
       "id": "yta-ZT6uezGTFxM",
       "title": "TENET Ending Fan Theory: Sator Was Actually Working For The Protagonist Without Knowing It",
@@ -266905,36 +266108,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "durationMinutes": 14,
       "publishedAt": "2020-08-17",
       "episode": 1
-    },
-    {
-      "id": "yta-WFtGyDVdrUg",
-      "title": "Lovecraft Country HBO Season 1 Episode 6 Review and Recap | \"Meet Me In Daegu\"",
-      "author": "FilmSpeak",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=WFtGyDVdrUg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "previewUrl": "https://i.ytimg.com/vi/WFtGyDVdrUg/hqdefault.jpg",
-      "durationMinutes": 40,
-      "publishedAt": "2020-09-21",
-      "season": 1,
-      "episode": 6
-    },
-    {
-      "id": "yta-RioVj3l9rLU",
-      "title": "Lovecraft Country HBO Season 1 Episode 5 Review and Recap | \"Strange Case\"",
-      "author": "FilmSpeak",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=RioVj3l9rLU",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "original",
-      "previewUrl": "https://i.ytimg.com/vi/RioVj3l9rLU/hqdefault.jpg",
-      "durationMinutes": 46,
-      "publishedAt": "2020-09-14",
-      "season": 1,
-      "episode": 5
     }
   ],
   "imdb:tt10482370": [
@@ -280044,64 +279217,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-10-30"
     }
   ],
-  "tmdb:17403": [
-    {
-      "id": "yta-gQkLCPq2xvM",
-      "title": "Как быть собой и не развалиться на части | Психолог Лиза | Психология",
-      "author": "Елизавета Корабельникова",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=gQkLCPq2xvM",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/gQkLCPq2xvM/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2025-06-19"
-    },
-    {
-      "id": "yta-LW-EcSyqje8",
-      "title": "Как быть одной и не чувствовать себя одинокой?! Одиночество в толпе",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=LW-EcSyqje8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/LW-EcSyqje8/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2022-09-25"
-    },
-    {
-      "id": "yta-igyNRWwsBd8",
-      "title": "10 ЗАПОВЕДЕЙ ПСИХИЧЕСКОГО ЗДОРОВЬЯ / Как быть в гармонии с миром и в ладу с самим собой",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=igyNRWwsBd8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/igyNRWwsBd8/hqdefault.jpg",
-      "durationMinutes": 9,
-      "publishedAt": "2022-07-15"
-    },
-    {
-      "id": "yta-fPGlEZV1gV0",
-      "title": "Как быть счастливым здесь и сейчас?",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=fPGlEZV1gV0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/fPGlEZV1gV0/hqdefault.jpg",
-      "durationMinutes": 23,
-      "publishedAt": "2018-11-05"
-    }
-  ],
   "tmdb:773": [
     {
       "id": "yta-xQSpNAOU49c",
@@ -281822,6 +280937,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-11-01"
     }
   ],
+  "imdb:tt0259141": [
+    {
+      "id": "yta-ZNzj-mT0Dgc",
+      "title": "Чупакабра из мультсериала Приключения Джеки Чана (способности, проклятие, фольклор)",
+      "author": "Звездный Капитан",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZNzj-mT0Dgc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZNzj-mT0Dgc/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2019-03-01"
+    },
+    {
+      "id": "yta-o9Fy5-uNYjE",
+      "title": "Магия, демоны и кунг-фу: за что мы любили Приключения Джеки Чана в детстве",
+      "author": "Киновешалка",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=o9Fy5-uNYjE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/o9Fy5-uNYjE/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2025-06-14"
+    }
+  ],
   "tmdb:16296": [
     {
       "id": "yta-XVuZeb1nO18",
@@ -282410,50 +281555,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-08-21"
     }
   ],
-  "tmdb:11687": [
-    {
-      "id": "yta-4IHHkw7Bf8U",
-      "title": "Пришельцы Геносы из фильма Эволюция (способности, виды, слабости)",
-      "author": "Звездный Капитан",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=4IHHkw7Bf8U",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/4IHHkw7Bf8U/hqdefault.jpg",
-      "durationMinutes": 10,
-      "publishedAt": "2018-08-11"
-    },
-    {
-      "id": "yta-DN_FgaALaO8",
-      "title": "Пришельцы Геносы из фильма Эволюция (блокированное)",
-      "author": "Звездный Капитан",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=DN_FgaALaO8",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/DN_FgaALaO8/hqdefault.jpg",
-      "durationMinutes": 11,
-      "publishedAt": "2018-06-16"
-    },
-    {
-      "id": "yta-_R7PqWMY56U",
-      "title": "Пришельцы - ТРЕШ-ОБЗОР фильма",
-      "author": "МАТЁРЫЙ КИНОДВИЖ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_R7PqWMY56U",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_R7PqWMY56U/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2020-07-20"
-    }
-  ],
   "imdb:tt2295953": [
     {
       "id": "yta-K7pRH6ubVkc",
@@ -283040,6 +282141,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/kjzLEmTVO_4/hqdefault.jpg",
       "durationMinutes": 18,
       "publishedAt": "2020-11-21"
+    }
+  ],
+  "tmdb:43933": [
+    {
+      "id": "yta-dsXlZI1Yups",
+      "title": "Монстры из фильма и книги Мгла (Туман) Стивена Кинга",
+      "author": "Звездный Капитан",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dsXlZI1Yups",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dsXlZI1Yups/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2017-05-04"
+    },
+    {
+      "id": "yta-xzsW1EN0nbc",
+      "title": "Монстры из фильмов, которых НЕВОЗМОЖНО пережить",
+      "author": "Axis Comics",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xzsW1EN0nbc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xzsW1EN0nbc/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2026-08-09"
     }
   ],
   "imdb:tt3228904": [
@@ -288779,50 +287910,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-09-02"
     }
   ],
-  "tmdb:521007": [
-    {
-      "id": "yta-32N67MBioI0",
-      "title": "Как обычному парню познакомиться с красивой девушкой / Искусственный интеллект!",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=32N67MBioI0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/32N67MBioI0/hqdefault.jpg",
-      "durationMinutes": 17,
-      "publishedAt": "2023-03-09"
-    },
-    {
-      "id": "yta-IJ9TIQm0Uec",
-      "title": "Искусственный интеллект / Как влюбить в себя богатого мужчину / ChatGPT",
-      "author": "Сергей Романов ",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=IJ9TIQm0Uec",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/IJ9TIQm0Uec/hqdefault.jpg",
-      "durationMinutes": 18,
-      "publishedAt": "2023-03-07"
-    },
-    {
-      "id": "yta-D2S_cigP-Q0",
-      "title": "Искусственный интеллект убил кино",
-      "author": "Киноклуб Николая Никулина",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=D2S_cigP-Q0",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/D2S_cigP-Q0/hqdefault.jpg",
-      "durationMinutes": 14,
-      "publishedAt": "2026-04-03"
-    }
-  ],
   "tmdb:758679": [
     {
       "id": "yta-7X13lZ-UZYo",
@@ -292937,50 +292024,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/OF3Tbnd1hvc/hqdefault.jpg",
       "durationMinutes": 18,
       "publishedAt": "2023-10-31"
-    }
-  ],
-  "tmdb:13515": [
-    {
-      "id": "yta-QQVWjiWpyjg",
-      "title": "ТРЕШ ОБЗОР фильма ЗЕРКАЛА (AnimaTES)",
-      "author": "AnimaTES",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=QQVWjiWpyjg",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/QQVWjiWpyjg/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2019-10-09"
-    },
-    {
-      "id": "yta-4x0ytJJXIsc",
-      "title": "ЗЕРКАЛА - ТРЕШ ОБЗОР фильма  [ОНИ ПОВСЮДУ]",
-      "author": "Штрих Dog",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=4x0ytJJXIsc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/4x0ytJJXIsc/hqdefault.jpg",
-      "durationMinutes": 16,
-      "publishedAt": "2022-09-06"
-    },
-    {
-      "id": "yta-uTr2hXqbXNw",
-      "title": "MIRRORS Movie Review (2008)",
-      "author": "WeWatchedAMovie",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=uTr2hXqbXNw",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/uTr2hXqbXNw/hqdefault.jpg",
-      "durationMinutes": 19,
-      "publishedAt": "2023-02-05"
     }
   ],
   "tmdb:323372": [
@@ -306591,22 +305634,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2013-03-13"
     }
   ],
-  "tmdb:158011": [
-    {
-      "id": "yta-8p3U9ZKXqbA",
-      "title": "The Call - Movie Review by Chris Stuckmann",
-      "author": "Chris Stuckmann",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=8p3U9ZKXqbA",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/8p3U9ZKXqbA/hqdefault.jpg",
-      "durationMinutes": 5,
-      "publishedAt": "2013-03-12"
-    }
-  ],
   "tmdb:47964": [
     {
       "id": "yta-1mJqDiCu6eA",
@@ -309886,22 +308913,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-11-14"
     }
   ],
-  "tmdb:1665": [
-    {
-      "id": "yta--wZpESenV9c",
-      "title": "Последние Дни Американской Преступности. ТРЕШ ОБЗОР фильма.",
-      "author": "Ra13Z",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=-wZpESenV9c",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/-wZpESenV9c/hqdefault.jpg",
-      "durationMinutes": 20,
-      "publishedAt": "2021-01-22"
-    }
-  ],
   "tmdb:606234": [
     {
       "id": "yta-RhNzpzBDcYQ",
@@ -311166,7 +310177,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "url": "https://www.youtube.com/watch?v=NOwWlk_3ikk",
       "language": "en",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "playlist",
       "previewUrl": "https://i.ytimg.com/vi/NOwWlk_3ikk/hqdefault.jpg",
       "durationMinutes": 53,
       "publishedAt": "2026-10-21"
@@ -313621,6 +312632,19 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/gNgx0yvg0YI/hqdefault.jpg",
       "durationMinutes": 17,
       "publishedAt": "2026-10-18"
+    },
+    {
+      "id": "yta-VbmllqiyGGM",
+      "title": "On Digger Hate",
+      "author": "Jack Saint",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=VbmllqiyGGM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/VbmllqiyGGM/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2026-10-25"
     }
   ],
   "tmdb:44040": [
@@ -314479,20 +313503,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/TdOWOFO9VU4/hqdefault.jpg",
       "durationMinutes": 19,
       "publishedAt": "2023-12-15"
-    },
-    {
-      "id": "yta-xoZGuVAVc7o",
-      "title": "Leave the World Behind Netflix Movie Review",
-      "author": "Austin Burke",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xoZGuVAVc7o",
-      "language": "en",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xoZGuVAVc7o/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2023-12-08"
     }
   ],
   "tmdb:49901": [
@@ -315161,6 +314171,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Cmofjl7fZ8A/hqdefault.jpg",
       "durationMinutes": 18,
       "publishedAt": "2020-08-05"
+    }
+  ],
+  "tmdb:11687": [
+    {
+      "id": "yta-_R7PqWMY56U",
+      "title": "Пришельцы - ТРЕШ-ОБЗОР фильма",
+      "author": "МАТЁРЫЙ КИНОДВИЖ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_R7PqWMY56U",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_R7PqWMY56U/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2020-07-20"
     }
   ],
   "tmdb:296065": [
@@ -316743,20 +315769,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/VmDuPd39Ygg/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2023-07-07"
-    },
-    {
-      "id": "yta-_w2wOyPpWLs",
-      "title": "жду экранизацию книги Колин Гувер 💔 Всё закончится на нас",
-      "author": "Анжела Books_Sold",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=_w2wOyPpWLs",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/_w2wOyPpWLs/hqdefault.jpg",
-      "durationMinutes": 16,
-      "publishedAt": "2024-08-10"
     },
     {
       "id": "yta-ELaaG3Wwhuw",
@@ -318915,6 +317927,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-12-15"
     }
   ],
+  "wd:Q4208462": [
+    {
+      "id": "yta-3O5U0daaPO4",
+      "title": "Делюсь: Людмила Улицкая, книга \"Казус Кукоцкого\"",
+      "author": "Итак, Далия",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3O5U0daaPO4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3O5U0daaPO4/hqdefault.jpg",
+      "durationMinutes": 21,
+      "publishedAt": "2023-12-03"
+    }
+  ],
   "tmdb:14257": [
     {
       "id": "yta-_WR4oMBMK88",
@@ -319096,6 +318124,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/-ySdPpQE6oc/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2026-10-13"
+    }
+  ],
+  "wd:Q2156974": [
+    {
+      "id": "yta-cCcjP4VAVVg",
+      "title": "Делюсь: Марина и Сергей Дяченко, романы \"Армагед-дом\", \"Пандем\"",
+      "author": "Итак, Далия",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cCcjP4VAVVg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cCcjP4VAVVg/hqdefault.jpg",
+      "durationMinutes": 25,
+      "publishedAt": "2022-12-07"
     }
   ],
   "tmdb:12245": [
@@ -323192,7 +322236,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-07-18"
     }
   ],
-  "wd:Q1308120": [
+  "tmdb:166883": [
     {
       "id": "yta-MoEn0ZNBrNg",
       "title": "Большая игра Петра. Как царь использовал Пруссию против Швеции / Евгений Норин",
@@ -325845,6 +324889,34 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-08-25"
     }
   ],
+  "tmdb:51423": [
+    {
+      "id": "yta-JFpagsE7H4U",
+      "title": "Прорыв за прорывом! По ту сторону техногенных катастроф // Олег Комолов. Простые числа",
+      "author": "Простые числа",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=JFpagsE7H4U",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/JFpagsE7H4U/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2023-11-23"
+    },
+    {
+      "id": "yta-h9yN2ha1ShI",
+      "title": "По ту сторону \"Простых Чисел\" // Комолов & Краснопёров",
+      "author": "Простые числа",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=h9yN2ha1ShI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "previewUrl": "https://i.ytimg.com/vi/h9yN2ha1ShI/hqdefault.jpg",
+      "durationMinutes": 40,
+      "publishedAt": "2023-01-29"
+    }
+  ],
   "tmdb:169781": [
     {
       "id": "yta-gXDF2XRmrdE",
@@ -326380,21 +325452,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/bNtexjE-Xs8/hqdefault.jpg",
       "durationMinutes": 29,
       "publishedAt": "2022-01-03"
-    }
-  ],
-  "tmdb:21612": [
-    {
-      "id": "yta-6f0NIBqHI2Q",
-      "title": "Похороны подруги... | Играю в Episode#10",
-      "author": "Маруся Черничкина",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=6f0NIBqHI2Q",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "previewUrl": "https://i.ytimg.com/vi/6f0NIBqHI2Q/hqdefault.jpg",
-      "durationMinutes": 13,
-      "publishedAt": "2019-06-02"
     }
   ],
   "imdb:tt1826940": [
@@ -330215,6 +329272,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-12-24"
     }
   ],
+  "tmdb:51162": [
+    {
+      "id": "yta-o-PtxLoFM08",
+      "title": "Alright fine. I'll talk about the Winnie the Pooh horror movie.",
+      "author": "Sheev Talks",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=o-PtxLoFM08",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "lore",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/o-PtxLoFM08/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2023-03-01"
+    },
+    {
+      "id": "yta-P5TCekVLFj0",
+      "title": "My Feud with Winnie the Pooh is OVER! | What Happened?",
+      "author": "Cody Leach",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=P5TCekVLFj0",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/P5TCekVLFj0/hqdefault.jpg",
+      "durationMinutes": 36,
+      "publishedAt": "2024-03-22"
+    }
+  ],
   "wd:Q396602": [
     {
       "id": "yta-c4uZVZ9v4t0",
@@ -331163,6 +330250,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/w67qktuvU_8/hqdefault.jpg",
       "durationMinutes": 13,
       "publishedAt": "2025-02-07"
+    },
+    {
+      "id": "yta-nVXDwPLTwTA",
+      "title": "Клара и Солнце: прекрасная идея, которую закрыли на замок | Кадзуо Исигуро",
+      "author": "Юнона",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=nVXDwPLTwTA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/nVXDwPLTwTA/hqdefault.jpg",
+      "durationMinutes": 25,
+      "publishedAt": "2026-10-24"
     }
   ],
   "wd:Q437383": [
@@ -333367,6 +332468,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-07-02"
     }
   ],
+  "wd:Q641258": [
+    {
+      "id": "yta-0c9qysayG0U",
+      "title": "Вечная жизнь — те же проблемы? | The God of Endings",
+      "author": "vikabookus",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0c9qysayG0U",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0c9qysayG0U/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2026-09-23"
+    },
+    {
+      "id": "yta-R6Hbh2nIPjk",
+      "title": "Вечная жизнь. Фредерик Бегбедер",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=R6Hbh2nIPjk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/R6Hbh2nIPjk/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2019-01-19"
+    }
+  ],
   "tmdb:41764": [
     {
       "id": "yta-vnvQiHV8rhA",
@@ -334523,6 +333654,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-05-03"
     }
   ],
+  "wd:Q3506351": [
+    {
+      "id": "yta-L1M_3VJuNYU",
+      "title": "Мнение. Книга \"СПЕКТР\" С. Лукьяненко - OZERSKIY",
+      "author": "dushnila andrey (прорассказ)",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=L1M_3VJuNYU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/L1M_3VJuNYU/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2020-04-18"
+    }
+  ],
   "wd:Q60748857": [
     {
       "id": "yta-5PRBtJO2I_k",
@@ -334761,6 +333908,794 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/YpcNUyzhuuo/hqdefault.jpg",
       "durationMinutes": 56,
       "publishedAt": "2025-01-28"
+    }
+  ],
+  "wd:Q4470": [
+    {
+      "id": "yta-YpJOwUD1oTo",
+      "title": "The Wheel Of Time || Mega Summary",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=YpJOwUD1oTo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/YpJOwUD1oTo/hqdefault.jpg",
+      "durationMinutes": 667,
+      "publishedAt": "2025-09-18"
+    },
+    {
+      "id": "yta-lxRnWrM7Htg",
+      "title": "The Wheel Of Time Has Been Canceled",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=lxRnWrM7Htg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/lxRnWrM7Htg/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2025-05-23"
+    },
+    {
+      "id": "yta-Afd8-rKUEaw",
+      "title": "How The Wheel of Time Show Changed the Wolfbrothers",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Afd8-rKUEaw",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Afd8-rKUEaw/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2025-05-08"
+    },
+    {
+      "id": "yta-dA6muAG7MI8",
+      "title": "The Wheel Of Time red carpet premier!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dA6muAG7MI8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dA6muAG7MI8/hqdefault.jpg",
+      "durationMinutes": 95,
+      "publishedAt": "2021-11-15"
+    },
+    {
+      "id": "yta-0PevEt0gSKE",
+      "title": "TOP 10 Mat Cauthon Moments - The Wheel Of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0PevEt0gSKE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0PevEt0gSKE/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2020-07-27"
+    },
+    {
+      "id": "yta-4x3srPwFc_E",
+      "title": "Why is The Wheel of Time so popular yet so criticized? (RESPONSE)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4x3srPwFc_E",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4x3srPwFc_E/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2020-06-08"
+    },
+    {
+      "id": "yta-PNI544Icjgw",
+      "title": "How I'll Review The Wheel Of Time Show! - 2 reviews EVERY episode!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PNI544Icjgw",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PNI544Icjgw/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-05-18"
+    },
+    {
+      "id": "yta-b3XCoRZSMPU",
+      "title": "Sarah Nakamura Talks The Wheel of Time Show and Series Opinions!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=b3XCoRZSMPU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/b3XCoRZSMPU/hqdefault.jpg",
+      "durationMinutes": 34,
+      "publishedAt": "2020-04-03"
+    },
+    {
+      "id": "yta--AngIZgJ00A",
+      "title": "The BAD Of The Wheel Of Time!😞",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-AngIZgJ00A",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-AngIZgJ00A/hqdefault.jpg",
+      "durationMinutes": 20,
+      "publishedAt": "2020-03-05"
+    },
+    {
+      "id": "yta--2v3JncjmBk",
+      "title": "Hardest To Adapt: The Wheel Of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-2v3JncjmBk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/-2v3JncjmBk/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-01-25"
+    },
+    {
+      "id": "yta-YzQ3HTHrcpc",
+      "title": "THE WHEEL OF TIME SHOW: Everything We Know!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=YzQ3HTHrcpc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/YzQ3HTHrcpc/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2020-01-01"
+    },
+    {
+      "id": "yta-onrgNEfZHZ8",
+      "title": "The Wheel Of Time Is Terrifying",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=onrgNEfZHZ8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/onrgNEfZHZ8/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2019-10-15"
+    },
+    {
+      "id": "yta-39V23hfF3iE",
+      "title": "Best Villain In The Wheel Of Time?",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=39V23hfF3iE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/39V23hfF3iE/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2019-09-21"
+    },
+    {
+      "id": "yta-EIyaC-H89oQ",
+      "title": "Before Reading - The Wheel Of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=EIyaC-H89oQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/EIyaC-H89oQ/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-09-17"
+    },
+    {
+      "id": "yta-b2R0R7mqpiI",
+      "title": "What They SHOULD Change For The WHEEL OF TIME Show!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=b2R0R7mqpiI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/b2R0R7mqpiI/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-07-26"
+    },
+    {
+      "id": "yta-WmALNJzkrRk",
+      "title": "Mat Cauthon - How They Should Adapt (The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WmALNJzkrRk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WmALNJzkrRk/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2019-07-05"
+    },
+    {
+      "id": "yta-_G3dtwArmWA",
+      "title": "Adapting Moiraine (The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_G3dtwArmWA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_G3dtwArmWA/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2019-06-19"
+    },
+    {
+      "id": "yta-HB0J_EiDgwg",
+      "title": "THE WHEEL OF TIME BOOKS RANKED!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=HB0J_EiDgwg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/HB0J_EiDgwg/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2019-06-17"
+    },
+    {
+      "id": "yta-zryat1779dM",
+      "title": "Adapting Nynaeve Al'Meara - The Wheel of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zryat1779dM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zryat1779dM/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-06-13"
+    },
+    {
+      "id": "yta-cDwliZOClK8",
+      "title": "Why The Wheel Of Time Show Will Be GREAT",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cDwliZOClK8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cDwliZOClK8/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-05-13"
+    },
+    {
+      "id": "yta-gqOvOwuoKpI",
+      "title": "What The Wheel of Time TV Show MUST Do Right",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=gqOvOwuoKpI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/gqOvOwuoKpI/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2019-03-28"
+    },
+    {
+      "id": "yta-HVq5izd9sF4",
+      "title": "Why YOU Should Read THE WHEEL OF TIME!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=HVq5izd9sF4",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/HVq5izd9sF4/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2019-02-28"
+    },
+    {
+      "id": "yta-_pYG0dPc3pU",
+      "title": "The Shadow Rising - Review (The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_pYG0dPc3pU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_pYG0dPc3pU/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2019-01-23"
+    },
+    {
+      "id": "yta-tu6RXwSMc0I",
+      "title": "Casting The Wheel of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=tu6RXwSMc0I",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/tu6RXwSMc0I/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2019-01-13"
+    },
+    {
+      "id": "yta-KZNPZmAUulI",
+      "title": "The Black Tower Conflict - THE WHEEL OF TIME",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=KZNPZmAUulI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/KZNPZmAUulI/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2018-12-20"
+    },
+    {
+      "id": "yta-8_hE54wvBWo",
+      "title": "Tel'Aran'Rhiod Explained - The Wheel of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=8_hE54wvBWo",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/8_hE54wvBWo/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-10-26"
+    },
+    {
+      "id": "yta-sL8nY7WjaP0",
+      "title": "The Wheel of Time TV Show Article - Response",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sL8nY7WjaP0",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sL8nY7WjaP0/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2018-09-06"
+    },
+    {
+      "id": "yta-KnV1eHQtkW8",
+      "title": "Vin VS Mat (Mistborn VS The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=KnV1eHQtkW8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/KnV1eHQtkW8/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2018-08-22"
+    },
+    {
+      "id": "yta-2mbAHHI4HJI",
+      "title": "Cuts The Wheel of Time TV Show Must Make",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=2mbAHHI4HJI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/2mbAHHI4HJI/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2018-08-18"
+    },
+    {
+      "id": "yta-c_N78d5go9c",
+      "title": "The Seanchan - A Culture Examination (The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=c_N78d5go9c",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/c_N78d5go9c/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-08-02"
+    },
+    {
+      "id": "yta-hfiqgTW8nws",
+      "title": "The Wheel of Time TV Pilot Review - (Winters Dragon)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=hfiqgTW8nws",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/hfiqgTW8nws/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2018-07-20"
+    },
+    {
+      "id": "yta-z8Voi6nvyFA",
+      "title": "Lan Mandragoran VS Geralt of Rivia (The Wheel of Time VS The Witcher) - Spoiler Free",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=z8Voi6nvyFA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/z8Voi6nvyFA/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2018-06-27"
+    },
+    {
+      "id": "yta-U6rNHvySGck",
+      "title": "The Future of The Wheel of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=U6rNHvySGck",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/U6rNHvySGck/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2018-04-15"
+    },
+    {
+      "id": "yta-3si0_VuJavI",
+      "title": "Moiraine (A Character Examination) -The Wheel of Time",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3si0_VuJavI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3si0_VuJavI/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-04-10"
+    },
+    {
+      "id": "yta-E0KZY4j7Am8",
+      "title": "RAND AL'THOR & CALLANDOR (The Wheel of Time)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=E0KZY4j7Am8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/E0KZY4j7Am8/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-03-28"
+    },
+    {
+      "id": "yta-TBDxS5_k01w",
+      "title": "THE WHITE AND BLACK TOWER - The Wheel of Time (An Examination)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=TBDxS5_k01w",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/TBDxS5_k01w/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-03-09"
+    },
+    {
+      "id": "yta-UBSrinEKHoE",
+      "title": "Perrin Aybara (The Wheel of Time) A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=UBSrinEKHoE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/UBSrinEKHoE/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2018-02-24"
+    },
+    {
+      "id": "yta-PBGjAUWbnIc",
+      "title": "Mat Cauthon (The Wheel of Time) A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PBGjAUWbnIc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PBGjAUWbnIc/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2018-02-23"
+    },
+    {
+      "id": "yta-t-D5wej0OwU",
+      "title": "Ishamael (The Wheel of Time) A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=t-D5wej0OwU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/t-D5wej0OwU/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-02-17"
+    },
+    {
+      "id": "yta-6h99cyF0XeE",
+      "title": "Galadedrid Damodred (The Wheel of Time) A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=6h99cyF0XeE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/6h99cyF0XeE/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2018-02-16"
+    },
+    {
+      "id": "yta-L93830MwtUI",
+      "title": "Thom Merrilin (The Wheel of Time) A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=L93830MwtUI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/L93830MwtUI/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2018-02-12"
+    },
+    {
+      "id": "yta-PZAXpT6Dtqg",
+      "title": "Rand al’Thor (The Wheel of Time) - A Character Examination",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PZAXpT6Dtqg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PZAXpT6Dtqg/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2018-02-09"
+    },
+    {
+      "id": "yta-_2JemFY6BqI",
+      "title": "LET'S SUMMARIZE - WINTERS HEART (The Wheel of Time Book 9)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=_2JemFY6BqI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/_2JemFY6BqI/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2017-09-22"
+    },
+    {
+      "id": "yta-Qrhm4mb0zes",
+      "title": "THE WHEEL OF TIME IS COMING TO TV!!...Will it be good?",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Qrhm4mb0zes",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Qrhm4mb0zes/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2017-05-11"
+    },
+    {
+      "id": "yta-A8JBiwVUs8c",
+      "title": "Let's Review THE WHEEL OF TIME SERIES! (IN-DEPTH)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=A8JBiwVUs8c",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/A8JBiwVUs8c/hqdefault.jpg",
+      "durationMinutes": 19,
+      "publishedAt": "2016-06-15"
+    },
+    {
+      "id": "yta-RHCNFaxMy7o",
+      "title": "\"КОЛЕСО ВРЕМЕНИ\"//Обзор цикла (без спойлеров)",
+      "author": "Редактура или жизнь",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=RHCNFaxMy7o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/RHCNFaxMy7o/hqdefault.jpg",
+      "durationMinutes": 51,
+      "publishedAt": "2025-02-01"
+    },
+    {
+      "id": "yta-jE-vYW_GPSE",
+      "title": "ПЕРЕЧИТЫВАЮ КОЛЕСО ВРЕМЕНИ Дракон возрожденный",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=jE-vYW_GPSE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/jE-vYW_GPSE/hqdefault.jpg",
+      "durationMinutes": 25,
+      "publishedAt": "2026-02-08"
+    },
+    {
+      "id": "yta-jGL6aZAkPkk",
+      "title": "ЗИМНЕЕ ФЭНТЕЗИ❄️ КОЛЕСО ВРЕМЕНИ финал, новинка от Джо Аберкромби, Меч Кайгена",
+      "author": "Илона The Booklover Chronicle",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=jGL6aZAkPkk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/jGL6aZAkPkk/hqdefault.jpg",
+      "durationMinutes": 46,
+      "publishedAt": "2025-12-19"
+    },
+    {
+      "id": "yta-2PbWW8MuiaM",
+      "title": "Let's watch the first (terrible) pilot for The Wheel of Time",
+      "author": "Bookborn",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=2PbWW8MuiaM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/2PbWW8MuiaM/hqdefault.jpg",
+      "durationMinutes": 34,
+      "publishedAt": "2025-10-22"
+    },
+    {
+      "id": "yta-xTyvCk8Rghs",
+      "title": "Колесо Времени 🐉 Нож сновидений || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
+      "author": "Рас-сказки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xTyvCk8Rghs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xTyvCk8Rghs/hqdefault.jpg",
+      "durationMinutes": 57,
+      "publishedAt": "2026-02-17"
+    },
+    {
+      "id": "yta-ISrc5Jh-8h0",
+      "title": "Колесо Времени 🐉 Новая весна || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
+      "author": "Рас-сказки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ISrc5Jh-8h0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ISrc5Jh-8h0/hqdefault.jpg",
+      "durationMinutes": 37,
+      "publishedAt": "2024-05-31"
+    },
+    {
+      "id": "yta-3k5ZX3Q991o",
+      "title": "Колесо Времени 🐉 Сердце зимы || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
+      "author": "Рас-сказки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=3k5ZX3Q991o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/3k5ZX3Q991o/hqdefault.jpg",
+      "durationMinutes": 44,
+      "publishedAt": "2023-10-24"
+    },
+    {
+      "id": "yta-1A0nHmZECR8",
+      "title": "Колесо Времени 🐉 Путь кинжалов || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
+      "author": "Рас-сказки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=1A0nHmZECR8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/1A0nHmZECR8/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2023-08-11"
+    },
+    {
+      "id": "yta-4PbUeSRs-G4",
+      "title": "Колесо Времени 🐉 Корона Мечей || ЧИТАТЕЛЬСКИЙ ДНЕВНИК",
+      "author": "Рас-сказки",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4PbUeSRs-G4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4PbUeSRs-G4/hqdefault.jpg",
+      "durationMinutes": 47,
+      "publishedAt": "2023-04-18"
+    }
+  ],
+  "wd:Q135264602": [
+    {
+      "id": "yta-dXxcFyxctL8",
+      "title": "The Devils by Joe Abercrombie – His Strangest, Sharpest Turn Yet? (Spoiler-Free Review)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dXxcFyxctL8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/dXxcFyxctL8/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2025-05-15"
+    },
+    {
+      "id": "yta-Kzg_HYuIvy8",
+      "title": "The Devils - Movie Review",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Kzg_HYuIvy8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Kzg_HYuIvy8/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:11704": [
@@ -335055,6 +334990,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-02-25"
     }
   ],
+  "wd:Q101987239": [
+    {
+      "id": "yta-rOQRbS3tt4g",
+      "title": "A Court Of Mist And Fury 🌸 (Tipsy FIRST & Last)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=rOQRbS3tt4g",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/rOQRbS3tt4g/hqdefault.jpg",
+      "durationMinutes": 25,
+      "publishedAt": "2023-12-08"
+    }
+  ],
   "wd:Q134450078": [
     {
       "id": "yta-5Ka5QuiGaxE",
@@ -335113,6 +335064,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-08-28"
     }
   ],
+  "wd:Q101987009": [
+    {
+      "id": "yta-sjavATi04GE",
+      "title": "A Court Of Thorns And Roses 🌹 (Tipsy FIRST & LAST)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sjavATi04GE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sjavATi04GE/hqdefault.jpg",
+      "durationMinutes": 38,
+      "publishedAt": "2023-09-05"
+    }
+  ],
   "wd:Q120755152": [
     {
       "id": "yta-oOlTN74f6MU",
@@ -335155,6 +335122,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/rAwIVNW65lg/hqdefault.jpg",
       "durationMinutes": 16,
       "publishedAt": "2023-07-06"
+    }
+  ],
+  "wd:Q127162192": [
+    {
+      "id": "yta-AWDVJxq8wzE",
+      "title": "Light Bringer (Red Rising) ~REVIEW~",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=AWDVJxq8wzE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/AWDVJxq8wzE/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2023-08-16"
+    },
+    {
+      "id": "yta-Y1gMFY_MelA",
+      "title": "Pierce Brown Talks Red Rising and LIGHT BRINGER!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Y1gMFY_MelA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Y1gMFY_MelA/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2023-07-25"
     }
   ],
   "wd:Q18393778": [
@@ -335371,6 +335368,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/1ua5wm5iKCk/hqdefault.jpg",
       "durationMinutes": 15,
       "publishedAt": "2021-08-09"
+    }
+  ],
+  "wd:Q130612923": [
+    {
+      "id": "yta-pOcodaOmOmg",
+      "title": "Black Sun Is PEAK New Fantasy!",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=pOcodaOmOmg",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/pOcodaOmOmg/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2023-01-31"
     }
   ],
   "wd:Q115966015": [
@@ -335779,6 +335792,82 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-06-16"
     }
   ],
+  "wd:Q19610145": [
+    {
+      "id": "yta-XDO9J-GYBuU",
+      "title": "DARK AGE / CIBOLA BURN -REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=XDO9J-GYBuU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/XDO9J-GYBuU/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-09-04"
+    },
+    {
+      "id": "yta-cmZLBU5ZWik",
+      "title": "Пожар Сиболы. Джеймс Кори. Пространство. The Expanse",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=cmZLBU5ZWik",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/cmZLBU5ZWik/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2018-08-27"
+    }
+  ],
+  "wd:Q55609029": [
+    {
+      "id": "yta-XDO9J-GYBuU",
+      "title": "DARK AGE / CIBOLA BURN -REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=XDO9J-GYBuU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/XDO9J-GYBuU/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-09-04"
+    },
+    {
+      "id": "yta-p8_g8ITfuso",
+      "title": "Are We in a New Dark Age?",
+      "author": "Adam Walker - Close Reading Poetry",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=p8_g8ITfuso",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/p8_g8ITfuso/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2025-12-12"
+    }
+  ],
+  "wd:Q21189971": [
+    {
+      "id": "yta-j5azgMkfOcY",
+      "title": "The Song of Achilles -Review",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=j5azgMkfOcY",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/j5azgMkfOcY/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2021-08-27"
+    }
+  ],
   "wd:Q105473555": [
     {
       "id": "yta-_A0FTeQ2lEc",
@@ -335837,6 +335926,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/EwOfD18Sxj8/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2021-07-31"
+    }
+  ],
+  "wd:Q30324122": [
+    {
+      "id": "yta-s-AcankNVRY",
+      "title": "Iron Gold/Hyperion - REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=s-AcankNVRY",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/s-AcankNVRY/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2021-07-15"
+    }
+  ],
+  "wd:Q131414127": [
+    {
+      "id": "yta-SBERmZDqXcE",
+      "title": "Red Country / Later  -REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SBERmZDqXcE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SBERmZDqXcE/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2021-06-12"
     }
   ],
   "wd:Q470229": [
@@ -336277,6 +336398,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-09-01"
     }
   ],
+  "wd:Q97171148": [
+    {
+      "id": "yta-WkdR_Ik7FcI",
+      "title": "Ready Player Two || Sequel CRASH",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WkdR_Ik7FcI",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WkdR_Ik7FcI/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2020-12-03"
+    },
+    {
+      "id": "yta-SaukpQfeYFU",
+      "title": "READY PLAYER TWO Movie Leak You Need To See",
+      "author": "Rae Cinema",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=SaukpQfeYFU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/SaukpQfeYFU/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2026-10-04"
+    }
+  ],
   "wd:Q114088979": [
     {
       "id": "yta-S2u-0IoxhS4",
@@ -336337,6 +336488,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/F7amU0JuDTU/hqdefault.jpg",
       "durationMinutes": 42,
       "publishedAt": "2025-12-04"
+    }
+  ],
+  "wd:Q85809878": [
+    {
+      "id": "yta-hcPVnlmHig8",
+      "title": "To Sleep In A Sea Of Stars - REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=hcPVnlmHig8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/hcPVnlmHig8/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2020-08-03"
+    }
+  ],
+  "wd:Q79557367": [
+    {
+      "id": "yta-zggCYNwF5Mk",
+      "title": "Gideon The Ninth - REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zggCYNwF5Mk",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zggCYNwF5Mk/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2020-07-24"
     }
   ],
   "wd:Q2512889": [
@@ -336867,6 +337050,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2019-11-21"
     }
   ],
+  "wd:Q107389244": [
+    {
+      "id": "yta-vS7xM0RVrwA",
+      "title": "A DARKER SHADE OF MAGIC 🔸⚫⬜- REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vS7xM0RVrwA",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vS7xM0RVrwA/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2019-12-15"
+    },
+    {
+      "id": "yta-hINnk0eqj8I",
+      "title": "A Darker Shade of Magic by V.E. Schwab | Spoiler Free Review",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=hINnk0eqj8I",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/hINnk0eqj8I/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2017-02-08"
+    }
+  ],
   "wd:Q85789202": [
     {
       "id": "yta-2GfKLuVSFm0",
@@ -336881,6 +337094,66 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/2GfKLuVSFm0/hqdefault.jpg",
       "durationMinutes": 8,
       "publishedAt": "2019-11-27"
+    }
+  ],
+  "wd:Q2819819": [
+    {
+      "id": "yta-WqnYscl7jnM",
+      "title": "After A Memory Of Light",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WqnYscl7jnM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WqnYscl7jnM/hqdefault.jpg",
+      "durationMinutes": 12,
+      "publishedAt": "2019-11-24"
+    },
+    {
+      "id": "yta-Kpj1u9U_gQU",
+      "title": "LET'S SUMMARIZE - A MEMORY OF LIGHT (The Wheel of Time Book 14)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Kpj1u9U_gQU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Kpj1u9U_gQU/hqdefault.jpg",
+      "durationMinutes": 22,
+      "publishedAt": "2017-09-25"
+    },
+    {
+      "id": "yta-Zzz3X2sdnps",
+      "title": "СПОЙЛЕРЫ! ПАМЯТЬ СВЕТА - Роберт Джордан, Брендон Сандерсон",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Zzz3X2sdnps",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Zzz3X2sdnps/hqdefault.jpg",
+      "durationMinutes": 109,
+      "publishedAt": "2022-10-13"
+    }
+  ],
+  "wd:Q133041736": [
+    {
+      "id": "yta-aJPs1Uv0KpE",
+      "title": "GREY SISTER - REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=aJPs1Uv0KpE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/aJPs1Uv0KpE/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2019-11-22"
     }
   ],
   "wd:Q15260619": [
@@ -336959,6 +337232,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-05-22"
     }
   ],
+  "wd:Q96401397": [
+    {
+      "id": "yta-ekiH6r4-YDc",
+      "title": "RED SISTER - REVIEW",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ekiH6r4-YDc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ekiH6r4-YDc/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2019-09-08"
+    },
+    {
+      "id": "yta-yHxIuWfc4hs",
+      "title": "Обзор на книгу Red Sister | Марк Лоуренс | Цикл The Book of Ancestor",
+      "author": "Книжный разрез",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=yHxIuWfc4hs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/yHxIuWfc4hs/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2020-04-21"
+    }
+  ],
   "wd:Q268100": [
     {
       "id": "yta-qwEnXNhyWd8",
@@ -337031,6 +337334,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/aZ9oyOl2L8U/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2019-07-30"
+    }
+  ],
+  "wd:Q105274840": [
+    {
+      "id": "yta-YH3dOIzTKfE",
+      "title": "Broken Empire Review - Prince of Thorns",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=YH3dOIzTKfE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/YH3dOIzTKfE/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2019-07-19"
+    },
+    {
+      "id": "yta-GgyiqI5JUhI",
+      "title": "Проект По:читаем Марк Лоуренс \"Принц терний\". ТЕМНОЕ ФЭНТЕЗИ. Выпуск 1",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=GgyiqI5JUhI",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/GgyiqI5JUhI/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2014-12-16"
     }
   ],
   "wd:Q2308541": [
@@ -337869,6 +338202,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/jX6v248jb_E/hqdefault.jpg",
       "durationMinutes": 7,
       "publishedAt": "2019-04-25"
+    }
+  ],
+  "wd:Q2530328": [
+    {
+      "id": "yta-7sPOARlNwYw",
+      "title": "LET'S SUMMARIZE - TOWERS OF MIDNIGHT (The Wheel of Time Book 13)",
+      "author": "Daniel Greene",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7sPOARlNwYw",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7sPOARlNwYw/hqdefault.jpg",
+      "durationMinutes": 10,
+      "publishedAt": "2017-09-24"
+    },
+    {
+      "id": "yta-PvzFN6uF9qk",
+      "title": "СПОЙЛЕРЫ! БАШНИ ПОЛУНОЧИ - Роберт Джордан, Брендон Сандерсон",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PvzFN6uF9qk",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PvzFN6uF9qk/hqdefault.jpg",
+      "durationMinutes": 55,
+      "publishedAt": "2022-09-17"
     }
   ],
   "wd:Q1824383": [
@@ -341962,6 +342325,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/1kWcI8kFOq8/hqdefault.jpg",
       "durationMinutes": 23,
       "publishedAt": "2024-01-07"
+    }
+  ],
+  "wd:Q20430977": [
+    {
+      "id": "yta-0p38WNpAYxg",
+      "title": "ОБЗОР / \"ПОСЛЕДНИЙ ДОВОД КОРОЛЕЙ\" + ЦИКЛ \"ПЕРВЫЙ ЗАКОН\", ДЖО АБЕРКРОМБИ / ПРОВЕРКА ВРЕМЕНЕМ",
+      "author": "Nikonorov",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=0p38WNpAYxg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/0p38WNpAYxg/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2023-08-16"
     }
   ],
   "wd:Q4080260": [
@@ -349280,6 +349659,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-15"
     }
   ],
+  "wd:Q2055798": [
+    {
+      "id": "yta-xN9Y5lEk7e4",
+      "title": "\"Дьяволы\" от Джо Аберкромби - свежее фэнтези для поклонников жанра",
+      "author": "Книжные обзоры",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=xN9Y5lEk7e4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/xN9Y5lEk7e4/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2026-08-09"
+    }
+  ],
   "wd:Q427110": [
     {
       "id": "yta-yQSc6bcR8E8",
@@ -349430,6 +349825,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/fQ36eH4JRws/hqdefault.jpg",
       "durationMinutes": 30,
       "publishedAt": "2026-01-16"
+    }
+  ],
+  "wd:Q4237407": [
+    {
+      "id": "yta-WcLpeciN0Ww",
+      "title": "Алексей Пехов \"Крадущийся в тени\", или при чем здесь Толкин?",
+      "author": "Книжные обзоры",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=WcLpeciN0Ww",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/WcLpeciN0Ww/hqdefault.jpg",
+      "durationMinutes": 32,
+      "publishedAt": "2026-01-10"
     }
   ],
   "wd:Q471005": [
@@ -349820,6 +350231,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/fQMazxAJIRk/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2022-08-06"
+    },
+    {
+      "id": "yta-PCALjl_Id_s",
+      "title": "\"Далёкая Радуга\" А. и Б. Стругацкие",
+      "author": "For Book",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PCALjl_Id_s",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/PCALjl_Id_s/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2026-10-25"
     }
   ],
   "wd:Q214371": [
@@ -349990,6 +350415,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Q9nIXapNKzs/hqdefault.jpg",
       "durationMinutes": 25,
       "publishedAt": "2023-10-30"
+    }
+  ],
+  "wd:Q120261544": [
+    {
+      "id": "yta-sMEZqBD0tbE",
+      "title": "Евгения Некрасова \"Калечина-Малечина\" | Бе(се)ды с книгами",
+      "author": "Шаман Книг",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=sMEZqBD0tbE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/sMEZqBD0tbE/hqdefault.jpg",
+      "durationMinutes": 15,
+      "publishedAt": "2023-10-14"
     }
   ],
   "wd:Q1501991": [
@@ -350561,6 +351002,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-04-15"
     }
   ],
+  "wd:Q17065596": [
+    {
+      "id": "yta-X8-Vmq27D_A",
+      "title": "Зачем звать их обратно с небес? Клиффорд Саймак",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=X8-Vmq27D_A",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/X8-Vmq27D_A/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2025-02-25"
+    }
+  ],
   "wd:Q2666125": [
     {
       "id": "yta-wgaQWvI21zM",
@@ -350733,6 +351190,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-05-17"
     }
   ],
+  "wd:Q1968842": [
+    {
+      "id": "yta-eFrwWoJI9jw",
+      "title": "Лабиринт отражений Сергей Лукьяненко",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eFrwWoJI9jw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/eFrwWoJI9jw/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2023-01-30"
+    }
+  ],
   "wd:Q738937": [
     {
       "id": "yta-2uW9SkZnoo4",
@@ -350747,6 +351220,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/2uW9SkZnoo4/hqdefault.jpg",
       "durationMinutes": 6,
       "publishedAt": "2022-12-09"
+    }
+  ],
+  "wd:Q7736268": [
+    {
+      "id": "yta-59QT1cPlpts",
+      "title": "Бригады призраков Джон Скальци",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=59QT1cPlpts",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/59QT1cPlpts/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2022-12-08"
     }
   ],
   "wd:Q1194339": [
@@ -350793,6 +351282,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/OdmRVF-hMxw/hqdefault.jpg",
       "durationMinutes": 42,
       "publishedAt": "2024-12-30"
+    }
+  ],
+  "wd:Q7767247": [
+    {
+      "id": "yta-z0EcR9UsR-I",
+      "title": "Летняя книга Вино из одуванчиков",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=z0EcR9UsR-I",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/z0EcR9UsR-I/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2022-09-21"
     }
   ],
   "wd:Q2985729": [
@@ -351155,6 +351660,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-11-04"
     }
   ],
+  "wd:Q60741201": [
+    {
+      "id": "yta---2PK6ixDho",
+      "title": "Разочарование месяца. КРАСНАЯ ЛУНА. фантастика. Ким Стэнли Робинсон.",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=--2PK6ixDho",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/--2PK6ixDho/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2020-08-26"
+    }
+  ],
   "wd:Q133462040": [
     {
       "id": "yta-F4DRHzS6cqg",
@@ -351215,6 +351736,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/uNq7-oBjFvQ/hqdefault.jpg",
       "durationMinutes": 6,
       "publishedAt": "2025-01-10"
+    }
+  ],
+  "wd:Q60787653": [
+    {
+      "id": "yta-Tc3Hs9efiD0",
+      "title": "Устремленная в небо. Брэндон Сандерсон",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=Tc3Hs9efiD0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/Tc3Hs9efiD0/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2020-05-04"
+    }
+  ],
+  "wd:Q19894682": [
+    {
+      "id": "yta-MBt1bQWwBaE",
+      "title": "ИГРЫ НЕМЕЗИДЫ. Джеймс Кори. Цикл Пространство",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=MBt1bQWwBaE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/MBt1bQWwBaE/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2020-04-11"
     }
   ],
   "wd:Q471679": [
@@ -351311,6 +351864,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/mEHUwJ9xe34/hqdefault.jpg",
       "durationMinutes": 7,
       "publishedAt": "2020-02-11"
+    }
+  ],
+  "wd:Q29832584": [
+    {
+      "id": "yta-OnmD-D9IwkY",
+      "title": "Книга месяца. Нью-Йорк 2140. Ким Стэнли Робинсон",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=OnmD-D9IwkY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/OnmD-D9IwkY/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2019-09-20"
     }
   ],
   "wd:Q649013": [
@@ -351437,6 +352006,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/ZhGPjROgXoI/hqdefault.jpg",
       "durationMinutes": 8,
       "publishedAt": "2018-12-17"
+    }
+  ],
+  "wd:Q17000766": [
+    {
+      "id": "yta-U1rQpwGl1dU",
+      "title": "Врата Абаддона. Цикл Пространство.Джеймс Кори",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=U1rQpwGl1dU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/U1rQpwGl1dU/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2018-08-22"
     }
   ],
   "wd:Q427331": [
@@ -351867,6 +352452,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2016-07-21"
     }
   ],
+  "wd:Q14755067": [
+    {
+      "id": "yta-kfYuOUwnuJs",
+      "title": "\"Сезон костей\" 5-ая волна.",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=kfYuOUwnuJs",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/kfYuOUwnuJs/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2016-05-30"
+    }
+  ],
   "wd:Q7763825": [
     {
       "id": "yta-EN5zzhvRDBE",
@@ -351913,6 +352514,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/SJ_l-Pw-SVs/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2015-09-26"
+    }
+  ],
+  "wd:Q19915575": [
+    {
+      "id": "yta-7SFHB7PULlo",
+      "title": "ПроектПо:читаем Борис Акунин \"Планета вода\" ДЕТЕКТИВ",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7SFHB7PULlo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/7SFHB7PULlo/hqdefault.jpg",
+      "durationMinutes": 6,
+      "publishedAt": "2015-05-15"
     }
   ],
   "wd:Q20664281": [
@@ -352073,7 +352690,7 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-07-31"
     }
   ],
-  "wd:Q2699024": [
+  "wd:Q124927263": [
     {
       "id": "yta-UMX86iPrvME",
       "title": "Наследие Сергея Бодрова. Обзор",
@@ -352599,6 +353216,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-25"
     }
   ],
+  "wd:Q20967566": [
+    {
+      "id": "yta-q0xyuYgbcX8",
+      "title": "\"УГОЛЕК В ПЕПЛЕ\" Сабы Тахир//Обзор цикла🔥🔥🔥",
+      "author": "Редактура или жизнь",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=q0xyuYgbcX8",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/q0xyuYgbcX8/hqdefault.jpg",
+      "durationMinutes": 40,
+      "publishedAt": "2022-08-29"
+    },
+    {
+      "id": "yta-XAmM2orOXMc",
+      "title": "AN EMBER IN THE ASHES | wyverns and words",
+      "author": "katie is reading",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=XAmM2orOXMc",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/XAmM2orOXMc/hqdefault.jpg",
+      "durationMinutes": 46,
+      "publishedAt": "2024-01-28"
+    }
+  ],
   "wd:Q2253255": [
     {
       "id": "yta-0tr9V_lxCoU",
@@ -353005,6 +353652,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/wOCLkVmnJF4/hqdefault.jpg",
       "durationMinutes": 10,
       "publishedAt": "2023-07-30"
+    }
+  ],
+  "wd:Q138018270": [
+    {
+      "id": "yta-RCbA7v2PylU",
+      "title": "Олег Дивов - Выбраковка | АНТИУТОПИЯ  Роман-предупреждение | Обзор книги",
+      "author": "Главы Герои",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=RCbA7v2PylU",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/RCbA7v2PylU/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2025-05-31"
     }
   ],
   "wd:Q462560": [
@@ -353425,6 +354088,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/lgcrHCrMy_E/hqdefault.jpg",
       "durationMinutes": 59,
       "publishedAt": "2024-04-13"
+    }
+  ],
+  "wd:Q108564359": [
+    {
+      "id": "yta-mwk5CfYMKNY",
+      "title": "Накручено дофига — прописано нифига | «Из крови и пепла» Дж. Арментроут. Читаем первые 15%",
+      "author": "Книжный Кайфуций",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=mwk5CfYMKNY",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/mwk5CfYMKNY/hqdefault.jpg",
+      "durationMinutes": 98,
+      "publishedAt": "2026-09-15"
     }
   ],
   "imdb:tt33043892": [
@@ -355838,36 +356517,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-10-31"
     }
   ],
-  "imdb:tt9698442": [
-    {
-      "id": "yta-2f2SjMZWHHM",
-      "title": "25. \"В ее глазах\": обсуждаем книгу и сериал",
-      "author": "Книгометр",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=2f2SjMZWHHM",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/2f2SjMZWHHM/hqdefault.jpg",
-      "durationMinutes": 51,
-      "publishedAt": "2021-05-13"
-    },
-    {
-      "id": "yta-r4VV6SheJWg",
-      "title": "Behind Her Eyes Netflix Series Review",
-      "author": "Austin Burke",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=r4VV6SheJWg",
-      "language": "en",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/r4VV6SheJWg/hqdefault.jpg",
-      "durationMinutes": 8,
-      "publishedAt": "2021-02-17"
-    }
-  ],
   "tmdb:1386315": [
     {
       "id": "yta-WGOw8DruKjQ",
@@ -357284,6 +357933,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-07-14"
     }
   ],
+  "wd:Q30304384": [
+    {
+      "id": "yta-lZ44T_AuAzA",
+      "title": "«Что скрывает «Инквизитор»? Полный пересказ книги с Николасом Эймериком» 🔍 📖 ⚔",
+      "author": "Анжела Books_Sold",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=lZ44T_AuAzA",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/lZ44T_AuAzA/hqdefault.jpg",
+      "durationMinutes": 37,
+      "publishedAt": "2025-04-12"
+    },
+    {
+      "id": "yta-r_IyQm1uU6o",
+      "title": "ЯЦЕК ПЕКАРА \"Я -ИНКВИЗИТОР.СЛУГА БОЖИЙ\" || самая мерзкая книга года",
+      "author": "АННУШКА",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=r_IyQm1uU6o",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/r_IyQm1uU6o/hqdefault.jpg",
+      "durationMinutes": 11,
+      "publishedAt": "2021-08-20"
+    }
+  ],
   "tmdb:148858": [
     {
       "id": "yta-MDpiSwlmAgo",
@@ -357531,6 +358210,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/WlkoI-F0ah0/hqdefault.jpg",
       "durationMinutes": 7,
       "publishedAt": "2020-08-07"
+    }
+  ],
+  "wd:Q5123656": [
+    {
+      "id": "yta-h3eVfe3pGA0",
+      "title": "ГОРОД ДРАКОНОВ и КРОВЬ ДРАКОНОВ - Робин Хобб",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=h3eVfe3pGA0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/h3eVfe3pGA0/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2024-12-25"
+    }
+  ],
+  "wd:Q17985963": [
+    {
+      "id": "yta-h3eVfe3pGA0",
+      "title": "ГОРОД ДРАКОНОВ и КРОВЬ ДРАКОНОВ - Робин Хобб",
+      "author": "Marikorne",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=h3eVfe3pGA0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/h3eVfe3pGA0/hqdefault.jpg",
+      "durationMinutes": 35,
+      "publishedAt": "2024-12-25"
     }
   ],
   "wd:Q3203717": [
@@ -357983,6 +358694,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/_Fgo08HM4sQ/hqdefault.jpg",
       "durationMinutes": 46,
       "publishedAt": "2022-11-07"
+    }
+  ],
+  "wd:Q7751674": [
+    {
+      "id": "yta-58PaYHC-2N4",
+      "title": "БОЛЬШОЙ ОБЗОР ЦИКЛА ХИЛАРИ МАНТЕЛ О ТОМАСЕ КРОМВЕЛЕ: ВУЛФХОЛЛ, ВВЕДИТЕ ОБВИНЯЕМЫХ И ЗЕРКАЛО И СВЕТ",
+      "author": "ЧИТАЙ КНИГИ",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=58PaYHC-2N4",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/58PaYHC-2N4/hqdefault.jpg",
+      "durationMinutes": 33,
+      "publishedAt": "2021-09-23"
     }
   ],
   "wd:Q131466675": [
@@ -359420,6 +360147,38 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-07-17"
     }
   ],
+  "wd:Q2758232": [
+    {
+      "id": "yta-T92I_ZTA5IQ",
+      "title": "Clockwork Angel | Bookmarked Book Club",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=T92I_ZTA5IQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/T92I_ZTA5IQ/hqdefault.jpg",
+      "durationMinutes": 59,
+      "publishedAt": "2019-06-16"
+    }
+  ],
+  "wd:Q115683368": [
+    {
+      "id": "yta-pJvJi3HVzf0",
+      "title": "You Need To Read Daisy Jones & The Six!",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=pJvJi3HVzf0",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/pJvJi3HVzf0/hqdefault.jpg",
+      "durationMinutes": 17,
+      "publishedAt": "2019-03-12"
+    }
+  ],
   "wd:Q60742713": [
     {
       "id": "yta-JdIyFlI2LPk",
@@ -359450,6 +360209,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-28"
     }
   ],
+  "wd:Q108281129": [
+    {
+      "id": "yta-jTE6aTbosjU",
+      "title": "A Gathering of Shadows by V.E. Schwab Review!",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=jTE6aTbosjU",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/jTE6aTbosjU/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2017-02-08"
+    }
+  ],
   "wd:Q60746982": [
     {
       "id": "yta-ehlUs9b3JZs",
@@ -359464,6 +360239,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/ehlUs9b3JZs/hqdefault.jpg",
       "durationMinutes": 15,
       "publishedAt": "2016-10-19"
+    }
+  ],
+  "wd:Q22222905": [
+    {
+      "id": "yta-IzXRows3t9E",
+      "title": "Lady Midnight Spoiler Discussion!",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=IzXRows3t9E",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/IzXRows3t9E/hqdefault.jpg",
+      "durationMinutes": 18,
+      "publishedAt": "2016-03-17"
+    },
+    {
+      "id": "yta-ehPd3p7ryAs",
+      "title": "Lady Midnight Spoiler Free Review!",
+      "author": "A Clockwork Reader",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ehPd3p7ryAs",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ehPd3p7ryAs/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2016-03-17"
     }
   ],
   "wd:Q10594892": [
@@ -359512,6 +360317,36 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/F_p_0aKaJSw/hqdefault.jpg",
       "durationMinutes": 68,
       "publishedAt": "2023-01-29"
+    }
+  ],
+  "wd:Q7490684": [
+    {
+      "id": "yta-id6yZOBGNVQ",
+      "title": "READING THE SHATTER ME SERIES FOR THE FIRST TIME (feat. spoilers)🌙✨",
+      "author": "katie is reading",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=id6yZOBGNVQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/id6yZOBGNVQ/hqdefault.jpg",
+      "durationMinutes": 54,
+      "publishedAt": "2022-06-17"
+    },
+    {
+      "id": "yta-ZLvhAOxeDoM",
+      "title": "I read the entire Shatter Me series so you don't have to",
+      "author": "* e m m i e *",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZLvhAOxeDoM",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/ZLvhAOxeDoM/hqdefault.jpg",
+      "durationMinutes": 101,
+      "publishedAt": "2023-04-26"
     }
   ],
   "wd:Q134517845": [
@@ -359638,6 +360473,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Oj4z31eqI2U/hqdefault.jpg",
       "durationMinutes": 73,
       "publishedAt": "2021-07-10"
+    }
+  ],
+  "wd:Q110677902": [
+    {
+      "id": "yta-4reDVXqieZ8",
+      "title": "📚Fall Book Haul📚 : Classics & Dark Tales",
+      "author": "* e m m i e *",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=4reDVXqieZ8",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/4reDVXqieZ8/hqdefault.jpg",
+      "durationMinutes": 26,
+      "publishedAt": "2020-10-18"
     }
   ],
   "imdb:tt10293938": [
@@ -360018,6 +360869,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/sKn01dwEo9Y/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2015-06-08"
+    }
+  ],
+  "tmdb:254191": [
+    {
+      "id": "yta-g0wZjlfKwow",
+      "title": "HONEYMOON MOVIE REVIEW | POSSESSEDBYHORROR",
+      "author": "PossessedbyHorror",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=g0wZjlfKwow",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/g0wZjlfKwow/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2015-05-29"
     }
   ],
   "tmdb:277685": [
@@ -361041,6 +361908,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-12-01"
     }
   ],
+  "tmdb:1492198": [
+    {
+      "id": "yta-D2S_cigP-Q0",
+      "title": "Искусственный интеллект убил кино",
+      "author": "Киноклуб Николая Никулина",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=D2S_cigP-Q0",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/D2S_cigP-Q0/hqdefault.jpg",
+      "durationMinutes": 14,
+      "publishedAt": "2026-04-03"
+    }
+  ],
   "tmdb:2974": [
     {
       "id": "yta-t9znoTQuiqc",
@@ -361353,6 +362236,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-15"
     }
   ],
+  "wd:Q115683145": [
+    {
+      "id": "yta-eMc8Dz4GD3M",
+      "title": "CALLING ALL CLASSIC BOOK LOVERS!!!  Let's learn classic literature",
+      "author": "Tristan and the Classics",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=eMc8Dz4GD3M",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/eMc8Dz4GD3M/hqdefault.jpg",
+      "durationMinutes": 5,
+      "publishedAt": "2022-12-26"
+    }
+  ],
   "wd:Q883305": [
     {
       "id": "yta-fhLQmmfw3iw",
@@ -361573,6 +362472,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Px2OCpmqn2U/hqdefault.jpg",
       "durationMinutes": 11,
       "publishedAt": "2023-07-30"
+    }
+  ],
+  "wd:Q3435184": [
+    {
+      "id": "yta-x6YV50OJZUg",
+      "title": "Как я читала С.М.Кидд  \"Тайная жизнь пчёл\" 🐝|| вытягиваем книгу на июль⭐️",
+      "author": "Like or Hate this Book",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=x6YV50OJZUg",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/x6YV50OJZUg/hqdefault.jpg",
+      "durationMinutes": 16,
+      "publishedAt": "2023-07-02"
     }
   ],
   "wd:Q250123": [
@@ -365218,22 +366133,6 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2018-11-13"
     }
   ],
-  "tmdb:43933": [
-    {
-      "id": "yta-xzsW1EN0nbc",
-      "title": "Монстры из фильмов, которых НЕВОЗМОЖНО пережить",
-      "author": "Axis Comics",
-      "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=xzsW1EN0nbc",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "tag",
-      "tier": "review",
-      "previewUrl": "https://i.ytimg.com/vi/xzsW1EN0nbc/hqdefault.jpg",
-      "durationMinutes": 12,
-      "publishedAt": "2026-08-09"
-    }
-  ],
   "imdb:tt17220216": [
     {
       "id": "yta-FUz_MdxtFyc",
@@ -366106,6 +367005,22 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/IXpCQmXdg9c/hqdefault.jpg",
       "durationMinutes": 12,
       "publishedAt": "2025-11-08"
+    }
+  ],
+  "wd:Q132863372": [
+    {
+      "id": "yta-vc-2KI3d3-Y",
+      "title": "Wayward Netflix Series Review",
+      "author": "Austin Burke",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=vc-2KI3d3-Y",
+      "language": "en",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/vc-2KI3d3-Y/hqdefault.jpg",
+      "durationMinutes": 9,
+      "publishedAt": "2025-09-26"
     }
   ],
   "tmdb:744653": [
@@ -368409,6 +369324,21 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "episode": 2
     },
     {
+      "id": "yta-zDWvQz_BjFE",
+      "title": "Квест Вижна РАЗБОР 3 и 4 серия | Освобождение Альтрона | Кто такая Джокаста?",
+      "author": "Gigatun",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=zDWvQz_BjFE",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/zDWvQz_BjFE/hqdefault.jpg",
+      "durationMinutes": 13,
+      "publishedAt": "2026-10-24",
+      "episode": 4
+    },
+    {
       "id": "yta-R5PpVF7htHg",
       "title": "This Hidden Detail in VISIONQUEST Broke My Brain!",
       "author": "New Rockstars",
@@ -369817,6 +370747,20 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/Wgf-TUeczcc/hqdefault.jpg",
       "durationMinutes": 5,
       "publishedAt": "2026-10-21"
+    },
+    {
+      "id": "yta-MqU0vrhsIDQ",
+      "title": "Wildwood - Movie Review",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=MqU0vrhsIDQ",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/MqU0vrhsIDQ/hqdefault.jpg",
+      "durationMinutes": 7,
+      "publishedAt": "2026-10-24"
     }
   ],
   "imdb:tt1839683": [
@@ -369864,6 +370808,85 @@ export const essaysAuto: Record<string, ExternalAnalysis[]> = {
       "previewUrl": "https://i.ytimg.com/vi/ZBc-6bmeYg0/hqdefault.jpg",
       "durationMinutes": 24,
       "publishedAt": "2026-10-23"
+    }
+  ],
+  "tmdb:568": [
+    {
+      "id": "yta-JQcYBu24gec",
+      "title": "Аполлон 13 - ТРЕШ ОБЗОР фильма. Как было в реальности?",
+      "author": "Ra13Z",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=JQcYBu24gec",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/JQcYBu24gec/hqdefault.jpg",
+      "durationMinutes": 42,
+      "publishedAt": "2026-10-24"
+    }
+  ],
+  "tmdb:107705": [
+    {
+      "id": "yta-snLT2wD6RLc",
+      "title": "Почему «Белорусский вокзал» — не советский фильм о войне?",
+      "author": "Культпросвет",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=snLT2wD6RLc",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "previewUrl": "https://i.ytimg.com/vi/snLT2wD6RLc/hqdefault.jpg",
+      "durationMinutes": 70,
+      "publishedAt": "2026-10-24"
+    }
+  ],
+  "wd:Q467225": [
+    {
+      "id": "yta-XOtFSfsBROw",
+      "title": "Дэвид Брин «Почтальон» — постапокалипсис глазами гуманитария",
+      "author": "Книжные обзоры",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=XOtFSfsBROw",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/XOtFSfsBROw/hqdefault.jpg",
+      "durationMinutes": 29,
+      "publishedAt": "2026-10-24"
+    }
+  ],
+  "wd:Q2469019": [
+    {
+      "id": "yta-KhG2-96K4Lo",
+      "title": "Делай деньги Терри Пратчетт",
+      "author": "Sergey ProjektPo",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=KhG2-96K4Lo",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/KhG2-96K4Lo/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2026-10-24"
+    }
+  ],
+  "tmdb:27418": [
+    {
+      "id": "yta-u27D0e-0cEE",
+      "title": "Next of Kin - Movie Review",
+      "author": "Chris Stuckmann",
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=u27D0e-0cEE",
+      "language": "en",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "tier": "review",
+      "previewUrl": "https://i.ytimg.com/vi/u27D0e-0cEE/hqdefault.jpg",
+      "durationMinutes": 8,
+      "publishedAt": "2026-10-25"
     }
   ],
   "tmdb:11104": [

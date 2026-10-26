@@ -6,6 +6,7 @@
 //   /lens/       — рубрики роликов: ручная разметка поверх модели (tools/lens-desk.mts, 06.10);
 //   /behavior/   — поведение людей: открытия материалов и петля прогноза с сервера (tools/behavior-desk.mts, 06.10);
 //   /growth/     — рост: источники с ценой посева, недели, первый вход, вирусность (tools/growth-desk.mts, 16.10);
+//   /road/       — путь: кривая роста, цена подписчика по каналам, дорожная карта с порогами к каналам и сервисам (tools/road-desk.mts, 25.10);
 //   /asks/       — запросы на рекомендации из Telegram: просьбы, пары «понравилось → посоветовали», профили зрителей (tools/asks-desk.mts, 21.10);
 //   /kinopoisk/  — импорт оценок с Кинопоиска (tools/kinopoisk-desk.mts);
 //   /histories/  — истории зрителей: профиль → история → подборка → текст письма (tools/histories-desk.mts, 22.10).
@@ -23,11 +24,12 @@ import { dashRoute } from './dash-desk.mts';
 import { lensRoute } from './lens-desk.mts';
 import { behaviorRoute } from './behavior-desk.mts';
 import { growthRoute } from './growth-desk.mts';
+import { roadRoute } from './road-desk.mts';
 import { asksRoute } from './asks-desk.mts';
 import { historiesRoute } from './histories-desk.mts';
 
 const PORT = Number(process.argv[2] ?? 8721);
-const TABS = { dash: dashRoute, links: linksRoute, check: checkRoute, channels: channelsRoute, lens: lensRoute, behavior: behaviorRoute, growth: growthRoute, asks: asksRoute, kinopoisk: kinopoiskRoute, histories: historiesRoute } as const;
+const TABS = { dash: dashRoute, links: linksRoute, check: checkRoute, channels: channelsRoute, lens: lensRoute, behavior: behaviorRoute, growth: growthRoute, road: roadRoute, asks: asksRoute, kinopoisk: kinopoiskRoute, histories: historiesRoute } as const;
 
 const deny = (res: ServerResponse, code: number, error: string) => {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
@@ -44,7 +46,7 @@ const server = createServer(async (req, res) => {
     res.writeHead(200, { 'content-type': shell[1] === 'js' ? 'text/javascript; charset=utf-8' : 'text/css; charset=utf-8', 'cache-control': 'no-store' });
     return res.end(readFileSync(new URL(`./desk-shell.${shell[1]}`, import.meta.url)));
   }
-  const m = /^\/(dash|links|check|channels|lens|behavior|growth|asks|kinopoisk|histories)(\/.*)?$/.exec(path);
+  const m = /^\/(dash|links|check|channels|lens|behavior|growth|road|asks|kinopoisk|histories)(\/.*)?$/.exec(path);
   if (!m) return deny(res, 404, 'not_found');
   // без косой черты на конце относительные адреса страницы («api/state») уехали бы мимо вкладки
   if (!m[2]) { res.writeHead(302, { location: `/${m[1]}/` }); return res.end(); }
@@ -55,4 +57,4 @@ const server = createServer(async (req, res) => {
     if (!res.headersSent) deny(res, 500, (err as Error).message);
   }
 });
-server.listen(PORT, '127.0.0.1', () => console.log(`пульт: http://127.0.0.1:${PORT}/dash/, /links/, /check/, /channels/, /lens/, /behavior/, /growth/, /asks/, /kinopoisk/ и /histories/ — окно не закрывать, пока работаете`));
+server.listen(PORT, '127.0.0.1', () => console.log(`пульт: http://127.0.0.1:${PORT}/dash/, /links/, /check/, /channels/, /lens/, /behavior/, /growth/, /road/, /asks/, /kinopoisk/ и /histories/ — окно не закрывать, пока работаете`));

@@ -1,5 +1,7 @@
 // Лицо и пара слов об авторе (06.10): страница режиссёра, создателя сериала, писателя (/person/:id) —
-// фото, описание одной строкой и годы жизни из Wikidata. Пишет src/mocks/peopleInfo.ts.
+// фото, описание одной строкой и годы жизни из Wikidata. Пишет src/mocks/peopleInfo/<nn>.ts — частями по номеру
+// элемента (25.10, src/lib/peopleShard.ts): приложение грузит только часть нужного человека; инструментам — целиком
+// через tools/people-info-lib.mts.
 //   npx tsx tools/resolve-people-info.mts [--fresh] [--dry]
 //
 // Кто: люди из workCredits.ts в ролях режиссёра (d), создателя сериала (c) и автора книги (a) —
@@ -8,7 +10,9 @@
 // Что: P18 (изображение) → ссылка на Commons с шириной 240, schema:description по-русски (нет —
 // английское), P569/P570 — годы рождения и смерти. Кэш — .cache/people-info.json (по элементу,
 // и «ничего не нашлось» тоже): повторный прогон спрашивает только новых.
-import { writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { PEOPLE_SHARDS, peopleShard } from '../src/lib/peopleShard.ts';
+import { actorChannels } from '../src/mocks/actorChannels.ts';
 import { readCache, sleep, sparql, writeCache } from './wikidata-lib.mts';
 import { workCredits } from './credits-all.mts';
 
@@ -25,6 +29,8 @@ for (const line of Object.values(workCredits)) {
     if (/^Q\d+$/.test(q) && /[dca]/.test(role ?? '')) wanted.add(q);
   }
 }
+// и актёры с каналом в Telegram (25.10, tools/resolve-actor-channels.mts): у их страниц тоже лицо и строка
+for (const q of Object.keys(actorChannels)) wanted.add(q);
 const cache = FRESH ? {} : readCache<Record<string, PersonInfo>>('people-info.json', {});
 const todo = [...wanted].filter((q) => !(q in cache));
 console.error(`людей с ролью режиссёра, создателя или автора: ${wanted.size}, спросить: ${todo.length}`);
@@ -62,11 +68,22 @@ for (const q of [...wanted].sort()) {
 }
 console.error(`с фото ${Object.values(out).filter((c) => c.img).length}, с описанием ${Object.values(out).filter((c) => c.d).length} из ${wanted.size}`);
 if (!DRY) {
-  writeFileSync(new URL('../src/mocks/peopleInfo.ts', import.meta.url),
-    `// Сгенерировано tools/resolve-people-info.mts — руками не править. Автор (элемент Wikidata) → фото (Commons),
-// описание одной строкой, годы рождения и смерти — для шапки страницы автора.
+  const dir = new URL('../src/mocks/peopleInfo/', import.meta.url);
+  mkdirSync(dir, { recursive: true });
+  for (const f of readdirSync(dir)) rmSync(new URL(f, dir));
+  const parts: Record<string, Record<string, PersonInfo>> = {};
+  for (const [q, c] of Object.entries(out)) (parts[peopleShard(q)] ??= {})[q] = c;
+  for (let i = 0; i < PEOPLE_SHARDS; i++) {
+    const n = i.toString().padStart(2, '0');
+    writeFileSync(new URL(`${n}.ts`, dir),
+      `// Сгенерировано tools/resolve-people-info.mts — руками не править. Часть ${n} из ${PEOPLE_SHARDS} (src/lib/peopleShard.ts):
+// человек (элемент Wikidata) → фото (Commons), описание одной строкой, годы рождения и смерти — шапка страницы человека.
 export interface PersonInfo { img?: string; d?: string; b?: number; x?: number }
 
-export const peopleInfo: Record<string, PersonInfo> = ${JSON.stringify(out)};
+export const peopleInfo: Record<string, PersonInfo> = ${JSON.stringify(parts[n] ?? {})};
 `);
+  }
+  // прежний справочник одним куском (до 25.10) — больше не нужен
+  const old = new URL('../src/mocks/peopleInfo.ts', import.meta.url);
+  if (existsSync(old)) rmSync(old);
 }

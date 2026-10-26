@@ -451,6 +451,8 @@ export function FeedPost({ item, spoilerLevel, shelves }: { item: FeedItem; spoi
   const who = [
     postDate(a),
     a.platform !== 'telegram' ? ui.platform[a.platform] : undefined,
+    // видео или аудио прямо в посте (25.10): откроется родным плеером Telegram
+    a.tgMedia ? ui.voices.tgMedia(a.tgMedia, a.durationMinutes) : undefined,
     a.language === 'en' ? ui.lang.en : undefined,
     a.unverified ? ui.voices.unverified : a.evidence === 'model' ? ui.voices.byModel : undefined,
   ].filter(Boolean).join(' · ');

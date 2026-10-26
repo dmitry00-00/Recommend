@@ -1,6 +1,11 @@
 // Слой данных: сигнатуры под будущие эндпоинты. Возвращает моки с задержкой,
 // чтобы состояния загрузки были видны в разработке. Бизнес-логики здесь нет:
 // уровень усилия, готовность, спойлерность и тексты приходят как данные.
+import { peopleShard } from '@/lib/peopleShard';
+import type { SupportLink } from '@/mocks/voiceSupport';
+import type { AudioReading } from '@/mocks/audioReadings';
+export type { AudioReading, SupportLink };
+export interface AudioChannel { reader?: string; title?: string; readings: AudioReading[] }
 import type { SeasonInfo } from '@/lib/seasons';
 import ui, { language } from '@/i18n';
 import { buildMatchIndex, diaryCsv, diaryJson, matchScored, normalizeTitle, parseExports, type DiaryRow, type ExportFile, type ImportedRecord, type ImportSource } from '@/lib/import';
@@ -987,7 +992,8 @@ export interface CharacterPage {
   /** самое раннее из наших — часто книга, с которой герой пришёл */
   first?: WorkCard;
   /** кто играл (06.10): актёр и его кадр в роли по произведениям, по году; один актёр — один раз */
-  cast: { actor: string; image: string; work: WorkCard }[];
+  /** person — элемент Wikidata актёра с каналом в Telegram (25.10): тогда карточка ведёт на его страницу */
+  cast: { actor: string; image: string; work: WorkCard; person?: string }[];
   /** с чего начать: непросмотренное с разметкой — ближе всего к «чуть выше привычного» */
   startWith?: { work: WorkCard; level: number };
   /** разборы, называющие героя в заголовке: по его произведениям и по любым другим; обзоры не
@@ -996,7 +1002,7 @@ export interface CharacterPage {
   discussions: DiscussionPlace[];
 }
 
-export async function getCharacter(id: string): Promise<CharacterPage | undefined> {
+export async function getCharacter(id: string, late?: LatePictures): Promise<CharacterPage | undefined> {
   await delay(200);
   await Promise.all([catalog(), workRefs(), loadCharacterImages()]);
   const c = characters[id];
@@ -1044,7 +1050,7 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
 
   // постеры — как у страницы автора: справочник картинок и TMDb (06.10; раньше у героя были одни буквы)
   const own = [...new Map(c.works.map((k) => card(k)).filter((w): w is WorkCard => Boolean(w)).map((w) => [w.id, w])).values()];
-  const works = (await pictured(own.slice(0, 40), { bare: true }).then((p) => [...p, ...own.slice(40)]))
+  const works = (await picturedLate(own.slice(0, 40), late).then((p) => [...p, ...own.slice(40)]))
     .map((work) => ({ work, seen: isSeen(work), analyses: perWork.get(work.id) ?? 0 }))
     .sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
   if (!works.length) return undefined;
@@ -1058,6 +1064,11 @@ export async function getCharacter(id: string): Promise<CharacterPage | undefine
     if (work && !cast.some((x) => x.actor === role.actor)) cast.push({ actor: role.actor, image: role.img, work });
   }
   cast.sort((a, b) => (a.work.year || 9999) - (b.work.year || 9999));
+  // актёр с каналом в Telegram (25.10): по имени из титров (TMDb — часто по-английски) — ссылка на его страницу
+  const actors = await actorChannelsLoad();
+  const byName = new Map<string, string>();
+  for (const [q, a] of Object.entries(actors)) for (const n of [a.n, a.en]) if (n) byName.set(n.toLocaleLowerCase('ru'), q);
+  for (const c of cast) { const q = byName.get(c.actor.toLocaleLowerCase('ru')); if (q) c.person = q; }
   const ORDER: MediaType[] = ['book', 'film', 'series'];
   const byKind = ORDER.map((kind) => ({ kind, works: works.filter((x) => x.work.type === kind) })).filter((g) => g.works.length);
 
@@ -1477,6 +1488,15 @@ const pictured = (cards: WorkCard[], opts: { bare?: boolean } = {}) => {
   const late = new Promise<void>((r) => setTimeout(r, 6000));
   return Promise.all(withIds.map((c) => (opts.bare && (c.stillUrl || c.coverUrl) ? c
     : Promise.race([pictureSlot(() => withImages([c], tmdb, kp)).then(([x]) => x), late.then(() => c)]))));
+};
+
+/** Обложки следом (25.10): с `late` страница получает данные со своими картинками сразу, а карточки с обложками TMDb —
+ *  потом, по id (src/lib/swapWorks.ts); без `late` — как раньше, ждём их до 6 с. */
+export type LatePictures = (got: Map<string, WorkCard>) => void;
+const picturedLate = async (cards: WorkCard[], late?: LatePictures): Promise<WorkCard[]> => {
+  if (!late) return pictured(cards, { bare: true });
+  void pictured(cards, { bare: true }).then((p) => late(new Map(p.map((w) => [w.id, w])))).catch(() => undefined);
+  return cards.map(withMedia);
 };
 
 // История участника в моке: сгенерированная из его экспорта + импортированная в сессии.
@@ -2914,7 +2934,7 @@ function listenReturn(): void {
 /** Поделился (МА-3): что — фильм, сериал, книга, герой, «выбрать вместе», приглашение в приложение; как — карточкой-
  *  сообщением (выбрал чат), окном «переслать», системным «Поделиться», скопировал ссылку. Не дошло — не беда. */
 // 'voice' (23.10) — страница автора (VoiceScreen, партнёрство с каналами)
-export type ShareWhat = 'film' | 'series' | 'book' | 'character' | 'together' | 'friend' | 'voice';
+export type ShareWhat = 'film' | 'series' | 'book' | 'character' | 'together' | 'friend' | 'voice' | 'person' | 'universe';
 export type ShareHow = 'message' | 'telegram' | 'shared' | 'copied';
 export function noteShare(what: ShareWhat, how: ShareHow, workId?: ID): void {
   store.event({ kind: 'share_sent', ...(workId ? { workId } : {}), place: placeNow(), detail: `${what}:${how}` }).catch(() => undefined);
@@ -3344,7 +3364,7 @@ export function shareParam(work: WorkCard): string | undefined {
 
 /** Карточка-сообщение для «Поделиться» (06.10): постер, название, строка о произведении и кнопка. */
 // 'voice' (23.10): страница автора — в чате кнопка «Все разборы» (worker/inline.ts)
-export interface ShareCard { param: string; title: string; year?: number; kind?: 'film' | 'series' | 'book' | 'character' | 'together' | 'voice'; by?: string; about?: string; image?: string }
+export interface ShareCard { param: string; title: string; year?: number; kind?: 'film' | 'series' | 'book' | 'character' | 'together' | 'voice' | 'person' | 'universe'; by?: string; about?: string; image?: string }
 export async function prepareShare(card: ShareCard): Promise<string | undefined> {
   // подписи и кнопка в чате — на языке приложения того, кто делится
   return store.onServer ? prepareShareMessage({ ...card, lang: language }).catch(() => undefined) : undefined;
@@ -4015,7 +4035,7 @@ export async function updateSettings(patch: Partial<UserSettings>): Promise<User
 export interface Tester { username: string; at: string }
 // ─── подписки на разборы (06.10) ─────────────────────────────────────────────
 /** Подписка: герой — элемент Wikidata; произведение — ключ разборов и все ключи карточки. */
-export type FollowTarget = { kind: 'work'; ref: string; keys: string[]; title: string } | { kind: 'character'; ref: string; title: string };
+export type FollowTarget = { kind: 'work' | 'person' | 'universe'; ref: string; keys: string[]; title: string } | { kind: 'character'; ref: string; title: string };
 export type Follow = FollowRow;
 /** Следить можно только на сервере: сводку присылает бот. */
 export const followsAvailable = (): boolean => store.onServer;
@@ -4037,8 +4057,13 @@ export async function setFollow(t: FollowTarget | Follow, on: boolean): Promise<
   for (const fn of followListeners) fn(list);
   return list;
 }
+/** Подписка на человека или вселенную (25.10): ключи всех её произведений — сводка сверяет их, как у произведения. */
+export function followOfWorks(kind: 'person' | 'universe', ref: string, title: string, works: WorkCard[]): FollowTarget | undefined {
+  const keys = [...new Set(works.flatMap((w) => followOfWork(w)?.keys ?? []))].slice(0, 200);
+  return /^Q\d{1,12}$/.test(ref) && keys.length ? { kind, ref, keys, title } : undefined;
+}
 /** Подписка на произведение: ключи, по которым к карточке приходят разборы. */
-export function followOfWork(work: WorkCard): FollowTarget | undefined {
+export function followOfWork(work: WorkCard): Extract<FollowTarget, { keys: string[] }> | undefined {
   const keys = workKeys(work, work.externalIds ?? externalIds[work.id]).filter((k) => /^[a-z]{2,10}:[A-Za-z0-9_.-]{1,40}$/.test(k));
   return keys.length ? { kind: 'work', ref: keys[0], keys, title: work.title } : undefined;
 }
@@ -4493,14 +4518,16 @@ async function channelVoice(handle: string): Promise<Voice | undefined> {
   return { id: `tg:${nick}`, title, short: title, role: 'author', outlets: [{ kind: 'telegram', title, url: `https://t.me/${nick}` }] };
 }
 
-export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undefined> {
+export async function getVoiceWorks(voiceId: string, late?: LatePictures): Promise<VoiceWorks | undefined> {
   await delay(220);
   await catalog();
   // `tg:<ник>` канала из справочника авторов — это сам автор из справочника (ник без регистра)
   const handle = /^tg:([A-Za-z0-9_]{2,32})$/.exec(voiceId)?.[1];
   const listed = handle ? Object.entries(voiceKeys).find(([k]) => k.toLowerCase() === `tg:${handle.toLowerCase()}`)?.[1] : undefined;
   const known = knownVoice(listed ?? voiceId);
-  const voice = known ?? (handle ? await channelVoice(handle) : undefined);
+  // аудиоканал (25.10, «Читальня»): автора может не быть в справочнике — страница по справочнику записей
+  // канал с поддержкой автора, но без разборов (25.10) — страница ради «Поддержать», только каналы о кино и книгах
+  const voice = known ?? (handle ? (await channelVoice(handle)) ?? (await audioVoice(handle)) ?? (await supportVoice(handle)) : undefined);
   if (!voice) return undefined;
   const mine = known ? (a: ExternalAnalysis) => voiceOf(a).id === known.id : (a: ExternalAnalysis) => voiceOf(a).id.toLowerCase() === voice.id.toLowerCase();
   const works = worksByAnalysisKey();
@@ -4526,7 +4553,7 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
     .sort((a, b) => stamp(b.analyses[0]) - stamp(a.analyses[0]));
   // обложки (ТВ-10): свои — всем, недостающие у TMDb — первым сорока, что видны сразу; у
   // эссеиста бывают сотни разборов, и спрашивать про каждый незачем
-  const head = await pictured(items.slice(0, 40).map((i) => i.work), { bare: true });
+  const head = await picturedLate(items.slice(0, 40).map((i) => i.work), late);
   head.forEach((w, n) => { items[n].work = w; });
   // профиль по всем каналам автора: доли складываются с весом объёма канала
   const authors = new Set(items.flatMap((i) => i.analyses.map((a) => a.author)));
@@ -4546,6 +4573,37 @@ export async function getVoiceWorks(voiceId: string): Promise<VoiceWorks | undef
     if (top.length) profile = { n: Math.round(n), top };
   }
   return { voice, items, ...(profile ? { profile } : {}) };
+}
+
+/** Записи аудиоканала (25.10, tools/audio-readings.mts): чтец и прочитанное — карточка аудиоканала на странице голоса.
+ *  В подбор не идут; справочник грузится лениво. Нет записей — undefined. */
+let audioCache: Promise<Record<string, AudioChannel>> | undefined;
+const audioLoad = () => (audioCache ??= import('@/mocks/audioReadings').then((m) => m.audioReadings as Record<string, AudioChannel>)
+  .catch(() => { audioCache = undefined; return {} as Record<string, AudioChannel>; }));
+export async function getAudioChannel(handle: string): Promise<AudioChannel | undefined> {
+  const ch = (await audioLoad())[handle.toLowerCase()];
+  return ch?.readings.length ? ch : undefined;
+}
+async function audioVoice(handle: string): Promise<Voice | undefined> {
+  const ch = (await audioLoad())[handle.toLowerCase()];
+  if (!ch) return undefined;
+  const title = ch.title ?? handle;
+  return { id: `tg:${handle}`, title, short: title, role: 'author', outlets: [{ kind: 'telegram', title, url: `https://t.me/${handle}` }] };
+}
+
+/** Как поддержать автора (25.10, флаг `support`): сервисы донатов его канала в Telegram — из описания канала и
+ *  собственных постов (tools/voice-support.mts). Справочник грузится лениво, со страницей голоса. */
+type SupportBook = { voiceSupport: Record<string, SupportLink[]>; voiceSupportTitles: Record<string, string> };
+let voiceSupportCache: Promise<SupportBook> | undefined;
+const supportLoad = () => voiceSupportCache ??= import('@/mocks/voiceSupport')
+  .catch(() => { voiceSupportCache = undefined; return { voiceSupport: {}, voiceSupportTitles: {} } as SupportBook; });
+export async function getVoiceSupport(handle: string): Promise<SupportLink[]> {
+  return (await supportLoad()).voiceSupport[handle.toLowerCase()] ?? [];
+}
+async function supportVoice(handle: string): Promise<Voice | undefined> {
+  const title = (await supportLoad()).voiceSupportTitles[handle.toLowerCase()];
+  if (!title) return undefined;
+  return { id: `tg:${handle}`, title, short: title, role: 'author', outlets: [{ kind: 'telegram', title, url: `https://t.me/${handle}` }] };
 }
 
 /** Страница автора-создателя (Д3): режиссёр, сценарист, шоураннер, писатель. Не путать с
@@ -4568,11 +4626,23 @@ export interface PersonPage {
   trajectories: { id: ID; title: string }[];
   /** почерк (14.10, tools/person-wave.mts): строка о его вещах, обычный диапазон уровня, типичные барьеры */
   style?: { what: string; lo: number; hi: number; barriers: string[] };
+  /** роли актёра с каналом в Telegram (25.10, tools/resolve-actor-channels.mts): отдельным списком — в почерк,
+   *  «с чего начать» и роли карточки не идут */
+  acting: { work: WorkCard; seen: boolean }[];
 }
 
 // лицо и пара слов об авторе — отдельным куском: 270 КБ нужны только странице автора
-let peopleInfoCache: Promise<Record<string, { img?: string; d?: string; b?: number; x?: number }>> | undefined;
-const peopleInfoLoad = () => (peopleInfoCache ??= import('@/mocks/peopleInfo').then((m) => m.peopleInfo).catch(() => ({} as Record<string, never>)));
+/** лицо и пара слов — частями по номеру элемента (25.10, src/lib/peopleShard.ts): грузится одна часть ~8 КБ, а не 486 КБ */
+type PersonInfoRow = { img?: string; d?: string; b?: number; x?: number };
+const peopleInfoParts = import.meta.glob<{ peopleInfo: Record<string, PersonInfoRow> }>('../mocks/peopleInfo/*.ts');
+const peopleInfoCache = new Map<string, Promise<Record<string, PersonInfoRow>>>();
+const personInfoOf = (q: string): Promise<PersonInfoRow | undefined> => {
+  const n = peopleShard(q);
+  const load = peopleInfoParts[`../mocks/peopleInfo/${n}.ts`];
+  if (!load) return Promise.resolve(undefined);
+  if (!peopleInfoCache.has(n)) peopleInfoCache.set(n, load().then((m) => m.peopleInfo).catch(() => { peopleInfoCache.delete(n); return {}; }));
+  return peopleInfoCache.get(n)!.then((p) => p[q]);
+};
 let personStylesCache: Promise<Record<string, { lo: number; hi: number; barriers: string[]; what: string; confidence: string }>> | undefined;
 const personStylesLoad = () => (personStylesCache ??= import('@/mocks/personStyles').then((m) => m.personStyles).catch(() => ({} as Record<string, never>)));
 
@@ -4599,13 +4669,20 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
     byWork.set(id, item);
   }
   let about = aboutOrder(isPersonId(ref) ? (await aboutVideos()).person[ref] ?? [] : []);
-  // человек без работ в каталоге, но с роликами о нём — страница всё равно есть
-  if ((!byWork.size && !about.length) || !name) return undefined;
+  // актёр с каналом в Telegram (25.10, слово владельца: использовать присутствие, не акцентируясь) — его роли отдельно
+  const actor = isPersonId(ref) ? (await actorChannelsLoad())[ref] : undefined;
+  const byKeyAll = actor ? worksByAnalysisKey() : undefined;
+  const acting = actor ? [...new Map(actor.works.map((k) => byKeyAll!.get(k)).filter((w): w is WorkCard => Boolean(w)).map((w) => [w.id, w])).values()]
+    .map((w) => ({ work: withMedia(isSeries(w) ? withSeriesDraft(w) : w), seen: seenIds.has(w.id) || seenKeys.has(workKey(w, w.externalIds ?? externalIds[w.id]) ?? '') }))
+    .sort((a, b) => (b.work.year || 0) - (a.work.year || 0)) : [];
+  name ??= actor?.n;
+  // человек без работ в каталоге, но с роликами о нём или ролями — страница всё равно есть
+  if ((!byWork.size && !about.length && !acting.length) || !name) return undefined;
   // ролики рубрики «Об авторе» (ТВ-3, 06.10) у его работ — тоже о нём: в «о нём», а не в разборы
   // фильма; и у обзорного канала — рубрика уже сказала, что ролик об авторе, а не обзор фильма
   const authorish: ExternalAnalysis[] = [];
   const person: Person = known ?? { id: ref, name };
-  const pi = isPersonId(ref) ? (await peopleInfoLoad())[ref] : undefined;
+  const pi = isPersonId(ref) ? await personInfoOf(ref) : undefined;
   const info = pi ? { ...(pi.img ? { image: pi.img } : {}), ...(pi.d ? { description: pi.d } : {}), ...(pi.b ? { born: pi.b } : {}), ...(pi.x ? { died: pi.x } : {}) } : undefined;
   // почерк — черновик агента; с уверенностью low не показываем, как и черновики произведений
   const ps = isPersonId(ref) ? (await personStylesLoad())[ref] : undefined;
@@ -4669,7 +4746,7 @@ export async function getPerson(ref: string): Promise<PersonPage | undefined> {
   const roleOrder: CreditRole[] = ['director', 'creator', 'author', 'writer'];
   const roles = roleOrder.filter((r) => works.some((x) => x.roles.includes(r)));
   return {
-    person, ...(info ? { info } : {}), ...(style ? { style } : {}), wikidata: Boolean(known), roles, works, analyses: analyses.slice(0, 24), about,
+    person, ...(info ? { info } : {}), ...(style ? { style } : {}), wikidata: Boolean(known || actor), roles, works, analyses: analyses.slice(0, 24), about, acting,
     ...(pick ? { startWith: { work: pick.work, why: comfort != null ? 'near' as const : 'entry' as const, level: pick.work.complexityLevel } } : {}),
     trajectories,
   };
@@ -4686,14 +4763,21 @@ export interface PersonChannelView {
   known: boolean;
   posts: { work: WorkCard; analysis: ExternalAnalysis; seen: boolean }[];
 }
+/** актёры с каналом в Telegram (25.10): имя, канал и ключи произведений, где играл — лениво, со страницей человека */
+let actorChannelsCache: Promise<Record<string, { n: string; en?: string; h: string; t?: string; known?: 1; works: string[] }>> | undefined;
+const actorChannelsLoad = () => (actorChannelsCache ??= import('@/mocks/actorChannels').then((m) => m.actorChannels)
+  .catch(() => { actorChannelsCache = undefined; return {} as Record<string, never>; }));
 let personChannelsCache: Promise<Record<string, { h: string; t?: string; known?: 1 }>> | undefined;
 const personChannelsLoad = () => (personChannelsCache ??= import('@/mocks/personChannels').then((m) => m.personChannels)
   .catch(() => { personChannelsCache = undefined; return {} as Record<string, never>; }));
 
 export async function getPersonChannel(ref: string): Promise<PersonChannelView | undefined> {
   if (!isPersonId(ref)) return undefined;
-  const ch = (await personChannelsLoad())[ref];
+  // канал автора или актёра (25.10): у актёра «его вещи» — те, где он играл
+  const actor = (await actorChannelsLoad())[ref];
+  const ch = (await personChannelsLoad())[ref] ?? actor;
   if (!ch) return undefined;
+  const acted = new Set(actor?.works ?? []);
   await Promise.all([catalog(), workRefs()]);
   const known = people[ref];
   const key = `tg:${ch.h.toLowerCase()}`;
@@ -4707,7 +4791,7 @@ export async function getPersonChannel(ref: string): Promise<PersonChannelView |
       if (!own.length) continue;
       const w = works.get(k);
       // его ли вещь: он в титрах этой карточки — так же, как страница автора собирает его работы
-      if (!w || !creditsOf(withCredits(w), people).some((c) => sameCredit(c, ref, known))) continue;
+      if (!w || !(acted.has(k) || creditsOf(withCredits(w), people).some((c) => sameCredit(c, ref, known)))) continue;
       for (const a of own) { urls.add(a.url); posts.push({ work: w, analysis: a, seen: seenIds.has(w.id) }); }
     }
   }

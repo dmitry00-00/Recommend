@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { worksIndex } from './works-index.mts';
 import { workCredits } from './credits-all.mts';
 import { people } from './credits-all.mts';
-import { peopleInfo } from '../src/mocks/peopleInfo.ts';
+import { peopleInfo } from './people-info-lib.mts';
 import { draftAnnotations } from './draft-annotations.mts';
 import { seriesAnnotations } from './series-annotations.mts';
 import { bookDrafts } from '../src/mocks/bookDrafts.ts';

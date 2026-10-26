@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Путь</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #fff; --ink: #1d1c1a; --muted: #6d6a64; --line: #e3e0da; --grid: #eeece7;
+    --accent: #2f5fd0; --ok: #217a45; --warn: #a3620a; --bad: #b3261e; --chip: #efede8;
+    /* серии — эталонная палитра dataviz (проверена validate_palette: светлая и тёмная, все пары) */
+    --s-seed: #2a78d6; --s-inv: #eb6834; --s-org: #1baf7a; --s-all: #6250d6; --s-act: #008300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151514; --panel: #1f1e1c; --ink: #ecebe7; --muted: #9c988f; --line: #33312d; --grid: #2a2926;
+      --accent: #7ea2ff; --ok: #6ccf8e; --warn: #e3a64a; --bad: #ff8a80; --chip: #2a2926;
+      --s-seed: #3987e5; --s-inv: #d95926; --s-org: #199e70; --s-all: #9085e9; --s-act: #008300; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  h3 { font-size: 15px; margin: 0; }
+  .sub { color: var(--muted); margin: 4px 0 16px; max-width: 900px; }
+  .muted { color: var(--muted); } .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 11px; cursor: pointer; }
+  label { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 14px; }
+  .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .spacer { flex: 1; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 0 0 16px; }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; margin: 0 0 14px; }
+  .two { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; } .two > .card { margin: 0; }
+  @media (max-width: 960px) { .two { grid-template-columns: 1fr; } }
+  .row2 { margin: 0 0 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  .scroll { overflow-x: auto; }
+  .ci { display: block; color: var(--muted); font-size: 11px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin: 0 0 6px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .legend i.line { height: 2px; width: 14px; border-radius: 1px; vertical-align: 3px; }
+  svg { display: block; width: 100%; overflow: visible; }
+  svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .chart { position: relative; }
+  .tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px;
+    font-size: 13px; box-shadow: 0 4px 14px rgba(0,0,0,.12); white-space: nowrap; display: none; z-index: 5; }
+  .tip b { font-weight: 600; } .tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+  .hbar { height: 8px; background: var(--chip); border-radius: 4px; min-width: 70px; position: relative; }
+  .hbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--s-seed); }
+  .note { padding: 10px 14px; border-left: 3px solid var(--warn); background: var(--panel); border-radius: 0 10px 10px 0; margin: 0 0 14px; }
+  .err { color: var(--bad); }
+  a { color: var(--accent); }
+  /* дорожная карта */
+  .track { margin: 0 0 18px; }
+  .track > h3 { margin: 0 0 8px; }
+  .steps { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(196px, 1fr); gap: 0; overflow-x: auto; padding-bottom: 4px; }
+  .stage { position: relative; padding: 0 10px 0 0; }
+  .stage .rail { height: 4px; background: var(--line); margin: 11px 0 12px; border-radius: 2px; }
+  .stage.open .rail { background: var(--ok); } .stage.next .rail { background: linear-gradient(90deg, var(--accent) var(--p), var(--line) var(--p)); }
+  .stage .dot { position: absolute; top: 3px; left: 0; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line); background: var(--panel);
+    display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); }
+  .stage.open .dot { border-color: var(--ok); background: var(--ok); color: var(--panel); }
+  .stage.next .dot { border-color: var(--accent); color: var(--accent); }
+  .box { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--panel); height: calc(100% - 27px); }
+  .stage.next .box { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .stage.locked .box { opacity: .72; }
+  .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 9px; background: var(--chip); color: var(--muted); margin: 4px 0 6px; }
+  .chip.open { color: var(--ok); } .chip.next { color: var(--accent); }
+  .who { font-size: 13px; margin: 0 0 4px; } .with { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+  .conds { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  .conds li { margin: 0 0 7px; }
+  .conds .lab { display: flex; gap: 6px; align-items: baseline; }
+  .conds .lab .mk { width: 14px; flex: none; text-align: center; font-weight: 700; }
+  .conds .val { margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+  .conds .bar { height: 4px; background: var(--chip); border-radius: 2px; margin: 3px 0 0 20px; position: relative; }
+  .conds .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--accent); }
+  .conds li.ok .bar i { background: var(--ok); } .conds li.unk .bar i { background: var(--muted); opacity: .45; }
+  .conds .why { margin-left: 20px; font-size: 11px; color: var(--muted); }
+  .conds input { margin: 0; }
+  .forecast { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; margin: 0 0 14px; }
+  .forecast b { font-variant-numeric: tabular-nums; }
+  details > summary { cursor: pointer; color: var(--accent); margin: 8px 0 4px; font-size: 14px; }
+.scopes { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0 0 }
+.scope { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer }
+.scope.on { background: var(--accent); border-color: var(--accent); color: var(--bg) }
+</style>
+<link rel="stylesheet" href="/shell.css">
+</head>
+<body>
+<script src="/shell.js"></script>
+<main class="page">
+  <div class="head"><h1>Путь</h1><span class="muted" id="when"></span><span class="spacer"></span>
+    <label><input type="checkbox" id="tg" checked> только Telegram</label>
+    <label><input type="checkbox" id="internal"> с нами (владелец и тестеры)</label>
+    <button id="fresh">Обновить</button></div>
+  <p class="sub">Рост участников, приход и цена подписчика по каналам, дорожная карта: с каких цифр идём к каналам и сервисам
+    (STRATEGY.md §0–1). Условия меряются по живым данным сервера; то, чего нет в базе, отмечается галочкой. Пороги — оценка, не данные.</p>
+  <div id="view"><p class="muted">Забираю с сервера…</p></div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = (n, d = 0) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('ru-RU', { maximumFractionDigits: d }));
+const rub = (n) => (n == null ? '—' : `${fmt(n)} ₽`);
+const pct = (x, d = 0) => (x == null ? '—' : `${(x * 100).toFixed(d)}%`);
+const dd = (iso) => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}.${m}`; };
+const sh = (s) => (!s || s.share == null ? '<span class="muted">—</span>' : `${pct(s.share)}<span class="ci">из ${fmt(s.of)}</span>`);
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+// ── подсказка у графиков: одна на страницу
+const tip = document.createElement('div'); tip.className = 'tip'; document.body.append(tip);
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.display = 'block'; tip.style.position = 'fixed';
+  const w = tip.offsetWidth, x = ev.clientX + 14 + w > innerWidth ? ev.clientX - w - 14 : ev.clientX + 14;
+  tip.style.left = `${x}px`; tip.style.top = `${ev.clientY + 12}px`;
+}
+const hideTip = () => { tip.style.display = 'none'; };
+
+// ── накопленная кривая: участники и активированные по дням; посевы — засечки внизу
+function growthChart(H, posts, W) {
+  if (!H.length) return '<p class="muted">Пока никого.</p>';
+  const Hh = W < 600 ? 200 : 220, L = 40, R = 12, T = 10, B = 26;
+  let cj = 0, ca = 0;
+  const pts = H.map((h) => ({ day: h.day, j: (cj += h.joined), a: (ca += h.activated), nj: h.joined, na: h.activated }));
+  const max = Math.max(4, ...pts.map((p) => p.j));
+  const nice = (() => { const s = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000]; return s.find((x) => max / x <= 5) ?? Math.ceil(max / 5); })();
+  const top = Math.ceil(max / nice) * nice;
+  const x = (i) => L + (pts.length === 1 ? (W - L - R) / 2 : (i * (W - L - R)) / (pts.length - 1));
+  const y = (v) => T + (Hh - T - B) * (1 - v / top);
+  const path = (k) => pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p[k]).toFixed(1)}`).join('');
+  const grid = []; for (let v = 0; v <= top; v += nice) grid.push(`<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`);
+  const every = Math.max(1, Math.ceil(pts.length / 8));
+  const ticks = pts.map((p, i) => (i % every === 0 || i === pts.length - 1 ? `<text x="${x(i)}" y="${Hh - 8}" text-anchor="middle">${dd(p.day)}</text>` : '')).join('');
+  const idx = new Map(pts.map((p, i) => [p.day, i]));
+  const marks = posts.filter((p) => idx.has(p.at.slice(0, 10))).map((p) => { const i = idx.get(p.at.slice(0, 10));
+    return `<path d="M${x(i) - 5},${Hh - B + 1} L${x(i) + 5},${Hh - B + 1} L${x(i)},${Hh - B - 7} Z" fill="var(--s-seed)" stroke="var(--panel)" stroke-width="2" data-post="${esc(p.name || p.channel)} · ${dd(p.at)}${p.price != null ? ` · ${fmt(p.price)} ₽` : ''}${p.joined != null ? ` · пришли ${p.joined}` : ''}"/>`; }).join('');
+  const last = pts.at(-1);
+  return `<div class="legend"><span><i class="line" style="background:var(--s-all)"></i>участники</span><span><i class="line" style="background:var(--s-act)"></i>активированы</span><span><i style="background:var(--s-seed);clip-path:polygon(50% 0,100% 100%,0 100%)"></i>пост посева</span></div>
+  <div class="chart"><svg id="gc" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Накопленный рост участников">
+    ${grid.join('')}${ticks}
+    <path d="${path('j')}" fill="none" stroke="var(--s-all)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="${path('a')}" fill="none" stroke="var(--s-act)" stroke-width="2" stroke-linejoin="round"/>
+    <text x="${x(pts.length - 1) - 4}" y="${y(last.j) - 6}" text-anchor="end" style="fill:var(--ink)">${fmt(last.j)}</text>
+    <text x="${x(pts.length - 1) - 4}" y="${y(last.a) + 14}" text-anchor="end" style="fill:var(--ink)">${fmt(last.a)}</text>
+    <line id="gx" y1="${T}" y2="${Hh - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>
+    <circle id="gj" r="4" fill="var(--s-all)" stroke="var(--panel)" stroke-width="2" visibility="hidden"/><circle id="ga" r="4" fill="var(--s-act)" stroke="var(--panel)" stroke-width="2" visibility="hidden"/>
+    ${marks}
+    <rect id="gh" x="${L}" y="${T}" width="${W - L - R}" height="${Hh - T - B - 8}" fill="transparent"/>
+  </svg></div>`;
+  // обработчики вешает bindGrowth: нужен pts
+}
+function bindGrowth(H) {
+  const svg = $('#gc'); if (!svg) return;
+  let cj = 0, ca = 0;
+  const pts = H.map((h) => ({ day: h.day, j: (cj += h.joined), a: (ca += h.activated), nj: h.joined, na: h.activated, s: h.seeded, inv: h.invited, o: h.organic }));
+  const vb = svg.viewBox.baseVal, L = 40, R = 12, T = 10, B = 26;
+  const max = Math.max(4, ...pts.map((p) => p.j));
+  const s = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000]; const nice = s.find((x) => max / x <= 5) ?? Math.ceil(max / 5);
+  const top = Math.ceil(max / nice) * nice;
+  const x = (i) => L + (pts.length === 1 ? (vb.width - L - R) / 2 : (i * (vb.width - L - R)) / (pts.length - 1));
+  const y = (v) => T + (vb.height - T - B) * (1 - v / top);
+  const hit = $('#gh');
+  hit.addEventListener('mousemove', (ev) => {
+    const r = svg.getBoundingClientRect(), px = ((ev.clientX - r.left) / r.width) * vb.width;
+    const i = Math.max(0, Math.min(pts.length - 1, Math.round(((px - L) / (vb.width - L - R)) * (pts.length - 1))));
+    const p = pts[i];
+    for (const [id, v] of [['#gj', p.j], ['#ga', p.a]]) { const c = $(id); c.setAttribute('cx', x(i)); c.setAttribute('cy', y(v)); c.setAttribute('visibility', 'visible'); }
+    const gx = $('#gx'); gx.setAttribute('x1', x(i)); gx.setAttribute('x2', x(i)); gx.setAttribute('visibility', 'visible');
+    showTip(ev, `<b>${dd(p.day)}</b><br><i style="background:var(--s-all)"></i>участников ${fmt(p.j)} <span class="muted">(+${p.nj})</span><br><i style="background:var(--s-act)"></i>активированы ${fmt(p.a)} <span class="muted">(+${p.na})</span>${p.nj ? `<br><span class="muted">новые: посев ${p.s ?? '—'}, друг ${p.inv ?? '—'}, сами ${p.o ?? '—'}</span>` : ''}`);
+  });
+  hit.addEventListener('mouseleave', () => { hideTip(); for (const id of ['#gj', '#ga', '#gx']) $(id).setAttribute('visibility', 'hidden'); });
+  for (const m of svg.querySelectorAll('[data-post]')) { m.addEventListener('mousemove', (ev) => showTip(ev, esc(m.dataset.post))); m.addEventListener('mouseleave', hideTip); }
+}
+/** Без history (сервер до 25.10) — накопленная по неделям: та же форма, точка на конец недели */
+const weeklyHistory = (W) => W.filter((w, i) => i >= W.findIndex((v) => v.joined)).map((w) => ({ day: w.to, joined: w.joined, activated: w.activated, seeded: w.seeded, invited: w.invited, organic: w.joined - w.seeded - w.invited }));
+
+// ── новые по неделям: столбцы по источнику (посев / друг / сами), подпись — сколько всего
+function weeksChart(W, Wd) {
+  const ws = W.slice(W.findIndex((w) => w.joined) === -1 ? W.length - 4 : W.findIndex((w) => w.joined));
+  if (!ws.length) return '<p class="muted">Нет недель.</p>';
+  const Hh = 200, L = 30, R = 6, T = 14, B = 24, gap = 2;
+  const max = Math.max(3, ...ws.map((w) => w.joined));
+  const bw = Math.min(46, (Wd - L - R) / ws.length - 8);
+  const step = (Wd - L - R) / ws.length;
+  const y = (v) => T + (Hh - T - B) * (1 - v / max);
+  const bars = ws.map((w, i) => {
+    const org = Math.max(0, w.joined - w.seeded - w.invited);
+    const segs = [['s-seed', w.seeded, 'посев'], ['s-inv', w.invited, 'позвал друг'], ['s-org', org, 'сами']];
+    let base = 0; const cx = L + step * i + (step - bw) / 2;
+    const rects = segs.filter(([, v]) => v > 0).map(([c, v], k, arr) => {
+      const y0 = y(base), y1 = y(base + v); base += v;
+      const h = Math.max(1, y0 - y1 - (k < arr.length - 1 ? gap : 0));
+      return `<rect x="${cx}" y="${y1}" width="${bw}" height="${h}" rx="${k === arr.length - 1 ? 4 : 0}" fill="var(--${c})"/>`;
+    }).join('');
+    return `<g class="wk" data-i="${i}">${rects}<rect x="${L + step * i}" y="${T}" width="${step}" height="${Hh - T - B}" fill="transparent"/>
+      ${w.joined ? `<text x="${cx + bw / 2}" y="${y(w.joined) - 4}" text-anchor="middle" style="fill:var(--ink)">${w.joined}</text>` : ''}
+      <text x="${cx + bw / 2}" y="${Hh - 8}" text-anchor="middle">${dd(w.from)}</text></g>`;
+  }).join('');
+  return { html: `<div class="legend"><span><i style="background:var(--s-seed)"></i>посев</span><span><i style="background:var(--s-inv)"></i>позвал друг</span><span><i style="background:var(--s-org)"></i>сами</span></div>
+    <div class="chart"><svg id="wc" viewBox="0 0 ${Wd} ${Hh}" role="img" aria-label="Новые участники по неделям"><line x1="${L}" x2="${Wd - R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/>${bars}</svg></div>
+    <details><summary>таблицей</summary><div class="scroll"><table><tr><th>неделя</th><th class="n">новых</th><th class="n">посев</th><th class="n">друг</th><th class="n">сами</th><th class="n">активированы</th><th class="n">активных</th></tr>
+    ${[...ws].reverse().map((w) => `<tr><td>${dd(w.from)}–${dd(w.to)}</td><td class="n">${w.joined}</td><td class="n">${w.seeded}</td><td class="n">${w.invited}</td><td class="n">${Math.max(0, w.joined - w.seeded - w.invited)}</td><td class="n">${w.activated}</td><td class="n">${w.active}</td></tr>`).join('')}</table></div></details>`, ws };
+}
+function bindWeeks(ws) {
+  for (const g of document.querySelectorAll('#wc .wk')) {
+    const w = ws[Number(g.dataset.i)];
+    g.addEventListener('mousemove', (ev) => showTip(ev, `<b>${dd(w.from)}–${dd(w.to)}</b> · новых ${w.joined}<br><i style="background:var(--s-seed)"></i>посев ${w.seeded}<br><i style="background:var(--s-inv)"></i>позвал друг ${w.invited}<br><i style="background:var(--s-org)"></i>сами ${Math.max(0, w.joined - w.seeded - w.invited)}<br><span class="muted">активированы ${w.activated} · активных ${w.active}</span>`));
+    g.addEventListener('mouseleave', hideTip);
+  }
+}
+
+// ── каналы: приход и цена; «друг» и «сами» — внизу без цены
+function channelsTable(C, sources, cur) {
+  const maxPer = Math.max(1, ...C.channels.map((c) => c.perActivated ?? 0));
+  const rows = C.channels.map((c) => `<tr><td><b>${esc(c.names[0] || c.channel)}</b><span class="ci">${esc(c.labels.join(', '))}</span></td>
+    <td class="n">${fmt(c.posts)}</td><td class="n">${fmt(c.reach)}</td><td class="n">${fmt(c.joined)}</td><td class="n">${c.openRate == null ? '—' : pct(c.openRate, 2)}</td>
+    <td class="n">${sh(c.activation)}</td><td class="n">${sh(c.d7)}</td><td class="n">${rub(c.cost)}</td><td class="n">${rub(c.perJoined)}</td>
+    <td class="n"><b>${rub(c.perActivated)}</b></td><td style="min-width:90px">${c.perActivated != null ? `<div class="hbar" title="${rub(c.perActivated)} за активированного"><i style="width:${(100 * c.perActivated) / maxPer}%"></i></div>` : ''}</td>
+    <td class="n">${rub(c.perD7)}</td></tr>`).join('');
+  const free = sources.filter((s) => s.source === 'invited' || s.source === 'organic').map((s) => `<tr class="muted"><td>${s.source === 'invited' ? 'позвал друг' : 'сами (без метки)'}</td>
+    <td class="n">—</td><td class="n">—</td><td class="n">${fmt(s.joined)}</td><td class="n">—</td><td class="n">${sh(s.activation)}</td><td class="n">${sh(s.d7)}</td><td class="n">0 ₽</td><td class="n">—</td><td class="n">—</td><td></td><td class="n">—</td></tr>`).join('');
+  return `<div class="scroll"><table><tr><th>канал</th><th class="n">постов</th><th class="n">охват</th><th class="n">пришли</th><th class="n">открыли</th><th class="n">активированы</th><th class="n">D7</th>
+    <th class="n">потрачено</th><th class="n">₽ / пришедшего</th><th class="n">₽ / активированного</th><th></th><th class="n">₽ / D7</th></tr>
+    ${rows || '<tr><td colspan="12" class="muted">Посевов с метками пока нет — записать во вкладке «Рост».</td></tr>'}${free}</table></div>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">«Открыли» — пришедших от охвата поста. Цена активированного честна от ${10} пришедших: меньше — шум. Источники за 90 дней.</p>`;
+}
+
+// ── рынок: цены каналов реестра на telega.in и прогноз цены подписчика
+function marketView(M) {
+  if (!M || !M.updatedAt) return '<p class="muted">Цен ещё нет — сборщик: <code>npx tsx tools/ad-prices.mts</code> (раз в неделю идёт в ночном сборе).</p>';
+  const R = M.rates, B = M.beta;
+  const rate = (v, measured) => `${pct(v, v < 0.1 ? 1 : 0)} <span class="muted">${measured ? '— наши посевы' : '— допущение до 30 пришедших'}</span>`;
+  // шкала — до четырёх потолков: дороже — полоса во всю ширину (один канал с CPM 18 тыс. не должен сплющить остальные)
+  const maxCpm = M.ceiling * 4;
+  // переключатель тем (25.10): все / кино и книги / соседние темы (wide) — выбор помнится в браузере
+  const sel = marketScope;
+  const shown = M.rows.filter((r) => sel === 'all' || (sel === 'wide' ? r.wide : !r.wide));
+  const scopeBtn = (k, label) => `<button class="scope${sel === k ? ' on' : ''}" data-scope="${k}">${label}</button>`;
+  const themeRows = (M.byTheme ?? []).filter((t) => sel === 'all' || (sel === 'wide' ? t.wide : !t.wide)).map((t) => `<tr><td>${esc(t.theme)}${t.wide ? '' : ' <span class="ci" style="display:inline">ядро</span>'}</td><td class="n">${fmt(t.n)}</td>
+    <td class="n">${rub(t.medianCpm)}</td><td class="n">${fmt(t.withinCeiling)}</td><td class="n">${rub(t.minPerActivated)}</td></tr>`).join('');
+  const rows = shown.map((r) => `<tr${r.withinCeiling === false ? ' class="muted"' : ''}><td><a href="https://t.me/${esc(r.u)}" target="_blank" rel="noopener">@${esc(r.u)}</a>${r.posted ? ' <span class="chip open" style="margin:0">был посев</span>' : ''}<span class="ci">${esc(r.title ?? '')}${r.theme ? ` · ${esc(r.theme)}` : ''}</span></td>
+    <td class="n">${fmt(r.subs)}${r.subsMonth ? `<span class="ci">${r.subsMonth > 0 ? '+' : ''}${fmt(r.subsMonth)} за 30 дн.</span>` : ''}</td><td class="n">${fmt(r.reach24)}</td>
+    <td class="n">${rub(r.price)}${r.priceChange ? `<span class="ci">${r.priceChange > 0 ? '+' : ''}${fmt(r.priceChange)} ₽ к прошлой неделе</span>` : ''}</td>
+    <td class="n">${rub(r.cpm)}</td><td style="min-width:90px">${r.cpm != null ? `<div class="hbar" title="CPM ${rub(r.cpm)}; потолок ${rub(M.ceiling)}"><i style="width:${Math.min(100, (100 * r.cpm) / maxCpm)}%;background:${r.withinCeiling ? 'var(--ok)' : 'var(--muted)'}"></i><i style="left:${(100 * M.ceiling) / maxCpm}%;width:2px;background:var(--ink);opacity:.5"></i></div>` : ''}</td>
+    <td class="n">${r.withinCeiling == null ? '—' : r.withinCeiling ? '<span class="ok">✓ в потолке</span>' : '<span class="muted">✕ дороже</span>'}</td>
+    <td class="n">${fmt(r.expJoined, 0)}</td><td class="n">${rub(r.perJoined)}</td><td class="n"><b>${rub(r.perActivated)}</b></td><td class="n">${fmt(r.orders)}</td></tr>`).join('');
+  return `<div class="forecast">
+      <span>каналов на бирже: <b>${fmt(M.counts.ok)}</b> из ${fmt(M.listed)}${M.wideListed ? ` (соседних тем ${fmt(M.wideListed)})` : ''}${M.counts.absent ? ` · нет на бирже ${M.counts.absent}` : ''}${M.counts.error ? ` · <span class="warn">ошибок ${M.counts.error}</span>` : ''}</span>
+      <span>медианный CPM: <b>${rub(M.medianCpm)}</b> · в потолке ${rub(M.ceiling)}: <b>${fmt(M.withinCeiling)}</b></span>
+      <span class="muted">снято ${new Date(M.updatedAt).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span></div>
+    <div class="forecast"><span>открывают приложение от охвата: <b>${rate(R.open, R.measuredOpen)}</b></span><span>активация пришедших: <b>${rate(R.activation, R.measuredActivation)}</b></span></div>
+    <div class="note" style="border-left-color:var(--accent)">Бета (${fmt(B.toBeta)} активированных) самыми дешёвыми каналами в потолке, по посту в канал:
+      <b>${B.posts ? `${fmt(B.posts)} постов, ~${rub(B.cost)}` : 'нет каналов в потолке'}</b>${B.posts && !B.enough ? ` — одной волны не хватит: ожидается ~${fmt(B.expectedActivated, 0)} активированных, дальше повторы в лучших` : B.posts ? ` → ~${fmt(B.expectedActivated, 0)} активированных` : ''}.
+      Прогноз — по охвату и долям выше; пока доли — допущение, это порядок цифр, а не план.</div>
+    <div class="scopes">${scopeBtn('all', 'все')}${scopeBtn('core', 'кино и книги')}${scopeBtn('wide', 'соседние темы')}</div>
+    <h3 style="margin:10px 0 4px;font-size:14px">По темам</h3>
+    <div class="scroll"><table><tr><th>тема</th><th class="n">каналов</th><th class="n">медианный CPM</th><th class="n">в потолке</th><th class="n">лучший ₽ / активированного</th></tr>${themeRows}</table></div>
+    <h3 style="margin:14px 0 4px;font-size:14px">Каналы (${fmt(shown.length)})</h3>
+    <div class="scroll"><table><tr><th>канал</th><th class="n">подписчики</th><th class="n">охват 24 ч</th><th class="n">пост 1/24</th><th class="n">CPM</th><th></th><th class="n">потолок плана</th>
+      <th class="n">придут, ожид.</th><th class="n">₽ / пришедшего</th><th class="n">₽ / активированного</th><th class="n">заказов</th></tr>${rows}</table></div>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">Цены — с открытой карточки канала на telega.in, раз в неделю (tools/ad-prices.mts). Черта на полосе — потолок CPM ${fmt(M.ceiling)} ₽ из плана кампании.</p>`;
+}
+
+// ── дорожная карта
+function condView(c) {
+  const ok = c.ok === true, bad = c.ok === false;
+  const mk = ok ? '<span class="mk ok">✓</span>' : bad ? '<span class="mk bad">✕</span>' : '<span class="mk muted">?</span>';
+  if (c.kind === 'manual') return `<li class="${ok ? 'ok' : ''}"><label class="lab" style="color:var(--ink)"><span class="mk"><input type="checkbox" data-manual="${c.id}" ${ok ? 'checked' : ''}></span>${esc(c.label)}</label></li>`;
+  const val = c.kind === 'share' ? `${pct(c.value)} / ${pct(c.target)}` : `${fmt(c.value)} / ${fmt(c.target)}`;
+  const p = c.value == null ? 0 : Math.min(1, c.value / c.target);
+  return `<li class="${ok ? 'ok' : c.ok === null ? 'unk' : ''}"><div class="lab">${mk}<span>${esc(c.label)}</span><span class="val">${val}</span></div>
+    <div class="bar"><i style="width:${(p * 100).toFixed(1)}%"></i></div>${c.note ? `<div class="why">${esc(c.note)}</div>` : ''}</li>`;
+}
+const STATUS = { open: ['можно писать', 'open'], next: ['следующая', 'next'], locked: ['позже', ''] };
+function roadView(R) {
+  const track = (id, name) => `<div class="track"><h3>${name}</h3><div class="steps">${R.stages.filter((s) => s.track === id).map((s) => `
+    <div class="stage ${s.status}" style="--p:${Math.round(s.progress * 100)}%"><div class="dot">${s.status === 'open' ? '✓' : esc(s.step.slice(1))}</div><div class="rail"></div>
+      <div class="box"><div class="muted" style="font-size:12px">${esc(s.step)}</div><h3>${esc(s.title)}</h3>
+        <span class="chip ${STATUS[s.status][1]}">${STATUS[s.status][0]}${s.status === 'next' ? ` · ${Math.round(s.progress * 100)}%` : ''}</span>
+        <p class="who"><span class="muted">к кому:</span> ${esc(s.who)}</p><p class="with">${esc(s.with)}</p>
+        ${s.conditions.length ? `<ul class="conds">${s.conditions.map(condView).join('')}</ul>` : '<p class="muted" style="font-size:13px;margin:0">без условий — уже сейчас</p>'}
+      </div></div>`).join('')}</div></div>`;
+  const F = R.forecast;
+  return `<div class="forecast">
+      <span>темп: <b>${fmt(F.pace, 1)}</b> активированных в неделю (4 недели)</span>
+      <span>до беты (300): <b>${F.toBeta === 0 ? 'пройдена' : F.weeksToBeta == null ? 'при нынешнем темпе — не дойти' : `~${fmt(F.weeksToBeta, 0)} нед.`}</b></span>
+      <span>посевами по нынешней цене: <b>${F.budgetToBeta == null ? 'цены ещё нет' : rub(F.budgetToBeta)}</b>${F.perActivated != null ? ` <span class="muted">(${rub(F.perActivated)} за активированного)</span>` : ''}</span>
+    </div>${track('channels', 'Каналы и авторы')}${track('services', 'Сервисы')}`;
+}
+
+let cur = null;
+let marketScope = (() => { try { return localStorage.getItem('road.scope') || 'all'; } catch { return 'all'; } })();
+async function load(fresh) {
+  $('#fresh').disabled = true;
+  try {
+    const r = await fetch(`api/data?internal=${$('#internal').checked ? 1 : 0}&tg=${$('#tg').checked ? 1 : 0}${fresh ? '&fresh=1' : ''}`);
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || r.status);
+    cur = d; render(d);
+  } catch (e) { $('#view').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+  $('#fresh').disabled = false;
+}
+function render(d) {
+  const R = d.road, N = R.numbers;
+  $('#when').textContent = `${new Date(d.at).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })} · ${d.server.replace(/^https?:\/\//, '')}`;
+  const H = d.history ?? weeklyHistory(d.weeks);
+  // рисунки — в ширину контейнера, чтобы подписи не мельчали на телефоне
+  const CW = Math.max(300, $('#view').clientWidth - 34);
+  const wk = weeksChart(d.weeks, innerWidth < 960 ? CW : Math.round(CW * 0.56));
+  const open = R.stages.filter((s) => s.status === 'open').length;
+  $('#view').innerHTML = `
+    ${R.exact ? '' : '<div class="note">Сервер ещё без дневной истории и «Смотреть» (сборка до 25.10): кривая и итоги — по неделям (за 12 недель), условия про «Смотреть» — «нет данных». После выкладки — по дням и все участники.</div>'}
+    <div class="tiles">
+      <div class="tile"><b>${fmt(N.joined)}</b><span>участников всего</span></div>
+      <div class="tile"><b>${fmt(N.activated)}</b><span>активированы · ${N.joined ? pct(N.activated / N.joined) : '—'}</span></div>
+      <div class="tile"><b>${fmt(N.wau)}</b><span>активных за неделю</span></div>
+      <div class="tile"><b>${fmt(N.mau)}</b><span>активных за 30 дней</span></div>
+      <div class="tile"><b>${rub(N.spend)}</b><span>на посевы · ${fmt(N.paidPosts)} постов</span></div>
+      <div class="tile"><b>${rub(R.forecast.perActivated)}</b><span>за активированного (посевы)</span></div>
+      <div class="tile"><b>${N.watch?.share == null ? '—' : pct(N.watch.share, 1)}</b><span>«Смотреть» от карточек, 30 дней</span></div>
+      <div class="tile"><b>${open} / ${R.stages.length}</b><span>ступеней открыто</span></div>
+    </div>
+    <div class="card"><h2>Рост участников</h2>${growthChart(H, d.campaign.posts, CW)}</div>
+    <div class="two row2">
+      <div class="card"><h2>Новые по неделям</h2>${wk.html ?? wk}</div>
+      <div class="card"><h2>Откуда пришли · 90 дней</h2>${sourcesSplit(d.sources)}</div>
+    </div>
+    <div class="card"><h2>Каналы: приход и цена подписчика</h2>${channelsTable(d.campaign, d.sources, cur)}</div>
+    <div class="card" id="market"><h2>Рыночные цены: каналы на бирже</h2>${marketView(d.market)}</div>
+    <div class="card"><h2>Дорожная карта</h2>${roadView(R)}</div>`;
+  bindGrowth(H); if (wk.ws) bindWeeks(wk.ws);
+  for (const b of document.querySelectorAll('[data-scope]')) b.addEventListener('click', () => {
+    marketScope = b.dataset.scope; try { localStorage.setItem('road.scope', marketScope); } catch { /* без памяти */ }
+    render(cur);
+  });
+  for (const b of document.querySelectorAll('[data-manual]')) b.addEventListener('change', async () => {
+    await fetch('api/manual', { method: 'PUT', headers: { 'x-desk': '1', 'content-type': 'application/json' }, body: JSON.stringify({ id: b.dataset.manual, done: b.checked }) });
+    load(false);
+  });
+}
+/** доли прихода: полоса из трёх частей и цифры — посев (сумма меток), друг, сами */
+function sourcesSplit(S) {
+  const seed = S.filter((s) => s.source !== 'invited' && s.source !== 'organic').reduce((a, s) => a + s.joined, 0);
+  const inv = S.find((s) => s.source === 'invited')?.joined ?? 0, org = S.find((s) => s.source === 'organic')?.joined ?? 0;
+  const all = seed + inv + org;
+  if (!all) return '<p class="muted">За 90 дней никого.</p>';
+  const parts = [['s-seed', 'посев', seed], ['s-inv', 'позвал друг', inv], ['s-org', 'сами', org]];
+  return `<div style="display:flex;gap:2px;height:22px;margin:4px 0 12px">${parts.filter((p) => p[2]).map(([c, n, v], i, a) => `<div title="${n}: ${v}" style="flex:${v};background:var(--${c});border-radius:${i === 0 ? '4px 0 0 4px' : ''}${i === a.length - 1 ? ' 0 4px 4px 0' : ''}${a.length === 1 ? ';border-radius:4px' : ''}"></div>`).join('')}</div>
+    <table>${parts.map(([c, n, v]) => `<tr><td><span class="legend" style="display:inline;margin:0"><i style="background:var(--${c})"></i></span>${n}</td><td class="n">${v}</td><td class="n">${pct(v / all)}</td></tr>`).join('')}
+    <tr><td class="muted">меток посевов с приходом</td><td class="n">${S.filter((s) => s.source !== 'invited' && s.source !== 'organic' && s.joined).length}</td><td></td></tr></table>`;
+}
+$('#fresh').addEventListener('click', () => load(true));
+$('#tg').addEventListener('change', () => load(false));
+$('#internal').addEventListener('change', () => load(false));
+load(false);
+</script>
+</body>
+</html>

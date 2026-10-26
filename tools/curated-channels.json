@@ -1,0 +1,772 @@
+{
+ "_": "Каналы из списков владельца (25.10). people — люди кино: подборка «Новостей кинопроизводства» (@filmres, src: filmres) — режиссёры, и его же список (src: owner). h — канал, n — имя, q — элемент Wikidata, если человек есть в справочнике (сверено по имени и году рождения), role — director | actor. main — этот канал главнее канала из Wikidata (тот заброшен: stale), gone — имя пустое (25.10: ни ленты t.me/s, ни названия на t.me — переименован или удалён), t, subs, last — название, подписчики и последний пост по t.me/s на 25.10. Читают tools/resolve-person-channels.mts и tools/resolve-actor-channels.mts; без q — только для счёта и динамики. channels — остальное из его списка: голоса (critic), подборки (picks), новости и индустрия (news, industry, media) — в реестр через tools/register-curated-channels.mts.",
+ "people": [
+  {
+   "h": "eggmcguffin",
+   "n": "Егор Абраменко",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q99196536",
+   "t": "egg mcguffin",
+   "subs": "2.44K",
+   "last": "2026-10-19"
+  },
+  {
+   "h": "aagranovich",
+   "n": "Алексей Агранович",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q28124116",
+   "t": "Алексей Агранович",
+   "subs": "1.79K",
+   "last": "2026-05-31"
+  },
+  {
+   "h": "sarikandreasyan",
+   "n": "Сарик Андреасян",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4065391"
+  },
+  {
+   "h": "letsplayfilms",
+   "n": "Кирилл Алёхин",
+   "role": "director",
+   "src": "filmres",
+   "t": "Это как посмотреть",
+   "subs": "1.93K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "bekmambetovtimur",
+   "n": "Тимур Бекмамбетов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q344854"
+  },
+  {
+   "h": "stepanburnashev",
+   "n": "Степан Бурнашев",
+   "role": "director",
+   "src": "filmres",
+   "t": "SB",
+   "subs": "1.29K",
+   "last": "2026-10-21"
+  },
+  {
+   "h": "Yurybykovchanel",
+   "n": "Юрий Быков",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q17582593"
+  },
+  {
+   "h": "dazedandamazed",
+   "n": "Полина Варфоломеева",
+   "role": "director",
+   "src": "filmres",
+   "t": "dazed and amazed",
+   "subs": "6.23K",
+   "last": "2026-10-15"
+  },
+  {
+   "h": "NormalnoeKino",
+   "n": "Александр Гаврилов",
+   "role": "director",
+   "src": "filmres",
+   "t": "Александр Гаврилов 🍿",
+   "subs": "896",
+   "last": "2026-10-09"
+  },
+  {
+   "h": "GermanicaIsLove",
+   "n": "Валерия Гай Германика",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q468621",
+   "stale": 1
+  },
+  {
+   "h": "etika_teoretika",
+   "n": "Владимир Гасанов",
+   "role": "director",
+   "src": "filmres",
+   "t": "ЭтикаТеоретика",
+   "subs": "1.17K",
+   "last": "2026-10-23"
+  },
+  {
+   "h": "agonch",
+   "n": "Арсений Гончуков",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4143306",
+   "t": "Режиссер Гончуков 🎥",
+   "subs": "5.89K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "gorobetsmark",
+   "n": "Марк Горобец",
+   "role": "director",
+   "src": "filmres",
+   "t": "Borisich",
+   "subs": "2.43K",
+   "last": "2026-10-17"
+  },
+  {
+   "h": "e_grigorev",
+   "n": "Евгений Григорьев",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q28497410"
+  },
+  {
+   "h": "borisgouts",
+   "n": "Борис Гуц",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q107208064",
+   "gone": 1
+  },
+  {
+   "h": "dreamongreenlight",
+   "n": "Денис Данилов",
+   "role": "director",
+   "src": "filmres",
+   "t": "Самоучитель режиссера",
+   "subs": "1.58K",
+   "last": "2026-10-05"
+  },
+  {
+   "h": "atikaktam",
+   "n": "Григорий Добрыгин",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q981292",
+   "t": "а ты как",
+   "subs": "2.95K",
+   "last": "2026-10-02"
+  },
+  {
+   "h": "vozhy_dovzhy",
+   "n": "Стас Довжик",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4164016",
+   "t": "Вожжи Довжика",
+   "subs": "643",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "PavelDrozdovDir",
+   "n": "Павел Дроздов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q15066037"
+  },
+  {
+   "h": "adilkhunter",
+   "n": "Адильхан Ержанов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q59185728",
+   "subs": "2.01K",
+   "last": "2026-10-19"
+  },
+  {
+   "h": "ermolov21",
+   "n": "Илья Ермолов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q123456388"
+  },
+  {
+   "h": "ZhigunovSergey",
+   "n": "Сергей Жигунов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4180064"
+  },
+  {
+   "h": "karenzakharov",
+   "n": "Карен Захаров",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q20510766",
+   "t": "Карен Захаров",
+   "subs": "2.98K",
+   "last": "2026-07-22"
+  },
+  {
+   "h": "leshazotov",
+   "n": "Алексей Зотов",
+   "role": "director",
+   "src": "filmres",
+   "t": "Лёша Зотов",
+   "subs": "7.46K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "films74",
+   "n": "Стас Иванов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q116790582"
+  },
+  {
+   "h": "odinilyin",
+   "n": "Сергей Ильин",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q124771088",
+   "t": "ОДИН ИЛЬИН",
+   "subs": "1.79K",
+   "last": "2026-10-04"
+  },
+  {
+   "h": "karimov_films",
+   "n": "Роман Каримов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4215049"
+  },
+  {
+   "h": "rezhrazbor",
+   "n": "Никита Карих",
+   "role": "director",
+   "src": "filmres",
+   "gone": 1
+  },
+  {
+   "h": "kvataniya",
+   "n": "Ладо Кватания",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q112989540"
+  },
+  {
+   "h": "kemnits_rec",
+   "n": "Кирилл Кемниц",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q113365005",
+   "gone": 1
+  },
+  {
+   "h": "dkdirecting",
+   "n": "Дмитрий Киселёв",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4222061",
+   "t": "Дима режиссер",
+   "subs": "4.35K",
+   "last": "2026-10-23"
+  },
+  {
+   "h": "budetkino",
+   "n": "Яна Климова-Юсупова",
+   "role": "director",
+   "src": "filmres",
+   "t": "кинобудет",
+   "subs": "2.63K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "danilakozlovsky_official",
+   "n": "Данила Козловский",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q3015088"
+  },
+  {
+   "h": "filkorshunov",
+   "n": "Филипп Коршунов",
+   "role": "director",
+   "src": "filmres",
+   "t": "Filipp Korshunov master-classes",
+   "subs": "2.6K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "kottsamposebe",
+   "n": "Владимир Котт",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4236310",
+   "gone": 1
+  },
+  {
+   "h": "lavrslav",
+   "n": "Вячеслав Лавров",
+   "role": "director",
+   "src": "filmres",
+   "t": "Вячеслав Лавров",
+   "subs": "3.28K",
+   "last": "2026-10-22"
+  },
+  {
+   "h": "maralesmisha",
+   "n": "Михаил Малинин",
+   "role": "director",
+   "src": "filmres",
+   "t": "MishaMaralesCrew",
+   "subs": "629",
+   "last": "2026-10-17"
+  },
+  {
+   "h": "pokatitri",
+   "n": "Евгений Марьян",
+   "role": "director",
+   "src": "filmres",
+   "t": "ПОКА НЕ КОНЧАТСЯ ТИТРЫ",
+   "subs": "812",
+   "last": "2026-10-18"
+  },
+  {
+   "h": "oksanamafa",
+   "n": "Оксана Мафагел",
+   "role": "director",
+   "src": "filmres",
+   "t": "Мафа",
+   "subs": "1.98K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "MariaMakhanko",
+   "n": "Мария Маханько",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q13218078"
+  },
+  {
+   "h": "melikyananna",
+   "n": "Анна Меликян",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4289477",
+   "t": "Анна Меликян",
+   "subs": "16K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "mirohina_a",
+   "n": "Аня Мирохина",
+   "role": "director",
+   "src": "filmres",
+   "t": "диагноз: мирохина",
+   "subs": "11.8K",
+   "last": "2026-10-23"
+  },
+  {
+   "h": "jaadukiichadi0000",
+   "n": "Роман Михайлов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q53848600"
+  },
+  {
+   "h": "nikishov17",
+   "n": "Евгений Никишов",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q19844128"
+  },
+  {
+   "h": "Kargofilm",
+   "n": "Карен Оганесян",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q4330970",
+   "gone": 1
+  },
+  {
+   "h": "kinodreamkino",
+   "n": "Эдуард Пальмов",
+   "role": "director",
+   "src": "filmres",
+   "t": "Кинодрим",
+   "subs": "4.05K",
+   "last": "2026-07-10"
+  },
+  {
+   "h": "methodPaushu",
+   "n": "Руслан Паушу",
+   "role": "director",
+   "src": "filmres",
+   "t": "Метод Паушу",
+   "subs": "4.26K",
+   "last": "2026-10-22"
+  },
+  {
+   "h": "ratushnaya",
+   "n": "Ксения Ратушная",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q106651270",
+   "t": "Ксения Ратушная",
+   "subs": "919",
+   "last": "2026-10-09"
+  },
+  {
+   "h": "anton_rival",
+   "n": "Антон Риваль",
+   "role": "director",
+   "src": "filmres",
+   "t": "Антон Риваль",
+   "subs": "1.21K",
+   "last": "2026-09-22"
+  },
+  {
+   "h": "romariosafin",
+   "n": "Роман Сафин",
+   "role": "director",
+   "src": "filmres",
+   "t": "romariosafini🎥",
+   "subs": "777",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "semichevmisha",
+   "n": "Миша Семичев",
+   "role": "director",
+   "src": "filmres",
+   "t": "Заметки Семичева",
+   "subs": "1.27K",
+   "last": "2026-04-03"
+  },
+  {
+   "h": "kakhoroshomiplohozhili",
+   "n": "Семён Серзин",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q29359497",
+   "gone": 1
+  },
+  {
+   "h": "KirillandhisFriends",
+   "n": "Кирилл Серебренников",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q1974774"
+  },
+  {
+   "h": "gala_corazon",
+   "n": "Гала Суханова",
+   "role": "director",
+   "src": "filmres",
+   "gone": 1
+  },
+  {
+   "h": "contemporaryfilm",
+   "n": "Иван Твердовский",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q18408276",
+   "t": "Твардовский",
+   "subs": "1.07K",
+   "last": "2026-10-23"
+  },
+  {
+   "h": "katya_telegina",
+   "n": "Катя Телегина",
+   "role": "director",
+   "src": "filmres",
+   "t": "Теледжина",
+   "subs": "9.3K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "olenjon_official",
+   "n": "Олег Трофим",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q84599463",
+   "t": "Oleg Trofim | official",
+   "subs": "16.1K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "dontworryimkate",
+   "n": "Катя Утёнышева",
+   "role": "director",
+   "src": "filmres"
+  },
+  {
+   "h": "zanozavzadnitce",
+   "n": "Феликс Умаров",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q124153764",
+   "gone": 1
+  },
+  {
+   "h": "FedorovichVV",
+   "n": "Валерий Федорович",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q63426288"
+  },
+  {
+   "h": "AlexanderFominScriptwriter",
+   "n": "Александр Фомин",
+   "role": "director",
+   "src": "filmres",
+   "gone": 1
+  },
+  {
+   "h": "channel_hant",
+   "n": "Александр Хант",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q65143054",
+   "t": "Канал Ханта",
+   "subs": "5.93K",
+   "last": "2026-10-22"
+  },
+  {
+   "h": "KlimShipenko",
+   "n": "Клим Шипенко",
+   "role": "director",
+   "src": "filmres",
+   "q": "Q27990623"
+  },
+  {
+   "h": "shishkino",
+   "n": "Макс Шишкин",
+   "role": "director",
+   "src": "filmres"
+  },
+  {
+   "h": "leragermanica",
+   "n": "Валерия Гай Германика",
+   "q": "Q468621",
+   "role": "director",
+   "main": 1,
+   "src": "owner",
+   "t": "Валерия Гайя Германика",
+   "subs": "23.5K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "nikitakarikhrezh",
+   "n": "Никита Карих",
+   "role": "director",
+   "src": "owner",
+   "t": "Никита Карих 🎬",
+   "subs": "3K",
+   "last": "2026-10-24"
+  },
+  {
+   "h": "sanyabortichsanya",
+   "n": "Александра Бортич",
+   "q": "Q18907601",
+   "role": "actor",
+   "src": "owner",
+   "t": "Sanya Bortich",
+   "subs": "16.9K",
+   "last": "2026-08-28"
+  },
+  {
+   "h": "zapiskiaktera",
+   "n": "Сергей Марочкин",
+   "role": "actor",
+   "src": "owner",
+   "t": "Записки актёра",
+   "subs": "15.7K",
+   "last": "2026-10-25"
+  },
+  {
+   "h": "nik_kologrivyy",
+   "n": "Никита Кологривый",
+   "role": "actor",
+   "src": "owner",
+   "t": "Никита Кологривый",
+   "subs": "36.3K",
+   "last": "2026-10-21",
+   "q": "Q123194690"
+  }
+ ],
+ "channels": [
+  {
+   "h": "cabernetcinema",
+   "category": "critic",
+   "sub": "новинки и сериалы",
+   "t": "Cabernet Cinemá",
+   "subs": "19.1K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "rodionokino",
+   "category": "critic",
+   "sub": "режиссёр пишет о кино",
+   "t": "Родион о кино",
+   "subs": "2.97K",
+   "last": "2026-10-23",
+   "src": "owner"
+  },
+  {
+   "h": "Film_hedgehog",
+   "category": "critic",
+   "sub": "анонимный, с иголками",
+   "t": "Кино_Ёж",
+   "subs": "10.3K",
+   "last": "2026-10-23",
+   "src": "owner"
+  },
+  {
+   "h": "apicatpongkino",
+   "category": "critic",
+   "sub": "кинолекторий, Урал",
+   "t": "Кинолекторий им. Апичатпонга Вирасетакула",
+   "subs": "418",
+   "last": "2026-08-20",
+   "src": "owner"
+  },
+  {
+   "h": "ClanOfScript",
+   "category": "critic",
+   "sub": "три сценариста о кино",
+   "t": "Поэпизодный клан",
+   "subs": "7.57K",
+   "last": "2026-10-17",
+   "src": "owner"
+  },
+  {
+   "h": "heroines_journey",
+   "category": "critic",
+   "sub": "сценаристка о женщинах в кино, подкаст",
+   "t": "Путь героини",
+   "subs": "5.09K",
+   "last": "2026-10-19",
+   "src": "owner"
+  },
+  {
+   "h": "kinoreel",
+   "category": "news",
+   "sub": "мировое и отечественное кино: кастинги, премьеры, фестивали",
+   "t": "KinoReel",
+   "subs": "50.8K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "sovet_kino",
+   "category": "picks",
+   "sub": "советское кино",
+   "t": "СОВЕТСКОЕ КИНО",
+   "subs": "11.7K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "filmres",
+   "category": "industry",
+   "sub": "Новости кинопроизводства: запуски, питчинги",
+   "t": "Новости кинопроизводства",
+   "subs": "37.6K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "iamshowrunner",
+   "category": "industry",
+   "sub": "продюсеры, фестивали",
+   "t": "ШОУРАННЕР",
+   "subs": "50.6K",
+   "last": "2026-10-08",
+   "src": "owner"
+  },
+  {
+   "h": "moviestart_ru",
+   "category": "industry",
+   "sub": "фестивали, конкурсы, питчинги",
+   "t": "MovieStart.ru",
+   "subs": "12.2K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "pitchingi",
+   "category": "industry",
+   "sub": "питчинги; посты платные",
+   "t": "Питчинги",
+   "subs": "10K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "callbackhere",
+   "category": "industry",
+   "sub": "новости киноиндустрии",
+   "t": "Вызывной",
+   "subs": "5.77K",
+   "last": "2026-10-23",
+   "src": "owner"
+  },
+  {
+   "h": "vodott",
+   "category": "industry",
+   "sub": "рынок VOD и OTT",
+   "t": "VODоворOTT",
+   "subs": "14.6K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "sonic_lee",
+   "category": "industry",
+   "sub": "продюсер о продакшене",
+   "t": "Выходит продюсер",
+   "subs": "4.46K",
+   "last": "2026-10-25",
+   "src": "owner"
+  },
+  {
+   "h": "LAHollyweed",
+   "category": "industry",
+   "sub": "креативный продюсер, сценаристка",
+   "t": "Hollyweed",
+   "subs": "6.47K",
+   "last": "2026-10-22",
+   "src": "owner"
+  },
+  {
+   "h": "ksenyaboletskaya",
+   "category": "industry",
+   "sub": "индустрия, Яндекс",
+   "t": "Boletskaya",
+   "subs": "11K",
+   "last": "2026-10-22",
+   "src": "owner"
+  },
+  {
+   "h": "cameratopor",
+   "category": "media",
+   "sub": "про медиа",
+   "t": "Камера, топор!",
+   "subs": "3.11K",
+   "last": "2026-10-22",
+   "src": "owner"
+  },
+  {
+   "h": "Vaaasha_Masha",
+   "category": "media",
+   "sub": "редактор «Медиа и Культура», Ведомости",
+   "t": "Маша и Медиа",
+   "subs": "3.42K",
+   "last": "2026-10-23",
+   "src": "owner"
+  },
+  {
+   "h": "arinab1973",
+   "category": "media",
+   "sub": "телекритик, телевидение",
+   "t": "Арина Бородина",
+   "subs": "14.4K",
+   "last": "2026-10-25",
+   "src": "owner"
+  }
+ ]
+}

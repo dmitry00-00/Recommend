@@ -13,7 +13,8 @@ import { createRequire } from 'node:module';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { followDigest } from '../worker/follow.ts';
+import { digestMessage, followDigest, matchFollow } from '../worker/follow.ts';
+import { shareResult } from '../worker/inline.ts';
 import { migrate } from '../worker/migrate.ts';
 import type { Env } from '../worker/env.ts';
 
@@ -122,6 +123,21 @@ mode.set(1, 'ok');
 const r7 = await followDigest(env, { now: new Date(day3.getTime() + 15 * 60e3) });
 assert.equal(r7.sent, 2); // D и E; A сегодня больше не трогаем
 assert.equal(count(1), 2);
+
+// человек и вселенная (25.10): подписка — ключами их произведений, сверка как у произведения; кнопка — на страницу
+{
+  const fresh = [
+    { url: 'u1', key: 'tmdb:1', title: 'разбор', author: 'А', platform: 'telegram', spoiler: 0, tier: null, lens: null, at: 'x' },
+    { url: 'u2', key: 'tmdb:2', title: 'обзор', author: 'Б', platform: 'telegram', spoiler: 0, tier: 'review', lens: null, at: 'x' },
+    { url: 'u3', key: 'tmdb:9', title: 'чужое', author: 'В', platform: 'telegram', spoiler: 0, tier: null, lens: null, at: 'x' },
+  ] as Parameters<typeof matchFollow>[1];
+  const got = matchFollow({ kind: 'person', ref: 'Q51559', keys: 'tmdb:1,tmdb:2' }, fresh, {});
+  assert.deepEqual(got.map((x) => x.url), ['u1']);   // обзор — мимо, чужое — мимо
+  const msg = digestMessage([{ follow: { kind: 'universe', ref: 'Q462', title: 'Звёздные войны' }, items: got }]);
+  assert.ok(JSON.stringify(msg).includes('startapp=u-Q462'));
+  const card = shareResult({ param: 'u-Q462', title: 'Звёздные войны', kind: 'universe' }) as { reply_markup: { inline_keyboard: { text: string }[][] } };
+  assert.equal(card.reply_markup.inline_keyboard[0][0].text, 'Вся вселенная');
+}
 
 rmSync(dir, { recursive: true, force: true });
 console.log('сводка подписок (замок, отметки, 429/403): все проверки прошли');

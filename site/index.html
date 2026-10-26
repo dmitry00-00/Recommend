@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filibri — фильмы и книги на шаг сложнее</title>
+<meta name="description" content="Подбираем фильмы и книги не по вкусу, а на шаг сложнее привычного — и к каждому прикладываем разборы авторов, которые о нём говорили.">
+<meta name="theme-color" content="#141416">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Filibri">
+<meta property="og:title" content="Filibri — не что посмотреть, а что сдвинет взгляд">
+<meta property="og:description" content="Фильмы и книги на шаг сложнее привычного, и к каждому — разборы авторов.">
+<meta property="og:image" content="og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+<script>
+// заставка-плёнка — только на телефоне, раз за сессию и без «уменьшить движение»; решение до первой отрисовки
+(() => { try {
+  if (matchMedia('(max-width: 640px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('filibri-reel'))
+    document.documentElement.classList.add('reel-on');
+} catch {} })();
+</script>
+<script src="reel.js" defer></script>
+</head>
+<body>
+<div class="reel" aria-hidden="true"><div class="reel__strip"><div class="reel__film"></div><div class="reel__edge"></div></div></div>
+<a class="skip" href="#main">К содержанию</a>
+
+<header class="wrap head">
+  <a class="head__logo" href="#top" aria-label="Filibri — на главную">
+    <svg viewBox="-2 -4 226 116" aria-hidden="true">
+      <path d="M14 106 V26 Q14 8 32 8 H40 M2 52 H34 M56 46 V106 M78 2 V106 M100 46 V106 M122 2 V106 M122 52 H140 Q150 52 150 62 V90 Q150 100 140 100 H122 M172 106 V46 M172 64 Q172 52 186 52 H192 M210 46 V106" fill="none" stroke="#f3f0e9" stroke-width="12"/>
+      <rect x="50" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+      <rect x="94" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+      <rect x="204" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+    </svg>
+  </a>
+  <nav class="head__nav" aria-label="Разделы">
+    <a href="#how">Как устроено</a>
+    <a href="#example">Пример</a>
+    <a href="#authors">Авторам</a>
+  </nav>
+  <a class="btn btn--main btn--sm" href="https://t.me/recomend_media_bot">Открыть в Telegram</a>
+</header>
+
+<main id="main">
+
+<section id="top" class="wrap hero">
+  <!-- знак: слово стоит, три точки над i встают в ряд перфорации, лента бежит позади стоек и снова собирается в точки -->
+  <svg class="hero__mark" viewBox="-2 -14 226 128" role="img" aria-label="Filibri">
+    <defs>
+      <clipPath id="hero-strip"><rect x="-2" y="-20" width="226" height="57"/></clipPath>
+      <pattern id="hero-holes" width="22" height="40" patternUnits="userSpaceOnUse"><rect x="6" y="20" width="12" height="12" rx="2" fill="#e4a13c"/></pattern>
+    </defs>
+    <g clip-path="url(#hero-strip)">
+      <g class="fl-strip"><rect x="0" y="0" width="1200" height="40" fill="url(#hero-holes)"/></g>
+    </g>
+    <path d="M14 106 V26 Q14 8 32 8 H40 M2 52 H34 M56 46 V106 M78 2 V106 M100 46 V106 M122 2 V106 M122 52 H140 Q150 52 150 62 V90 Q150 100 140 100 H122 M172 106 V46 M172 64 Q172 52 186 52 H192 M210 46 V106" fill="none" stroke="#f3f0e9" stroke-width="12"/>
+    <g class="fl-dots">
+      <rect x="50" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+      <rect x="94" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+      <rect x="204" y="20" width="12" height="12" rx="2" fill="#e4a13c"/>
+    </g>
+  </svg>
+  <div class="hero__text">
+    <h1>Не что посмотреть, а что сдвинет взгляд</h1>
+    <p class="hero__lead">Подбираем фильмы и книги не по вкусу, а на шаг сложнее привычного — и к каждому прикладываем разборы авторов, которые о нём говорили.</p>
+  </div>
+  <div class="hero__ctas">
+    <a class="btn btn--main" href="https://t.me/recomend_media_bot">Открыть в Telegram</a>
+    <a class="btn btn--line" href="https://bot-1791394986-4062-dmitriy-00.bothost.tech/">Открыть в браузере</a>
+  </div>
+  <p class="hero__note">Бесплатно. Вход — через Telegram, в браузере можно без входа.</p>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <h2 class="h2">Как устроено</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="step__n">01</span>
+        <h3>Отметьте, что видели</h3>
+        <p>Двенадцать известных фильмов по одному: видел, хочу, не моё. И четыре любимых — поиском. Минута — и первая лента готова.</p>
+      </li>
+      <li class="step">
+        <span class="step__n">02</span>
+        <h3>Лента на шаг дальше</h3>
+        <p>Не «похожее на то, что нравится», а то, что по силам сейчас и чуть сложнее. Фильмы, сериалы и книги — в одной ленте.</p>
+      </li>
+      <li class="step">
+        <span class="step__n">03</span>
+        <h3>К каждому — разборы</h3>
+        <p>Ролики и тексты авторов, которые говорили об этом фильме: смысл, монтаж, книга и экранизация, как было на самом деле.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="example" class="band band--alt">
+  <div class="wrap example">
+    <div class="frame" aria-hidden="true">
+      <div class="frame__perf"></div>
+      <div class="frame__body">
+        <p class="frame__title">Одержимость</p>
+        <p class="muted">Whiplash · 2014 · Дэмьен Шазелл</p>
+      </div>
+    </div>
+    <div class="example__text">
+      <p class="kicker">Пример карточки</p>
+      <h2 class="h2">Одни видят фильм о музыке, другие — о неврозе и монтаже</h2>
+      <ul class="essays" aria-label="Разборы «Одержимости»">
+        <li><span>Фильм не про музыку?! Смысл «Одержимости»</span><span class="muted">ЭПИЗОДЫ · 28 мин</span></li>
+        <li><span>Почему в «Одержимости» лучший монтаж в истории кино?</span><span class="muted">ЯЗЫК КИНО · 20 мин</span></li>
+        <li><span>«Одержимость» и невроз</span><span class="muted">GeraGera · 21 мин</span></li>
+      </ul>
+      <p class="muted">Это три из шестнадцати авторов, которые разбирали фильм. В приложении они разложены по тому, о чём говорят: смысл, ремесло, психология, книга и фильм.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap pair">
+    <div class="pair__text stack">
+      <p class="kicker">И книги</p>
+      <h2 class="h2">Фильм ведёт к книге, книга — к фильму</h2>
+      <p class="body">«С широко закрытыми глазами» Кубрика снят по «Новелле о снах» Артура Шницлера. Рядом с фильмом — книга, а рядом с книгой — разбор, где их сравнивают.</p>
+    </div>
+    <div class="pair__cards" aria-hidden="true">
+      <div class="cover"><p class="cover__kind">фильм · 1999</p><p class="cover__title">С широко закрытыми глазами</p></div>
+      <div class="cover cover--book"><p class="cover__kind">книга · 1926</p><p class="cover__title">Новелла о снах</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="authors" class="band band--alt">
+  <div class="wrap stack">
+    <p class="kicker">Авторам каналов</p>
+    <h2 class="h2">Ваш разбор — к фильму, который человеку сейчас по силам</h2>
+    <p class="body">Мы не пересказываем и не копируем ролики: в карточке — название, автор и ссылка на ваш канал, смотреть человек идёт к вам.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap foot">
+  <!-- владелец сервиса и почта — после регистрации юрлица (ХЮ-7), те же, что VITE_LEGAL_OPERATOR / VITE_LEGAL_EMAIL в приложении -->
+  <span>Filibri</span>
+  <a href="https://bot-1791394986-4062-dmitriy-00.bothost.tech/legal/rules">Как работает подбор</a>
+  <a href="https://bot-1791394986-4062-dmitriy-00.bothost.tech/legal/privacy">Политика данных</a>
+  <span>Кадры фильмов — <a href="https://www.themoviedb.org/">TMDB</a></span>
+</footer>
+
+</body>
+</html>

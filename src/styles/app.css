@@ -1370,3 +1370,23 @@ button.tm-banner { cursor: pointer; }
 /* «Читать со спойлерами» (19.10): под текстом разбора в шторке и над лентой роликов на странице фильма */
 .tm-voice__unlock { align-self: flex-start; margin-top: var(--tm-space-2); }
 .tm-voicefeed__unlock { margin-bottom: var(--tm-space-3); }
+
+/* страница голоса, Telegram first (25.10): «Подписаться» под шапкой, «пост ↗» справа в строке разбора */
+.tm-voicepage__subscribe { margin: var(--tm-space-3) 0 0; }
+.tm-voicepage__item { gap: var(--tm-space-2); }
+.tm-voicepage__item .tm-search__open { flex: 1; min-width: 0; }
+.tm-voicepage__post { flex-shrink: 0; white-space: nowrap; }
+
+/* карточка аудиоканала (25.10): авторы раскрываются, аннотация — две строки */
+.tm-audio__filters { margin-top: var(--tm-space-3); }
+.tm-audio__icon { display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--tm-color-surface-2, rgba(127,127,127,.12)); border-radius: 6px; }
+.tm-audio__about { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tm-audio__author { border-top: 1px solid var(--tm-color-line); }
+.tm-audio__summary { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tm-space-3); padding: var(--tm-space-3) var(--tm-space-5); cursor: pointer; font-weight: 600; list-style: none; }
+.tm-audio__summary::-webkit-details-marker { display: none; }
+.tm-audio__summary::after { content: '▾'; margin-left: auto; color: var(--tm-color-ink-muted); }
+.tm-audio__author[open] > .tm-audio__summary::after { content: '▴'; }
+
+/* разборы в строке работы на странице человека (25.10): «3 разбора ▾» раскрывает их под строкой */
+.tm-person__workrow { flex-wrap: wrap; }
+.tm-person__workessays { flex-basis: 100%; margin: var(--tm-space-2) 0 0; }

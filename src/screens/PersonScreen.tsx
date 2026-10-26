@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getPerson, getPersonChannel, getSettings, type PersonChannelView, type PersonPage } from '@/api';
+import { followOfWorks, getPerson, getPersonChannel, getSettings, type PersonChannelView, type PersonPage } from '@/api';
 import type { SpoilerLevel } from '@/types/tmdf';
-import { BackLink, EmptyState, ErrorState, ExternalAnalysisLink, Skeleton } from '@/components';
+import { BackLink, EmptyState, ErrorState, ExternalAnalysisLink, FollowButton, ShareButton, Skeleton } from '@/components';
 import { registers } from '@/lib/registers';
 import { useMechanics, useRole } from '@/lib/settingsStore';
 import { WorkThumb } from '@/components/WorkThumb';
@@ -30,6 +30,7 @@ export function PersonScreen() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [spoilers, setSpoilers] = useState<SpoilerLevel>(0);
+  const [openWork, setOpenWork] = useState<string>();
   // канал автора (24.10, флаг personChannel): отдельным запросом, чтобы страница не ждала постов канала
   const channelOn = useFeature('personChannel');
   const [channel, setChannel] = useState<PersonChannelView | undefined>();
@@ -53,6 +54,9 @@ export function PersonScreen() {
     return () => { alive = false; };
   }, [id, channelOn]);
 
+  // разборы вещей, у которых нет строки в «Работах» (это «С чего начать»), — отдельным списком; остальные — в строках
+  const listed = data ? data.works.filter(({ work }) => work.id !== data.startWith?.work.id).map((x) => x.work) : [];
+  const loose = data ? data.analyses.filter((x) => !listed.some((w) => sameWork(w, x.work))) : [];
   return (
     <main className="tm-shell__main tm-voicepage tm-person">
       <BackLink label={ui.person.back} />
@@ -94,8 +98,15 @@ export function PersonScreen() {
               </>
             ) : null}
             <p className="tm-caption">
-              {[data.roles.map((r) => ui.person.role[r]).join(', '), ui.person.works(data.works.length),
+              {[data.roles.map((r) => ui.person.role[r]).join(', '), data.works.length ? ui.person.works(data.works.length) : undefined,
+                data.acting.length ? ui.person.acting(data.acting.length) : undefined,
                 data.wikidata ? undefined : ui.person.byName].filter(Boolean).join(' · ')}
+            </p>
+            {/* «Поделиться» и «Следить» (25.10): следить — новые разборы его работ и ролей в сводке от бота */}
+            <p className="tm-row tm-row--gap-2 tm-person__actions">
+              <FollowButton target={followOfWorks('person', id, data.person.name, [...data.works.map((x) => x.work), ...data.acting.map((x) => x.work)])} />
+              <ShareButton page={{ kind: 'person', id, title: data.person.name, ...(data.info?.description ? { about: data.info.description } : {}),
+                ...(data.info?.image ? { image: data.info.image } : {}) }} />
             </p>
             {admin ? (
               <p className="tm-voice__outlets tm-work__statslink">
@@ -122,31 +133,75 @@ export function PersonScreen() {
             </section>
           ) : null}
 
-          <section className="tm-person__section">
-            <h2 className="tm-title-3">{ui.person.worksTitle}</h2>
-            <ul className="tm-search__list">
-              {/* «С чего начать» в списке работ не повторяем (17.10) */}
-              {data.works.filter(({ work }) => work.id !== data.startWith?.work.id).map(({ work, roles, analyses, seen }) => (
-                <li key={work.id} className="tm-search__item tm-voicepage__item">
-                  <button type="button" className="tm-search__open" onClick={() => navigate(`/works/${work.id}`)}>
-                    <Thumb work={work} />
-                    <span className="tm-search__text">
-                      <span className="tm-search__name">{titleOf(work)}</span>
-                      <span className="tm-search__meta">
-                        {[work.year || undefined, roles.map((r) => ui.person.role[r]).join(', '),
-                          mechanics ? (work.complexityLevel ? ui.person.level(work.complexityLevel) : ui.person.unmarked) : undefined,
-                          seen ? ui.person.seen : undefined].filter(Boolean).join(' · ')}
+          {data.works.length ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ui.person.worksTitle}</h2>
+              <ul className="tm-search__list">
+                {/* «С чего начать» в списке работ не повторяем (17.10) */}
+                {data.works.filter(({ work }) => work.id !== data.startWith?.work.id).map(({ work, roles, analyses, seen }) => {
+                  // разборы — в строке своей работы (25.10, аудит карточек): «3 разбора ▾» раскрывает их здесь же
+                  const own = data.analyses.filter((x) => sameWork(x.work, work));
+                  const open = openWork === work.id;
+                  return (
+                  <li key={work.id} className="tm-search__item tm-voicepage__item tm-person__workrow">
+                    <button type="button" className="tm-search__open" onClick={() => navigate(`/works/${work.id}`)}>
+                      <Thumb work={work} />
+                      <span className="tm-search__text">
+                        <span className="tm-search__name">{titleOf(work)}</span>
+                        <span className="tm-search__meta">
+                          {[work.year || undefined, roles.map((r) => ui.person.role[r]).join(', '),
+                            mechanics ? (work.complexityLevel ? ui.person.level(work.complexityLevel) : ui.person.unmarked) : undefined,
+                            seen ? ui.person.seen : undefined].filter(Boolean).join(' · ')}
+                        </span>
+                        <span className="tm-search__orig">
+                          {[(work.registers ?? []).slice(0, 2).map((r) => registers[r]?.name).filter(Boolean).join(', ') || undefined,
+                            analyses && !own.length ? ui.person.analyses(analyses) : undefined].filter(Boolean).join(' · ')}
+                        </span>
                       </span>
-                      <span className="tm-search__orig">
-                        {[(work.registers ?? []).slice(0, 2).map((r) => registers[r]?.name).filter(Boolean).join(', ') || undefined,
-                          analyses ? ui.person.analyses(analyses) : undefined].filter(Boolean).join(' · ')}
+                    </button>
+                    {own.length ? (
+                      <button type="button" className="tm-voice__chip tm-voicepage__post" aria-expanded={open}
+                              onClick={() => setOpenWork(open ? undefined : work.id)}>
+                        {ui.person.analyses(Math.max(analyses, own.length))} {open ? '▴' : '▾'}
+                      </button>
+                    ) : null}
+                    {open ? (
+                      <ul className="tm-person__essays tm-person__workessays">
+                        {own.map(({ analysis }) => (
+                          <li key={analysis.url}>
+                            <OpenContext.Provider value={{ place: 'person', workId: work.id }}>
+                              <ExternalAnalysisLink analysis={analysis} spoilerLevel={seen ? 2 : spoilers} />
+                            </OpenContext.Provider>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ) : null}
+
+          {/* роли актёра с каналом в Telegram (25.10): после работ, без уровня и «с чего начать» — не акцент */}
+          {data.acting.length ? (
+            <section className="tm-person__section">
+              <h2 className="tm-title-3">{ui.person.actingTitle}</h2>
+              <ul className="tm-search__list">
+                {data.acting.map(({ work, seen }) => (
+                  <li key={work.id} className="tm-search__item tm-voicepage__item">
+                    <button type="button" className="tm-search__open" onClick={() => navigate(`/works/${work.id}`)}>
+                      <Thumb work={work} />
+                      <span className="tm-search__text">
+                        <span className="tm-search__name">{titleOf(work)}</span>
+                        <span className="tm-search__meta">{[work.year || undefined, seen ? ui.person.seen : undefined].filter(Boolean).join(' · ')}</span>
                       </span>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
           {data.about.length ? (
             <section className="tm-person__section">
@@ -158,12 +213,14 @@ export function PersonScreen() {
             </section>
           ) : null}
 
+          {/* отдельным списком — только разборы вещей, которых нет в строках работ («С чего начать»); остальные — в строках */}
+          {loose.length || !data.analyses.length ? (
           <section className="tm-person__section">
             <h2 className="tm-title-3">{ui.person.essaysTitle}</h2>
-            {data.analyses.length ? (
+            {loose.length ? (
               <ul className="tm-person__essays">
                 {/* по вещам (17.10): название — один раз над её разборами, а не над каждым («Солярис» ×5 вперемешку) */}
-                {byWorkFirst(data.analyses).map(({ work, analysis, seen }, i, list) => (
+                {byWorkFirst(loose).map(({ work, analysis, seen }, i, list) => (
                   <li key={analysis.url}>
                     {i && sameWork(list[i - 1].work, work) ? null : <p className="tm-caption tm-person__about">{titleOf(work)}</p>}
                     {/* как в карточке: видели — открыто всё, нет — по настройке спойлеров */}
@@ -175,6 +232,7 @@ export function PersonScreen() {
               </ul>
             ) : <p className="tm-body-sm tm-settings__note">{ui.person.essaysNone}</p>}
           </section>
+          ) : null}
 
           {data.trajectories.length ? (
             <section className="tm-person__section">

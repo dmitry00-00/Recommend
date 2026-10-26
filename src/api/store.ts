@@ -254,8 +254,8 @@ export async function fetchTesters(change?: { username: string; on: boolean }): 
 }
 
 /** Подписки на разборы (06.10): список и изменение — одним ответом, как у тестеров. */
-export interface FollowRow { kind: 'work' | 'character'; ref: string; title: string; at: string }
-export async function fetchFollows(change?: { kind: 'work' | 'character'; ref: string; keys?: string[]; title: string; on: boolean }): Promise<{ follows: FollowRow[]; telegram: boolean } | undefined> {
+export interface FollowRow { kind: 'work' | 'character' | 'person' | 'universe'; ref: string; title: string; at: string }
+export async function fetchFollows(change?: { kind: FollowRow['kind']; ref: string; keys?: string[]; title: string; on: boolean }): Promise<{ follows: FollowRow[]; telegram: boolean } | undefined> {
   if (API === undefined) return undefined;
   const res = await call(change ? '/api/follow' : '/api/follows', change ? { method: 'PUT', body: JSON.stringify(change) } : {});
   if (res && res.status === 400 && change) {

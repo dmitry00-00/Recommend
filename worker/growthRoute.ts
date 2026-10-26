@@ -41,7 +41,7 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
   const since90 = `${addDays(today, -90)}T00:00:00.000Z`;
   const since120 = `${from120}T00:00:00.000Z`;
 
-  const [users, visits, firstFeed, ratingsDay1, onboard, shares, together, participants, polls, voters, seeding, internal] = await Promise.all([
+  const [users, visits, firstFeed, ratingsDay1, onboard, shares, together, participants, polls, voters, seeding, internal, watchPairs, watchBy] = await Promise.all([
     q<GrowthRows['users'][number]>(`SELECT id, created_at, source, invited_by FROM user ${userWhere}`),
     q<GrowthRows['visits'][number]>(`SELECT user_id, day FROM visit WHERE ${inUsers} AND day >= ?`, from120),
     // первая лента (18.10): по человеку — поиском по индексу impression_user, а не группировкой всей таблицы показов;
@@ -61,6 +61,12 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
     db.prepare(`SELECT SUM(CASE WHEN lower(coalesce(username, '')) = ? THEN 1 ELSE 0 END) AS owner,
       SUM(CASE WHEN lower(coalesce(username, '')) <> ? AND lower(coalesce(username, '')) IN (SELECT username FROM tester) THEN 1 ELSE 0 END) AS testers FROM user`)
       .bind(owner, owner).first<{ owner: number | null; testers: number | null }>(),
+    // «где смотреть» за 30 дней (25.10): пары с открытой карточкой и из них с «Смотреть» — как watchClicks воронки
+    one<{ cards: number; withWatch: number | null }>(`SELECT COUNT(*) AS cards, SUM(w) AS withWatch FROM (
+      SELECT user_id, work_id, MAX(kind = 'watch') AS w FROM event WHERE kind IN ('card', 'watch') AND ${inUsers} AND at >= ? GROUP BY user_id, work_id
+      HAVING MAX(kind = 'card') = 1)`, since30),
+    q<{ platform: string | null; n: number }>(`SELECT detail AS platform, COUNT(DISTINCT user_id || '|' || coalesce(work_id, '')) AS n FROM event
+      WHERE kind = 'watch' AND ${inUsers} AND at >= ? GROUP BY detail ORDER BY n DESC`, since30),
   ]);
   // «шары» и голосования считаются без привязки к фильтру — они про людей снаружи приложения тоже
   const rows: GrowthRows = {
@@ -68,6 +74,7 @@ export async function getGrowth(req: Request, env: Env, admin: boolean): Promise
     together: { sessions: together?.n ?? 0, participants: participants?.n ?? 0 },
     inline: { polls: polls?.n ?? 0, voters: voters?.n ?? 0, outsiders: voters?.outsiders ?? 0 },
     seeding,
+    watch30: { cards: watchPairs?.cards ?? 0, cardsWithWatch: watchPairs?.withWatch ?? 0, byPlatform: watchBy },
     internal: withInternal ? { owner: 0, testers: 0 } : { owner: internal?.owner ?? 0, testers: internal?.testers ?? 0 },
   };
   // посевы — и списком для таблицы в пульте

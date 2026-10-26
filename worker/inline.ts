@@ -31,9 +31,9 @@ const KINDS: Record<Lang, Record<Entry['k'], string>> = {
   en: { film: 'Film', series: 'Series', book: 'Book', character: 'Character' },
 };
 // voice (23.10): страница автора — кнопка как чип «Все разборы» в карточке
-const BUTTON: Record<Lang, { work: string; character: string; together: string; voice: string }> = {
-  ru: { work: 'Открыть карточку', character: 'Открыть героя', together: 'Голосовать', voice: 'Все разборы' },
-  en: { work: 'Open card', character: 'Open character', together: 'Vote', voice: 'All breakdowns' },
+const BUTTON: Record<Lang, { work: string; character: string; together: string; voice: string; person: string; universe: string }> = {
+  ru: { work: 'Открыть карточку', character: 'Открыть героя', together: 'Голосовать', voice: 'Все разборы', person: 'Все работы', universe: 'Вся вселенная' },
+  en: { work: 'Open card', character: 'Open character', together: 'Vote', voice: 'All breakdowns', person: 'All works', universe: 'Whole universe' },
 };
 
 export async function webhookSecret(token: string): Promise<string> {
@@ -234,15 +234,19 @@ import { IMAGE_HOSTS } from './hosts';
 const clip = (v: unknown, n: number) => (typeof v === 'string' ? v.trim().slice(0, n) : '');
 
 // 'voice' (23.10, партнёрство с каналами): страница автора `v-<id>`; строки вида у неё нет, кнопка — «Все разборы»
-export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | 'together' | 'voice'; by?: string; about?: string; image?: string; lang?: Lang }
+// 'person' и 'universe' (25.10): страница человека `p-<Q>` и вселенной `u-<Q>` — тоже без строки вида
+type PageKind = 'together' | 'voice' | 'person' | 'universe';
+export interface ShareCard { param: string; title: string; year?: number; kind?: Entry['k'] | PageKind; by?: string; about?: string; image?: string; lang?: Lang }
+const PAGE_KINDS: readonly string[] = ['together', 'voice', 'person', 'universe'];
 
 export function shareResult(c: ShareCard) {
   const head = `${c.title}${c.year ? ` (${c.year})` : ''}`;
-  const line = [c.kind && c.kind !== 'together' && c.kind !== 'voice' ? KINDS[c.lang ?? 'ru'][c.kind] : undefined, c.by].filter(Boolean).join(' · ');
+  const line = [c.kind && !PAGE_KINDS.includes(c.kind) ? KINDS[c.lang ?? 'ru'][c.kind as Entry['k']] : undefined, c.by].filter(Boolean).join(' · ');
   const text = [`<b>${esc(head)}</b>`, line ? esc(line) : '', c.about ? `\n${esc(c.about)}` : ''].filter(Boolean).join('\n');
   // выбор компанией (ЗП-11): приглашение голосовать, а не карточка
   const B = BUTTON[c.lang ?? 'ru'];
-  const button = c.kind === 'together' ? B.together : c.kind === 'voice' ? B.voice : c.kind === 'character' ? B.character : B.work;
+  const button = c.kind === 'together' ? B.together : c.kind === 'voice' ? B.voice : c.kind === 'person' ? B.person
+    : c.kind === 'universe' ? B.universe : c.kind === 'character' ? B.character : B.work;
   const reply_markup = { inline_keyboard: [[{ text: button, url: `https://t.me/${bot.name}?startapp=${c.param}` }]] };
   const id = `s-${c.param}`.slice(0, 64);
   return c.image
@@ -258,7 +262,7 @@ export async function prepareShare(req: Request, tgId: number | null | undefined
   const param = clip(b.param, 64);
   const title = clip(b.title, 120);
   if (!/^[A-Za-z0-9_-]{1,64}$/.test(param) || !title) return Response.json({ error: 'bad_card' }, { status: 400 });
-  const kind = (['film', 'series', 'book', 'character', 'together', 'voice'] as const).find((k) => k === b.kind);
+  const kind = (['film', 'series', 'book', 'character', 'together', 'voice', 'person', 'universe'] as const).find((k) => k === b.kind);
   const image = clip(b.image, 500);
   // в кнопку — код поделившегося (ЗП-37): новый участник по этой ссылке запомнит, кто его привёл
   const card: ShareCard = { param: userId ? withRef(param, userId) : param, title, ...(typeof b.year === 'number' && b.year > 1800 && b.year < 2100 ? { year: b.year } : {}),

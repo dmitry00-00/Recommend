@@ -1,4 +1,4 @@
-// Сгенерировано tools/fill-genres-wikidata.mts --final (2026-10-24): жанры фильмов TMDb по-русски,
+// Сгенерировано tools/fill-genres-wikidata.mts --final (2026-10-26): жанры фильмов TMDb по-русски,
 // ключ — «tmdb:<id фильма>». Нужны якорю вкуса новичка (src/lib/model/taste.ts). Прежний набор (.cache/tmdb-tags.json),
 // как писал tools/film-genres.mts; дозаполненное Wikidata и страны — src/mocks/filmGenresFill.ts. Не править руками — перегенерировать.
 export const filmGenres: Record<string, string[]> = {
