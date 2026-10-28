@@ -39,6 +39,14 @@ export const MANUAL_REFUSE: readonly { key: string; field: Field; why: string }[
   { key: 'imdb:tt0086723', field: 'creators', why: '«Гостья из будущего»: Арсенов — режиссёр, Wikidata P170 = Булычёв, created_by TMDb пуст — спорно' },
 ];
 
+/** Переводная проза из книжного профиля Яндекс Книг @SbSubzero (27.10, слово владельца «заводить»): в Wikidata только
+ *  английская метка — русское название издания на Яндекс Книгах. [элемент, название]. */
+export const YANDEX_TITLES_2710: readonly (readonly [string, string])[] = [
+  ["Q123509612", "Северный лес"],
+  ["Q129652094", "Церемония жизни"],
+  ["Q115258132", "Земляноиды"],
+];
+
 /** Года рассказов «Читальни» (26.10, замечания разметчиков book-wave-5): в карточке год переиздания из Wikidata или
  *  Open Library. [элемент, год, основание]. */
 export const STORY_YEARS_2610: readonly (readonly [string, number, string])[] = [
@@ -634,6 +642,11 @@ export const MANUAL_FIXES: readonly RawFix[] = [
   ...BOOK_YEAR_ZERO_2410.map(([q, what, why]): RawFix => ({ key: `wd:${q}`, field: 'year', value: 0, evidence: `${what}: ${why}; до 1500 года year = 0 (проверка годов книг 24.10)`, confidence: 'high' })),
   ...BOOK_YEARS_2410.map(([q, year, why]): RawFix => ({ key: `wd:${q}`, field: 'year', value: year, evidence: `${why} (проверка годов книг 24.10)`, confidence: 'high' })),
   ...STORY_YEARS_2610.map(([q, year, why]): RawFix => ({ key: `wd:${q}`, field: 'year', value: year, evidence: `${why} (рассказы «Читальни» 26.10)`, confidence: 'high' })),
+  // «Доска Дионисия» (27.10): у элемента нет ни автора, ни даты — роман написан в 1974–1976, впервые издан в 2024
+  { key: 'wd:Q137584830', field: 'creators', value: ['Алексей Смирнов фон Раух'], evidence: 'Wikidata Q137584830: P50 нет; автор — статья ruwiki «Доска Дионисия», Яндекс Книги', confidence: 'high' },
+  { key: 'wd:Q137584830', field: 'year', value: 2024, evidence: 'Wikidata Q137584830: P577 нет; первое издание — Individuum, 2024 (ruwiki «Доска Дионисия»)', confidence: 'high' },
+  { key: 'wd:Q140075189', field: 'creators', value: ['Алла Горбунова'], evidence: 'Wikidata Q4143728: русская метка автора «Горбунова, Алла Глебовна» — в карточке надо имя и фамилию (замечание book-wave-6)', confidence: 'high' },
+  ...YANDEX_TITLES_2710.map(([q, title]): RawFix => ({ key: `wd:${q}`, field: 'title', value: title, evidence: `Wikidata ${q}: русской метки нет; название русского издания на Яндекс Книгах (профиль @SbSubzero 27.10)`, confidence: 'high' })),
   ...STORY_TITLES_2610.map(([q, title]): RawFix => ({ key: `wd:${q}`, field: 'title', value: title, evidence: `Wikidata ${q}: русской метки нет; название — из подписи чтения в @chitalnya5 (рассказы «Читальни» 26.10)`, confidence: 'high' })),
 ];
 
@@ -646,7 +659,7 @@ const LEAD: Record<string, string> = { film: 'd', series: 'c', book: 'a' };
 
 function keysOf(kind: string, e: Ext): string[] {
   if (kind === 'series') return e.imdb ? [`imdb:${e.imdb}`] : [];
-  if (kind === 'book') return [...(e.wikidata ? [`wd:${e.wikidata}`] : []), ...(e.openLibrary ? [`olw:${e.openLibrary}`] : []), ...(e.isbn ?? []).map((i) => `isbn:${i}`)];
+  if (kind === 'book') return [...(e.wikidata ? [`wd:${e.wikidata}`] : []), ...(e.openLibrary ? [`olw:${e.openLibrary}`] : []), ...(e.own ? [`own:${e.own}`] : []), ...(e.isbn ?? []).map((i) => `isbn:${i}`)];
   if (e.tmdb != null) return [`tmdb:${e.tmdb}`];
   return (e.isbn ?? []).map((i) => `isbn:${i}`);
 }

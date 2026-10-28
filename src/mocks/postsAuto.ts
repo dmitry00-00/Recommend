@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-telegram-index.mts (2026-10-26) из экспорта
+// Сгенерировано tools/build-telegram-index.mts (2026-10-27) из экспорта
 // Telegram Desktop и свежей выемки по MTProto (tools/telegram-fetch.py), каналы — в
 // tools/telegram-channels.json. Привязка к произведениям — по названию, человеком не подтверждена
 // (см. задания «тот ли это фильм»). Не править руками — перегенерировать.
@@ -1812,15 +1812,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-29"
     },
     {
-      "id": "tg-loublom-634",
-      "title": "\"Левиафан\" - 8.5/10",
-      "author": "loublom",
+      "id": "tg-heroines_journey-1239",
+      "title": "Соединяя точки внутри истории",
+      "author": "heroines_journey",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/loublom/634",
-      "publishedAt": "2026-05-31"
+      "url": "https://t.me/heroines_journey/1239",
+      "tags": [
+        "дневникпреподки",
+        "путьгероини_сценарное"
+      ],
+      "publishedAt": "2026-05-19"
     }
   ],
   "imdb:tt14298980": [
@@ -1971,6 +1975,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:81640": [
+    {
+      "id": "tg-odinilyin-281",
+      "title": "На фотографии слева - Сергей Герасимов, тот самый, чьим именем назван ВГИК. Справа - зам…",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/281",
+      "publishedAt": "2026-05-09"
+    },
     {
       "id": "tg-episodesfilm-783",
       "title": "В шестой серии \"17 мгновений весны\" (1973) Штирлиц смотрит ненавидимый им немецкий фильм…",
@@ -3651,15 +3666,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-02-22"
     },
     {
-      "id": "tg-vladimir_maslov-3254",
-      "title": "Я провел на этом сайте десятки часов - это база кино-оружия в фильмах.",
-      "author": "vladimir_maslov",
+      "id": "tg-ClanOfScript-826",
+      "title": "В Казахстане снимается фильм «Последний Ронин» с Колокольниковым,  Жизневским и Воробьев…",
+      "author": "clanofscript",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "tag",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/vladimir_maslov/3254",
-      "publishedAt": "2026-09-11"
+      "url": "https://t.me/ClanOfScript/826",
+      "publishedAt": "2023-09-29"
     }
   ],
   "imdb:tt15939084": [
@@ -3831,6 +3846,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-02-15"
     },
     {
+      "id": "tg-iamshowrunner-589",
+      "title": "Напророчили",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/589",
+      "publishedAt": "2025-02-21"
+    },
+    {
       "id": "tg-kinopoisk-45444",
       "title": "#ФильмДня — «Пророк», криминальная драма французского режиссера Жака Одиара и один лучши…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -3843,17 +3869,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2025-05-14"
-    },
-    {
-      "id": "tg-kinopoisk-10838",
-      "title": "Рассел Кроу снимется в ремейке французской криминальной драмы «Пророк»",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/10838",
-      "publishedAt": "2020-05-14"
     }
   ],
   "tmdb:799766": [
@@ -3893,15 +3908,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-02-22"
     },
     {
-      "id": "tg-kinopoisk-43196",
-      "title": "«Настоящая боль»: терапевтическое роуд-муви про экскурсию Джесси Айзенберга в Майданек —…",
-      "author": "Кинопоиск",
+      "id": "tg-letsplayfilms-264",
+      "title": "Подарок всем нам — «Настоящая боль» Джесси Айзенберга.",
+      "author": "letsplayfilms",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4010537",
-      "publishedAt": "2025-01-14"
+      "platform": "telegram",
+      "url": "https://t.me/letsplayfilms/264",
+      "publishedAt": "2025-01-01"
     }
   ],
   "tmdb:549509": [
@@ -4163,6 +4178,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:1233413": [
     {
+      "id": "tg-ClanOfScript-1126",
+      "title": "Отем Дюральд Аркапау. Визуальная магия первой женщины в истории за IMAX-камерой",
+      "author": "clanofscript",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/ClanOfScript/1126",
+      "publishedAt": "2025-05-02"
+    },
+    {
       "id": "tg-cinemacritique-12805",
       "title": "Наши мнения по «Грешникам» разделились, поэтому расскажем о фильме двумя голосами. Для н…",
       "author": "cinemacritique",
@@ -4186,17 +4212,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/lehina_kinoha/1045",
       "publishedAt": "2026-02-01"
-    },
-    {
-      "id": "tg-cinemacritique-12807",
-      "title": "​На «Грешников» я тоже сходил, да.",
-      "author": "cinemacritique",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/cinemacritique/12807",
-      "publishedAt": "2025-04-30"
     }
   ],
   "imdb:tt9561862": [
@@ -4397,15 +4412,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-22"
     },
     {
-      "id": "tg-rkvt_2020-27349",
-      "title": "💥Разыгрываем подарки от фестиваля «Короче»!",
-      "author": "rkvt_2020",
+      "id": "tg-contemporaryfilm-173",
+      "title": "пять наших — в конкурсе «Короче» 🎬",
+      "author": "contemporaryfilm",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/rkvt_2020/27349",
-      "publishedAt": "2026-08-20"
+      "url": "https://t.me/contemporaryfilm/173",
+      "publishedAt": "2026-08-13"
     }
   ],
   "tmdb:1408208": [
@@ -5558,6 +5573,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-02-06"
     },
     {
+      "id": "tg-nikitakarikhrezh-737",
+      "title": "«Здесь был Юра» – кино о взрослении 🧔‍♂️",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/737",
+      "publishedAt": "2026-02-07"
+    },
+    {
       "id": "tg-svetlana_merchenko-4709",
       "title": "Давно мне не было так хорошо от нашего кино, как на вчерашнем показе и обсуждении!",
       "author": "svetlana_merchenko",
@@ -5570,20 +5596,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "рекомендую_фильм"
       ],
       "publishedAt": "2026-02-08"
-    },
-    {
-      "id": "tg-ryza_22-1187",
-      "title": "Здесь был Юра [2025]",
-      "author": "ryza_22",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/ryza_22/1187",
-      "tags": [
-        "кино"
-      ],
-      "publishedAt": "2026-03-05"
     }
   ],
   "imdb:tt28751684": [
@@ -6071,15 +6083,48 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:422659": [
     {
-      "id": "tg-episodesfilm-3491",
-      "title": "\"Маскарад с закрытыми глазами\" Петра Шерешевского - это, как понятно из названия, компил…",
-      "author": "ЭПИЗОДЫ",
+      "id": "tg-adomogarov_official-3240",
+      "title": "АТМОСФЕРА В ЗАЛЕ БЫЛА ОСОБЕННОЙ. УСТАВШИЕ ПОСЛЕ СМЕН, НО С ГОРЯЩИМИ ГЛАЗАМИ — ЗРИТЕЛИ ЛО…",
+      "author": "adomogarov_official",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "tag",
       "platform": "telegram",
-      "url": "https://t.me/episodesfilm/3491",
-      "publishedAt": "2026-06-20"
+      "url": "https://t.me/adomogarov_official/3240",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-06-19"
+    },
+    {
+      "id": "tg-adomogarov_official-3241",
+      "title": "В ТАКИЕ ВЕЧЕРА ПОНИМАЕШЬ: ИСКУССТВО БЕССМЕРТНО. БЕССМЕРТНА ЛЮБОВЬ. А РАЗ ТАК — ЗНАЧИТ, Б…",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3241",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-06-19"
+    },
+    {
+      "id": "tg-adomogarov_official-3167",
+      "title": "🕊 КОГДА МУЗЫКА ОБЪЕДИНЯЕТ МИРЫ 🕊",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3167",
+      "tags": [
+        "александрдомогаров",
+        "театрармии"
+      ],
+      "publishedAt": "2026-05-27",
+      "tgMedia": "video"
     }
   ],
   "tmdb:1489187": [
@@ -6098,6 +6143,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-01-09"
     },
     {
+      "id": "tg-NormalnoeKino-309",
+      "title": "С сегодняшнего дня в прокате дебютный фильм Дарьи Лебедевой «Сводишь с ума».",
+      "author": "normalnoekino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/NormalnoeKino/309",
+      "tags": [
+        "нормкино_рекомендация"
+      ],
+      "publishedAt": "2025-10-09"
+    },
+    {
       "id": "tg-avtorskayakomnata-279",
       "title": "S08e01 — Сводишь с ума",
       "author": "avtorskayakomnata",
@@ -6107,20 +6166,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/avtorskayakomnata/279",
       "publishedAt": "2025-10-23"
-    },
-    {
-      "id": "tg-svetlana_merchenko-4723",
-      "title": "📌Для тех кто любит любить не только 14 февраля, но и во все остальные дни, кому близка…",
-      "author": "svetlana_merchenko",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/svetlana_merchenko/4723",
-      "tags": [
-        "рекомендую_фильм"
-      ],
-      "publishedAt": "2026-02-14"
     }
   ],
   "tmdb:334795": [
@@ -6734,6 +6779,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "диш_что_посмотреть"
       ],
       "publishedAt": "2026-09-04"
+    },
+    {
+      "id": "tg-arinab1973-91599",
+      "title": "В эту среду вас ждёт:",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91599",
+      "publishedAt": "2026-10-21"
     },
     {
       "id": "tg-chtozapersonazh-389",
@@ -8327,6 +8383,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:13515": [
     {
+      "id": "tg-pokatitri-187",
+      "title": "Новая программа «Зеркала».",
+      "author": "pokatitri",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pokatitri/187",
+      "publishedAt": "2024-06-24"
+    },
+    {
       "id": "tg-nonlinearstory-1544",
       "title": "Георгий Рерберг делится впечатлениями от съёмок «Зеркала» и работы с Тарковским:   «Ну,…",
       "author": "nonlinearstory",
@@ -8347,17 +8414,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/andreytarkovsky/413",
       "publishedAt": "2026-03-26"
-    },
-    {
-      "id": "tg-cinemysterium-3928",
-      "title": "Зеркала и призраки в the Hungry Glass.",
-      "author": "Abramacabre!",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/cinemysterium/3928",
-      "publishedAt": "2023-12-07"
     }
   ],
   "tmdb:475220": [
@@ -13725,6 +13781,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt1884856": [
     {
+      "id": "tg-ksenyaboletskaya-2193",
+      "title": "Скандал в лесу: студия \"Аннимакорд\" подала иск против создателя \"Маши и Медведь\" Олег Ку…",
+      "author": "ksenyaboletskaya",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ksenyaboletskaya/2193",
+      "publishedAt": "2026-05-13"
+    },
+    {
       "id": "tg-irenedrama-7264",
       "title": "\"Маша и Медведь\" подрывают демографию",
       "author": "irenedrama",
@@ -13745,17 +13812,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/article/2894052",
       "publishedAt": "2017-02-10"
-    },
-    {
-      "id": "tg-kinopoisk-13175",
-      "title": "Это «Смешарики» или «Маша и Медведь»? Попробуйте угадать мультфильм по крылатой фразе —…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/13175",
-      "publishedAt": "2020-09-11"
     }
   ],
   "tmdb:432799": [
@@ -14392,6 +14448,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:399057": [
     {
+      "id": "tg-nikitakarikhrezh-343",
+      "title": "Кино-рекомендации 📼",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/343",
+      "tags": [
+        "насмотренность"
+      ],
+      "publishedAt": "2023-03-29"
+    },
+    {
       "id": "tg-leephillipscinema-460",
       "title": "Скоро в повторный прокат выходит фильм «Убийство священного оленя».",
       "author": "leephillipscinema",
@@ -14412,17 +14482,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/poymi_kino/844",
       "publishedAt": "2025-07-24"
-    },
-    {
-      "id": "tg-skolosova_psy-1037",
-      "title": "Недавно посмотрела «Убийство священного оленя» Йоргоса Лантимоса. Вопреки тому, что обыч…",
-      "author": "skolosova_psy",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/skolosova_psy/1037",
-      "publishedAt": "2024-07-12"
     }
   ],
   "tmdb:1730": [
@@ -15231,29 +15290,26 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-04-28"
     },
     {
-      "id": "tg-loublom-588",
-      "title": "\"Летят журавли\" - 8/10",
-      "author": "loublom",
+      "id": "tg-nikitakarikhrezh-361",
+      "title": "О субъективности восприятия кино 🧐",
+      "author": "nikitakarikhrezh",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/loublom/588",
-      "publishedAt": "2026-03-24"
+      "url": "https://t.me/nikitakarikhrezh/361",
+      "publishedAt": "2023-05-25"
     },
     {
-      "id": "tg-kinopoisk-45371",
-      "title": "#ФильмДня — «Летят журавли», один из лучших фильмов о Великой Отечественной войне, отмеч…",
-      "author": "Кинопоиск | Фильмы и сериалы",
+      "id": "tg-nikitakarikhrezh-268",
+      "title": "Разбор фильма \"Летят журавли\" на Boosty 👨‍🏫",
+      "author": "nikitakarikhrezh",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/45371",
-      "tags": [
-        "фильмдня"
-      ],
-      "publishedAt": "2025-05-09"
+      "url": "https://t.me/nikitakarikhrezh/268",
+      "publishedAt": "2022-06-23"
     }
   ],
   "tmdb:68119": [
@@ -17462,6 +17518,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:25237": [
     {
+      "id": "tg-arinab1973-91671",
+      "title": "Егор Крид извинился за лонгслив с изображением героя фильма «Иди и смотри» и заблюрил вс…",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91671",
+      "publishedAt": "2026-10-22"
+    },
+    {
       "id": "tg-loublom-289",
       "title": "\"Иди и смотри\" — 10/10",
       "author": "loublom",
@@ -17482,17 +17549,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/a_researcher/421",
       "publishedAt": "2025-05-07"
-    },
-    {
-      "id": "tg-kinopoisk-10767",
-      "title": "Какие события легли в основу фильма «Иди и смотри»? Почему для режиссера Элема Климова б…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/10767",
-      "publishedAt": "2020-05-08"
     }
   ],
   "imdb:tt0141842": [
@@ -19474,6 +19530,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt6532868": [
     {
+      "id": "tg-pitchingi-3291",
+      "title": "Бесплатный 3-дневный практикум «Герои и злодеи 2» Алексея Караулова — сценариста «Гоголь…",
+      "author": "pitchingi",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pitchingi/3291",
+      "publishedAt": "2026-09-29"
+    },
+    {
       "id": "tg-kinopoisk-7041",
       "title": "Ура! Безруков вернулся!",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -20758,6 +20825,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:31442": [
     {
+      "id": "tg-pokatitri-606",
+      "title": "Приснилось, что снимаю триллер про первого режиссёра фильма \"Иваново детство\". По сюжету…",
+      "author": "pokatitri",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pokatitri/606",
+      "publishedAt": "2026-04-24"
+    },
+    {
       "id": "tg-kinopoisk-9368",
       "title": "— Я пару недель назад пересматривал «Иваново детство», мой самый любимый фильм. Я его ра…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -21717,17 +21795,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt9827854": [
     {
-      "id": "tg-kinopoisk-10930",
-      "title": "​​Почему шоураннер сериала Райан Мёрфи обратился именно к истории золотого века Голливуд…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/10930",
-      "publishedAt": "2020-05-20"
-    },
-    {
       "id": "tg-kinopoisk-10662",
       "title": "Что смотреть на майских: «Правда», «Фея», «Голливуд» — Статьи на КиноПоиске",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -22079,6 +22146,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "не_формат"
       ],
       "publishedAt": "2026-09-13"
+    },
+    {
+      "id": "tg-olenjon_official-4997",
+      "title": "В \"Лабиринте\" 1986 года  есть сцена, которая спустя почти 40 лет выглядит криповее и убе…",
+      "author": "olenjon_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/olenjon_official/4997",
+      "publishedAt": "2026-04-28"
     },
     {
       "id": "tg-kinopoisk-11051",
@@ -24166,20 +24244,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-21"
     },
     {
-      "id": "tg-gorod_kino-1937",
-      "title": "Трейлер седьмого сезона «Чёрное зеркало» появился в сети на днях.",
-      "author": "gorod_kino",
+      "id": "tg-dreamongreenlight-9",
+      "title": "Влюбленные студенты лондонской киношколы заезжают в крохотный шотландский гости к матери…",
+      "author": "dreamongreenlight",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "tag",
       "platform": "telegram",
-      "url": "https://t.me/gorod_kino/1937",
+      "url": "https://t.me/dreamongreenlight/9",
       "tags": [
-        "новостисериалы",
-        "сериалы"
+        "кинопленки",
+        "черноезеркало"
       ],
-      "publishedAt": "2025-03-14",
-      "season": 7
+      "publishedAt": "2023-06-20"
     }
   ],
   "tmdb:579805": [
@@ -24912,6 +24989,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:328381": [
     {
+      "id": "tg-melikyananna-2743",
+      "title": "11 лет фонду «Друзья». Отметили красивым благотворительным вечером. В программе было мно…",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2743",
+      "publishedAt": "2026-05-26"
+    },
+    {
       "id": "tg-KirillandhisFriends-16175",
       "title": "✨ LEGENDE ✨",
       "author": "kirillandhisfriends",
@@ -24932,17 +25020,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/14321",
       "publishedAt": "2020-11-02"
-    },
-    {
-      "id": "tg-yunnamorits-3442",
-      "title": "Yunna Morits pinned «Друзья! Мы хотим познакомить вас с авторскими мультиками на стихи Ю…",
-      "author": "yunnamorits",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/yunnamorits/3442",
-      "publishedAt": "2026-02-28"
     }
   ],
   "tmdb:71469": [
@@ -27283,15 +27360,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-19"
     },
     {
-      "id": "tg-bookswithklishin-625",
-      "title": "Кто написал «Войну и мир»? А «Анну Каренину»? Казалось бы, что за глупые вопросы. Любой…",
-      "author": "bookswithklishin",
+      "id": "tg-leragermanica-6802",
+      "title": "• «Война и мир» — читать, если у тебя рушится привычная жизнь, ты потерял опору, не пони…",
+      "author": "leragermanica",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/bookswithklishin/625",
-      "publishedAt": "2022-01-18"
+      "url": "https://t.me/leragermanica/6802",
+      "publishedAt": "2026-09-09"
     }
   ],
   "tmdb:576922": [
@@ -27986,6 +28063,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:18240": [
     {
+      "id": "tg-adomogarov_official-3482",
+      "title": "Месть женщины страшна— это эмоциональная реакция на сильную боль и предательство.",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3482",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-09-23"
+    },
+    {
       "id": "tg-lehina_kinoha-788",
       "title": "Перед командировкой удачно вспомнил про «Предложение» — сериал о съёмках «Крёстного отца».",
       "author": "lehina_kinoha",
@@ -27997,26 +28088,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-01"
     },
     {
-      "id": "tg-kinopoisk-18397",
-      "title": "Арми Хаммеру нашли замену в сериале «Предложение». Его место займет Майлз Теллер, звезда…",
-      "author": "Кинопоиск | Фильмы и сериалы",
+      "id": "tg-adomogarov_official-3502",
+      "title": "«НО ОТОРВАТЬСЯ ОТ ПРЯМО СМОТРЯЩЕГО В ЗАЛ АЛЕКСАНДРА ДОМОГАРОВА В КОНЦЕ СПЕКТАКЛЯ ПРОСТО…",
+      "author": "adomogarov_official",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/18397",
-      "publishedAt": "2021-05-31"
-    },
-    {
-      "id": "tg-kinopoisk-23113",
-      "title": "Entertainment Weekly поделился кадрами из сериала «Предложение» о съемках «Крестного отц…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/23113",
-      "publishedAt": "2022-01-30"
+      "url": "https://t.me/adomogarov_official/3502",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-10-08"
     }
   ],
   "imdb:tt10155688": [
@@ -28260,6 +28343,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:575842": [
     {
+      "id": "tg-moviestart_ru-15967",
+      "title": "Запущен в производство пилотный эпизод сериала «Волоколамское шоссе» — военной драмы, ос…",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/15967",
+      "tags": [
+        "пфки"
+      ],
+      "publishedAt": "2026-08-31"
+    },
+    {
       "id": "tg-kinopoisk-18702",
       "title": "Фильм недели: «Красный призрак». Тарантино в снегах под Смоленском — Статьи на Кинопоиске",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -28307,6 +28404,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:402": [
+    {
+      "id": "tg-ClanOfScript-1154",
+      "title": "Сценарист культового триллера \"Основной инстинкт\" Джо Эстерхаз работает над сценарием дл…",
+      "author": "clanofscript",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ClanOfScript/1154",
+      "publishedAt": "2025-07-18"
+    },
     {
       "id": "tg-kinopoisk-18859",
       "title": "«Основной инстинкт» впервые доберется до российских экранов! 29 июля классику Пола Верхо…",
@@ -28960,6 +29068,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:440642": [
+    {
+      "id": "tg-dkdirecting-167",
+      "title": "Во время съемок «Время Первых», мне посчастливилось работать не только с Алексеем Архипо…",
+      "author": "dkdirecting",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/dkdirecting/167",
+      "publishedAt": "2023-04-12"
+    },
     {
       "id": "tg-kinopoisk-19777",
       "title": "В Москве начались съемки фильма-катастрофы «Мира» Дмитрия Киселева («Время первых»).",
@@ -29834,6 +29953,21 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "imdb:tt5788792": [
     {
+      "id": "tg-heroines_journey-1126",
+      "title": "У Эми нашей Шерман-Палладино («Удивительная миссис Мейзел», «Балерины», «Девочки Гилмор»…",
+      "author": "heroines_journey",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/heroines_journey/1126",
+      "tags": [
+        "женщинывкиноиндустрии",
+        "путьгероини_нерецензии"
+      ],
+      "publishedAt": "2025-05-03"
+    },
+    {
       "id": "tg-kinopoisk-21578",
       "title": "В официальных соцсетях проекта «Удивительная миссис Мейзел» появились первые кадры из че…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -30294,6 +30428,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/22459",
       "publishedAt": "2021-12-20"
+    },
+    {
+      "id": "tg-cameratopor-205",
+      "title": "«Чемпион мира» (который был чемпионом по номинациям на этом XXI «Золотом орле») получает…",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/205",
+      "publishedAt": "2023-01-27"
     }
   ],
   "tmdb:562": [
@@ -31727,6 +31872,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-09"
     },
     {
+      "id": "tg-cabernetcinema-13504",
+      "title": "«Магазинные воришки» («Shoplifters» / «Manbiki kazoku»), 2018",
+      "author": "cabernetcinema",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cabernetcinema/13504",
+      "tags": [
+        "фильмнавечер"
+      ],
+      "publishedAt": "2026-08-03"
+    },
+    {
       "id": "tg-nevergoodenough-493",
       "title": "«Магазинные воришки» // «Shoplifters»",
       "author": "nevergoodenough",
@@ -31736,17 +31895,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/nevergoodenough/493",
       "publishedAt": "2019-02-23"
-    },
-    {
-      "id": "tg-kinopoisk-24240",
-      "title": "Постер драмы японского режиссера Хирокадзу Корээды («Магазинные воришки») «Брокер». На э…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/24240",
-      "publishedAt": "2022-04-11"
     }
   ],
   "imdb:tt2887954": [
@@ -32637,6 +32785,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/25910",
       "publishedAt": "2022-06-19"
+    },
+    {
+      "id": "tg-adomogarov_official-3185",
+      "title": "Добрый вечер Всем!",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3185",
+      "publishedAt": "2026-06-02",
+      "tgMedia": "video"
     }
   ],
   "tmdb:650253": [
@@ -33903,15 +34063,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-10-09"
     },
     {
-      "id": "tg-literaturno-2004",
-      "title": "Новый роман Владимира Сорокина о постапокалиптической России можно купить на Озоне",
-      "author": "literaturno",
+      "id": "tg-iamshowrunner-378",
+      "title": "О ЗАПРЕТАХ, КУЛЬТУРЕ ОТМЕНЫ И ПОСЛЕДСТВИЯХ",
+      "author": "iamshowrunner",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/literaturno/2004",
-      "publishedAt": "2025-09-30"
+      "url": "https://t.me/iamshowrunner/378",
+      "publishedAt": "2023-12-20"
     }
   ],
   "tmdb:982": [
@@ -34455,6 +34615,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-03-15"
     },
     {
+      "id": "tg-moviestart_ru-16042",
+      "title": "В Москве стартовали съёмки фильма «Когда пролетают журавли» с Тихоном Жизневским и Крист…",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/16042",
+      "publishedAt": "2026-09-14"
+    },
+    {
       "id": "tg-dramedy-776",
       "title": "Свеженькое! Издательство Polyandria NoAge любезно прислало мне книгу «Остров» Сигридур Х…",
       "author": "dramedy",
@@ -34464,17 +34635,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/dramedy/776",
       "publishedAt": "2021-11-11"
-    },
-    {
-      "id": "tg-kinopoisk-29460",
-      "title": "Мария Магдалина встретится с Джокером: Руни Мара и Хоакин Феникс исполнят главные роли в…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/29460",
-      "publishedAt": "2022-10-25"
     }
   ],
   "tmdb:4982": [
@@ -35725,6 +35885,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:11190": [
     {
+      "id": "tg-agonch-12460",
+      "title": "Пересмотрел свежим современным взглядом фильм «Возвращение» Андрея Звягинцева, свежего и…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12460",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-22"
+    },
+    {
       "id": "tg-arts_creen-1349",
       "title": "Атмосфера мифа в фильме \"Возвращение\" (А. Звягинцев, 2003)",
       "author": "arts_creen",
@@ -35838,9 +36012,31 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "article",
       "url": "https://kinopoisk.ru/media/article/4007709",
       "publishedAt": "2023-04-12"
+    },
+    {
+      "id": "tg-karenzakharov-226",
+      "title": "Рекомендую к просмотру 🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/226",
+      "publishedAt": "2024-01-01"
     }
   ],
   "imdb:tt12439466": [
+    {
+      "id": "tg-ksenyaboletskaya-1934",
+      "title": "Российская адаптация \"Постучись в мою дверь\" после прошедшей недели обогнала по популярн…",
+      "author": "ksenyaboletskaya",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ksenyaboletskaya/1934",
+      "publishedAt": "2024-02-21"
+    },
     {
       "id": "tg-kinopoisk-35673",
       "title": "Турецкий сериал со звездой «Постучись в мою дверь». Он совершенно другой. Так и называет…",
@@ -35862,17 +36058,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinopoisk/37756",
       "publishedAt": "2024-02-29"
-    },
-    {
-      "id": "tg-kinopoisk-32621",
-      "title": "Кто такой Серкан Болат из «Постучись в мою дверь»? История Керема Бюрсина — возможно, са…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4007547",
-      "publishedAt": "2023-04-13"
     }
   ],
   "tmdb:597915": [
@@ -36049,18 +36234,16 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-08"
     },
     {
-      "id": "tg-a_iz_krkn-3689",
-      "title": "#КнигаНаНочь  На одном дыхании прочитал 1 часть «Укрытия», которая когда-то называлась «…",
-      "author": "a_iz_krkn",
+      "id": "tg-oksanamafa-2531",
+      "title": "Наконец-то был досмотрен третий сезон «Укрытия».",
+      "author": "oksanamafa",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/a_iz_krkn/3689",
-      "tags": [
-        "книгананочь"
-      ],
-      "publishedAt": "2026-05-23"
+      "url": "https://t.me/oksanamafa/2531",
+      "publishedAt": "2026-09-06",
+      "season": 3
     }
   ],
   "tmdb:1016084": [
@@ -36444,6 +36627,28 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "imdb:tt32562643": [
+    {
+      "id": "tg-iamshowrunner-550",
+      "title": "Пьяный воздух свободы сыграл с профессором Плейшнером злую шутку",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/550",
+      "publishedAt": "2024-11-07"
+    },
+    {
+      "id": "tg-cameratopor-397",
+      "title": "А еще на \"Пилоте\" покажут \"Противостояние\" - ремейк новую экранизацию Юлиана Семенова.",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/397",
+      "publishedAt": "2024-06-17"
+    },
     {
       "id": "tg-kinopoisk-33603",
       "title": "«Противостояние»: первый и последний советский сериал про серийного убийцу и распад всег…",
@@ -37360,6 +37565,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:71": [
     {
+      "id": "tg-katya_telegina-8979",
+      "title": "Как человек, который когда-то постоянно смотрел «Билли Эллиота», и который любит  коллек…",
+      "author": "katya_telegina",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/katya_telegina/8979",
+      "publishedAt": "2026-08-13"
+    },
+    {
       "id": "tg-kinopoisk-35074",
       "title": "Фильм дня — «Билли Эллиот» (2000) 🩰",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -37857,15 +38073,19 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-10"
     },
     {
-      "id": "tg-loublom-517",
-      "title": "Лауреатка «Оскара» за «Анатомию падения» Жюстин Трие определилась со следующим фильмом.…",
-      "author": "loublom",
+      "id": "tg-heroines_journey-962",
+      "title": "Посмотрела «Анатомию падения» Жюстин Трие, получившую Золотую пальмовую ветвь в Каннах в…",
+      "author": "heroines_journey",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/loublom/517",
-      "publishedAt": "2026-01-27"
+      "url": "https://t.me/heroines_journey/962",
+      "tags": [
+        "путьгероини_сценарное",
+        "женщинывкиноиндустрии"
+      ],
+      "publishedAt": "2023-09-24"
     }
   ],
   "imdb:tt1844624": [
@@ -38669,29 +38889,26 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-06-10"
     },
     {
-      "id": "tg-kinopoisk-39363",
-      "title": "#ФильмДня — «Онегин» 🪶",
-      "author": "Кинопоиск | Фильмы и сериалы",
+      "id": "tg-iamshowrunner-559",
+      "title": "Жуликам в расцвете лет",
+      "author": "iamshowrunner",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/kinopoisk/39363",
-      "tags": [
-        "фильмдня"
-      ],
-      "publishedAt": "2024-05-29"
+      "url": "https://t.me/iamshowrunner/559",
+      "publishedAt": "2024-11-28"
     },
     {
-      "id": "tg-tokarev78-165",
-      "title": "\"Онегин\", 2024",
-      "author": "tokarev78",
+      "id": "tg-melikyananna-2787",
+      "title": "Вчера был день глубоких впечатлений.",
+      "author": "melikyananna",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/tokarev78/165",
-      "publishedAt": "2024-03-21"
+      "url": "https://t.me/melikyananna/2787",
+      "publishedAt": "2026-06-06"
     }
   ],
   "imdb:tt0214356": [
@@ -39086,6 +39303,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-01-16"
     },
     {
+      "id": "tg-melikyananna-2674",
+      "title": "После фильма «Чувства Анны» полюбила читать Контактеров.",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2674",
+      "tags": [
+        "воскресноечтение"
+      ],
+      "publishedAt": "2026-04-26"
+    },
+    {
       "id": "tg-kinopoisk-36603",
       "title": "Фильм дня — «Чувства Анны» 👽",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -39123,6 +39354,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-04-26"
     },
     {
+      "id": "tg-NormalnoeKino-68",
+      "title": "Пока в прокате «Холоп 2» и «Бременские музыканты» соревнуются за звание самого кассового…",
+      "author": "normalnoekino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/NormalnoeKino/68",
+      "tags": [
+        "нормкино_рекомендация"
+      ],
+      "publishedAt": "2024-01-08"
+    },
+    {
       "id": "tg-apichatpong-5693",
       "title": "3 января: «Бременские музыканты» (2024, режиссер Алексей Нужный)",
       "author": "apichatpong",
@@ -39132,20 +39377,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/apichatpong/5693",
       "publishedAt": "2024-01-03"
-    },
-    {
-      "id": "tg-kinopoisk-42944",
-      "title": "#ФильмДня — «Бременские музыканты» 🐶🫏🐔",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/42944",
-      "tags": [
-        "фильмдня"
-      ],
-      "publishedAt": "2024-12-23"
     }
   ],
   "tmdb:51994": [
@@ -39607,18 +39838,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-12-11"
     },
     {
-      "id": "tg-kinopoisk-42976",
-      "title": "Огненная экранизация: как «Мастер и Маргарита» разбил булгаковское проклятие и стал глав…",
-      "author": "Кинопоиск",
+      "id": "tg-cameratopor-362",
+      "title": "Долгожданная «Мастер и Маргарита» собрала на старте 412 млн - внушительно, но могла бы и…",
+      "author": "cameratopor",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4010480",
-      "tags": [
-        "кпитогигода2024"
-      ],
-      "publishedAt": "2024-12-26"
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/362",
+      "publishedAt": "2024-01-29"
     }
   ],
   "imdb:tt13309742": [
@@ -41142,6 +41370,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "фильмдня"
       ],
       "publishedAt": "2024-04-23"
+    },
+    {
+      "id": "tg-karenzakharov-240",
+      "title": "Рекомендую к просмотру 🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/240",
+      "publishedAt": "2024-01-06"
     }
   ],
   "tmdb:938614": [
@@ -41742,6 +41981,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:760774": [
+    {
+      "id": "tg-adomogarov_official-3514",
+      "title": "ПРЕДЛОЖЕНИЕ, НО НЕ РУКИ И СЕРДЦА. ИЛИ СКОЛЬКО СТОИТ ОДНА ЖИЗНЬ.",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3514",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-10-12"
+    },
     {
       "id": "tg-kinopoisk-39109",
       "title": "Сегодня любуемся неподражаемым Энтони Хопкинсом в рубрике #КиноПоПятницам и смотрим прон…",
@@ -43853,15 +44106,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-19"
     },
     {
-      "id": "tg-kinopoisk-41027",
-      "title": "Лиза Ищенко, 18 лет, актриса. Играла в «Алиса не может ждать» и «Лгунье» — Статьи на Кин…",
-      "author": "Кинопоиск",
+      "id": "tg-ksenyaboletskaya-1936",
+      "title": "Start и Иви удалили по требованию РКН сериал Натальи Мещаниновой \"Алиса не может ждать\"…",
+      "author": "ksenyaboletskaya",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4009916",
-      "publishedAt": "2024-09-05"
+      "platform": "telegram",
+      "url": "https://t.me/ksenyaboletskaya/1936",
+      "publishedAt": "2024-02-23"
     }
   ],
   "tmdb:877817": [
@@ -44237,6 +44490,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:339397": [
     {
+      "id": "tg-agonch-12625",
+      "title": "Этот фильм — чистая радость, уже сутки не выходит из головы.",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12625",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-30"
+    },
+    {
       "id": "tg-kinopoisk-41596",
       "title": "#ФильмДня — «Светская жизнь» Вуди Аллена 🍸",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -44369,6 +44636,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:25936": [
+    {
+      "id": "tg-arinab1973-91764",
+      "title": "📻 Начинаем «День радио» меньше, чем через час!",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91764",
+      "publishedAt": "2026-10-24"
+    },
     {
       "id": "tg-kinopoisk-47612",
       "title": "Музыкальная комедия с культовым «Квартетом И». В рубрике #ФильмДня у нас «День радио».",
@@ -44607,6 +44885,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-10-24"
     },
     {
+      "id": "tg-maralesmisha-1009",
+      "title": "Преступление и наказание.",
+      "author": "maralesmisha",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/maralesmisha/1009",
+      "publishedAt": "2025-11-05"
+    },
+    {
       "id": "tg-cultpop-694",
       "title": "Один из лучших и самых информативных текстов про \"Преступление и наказание\" - материал Л…",
       "author": "cultpop",
@@ -44616,17 +44905,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/cultpop/694",
       "publishedAt": "2019-09-05"
-    },
-    {
-      "id": "tg-kinopoisk-42071",
-      "title": "«Преступление и наказание» — с новой обложкой и аудиоверсией! Читайте предисловие Юрия С…",
-      "author": "Кинопоиск",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "article",
-      "url": "https://kinopoisk.ru/media/article/4010189",
-      "publishedAt": "2024-11-03"
     }
   ],
   "tmdb:1106739": [
@@ -45324,6 +45602,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:769": [
     {
+      "id": "tg-odinilyin-229",
+      "title": "СЛАВНЫЕ ПАРНИ. СЕРГЕЙ ИЛЬИН",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/229",
+      "publishedAt": "2025-10-21"
+    },
+    {
       "id": "tg-kinopoisk-42719",
       "title": "Давайте вместе — Рай-ан-Гос-линг! Сегодня смотрим экшн комедию «Славные парни» с нашим К…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -45347,20 +45636,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/Kinohkaa/3436",
       "publishedAt": "2025-02-13"
-    },
-    {
-      "id": "tg-kinopoisk-48225",
-      "title": "«Славные парни» уже совсем взрослые. В этом году шедевр Мартина Скорсезе отмечает свое 3…",
-      "author": "Кинопоиск | Фильмы и сериалы",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/kinopoisk/48225",
-      "tags": [
-        "кп_видео"
-      ],
-      "publishedAt": "2025-09-20"
     }
   ],
   "tmdb:548": [
@@ -48279,6 +48554,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:864120": [
     {
+      "id": "tg-iamshowrunner-427",
+      "title": "Еженедельный #ШоуДайджест о самом главном",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/427",
+      "tags": [
+        "шоудайджест"
+      ],
+      "publishedAt": "2024-03-02"
+    },
+    {
       "id": "tg-kinopoisk-46911",
       "title": "Сегодня в рубрике #КиноПоПятницам мы смотрим «Праведника» — военную драму по реальной ис…",
       "author": "Кинопоиск | Фильмы и сериалы",
@@ -49695,6 +49984,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:838240": [
     {
+      "id": "tg-letsplayfilms-208",
+      "title": "Фильм месяца — драмеди «Мечты робота».",
+      "author": "letsplayfilms",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/letsplayfilms/208",
+      "publishedAt": "2024-06-24"
+    },
+    {
       "id": "tg-apichatpong-5745",
       "title": "6 февраля: «Мечты робота» (2023, Robot Dreams, режиссер Пабло Бергер)",
       "author": "apichatpong",
@@ -50674,15 +50974,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-15"
     },
     {
-      "id": "tg-kinokotik-15251",
-      "title": "Музыку к \"Войне и миру\" Сарика Андреасяна написал Игорь Крутой.",
-      "author": "kinokotik",
+      "id": "tg-katya_telegina-8813",
+      "title": "Рассказывала преподавателю по английскому про сериал «Война и мир» 2016 года.",
+      "author": "katya_telegina",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "platform": "telegram",
-      "url": "https://t.me/kinokotik/15251",
-      "publishedAt": "2026-10-14"
+      "url": "https://t.me/katya_telegina/8813",
+      "publishedAt": "2026-07-12"
     }
   ],
   "tmdb:1325734": [
@@ -52012,6 +52312,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:39768": [
     {
+      "id": "tg-arinab1973-91802",
+      "title": "🎬Мирон Лукьянов. Рекламный плакат «Берегись автомобиля», 1966. Оригинальная афиша к фил…",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91802",
+      "publishedAt": "2026-10-24"
+    },
+    {
       "id": "tg-cinema1909-169",
       "title": "​​Лирическая трагикомедия «Берегись автомобиля» Эльдара Рязанова — это захватывающая при…",
       "author": "Кинотеатр «Художественный»",
@@ -52592,6 +52903,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinogonch/593",
       "publishedAt": "2025-04-07"
+    },
+    {
+      "id": "tg-agonch-12450",
+      "title": "БАБАЦ!!! А-А-А-А-А-А-А-A-A-A!!! ПОБЕДА, ДРУЗЬЯ!! ПОБЕДА!!",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12450",
+      "publishedAt": "2026-09-21"
     }
   ],
   "tmdb:11954": [
@@ -53283,6 +53605,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:285783": [
     {
+      "id": "tg-nikitakarikhrezh-642",
+      "title": "МОСКВА // Приглашаю вас на «Прогулку»🚶",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/642",
+      "publishedAt": "2025-08-08"
+    },
+    {
       "id": "tg-a_researcher-314",
       "title": "В годовщину трагедии с Башнями-близнецами я оставил заметку о «Прогулке» Роберта Земекис…",
       "author": "R⁴²",
@@ -53309,17 +53642,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "да"
       ],
       "publishedAt": "2026-02-22"
-    },
-    {
-      "id": "tg-chanelbyag-2337",
-      "title": "«Прогулка» славный славный Питер",
-      "author": "chanelbyag",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/chanelbyag/2337",
-      "publishedAt": "2026-06-22"
     }
   ],
   "tmdb:97630": [
@@ -53497,6 +53819,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/smotriserialchiki/728",
       "publishedAt": "2024-11-07"
+    },
+    {
+      "id": "tg-heroines_journey-1079",
+      "title": "«Ученик. Восхождение Трампа»  Внесла на днях посильный вклад в победу демократ:ок на аме…",
+      "author": "heroines_journey",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/heroines_journey/1079",
+      "publishedAt": "2024-11-06"
     }
   ],
   "tmdb:716258": [
@@ -53888,18 +54221,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-03-02"
     },
     {
-      "id": "tg-a_researcher-533",
-      "title": "Бывшие политзаключённые сталкиваются с мужчиной, который ранее их пытал. Похитив его рад…",
-      "author": "R⁴²",
+      "id": "tg-heroines_journey-1135",
+      "title": "Что я хочу посмотреть из Каннской программы 2025  Благодаря гонзо-репортажам любимых кан…",
+      "author": "heroines_journey",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "year",
       "platform": "telegram",
-      "url": "https://t.me/a_researcher/533",
-      "tags": [
-        "reкоммэндэйшн"
-      ],
-      "publishedAt": "2025-12-23"
+      "url": "https://t.me/heroines_journey/1135",
+      "publishedAt": "2025-05-24"
     }
   ],
   "tmdb:9036": [
@@ -54339,6 +54669,22 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-02-12"
     },
     {
+      "id": "tg-adomogarov_official-3182",
+      "title": "Александр Домогаров в роли Воланда даже не играет — он живёт этой ролью, будто она напис…",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3182",
+      "tags": [
+        "александрдомогаров",
+        "театрармии"
+      ],
+      "publishedAt": "2026-06-01",
+      "tgMedia": "video"
+    },
+    {
       "id": "tg-kanal_Na-438",
       "title": "31. Михаил Булгаков, «Мастер и Маргарита».",
       "author": "kanal_na",
@@ -54348,21 +54694,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kanal_Na/438",
       "publishedAt": "2021-07-10"
-    },
-    {
-      "id": "tg-audiobooks_4u-102",
-      "title": "Михаил Булгаков \"Мастер и Маргарита\"",
-      "author": "audiobooks_4u",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/audiobooks_4u/102",
-      "tags": [
-        "проведьм",
-        "пролюбовь"
-      ],
-      "publishedAt": "2020-05-19"
     }
   ],
   "wd:Q1083331": [
@@ -54887,6 +55218,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/ubobra/376",
       "publishedAt": "2024-08-28"
+    },
+    {
+      "id": "tg-atikaktam-1058",
+      "title": "Мои берилинские друзья. «Quiet LIfe» всю эту неделю в немецком прокате. В том числе сего…",
+      "author": "atikaktam",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/atikaktam/1058",
+      "publishedAt": "2025-04-27"
     }
   ],
   "tmdb:646097": [
@@ -56110,15 +56452,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-22"
     },
     {
-      "id": "tg-leephillipscinema-437",
-      "title": "Чем занимаются нормальные девчонки вечером перед 8 марта? 💅",
-      "author": "leephillipscinema",
+      "id": "tg-agonch-12854",
+      "title": "Пересмотрел в который раз один из самых любимых своих фильмов — \"Прикосновение\". Один из…",
+      "author": "agonch",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/leephillipscinema/437",
-      "publishedAt": "2026-03-07"
+      "url": "https://t.me/agonch/12854",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-10-20"
     }
   ],
   "tmdb:1469342": [
@@ -58675,6 +59020,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2020-05-28",
       "season": 5,
       "episode": 16
+    },
+    {
+      "id": "tg-filmres-8876",
+      "title": "⚡️⚡️ Вернутся \"Интерны\" и \"Реальные пацаны\". Без деталей.",
+      "author": "filmres",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/filmres/8876",
+      "publishedAt": "2026-10-22"
     }
   ],
   "tmdb:10868": [
@@ -58935,6 +59291,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:49964": [
+    {
+      "id": "tg-ratushnaya-2317",
+      "title": "Посмотрела «Где дом друга?» Киаростами, тихий и безжалостный фильм о том, как невыносимо…",
+      "author": "ratushnaya",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ratushnaya/2317",
+      "publishedAt": "2024-01-16"
+    },
     {
       "id": "tg-chbpsd-1019",
       "title": "В центре сюжета иранского фильма \"Где дом друга?\" - история восьмилетнего мальчика, кото…",
@@ -59597,6 +59964,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "зарубежные"
       ],
       "publishedAt": "2024-03-11"
+    },
+    {
+      "id": "tg-adomogarov_official-3330",
+      "title": "У наших ближайших, есть Бабушка, она же Мама., ей  под 90…,",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3330",
+      "publishedAt": "2026-07-26"
     }
   ],
   "tmdb:2252": [
@@ -60191,15 +60569,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-08-14"
     },
     {
-      "id": "tg-krylovme-17339",
-      "title": "🐶 В производство запустили новую экранизацию произведения Михаила Булгакова «Собачье се…",
-      "author": "krylovme",
+      "id": "tg-kinoreel-9531",
+      "title": "«Марс Медиа» ведёт разработку новой адаптации повести Михаила Булгакова \"Собачье сердце\"…",
+      "author": "kinoreel",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "year",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/krylovme/17339",
-      "publishedAt": "2026-10-20"
+      "url": "https://t.me/kinoreel/9531",
+      "publishedAt": "2026-10-21"
     }
   ],
   "tmdb:6519": [
@@ -60377,15 +60755,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2021-10-07"
     },
     {
-      "id": "tg-smotriserialchiki-791",
-      "title": "Платформа",
-      "author": "smotriserialchiki",
+      "id": "tg-Film_hedgehog-5311",
+      "title": "На ПМЭФ представили исследование НМГ и ЦСП «Платформа» «Эскизы будущего — 2». Авторы пре…",
+      "author": "film_hedgehog",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/smotriserialchiki/791",
-      "publishedAt": "2025-01-11"
+      "url": "https://t.me/Film_hedgehog/5311",
+      "publishedAt": "2026-06-04"
     }
   ],
   "tmdb:641662": [
@@ -61004,6 +61382,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-05-06"
     },
     {
+      "id": "tg-leshazotov-2841",
+      "title": "Вчера «Избранный» вошёл в топ-10 самых просматриваемых сериалов, созданных при поддержке…",
+      "author": "leshazotov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/leshazotov/2841",
+      "publishedAt": "2026-09-24"
+    },
+    {
       "id": "tg-sasha_smotrit_kino-1161",
       "title": "Новый сериал «ИЗБРАННЫЙ»!",
       "author": "sasha_smotrit_kino",
@@ -61139,6 +61528,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kino_klub_msk/981",
       "publishedAt": "2025-09-15"
+    },
+    {
+      "id": "tg-Film_hedgehog-5254",
+      "title": "Николсону 89 лет",
+      "author": "film_hedgehog",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/Film_hedgehog/5254",
+      "publishedAt": "2026-04-22"
     }
   ],
   "tmdb:177677": [
@@ -61214,6 +61614,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:4944": [
+    {
+      "id": "tg-cameratopor-381",
+      "title": "Персонаж Джорджа Клуни в «После прочтения сжечь», когда приходил к кому-нибудь домой, с…",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/381",
+      "publishedAt": "2024-03-17"
+    },
     {
       "id": "tg-kino_klub_msk-1095",
       "title": "«После прочтения сжечь»",
@@ -62347,6 +62758,21 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:639": [
     {
+      "id": "tg-heroines_journey-1177",
+      "title": "Сложно объяснить, насколько важен для меня «Когда Гарри встретил Салли». Любимый ромком?…",
+      "author": "heroines_journey",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/heroines_journey/1177",
+      "tags": [
+        "путьгероини_сценарное",
+        "женщинывкиноиндустрии"
+      ],
+      "publishedAt": "2025-12-15"
+    },
+    {
       "id": "tg-loublom-502",
       "title": "\"Когда Гарри встретил Салли\"-8/10",
       "author": "loublom",
@@ -62367,17 +62793,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/MaxAndSe/2407",
       "publishedAt": "2025-12-15"
-    },
-    {
-      "id": "tg-cinemateka_vrn-2087",
-      "title": "Может ли мужчина и женщина просто дружить? Гарри и Салли уверены, что знают ответ - но ж…",
-      "author": "cinemateka_vrn",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/cinemateka_vrn/2087",
-      "publishedAt": "2026-09-02"
     }
   ],
   "tmdb:2044": [
@@ -64321,6 +64736,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-19"
     },
     {
+      "id": "tg-iamshowrunner-479",
+      "title": "Шоураннер с сериальным новьем по вашу душу",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/479",
+      "publishedAt": "2024-05-20"
+    },
+    {
       "id": "tg-tokarev78-169",
       "title": "Противоречивые впечатления оставил «Воздух» Алексея Германа младшего.",
       "author": "tokarev78",
@@ -64330,17 +64756,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/tokarev78/169",
       "publishedAt": "2024-04-03"
-    },
-    {
-      "id": "tg-TexasBlitzableiter-2122",
-      "title": "И ещё немного о наших баранах.",
-      "author": "texasblitzableiter",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/TexasBlitzableiter/2122",
-      "publishedAt": "2026-04-09"
     }
   ],
   "tmdb:46591": [
@@ -64711,6 +65126,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/TexasBlitzableiter/2447",
       "publishedAt": "2026-09-22"
+    },
+    {
+      "id": "tg-moviestart_ru-15966",
+      "title": "Подборка кинособытий 31/08–06/09",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/15966",
+      "tags": [
+        "афишасинефила"
+      ],
+      "publishedAt": "2026-08-30"
     }
   ],
   "tmdb:21135": [
@@ -65100,6 +65529,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "книга3"
       ],
       "publishedAt": "2020-07-05"
+    },
+    {
+      "id": "tg-apicatpongkino-1106",
+      "title": "💘10 СПОСОБОВ СКАЗАТЬ, КАК Я ЛЮБЛЮ ТЕБЯ",
+      "author": "apicatpongkino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/apicatpongkino/1106",
+      "publishedAt": "2026-02-11"
     }
   ],
   "tmdb:3933": [
@@ -65242,6 +65682,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/suchstuff/1415",
       "publishedAt": "2025-05-26"
+    },
+    {
+      "id": "tg-contemporaryfilm-11",
+      "title": "Почти 2 года спустя до отечественного проката добрались «Алые паруса» реж. Пьетро Марчел…",
+      "author": "contemporaryfilm",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/contemporaryfilm/11",
+      "publishedAt": "2024-03-12"
     }
   ],
   "tmdb:193907": [
@@ -65355,15 +65806,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2024-03-11"
     },
     {
-      "id": "tg-theword_in_the_beginning-11685",
-      "title": "Фраза, которой Холмс никогда не говорил",
-      "author": "theword_in_the_beginning",
+      "id": "tg-ClanOfScript-839",
+      "title": "Наконец-то студии стали выкладывать сценарии, которые я ждала и буду читать с удовольств…",
+      "author": "clanofscript",
       "language": "ru",
       "spoilerLevel": 2,
-      "unverified": true,
+      "evidence": "original",
       "platform": "telegram",
-      "url": "https://t.me/theword_in_the_beginning/11685",
-      "publishedAt": "2026-10-07"
+      "url": "https://t.me/ClanOfScript/839",
+      "publishedAt": "2023-11-21"
     }
   ],
   "tmdb:795": [
@@ -65918,6 +66369,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/kinofoma/354",
       "publishedAt": "2025-09-24"
+    },
+    {
+      "id": "tg-pitchingi-2962",
+      "title": "LAST CALL",
+      "author": "pitchingi",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/pitchingi/2962",
+      "publishedAt": "2026-02-12"
     }
   ],
   "tmdb:469836": [
@@ -65983,6 +66445,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/tokarev78/53",
       "publishedAt": "2022-06-28"
+    },
+    {
+      "id": "tg-adomogarov_official-3513",
+      "title": "КАК ЧАСТО МЫ ПРИНИМАЕМ РЕШЕНИЯ, КОТОРЫЕ НЕ ДАЮТ НАМ ПОКОЯ ВСЮ ЖИЗНЬ...",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3513",
+      "tags": [
+        "александрдомогаров"
+      ],
+      "publishedAt": "2026-10-12"
     }
   ],
   "tmdb:76": [
@@ -66094,6 +66570,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-10-11"
     },
     {
+      "id": "tg-Film_hedgehog-5123",
+      "title": "Слушайте, я посмотрел \"Август\" (2025), в кино не дошел тогда.",
+      "author": "film_hedgehog",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/Film_hedgehog/5123",
+      "publishedAt": "2026-01-14"
+    },
+    {
       "id": "tg-glagol_tg-925",
       "title": "*  *  *",
       "author": "glagol_tg",
@@ -66103,17 +66590,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/glagol_tg/925",
       "publishedAt": "2024-08-08"
-    },
-    {
-      "id": "tg-twotalkgirls-7704",
-      "title": "👀Приём заявок закрыт!",
-      "author": "twotalkgirls",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/twotalkgirls/7704",
-      "publishedAt": "2026-08-06"
     }
   ],
   "tmdb:1214931": [
@@ -67582,6 +68058,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2023-01-29"
     },
     {
+      "id": "tg-leragermanica-6999",
+      "title": "Сегодня на онлайн-встрече со зрителями в Перми после «Машеньки» один мизогин сказал, что…",
+      "author": "leragermanica",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/leragermanica/6999",
+      "publishedAt": "2026-09-30"
+    },
+    {
       "id": "tg-rshakov-2914",
       "title": "Фильм, который я запомню на всю жизнь, — это когда хочется вмешаться в ход событий, повл…",
       "author": "rshakov",
@@ -67714,6 +68201,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:73326": [
     {
+      "id": "tg-NormalnoeKino-71",
+      "title": "В Международный день \"СПАСИБО\" хочу ещё раз поблагодарить всех, кто читает мой канал и п…",
+      "author": "normalnoekino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/NormalnoeKino/71",
+      "tags": [
+        "нормкино_supercut"
+      ],
+      "publishedAt": "2024-01-11"
+    },
+    {
       "id": "tg-dmitrythewind_kino-1454",
       "title": "(Окончание)",
       "author": "dmitrythewind_kino",
@@ -67738,17 +68239,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/fixitinpost/334",
       "publishedAt": "2019-06-03"
-    },
-    {
-      "id": "tg-audioknigiosn-3853",
-      "title": "Кот-Ворун.",
-      "author": "Аудиокниги. Фэнтези, попаданцы, LitRPG",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/audioknigiosn/3853",
-      "publishedAt": "2026-09-14"
     }
   ],
   "tmdb:118957": [
@@ -68073,6 +68563,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:160986": [
+    {
+      "id": "tg-pitchingi-2969",
+      "title": "📌 ДОКУМЕНТАЛЬНЫЕ СОБЫТИЯ НОВОЙ НЕДЕЛИ",
+      "author": "pitchingi",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pitchingi/2969",
+      "publishedAt": "2026-02-16"
+    },
     {
       "id": "tg-leephillipscinema-400",
       "title": "Когда как не в День влюбленных смотреть фильм «Любить…» Михаила Калика. 14 февраля в Мос…",
@@ -68809,6 +69310,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/loublom/486",
       "publishedAt": "2026-01-05"
+    },
+    {
+      "id": "tg-katya_telegina-9155",
+      "title": "Впервые посмотрела «Вся президентская рать», 1976, Алана Пакулы.",
+      "author": "katya_telegina",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/katya_telegina/9155",
+      "publishedAt": "2026-10-19"
     }
   ],
   "tmdb:587": [
@@ -69523,6 +70035,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-10-24"
     },
     {
+      "id": "tg-agonch-12635",
+      "title": "Фильм, после которого можно почувствовать настоящий живой Нью-Йорк, но в черно-белых тон…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12635",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-30"
+    },
+    {
       "id": "tg-adilkhunter-213",
       "title": "Перед вами отрывок из романа «Манхэттен». Джон Дос Пассос очень монтажный писатель.",
       "author": "adilkhunter",
@@ -70130,15 +70656,15 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-06-04"
     },
     {
-      "id": "tg-MaxAndSe-2649",
-      "title": "Получеловек/Half Man",
-      "author": "maxandse",
+      "id": "tg-oksanamafa-2534",
+      "title": "отпустим прошлый фильм и перейдем в новому сериалу «Получеловек».",
+      "author": "oksanamafa",
       "language": "ru",
       "spoilerLevel": 2,
-      "evidence": "original",
+      "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/MaxAndSe/2649",
-      "publishedAt": "2026-06-12"
+      "url": "https://t.me/oksanamafa/2534",
+      "publishedAt": "2026-09-25"
     }
   ],
   "imdb:tt35587659": [
@@ -70422,6 +70948,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "окновевропу2026"
       ],
       "publishedAt": "2026-08-08"
+    },
+    {
+      "id": "tg-channel_hant-1364",
+      "title": "«Окно в Европу» х КАРО/АРТ",
+      "author": "channel_hant",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/channel_hant/1364",
+      "publishedAt": "2026-08-17"
     },
     {
       "id": "tg-eternalautisma-160",
@@ -71895,6 +72432,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-05-26"
     },
     {
+      "id": "tg-moviestart_ru-16029",
+      "title": "📍10 сентября в Российском фонде культуры журнал «КиноРепортер» представил свой третий а…",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/16029",
+      "publishedAt": "2026-09-12"
+    },
+    {
       "id": "tg-KingOfYantar-5970",
       "title": "Новое издание про кино «Времена года» уже можно считать не просто альманахом, а полноцен…",
       "author": "kingofyantar",
@@ -71904,20 +72452,31 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/KingOfYantar/5970",
       "publishedAt": "2026-09-26"
-    },
+    }
+  ],
+  "imdb:tt32603540": [
     {
-      "id": "tg-KinoReporter-13050",
-      "title": "Представляю еще одного героя нашего альманаха «Времена года» – Олега Савостюка.",
-      "author": "kinoreporter",
+      "id": "tg-iamshowrunner-683",
+      "title": "Про тех и этих",
+      "author": "iamshowrunner",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/KinoReporter/13050",
-      "publishedAt": "2026-09-28"
-    }
-  ],
-  "imdb:tt32603540": [
+      "url": "https://t.me/iamshowrunner/683",
+      "publishedAt": "2025-12-25"
+    },
+    {
+      "id": "tg-iamshowrunner-626",
+      "title": "Пиар во время чумы",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/626",
+      "publishedAt": "2025-07-14"
+    },
     {
       "id": "tg-i_bachurin-4608",
       "title": "В новом выпуске «Культурного шока» — Денис Степанов. Актёр театра и кино, выпускник ГИТИ…",
@@ -71932,28 +72491,6 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "грантдлякреативныхкоманд"
       ],
       "publishedAt": "2026-07-21"
-    },
-    {
-      "id": "tg-moviehorse-21756",
-      "title": "Wink снимает специальный сезон «Ландышей» 🤩",
-      "author": "moviehorse",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "unverified": true,
-      "platform": "telegram",
-      "url": "https://t.me/moviehorse/21756",
-      "publishedAt": "2026-08-31"
-    },
-    {
-      "id": "tg-AnyaPictures-1123",
-      "title": "💔Сказал, что чувств больше нет, чтобы сберечь её.",
-      "author": "anyapictures",
-      "language": "ru",
-      "spoilerLevel": 2,
-      "evidence": "year",
-      "platform": "telegram",
-      "url": "https://t.me/AnyaPictures/1123",
-      "publishedAt": "2026-01-07"
     }
   ],
   "tmdb:20874": [
@@ -72935,9 +73472,31 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/odno_kino/943",
       "publishedAt": "2023-05-08"
+    },
+    {
+      "id": "tg-dazedandamazed-3079",
+      "title": "Осторожно, мигающий свет и высокий уровень духовного брейнвошинга – так подписано это ви…",
+      "author": "dazedandamazed",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/dazedandamazed/3079",
+      "publishedAt": "2025-12-03"
     }
   ],
   "tmdb:901": [
+    {
+      "id": "tg-moviestart_ru-15948",
+      "title": "Международный кинофестиваль «Огни большого города» объявил мировую премьеру исторической…",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/15948",
+      "publishedAt": "2026-08-24"
+    },
     {
       "id": "tg-seance_light-13164",
       "title": "Продолжаем изучать программу фестиваля «Огни большого города», который устраивает «Ленфи…",
@@ -73153,6 +73712,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "длявзрослых"
       ],
       "publishedAt": "2022-10-13"
+    },
+    {
+      "id": "tg-kinoreel-9157",
+      "title": "🏈 Если вы, как и я, выросли на мультсериале \"Эй, Арнольд!\" — хорошие новости. Создатели…",
+      "author": "kinoreel",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinoreel/9157",
+      "publishedAt": "2026-08-19"
     }
   ],
   "tmdb:37433": [
@@ -79721,6 +80291,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:17654": [
     {
+      "id": "tg-dreamongreenlight-120",
+      "title": "Нил Бломкамп («Район №9») выпустил ИИ-фильм:",
+      "author": "dreamongreenlight",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/dreamongreenlight/120",
+      "publishedAt": "2026-07-22"
+    },
+    {
       "id": "tg-SpeculativeFiction-6879",
       "title": "Нил Бломкамп («Район №9»). снял короткометражный фильм Nightborne. Это по сути демонстра…",
       "author": "speculativefiction",
@@ -80470,6 +81051,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/arthauz/38",
       "publishedAt": "2017-10-16"
+    },
+    {
+      "id": "tg-karenzakharov-261",
+      "title": "Очень рекомендую к просмотру 🔥🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/261",
+      "publishedAt": "2024-02-15"
     }
   ],
   "tmdb:11559": [
@@ -80810,6 +81402,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/arthauz/667",
       "publishedAt": "2025-12-17"
+    },
+    {
+      "id": "tg-ClanOfScript-1182",
+      "title": "Все помнят про «Розенкранц и Гильденстерн мертвы», но Том Стоппард также работал (официа…",
+      "author": "clanofscript",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/ClanOfScript/1182",
+      "publishedAt": "2025-12-02"
     },
     {
       "id": "tg-arthauz-337",
@@ -81441,6 +82044,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:31262": [
     {
+      "id": "tg-agonch-12577",
+      "title": "«Человек из Лондона» (2007)",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12577",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-28"
+    },
+    {
       "id": "tg-arthauz-672",
       "title": "306. ЧЕЛОВЕК ИЗ ЛОНДОНА (A Londoni Férfi), Бела Тарр, 2007. Памяти ушедшего из этого мир…",
       "author": "arthauz",
@@ -81723,6 +82340,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "драма"
       ],
       "publishedAt": "2025-05-19"
+    },
+    {
+      "id": "tg-Film_hedgehog-5341",
+      "title": "Субботние раздумывания",
+      "author": "film_hedgehog",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/Film_hedgehog/5341",
+      "publishedAt": "2026-07-25"
     }
   ],
   "tmdb:4483": [
@@ -81892,6 +82520,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/dailytropes/733",
       "publishedAt": "2024-03-22"
+    },
+    {
+      "id": "tg-karenzakharov-232",
+      "title": "Рекомендую к просмотру! 🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/232",
+      "publishedAt": "2024-01-03"
     }
   ],
   "tmdb:884": [
@@ -85265,6 +85904,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/nonlinearstory/1476",
       "publishedAt": "2025-07-11"
+    },
+    {
+      "id": "tg-kinoreel-9502",
+      "title": "С 5 ноября в российский прокат выходит \"Настройщик\" 🎹",
+      "author": "kinoreel",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinoreel/9502",
+      "publishedAt": "2026-10-15"
     }
   ],
   "tmdb:1514682": [
@@ -85378,6 +86028,18 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/izdaniya/4728",
       "publishedAt": "2026-07-31"
+    },
+    {
+      "id": "tg-alena_babenko-1266",
+      "title": "Я не умею советовать книги, которые всем заходит и фильмы, которые заходят всем. Наприме…",
+      "author": "alena_babenko",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/alena_babenko/1266",
+      "publishedAt": "2026-08-25",
+      "tgMedia": "video"
     }
   ],
   "tmdb:460019": [
@@ -85526,6 +86188,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:50183": [
+    {
+      "id": "tg-cameratopor-76",
+      "title": "«Когда мне было шесть лет, я случайно в гостях посмотрел почти целиком «Восхождение» Лар…",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/76",
+      "publishedAt": "2021-10-22"
+    },
     {
       "id": "tg-angrybooks-6272",
       "title": "А вот и отрывок со вчерашнего эфира по \"Восхождению\" Николаса Бинджа (полная запись буде…",
@@ -86866,6 +87539,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:44012": [
     {
+      "id": "tg-nikitakarikhrezh-765",
+      "title": "О коллективном бессознательном 🧘  Не так давно я наткнулся на произошедшую буквально в…",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/765",
+      "publishedAt": "2026-05-06"
+    },
+    {
       "id": "tg-nonlinearstory-1652",
       "title": "Не знаю, насколько благородным с моей стороны было создание такого фильма, как «Жанна Ди…",
       "author": "nonlinearstory",
@@ -86903,6 +87587,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-08-15"
     },
     {
+      "id": "tg-oksanamafa-2277",
+      "title": "У нас в «Место силы» прошел корпоратив. Посмотрели балет «Щелкунчика» (да, прям на корпо…",
+      "author": "oksanamafa",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/oksanamafa/2277",
+      "publishedAt": "2025-12-24"
+    },
+    {
       "id": "tg-otpisalso-9932",
       "title": "Держим вас в курсе нового русского кино. А как иначе? Итак",
       "author": "otpisalso",
@@ -86915,20 +87610,20 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "ужескоро"
       ],
       "publishedAt": "2026-08-20"
-    },
+    }
+  ],
+  "imdb:tt0101076": [
     {
-      "id": "tg-feliksumarov-1227",
-      "title": "Мы завалили Питер снегом, Питер завалил нас историями о том как мы начали снимать «Щелку…",
-      "author": "feliksumarov",
+      "id": "tg-kinoreel-9372",
+      "title": "Disney+ перезапустит \"Чёрный плащ\" 🧥",
+      "author": "kinoreel",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/feliksumarov/1227",
-      "publishedAt": "2026-05-26"
-    }
-  ],
-  "imdb:tt0101076": [
+      "url": "https://t.me/kinoreel/9372",
+      "publishedAt": "2026-09-23"
+    },
     {
       "id": "tg-kammotor-21069",
       "title": "Голос знакомый с детства",
@@ -91950,6 +92645,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:9322": [
     {
+      "id": "tg-maralesmisha-734",
+      "title": "Про один из любимых фильмов, которых много. 🤫",
+      "author": "maralesmisha",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/maralesmisha/734",
+      "publishedAt": "2025-04-27"
+    },
+    {
       "id": "tg-EtoBorisAkunin-470",
       "title": "ТЕАТР ВРЕМЕН ПУТИНА И НИКИТЫ",
       "author": "etoborisakunin",
@@ -92049,6 +92755,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/renatalitvinova/5182",
       "publishedAt": "2026-03-10"
+    },
+    {
+      "id": "tg-melikyananna-2539",
+      "title": "А мне не понравился сериал, который все сейчас смотрят. «Американская история любви» про…",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2539",
+      "publishedAt": "2026-03-11"
     }
   ],
   "tmdb:364594": [
@@ -92425,6 +93142,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:1463877": [
     {
+      "id": "tg-kinoreel-9536",
+      "title": "С 30 октября на КИОН выходит мелодрама о первой любви \"Чужой звонок\" ✨",
+      "author": "kinoreel",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/kinoreel/9536",
+      "publishedAt": "2026-10-22"
+    },
+    {
       "id": "tg-alexchadoff-209",
       "title": "«Студия РоЕл», онлайн-кинотеатр Kion и НТВ и при поддержке Фонда кино завершили съемки ф…",
       "author": "alexchadoff",
@@ -92527,6 +93255,28 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/konstantinbogomolov/860",
       "publishedAt": "2025-09-02"
+    },
+    {
+      "id": "tg-NormalnoeKino-459",
+      "title": "съёмки сериала \"Капитанская дочка\" почти подошли к экватору, а наш second unit свою рабо…",
+      "author": "normalnoekino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/NormalnoeKino/459",
+      "publishedAt": "2026-04-03"
+    },
+    {
+      "id": "tg-NormalnoeKino-470",
+      "title": "на Дне Рождения КИОН (5 лет! ура!) показали нарезку из сериала \"Капитанская дочка\" (режи…",
+      "author": "normalnoekino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/NormalnoeKino/470",
+      "publishedAt": "2026-04-24"
     }
   ],
   "tmdb:67683": [
@@ -93092,6 +93842,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
   ],
   "tmdb:124295": [
     {
+      "id": "tg-nikitakarikhrezh-780",
+      "title": "«Анна: от 6 до 18» – малоизвестный шедевр Никиты Михалкова 👨‍🦳",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/780",
+      "publishedAt": "2026-07-28"
+    },
+    {
       "id": "tg-nikitabsg-2001",
       "title": "Документальный фильм «Анна: от 6 до 18» 1993 года.",
       "author": "nikitabsg",
@@ -93327,6 +94088,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
         "правительствомосквы"
       ],
       "publishedAt": "2026-09-05"
+    },
+    {
+      "id": "tg-melikyananna-2575",
+      "title": "Вчера в храме после службы, ко мне подошла женщина и сказала – знаете вот этот момент в…",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2575",
+      "publishedAt": "2026-03-29"
     }
   ],
   "tmdb:62204": [
@@ -93639,6 +94411,17 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
     }
   ],
   "tmdb:525735": [
+    {
+      "id": "tg-nikitakarikhrezh-797",
+      "title": "Я ненавижу день рождения 😤",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/797",
+      "publishedAt": "2026-09-17"
+    },
     {
       "id": "tg-flibustabooks-3066",
       "title": "Сегодня разберём несколько распространённых выражений, в которых часто ошибаются.",
@@ -95230,6 +96013,138 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2025-06-01"
     }
   ],
+  "tmdb:737733": [
+    {
+      "id": "tg-letsplayfilms-186",
+      "title": "В мае «Аэрофлот», «Победа» и «Россия» обновили библиотеку бортовых медиаплееров.",
+      "author": "letsplayfilms",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/letsplayfilms/186",
+      "publishedAt": "2024-05-12"
+    }
+  ],
+  "tmdb:263837": [
+    {
+      "id": "tg-agonch-12408",
+      "title": "Пересматривая один из самых, на мой взгляд, лучших и редких в своей тонкости и художеств…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12408",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-19"
+    }
+  ],
+  "tmdb:132497": [
+    {
+      "id": "tg-agonch-12482",
+      "title": "Один из лучших русских фильмов XXI века, который я постоянно пересматриваю — \"Сердца бум…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12482",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-24"
+    }
+  ],
+  "tmdb:47795": [
+    {
+      "id": "tg-agonch-12488",
+      "title": "\"Пейзаж в тумане\", 1988, Тео Ангелопулос.",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12488",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-24"
+    }
+  ],
+  "tmdb:5143": [
+    {
+      "id": "tg-agonch-12546",
+      "title": "«Ханна и её сёстры» (1986) — какой же искромётный, динамичный, стремительный, лихо закру…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12546",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-09-27"
+    }
+  ],
+  "tmdb:47792": [
+    {
+      "id": "tg-agonch-12651",
+      "title": "«Путешествие на Китеру» (1984) — Тео Ангелопулос. В ролях: Манос Катракис, Дора Воланаки…",
+      "author": "agonch",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/agonch/12651",
+      "tags": [
+        "гончпросмотр"
+      ],
+      "publishedAt": "2026-10-01"
+    }
+  ],
+  "tmdb:1248951": [
+    {
+      "id": "tg-gorobetsmark-79",
+      "title": "«Тур с Иванушками» покажут в Берлине",
+      "author": "gorobetsmark",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/gorobetsmark/79",
+      "publishedAt": "2024-09-05"
+    }
+  ],
+  "tmdb:1859": [
+    {
+      "id": "tg-gorobetsmark-177",
+      "title": "КАСТИНГ",
+      "author": "gorobetsmark",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/gorobetsmark/177",
+      "publishedAt": "2026-09-07"
+    }
+  ],
+  "tmdb:65545": [
+    {
+      "id": "tg-atikaktam-1235",
+      "title": "Когда-то Карен Шахназаров не утвердил меня в свою картину, которую, перемонтировав и пер…",
+      "author": "atikaktam",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/atikaktam/1235",
+      "publishedAt": "2025-12-14"
+    }
+  ],
   "tmdb:18359": [
     {
       "id": "tg-adilkhunter-462",
@@ -95241,6 +96156,643 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "platform": "telegram",
       "url": "https://t.me/adilkhunter/462",
       "publishedAt": "2026-09-22"
+    }
+  ],
+  "tmdb:599016": [
+    {
+      "id": "tg-karenzakharov-148",
+      "title": "🔻 Заключительным проектом питчинга стала картина АРТЕК. БОЛЬШОЕ ПУТЕШЕСТВИЕ: 1812 (кино…",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/148",
+      "publishedAt": "2023-10-30"
+    },
+    {
+      "id": "tg-karenzakharov-343",
+      "title": "В детском центре идут съёмки приключенческого фильма для всей семьи «Артек. Большое путе…",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/343",
+      "publishedAt": "2024-10-09"
+    }
+  ],
+  "tmdb:9071": [
+    {
+      "id": "tg-karenzakharov-185",
+      "title": "Рекомендую к просмотру!",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/185",
+      "publishedAt": "2023-12-12"
+    }
+  ],
+  "tmdb:8055": [
+    {
+      "id": "tg-karenzakharov-198",
+      "title": "Рекомендую к просмотру!🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/198",
+      "publishedAt": "2023-12-16"
+    }
+  ],
+  "tmdb:258230": [
+    {
+      "id": "tg-karenzakharov-230",
+      "title": "ОЧЕНЬ рекомендую к просмотру! 🔥🔥🔥",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/230",
+      "publishedAt": "2024-01-02"
+    }
+  ],
+  "tmdb:1127580": [
+    {
+      "id": "tg-karenzakharov-421",
+      "title": "Приглашаем на презентацию книги «Баба Яга спасает мир» и зимнюю квиз-викторину с подарка…",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/421",
+      "publishedAt": "2024-12-17"
+    },
+    {
+      "id": "tg-karenzakharov-388",
+      "title": "Закончилась церемония награждения победителей \"ТЭФИ KIDS 2024\"🏆",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/388",
+      "tags": [
+        "фрешфильм"
+      ],
+      "publishedAt": "2024-10-31"
+    }
+  ],
+  "tmdb:1218377": [
+    {
+      "id": "tg-karenzakharov-440",
+      "title": "Кинокомпании «Фреш-Фильм» и «Наше кино» представили персонажные постеры приключенческого…",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/440",
+      "publishedAt": "2025-05-29"
+    },
+    {
+      "id": "tg-karenzakharov-439",
+      "title": "🚩Онлайн-линейка в День пионерии объявляется открытой!🚩",
+      "author": "karenzakharov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "tag",
+      "platform": "telegram",
+      "url": "https://t.me/karenzakharov/439",
+      "tags": [
+        "фрешфильм"
+      ],
+      "publishedAt": "2025-05-19"
+    }
+  ],
+  "tmdb:1037645": [
+    {
+      "id": "tg-odinilyin-122",
+      "title": "10 заповедей жизни режиссера фильма «Страсти по Матвею», сценариста и актера Сергея Ильи…",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/122",
+      "publishedAt": "2024-01-14"
+    }
+  ],
+  "imdb:tt0758737": [
+    {
+      "id": "tg-odinilyin-148",
+      "title": "ХАЙ ФАЙВ, БРАТЬЯ И СЕСТРЫ!",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/148",
+      "publishedAt": "2024-04-28"
+    }
+  ],
+  "tmdb:47223": [
+    {
+      "id": "tg-odinilyin-152",
+      "title": "И СВЕТ ВО ТЬМЕ СВЕТИТ",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/152",
+      "publishedAt": "2024-05-09"
+    }
+  ],
+  "tmdb:65286": [
+    {
+      "id": "tg-odinilyin-239",
+      "title": "ДОСТОЯНИЕ РЕСПУБЛИКИ",
+      "author": "odinilyin",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/odinilyin/239",
+      "publishedAt": "2025-11-05"
+    }
+  ],
+  "tmdb:1397364": [
+    {
+      "id": "tg-budetkino-3990",
+      "title": "Мой любимый режиссер осмысляет смерть.",
+      "author": "budetkino",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/budetkino/3990",
+      "publishedAt": "2026-06-09"
+    }
+  ],
+  "tmdb:1275255": [
+    {
+      "id": "tg-filkorshunov-864",
+      "title": "«Ангелы Ладоги» возглавили прокат",
+      "author": "filkorshunov",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/filkorshunov/864",
+      "publishedAt": "2026-05-23"
+    }
+  ],
+  "tmdb:8939": [
+    {
+      "id": "tg-oksanamafa-2379",
+      "title": "У меня у дружочка Юли Лысовой вышла новелла внутри «Тюльпанов»! Поговаривают, что это сд…",
+      "author": "oksanamafa",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/oksanamafa/2379",
+      "publishedAt": "2026-03-06"
+    }
+  ],
+  "tmdb:9554": [
+    {
+      "id": "tg-melikyananna-2519",
+      "title": "Театр Вахтангова, «Король Лир», режиссер Юрий Бутусов.",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2519",
+      "publishedAt": "2026-02-19"
+    }
+  ],
+  "tmdb:371778": [
+    {
+      "id": "tg-melikyananna-2724",
+      "title": "Выгуляла свой халатик Di lino на показе своего фильма «Про любовь» в Художественном!",
+      "author": "melikyananna",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/melikyananna/2724",
+      "publishedAt": "2026-05-22"
+    }
+  ],
+  "tmdb:530737": [
+    {
+      "id": "tg-methodPaushu-1157",
+      "title": "Москва",
+      "author": "methodpaushu",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/methodPaushu/1157",
+      "publishedAt": "2026-10-09"
+    }
+  ],
+  "tmdb:204": [
+    {
+      "id": "tg-ratushnaya-2363",
+      "title": "Начала смотреть «Плату за страх» Клузо (1953), в шоке от его выдающегося мастерства пост…",
+      "author": "ratushnaya",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/ratushnaya/2363",
+      "publishedAt": "2024-05-11"
+    }
+  ],
+  "tmdb:272138": [
+    {
+      "id": "tg-contemporaryfilm-49",
+      "title": "А между делом забылся важный юбилей, который не отмечают широко. В конце мая исполнилось…",
+      "author": "contemporaryfilm",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/contemporaryfilm/49",
+      "publishedAt": "2024-06-11"
+    }
+  ],
+  "tmdb:1400357": [
+    {
+      "id": "tg-katya_telegina-8834",
+      "title": "«Кристоферы», 2026, режиссер Стивен Содерберг",
+      "author": "katya_telegina",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/katya_telegina/8834",
+      "publishedAt": "2026-07-15"
+    }
+  ],
+  "tmdb:1227877": [
+    {
+      "id": "tg-katya_telegina-8862",
+      "title": "«Модная братва» | «I love boosters», 2026",
+      "author": "katya_telegina",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/katya_telegina/8862",
+      "publishedAt": "2026-07-26"
+    }
+  ],
+  "tmdb:89617": [
+    {
+      "id": "tg-channel_hant-1237",
+      "title": "❄️ Сергей Гилев и Лянка Грыу – в касте «СНЕГУРОЧКИ»",
+      "author": "channel_hant",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/channel_hant/1237",
+      "publishedAt": "2026-02-12"
+    }
+  ],
+  "imdb:tt7521778": [
+    {
+      "id": "tg-leragermanica-6897",
+      "title": "Осенью смотреть дорамы.",
+      "author": "leragermanica",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/leragermanica/6897",
+      "publishedAt": "2026-09-19"
+    }
+  ],
+  "tmdb:13318": [
+    {
+      "id": "tg-leragermanica-6926",
+      "title": "Не хочешь спать?",
+      "author": "leragermanica",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/leragermanica/6926",
+      "publishedAt": "2026-09-21"
+    }
+  ],
+  "tmdb:31414": [
+    {
+      "id": "tg-nikitakarikhrezh-766",
+      "title": "Сатанинское танго – кино, которое вы не посмотрите 👀",
+      "author": "nikitakarikhrezh",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nikitakarikhrezh/766",
+      "publishedAt": "2026-05-19"
+    }
+  ],
+  "tmdb:61638": [
+    {
+      "id": "tg-nik_kologrivyy-1442",
+      "title": "💔 Никита Кологривый сыграл Дон Жуана.",
+      "author": "nik_kologrivyy",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nik_kologrivyy/1442",
+      "publishedAt": "2026-04-13"
+    }
+  ],
+  "tmdb:72568": [
+    {
+      "id": "tg-nik_kologrivyy-1709",
+      "title": "❤️‍🔥 СЕГОДНЯ — ЛЮБОВЬ БЕЗ ПАМЯТИ!",
+      "author": "nik_kologrivyy",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/nik_kologrivyy/1709",
+      "publishedAt": "2026-10-07"
+    }
+  ],
+  "imdb:tt35618070": [
+    {
+      "id": "tg-cabernetcinema-13640",
+      "title": "если вы хотите ухватиться за остаток лета, то советую сериал «Стерлинг-Поинт» («Sterling…",
+      "author": "cabernetcinema",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "original",
+      "platform": "telegram",
+      "url": "https://t.me/cabernetcinema/13640",
+      "tags": [
+        "сериалнавечер"
+      ],
+      "publishedAt": "2026-08-25"
+    }
+  ],
+  "tmdb:74": [
+    {
+      "id": "tg-cabernetcinema-13765",
+      "title": "«Война миров» («War of the Worlds»), 2005",
+      "author": "cabernetcinema",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/cabernetcinema/13765",
+      "tags": [
+        "фильмнавечер"
+      ],
+      "publishedAt": "2026-09-19"
+    }
+  ],
+  "tmdb:1586092": [
+    {
+      "id": "tg-Film_hedgehog-5220",
+      "title": "Вы думали, \"Королёк моей любви\" — просто очередная комедия? А вот и нет. Это первый в ис…",
+      "author": "film_hedgehog",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/Film_hedgehog/5220",
+      "publishedAt": "2026-03-26"
+    }
+  ],
+  "tmdb:1824": [
+    {
+      "id": "tg-Film_hedgehog-5256",
+      "title": "Помните кино «50 первых поцелуев» (2004) с Адамом Сендлером и Дрю Берримор?",
+      "author": "film_hedgehog",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/Film_hedgehog/5256",
+      "publishedAt": "2026-04-23"
+    }
+  ],
+  "imdb:tt30430244": [
+    {
+      "id": "tg-iamshowrunner-568",
+      "title": "Сериал года - \"Чистые\"",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/568",
+      "publishedAt": "2024-12-27"
+    }
+  ],
+  "tmdb:352836": [
+    {
+      "id": "tg-iamshowrunner-648",
+      "title": "Поразительно, но эти слова были сказаны Олегом Ефремовым в фильме \"Ольга Сергеевна\"  ров…",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/648",
+      "publishedAt": "2025-10-12"
+    }
+  ],
+  "imdb:tt4136774": [
+    {
+      "id": "tg-iamshowrunner-740",
+      "title": "Свои среди чужих, чужие среди своих",
+      "author": "iamshowrunner",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/iamshowrunner/740",
+      "publishedAt": "2026-08-20"
+    }
+  ],
+  "imdb:tt1051155": [
+    {
+      "id": "tg-moviestart_ru-16213",
+      "title": "Шорт-лист конкурса сценариев и синопсисов фантастического кино «Вселенная «Берлоги»",
+      "author": "moviestart_ru",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/moviestart_ru/16213",
+      "tags": [
+        "конкурсберлога"
+      ],
+      "publishedAt": "2026-10-16"
+    }
+  ],
+  "tmdb:61280": [
+    {
+      "id": "tg-pitchingi-3126",
+      "title": "3 июня в киношколе «Свободное кино» стартует сценарный курс «Поворотный пункт»!",
+      "author": "pitchingi",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pitchingi/3126",
+      "publishedAt": "2026-05-20"
+    },
+    {
+      "id": "tg-pitchingi-3117",
+      "title": "ЖЮРИ СЦЕНАРНОГО ПИТЧИНГА ПОВОРОТНЫЙ ПУНКТ",
+      "author": "pitchingi",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/pitchingi/3117",
+      "publishedAt": "2026-05-13"
+    }
+  ],
+  "tmdb:2323": [
+    {
+      "id": "tg-cameratopor-102",
+      "title": "ВИД Александра Любимова больше не будет производить «Поле чудес» - Первый не стал переза…",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/102",
+      "publishedAt": "2021-11-30"
+    }
+  ],
+  "imdb:tt11095572": [
+    {
+      "id": "tg-cameratopor-318",
+      "title": "Николай Борисович наконец-то написал про «Мылодраму», хулиганский сериал про сотрудника…",
+      "author": "cameratopor",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/cameratopor/318",
+      "publishedAt": "2023-11-01"
+    }
+  ],
+  "tmdb:52885": [
+    {
+      "id": "tg-arinab1973-91624",
+      "title": "🎬 На этом кадре из фильма «Звезды и солдаты» (1967) Никите Михалкову чуть больше 20-ти.…",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "evidence": "year",
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91624",
+      "publishedAt": "2026-10-21"
+    }
+  ],
+  "imdb:tt14129576": [
+    {
+      "id": "tg-arinab1973-91633",
+      "title": "📺🎬Топ-5 телесериалов в стране с 12 по 18 октября",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91633",
+      "publishedAt": "2026-10-21"
+    },
+    {
+      "id": "tg-actorkirillzaitsev-460",
+      "title": "🕵️‍♂️ Ну что, граждане, возвращаемся в Москву 44го!))",
+      "author": "actorkirillzaitsev",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/actorkirillzaitsev/460",
+      "publishedAt": "2026-10-13"
+    }
+  ],
+  "tmdb:27935": [
+    {
+      "id": "tg-arinab1973-91634",
+      "title": "130 лет назад в Казани родился Евгений Шварц — драматург («Обыкновенное чудо», «Дракон»,…",
+      "author": "arinab1973",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/arinab1973/91634",
+      "publishedAt": "2026-10-21"
+    }
+  ],
+  "tmdb:65386": [
+    {
+      "id": "tg-adomogarov_official-3126",
+      "title": "«ОТ ГЕРОЕВ БЫЛЫХ ВРЕМЕН...»: АЛЕКСАНДР ДОМОГАРОВ СПЕЛ ПЕСНЮ ИЗ «ОФИЦЕРОВ» НА МАТЧЕ ЦСКА…",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3126",
+      "publishedAt": "2026-05-14"
+    }
+  ],
+  "tmdb:1203152": [
+    {
+      "id": "tg-adomogarov_official-3156",
+      "title": "3 ЧАСА ЧИСТОГО КАЙФА. КАК ОДИН МИГ — ВСЯ ЖИЗНЬ...",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3156",
+      "tags": [
+        "александрдомогаров",
+        "вертинский"
+      ],
+      "publishedAt": "2026-05-22"
+    }
+  ],
+  "tmdb:31273": [
+    {
+      "id": "tg-adomogarov_official-3248",
+      "title": "Он <Александр Домогаров> влетел в кадр, осадив вороного жеребца, гордым  синеглазым шлях…",
+      "author": "adomogarov_official",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/adomogarov_official/3248",
+      "tags": [
+        "александрдомогаров",
+        "вертинский"
+      ],
+      "publishedAt": "2026-06-21"
     }
   ],
   "tmdb:1226484": [
@@ -95256,17 +96808,44 @@ export const postsAuto: Record<string, ExternalAnalysis[]> = {
       "publishedAt": "2026-09-11"
     }
   ],
-  "imdb:tt14129576": [
+  "tmdb:81202": [
     {
-      "id": "tg-actorkirillzaitsev-460",
-      "title": "🕵️‍♂️ Ну что, граждане, возвращаемся в Москву 44го!))",
-      "author": "actorkirillzaitsev",
+      "id": "tg-alena_babenko-988",
+      "title": "Добричка!☀️",
+      "author": "alena_babenko",
       "language": "ru",
       "spoilerLevel": 2,
       "unverified": true,
       "platform": "telegram",
-      "url": "https://t.me/actorkirillzaitsev/460",
-      "publishedAt": "2026-10-13"
+      "url": "https://t.me/alena_babenko/988",
+      "publishedAt": "2026-05-06"
+    }
+  ],
+  "tmdb:49106": [
+    {
+      "id": "tg-alena_babenko-990",
+      "title": "А ЗОРИ ЗДЕСЬ ТИХИЕ",
+      "author": "alena_babenko",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/alena_babenko/990",
+      "publishedAt": "2026-05-09"
+    }
+  ],
+  "tmdb:8834": [
+    {
+      "id": "tg-AgataMucenieceLife-1844",
+      "title": "ВНИМАНИЕ ВСЕМ Н*ХУЙ",
+      "author": "Я РАЙТРАУН",
+      "language": "ru",
+      "spoilerLevel": 2,
+      "unverified": true,
+      "platform": "telegram",
+      "url": "https://t.me/AgataMucenieceLife/1844",
+      "publishedAt": "2025-05-22",
+      "tgMedia": "video"
     }
   ]
 };

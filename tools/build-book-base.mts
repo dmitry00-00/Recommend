@@ -30,6 +30,10 @@
 // заведены «Хаджи-Мурат», «Бегущий в лабиринте», «Тень над Иннсмутом»), спрашиваются ещё двумя кругами с паузой; у
 // книги, что уже есть в прежнем bookBase, сведения берутся из её карточки — без сети. «Уже есть» — по справочнику без
 // истории владельца и демо-каталога (tools/base-have.mts): «Мастер и Маргарита» и «Солярис» были только в моках.
+// 27.10 (решение владельца): свои книги — tools/own-books.mts, современная русская проза, которой нет ни в Wikidata,
+// ни в Open Library («Саспыга», «Квартирай»): карточка из списка без сети, ключ `own:` (src/lib/keys.ts), описание —
+// своим пересказом в `blurb` (в «Сюжете» без ссылки на источник: текст наш). Появится элемент Wikidata — перевести
+// строку в список читателей с `qid`, а разметку перенести на новый ключ.
 //   --popular FILE — свой список «что ищут» (замер grow-book-base --out); --dry — без записи bookBase.ts, новые
 //   карточки — в .cache/book-base.dry.json
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -37,6 +41,7 @@ import { worksIndex } from './works-index.mts';
 import { baseHave } from './base-have.mts';
 import { bookMentions, sameSurname, titleKey } from './book-bridge.mts';
 import { isBookHandle } from './book-channels.mts';
+import { OWN_BOOKS } from './own-books.mts';
 import { readCache, search, sleep, wd, writeCache } from './wikidata-lib.mts';
 import { relationEdges, relationNodes } from '../src/mocks/workRelations.ts';
 import type { WorkCard } from '../src/types/tmdf.ts';
@@ -389,6 +394,13 @@ for (const b of popular) {
   put(c, 'ищут в Википедии и канон');
   rows.push(['ищут в Википедии', b.title, info?.authors?.join(', ') ?? '', info?.year ?? '', `wd:${b.qid}`, b.views ? `${b.views} просмотров` : `${b.links} разделов`, c ? 'да' : 'нет'].join('\t'));
 }
+// свои книги (27.10): сведения — из списка, сети нет
+for (const b of OWN_BOOKS) {
+  put({ id: `b-own${b.own}`, type: 'book', title: b.title, ...(b.originalTitle ? { originalTitle: b.originalTitle } : {}), year: b.year ?? 0, creators: b.authors,
+    ...(b.blurb ? { blurb: b.blurb } : {}),
+    primaryOperations: [], complexityLevel: 0, warnings: [], barriers: [], isNicheMasterpiece: false, externalIds: { own: b.own } }, 'свои книги');
+  rows.push(['свои книги', b.title, b.authors.join(', '), b.year ?? '', `own:${b.own}`, b.why, 'да'].join('\t'));
+}
 // убранное владельцем (withheldWorks.ts) — не заводим
 for (const [id, c] of cards) if (c.externalIds?.wikidata && withheldWorks[`wd:${c.externalIds.wikidata}`]) cards.delete(id);
 writeFileSync(new URL('../.cache/book-candidates.tsv', import.meta.url), rows.join('\n') + '\n');
@@ -398,7 +410,7 @@ writeFileSync(new URL('../.cache/book-candidates.tsv', import.meta.url), rows.jo
 // 17.10: по справочнику без истории владельца и демо-каталога (tools/base-have.mts) — карточка «Мастера и Маргариты»
 // в моках не повод не заводить книгу для всех
 const have = baseHave({ except: ['bookBase'] });
-const fresh = [...cards.values()].filter((c) => !have.has(c.externalIds?.wikidata ? `wd:${c.externalIds.wikidata}` : `olw:${c.externalIds?.openLibrary}`));
+const fresh = [...cards.values()].filter((c) => !have.has(c.externalIds?.wikidata ? `wd:${c.externalIds.wikidata}` : c.externalIds?.own ? `own:${c.externalIds.own}` : `olw:${c.externalIds?.openLibrary}`));
 const bySource = new Map<string, number>();
 for (const c of fresh) bySource.set(sourceOf.get(c.id) ?? '?', (bySource.get(sourceOf.get(c.id) ?? '?') ?? 0) + 1);
 console.error(`\nкарточек книг: ${fresh.length} (${[...bySource].map(([k, n]) => `${k} ${n}`).join(', ')}); все кандидаты — .cache/book-candidates.tsv`);
@@ -410,11 +422,21 @@ if (DRY) {
   console.error(`замер: новых ${fresh.filter((c) => !before.has(c.id)).length}, ушло бы ${prevBookBase.filter((w) => !fresh.some((c) => c.id === w.id)).length} → .cache/book-base.dry.json`);
   process.exit(0);
 }
+// Кусками по 1000 со своим типом (27.10): одним литералом на 5935 карточек TypeScript падал с TS2590 («union type too
+// complex») — каждая новая форма карточки (свои книги с `blurb` и `externalIds.own`) множит объединение типов элементов
+const parts = (all: WorkCard[]): string => {
+  const names: string[] = [], out: string[] = [];
+  for (let i = 0; i < all.length; i += 1000) {
+    names.push(`p${names.length}`);
+    out.push(`const ${names.at(-1)}: WorkCard[] = ${JSON.stringify(all.slice(i, i + 1000), null, 2)};`);
+  }
+  return `${out.join('\n')}\n\nexport const bookBase: WorkCard[] = [${names.map((n) => `...${n}`).join(', ')}];`;
+};
 writeFileSync(new URL('../src/mocks/bookBase.ts', import.meta.url), `// Сгенерировано tools/build-book-base.mts (З2) — руками не править.
 // Стартовый каталог книг через мост с кино: книги по фильмам и сериалам справочника и книги,
 // которые называют кино-эссеисты и книжные каналы (З6), книги из списков читателей и те, что ищут в Википедии. Разметки нет — в подбор не идут до З4.
 import type { WorkCard } from '@/types/tmdf';
 
-export const bookBase: WorkCard[] = ${JSON.stringify(fresh, null, 2)};
+${parts(fresh)}
 `);
 console.error('→ src/mocks/bookBase.ts');

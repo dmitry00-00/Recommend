@@ -130,7 +130,7 @@ import { leadCredits } from '../src/lib/credits.ts';
   const keys = Object.keys(workFixes);
   assert.ok(keys.length > 300, `правок ${keys.length}`);
   for (const [k, f] of Object.entries(workFixes)) {
-    assert.match(k, /^(?:tmdb:\d+|imdb:tt\d+|wd:Q\d+|olw:OL\d+W|isbn:\d+X?)$/, k);
+    assert.match(k, /^(?:tmdb:\d+|imdb:tt\d+|wd:Q\d+|olw:OL\d+W|own:[a-z0-9]{8}|isbn:\d+X?)$/, k);
     assert.ok(Object.keys(f).length, `${k}: пустая правка`);
     if (f.year !== undefined) assert.ok(Number.isInteger(f.year) && f.year >= 0 && f.year <= 2100, `${k}: год ${f.year}`);
     for (const p of f.dropPeople ?? []) assert.match(p, /^Q\d+:[dwca]$/, `${k}: ${p}`);

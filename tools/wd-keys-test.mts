@@ -45,6 +45,9 @@ const TARAKAN = 'Q4451494', ARTIST = 'Q55655847', PIPE = 'Q21644085';
   assert.equal(isBookEntry({ key: 'wd:Q1', work: { type: 'book' } }), true);
   assert.equal(isBookEntry({ key: 'isbn:9785170000000', work: { type: 'film' } }), true, 'ISBN — книга и у карточки без вида');
   assert.equal(isBookEntry({ key: 'olw:OL1W' }), true);
+  // свой ключ (27.10): книга без Wikidata и Open Library
+  assert.deepEqual(workKeys({ type: 'book' }, { own: 'a1b2c3d4' }), ['own:a1b2c3d4']);
+  assert.equal(isBookEntry({ key: 'own:a1b2c3d4' }), true);
   assert.equal(isBookEntry({ key: 'tmdb:603', work: { type: 'film' } }), false);
   console.log('ok: ключи');
 }

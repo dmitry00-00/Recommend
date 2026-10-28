@@ -62,9 +62,10 @@ async function queue() {
       : type === 'series' ? (rejected(`draft:${x.key}`) ? undefined : seriesAnnotations[x.key])
       : (rejected(`draft:${x.key}`) ? undefined : draftAnnotations[x.key]);
     const marked = (w.primaryOperations.length && w.complexityLevel) || own.has(x.key) || (a && a.confidence !== 'low');
-    if (!marked || !/^(tmdb|imdb|wd):/.test(x.key)) continue;
+    // own: — свои книги без Wikidata (27.10, tools/own-books.mts): описание — их `blurb`
+    if (!marked || !/^(tmdb|imdb|wd|own):/.test(x.key)) continue;
     todo.push({ key: x.key, type, title: w.title, year: w.year || undefined, original: w.originalTitle && w.originalTitle !== w.title ? w.originalTitle : undefined,
-      creators: (w.creators ?? []).slice(0, 2), level: w.complexityLevel || a?.level });
+      creators: (w.creators ?? []).slice(0, 2), level: w.complexityLevel || a?.level, ...(x.key.startsWith('own:') && w.blurb ? { plot: w.blurb } : {}) });
   }
   console.error(`размечено без желаний: ${todo.length} (фильмов ${todo.filter((x) => x.type === 'film').length}, сериалов ${todo.filter((x) => x.type === 'series').length}, книг ${todo.filter((x) => x.type === 'book').length})`);
   // элемент Wikidata: у книг — в ключе, у фильма — по TMDb, у сериала — по IMDb

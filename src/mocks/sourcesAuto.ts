@@ -1,4 +1,4 @@
-// Сгенерировано tools/build-source-index.mts (2026-10-26): каналы, на которые
+// Сгенерировано tools/build-source-index.mts (2026-10-27): каналы, на которые
 // ссылаются и которые репостят наши источники. Это кандидаты, а не источники: кто из них
 // говорит о кино, а кто попал за компанию — решает человек в кураторской.
 // Не править руками — перегенерировать.
@@ -10,11 +10,12 @@ export const sourceCandidates: SourceCandidate[] = [
     "title": "Кинопоиск | Новости",
     "handle": "kinopoisk_soon",
     "url": "https://t.me/kinopoisk_soon",
-    "mentions": 844,
-    "reposts": 340,
+    "mentions": 845,
+    "reposts": 341,
     "by": [
       "Cinemaholics",
       "Terminatarkovsky",
+      "aleksandraakiselevaa",
       "capellafilmrussia",
       "Заскриптованный",
       "Кинопоиск | Фильмы и сериалы",
@@ -278,6 +279,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Вновь рубрика #мастераужасов держит курс на Индонезию. Тамошний хоррор настолько на подъ…"
   },
   {
+    "id": "srcc-кинотв",
+    "title": "КИНОТВ",
+    "mentions": 0,
+    "reposts": 21,
+    "by": [
+      "Cinemaholics",
+      "aleksandraakiselevaa",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ШишКИНО",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-17",
+    "sample": "«Дракула» Фрэнсиса Форда Копполы, «Блэйд» Стивена Норрингтона, «От заката до рассвета» Р…"
+  },
+  {
     "id": "srcc-maysaltburn",
     "title": "На майские едем в Солтбёрн",
     "handle": "maysaltburn",
@@ -394,21 +411,6 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "О, а попробуем-ка новый формат! @aonefilms и @oembox в \"Сентиментальной ценности\" есть с…"
   },
   {
-    "id": "srcc-кинотв",
-    "title": "КИНОТВ",
-    "mentions": 0,
-    "reposts": 20,
-    "by": [
-      "Cinemaholics",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "ШишКИНО",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-10-17",
-    "sample": "«Дракула» Фрэнсиса Форда Копполы, «Блэйд» Стивена Норрингтона, «От заката до рассвета» Р…"
-  },
-  {
     "id": "srcc-cut the crap",
     "title": "Cut The Crap",
     "mentions": 0,
@@ -495,6 +497,21 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-15",
     "sample": "На завершение первого сезона рубрики Геля решила отвести #админскийкиноклуб на меланхоли…"
+  },
+  {
+    "id": "srcc-я видел свечение экрана",
+    "title": "Я видел свечение экрана",
+    "mentions": 0,
+    "reposts": 17,
+    "by": [
+      "aleksandraakiselevaa",
+      "Дзига-аппаратчик",
+      "Заскриптованный",
+      "Ремизорро",
+      "Што это было"
+    ],
+    "lastAt": "2026-10-17",
+    "sample": "Следующим фильмом Жюлии Дюкурно станет экранизация романа француженки Адель Йон «Мое нас…"
   },
   {
     "id": "srcc-user stakan",
@@ -629,6 +646,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Наконец-то наступили праздники, и можно отдохнуть! Но праздников много не бывает, правда…"
   },
   {
+    "id": "srcc-русское кино в топе",
+    "title": "РУССКОЕ КИНО В ТОПЕ",
+    "mentions": 0,
+    "reposts": 13,
+    "by": [
+      "agatamuceniecelife",
+      "aleksandraakiselevaa",
+      "Ремизорро",
+      "ШишКИНО",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-09-30",
+    "sample": "🎱 Стася Толстая и Савва Минаев прочитают свои новые и неизвестные произведения на КИНОЧ…"
+  },
+  {
     "id": "srcc-вселенная подростков wink",
     "title": "Вселенная подростков Wink",
     "mentions": 0,
@@ -657,20 +689,6 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-08-30",
     "sample": "сегодня у меня рождения ⛩️"
-  },
-  {
-    "id": "srcc-я видел свечение экрана",
-    "title": "Я видел свечение экрана",
-    "mentions": 0,
-    "reposts": 16,
-    "by": [
-      "Дзига-аппаратчик",
-      "Заскриптованный",
-      "Ремизорро",
-      "Што это было"
-    ],
-    "lastAt": "2026-10-17",
-    "sample": "Следующим фильмом Жюлии Дюкурно станет экранизация романа француженки Адель Йон «Мое нас…"
   },
   {
     "id": "srcc-angelscctv",
@@ -884,6 +902,22 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Внимание, упыри! Внимание, вурдалаки!"
   },
   {
+    "id": "srcc-ulizabalabanova",
+    "title": "улица балабанова",
+    "handle": "ulizabalabanova",
+    "url": "https://t.me/ulizabalabanova",
+    "mentions": 5,
+    "reposts": 11,
+    "by": [
+      "aleksandraakiselevaa",
+      "Ремизорро",
+      "Што это было",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-15",
+    "sample": "мы бы читали её книги,"
+  },
+  {
     "id": "srcc-doublecagerage",
     "title": "Buddy movie",
     "handle": "DoubleCageRage",
@@ -917,6 +951,23 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "Программа 83-го Венецианского кинофестиваля:"
   },
   {
+    "id": "srcc-centpart",
+    "title": "Централ Партнершип",
+    "handle": "centpart",
+    "url": "https://t.me/centpart",
+    "mentions": 8,
+    "reposts": 6,
+    "by": [
+      "actorkirillzaitsev",
+      "aleksandraakiselevaa",
+      "Кинопоиск | Фильмы и сериалы",
+      "Ремизорро",
+      "ЭПИЗОДЫ"
+    ],
+    "lastAt": "2026-10-12",
+    "sample": "НИЖНИЙ НОВГОРОД, совсем скоро отправляемся в путешествие по волшебному миру фильма «Моро…"
+  },
+  {
     "id": "srcc-kinowelt",
     "title": "Список Шиллера",
     "handle": "kinowelt",
@@ -933,6 +984,20 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-07-14",
     "sample": "🟢 СОВЕТСКОЕ ЛЕТНЕЕ КИНО 🟢"
+  },
+  {
+    "id": "srcc-into the streaming-verse",
+    "title": "into the streaming-verse",
+    "mentions": 0,
+    "reposts": 12,
+    "by": [
+      "Cinemaholics",
+      "Terminatarkovsky",
+      "agatamuceniecelife",
+      "Заскриптованный"
+    ],
+    "lastAt": "2026-08-19",
+    "sample": "Christian Metal Band Demon Hunter Sues Netflix, AEG Over ‘KPop Demon Hunters’ Trademark"
   },
   {
     "id": "srcc-я помню",
@@ -1170,6 +1235,21 @@ export const sourceCandidates: SourceCandidate[] = [
     "sample": "сегодня у меня рождения ⛩️"
   },
   {
+    "id": "srcc-fshncobra",
+    "title": "FASHION COBRA",
+    "handle": "fshncobra",
+    "url": "https://t.me/fshncobra",
+    "mentions": 18,
+    "reposts": 7,
+    "by": [
+      "Abramacabre!",
+      "aleksandraakiselevaa",
+      "ШишКИНО"
+    ],
+    "lastAt": "2026-10-17",
+    "sample": "«Дракула» Фрэнсиса Форда Копполы, «Блэйд» Стивена Норрингтона, «От заката до рассвета» Р…"
+  },
+  {
     "id": "srcc-non_script",
     "title": "избави нас от сценария",
     "handle": "non_script",
@@ -1244,82 +1324,5 @@ export const sourceCandidates: SourceCandidate[] = [
     ],
     "lastAt": "2026-05-23",
     "sample": "Речь Звягинцева на церемонии закрытия Канн"
-  },
-  {
-    "id": "srcc-бтк i библиотека турбо кинематографа",
-    "title": "БТК I Библиотека Турбо Кинематографа",
-    "mentions": 0,
-    "reposts": 9,
-    "by": [
-      "adilkhunter",
-      "На майские едем в Хоргу",
-      "Тревожные кассеты",
-      "Уютный уголок любителя ужасов"
-    ],
-    "lastAt": "2026-04-06",
-    "sample": "НОВЫЙ"
-  },
-  {
-    "id": "srcc-goldchihuahua",
-    "title": "Golden Chihuahua",
-    "handle": "goldchihuahua",
-    "url": "https://t.me/goldchihuahua",
-    "mentions": 1,
-    "reposts": 15,
-    "by": [
-      "Cinemaholics",
-      "Кинопоиск | Фильмы и сериалы"
-    ],
-    "lastAt": "2024-01-16",
-    "sample": "Окей, платье Обри Плазы, превращенное в записку Кэрри из Sex and the City это лучшее на…"
-  },
-  {
-    "id": "srcc-bodycountfilms",
-    "title": "Body Count Films",
-    "handle": "bodycountfilms",
-    "url": "https://t.me/bodycountfilms",
-    "mentions": 16,
-    "reposts": 0,
-    "by": [
-      "Жизнь страшнее. Фильмы ужасов",
-      "На майские едем в Хоргу",
-      "Сеанс в 23:30 📽",
-      "Тревожные кассеты",
-      "обзора не будет"
-    ],
-    "lastAt": "2026-09-13",
-    "sample": "Оглядываясь на первый сезон рубрики #админскийкиноклуб, мне показалось, что прошел он сл…"
-  },
-  {
-    "id": "srcc-centpart",
-    "title": "Централ Партнершип",
-    "handle": "centpart",
-    "url": "https://t.me/centpart",
-    "mentions": 7,
-    "reposts": 6,
-    "by": [
-      "actorkirillzaitsev",
-      "Кинопоиск | Фильмы и сериалы",
-      "Ремизорро",
-      "ЭПИЗОДЫ"
-    ],
-    "lastAt": "2026-10-12",
-    "sample": "НИЖНИЙ НОВГОРОД, совсем скоро отправляемся в путешествие по волшебному миру фильма «Моро…"
-  },
-  {
-    "id": "srcc-filmru",
-    "title": "Film.ru",
-    "handle": "filmru",
-    "url": "https://t.me/filmru",
-    "mentions": 13,
-    "reposts": 4,
-    "by": [
-      "Cinemaholics",
-      "Дзига-аппаратчик",
-      "Ремизорро",
-      "Што это было"
-    ],
-    "lastAt": "2026-09-11",
-    "sample": "Приглашаем на предпремьерный показ экшн-триллера «Натиск» с Адрией Архоной"
   }
 ];

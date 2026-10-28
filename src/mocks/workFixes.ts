@@ -2,7 +2,7 @@
 // Ключ произведения (фильм tmdb:, сериал imdb:, книга wd:) главной копии → правка: название, оригинальное название, год
 // (0 — года нет), главные авторы строкой, снятые люди «элемент:роль». Источник — проверка замечаний разметчиков агентами
 // по TMDb и Wikidata (.cache/markup/catalog-fixes/out-*.json). Накладывает src/lib/workFixes.ts; клиенту — ленивым куском.
-// Вещей: 963; title 63, originalTitle 78, year 568, creators 228, dropPeople 170.
+// Вещей: 968; title 66, originalTitle 78, year 569, creators 230, dropPeople 170.
 import type { WorkFixes } from '../lib/workFixes';
 
 export const workFixes: WorkFixes = {
@@ -222,7 +222,7 @@ export const workFixes: WorkFixes = {
   "tmdb:132344": {"creators":["Ричард Линклейтер"]},
   "tmdb:13310": {"originalTitle":"Låt den rätte komma in","creators":["Томас Альфредсон"]},
   "tmdb:13333": {"dropPeople":["Q311219:d"]},
-  "tmdb:134447": {"dropPeople":["Q506666:d"]},
+  "tmdb:134447": {"dropPeople":["Q506666:d"],"creators":[]},
   "tmdb:134914": {"dropPeople":["Q95024:w"]},
   "tmdb:13825": {"dropPeople":["Q182642:d","Q182642:w"],"creators":[]},
   "tmdb:139169": {"originalTitle":"Прощание","creators":["Элем Климов"]},
@@ -264,7 +264,7 @@ export const workFixes: WorkFixes = {
   "tmdb:2440": {"creators":["Пак Чхан Ук"]},
   "tmdb:24420": {"creators":["Роберт Швентке"]},
   "tmdb:24469": {"creators":["Андреа Арнольд"]},
-  "tmdb:245379": {"dropPeople":["Q4681278:d"],"creators":[]},
+  "tmdb:245379": {"dropPeople":["Q4681278:d"]},
   "tmdb:249164": {"title":"Если я останусь"},
   "tmdb:251210": {"originalTitle":"Most"},
   "tmdb:25430": {"year":1949},
@@ -436,6 +436,7 @@ export const workFixes: WorkFixes = {
   "wd:Q1148214": {"year":0},
   "wd:Q1150069": {"year":1893},
   "wd:Q1152283": {"year":0},
+  "wd:Q115258132": {"title":"Земляноиды"},
   "wd:Q1153676": {"year":0},
   "wd:Q1154573": {"year":0},
   "wd:Q1155892": {"year":0},
@@ -503,6 +504,7 @@ export const workFixes: WorkFixes = {
   "wd:Q1233835": {"year":0},
   "wd:Q123397": {"year":0},
   "wd:Q1234585": {"year":0},
+  "wd:Q123509612": {"title":"Северный лес"},
   "wd:Q1235754": {"year":0},
   "wd:Q1235854": {"year":0},
   "wd:Q1236235": {"year":0},
@@ -519,6 +521,7 @@ export const workFixes: WorkFixes = {
   "wd:Q1254342": {"year":1967},
   "wd:Q1262834": {"year":0},
   "wd:Q1273940": {"year":1875},
+  "wd:Q129652094": {"title":"Церемония жизни"},
   "wd:Q131472158": {"title":"Робот Кихот"},
   "wd:Q131554": {"year":0},
   "wd:Q132152": {"title":"Бабар","creators":["Жан де Брюнофф"]},
@@ -535,8 +538,10 @@ export const workFixes: WorkFixes = {
   "wd:Q1368506": {"year":0},
   "wd:Q1370682": {"year":0},
   "wd:Q1373343": {"year":0},
+  "wd:Q137584830": {"year":2024,"creators":["Алексей Смирнов фон Раух"]},
   "wd:Q138174": {"year":1635},
   "wd:Q140052982": {"title":"Громы и розы","year":1947},
+  "wd:Q140075189": {"creators":["Алла Горбунова"]},
   "wd:Q1406929": {"year":0},
   "wd:Q14071768": {"year":1645},
   "wd:Q1412581": {"year":0},

@@ -1,4 +1,4 @@
-// Сгенерировано tools/channel-profile.mts (2026-10-26): о каких вселенных и людях говорит канал.
+// Сгенерировано tools/channel-profile.mts (2026-10-27): о каких вселенных и людях говорит канал.
 // Ключ — название канала, как у разбора (author). Доля — от всего, что о канале известно; непроверенные
 // привязки идут с весом 0,25. Не править руками — перегенерировать.
 export const channelProfiles: Record<string, { n: number; top: { id: string; kind: 'universe' | 'person'; title: string; share: number }[]; focus: string[] }> = {
@@ -729,7 +729,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   "focus": []
  },
  "My Little Thought Tree": {
-  "n": 164.8,
+  "n": 165.5,
   "top": [
    {
     "id": "Q45875",
@@ -4108,7 +4108,7 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "Preston Jacobs": {
-  "n": 279.8,
+  "n": 280,
   "top": [
    {
     "id": "Q45875",
@@ -6198,12 +6198,12 @@ export const channelProfiles: Record<string, { n: number; top: { id: string; kin
   ]
  },
  "For Book": {
-  "n": 6.3,
+  "n": 6.5,
   "top": [
    {
     "id": "Q38392",
     "kind": "person",
-    "share": 0.16,
+    "share": 0.15,
     "title": "Уильям Фолкнер"
    }
   ],

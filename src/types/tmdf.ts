@@ -230,6 +230,9 @@ export interface ExternalIds {
   /** работа Open Library — «OL…W», произведение, а не издание (З1) */
   openLibrary?: string;
   fantlab?: number;
+  /** свой ключ каталога (27.10, решение владельца) — книга, которой нет ни в Wikidata, ни в Open Library (современная
+   *  русская проза): 8 знаков от названия и фамилии автора, список — tools/own-books.mts */
+  own?: string;
 }
 
 /** Внешний сигнал с провенансом и лицензией — как attribution у отображений TV Tropes.

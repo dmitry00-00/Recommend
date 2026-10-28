@@ -1,4 +1,4 @@
-// Сгенерировано tools/telegram-comments.mts (2026-10-26) по постам tg-gateway.
+// Сгенерировано tools/telegram-comments.mts (2026-10-27) по постам tg-gateway.
 // Канал (в нижнем регистре) → включены ли у него комментарии. Нет канала — неизвестно. Не править руками.
 export const telegramComments: Record<string, boolean> = {
  "a_researcher": true,
@@ -6,8 +6,13 @@ export const telegramComments: Record<string, boolean> = {
  "actorkirillzaitsev": true,
  "adilkhunter": true,
  "adomogarov_official": true,
+ "agaluckova": true,
+ "agatamuceniecelife": true,
+ "agrippinasteklova": false,
  "aknigiclub": true,
  "alarm_cassettes": true,
+ "aleksandraakiselevaa": false,
+ "alena_babenko": true,
  "audbook1": true,
  "audio_detective": false,
  "audio_freebook": false,
@@ -79,6 +84,7 @@ export const telegramComments: Record<string, boolean> = {
  "okkomovies": true,
  "piratskiyhronist": true,
  "planetoshotd": true,
+ "podkasti_audioknigi": false,
  "remizorro": false,
  "seance2330": true,
  "shishkino": false,

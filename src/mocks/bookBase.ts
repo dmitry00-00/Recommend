@@ -3,7 +3,7 @@
 // которые называют кино-эссеисты и книжные каналы (З6), книги из списков читателей и те, что ищут в Википедии. Разметки нет — в подбор не идут до З4.
 import type { WorkCard } from '@/types/tmdf';
 
-export const bookBase: WorkCard[] = [
+const p0: WorkCard[] = [
   {
     "id": "b-wd191838",
     "type": "book",
@@ -6509,6 +6509,24 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd2379240",
+    "type": "book",
+    "title": "Дубровский",
+    "originalTitle": "Dubrovsky",
+    "year": 1841,
+    "creators": [
+      "Александр Сергеевич Пушкин"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q2379240"
+    }
+  },
+  {
     "id": "b-wd2037865",
     "type": "book",
     "title": "Дьявол носит Prada",
@@ -6680,6 +6698,25 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd210784",
+    "type": "book",
+    "title": "Идиот",
+    "originalTitle": "The Idiot",
+    "year": 1869,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q210784",
+      "openLibrary": "OL166973W"
+    }
+  },
+  {
     "id": "b-wd11279562",
     "type": "book",
     "title": "На игле",
@@ -6815,6 +6852,27 @@ export const bookBase: WorkCard[] = [
     "isNicheMasterpiece": false,
     "externalIds": {
       "wikidata": "Q124362037"
+    }
+  },
+  {
+    "id": "b-wd1257081",
+    "type": "book",
+    "title": "Три товарища",
+    "originalTitle": "Three Comrades",
+    "year": 1936,
+    "creators": [
+      "Эрих Мария Ремарк"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/4700943-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q1257081",
+      "openLibrary": "OL1209320W"
     }
   },
   {
@@ -7631,25 +7689,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q695116",
       "openLibrary": "OL24767320W"
-    }
-  },
-  {
-    "id": "b-wd210784",
-    "type": "book",
-    "title": "Идиот",
-    "originalTitle": "The Idiot",
-    "year": 1869,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q210784",
-      "openLibrary": "OL166973W"
     }
   },
   {
@@ -8755,25 +8794,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd183157",
-    "type": "book",
-    "title": "Братья Карамазовы",
-    "originalTitle": "The Brothers Karamazov",
-    "year": 1880,
-    "creators": [
-      "Фёдор Михайлович Достоевский"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q183157",
-      "openLibrary": "OL10432709W"
-    }
-  },
-  {
     "id": "b-wd1195862",
     "type": "book",
     "title": "Понедельник начинается в субботу",
@@ -8794,6 +8814,25 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1195862",
       "openLibrary": "OL17415602W"
+    }
+  },
+  {
+    "id": "b-wd183157",
+    "type": "book",
+    "title": "Братья Карамазовы",
+    "originalTitle": "The Brothers Karamazov",
+    "year": 1880,
+    "creators": [
+      "Фёдор Михайлович Достоевский"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q183157",
+      "openLibrary": "OL10432709W"
     }
   },
   {
@@ -9920,27 +9959,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q1216940",
       "openLibrary": "OL1911336W"
-    }
-  },
-  {
-    "id": "b-wd1257081",
-    "type": "book",
-    "title": "Три товарища",
-    "originalTitle": "Three Comrades",
-    "year": 1936,
-    "creators": [
-      "Эрих Мария Ремарк"
-    ],
-    "coverUrl": "https://covers.openlibrary.org/b/id/4700943-L.jpg",
-    "imageSource": "open_library",
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q1257081",
-      "openLibrary": "OL1209320W"
     }
   },
   {
@@ -12078,6 +12096,25 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd12411055",
+    "type": "book",
+    "title": "Sapiens: Краткая история человечества",
+    "originalTitle": "Sapiens: A Brief History of Humankind",
+    "year": 2011,
+    "creators": [
+      "Юваль Ной Харари"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q12411055",
+      "openLibrary": "OL17628800W"
+    }
+  },
+  {
     "id": "b-wd106814534",
     "type": "book",
     "title": "Полночная библиотека",
@@ -13310,25 +13347,6 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q2718866",
       "openLibrary": "OL7924208W"
-    }
-  },
-  {
-    "id": "b-wd12411055",
-    "type": "book",
-    "title": "Sapiens: Краткая история человечества",
-    "originalTitle": "Sapiens: A Brief History of Humankind",
-    "year": 2011,
-    "creators": [
-      "Юваль Ной Харари"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q12411055",
-      "openLibrary": "OL17628800W"
     }
   },
   {
@@ -20022,7 +20040,9 @@ export const bookBase: WorkCard[] = [
       "wikidata": "Q97325253",
       "openLibrary": "OL20335377W"
     }
-  },
+  }
+];
+const p1: WorkCard[] = [
   {
     "id": "b-wd134446543",
     "type": "book",
@@ -29881,24 +29901,6 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
-    "id": "b-wd2379240",
-    "type": "book",
-    "title": "Дубровский",
-    "originalTitle": "Dubrovsky",
-    "year": 1841,
-    "creators": [
-      "Александр Сергеевич Пушкин"
-    ],
-    "primaryOperations": [],
-    "complexityLevel": 0,
-    "warnings": [],
-    "barriers": [],
-    "isNicheMasterpiece": false,
-    "externalIds": {
-      "wikidata": "Q2379240"
-    }
-  },
-  {
     "id": "b-wd120280304",
     "type": "book",
     "title": "KGBT+",
@@ -38750,7 +38752,9 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q3817649"
     }
-  },
+  }
+];
+const p2: WorkCard[] = [
   {
     "id": "b-wd4382389",
     "type": "book",
@@ -52426,6 +52430,78 @@ export const bookBase: WorkCard[] = [
     }
   },
   {
+    "id": "b-wd123509612",
+    "type": "book",
+    "title": "North Woods",
+    "year": 2023,
+    "creators": [
+      "Дэниел Мейсон"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14421778-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q123509612",
+      "openLibrary": "OL34028309W"
+    }
+  },
+  {
+    "id": "b-wd129652094",
+    "type": "book",
+    "title": "Life Ceremony",
+    "year": 2019,
+    "creators": [
+      "Саяка Мурата"
+    ],
+    "coverUrl": "https://covers.openlibrary.org/b/id/14488200-L.jpg",
+    "imageSource": "open_library",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q129652094",
+      "openLibrary": "OL26932013W"
+    }
+  },
+  {
+    "id": "b-wd140075189",
+    "type": "book",
+    "title": "Конец света, моя любовь",
+    "year": 2020,
+    "creators": [
+      "Горбунова, Алла Глебовна"
+    ],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q140075189"
+    }
+  },
+  {
+    "id": "b-wd137584830",
+    "type": "book",
+    "title": "Доска Дионисия",
+    "year": 0,
+    "creators": [],
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "wikidata": "Q137584830"
+    }
+  },
+  {
     "id": "b-wd208460",
     "type": "book",
     "title": "1984",
@@ -58496,7 +58572,9 @@ export const bookBase: WorkCard[] = [
       "wikidata": "Q627192",
       "openLibrary": "OL16813032W"
     }
-  },
+  }
+];
+const p3: WorkCard[] = [
   {
     "id": "b-wd727861",
     "type": "book",
@@ -78819,7 +78897,9 @@ export const bookBase: WorkCard[] = [
       "wikidata": "Q617881",
       "openLibrary": "OL22765457W"
     }
-  },
+  }
+];
+const p4: WorkCard[] = [
   {
     "id": "b-wd619665",
     "type": "book",
@@ -98881,7 +98961,9 @@ export const bookBase: WorkCard[] = [
     "externalIds": {
       "wikidata": "Q4679080"
     }
-  },
+  }
+];
+const p5: WorkCard[] = [
   {
     "id": "b-wd11625337",
     "type": "book",
@@ -117038,5 +117120,453 @@ export const bookBase: WorkCard[] = [
       "wikidata": "Q2345931",
       "openLibrary": "OL5172238W"
     }
+  },
+  {
+    "id": "b-own1be721a6",
+    "type": "book",
+    "title": "Саспыга",
+    "year": 2025,
+    "creators": [
+      "Карина Шаинян"
+    ],
+    "blurb": "В алтайском конном походе туристка Ася отбивается от группы, и повар Катя, отыскав её, вынуждена идти дальше вместе с ней. Катю тревожат неестественно покорная лошадь и смутные воспоминания об охоте на саспыгу — мифического зверя с самым вкусным мясом на свете.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "1be721a6"
+    }
+  },
+  {
+    "id": "b-own3e76061c",
+    "type": "book",
+    "title": "Общайся, живи!",
+    "year": 2020,
+    "creators": [
+      "Алексей Сальников"
+    ],
+    "blurb": "Каменщик и его жена-маникюрша берут непосильную ипотеку, чтобы переехать из однушки. Новая квартира оказывается обшарпанной, ссоры из-за денег гасятся шутками, а в договоре обнаруживается странный пункт о смертности заёмщика, который не даёт мужу покоя.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "3e76061c"
+    }
+  },
+  {
+    "id": "b-ownf810c810",
+    "type": "book",
+    "title": "Квартирай",
+    "year": 0,
+    "creators": [
+      "Евгения Некрасова"
+    ],
+    "blurb": "Зина уезжает из моногорода, где семейные драмы повторяются по кругу, и ищет «жизнь-жизнь»: меняет работы, мужчин и города. В Москве она покупает свой «квартирай», где ни от кого не зависит, и знакомится с продавцом лампочек Сашей, пережившим теракт.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "f810c810"
+    }
+  },
+  {
+    "id": "b-ownc8ae313e",
+    "type": "book",
+    "title": "Дуа за неверного",
+    "year": 2024,
+    "creators": [
+      "Егана Джаббарова"
+    ],
+    "blurb": "Рассказчица пытается осмыслить гибель сводного брата Сергея. Через его судьбу проступает Россия конца 1990-х — начала 2000-х с межэтническим напряжением, бедностью и борьбой за выживание, а разговор об утрате переходит в размышления об идентичности и любви.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "c8ae313e"
+    }
+  },
+  {
+    "id": "b-owne05529d5",
+    "type": "book",
+    "title": "Руки женщин моей семьи были не для письма",
+    "year": 2023,
+    "creators": [
+      "Егана Джаббарова"
+    ],
+    "blurb": "Молодая женщина из азербайджанской семьи, выросшая на Урале, рассказывает о себе через части тела: брови, рот, волосы. Каждая глава связывает её тело с родственницами, с правилами общины, с собственным бунтом и с мышечной болезнью, отнимающей силы.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "e05529d5"
+    }
+  },
+  {
+    "id": "b-owncb3af4c9",
+    "type": "book",
+    "title": "Отец смотрит на запад",
+    "year": 2022,
+    "creators": [
+      "Екатерина Манойло"
+    ],
+    "blurb": "Катя, дочь русской матери и казаха, растёт в маленьком приграничном городке Оренбургской области, где две культуры и деспотичные семейные порядки определяют её характер. После семейной трагедии она уезжает в Москву, но родные места не отпускают.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "cb3af4c9"
+    }
+  },
+  {
+    "id": "b-own0bf1e870",
+    "type": "book",
+    "title": "Отец ждёт",
+    "year": 0,
+    "creators": [
+      "Кирилл Рябов"
+    ],
+    "blurb": "Селиванов, пьющий провинциал, ушедший из семьи, после долгого перерыва срывается в тяжёлый запой. Сквозь похмельный морок, в котором смешались ковидная тревога и мрачные происшествия, его неотступно тянет к отцу.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "0bf1e870"
+    }
+  },
+  {
+    "id": "b-owne48e287c",
+    "type": "book",
+    "title": "Башня тишины",
+    "year": 2024,
+    "creators": [
+      "Рагим Джафаров"
+    ],
+    "blurb": "Слепой мошенник Руслан, выдающий себя за зороастрийского мага Шахривара, летит в Баку, чтобы встретиться с отцом, которого не видел тридцать лет, и узнать, что случилось с пропавшей сестрой. Там он попадает в семейные, криминальные и политические интриги.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "e48e287c"
+    }
+  },
+  {
+    "id": "b-own376a2090",
+    "type": "book",
+    "title": "Бабушка сказала сидеть тихо",
+    "year": 2024,
+    "creators": [
+      "Настасья Реньжина"
+    ],
+    "blurb": "Баба Зоя живёт одна в глухой деревне, и соседи считают, что она тронулась умом и верит в домового. На деле в её шкафу обитает косматое существо, не умеющее говорить: она зовёт его Купринькой, кормит, иногда выпускает и строго велит сидеть тихо.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "376a2090"
+    }
+  },
+  {
+    "id": "b-ownaa162db2",
+    "type": "book",
+    "title": "Сестрёнка",
+    "year": 2019,
+    "creators": [
+      "Кристина Гептинг"
+    ],
+    "blurb": "У Юли внешне всё налажено — психотерапия, фитнес, правильное питание, — но справиться с детской травмой она не может. Роман о семье, где насилие считается нормой, построен как многоголосая исповедь: каждый из близких рассказывает свою версию событий.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "aa162db2"
+    }
+  },
+  {
+    "id": "b-own5ef6ad7d",
+    "type": "book",
+    "title": "Папуля",
+    "originalTitle": "Daddy",
+    "year": 2020,
+    "creators": [
+      "Эмма Клайн"
+    ],
+    "blurb": "Десять рассказов о людях, чья устойчивая жизнь даёт трещину под давлением желания, власти, стыда и семейных конфликтов. Отец забирает сына из интерната после вспышки насилия, няня скрывается после скандала в семье знаменитостей; в каждой истории рядом мужская фигура.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "5ef6ad7d"
+    }
+  },
+  {
+    "id": "b-own6ae8d1f3",
+    "type": "book",
+    "title": "Котлантида",
+    "year": 2011,
+    "creators": [
+      "Анна Старобинец"
+    ],
+    "blurb": "Рыжий кот Багет — потомок котлантов, жителей затонувшего острова, и унаследовал от них умение путешествовать во времени. Он отправляется в далёкое прошлое, на Котлантиду, чтобы вернуть котам их девять жизней.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "6ae8d1f3"
+    }
+  },
+  {
+    "id": "b-own687b4a67",
+    "type": "book",
+    "title": "Страна Хороших Девочек",
+    "year": 2009,
+    "creators": [
+      "Анна Старобинец"
+    ],
+    "blurb": "Полине Петровой родные постоянно твердят, что хотели бы хорошую девочку. После новогодней истерики её место дома занимает идеальная Хорошая Девочка, а саму Полину забирают на перевоспитание в Страну Хороших Девочек.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "687b4a67"
+    }
+  },
+  {
+    "id": "b-own7838ce86",
+    "type": "book",
+    "title": "Умрец",
+    "year": 0,
+    "creators": [
+      "Саша Степанова"
+    ],
+    "blurb": "Вера тяжело больна. Пока свекровь деловито хлопочет о будущих похоронах, а муж ей изменяет, героиня, оказавшись рядом со смертью, по-новому смотрит на своих близких.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "7838ce86"
+    }
+  },
+  {
+    "id": "b-own3d0d6535",
+    "type": "book",
+    "title": "На каникулах",
+    "year": 2020,
+    "creators": [
+      "Антон Секисов"
+    ],
+    "blurb": "Рассказчик, привыкший считать себя гражданином мира, после смерти бабушки возвращается в родной город. Похоронные хлопоты и встречи с прошлым неожиданно показывают ему, как сильно он привязан к своим старикам.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "3d0d6535"
+    }
+  },
+  {
+    "id": "b-owned87ff67",
+    "type": "book",
+    "title": "Целое",
+    "year": 0,
+    "creators": [
+      "Артём Серебряков"
+    ],
+    "blurb": "Рассказчик вступает в схватку с инфернальным червём, поселившимся в голове его брата. Фантасмагорическая история о болезни и о том, как близость смерти меняет отношения двух братьев.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "ed87ff67"
+    }
+  },
+  {
+    "id": "b-owne3e5ba8b",
+    "type": "book",
+    "title": "Пятно",
+    "year": 2024,
+    "creators": [
+      "Анна Пестерева"
+    ],
+    "blurb": "Настя живёт в маленьком городе, дружит с бывшим мужем и мечтает о хорошей удалённой работе. Однажды зимой она пропадает на три с половиной недели и, вернувшись, никому не говорит, где была. Забыть то время не выходит: чтобы отпустить его, придётся туда вернуться.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "e3e5ba8b"
+    }
+  },
+  {
+    "id": "b-own52bcafd9",
+    "type": "book",
+    "title": "Память по женской линии",
+    "year": 2023,
+    "creators": [
+      "Татьяна Алфёрова"
+    ],
+    "blurb": "Три цикла: семейная хроника женщин одного рода, которая обрастает преданиями от Рыбинска начала XX века до послевоенного Ленинграда; «Неомифологический словарь» о героях мифов среди нынешних людей; почти автобиографические «Рассказы, написанные осенью».",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "52bcafd9"
+    }
+  },
+  {
+    "id": "b-own85d55b9f",
+    "type": "book",
+    "title": "Дети в гараже моего папы",
+    "year": 2024,
+    "creators": [
+      "Анастасия Максимова"
+    ],
+    "blurb": "Психологический роман о герое, который узнаёт, что его отец — серийный убийца. Ему приходится искать ответ на вопрос, как продолжать жить с этим знанием и кем считать себя, будучи сыном такого человека.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "85d55b9f"
+    }
+  },
+  {
+    "id": "b-own6157d90c",
+    "type": "book",
+    "title": "Уклады",
+    "year": 2025,
+    "creators": [
+      "Денис Осокин",
+      "Антон Секисов",
+      "Ксения Буржская",
+      "Ольга Птицева",
+      "Анна Шипилова",
+      "Дмитрий Захаров",
+      "Ислам Ханипаев",
+      "Егана Джаббарова",
+      "Даша Благова",
+      "Илья Мамаев-Найлз",
+      "Марина Кочан",
+      "Екатерина Манойло",
+      "Евгения Некрасова"
+    ],
+    "blurb": "Тринадцать писателей, пишущих по-русски, рассказывают об укладах своих культур. Рассказы разделены на «События» — от рождения до смерти, взросление, выбор профессии, свадьба — и «Явления»: сон и явь, зима и лето, ночь и день.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "6157d90c"
+    }
+  },
+  {
+    "id": "b-own0e895483",
+    "type": "book",
+    "title": "Старые и новые открытки с того света",
+    "originalTitle": "Cartoline dai morti",
+    "year": 2010,
+    "creators": [
+      "Франко Арминио"
+    ],
+    "blurb": "Короткие, в несколько строк, послания от умерших, словно открытки с того света. Каждая фиксирует последнее мгновение жизни — вдох, взгляд, желание, жест; ритмизованная проза балансирует между стихотворением и афоризмом.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "0e895483"
+    }
+  },
+  {
+    "id": "b-own89156b7d",
+    "type": "book",
+    "title": "Приключения Котобоя",
+    "year": 2012,
+    "creators": [
+      "Андрей Усачёв"
+    ],
+    "blurb": "На далёком севере есть деревня Котьма, где живут одни коты. Они строят из старой лодки парусную яхту «Котобой» и отправляются в море ловить не мелкую рыбёшку, а целого кита.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "89156b7d"
+    }
+  },
+  {
+    "id": "b-own222aaf01",
+    "type": "book",
+    "title": "Путешествие в Мышляндию",
+    "year": 2010,
+    "creators": [
+      "Андрей Усачёв"
+    ],
+    "blurb": "Книга-путешествие по вымышленной стране мышей: читатель знакомится с мышиной историей, сказками и поэзией, а заодно с мышиной музыкой от рока и джаза до романса и попсы. Герои стихов и сказок — мышата, взрослые грызуны и, конечно, коты.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "222aaf01"
+    }
+  },
+  {
+    "id": "b-owne4535b75",
+    "type": "book",
+    "title": "Моня и Веня: котики, которых любят",
+    "year": 0,
+    "creators": [
+      "Марта Кетро"
+    ],
+    "blurb": "Два ухоженных котика, Моня и Веня, живут с мамой в солнечном южном городе у моря. На людях они ведут себя благопристойно, но стоит маме отвернуться, начинается их тайная жизнь, полная приключений, открытий и даже опасностей.",
+    "primaryOperations": [],
+    "complexityLevel": 0,
+    "warnings": [],
+    "barriers": [],
+    "isNicheMasterpiece": false,
+    "externalIds": {
+      "own": "e4535b75"
+    }
   }
 ];
+
+export const bookBase: WorkCard[] = [...p0, ...p1, ...p2, ...p3, ...p4, ...p5];

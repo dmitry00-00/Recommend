@@ -88,20 +88,22 @@ async function queue() {
   const seen = new Set<string>();
   const todo: Item[] = [];
   for (const w of bookBase) {
-    const qid = w.externalIds?.wikidata;
-    if (!qid) continue;
-    const key = `wd:${qid}`;
+    // свой ключ (27.10, tools/own-books.mts) — книги без Wikidata: описание — их `blurb`
+    const qid = w.externalIds?.wikidata, own = w.externalIds?.own;
+    if (!qid && !own) continue;
+    const key = qid ? `wd:${qid}` : `own:${own}`;
     if (seen.has(key)) continue;
     seen.add(key);
     if (bookDrafts[key] || bookAnnotations[key] || [w.title, w.originalTitle].some((x) => x && bookAnnotations[`t:${t(x)}`])) continue;
     if (draftReview[`draft:${key}`] || offered[key]) continue;
     // убранное и отложенное владельцем (16.10: не-книги, религиозные тексты, эзотерика, Ленин) — не размечаем
     if (key in withheldWorks || key in heldWorks) continue;
-    todo.push({ key, title: w.title, year: w.year, original: w.originalTitle && w.originalTitle !== w.title ? w.originalTitle : undefined, authors: (w.creators ?? []).slice(0, 2) });
+    todo.push({ key, title: w.title, year: w.year, original: w.originalTitle && w.originalTitle !== w.title ? w.originalTitle : undefined, authors: (w.creators ?? []).slice(0, 2), ...(own && w.blurb ? { plot: w.blurb } : {}) });
   }
   console.error(`книг без разметки: ${todo.length}`);
-  for (let i = 0; i < todo.length; i += 200) {
-    const part = new Map(todo.slice(i, i + 200).map((x) => [x.key.slice(3), x]));
+  const inWd = todo.filter((x) => x.key.startsWith('wd:'));
+  for (let i = 0; i < inWd.length; i += 200) {
+    const part = new Map(inWd.slice(i, i + 200).map((x) => [x.key.slice(3), x]));
     const rows = await sparql(`SELECT ?b ?n ?ru ?en WHERE { VALUES ?b { ${[...part.keys()].map((q) => `wd:${q}`).join(' ')} }
       ?b wikibase:sitelinks ?n.
       OPTIONAL { ?ra schema:about ?b; schema:isPartOf <https://ru.wikipedia.org/>; schema:name ?ru }

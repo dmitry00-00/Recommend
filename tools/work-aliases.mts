@@ -36,7 +36,7 @@ export interface AliasCard {
   ext?: Ext; ops: number; level: number; img: boolean; blurb: boolean; countries: number; genres: number;
   runtime?: number; pages?: number; regs: number;
 }
-export interface Ext { tmdb?: number; imdb?: string; wikidata?: string; kinopoisk?: number; openLibrary?: string; isbn?: string[] }
+export interface Ext { tmdb?: number; imdb?: string; wikidata?: string; kinopoisk?: number; openLibrary?: string; own?: string; isbn?: string[] }
 export interface AliasSide {
   externalIds: Record<string, Ext>;
   bookWorks: Record<string, { olw?: string; wd?: string }>;
@@ -86,7 +86,7 @@ const kindOf = (c: AliasCard) => (c.type === 'series' || c.format === 'series' ?
 
 function workKeysOf(kind: string, e: Ext): string[] {
   if (kind === 'series') return e.imdb ? [`imdb:${e.imdb}`] : [];
-  if (kind === 'book') return [...(e.wikidata ? [`wd:${e.wikidata}`] : []), ...(e.openLibrary ? [`olw:${e.openLibrary}`] : []), ...(e.isbn ?? []).map((i) => `isbn:${i}`)];
+  if (kind === 'book') return [...(e.wikidata ? [`wd:${e.wikidata}`] : []), ...(e.openLibrary ? [`olw:${e.openLibrary}`] : []), ...(e.own ? [`own:${e.own}`] : []), ...(e.isbn ?? []).map((i) => `isbn:${i}`)];
   if (e.tmdb != null) return [`tmdb:${e.tmdb}`];
   return (e.isbn ?? []).map((i) => `isbn:${i}`);
 }
@@ -204,6 +204,7 @@ function groupsOf(works: Map<string, Work>, manual: readonly (readonly [string, 
     if (e.kinopoisk != null) put(`kp\t${e.kinopoisk}`, w.id);
     if (w.kind === 'book') {
       if (e.openLibrary) put(`book\tolw\t${e.openLibrary}`, w.id);
+      if (e.own) put(`book\town\t${e.own}`, w.id);
       for (const i of e.isbn ?? []) put(`book\tisbn\t${i}`, w.id);
     }
   }
